@@ -9,11 +9,11 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class ColumnListBlock extends Block {
-    @JsonProperty("column_list")
-    private ColumnList columnList;
+  @JsonProperty("column_list")
+  private ColumnList columnList;
 
-    @Data
-    public static class ColumnList {
-        // No properties, just an empty object
-    }
+  @Data
+  public static class ColumnList {
+    // No properties, just an empty object
+  }
 }

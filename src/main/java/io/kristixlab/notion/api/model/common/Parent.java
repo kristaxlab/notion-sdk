@@ -6,17 +6,15 @@ import lombok.Data;
 @Data
 public class Parent {
 
-    @JsonProperty("type")
-    private String type;
+  @JsonProperty("type")
+  private String type;
 
-    @JsonProperty("block_id")
-    private String blockId;
+  @JsonProperty("block_id")
+  private String blockId;
 
-    @JsonProperty("page_id")
-    private String pageId;
+  @JsonProperty("page_id")
+  private String pageId;
 
-    @JsonProperty("database_id")
-    private String databaseId;
-
+  @JsonProperty("database_id")
+  private String databaseId;
 }
-

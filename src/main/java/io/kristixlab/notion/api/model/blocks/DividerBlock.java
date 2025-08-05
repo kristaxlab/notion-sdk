@@ -9,6 +9,6 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class DividerBlock extends Block {
-    @JsonProperty("divider")
-    private Object divider = new Object(); // Notion API: divider has no properties
+  @JsonProperty("divider")
+  private Object divider = new Object(); // Notion API: divider has no properties
 }

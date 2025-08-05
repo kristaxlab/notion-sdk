@@ -9,6 +9,6 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class UnsupportedBlock extends Block {
-    @JsonProperty("unsupported")
-    private Object unsupported = new Object(); // No properties for unsupported
+  @JsonProperty("unsupported")
+  private Object unsupported = new Object(); // No properties for unsupported
 }

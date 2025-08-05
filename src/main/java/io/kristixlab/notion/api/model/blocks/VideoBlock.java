@@ -11,7 +11,6 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class VideoBlock extends Block {
 
-    @JsonProperty("video")
-    private FileData video;
-
+  @JsonProperty("video")
+  private FileData video;
 }

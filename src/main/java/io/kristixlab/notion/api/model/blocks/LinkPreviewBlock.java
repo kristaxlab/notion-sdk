@@ -9,12 +9,12 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class LinkPreviewBlock extends Block {
-    @JsonProperty("link_preview")
-    private LinkPreview linkPreview;
+  @JsonProperty("link_preview")
+  private LinkPreview linkPreview;
 
-    @Data
-    public static class LinkPreview {
-        @JsonProperty("url")
-        private String url;
-    }
+  @Data
+  public static class LinkPreview {
+    @JsonProperty("url")
+    private String url;
+  }
 }

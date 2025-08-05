@@ -11,7 +11,6 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class AudioBlock extends Block {
 
-    @JsonProperty("audio")
-    private FileData audio;
-
+  @JsonProperty("audio")
+  private FileData audio;
 }

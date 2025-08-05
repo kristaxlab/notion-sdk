@@ -6,22 +6,21 @@ import lombok.Data;
 @Data
 public class User {
 
-    @JsonProperty("object")
-    private String object;
+  @JsonProperty("object")
+  private String object;
 
-    @JsonProperty("id")
-    private String id;
+  @JsonProperty("id")
+  private String id;
 
-    @JsonProperty("name")
-    private String name;
+  @JsonProperty("name")
+  private String name;
 
-    @JsonProperty("avatar_url")
-    private String avatarUrl;
+  @JsonProperty("avatar_url")
+  private String avatarUrl;
 
-    @JsonProperty("type")
-    private String type;
+  @JsonProperty("type")
+  private String type;
 
-    @JsonProperty("person")
-    private Person person;
-
+  @JsonProperty("person")
+  private Person person;
 }

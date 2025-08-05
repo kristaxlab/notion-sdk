@@ -9,12 +9,12 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class ChildDatabaseBlock extends Block {
-    @JsonProperty("child_database")
-    private ChildDatabase childDatabase;
+  @JsonProperty("child_database")
+  private ChildDatabase childDatabase;
 
-    @Data
-    public static class ChildDatabase {
-        @JsonProperty("title")
-        private String title;
-    }
+  @Data
+  public static class ChildDatabase {
+    @JsonProperty("title")
+    private String title;
+  }
 }

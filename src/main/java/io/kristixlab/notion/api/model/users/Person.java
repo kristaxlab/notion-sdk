@@ -6,8 +6,6 @@ import lombok.Data;
 @Data
 public class Person {
 
-    @JsonProperty("email")
-    private String email;
-
-
+  @JsonProperty("email")
+  private String email;
 }

@@ -6,13 +6,12 @@ import lombok.Data;
 @Data
 public class Icon {
 
-    @JsonProperty("type")
-    private String type;
+  @JsonProperty("type")
+  private String type;
 
-    @JsonProperty("emoji")
-    private String emoji;
+  @JsonProperty("emoji")
+  private String emoji;
 
-    @JsonProperty("file")
-    private FileData file;
-
+  @JsonProperty("file")
+  private FileData file;
 }

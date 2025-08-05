@@ -10,18 +10,21 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class LinkToPageBlock extends Block {
 
-    @JsonProperty("link_to_page")
-    private LinkToPage linkToPage;
+  @JsonProperty("link_to_page")
+  private LinkToPage linkToPage;
 
-    @Data
-    public static class LinkToPage {
-        @JsonProperty("type")
-        private String type;
-        @JsonProperty("page_id")
-        private String pageId;
-        @JsonProperty("database_id")
-        private String databaseId;
-        @JsonProperty("workspace")
-        private Boolean workspace;
-    }
+  @Data
+  public static class LinkToPage {
+    @JsonProperty("type")
+    private String type;
+
+    @JsonProperty("page_id")
+    private String pageId;
+
+    @JsonProperty("database_id")
+    private String databaseId;
+
+    @JsonProperty("workspace")
+    private Boolean workspace;
+  }
 }

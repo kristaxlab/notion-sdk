@@ -3,32 +3,31 @@ package io.kristixlab.notion.api.model.blocks;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.kristixlab.notion.api.model.common.RichText;
+import java.util.List;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
-
-import java.util.List;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class HeadingThreeBlock extends Block {
-    @JsonProperty("heading_3")
-    private Heading heading3;
+  @JsonProperty("heading_3")
+  private Heading heading3;
 
-    @Data
-    public static class Heading {
-        @JsonProperty("rich_text")
-        private List<RichText> richText;
+  @Data
+  public static class Heading {
+    @JsonProperty("rich_text")
+    private List<RichText> richText;
 
-        @JsonProperty("color")
-        private String color;
+    @JsonProperty("color")
+    private String color;
 
-        @Accessors(fluent = true)
-        @JsonProperty("is_toggleable")
-        private Boolean isToggleable;
+    @Accessors(fluent = true)
+    @JsonProperty("is_toggleable")
+    private Boolean isToggleable;
 
-        @JsonProperty("children")
-        private List<Block> children;
-    }
+    @JsonProperty("children")
+    private List<Block> children;
+  }
 }

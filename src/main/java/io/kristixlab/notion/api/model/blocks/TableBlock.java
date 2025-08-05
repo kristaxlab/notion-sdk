@@ -12,24 +12,24 @@ import lombok.experimental.Accessors;
 @EqualsAndHashCode(callSuper = true)
 public class TableBlock extends Block {
 
-    @JsonProperty("table")
-    private Table table;
+  @JsonProperty("table")
+  private Table table;
 
-    @Data
-    public static class Table {
+  @Data
+  public static class Table {
 
-        @JsonProperty("table_width")
-        private int tableWidth;
+    @JsonProperty("table_width")
+    private int tableWidth;
 
-        @Accessors(fluent = true)
-        @JsonProperty("has_column_header")
-        private boolean hasColumnHeader;
+    @Accessors(fluent = true)
+    @JsonProperty("has_column_header")
+    private boolean hasColumnHeader;
 
-        @Accessors(fluent = true)
-        @JsonProperty("has_row_header")
-        private boolean hasRowHeader;
+    @Accessors(fluent = true)
+    @JsonProperty("has_row_header")
+    private boolean hasRowHeader;
 
-        @JsonProperty("children")
-        private List<Block> children;
-    }
+    @JsonProperty("children")
+    private List<Block> children;
+  }
 }

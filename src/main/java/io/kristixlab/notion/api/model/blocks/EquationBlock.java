@@ -13,14 +13,14 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 public class EquationBlock extends Block {
-    @JsonProperty("equation")
-    private Equation equation;
+  @JsonProperty("equation")
+  private Equation equation;
 
-    @Data
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static class Equation {
-        @JsonProperty("expression")
-        private String expression;
-    }
+  @Data
+  @NoArgsConstructor
+  @AllArgsConstructor
+  public static class Equation {
+    @JsonProperty("expression")
+    private String expression;
+  }
 }

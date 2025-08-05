@@ -11,7 +11,6 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class ImageBlock extends Block {
 
-    @JsonProperty("image")
-    private FileData image;
-
+  @JsonProperty("image")
+  private FileData image;
 }

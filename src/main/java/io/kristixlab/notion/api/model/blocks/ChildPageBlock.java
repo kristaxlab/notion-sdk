@@ -9,11 +9,12 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class ChildPageBlock extends Block {
-    @JsonProperty("child_page")
-    private ChildPage childPage;
-    @Data
-    public static class ChildPage {
-        @JsonProperty("title")
-        private String title;
-    }
+  @JsonProperty("child_page")
+  private ChildPage childPage;
+
+  @Data
+  public static class ChildPage {
+    @JsonProperty("title")
+    private String title;
+  }
 }
