@@ -1,0 +1,9 @@
+src/test/.DS_Store
+/build
+.DS_Store
+/.idea
+/.idea
+/.gradle/
+/src/test/resources/notion-api-responses/
+/src/test/resources/notion-api-integration-tests/
+logs/

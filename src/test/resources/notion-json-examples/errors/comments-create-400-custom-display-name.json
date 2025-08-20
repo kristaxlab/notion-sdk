@@ -1,0 +1,7 @@
+{
+  "object": "error",
+  "status": 400,
+  "code": "validation_error",
+  "message": "body failed validation. Fix one:\nbody.display_name.type should be `\"integration\"` or `\"user\"`, instead was `\"custom\"`.\nbody.display_name.custom should be defined, instead was `undefined`.",
+  "request_id": "e1138447-8983-4aa9-8d1b-bbff508c77bf"
+}

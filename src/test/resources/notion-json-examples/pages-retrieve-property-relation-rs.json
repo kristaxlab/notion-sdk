@@ -1,0 +1,39 @@
+{
+  "object": "list",
+  "results": [
+    {
+      "object": "property_item",
+      "type": "relation",
+      "id": "%3AylC",
+      "relation": {
+        "id": "24cc5b96-8ec4-81b8-b45f-eefc9156c148"
+      }
+    },
+    {
+      "object": "property_item",
+      "type": "relation",
+      "id": "%3AylC",
+      "relation": {
+        "id": "24cc5b96-8ec4-80e7-a620-ca389562e0cc"
+      }
+    },
+    {
+      "object": "property_item",
+      "type": "relation",
+      "id": "%3AylC",
+      "relation": {
+        "id": "24cc5b96-8ec4-8017-b930-cd188bb39fc1"
+      }
+    }
+  ],
+  "next_cursor": null,
+  "has_more": false,
+  "type": "property_item",
+  "property_item": {
+    "id": "%3AylC",
+    "next_url": null,
+    "type": "relation",
+    "relation": {}
+  },
+  "request_id": "8e4901fe-076e-4f3c-91f4-981e4952cf4a"
+}
