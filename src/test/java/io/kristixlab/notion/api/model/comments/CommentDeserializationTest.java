@@ -126,7 +126,7 @@ public class CommentDeserializationTest extends BaseTest {
   @Test
   void testCommentsListWithAttachments() throws Exception {
     CommentsList commentsWithAttachments =
-        loadFromFile("comments-list-attachments.json", CommentsList.class);
+        loadFromFile("comments-list-with-attachments.json", CommentsList.class);
     assertEquals("list", commentsWithAttachments.getObject());
     assertEquals("4474c6bb-fe9a-444a-9251-cefa3abc6908", commentsWithAttachments.getRequestId());
     assertFalse(commentsWithAttachments.hasMore());
