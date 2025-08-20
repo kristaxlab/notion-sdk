@@ -1,13 +1,12 @@
 package io.kristixlab.notion.api.model.blocks;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.InputStream;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-
-import java.io.InputStream;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class BlockRetrieveDeserializationTest {
   protected static Block response;
@@ -23,7 +22,6 @@ class BlockRetrieveDeserializationTest {
     assertNotNull(is, "Test JSON file not found");
     response = mapper.readValue(is, Block.class);
   }
-
 
   @Test
   void test() {

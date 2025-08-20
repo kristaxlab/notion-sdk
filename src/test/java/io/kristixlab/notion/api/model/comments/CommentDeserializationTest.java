@@ -1,10 +1,10 @@
 package io.kristixlab.notion.api.model.comments;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import io.kristixlab.notion.api.model.BaseTest;
 import io.kristixlab.notion.api.model.common.RichText;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 public class CommentDeserializationTest extends BaseTest {
 
@@ -55,7 +55,6 @@ public class CommentDeserializationTest extends BaseTest {
     assertEquals("integration", singleComment.getDisplayName().getType());
     assertEquals("MakeIntegration", singleComment.getDisplayName().getResolvedName());
   }
-
 
   @Test
   void testCommentsList() throws Exception {
@@ -126,7 +125,8 @@ public class CommentDeserializationTest extends BaseTest {
 
   @Test
   void testCommentsListWithAttachments() throws Exception {
-    CommentsList commentsWithAttachments = loadFromFile("comments-list-attachments.json", CommentsList.class);
+    CommentsList commentsWithAttachments =
+        loadFromFile("comments-list-attachments.json", CommentsList.class);
     assertEquals("list", commentsWithAttachments.getObject());
     assertEquals("4474c6bb-fe9a-444a-9251-cefa3abc6908", commentsWithAttachments.getRequestId());
     assertFalse(commentsWithAttachments.hasMore());
@@ -172,7 +172,8 @@ public class CommentDeserializationTest extends BaseTest {
 
   @Test
   void testCommentsWithImageAttachment() throws Exception {
-    CommentsList commentsWithAttachments = loadFromFile("comments-list-with-attachments.json", CommentsList.class);
+    CommentsList commentsWithAttachments =
+        loadFromFile("comments-list-with-attachments.json", CommentsList.class);
     Comment imageComment = commentsWithAttachments.getResults().get(0);
 
     // Test attachment exists
@@ -185,12 +186,17 @@ public class CommentDeserializationTest extends BaseTest {
     assertNotNull(attachment.getFile());
     assertTrue(attachment.getFile().getUrl().contains("IMG_6167.png"));
     assertEquals("2025-08-20T15:50:38.768Z", attachment.getFile().getExpiryTime());
-    assertTrue(attachment.getFile().getUrl().startsWith("https://prod-files-secure.s3.us-west-2.amazonaws.com/"));
+    assertTrue(
+        attachment
+            .getFile()
+            .getUrl()
+            .startsWith("https://prod-files-secure.s3.us-west-2.amazonaws.com/"));
   }
 
   @Test
   void testCommentsWithArchiveAttachment() throws Exception {
-    CommentsList commentsWithAttachments = loadFromFile("comments-list-with-attachments.json", CommentsList.class);
+    CommentsList commentsWithAttachments =
+        loadFromFile("comments-list-with-attachments.json", CommentsList.class);
     Comment archiveComment = commentsWithAttachments.getResults().get(1);
 
     assertEquals("255c5b96-8ec4-803e-9969-001de8d60d6d", archiveComment.getId());
@@ -210,7 +216,8 @@ public class CommentDeserializationTest extends BaseTest {
 
   @Test
   void testCommentsWithVideoAttachment() throws Exception {
-    CommentsList commentsWithAttachments = loadFromFile("comments-list-with-attachments.json", CommentsList.class);
+    CommentsList commentsWithAttachments =
+        loadFromFile("comments-list-with-attachments.json", CommentsList.class);
     Comment videoComment = commentsWithAttachments.getResults().get(2);
 
     assertEquals("255c5b96-8ec4-807b-821f-001df58a7e4e", videoComment.getId());
@@ -231,7 +238,8 @@ public class CommentDeserializationTest extends BaseTest {
 
   @Test
   void testCommentsWithPdfAttachment() throws Exception {
-    CommentsList commentsWithAttachments = loadFromFile("comments-list-with-attachments.json", CommentsList.class);
+    CommentsList commentsWithAttachments =
+        loadFromFile("comments-list-with-attachments.json", CommentsList.class);
     Comment pdfComment = commentsWithAttachments.getResults().get(3);
 
     assertEquals("255c5b96-8ec4-80f3-a55b-001da6cf62b1", pdfComment.getId());
@@ -251,7 +259,8 @@ public class CommentDeserializationTest extends BaseTest {
 
   @Test
   void testCommentsWithAudioAttachment() throws Exception {
-    CommentsList commentsWithAttachments = loadFromFile("comments-list-with-attachments.json", CommentsList.class);
+    CommentsList commentsWithAttachments =
+        loadFromFile("comments-list-with-attachments.json", CommentsList.class);
     Comment audioComment = commentsWithAttachments.getResults().get(4);
 
     assertEquals("255c5b96-8ec4-80b5-9b54-001d8cf8cb10", audioComment.getId());
@@ -272,7 +281,8 @@ public class CommentDeserializationTest extends BaseTest {
 
   @Test
   void testCommentsWithPowerPointAttachment() throws Exception {
-    CommentsList commentsWithAttachments = loadFromFile("comments-list-with-attachments.json", CommentsList.class);
+    CommentsList commentsWithAttachments =
+        loadFromFile("comments-list-with-attachments.json", CommentsList.class);
     Comment slidesComment = commentsWithAttachments.getResults().get(5);
 
     assertEquals("255c5b96-8ec4-80d8-b338-001df9983252", slidesComment.getId());
@@ -293,7 +303,8 @@ public class CommentDeserializationTest extends BaseTest {
 
   @Test
   void testCommentsWithMultipleAttachments() throws Exception {
-    CommentsList commentsWithAttachments = loadFromFile("comments-list-with-attachments.json", CommentsList.class);
+    CommentsList commentsWithAttachments =
+        loadFromFile("comments-list-with-attachments.json", CommentsList.class);
     Comment multiAttachmentComment = commentsWithAttachments.getResults().get(6);
 
     assertEquals("255c5b96-8ec4-8054-9931-001dc4664082", multiAttachmentComment.getId());
@@ -322,5 +333,4 @@ public class CommentDeserializationTest extends BaseTest {
     assertTrue(thirdAttachment.getFile().getUrl().contains("archive.zip"));
     assertEquals("2025-08-20T15:50:39.118Z", thirdAttachment.getFile().getExpiryTime());
   }
-
 }

@@ -11,5 +11,4 @@ public class PeopleDatabaseFilter extends DatabaseFilter {
 
   @JsonProperty("people")
   private UserFilterCondition people;
-
 }

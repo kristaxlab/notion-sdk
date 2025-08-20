@@ -19,8 +19,10 @@ public class PropertyItem extends PageProperty {
   public static class PropertyItemValue {
     @JsonProperty("id")
     private String id;
+
     @JsonProperty("type")
     private String type;
+
     @JsonProperty("next_url")
     private String nextUrl;
   }

@@ -9,6 +9,6 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class NumberDatabaseFilter extends DatabaseFilter {
 
-    @JsonProperty("number")
-    private NumberFilterCondition number;
+  @JsonProperty("number")
+  private NumberFilterCondition number;
 }

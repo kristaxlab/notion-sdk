@@ -26,5 +26,4 @@ public class User extends BaseNotionResponse {
 
   @JsonProperty("bot")
   private Bot bot;
-
 }

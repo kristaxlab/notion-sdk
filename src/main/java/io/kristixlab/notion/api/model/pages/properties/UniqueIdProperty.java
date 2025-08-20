@@ -7,14 +7,14 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class UniqueIdProperty extends PageProperty {
-    private final String type = "unique_id";
-    @JsonProperty("unique_id")
-    private UniqueIdValue uniqueId;
+  private final String type = "unique_id";
 
-    @Data
-    public static class UniqueIdValue {
-        private Integer number;
-        private String prefix;
-    }
+  @JsonProperty("unique_id")
+  private UniqueIdValue uniqueId;
+
+  @Data
+  public static class UniqueIdValue {
+    private Integer number;
+    private String prefix;
+  }
 }
-

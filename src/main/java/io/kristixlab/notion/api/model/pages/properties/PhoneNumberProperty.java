@@ -8,6 +8,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class PhoneNumberProperty extends PageProperty {
   private final String type = "phone_number";
+
   @JsonProperty("phone_number")
   private String phoneNumber;
 }

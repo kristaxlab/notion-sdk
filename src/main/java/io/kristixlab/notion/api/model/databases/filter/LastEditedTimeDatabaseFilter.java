@@ -9,9 +9,9 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class LastEditedTimeDatabaseFilter extends DatabaseFilter {
 
-    @JsonProperty("timestamp")
-    private String timestamp = "last_edited_time";
+  @JsonProperty("timestamp")
+  private String timestamp = "last_edited_time";
 
-    @JsonProperty("last_edited_time")
-    private DateFilterCondition lastEditedTime;
+  @JsonProperty("last_edited_time")
+  private DateFilterCondition lastEditedTime;
 }

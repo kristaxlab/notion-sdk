@@ -9,7 +9,6 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class RelationDatabaseFilter extends DatabaseFilter {
 
-    @JsonProperty("relation")
-    private ContainsEmptyFilterCondition relation;
-
+  @JsonProperty("relation")
+  private ContainsEmptyFilterCondition relation;
 }

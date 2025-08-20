@@ -8,6 +8,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class RollupProperty extends PageProperty {
   private final String type = "rollup";
+
   @JsonProperty("rollup")
   private RollupValue rollup;
 
@@ -21,4 +22,3 @@ public class RollupProperty extends PageProperty {
     // Add more fields as needed for rollup result types
   }
 }
-

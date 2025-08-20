@@ -11,5 +11,4 @@ public class CreatedByDatabaseFilter extends DatabaseFilter {
 
   @JsonProperty("created_by")
   private UserFilterCondition createdBy;
-
 }

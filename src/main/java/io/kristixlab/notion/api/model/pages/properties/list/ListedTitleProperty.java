@@ -11,5 +11,4 @@ public class ListedTitleProperty extends ListedPageProperty {
 
   @JsonProperty("title")
   private RichText title;
-
 }

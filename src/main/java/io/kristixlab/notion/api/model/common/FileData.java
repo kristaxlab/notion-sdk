@@ -27,7 +27,6 @@ public class FileData {
   @JsonProperty("name")
   private String name;
 
-
   @Data
   public static class External {
     @JsonProperty("url")

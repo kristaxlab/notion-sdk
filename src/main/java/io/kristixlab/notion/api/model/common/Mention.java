@@ -1,6 +1,5 @@
 package io.kristixlab.notion.api.model.common;
 
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.kristixlab.notion.api.model.users.User;
 import lombok.Data;
@@ -33,7 +32,6 @@ public class Mention {
   // TODO
   @JsonProperty("template_mention")
   private Object templateMention;
-
 
   @Data
   public static class LinkMention {

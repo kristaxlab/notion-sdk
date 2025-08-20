@@ -9,16 +9,19 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class VerificationProperty extends PageProperty {
-    private final String type = "verification";
-    @JsonProperty("verification")
-    private VerificationValue verification;
+  private final String type = "verification";
 
-    @Data
-    public static class VerificationValue {
-        private String state;
-        @JsonProperty("verified_by")
-        private User verifiedBy;
-        @JsonProperty("date")
-        private DateData date;
-    }
+  @JsonProperty("verification")
+  private VerificationValue verification;
+
+  @Data
+  public static class VerificationValue {
+    private String state;
+
+    @JsonProperty("verified_by")
+    private User verifiedBy;
+
+    @JsonProperty("date")
+    private DateData date;
+  }
 }

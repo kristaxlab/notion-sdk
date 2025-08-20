@@ -12,4 +12,3 @@ public class NumberProperty extends PageProperty {
   @JsonProperty("number")
   private Double number;
 }
-

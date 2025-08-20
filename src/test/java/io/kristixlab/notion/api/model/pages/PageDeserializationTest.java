@@ -1,14 +1,13 @@
 package io.kristixlab.notion.api.model.pages;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.kristixlab.notion.api.model.pages.properties.*;
+import java.io.InputStream;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-
-import java.io.InputStream;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 public class PageDeserializationTest {
 
@@ -19,9 +18,9 @@ public class PageDeserializationTest {
     ObjectMapper mapper = new ObjectMapper();
     mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, true);
     InputStream is =
-            PageDeserializationTest.class
-                    .getClassLoader()
-                    .getResourceAsStream("notion-json-examples/pages-retrieve-rs.json");
+        PageDeserializationTest.class
+            .getClassLoader()
+            .getResourceAsStream("notion-json-examples/pages-retrieve-rs.json");
     assertNotNull(is, "Test JSON file not found");
     page = mapper.readValue(is, Page.class);
     assertNotNull(page);
@@ -42,8 +41,12 @@ public class PageDeserializationTest {
     assertEquals("aaaaaaa2-cccc-eeee-9999-222222222222", page.getLastEditedBy().getId());
     assertEquals("2025-08-11T12:37:00.000Z", page.getCreatedTime());
     assertEquals("2025-08-11T12:51:00.000Z", page.getLastEditedTime());
-    assertEquals("https://www.notion.so/record-with-all-props-24cc5b968ec4809c9809caa1d493ca04", page.getUrl());
-    assertEquals("https://someurlweb.notion.site/record-with-all-props-24cc5b968ec4809c9809caa1d493ca04", page.getPublicUrl());
+    assertEquals(
+        "https://www.notion.so/record-with-all-props-24cc5b968ec4809c9809caa1d493ca04",
+        page.getUrl());
+    assertEquals(
+        "https://someurlweb.notion.site/record-with-all-props-24cc5b968ec4809c9809caa1d493ca04",
+        page.getPublicUrl());
     assertEquals("92b86be9-43d2-40b7-bbb7-47a6d8fb7640", page.getRequestId());
   }
 
@@ -229,7 +232,8 @@ public class PageDeserializationTest {
     assertEquals("formula", formulaProp.getType());
     assertNotNull(formulaProp.getFormula());
     assertEquals("string", formulaProp.getFormula().getType());
-    assertEquals("related rec 1\nrelated rec 2\nrelated rec 3", formulaProp.getFormula().getString());
+    assertEquals(
+        "related rec 1\nrelated rec 2\nrelated rec 3", formulaProp.getFormula().getString());
   }
 
   @Test
@@ -346,7 +350,8 @@ public class PageDeserializationTest {
     assertEquals("v%3CSK", lastEditedByProp.getId());
     assertEquals("last_edited_by", lastEditedByProp.getType());
     assertNotNull(lastEditedByProp.getLastEditedBy());
-    assertEquals("aaaaaaa2-cccc-eeee-9999-222222222222", lastEditedByProp.getLastEditedBy().getId());
+    assertEquals(
+        "aaaaaaa2-cccc-eeee-9999-222222222222", lastEditedByProp.getLastEditedBy().getId());
     assertEquals("userName", lastEditedByProp.getLastEditedBy().getName());
   }
 
@@ -484,5 +489,4 @@ public class PageDeserializationTest {
     assertEquals(1, ownerProp.getPeople().size());
     assertEquals("userName", ownerProp.getPeople().get(0).getName());
   }
-
 }

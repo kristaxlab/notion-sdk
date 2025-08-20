@@ -1,4 +1,3 @@
 package io.kristixlab.notion;
 
-public class Blocks {
-}
+public class Blocks {}

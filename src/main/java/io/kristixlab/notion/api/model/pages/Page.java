@@ -1,15 +1,14 @@
 package io.kristixlab.notion.api.model.pages;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.kristixlab.notion.api.model.pages.properties.PageProperty;
 import io.kristixlab.notion.api.model.common.FileData;
 import io.kristixlab.notion.api.model.common.Icon;
 import io.kristixlab.notion.api.model.common.NotionObject;
+import io.kristixlab.notion.api.model.pages.properties.PageProperty;
+import java.util.Map;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
-
-import java.util.Map;
 
 @Data
 @Accessors(chain = true)
@@ -30,7 +29,6 @@ public class Page extends NotionObject {
 
   @JsonProperty("cover")
   private FileData cover;
-
 }
 
 // https://developers.notion.com/reference/page

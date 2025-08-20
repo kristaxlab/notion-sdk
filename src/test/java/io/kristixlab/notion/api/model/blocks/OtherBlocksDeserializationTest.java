@@ -438,7 +438,6 @@ class OtherBlocksDeserializationTest extends BaseBlockDeserializationTest {
     assertEquals("gray", t.getTableOfContents().getColor());
   }
 
-
   @Test
   void testUnknown() {
     Block block = findBlockById("11111111-8ec4-8013-8ecf-ebc71cfc1111");

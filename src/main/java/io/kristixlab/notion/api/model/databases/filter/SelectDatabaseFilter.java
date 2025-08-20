@@ -9,7 +9,6 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class SelectDatabaseFilter extends DatabaseFilter {
 
-    @JsonProperty("select")
-    private EqualsEmptyFilterCondition select;
-
+  @JsonProperty("select")
+  private EqualsEmptyFilterCondition select;
 }

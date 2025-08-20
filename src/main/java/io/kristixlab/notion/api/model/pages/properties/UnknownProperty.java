@@ -10,5 +10,4 @@ public class UnknownProperty extends PageProperty {
 
   @JsonProperty("type")
   private String type;
-
 }

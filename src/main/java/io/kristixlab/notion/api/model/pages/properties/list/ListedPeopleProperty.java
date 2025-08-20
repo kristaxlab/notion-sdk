@@ -11,5 +11,4 @@ public class ListedPeopleProperty extends ListedPageProperty {
 
   @JsonProperty("people")
   private User people;
-
 }

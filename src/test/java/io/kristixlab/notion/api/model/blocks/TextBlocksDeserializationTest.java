@@ -7,8 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import io.kristixlab.notion.api.model.common.RichText;
 import org.junit.jupiter.api.Test;
 
-public class TextBlocksDeserializationTest
-    extends BaseBlockDeserializationTest {
+public class TextBlocksDeserializationTest extends BaseBlockDeserializationTest {
 
   @Test
   void testParagraphEmpty() {

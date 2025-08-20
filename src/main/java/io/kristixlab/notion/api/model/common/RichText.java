@@ -1,7 +1,6 @@
 package io.kristixlab.notion.api.model.common;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.kristixlab.notion.api.model.users.User;
 import lombok.Data;
 
 @Data
@@ -73,6 +72,4 @@ public class RichText {
     @JsonProperty("expression")
     private String expression;
   }
-
-
 }

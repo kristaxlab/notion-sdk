@@ -12,5 +12,4 @@ public class CommentAttachment {
 
   @JsonProperty("file")
   private FileData.File file;
-
 }

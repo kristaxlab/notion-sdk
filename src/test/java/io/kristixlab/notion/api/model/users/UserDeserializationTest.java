@@ -1,14 +1,9 @@
 package io.kristixlab.notion.api.model.users;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import io.kristixlab.notion.api.model.BaseTest;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-
-import java.io.InputStream;
-
 import static org.junit.jupiter.api.Assertions.*;
+
+import io.kristixlab.notion.api.model.BaseTest;
+import org.junit.jupiter.api.Test;
 
 public class UserDeserializationTest extends BaseTest {
 
@@ -28,7 +23,7 @@ public class UserDeserializationTest extends BaseTest {
   }
 
   @Test
-  void testBotUserBasicFields() throws Exception{
+  void testBotUserBasicFields() throws Exception {
     User botUser = loadFromFile("users-retrieve-me-rs.json", User.class);
 
     assertNotNull(botUser);
@@ -98,5 +93,4 @@ public class UserDeserializationTest extends BaseTest {
     assertNull(thirdUser.getBot().getWorkspaceLimits());
     assertNull(thirdUser.getPerson());
   }
-
 }

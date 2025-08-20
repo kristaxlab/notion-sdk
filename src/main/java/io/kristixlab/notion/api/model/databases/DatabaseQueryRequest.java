@@ -2,14 +2,10 @@ package io.kristixlab.notion.api.model.databases;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.kristixlab.notion.api.model.databases.filter.DatabaseFilter;
+import java.util.List;
 import lombok.Data;
 
-import java.util.List;
-
-/**
- * Request object for querying a database.
- * Supports filtering, sorting, and pagination.
- */
+/** Request object for querying a database. Supports filtering, sorting, and pagination. */
 @Data
 public class DatabaseQueryRequest {
 
@@ -28,9 +24,7 @@ public class DatabaseQueryRequest {
   @JsonProperty("archived")
   private Boolean archived;
 
-  /**
-   * Sort configuration for database queries.
-   */
+  /** Sort configuration for database queries. */
   @Data
   public static class DatabaseSort {
     @JsonProperty("property")
