@@ -1,7 +1,6 @@
 package io.kristixlab.notion.api.model;
 
 import io.kristixlab.notion.api.model.blocks.Block;
-
 import java.util.List;
 
 /**

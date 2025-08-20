@@ -11,5 +11,4 @@ public class BaseNotionResponse {
 
   @JsonProperty("request_id")
   private String requestId;
-
 }
