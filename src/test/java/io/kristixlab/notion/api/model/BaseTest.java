@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import io.kristixlab.notion.api.exchange.NotionApiTransport;
 import org.junit.jupiter.api.BeforeAll;
 
 import java.io.IOException;
@@ -14,8 +13,6 @@ public class BaseTest {
 
   protected static ObjectMapper MAPPER = new ObjectMapper();
   private static final String TEST_INPUT_DIR = "notion-json-examples/";
-
-  private static NotionApiTransport transport;
 
   @BeforeAll
   protected static void init() throws IOException {
