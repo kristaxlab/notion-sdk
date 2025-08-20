@@ -9,6 +9,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class DateProperty extends PageProperty {
   private final String type = "date";
+
   @JsonProperty("date")
   private DateData date;
 }

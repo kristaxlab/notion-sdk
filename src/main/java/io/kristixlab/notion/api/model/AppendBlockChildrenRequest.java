@@ -3,15 +3,12 @@ package io.kristixlab.notion.api.model;
 import io.kristixlab.notion.api.model.blocks.Block;
 import java.util.List;
 
-/**
- * Request object for appending block children.
- */
+/** Request object for appending block children. */
 public class AppendBlockChildrenRequest {
   private List<Block> children;
   private String after;
 
-  public AppendBlockChildrenRequest() {
-  }
+  public AppendBlockChildrenRequest() {}
 
   public AppendBlockChildrenRequest(List<Block> children) {
     this.children = children;

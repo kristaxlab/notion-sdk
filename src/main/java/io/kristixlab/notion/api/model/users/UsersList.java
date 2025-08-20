@@ -11,5 +11,4 @@ public class UsersList extends NotionList<User> {
 
   @JsonProperty("user")
   private Object user;
-
 }

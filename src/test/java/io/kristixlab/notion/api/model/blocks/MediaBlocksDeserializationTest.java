@@ -6,8 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import io.kristixlab.notion.api.model.common.RichText;
 import org.junit.jupiter.api.Test;
 
-public class MediaBlocksDeserializationTest
-    extends BaseBlockDeserializationTest {
+public class MediaBlocksDeserializationTest extends BaseBlockDeserializationTest {
 
   @Test
   void testFile() {

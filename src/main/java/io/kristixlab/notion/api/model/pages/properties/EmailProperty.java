@@ -8,6 +8,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class EmailProperty extends PageProperty {
   private final String type = "email";
+
   @JsonProperty("email")
   private String email;
 }

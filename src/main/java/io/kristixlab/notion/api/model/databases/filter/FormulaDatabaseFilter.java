@@ -16,10 +16,13 @@ public class FormulaDatabaseFilter extends DatabaseFilter {
   public class FormulaFilterCondition {
     @JsonProperty("checkbox")
     private CheckboxDatabaseFilter checkbox;
+
     @JsonProperty("date")
     private DateFilterCondition date;
+
     @JsonProperty("number")
     private NumberDatabaseFilter number;
+
     @JsonProperty("string")
     private RichTextDatabaseFilter string;
   }

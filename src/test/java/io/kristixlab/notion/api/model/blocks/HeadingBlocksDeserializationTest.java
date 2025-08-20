@@ -9,8 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import io.kristixlab.notion.api.model.common.RichText;
 import org.junit.jupiter.api.Test;
 
-public class HeadingBlocksDeserializationTest
-    extends BaseBlockDeserializationTest {
+public class HeadingBlocksDeserializationTest extends BaseBlockDeserializationTest {
 
   @Test
   void testHeadingOne() {

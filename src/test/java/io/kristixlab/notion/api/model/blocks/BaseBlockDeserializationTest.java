@@ -4,9 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import java.io.InputStream;
-
 import org.junit.jupiter.api.BeforeAll;
 
 class BaseBlockDeserializationTest {

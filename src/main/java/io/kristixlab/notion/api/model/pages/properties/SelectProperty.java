@@ -8,6 +8,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class SelectProperty extends PageProperty {
   private final String type = "select";
+
   @JsonProperty("select")
   private SelectValue select;
 

@@ -5,13 +5,12 @@ import lombok.Data;
 
 @Data
 public class DateData {
-    @JsonProperty("start")
-    private String start;
+  @JsonProperty("start")
+  private String start;
 
-    @JsonProperty("end")
-    private String end;
+  @JsonProperty("end")
+  private String end;
 
-    @JsonProperty("time_zone")
-    private String timeZone;
+  @JsonProperty("time_zone")
+  private String timeZone;
 }
-

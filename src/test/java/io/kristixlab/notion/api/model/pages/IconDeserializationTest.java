@@ -1,17 +1,16 @@
 package io.kristixlab.notion.api.model.pages;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.kristixlab.notion.api.model.common.Icon;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-
 import java.io.InputStream;
 import java.util.Map;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 public class IconDeserializationTest {
 
@@ -22,9 +21,9 @@ public class IconDeserializationTest {
     ObjectMapper mapper = new ObjectMapper();
     mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, true);
     InputStream is =
-            IconDeserializationTest.class
-                    .getClassLoader()
-                    .getResourceAsStream("notion-json-examples/icon-examples.json");
+        IconDeserializationTest.class
+            .getClassLoader()
+            .getResourceAsStream("notion-json-examples/icon-examples.json");
     assertNotNull(is, "Test JSON file not found");
     icons = mapper.readValue(is, new TypeReference<Map<String, Icon>>() {});
     assertNotNull(icons);
@@ -46,7 +45,9 @@ public class IconDeserializationTest {
     assertNotNull(icon.getCustomEmoji());
     assertEquals("24cc5b96-8ec4-809e-ba44-007a9a9a34f4", icon.getCustomEmoji().getId());
     assertEquals("sdk_5242016", icon.getCustomEmoji().getName());
-    assertEquals("https://s3-us-west-2.amazonaws.com/public.notion-static.com/2f5eb3ad-a4ce-4fb2-8614-efdf80e6ed45/sdk_5242016.png", icon.getCustomEmoji().getUrl());
+    assertEquals(
+        "https://s3-us-west-2.amazonaws.com/public.notion-static.com/2f5eb3ad-a4ce-4fb2-8614-efdf80e6ed45/sdk_5242016.png",
+        icon.getCustomEmoji().getUrl());
   }
 
   @Test

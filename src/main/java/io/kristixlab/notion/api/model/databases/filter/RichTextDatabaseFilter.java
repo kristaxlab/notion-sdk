@@ -11,5 +11,4 @@ public class RichTextDatabaseFilter extends DatabaseFilter {
 
   @JsonProperty("rich_text")
   private TextFilterCondition richText;
-
 }

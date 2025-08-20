@@ -31,6 +31,5 @@ public class Icon {
 
     @JsonProperty("url")
     private String url;
-
   }
 }

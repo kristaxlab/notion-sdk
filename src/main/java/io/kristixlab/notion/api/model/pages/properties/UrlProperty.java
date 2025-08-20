@@ -8,6 +8,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class UrlProperty extends PageProperty {
   private final String type = "url";
+
   @JsonProperty("url")
   private String url;
 }

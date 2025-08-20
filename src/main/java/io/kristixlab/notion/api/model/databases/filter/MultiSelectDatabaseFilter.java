@@ -9,6 +9,6 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class MultiSelectDatabaseFilter extends DatabaseFilter {
 
-    @JsonProperty("multi_select")
-    private ContainsEmptyFilterCondition multiSelect;
+  @JsonProperty("multi_select")
+  private ContainsEmptyFilterCondition multiSelect;
 }

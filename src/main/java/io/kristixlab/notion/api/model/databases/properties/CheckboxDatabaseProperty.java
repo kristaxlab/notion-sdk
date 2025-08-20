@@ -5,20 +5,15 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
- * Database property for checkbox columns.
- * Simple boolean property with no additional configuration.
+ * Database property for checkbox columns. Simple boolean property with no additional configuration.
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class CheckboxDatabaseProperty extends DatabaseProperty {
 
-    @JsonProperty("checkbox")
-    private CheckboxConfig checkbox = new CheckboxConfig();
+  @JsonProperty("checkbox")
+  private CheckboxConfig checkbox = new CheckboxConfig();
 
-    @Data
-    public static class CheckboxConfig {
-
-    }
-
+  @Data
+  public static class CheckboxConfig {}
 }
-

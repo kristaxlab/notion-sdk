@@ -9,9 +9,9 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class CreatedTimeDatabaseFilter extends DatabaseFilter {
 
-    @JsonProperty("timestamp")
-    private String timestamp = "created_time";
+  @JsonProperty("timestamp")
+  private String timestamp = "created_time";
 
-    @JsonProperty("created_time")
-    private DateFilterCondition createdTime;
+  @JsonProperty("created_time")
+  private DateFilterCondition createdTime;
 }

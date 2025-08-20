@@ -4,11 +4,11 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
- * Database property for created_by columns.
- * Automatically populated with the user who created the page.
+ * Database property for created_by columns. Automatically populated with the user who created the
+ * page.
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class CreatedByDatabaseProperty extends DatabaseProperty {
-    // Created by properties have no additional configuration - auto-generated
+  // Created by properties have no additional configuration - auto-generated
 }

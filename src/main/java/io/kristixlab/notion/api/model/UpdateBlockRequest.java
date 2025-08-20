@@ -2,15 +2,12 @@ package io.kristixlab.notion.api.model;
 
 import io.kristixlab.notion.api.model.blocks.Block;
 
-/**
- * Request object for updating a block.
- */
+/** Request object for updating a block. */
 public class UpdateBlockRequest {
   private Boolean archived;
   private Block blockData; // This would contain the specific block type data
 
-  public UpdateBlockRequest() {
-  }
+  public UpdateBlockRequest() {}
 
   public Boolean getArchived() {
     return archived;

@@ -9,7 +9,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class LastEditedByProperty extends PageProperty {
   private final String type = "last_edited_by";
+
   @JsonProperty("last_edited_by")
   private User lastEditedBy;
 }
-

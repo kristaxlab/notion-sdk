@@ -11,5 +11,4 @@ public class LastEditedByDatabaseFilter extends DatabaseFilter {
 
   @JsonProperty("last_edited_by")
   private UserFilterCondition lastEditedBy;
-
 }

@@ -2,11 +2,9 @@ package io.kristixlab.notion.api.model.common;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.kristixlab.notion.api.model.BaseNotionResponse;
-import io.kristixlab.notion.api.model.users.User;
+import java.util.List;
 import lombok.Data;
 import lombok.experimental.Accessors;
-
-import java.util.List;
 
 @Data
 public class NotionList<T> extends BaseNotionResponse {
@@ -26,5 +24,4 @@ public class NotionList<T> extends BaseNotionResponse {
 
   @JsonProperty("type")
   private String type;
-
 }

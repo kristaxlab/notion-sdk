@@ -1,5 +1,7 @@
 package io.kristixlab.notion.api.model.pages;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.kristixlab.notion.api.model.common.RichText;
@@ -8,17 +10,14 @@ import io.kristixlab.notion.api.model.pages.properties.PageProperty;
 import io.kristixlab.notion.api.model.pages.properties.PropertyItem;
 import io.kristixlab.notion.api.model.pages.properties.list.*;
 import io.kristixlab.notion.api.model.users.User;
+import java.io.IOException;
+import java.io.InputStream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
-import java.io.InputStream;
-
-import static org.junit.jupiter.api.Assertions.*;
-
 /**
- * Unit tests for property retrieve responses using JSON examples.
- * Tests deserialization of different property types from Notion API responses.
+ * Unit tests for property retrieve responses using JSON examples. Tests deserialization of
+ * different property types from Notion API responses.
  */
 class PagePropertyRetrieveDeserializationTest {
 
@@ -87,16 +86,19 @@ class PagePropertyRetrieveDeserializationTest {
     RichText firstRichText = titleProperty.getTitle();
     assertNotNull(firstRichText);
     assertEquals("text", firstRichText.getType());
-    assertEquals("record with all props we have some text here with equation ", firstRichText.getPlainText());
+    assertEquals(
+        "record with all props we have some text here with equation ",
+        firstRichText.getPlainText());
     assertNotNull(firstRichText.getText());
-    assertEquals("record with all props we have some text here with equation ", firstRichText.getText().getContent());
+    assertEquals(
+        "record with all props we have some text here with equation ",
+        firstRichText.getText().getContent());
     assertFalse(firstRichText.getAnnotations().isBold());
     assertFalse(firstRichText.getAnnotations().isCode());
     assertFalse(firstRichText.getAnnotations().isUnderline());
     assertFalse(firstRichText.getAnnotations().isStrikethrough());
     assertFalse(firstRichText.getAnnotations().isItalic());
     assertEquals("default", firstRichText.getAnnotations().getColor());
-
 
     // Test first title item
     ListedPageProperty mentionText = property.getResults().get(3).asTitle();
@@ -131,9 +133,7 @@ class PagePropertyRetrieveDeserializationTest {
     assertFalse(mention.getAnnotations().isStrikethrough());
     assertFalse(mention.getAnnotations().isItalic());
     assertEquals("default", mention.getAnnotations().getColor());
-
   }
-
 
   @Test
   void testRelationPropertyRetrieveDeserialization() throws IOException {
@@ -163,12 +163,15 @@ class PagePropertyRetrieveDeserializationTest {
 
     assertTrue(firstRelation instanceof ListedRelationProperty);
 
-    assertEquals("24cc5b96-8ec4-81b8-b45f-eefc9156c148", firstRelation.asRelation().getRelation().getId());
-    assertEquals("24cc5b96-8ec4-80e7-a620-ca389562e0cc", property.getResults().get(1).asRelation().getRelation().getId());
-    assertEquals("24cc5b96-8ec4-8017-b930-cd188bb39fc1", property.getResults().get(2).asRelation().getRelation().getId());
-
+    assertEquals(
+        "24cc5b96-8ec4-81b8-b45f-eefc9156c148", firstRelation.asRelation().getRelation().getId());
+    assertEquals(
+        "24cc5b96-8ec4-80e7-a620-ca389562e0cc",
+        property.getResults().get(1).asRelation().getRelation().getId());
+    assertEquals(
+        "24cc5b96-8ec4-8017-b930-cd188bb39fc1",
+        property.getResults().get(2).asRelation().getRelation().getId());
   }
-
 
   @Test
   void testPersonPropertyRetrieveDeserialization() throws IOException {
@@ -241,9 +244,7 @@ class PagePropertyRetrieveDeserializationTest {
     // Test pagination info
     assertNull(property.getNextCursor());
     assertFalse(property.hasMore());
-
   }
-
 
   @Test
   void testRichTextPropertyRetrieveDeserialization() throws IOException {
@@ -299,12 +300,7 @@ class PagePropertyRetrieveDeserializationTest {
     assertFalse(property.hasMore());
   }
 
-  /**
-
-
-   /**
-   * Helper method to load a PagePropertyItem from JSON file.
-   */
+  /** /** Helper method to load a PagePropertyItem from JSON file. */
   private PageProperty loadPropertyFromJson(String jsonFile) throws IOException {
     try (InputStream inputStream = getClass().getResourceAsStream(jsonFile)) {
       assertNotNull(inputStream, "JSON file not found: " + jsonFile);
@@ -312,9 +308,7 @@ class PagePropertyRetrieveDeserializationTest {
     }
   }
 
-  /**
-   * Helper method to load a PageProperty from JSON file.
-   */
+  /** Helper method to load a PageProperty from JSON file. */
   private PageProperty loadPagePropertyFromJson(String jsonFile) throws IOException {
     try (InputStream inputStream = getClass().getResourceAsStream(jsonFile)) {
       assertNotNull(inputStream, "JSON file not found: " + jsonFile);

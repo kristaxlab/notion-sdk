@@ -8,6 +8,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class CheckboxProperty extends PageProperty {
   private final String type = "checkbox";
+
   @JsonProperty("checkbox")
   private Boolean checkbox;
 }

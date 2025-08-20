@@ -11,5 +11,4 @@ public class ListedRelationProperty extends ListedPageProperty {
 
   @JsonProperty("relation")
   private PageReference relation;
-
 }

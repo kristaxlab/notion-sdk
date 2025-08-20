@@ -8,8 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import io.kristixlab.notion.api.model.common.RichText;
 import org.junit.jupiter.api.Test;
 
-public class LIstBlocksDeserializationTest
-    extends BaseBlockDeserializationTest {
+public class LIstBlocksDeserializationTest extends BaseBlockDeserializationTest {
 
   @Test
   void testToDoListItemUnchecked() {

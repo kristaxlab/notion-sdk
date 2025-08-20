@@ -8,7 +8,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class LastEditedTimeProperty extends PageProperty {
   private final String type = "last_edited_time";
+
   @JsonProperty("last_edited_time")
   private String lastEditedTime;
 }
-
