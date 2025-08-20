@@ -5,9 +5,9 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import org.junit.jupiter.api.BeforeAll;
+
 import java.io.IOException;
 import java.io.InputStream;
-import org.junit.jupiter.api.BeforeAll;
 
 public class BaseTest {
 
