@@ -31,7 +31,7 @@ class PagePropertyRetrieveDeserializationTest {
 
   @Test
   void testNumberPropertyDeserialization() throws IOException {
-    String jsonFile = "/notion-json-examples/pages-retrieve-property-number-rs.json";
+    String jsonFile = "/notion-json-examples/pages/pages-retrieve-property-number-rs.json";
     PageProperty property = loadPropertyFromJson(jsonFile);
 
     assertNotNull(property);
@@ -57,7 +57,7 @@ class PagePropertyRetrieveDeserializationTest {
 
   @Test
   void testTitlePropertyDeserialization() throws IOException {
-    String jsonFile = "/notion-json-examples/pages-retrieve-property-title-rs.json";
+    String jsonFile = "/notion-json-examples/pages/pages-retrieve-property-title-rs.json";
     PageProperty property = loadPagePropertyFromJson(jsonFile);
 
     assertNotNull(property);
@@ -137,7 +137,7 @@ class PagePropertyRetrieveDeserializationTest {
 
   @Test
   void testRelationPropertyRetrieveDeserialization() throws IOException {
-    String jsonFile = "/notion-json-examples/pages-retrieve-property-relation-rs.json";
+    String jsonFile = "/notion-json-examples/pages/pages-retrieve-property-relation-rs.json";
     PageProperty property = loadPagePropertyFromJson(jsonFile);
 
     assertNotNull(property);
@@ -175,7 +175,7 @@ class PagePropertyRetrieveDeserializationTest {
 
   @Test
   void testPersonPropertyRetrieveDeserialization() throws IOException {
-    String jsonFile = "/notion-json-examples/pages-retrieve-property-person-rs.json";
+    String jsonFile = "/notion-json-examples/pages/pages-retrieve-property-person-rs.json";
     PageProperty property = loadPagePropertyFromJson(jsonFile);
 
     assertNotNull(property);
@@ -248,7 +248,7 @@ class PagePropertyRetrieveDeserializationTest {
 
   @Test
   void testRichTextPropertyRetrieveDeserialization() throws IOException {
-    String jsonFile = "/notion-json-examples/pages-retrieve-property-richtext-rs.json";
+    String jsonFile = "/notion-json-examples/pages/pages-retrieve-property-richtext-rs.json";
     PageProperty property = loadPagePropertyFromJson(jsonFile);
 
     assertNotNull(property);

@@ -9,8 +9,8 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class CheckboxDatabaseProperty extends DatabaseProperty {
+public class ButtonDatabaseProperty extends DatabaseProperty {
 
-  @JsonProperty("checkbox")
-  private Object checkbox;
+  @JsonProperty("button")
+  private Object button;
 }

@@ -18,6 +18,7 @@ import lombok.Data;
     visible = true)
 @JsonSubTypes({
   @JsonSubTypes.Type(value = CheckboxDatabaseProperty.class, name = "checkbox"),
+  @JsonSubTypes.Type(value = ButtonDatabaseProperty.class, name = "button"),
   @JsonSubTypes.Type(value = CreatedByDatabaseProperty.class, name = "created_by"),
   @JsonSubTypes.Type(value = CreatedTimeDatabaseProperty.class, name = "created_time"),
   @JsonSubTypes.Type(value = DateDatabaseProperty.class, name = "date"),
@@ -38,7 +39,8 @@ import lombok.Data;
   @JsonSubTypes.Type(value = TitleDatabaseProperty.class, name = "title"),
   @JsonSubTypes.Type(value = UniqueIdDatabaseProperty.class, name = "unique_id"),
   @JsonSubTypes.Type(value = UrlDatabaseProperty.class, name = "url"),
-  @JsonSubTypes.Type(value = VerificationDatabaseProperty.class, name = "verification")
+  @JsonSubTypes.Type(value = VerificationDatabaseProperty.class, name = "verification"),
+  @JsonSubTypes.Type(value = PlaceDatabaseProperty.class, name = "place")
 })
 @Data
 public abstract class DatabaseProperty {

@@ -1,0 +1,24 @@
+{
+  "access_token": "ntn_5557W6V5U4T3210987674821098765432109000001",
+  "token_type": "bearer",
+  "refresh_token": "nrt_5557W6V5U4T3210987674821098765432109000000",
+  "bot_id": "12345678-1234-5678-9abc-def012345678",
+  "workspace_name": "Test Workspace",
+  "workspace_icon": "https://example.com/workspace-icon.png",
+  "workspace_id": "11333323-4444-43b3-8288-222222222222",
+  "owner": {
+    "type": "user",
+    "user": {
+      "object": "user",
+      "id": "33444444-4444-43b3-8288-444444444444",
+      "name": "Test User",
+      "avatar_url": null,
+      "type": "person",
+      "person": {
+        "email": "test@example.com"
+      }
+    }
+  },
+  "duplicated_template_id": "25ab90f8-6d76-81f3-a8fb-c52c16558590",
+  "request_id": "fedcba98-fedc-ba98-7654-321098765432"
+}

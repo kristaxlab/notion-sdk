@@ -18,7 +18,7 @@ class BlockRetrieveDeserializationTest {
     InputStream is =
         BlockRetrieveDeserializationTest.class
             .getClassLoader()
-            .getResourceAsStream("notion-json-examples/blocks-retrieve-rs.json");
+            .getResourceAsStream("notion-json-examples/blocks/blocks-retrieve-rs.json");
     assertNotNull(is, "Test JSON file not found");
     response = mapper.readValue(is, Block.class);
   }

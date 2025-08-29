@@ -1,5 +1,6 @@
 package io.kristixlab.notion.api.model.databases.properties;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -10,5 +11,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class CreatedByDatabaseProperty extends DatabaseProperty {
-  // Created by properties have no additional configuration - auto-generated
+
+  @JsonProperty("created_by")
+  private Object createdBy;
 }

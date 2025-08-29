@@ -1,5 +1,6 @@
 package io.kristixlab.notion.api.model.databases.properties;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -10,5 +11,6 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class LastEditedByDatabaseProperty extends DatabaseProperty {
-  // Last edited by properties have no additional configuration - auto-generated
+  @JsonProperty("last_edited_by")
+  private Object lastEditedBy;
 }

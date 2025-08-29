@@ -20,7 +20,7 @@ public class PageDeserializationTest {
     InputStream is =
         PageDeserializationTest.class
             .getClassLoader()
-            .getResourceAsStream("notion-json-examples/pages-retrieve-rs.json");
+            .getResourceAsStream("notion-json-examples/pages/pages-retrieve-rs.json");
     assertNotNull(is, "Test JSON file not found");
     page = mapper.readValue(is, Page.class);
     assertNotNull(page);

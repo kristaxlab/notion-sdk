@@ -9,7 +9,7 @@ public class UserDeserializationTest extends BaseTest {
 
   @Test
   void testPersonUser() throws Exception {
-    User personUser = loadFromFile("users-retrieve-rs.json", User.class);
+    User personUser = loadFromFile("users/users-retrieve-rs.json", User.class);
 
     assertEquals("user", personUser.getObject());
     assertEquals("44444444-4444-43b3-8288-444444444444", personUser.getId());
@@ -24,7 +24,7 @@ public class UserDeserializationTest extends BaseTest {
 
   @Test
   void testBotUserBasicFields() throws Exception {
-    User botUser = loadFromFile("users-retrieve-me-rs.json", User.class);
+    User botUser = loadFromFile("users/users-retrieve-me-rs.json", User.class);
 
     assertNotNull(botUser);
     assertEquals("user", botUser.getObject());
@@ -53,7 +53,7 @@ public class UserDeserializationTest extends BaseTest {
 
   @Test
   void testUsersListBasicFields() throws Exception {
-    UsersList usersList = loadFromFile("users-list-rs.json", UsersList.class);
+    UsersList usersList = loadFromFile("users/users-list-rs.json", UsersList.class);
 
     assertEquals("list", usersList.getObject());
     assertEquals("14444444-4444-43b3-8288-444444444444", usersList.getRequestId());

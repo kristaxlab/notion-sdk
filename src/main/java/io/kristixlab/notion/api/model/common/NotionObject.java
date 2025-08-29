@@ -1,11 +1,30 @@
 package io.kristixlab.notion.api.model.common;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import io.kristixlab.notion.api.model.BaseNotionResponse;
+import io.kristixlab.notion.api.model.blocks.Block;
+import io.kristixlab.notion.api.model.comments.Comment;
+import io.kristixlab.notion.api.model.databases.Database;
+import io.kristixlab.notion.api.model.pages.Page;
 import io.kristixlab.notion.api.model.users.User;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+@JsonTypeInfo(
+        use = JsonTypeInfo.Id.NAME,
+        defaultImpl = NotionObject.class,
+        property = "object",
+        visible = true
+)
+@JsonSubTypes({
+  @JsonSubTypes.Type(value = Page.class, name = "page"),
+  @JsonSubTypes.Type(value = Database.class, name = "database"),
+  @JsonSubTypes.Type(value = Comment.class, name = "comment"),
+  @JsonSubTypes.Type(value = User.class, name = "user"),
+  @JsonSubTypes.Type(value = Block.class, name = "block")
+})
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class NotionObject extends BaseNotionResponse {

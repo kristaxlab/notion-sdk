@@ -17,7 +17,7 @@ class BaseBlockDeserializationTest {
     InputStream is =
         BaseBlockDeserializationTest.class
             .getClassLoader()
-            .getResourceAsStream("notion-json-examples/blocks-retrieve-children-rs.json");
+            .getResourceAsStream("notion-json-examples/blocks/blocks-retrieve-children-rs.json");
     assertNotNull(is, "Test JSON file not found");
     response = mapper.readValue(is, Blocks.class);
     assertNotNull(response);

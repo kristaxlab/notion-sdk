@@ -5,12 +5,13 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
- * Database property for checkbox columns. Simple boolean property with no additional configuration.
+ * Database property for created_by columns. Automatically populated with the user who created the
+ * page.
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class CheckboxDatabaseProperty extends DatabaseProperty {
+public class PlaceDatabaseProperty extends DatabaseProperty {
 
-  @JsonProperty("checkbox")
-  private Object checkbox;
+  @JsonProperty("place")
+  private Object place;
 }

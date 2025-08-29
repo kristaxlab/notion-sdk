@@ -25,7 +25,7 @@ public class DatabaseDeserializationTest {
     InputStream is =
         DatabaseDeserializationTest.class
             .getClassLoader()
-            .getResourceAsStream("notion-json-examples/databases-retrieve-rs.json");
+            .getResourceAsStream("notion-json-examples/databases/databases-retrieve-rs.json");
     assertNotNull(is, "Test JSON file not found");
     database = mapper.readValue(is, Database.class);
     assertNotNull(database);
