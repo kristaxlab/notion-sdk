@@ -53,7 +53,8 @@ public class AuthorizationDeserializationTest extends BaseTest {
   @Test
   void testIntrospectTokenResponse() throws Exception {
     IntrospectTokenResponse introspectResponse =
-        loadFromFile("authorization/authorization-introspect-token-rs.json", IntrospectTokenResponse.class);
+        loadFromFile(
+            "authorization/authorization-introspect-token-rs.json", IntrospectTokenResponse.class);
 
     // Validate token activity and basic fields
     assertNotNull(introspectResponse);
@@ -74,7 +75,8 @@ public class AuthorizationDeserializationTest extends BaseTest {
 
   @Test
   void testTokenResponseOwnerStructure() throws Exception {
-    TokenResponse tokenResponse = loadFromFile("authorization/authorization-token-rs.json", TokenResponse.class);
+    TokenResponse tokenResponse =
+        loadFromFile("authorization/authorization-token-rs.json", TokenResponse.class);
 
     // Deep validation of the complex owner structure
     Owner owner = tokenResponse.getOwner();
@@ -96,7 +98,8 @@ public class AuthorizationDeserializationTest extends BaseTest {
 
   @Test
   void testTokenResponseAccessors() throws Exception {
-    TokenResponse tokenResponse = loadFromFile("authorization/authorization-token-rs.json", TokenResponse.class);
+    TokenResponse tokenResponse =
+        loadFromFile("authorization/authorization-token-rs.json", TokenResponse.class);
 
     // Test that all accessor methods work correctly
     assertNotNull(tokenResponse.getAccessToken());
