@@ -13,11 +13,10 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @JsonTypeInfo(
-        use = JsonTypeInfo.Id.NAME,
-        defaultImpl = NotionObject.class,
-        property = "object",
-        visible = true
-)
+    use = JsonTypeInfo.Id.NAME,
+    defaultImpl = NotionObject.class,
+    property = "object",
+    visible = true)
 @JsonSubTypes({
   @JsonSubTypes.Type(value = Page.class, name = "page"),
   @JsonSubTypes.Type(value = Database.class, name = "database"),

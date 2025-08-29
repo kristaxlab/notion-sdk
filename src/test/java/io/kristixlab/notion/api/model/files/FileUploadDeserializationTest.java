@@ -9,14 +9,17 @@ public class FileUploadDeserializationTest extends BaseTest {
 
   @Test
   void testFileUploadCreateResponse() throws Exception {
-    FileUploadResponse response = loadFromFile("file-uploads/file-uploads-create-rs.json", FileUploadResponse.class);
+    FileUploadResponse response =
+        loadFromFile("file-uploads/file-uploads-create-rs.json", FileUploadResponse.class);
 
     assertEquals("file_upload", response.getObject());
     assertEquals("25eb90f8-6d76-81db-b720-00b2848e40bd", response.getId());
     assertEquals("2025-08-29T13:10:00.000Z", response.getCreatedTime());
     assertEquals("2025-08-29T13:10:00.000Z", response.getLastEditedTime());
     assertEquals("2025-08-29T14:10:00.000Z", response.getExpiryTime());
-    assertEquals("https://api.notion.com/v1/file_uploads/25eb90f8-6d76-81db-b720-00b2848e40bd/send", response.getUploadUrl());
+    assertEquals(
+        "https://api.notion.com/v1/file_uploads/25eb90f8-6d76-81db-b720-00b2848e40bd/send",
+        response.getUploadUrl());
     assertFalse(response.getArchived());
     assertEquals("pending", response.getStatus());
     assertEquals("snowy_day.jpg", response.getFilename());
@@ -26,7 +29,8 @@ public class FileUploadDeserializationTest extends BaseTest {
 
   @Test
   void testFileUploadSendResponse() throws Exception {
-    FileUploadResponse response = loadFromFile("file-uploads/file-upload-send-rs.json", FileUploadResponse.class);
+    FileUploadResponse response =
+        loadFromFile("file-uploads/file-upload-send-rs.json", FileUploadResponse.class);
 
     assertEquals("file_upload", response.getObject());
     assertEquals("25eb90f8-6d76-8143-8ff7-00b2486a195a", response.getId());
@@ -42,7 +46,8 @@ public class FileUploadDeserializationTest extends BaseTest {
 
   @Test
   void testFileUploadRetrieveById() throws Exception {
-    FileUploadResponse response = loadFromFile("file-uploads/file-uploads-retrieve-by-id-rs.json", FileUploadResponse.class);
+    FileUploadResponse response =
+        loadFromFile("file-uploads/file-uploads-retrieve-by-id-rs.json", FileUploadResponse.class);
 
     assertEquals("file_upload", response.getObject());
     assertNotNull(response.getId());
@@ -55,7 +60,8 @@ public class FileUploadDeserializationTest extends BaseTest {
 
   @Test
   void testFileUploadListResponse() throws Exception {
-    FileUploadList response = loadFromFile("file-uploads/file-uploads-list-all.json", FileUploadList.class);
+    FileUploadList response =
+        loadFromFile("file-uploads/file-uploads-list-all.json", FileUploadList.class);
 
     assertEquals("list", response.getObject());
     assertNotNull(response.getResults());
@@ -83,5 +89,4 @@ public class FileUploadDeserializationTest extends BaseTest {
       assertEquals("image/jpeg", secondUpload.getContentType());
     }
   }
-
 }

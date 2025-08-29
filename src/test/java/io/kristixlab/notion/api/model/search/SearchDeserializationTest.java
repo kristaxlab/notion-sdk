@@ -49,7 +49,8 @@ public class SearchDeserializationTest extends BaseTest {
       Page page = (Page) firstResult;
       assertNotNull(page.getProperties());
       assertTrue(page.getProperties().containsKey("title"));
-      assertEquals("https://www.notion.so/Testing-Comments-246c5b968ec480a6b8d6f61a77fd8fd6", page.getUrl());
+      assertEquals(
+          "https://www.notion.so/Testing-Comments-246c5b968ec480a6b8d6f61a77fd8fd6", page.getUrl());
       assertNull(page.getPublicUrl());
       assertNull(page.getCover());
       assertNull(page.getIcon());
@@ -58,7 +59,8 @@ public class SearchDeserializationTest extends BaseTest {
 
   @Test
   void testSearchEmptyResponse() throws Exception {
-    SearchResponse emptyResponse = loadFromFile("search/search-empty-response.json", SearchResponse.class);
+    SearchResponse emptyResponse =
+        loadFromFile("search/search-empty-response.json", SearchResponse.class);
 
     // Validate basic response structure
     assertNotNull(emptyResponse);
@@ -80,7 +82,8 @@ public class SearchDeserializationTest extends BaseTest {
 
   @Test
   void testSearchResponsePagination() throws Exception {
-    SearchResponse paginatedResponse = loadFromFile("search/search-paginated.json", SearchResponse.class);
+    SearchResponse paginatedResponse =
+        loadFromFile("search/search-paginated.json", SearchResponse.class);
 
     // Validate basic response structure
     assertNotNull(paginatedResponse);
@@ -89,8 +92,9 @@ public class SearchDeserializationTest extends BaseTest {
 
     // Test pagination fields - this response has more results available
     assertNotNull(paginatedResponse.getNextCursor());
-    assertEquals("eyJsYXN0X2VkaXRlZF90aW1lIjoiMjAyNS0wOC0yMFQxNDoyMjowMC4wMDBaIiwibGFzdF9lZGl0ZWRfaWQiOiIyNGNjNWI5Ni04ZWM0LTgwMGEtYTgwOS1jN2Y2NTA4ZjQ1ZjIifQ==",
-                 paginatedResponse.getNextCursor());
+    assertEquals(
+        "eyJsYXN0X2VkaXRlZF90aW1lIjoiMjAyNS0wOC0yMFQxNDoyMjowMC4wMDBaIiwibGFzdF9lZGl0ZWRfaWQiOiIyNGNjNWI5Ni04ZWM0LTgwMGEtYTgwOS1jN2Y2NTA4ZjQ1ZjIifQ==",
+        paginatedResponse.getNextCursor());
     assertNotNull(paginatedResponse.hasMore());
     assertTrue(paginatedResponse.hasMore());
 

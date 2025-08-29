@@ -14,5 +14,4 @@ public class LastEditedTimeDatabaseProperty extends DatabaseProperty {
 
   @JsonProperty("last_edited_time")
   private Object lastEditedTime;
-
 }
