@@ -43,13 +43,22 @@ public class JsonConverter {
   }
 
   public String toJson(Object object) {
+    return toJson(object, false);
+  }
+
+  public String toJson(Object object, boolean pretty) {
     try {
-      return MAPPER.writeValueAsString(object);
+      if (pretty) {
+        return MAPPER.writerWithDefaultPrettyPrinter().writeValueAsString(object);
+      } else {
+        return MAPPER.writeValueAsString(object);
+      }
     } catch (JsonProcessingException e) {
       LOGGER.error("Error converting object to JSON: {}", e.getMessage());
       throw new RuntimeException(e);
     }
   }
+
 
   public void toFile(File file, Object object) {
     try {
@@ -62,7 +71,7 @@ public class JsonConverter {
 
   public void print(Object object) {
     try {
-      String json = toJson(object);
+      String json = toJson(object, true);
       System.out.println(json);
     } catch (RuntimeException e) {
       LOGGER.error("Error printing object as JSON: {}", e.getMessage());

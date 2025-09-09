@@ -11,6 +11,6 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class SearchResponse extends NotionList<NotionObject> {
 
-  @JsonProperty("page_or_database")
-  private Object pageOrDatabase;
+  @JsonProperty("page_or_data_source")
+  private Object pageOrDataSource;
 }

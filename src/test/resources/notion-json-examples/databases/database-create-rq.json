@@ -1,0 +1,77 @@
+{
+  "parent" : {
+    "type" : "page_id",
+    "page_id" : "24cc5b96-8ec4-80d0-b579-f34b9e4d8339"
+  },
+  "title" : [ {
+    "type" : "text",
+    "plain_text" : "Test SDK Database with initial props",
+    "annotations" : {
+      "bold" : false,
+      "italic" : false,
+      "strikethrough" : false,
+      "underline" : false,
+      "code" : false,
+      "color" : "default"
+    },
+    "text" : {
+      "content" : "Test SDK Database with initial props"
+    }
+  } ],
+  "description" : [ {
+    "type" : "text",
+    "plain_text" : "Database created via SDK for testing purposes",
+    "annotations" : {
+      "bold" : false,
+      "italic" : false,
+      "strikethrough" : false,
+      "underline" : false,
+      "code" : false,
+      "color" : "default"
+    },
+    "text" : {
+      "content" : "Database created via SDK for testing purposes"
+    }
+  } ],
+  "is_inline" : true,
+  "initial_data_source" : {
+    "properties" : {
+      "Description" : {
+        "name" : "Description",
+        "type" : "rich_text",
+        "rich_text" : { }
+      },
+      "Priority" : {
+        "type" : "number",
+        "number" : {
+          "format" : "number"
+        }
+      },
+      "Completed" : {
+        "name" : "Completed",
+        "type" : "checkbox",
+        "checkbox" : { }
+      },
+      "Select" : {
+        "type" : "select",
+        "select" : {
+          "options" : [ {
+            "name" : "Not Started",
+            "color" : "red"
+          }, {
+            "name" : "In Progress",
+            "color" : "yellow"
+          }, {
+            "name" : "Done",
+            "color" : "green"
+          } ]
+        }
+      },
+      "Name" : {
+        "name" : "Name",
+        "type" : "title",
+        "title" : { }
+      }
+    }
+  }
+}

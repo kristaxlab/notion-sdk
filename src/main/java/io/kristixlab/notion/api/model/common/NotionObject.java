@@ -7,6 +7,7 @@ import io.kristixlab.notion.api.model.BaseNotionResponse;
 import io.kristixlab.notion.api.model.blocks.Block;
 import io.kristixlab.notion.api.model.comments.Comment;
 import io.kristixlab.notion.api.model.databases.Database;
+import io.kristixlab.notion.api.model.datasources.Datasource;
 import io.kristixlab.notion.api.model.pages.Page;
 import io.kristixlab.notion.api.model.users.User;
 import lombok.Data;
@@ -21,6 +22,7 @@ import lombok.EqualsAndHashCode;
 @JsonSubTypes({
   @JsonSubTypes.Type(value = Page.class, name = "page"),
   @JsonSubTypes.Type(value = Database.class, name = "database"),
+  @JsonSubTypes.Type(value = Datasource.class, name = "data_source"),
   @JsonSubTypes.Type(value = Comment.class, name = "comment"),
   @JsonSubTypes.Type(value = User.class, name = "user"),
   @JsonSubTypes.Type(value = Block.class, name = "block")

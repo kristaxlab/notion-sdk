@@ -3,6 +3,9 @@ package io.kristixlab.notion.api.model.common;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Data
 public class RichText {
 
@@ -71,5 +74,33 @@ public class RichText {
 
     @JsonProperty("expression")
     private String expression;
+  }
+
+  public static RichText of(String plainText) {
+    return of(plainText, "default");
+  }
+
+  public static RichText of(String plainText, String color) {
+    RichText richText = new RichText();
+    richText.setType("text");
+    richText.setPlainText(plainText);
+    Text text = new Text();
+    text.setContent(plainText);
+    richText.setText(text);
+    Annotations annotations = new Annotations();
+    annotations.setBold(false);
+    annotations.setItalic(false);
+    annotations.setStrikethrough(false);
+    annotations.setUnderline(false);
+    annotations.setCode(false);
+    annotations.setColor(color);
+    richText.setAnnotations(annotations);
+    return richText;
+  }
+
+  public static List<RichText> asList(String plainText) {
+    List<RichText> list = new ArrayList<>();
+    list.add(of(plainText));
+    return list;
   }
 }
