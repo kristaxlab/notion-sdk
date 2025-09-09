@@ -1,15 +1,10 @@
 package io.kristixlab.notion.api;
 
-import io.kristixlab.notion.Notion;
-import io.kristixlab.notion.NotionClient;
 import io.kristixlab.notion.api.model.IntegrationTest;
 import io.kristixlab.notion.api.model.authorization.IntrospectTokenResponse;
 import io.kristixlab.notion.api.model.authorization.RevokeTokenResponse;
 import io.kristixlab.notion.api.model.authorization.TokenResponse;
 import java.io.IOException;
-
-import io.kristixlab.notion.api.model.common.Parent;
-import io.kristixlab.notion.api.model.pages.Page;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -26,7 +21,6 @@ public class AuthorizationApiExample extends IntegrationTest {
     authorizationApi = new AuthorizationApi(null, getTransport());
     blocksApi = new BlocksApi(getTransport());
     pagesApi = new PagesApi(getTransport());
-
   }
 
   @Test
@@ -61,30 +55,4 @@ public class AuthorizationApiExample extends IntegrationTest {
 
     saveToFile(rs, "authorization-revoke-token-rs.json");
   }
-
-  @Test
-  void experiment1() throws IOException {
-    TokenResponse rs =
-        authorizationApi.exchangeCodeForToken(
-            "036e8679-9d92-4e09-b9ee-3e26ee47f18f", "https://www.kkkkkkkk.com");
-
-    saveToFile(rs, "auth-experiment.json");
-  }
-
-  @Test
-  void experiment2() throws IOException {
-    String token = "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";
-    String db = "156b90f86d768067a7f7e8f56640deaa";
-    Page page = new Page();
-    page.setParent(new Parent());
-    page.getParent().setDatabaseId(db);
-    page = pagesApi.create(page);
-    // https: // www.notion.so/kkkkkkkk-lll/156b90f86d768067a7f7e8f56640deaa?v=156b90f86d7681808858000cb2c31e52&source=copy_link
-    saveToFile(page, "auth-experiment-2.json");
-  }
-
-  //  "access_token": "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",
-  //          "token_type": "bearer",
-  //          "refresh_token": "nrt_496768403105vDWVbnretWRLTwM5sMPicgakZuUpDo63Gk",
-
 }

@@ -19,7 +19,7 @@ public class Parent {
   private String databaseId;
 
   @JsonProperty("data_source_id")
-  private String dataSourceId;
+  private String datasourceId;
 
   @JsonProperty("workspace")
   private Boolean workspace;
@@ -48,7 +48,7 @@ public class Parent {
   public static Parent datasourceParent(String dataSourceId) {
     Parent parent = new Parent();
     parent.setType("data_source_id");
-    parent.setDataSourceId(dataSourceId);
+    parent.setDatasourceId(dataSourceId);
     return parent;
   }
 

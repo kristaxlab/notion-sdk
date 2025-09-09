@@ -2,7 +2,6 @@ package io.kristixlab.notion.api;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.kristixlab.notion.Notion;
 import io.kristixlab.notion.NotionClient;
 import io.kristixlab.notion.api.exchange.NotionApiTransport;
 import io.kristixlab.notion.api.model.common.Parent;
@@ -37,9 +36,8 @@ public class PagesApiIntegrationExample {
 
   @BeforeEach
   void setUp() throws IOException {
-    String token = "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";
+    String token = System.getenv("NOTION_PRIV_INTEGRATION_TOKEN");
     NotionClient notionClient = new NotionClient(token, null);
-    Notion notion = new Notion(notionClient);
 
     NotionApiTransport transport = new NotionApiTransport(notionClient, token);
     pagesApi = new PagesApi(transport);
@@ -57,9 +55,8 @@ public class PagesApiIntegrationExample {
     NumberProperty number = new NumberProperty();
     number.setNumber(7.77);
     page.setProperties(new HashMap<>());
-    page.getProperties().put("Number", number);
-    page.setParent(new Parent());
-    page.getParent().setDatabaseId("24cc5b96-8ec4-800a-a809-c7f6508f45f2");
+    page.getProperties().put("Priori", number);
+    page.setParent(Parent.datasourceParent("264c5b96-8ec4-8055-8b51-000b4a80c6cc"));
     saveToFile(page, "page-create-request.json");
 
     page = pagesApi.create(page);

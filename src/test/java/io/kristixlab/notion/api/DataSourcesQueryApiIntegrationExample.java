@@ -1,8 +1,8 @@
 package io.kristixlab.notion.api;
 
 import io.kristixlab.notion.api.model.IntegrationTest;
-import io.kristixlab.notion.api.model.datasources.DataSourceQueryRequest;
-import io.kristixlab.notion.api.model.datasources.DataSourceQueryResponse;
+import io.kristixlab.notion.api.model.datasources.DatasourceQueryRequest;
+import io.kristixlab.notion.api.model.datasources.DatasourceQueryResponse;
 import io.kristixlab.notion.api.model.datasources.filter.*;
 import io.kristixlab.notion.database.properties.SortDirectionType;
 import io.kristixlab.notion.database.properties.TimestampType;
@@ -18,12 +18,12 @@ public class DataSourcesQueryApiIntegrationExample extends IntegrationTest {
 
   // Book notes data source id
   private static final String DATA_SOURCE_ID = "264c5b96-8ec4-8055-8b51-000b4a80c6cc";
-  private static DataSourcesApi dataSourcesApi;
+  private static DatasourcesApi dataSourcesApi;
 
   @BeforeEach
   protected void setUp() throws Exception {
     super.setUp();
-    dataSourcesApi = new DataSourcesApi(getTransport());
+    dataSourcesApi = new DatasourcesApi(getTransport());
   }
 
   /**
@@ -32,7 +32,7 @@ public class DataSourcesQueryApiIntegrationExample extends IntegrationTest {
    */
   @Test
   void testQueryDatabase() throws IOException {
-    DataSourceQueryResponse response = dataSourcesApi.query(DATA_SOURCE_ID);
+    DatasourceQueryResponse response = dataSourcesApi.query(DATA_SOURCE_ID);
     saveToFile(response, "data-sources-query-rs.json");
   }
 
@@ -42,7 +42,7 @@ public class DataSourcesQueryApiIntegrationExample extends IntegrationTest {
    */
   @Test
   void testQueryDatabaseWithPagination() throws IOException {
-    DataSourceQueryResponse onePageResponse = dataSourcesApi.query(DATA_SOURCE_ID, null, 2);
+    DatasourceQueryResponse onePageResponse = dataSourcesApi.query(DATA_SOURCE_ID, null, 2);
     saveToFile(onePageResponse, "database-query-rs-paginated.json");
   }
 
@@ -52,11 +52,11 @@ public class DataSourcesQueryApiIntegrationExample extends IntegrationTest {
    */
   @Test
   void testQueryDatabaseWithSortRequest() throws IOException {
-    DataSourceQueryRequest request = new DataSourceQueryRequest();
+    DatasourceQueryRequest request = new DatasourceQueryRequest();
     request.addSort(TimestampType.LAST_EDITED_TIME, SortDirectionType.DESCENDING);
     saveToFile(request, "data-source-query-with-sort-request.json");
 
-    DataSourceQueryResponse response = dataSourcesApi.query(DATA_SOURCE_ID, request);
+    DatasourceQueryResponse response = dataSourcesApi.query(DATA_SOURCE_ID, request);
     saveToFile(response, "data-source-query-with-sort-response.json");
   }
 
@@ -66,13 +66,12 @@ public class DataSourcesQueryApiIntegrationExample extends IntegrationTest {
    */
   @Test
   void testNumberFilterQuery() throws IOException {
-    DataSourceQueryRequest request = new DataSourceQueryRequest();
+    DatasourceQueryRequest request = new DatasourceQueryRequest();
     request.setFilter("Genre", SelectFilter.equals("Literary Fiction"));
     request.addSort(TimestampType.LAST_EDITED_TIME, SortDirectionType.ASCENDING);
     saveToFile(request, "database-query-with-number-filter-rq.json");
 
-    DataSourceQueryResponse response = dataSourcesApi.query(DATA_SOURCE_ID, request, null, 3);
+    DatasourceQueryResponse response = dataSourcesApi.query(DATA_SOURCE_ID, request, null, 3);
     saveToFile(response, "database-query-with-number-filter-response.json");
   }
-
 }

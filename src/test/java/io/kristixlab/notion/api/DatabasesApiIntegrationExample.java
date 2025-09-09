@@ -5,15 +5,13 @@ import io.kristixlab.notion.api.model.common.Parent;
 import io.kristixlab.notion.api.model.common.RichText;
 import io.kristixlab.notion.api.model.databases.CreateDatabaseRequest;
 import io.kristixlab.notion.api.model.databases.Database;
-import io.kristixlab.notion.api.model.databases.InitialDataSource;
+import io.kristixlab.notion.api.model.databases.InitialDatasource;
 import io.kristixlab.notion.api.model.databases.UpdateDatabaseRequest;
-
+import io.kristixlab.notion.api.model.datasources.properties.*;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import io.kristixlab.notion.api.model.datasources.properties.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -81,7 +79,7 @@ public class DatabasesApiIntegrationExample extends IntegrationTest {
     database.setTitle(RichText.asList("Test SDK Database with initial props"));
     database.setDescription(RichText.asList("Database created via SDK for testing purposes"));
 
-    database.setInitialDataSource(InitialDataSource.of(properties()));
+    database.setInitialDataSource(InitialDatasource.of(properties()));
     database.setIsInline(true);
     return database;
   }

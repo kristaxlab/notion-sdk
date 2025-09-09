@@ -26,12 +26,12 @@ public class DataSourcesApiIntegrationExample extends IntegrationTest {
   private static final String DATABASE_ID = "24cc5b96-8ec4-800a-a809-c7f6508f45f2";
   private static final String DATA_SOURCE_ID = "24cc5b96-8ec4-808c-858f-000b4c20ad62";
 
-  private DataSourcesApi dataSourcesApi;
+  private DatasourcesApi dataSourcesApi;
 
   @BeforeEach
   protected void setUp() throws Exception {
     super.setUp();
-    dataSourcesApi = new DataSourcesApi(getTransport());
+    dataSourcesApi = new DatasourcesApi(getTransport());
   }
 
   @Test
