@@ -1,12 +1,11 @@
 package io.kristixlab.notion.api;
 
+import io.kristixlab.notion.api.exchange.ApiRequestUtil;
 import io.kristixlab.notion.api.exchange.ApiTransport;
 import io.kristixlab.notion.api.exchange.NotionApiTransport;
 import io.kristixlab.notion.api.model.blocks.AppendBlockChildrenRequest;
 import io.kristixlab.notion.api.model.blocks.Block;
 import io.kristixlab.notion.api.model.blocks.Blocks;
-import io.kristixlab.notion.api.exchange.ApiRequestUtil;
-
 import java.util.Map;
 
 /**
@@ -35,7 +34,7 @@ public class BlocksApi {
     Map<String, String> pathParams = ApiRequestUtil.createPathParams(BLOCK_ID, blockId);
 
     return transport.call(
-            "GET", "/blocks/{block_id}/children", null, pathParams, null, Block.class);
+        "GET", "/blocks/{block_id}/children", null, pathParams, null, Block.class);
   }
 
   /**
@@ -63,7 +62,7 @@ public class BlocksApi {
     Map<String, String[]> queryParams = ApiRequestUtil.createQueryParams(startCursor, pageSize);
 
     return transport.call(
-            "GET", "/blocks/{block_id}/children", queryParams, pathParams, null, Blocks.class);
+        "GET", "/blocks/{block_id}/children", queryParams, pathParams, null, Blocks.class);
   }
 
   /**
@@ -80,7 +79,7 @@ public class BlocksApi {
     Map<String, String> pathParams = ApiRequestUtil.createPathParams(BLOCK_ID, blockId);
 
     return transport.call(
-            "PATCH", "/blocks/{block_id}/children", null, pathParams, request, Blocks.class);
+        "PATCH", "/blocks/{block_id}/children", null, pathParams, request, Blocks.class);
   }
 
   /**

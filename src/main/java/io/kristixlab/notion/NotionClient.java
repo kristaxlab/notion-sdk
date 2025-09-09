@@ -2,7 +2,6 @@ package io.kristixlab.notion;
 
 import io.kristixlab.notion.api.*;
 import io.kristixlab.notion.api.exchange.NotionApiTransport;
-
 import java.util.Base64;
 
 /*

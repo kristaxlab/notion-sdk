@@ -1,13 +1,12 @@
 package io.kristixlab.notion.api;
 
+import io.kristixlab.notion.api.exchange.ApiRequestUtil;
 import io.kristixlab.notion.api.exchange.ApiTransport;
 import io.kristixlab.notion.api.exchange.NotionApiTransport;
 import io.kristixlab.notion.api.model.datasources.CreateDataSourceRequest;
 import io.kristixlab.notion.api.model.datasources.Datasource;
 import io.kristixlab.notion.api.model.datasources.DatasourceQueryRequest;
 import io.kristixlab.notion.api.model.datasources.DatasourceQueryResponse;
-import io.kristixlab.notion.api.exchange.ApiRequestUtil;
-
 import java.util.Map;
 
 /**

@@ -1,10 +1,9 @@
 package io.kristixlab.notion.api;
 
+import io.kristixlab.notion.api.exchange.ApiRequestUtil;
 import io.kristixlab.notion.api.exchange.ApiTransport;
 import io.kristixlab.notion.api.exchange.NotionApiTransport;
 import io.kristixlab.notion.api.model.files.*;
-import io.kristixlab.notion.api.exchange.ApiRequestUtil;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -48,7 +47,8 @@ public class FileUploadsApi {
    * @param partNumber The part number for multipart uploads
    * @return Response from the file upload service
    */
-  public FileUploadResponse sendFileContent(String fileUploadId, byte[] fileContent, int partNumber) {
+  public FileUploadResponse sendFileContent(
+      String fileUploadId, byte[] fileContent, int partNumber) {
     if (fileUploadId == null || fileUploadId.trim().isEmpty()) {
       throw new IllegalArgumentException("File upload ID cannot be null or empty");
     }
@@ -58,13 +58,13 @@ public class FileUploadsApi {
 
     // Use the multipart transport method for file uploads
     return transport.callMultipart(
-            "POST",
-            "/file_uploads/" + fileUploadId + "/send",
-            null,
-            null,
-            fileContent,
-            String.valueOf(partNumber),
-            FileUploadResponse.class);
+        "POST",
+        "/file_uploads/" + fileUploadId + "/send",
+        null,
+        null,
+        fileContent,
+        String.valueOf(partNumber),
+        FileUploadResponse.class);
   }
 
   /**
@@ -88,13 +88,13 @@ public class FileUploadsApi {
 
     Map<String, String> pathParams = ApiRequestUtil.createPathParams(FILE_UPLOAD_ID, fileUploadId);
     return transport.callMultipart(
-            "POST",
-            "/file_uploads/" + fileUploadId + "/send",
-            request.getContentType(),
-            pathParams,
-            request.getFile(),
-            request.getPartNumber(),
-            FileUploadResponse.class);
+        "POST",
+        "/file_uploads/" + fileUploadId + "/send",
+        request.getContentType(),
+        pathParams,
+        request.getFile(),
+        request.getPartNumber(),
+        FileUploadResponse.class);
   }
 
   /**
@@ -110,12 +110,12 @@ public class FileUploadsApi {
     }
 
     return transport.call(
-            "POST",
-            "/file_uploads/" + fileUploadId + "/complete",
-            null,
-            null,
-            null,
-            FileUploadResponse.class);
+        "POST",
+        "/file_uploads/" + fileUploadId + "/complete",
+        null,
+        null,
+        null,
+        FileUploadResponse.class);
   }
 
   /**
@@ -131,7 +131,7 @@ public class FileUploadsApi {
     }
 
     return transport.call(
-            "GET", "/file_uploads/" + fileUploadId, null, null, null, FileUploadResponse.class);
+        "GET", "/file_uploads/" + fileUploadId, null, null, null, FileUploadResponse.class);
   }
 
   /**
@@ -207,7 +207,7 @@ public class FileUploadsApi {
 
     if (!("multi_part".equals(mode) || "external_url".equals(mode) || "single_part".equals(mode))) {
       throw new IllegalArgumentException(
-              "Mode must be one of: multi_part, external_url, single_part");
+          "Mode must be one of: multi_part, external_url, single_part");
     }
 
     // Validate filename for multi_part and external_url modes
@@ -227,7 +227,7 @@ public class FileUploadsApi {
       int numberOfParts = request.getNumberOfParts();
       if (numberOfParts < 1 || numberOfParts > 1000) {
         throw new IllegalArgumentException(
-                "Number of parts must be between 1 and 1,000 for multi_part mode");
+            "Number of parts must be between 1 and 1,000 for multi_part mode");
       }
     }
 

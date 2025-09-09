@@ -1,11 +1,11 @@
 package io.kristixlab.notion.api.examples;
 
 import io.kristixlab.notion.api.DatasourcesApi;
+import io.kristixlab.notion.api.model.common.SortDirection;
+import io.kristixlab.notion.api.model.common.Timestamp;
 import io.kristixlab.notion.api.model.datasources.DatasourceQueryRequest;
 import io.kristixlab.notion.api.model.datasources.DatasourceQueryResponse;
 import io.kristixlab.notion.api.model.datasources.filter.*;
-import io.kristixlab.notion.api.model.common.SortDirection;
-import io.kristixlab.notion.api.model.common.Timestamp;
 import java.io.IOException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

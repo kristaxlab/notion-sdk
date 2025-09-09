@@ -28,14 +28,14 @@ public class NotionApiTransport extends ApiTransport {
       authHeader = client.getTokenAuthHeader();
     }
     return requestBuilder
-            .addHeader("Authorization", authHeader)
-            .addHeader("Notion-Version", client.getVersion())
-            .addHeader("Content-Type", "application/json");
+        .addHeader("Authorization", authHeader)
+        .addHeader("Notion-Version", client.getVersion())
+        .addHeader("Content-Type", "application/json");
   }
 
   @Override
   protected <RS> RS handleResponse(Response response, Class<RS> responseType)
-          throws IOException, ApiExchangeException {
+      throws IOException, ApiExchangeException {
     try {
       return super.handleResponse(response, responseType);
     } catch (ApiExchangeException e) {
@@ -45,7 +45,7 @@ public class NotionApiTransport extends ApiTransport {
 
       try {
         ErrorResponse error =
-                JsonConverter.getInstance().toObject(e.getBody(), ErrorResponse.class);
+            JsonConverter.getInstance().toObject(e.getBody(), ErrorResponse.class);
         message = error.getMessage();
         code = error.getCode();
         requestId = error.getRequestId();

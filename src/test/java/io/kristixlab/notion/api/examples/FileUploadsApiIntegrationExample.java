@@ -4,8 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import io.kristixlab.notion.api.FileUploadsApi;
-import io.kristixlab.notion.api.model.files.FileUploadList;
 import io.kristixlab.notion.api.model.files.FileUploadCreateRequest;
+import io.kristixlab.notion.api.model.files.FileUploadList;
 import io.kristixlab.notion.api.model.files.FileUploadResponse;
 import io.kristixlab.notion.api.model.files.FileUploadSendRequest;
 import java.io.InputStream;
@@ -83,8 +83,9 @@ public class FileUploadsApiIntegrationExample extends IntegrationTest {
   @Test
   void testRetrieveFileUploads() throws Exception {
     // Retrieve a user by ID
-    FileUploadResponse filUpload = fileUploadsApi.retrieveFileUpload("25eb90f8-6d76-8143-8ff7-00b2486a195a");
-    for (int i = 0; i < 1000 ; i++) {
+    FileUploadResponse filUpload =
+        fileUploadsApi.retrieveFileUpload("25eb90f8-6d76-8143-8ff7-00b2486a195a");
+    for (int i = 0; i < 1000; i++) {
       fileUploadsApi.retrieveFileUpload("25eb90f8-6d76-8143-8ff7-00b2486a195a");
     }
     saveToFile(filUpload, "file-uploads-retrieve-by-id-rs.json");
@@ -93,7 +94,8 @@ public class FileUploadsApiIntegrationExample extends IntegrationTest {
   @Test
   void testCompleteFileUploads() throws Exception {
     //  File uploads must be in a `pending` status to use the complete API
-    FileUploadResponse filUpload = fileUploadsApi.completeFileUpload("25eb90f8-6d76-81db-b720-00b2848e40bd");
+    FileUploadResponse filUpload =
+        fileUploadsApi.completeFileUpload("25eb90f8-6d76-81db-b720-00b2848e40bd");
     saveToFile(filUpload, "file-uploads-complete-by-id-rs.json");
   }
 }

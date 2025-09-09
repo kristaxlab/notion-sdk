@@ -24,7 +24,7 @@ public class ApiRequestUtil {
    * @return Map containing the path parameters
    */
   public static Map<String, String> createPathParams(
-          String key, String value, String key2, String value2) {
+      String key, String value, String key2, String value2) {
     Map<String, String> pathParams = new HashMap<>();
     if (key != null && value != null) {
       pathParams.put(key, value);

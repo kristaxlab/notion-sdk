@@ -98,7 +98,7 @@ public class AuthorizationApi {
 
     IntrospectTokenRequest request = IntrospectTokenRequest.create(token);
     return transport.call(
-            "POST", "/oauth/introspect", null, null, request, IntrospectTokenResponse.class);
+        "POST", "/oauth/introspect", null, null, request, IntrospectTokenResponse.class);
   }
 
   /**
@@ -112,7 +112,7 @@ public class AuthorizationApi {
 
     IntrospectTokenRequest request = IntrospectTokenRequest.forAccessToken(accessToken);
     return transport.call(
-            "POST", "/oauth/introspect", null, null, request, IntrospectTokenResponse.class);
+        "POST", "/oauth/introspect", null, null, request, IntrospectTokenResponse.class);
   }
 
   /**
@@ -126,7 +126,7 @@ public class AuthorizationApi {
 
     IntrospectTokenRequest request = IntrospectTokenRequest.forRefreshToken(refreshToken);
     return transport.call(
-            "POST", "/oauth/introspect", null, null, request, IntrospectTokenResponse.class);
+        "POST", "/oauth/introspect", null, null, request, IntrospectTokenResponse.class);
   }
 
   /**
@@ -138,7 +138,7 @@ public class AuthorizationApi {
   public IntrospectTokenResponse introspectToken(IntrospectTokenRequest request) {
     validateIntrospectTokenRequest(request);
     return transport.call(
-            "POST", "/oauth/introspect", null, null, request, IntrospectTokenResponse.class);
+        "POST", "/oauth/introspect", null, null, request, IntrospectTokenResponse.class);
   }
 
   /**

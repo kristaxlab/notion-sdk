@@ -2,14 +2,13 @@ package io.kristixlab.notion.api.examples;
 
 import io.kristixlab.notion.NotionClient;
 import io.kristixlab.notion.api.exchange.NotionApiTransport;
+import io.kristixlab.notion.api.model.BaseTest;
+import io.kristixlab.notion.api.util.JsonConverter;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-
-import io.kristixlab.notion.api.model.BaseTest;
-import io.kristixlab.notion.api.util.JsonConverter;
 import org.junit.jupiter.api.BeforeEach;
 
 public class IntegrationTest extends BaseTest {
@@ -24,9 +23,9 @@ public class IntegrationTest extends BaseTest {
   protected void setUp() throws Exception {
     Path outputDir = Paths.get(TEST_OUTPUT_DIR);
     Files.createDirectories(outputDir);
-    //String token = "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";
+    // String token = "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";
     NotionClient notionClient = new NotionClient(TOKEN, null);
-    //NotionClient notionClient = new NotionClient(token, null);
+    // NotionClient notionClient = new NotionClient(token, null);
     transport = new NotionApiTransport(notionClient, "Notion API");
   }
 
@@ -45,7 +44,7 @@ public class IntegrationTest extends BaseTest {
   protected void saveToFile(Object object, String filename) throws IOException {
     JsonConverter.getInstance().toFile(new File(getTestOutputDir() + filename), object);
     /*getObjectMapper()
-        .writerWithDefaultPrettyPrinter()
-        .writeValue(new File(getTestOutputDir() + filename), object);*/
+    .writerWithDefaultPrettyPrinter()
+    .writeValue(new File(getTestOutputDir() + filename), object);*/
   }
 }

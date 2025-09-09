@@ -1,11 +1,10 @@
 package io.kristixlab.notion.api;
 
+import io.kristixlab.notion.api.exchange.ApiRequestUtil;
 import io.kristixlab.notion.api.exchange.ApiTransport;
 import io.kristixlab.notion.api.exchange.NotionApiTransport;
 import io.kristixlab.notion.api.model.pages.Page;
 import io.kristixlab.notion.api.model.pages.properties.PageProperty;
-import io.kristixlab.notion.api.exchange.ApiRequestUtil;
-
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
@@ -113,16 +112,16 @@ public class PagesApi {
     validatePropertyId(propertyId);
 
     Map<String, String> pathParams =
-            ApiRequestUtil.createPathParams(
-                    PAGE_ID, pageId, PROPERTY_ID, URLDecoder.decode(propertyId, StandardCharsets.UTF_8));
+        ApiRequestUtil.createPathParams(
+            PAGE_ID, pageId, PROPERTY_ID, URLDecoder.decode(propertyId, StandardCharsets.UTF_8));
 
     return transport.call(
-            "GET",
-            "/pages/{page_id}/properties/{property_id}",
-            null,
-            pathParams,
-            null,
-            PageProperty.class);
+        "GET",
+        "/pages/{page_id}/properties/{property_id}",
+        null,
+        pathParams,
+        null,
+        PageProperty.class);
   }
 
   /**
@@ -135,22 +134,22 @@ public class PagesApi {
    * @return The property object
    */
   public PageProperty retrieveProperty(
-          String pageId, String propertyId, String startCursor, Integer pageSize) {
+      String pageId, String propertyId, String startCursor, Integer pageSize) {
     validatePageId(pageId);
     validatePropertyId(propertyId);
 
     Map<String, String> pathParams =
-            ApiRequestUtil.createPathParams(
-                    PAGE_ID, pageId, PROPERTY_ID, URLDecoder.decode(propertyId, StandardCharsets.UTF_8));
+        ApiRequestUtil.createPathParams(
+            PAGE_ID, pageId, PROPERTY_ID, URLDecoder.decode(propertyId, StandardCharsets.UTF_8));
     Map<String, String[]> queryParams = ApiRequestUtil.createQueryParams(startCursor, pageSize);
 
     return transport.call(
-            "GET",
-            "/pages/{page_id}/properties/{property_id}",
-            queryParams,
-            pathParams,
-            null,
-            PageProperty.class);
+        "GET",
+        "/pages/{page_id}/properties/{property_id}",
+        queryParams,
+        pathParams,
+        null,
+        PageProperty.class);
   }
 
   /**

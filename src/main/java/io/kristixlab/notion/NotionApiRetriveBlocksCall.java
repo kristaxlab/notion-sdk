@@ -1,7 +1,6 @@
 package io.kristixlab.notion;
 
 import io.kristixlab.notion.api.model.blocks.Blocks;
-import io.kristixlab.notion.sdk.model.Page;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,28 +15,28 @@ public class NotionApiRetriveBlocksCall {
     this.blockId = blockId;
   }
 
-  public Page execute() {
-    Page page = new Page();
-
+  public Blocks execute() {
     if (LOGGER.isDebugEnabled()) {
       LOGGER.debug("Retrieving children for blockId: {}", blockId);
     }
 
-    Blocks rs = notionClient.blocks().retrieveChildren(blockId);
-    page.getContent().addAll(rs.getResults());
+    Blocks blocks = notionClient.blocks().retrieveChildren(blockId);
 
-    while (rs.hasMore() != null && rs.hasMore()) {
+    while (blocks.hasMore() != null && blocks.hasMore()) {
       if (LOGGER.isDebugEnabled()) {
         LOGGER.debug(
-                "Calling next page with blocks, blockId: {}, requestId: {}, nextCursor: {}",
-                blockId,
-                rs.getRequestId(),
-                rs.getNextCursor());
+            "Calling next page with blocks, blockId: {}, requestId: {}, nextCursor: {}",
+            blockId,
+            blocks.getRequestId(),
+            blocks.getNextCursor());
       }
-      rs = notionClient.blocks().retrieveChildren(blockId, rs.getNextCursor(), 100);
-      page.getContent().addAll(rs.getResults());
+      Blocks nextBlocks =
+          notionClient.blocks().retrieveChildren(blockId, blocks.getNextCursor(), 100);
+      blocks.getResults().addAll(nextBlocks.getResults());
+      blocks.setNextCursor(nextBlocks.getNextCursor());
+      blocks.hasMore(nextBlocks.hasMore());
     }
 
-    return page;
+    return blocks;
   }
 }

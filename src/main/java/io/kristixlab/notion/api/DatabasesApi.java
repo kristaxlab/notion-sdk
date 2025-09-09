@@ -1,12 +1,11 @@
 package io.kristixlab.notion.api;
 
+import io.kristixlab.notion.api.exchange.ApiRequestUtil;
 import io.kristixlab.notion.api.exchange.ApiTransport;
 import io.kristixlab.notion.api.exchange.NotionApiTransport;
 import io.kristixlab.notion.api.model.databases.CreateDatabaseRequest;
 import io.kristixlab.notion.api.model.databases.Database;
 import io.kristixlab.notion.api.model.databases.UpdateDatabaseRequest;
-import io.kristixlab.notion.api.exchange.ApiRequestUtil;
-
 import java.util.Map;
 
 /**
@@ -37,7 +36,7 @@ public class DatabasesApi {
     Map<String, String> pathParams = ApiRequestUtil.createPathParams(DATABASE_ID, databaseId);
 
     return transport.call(
-            "GET", "/databases/{database_id}", null, pathParams, null, Database.class);
+        "GET", "/databases/{database_id}", null, pathParams, null, Database.class);
   }
 
   /**
@@ -65,7 +64,7 @@ public class DatabasesApi {
     Map<String, String> pathParams = ApiRequestUtil.createPathParams(DATABASE_ID, request.getId());
 
     return transport.call(
-            "PATCH", "/databases/{database_id}", null, pathParams, request, Database.class);
+        "PATCH", "/databases/{database_id}", null, pathParams, request, Database.class);
   }
 
   /**
@@ -82,7 +81,7 @@ public class DatabasesApi {
     Map<String, String> pathParams = ApiRequestUtil.createPathParams(DATABASE_ID, databaseId);
 
     return transport.call(
-            "PATCH", "/databases/{database_id}", null, pathParams, request, Database.class);
+        "PATCH", "/databases/{database_id}", null, pathParams, request, Database.class);
   }
 
   /**

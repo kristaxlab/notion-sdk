@@ -25,7 +25,8 @@ public class NumberDatasourceProperty extends DatasourceProperty {
     // "singapore_dollar"
   }
 
-  public static NumberDatasourceProperty of(io.kristixlab.notion.api.model.datasources.NumberFormat format) {
+  public static NumberDatasourceProperty of(
+      io.kristixlab.notion.api.model.datasources.NumberFormat format) {
     return of(format.toString());
   }
 

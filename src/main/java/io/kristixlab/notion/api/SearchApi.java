@@ -138,7 +138,7 @@ public class SearchApi {
     }
 
     if (request.getPageSize() != null
-            && (request.getPageSize() < 1 || request.getPageSize() > 100)) {
+        && (request.getPageSize() < 1 || request.getPageSize() > 100)) {
       throw new IllegalArgumentException("Page size must be between 1 and 100");
     }
   }

@@ -33,19 +33,19 @@ public class ApiTransport {
 
   private OkHttpClient createHttpClient() {
     return new OkHttpClient.Builder()
-            .connectTimeout(30, TimeUnit.SECONDS)
-            .readTimeout(30, TimeUnit.SECONDS)
-            .writeTimeout(30, TimeUnit.SECONDS)
-            .build();
+        .connectTimeout(30, TimeUnit.SECONDS)
+        .readTimeout(30, TimeUnit.SECONDS)
+        .writeTimeout(30, TimeUnit.SECONDS)
+        .build();
   }
 
   public <RS> RS call(
-          String method,
-          String url,
-          Map<String, String[]> queryParams,
-          Map<String, String> pathParams,
-          Object body,
-          Class<RS> responseType) {
+      String method,
+      String url,
+      Map<String, String[]> queryParams,
+      Map<String, String> pathParams,
+      Object body,
+      Class<RS> responseType) {
     // TODO add retry
     rateLimiter.tryConsume(getApiName());
 
@@ -68,13 +68,13 @@ public class ApiTransport {
 
   /** Special method for multipart/form-data requests (like file uploads). */
   public <RS> RS callMultipart(
-          String method,
-          String url,
-          String contentType,
-          Map<String, String> pathParams,
-          byte[] fileContent,
-          String partNumber,
-          Class<RS> responseType) {
+      String method,
+      String url,
+      String contentType,
+      Map<String, String> pathParams,
+      byte[] fileContent,
+      String partNumber,
+      Class<RS> responseType) {
 
     rateLimiter.tryConsume(getApiName());
 
@@ -84,13 +84,13 @@ public class ApiTransport {
     }
 
     Request request =
-            buildMultipartRequest(method, url, contentType, pathParams, fileContent, partNumber);
+        buildMultipartRequest(method, url, contentType, pathParams, fileContent, partNumber);
 
     if (LOGGER.isDebugEnabled()) {
       LOGGER.debug("Request method: {}, url: {}", method, request.url());
       LOGGER.debug(
-              "Multipart request with file size: {} bytes",
-              fileContent != null ? fileContent.length : 0);
+          "Multipart request with file size: {} bytes",
+          fileContent != null ? fileContent.length : 0);
     }
 
     return executeRequest(request, responseType);
@@ -107,7 +107,7 @@ public class ApiTransport {
   }
 
   protected <RS> RS handleResponse(Response response, Class<RS> responseType)
-          throws IOException, ApiExchangeException {
+      throws IOException, ApiExchangeException {
     final int statusCode = response.code();
     final ResponseBody responseBody = response.body();
 
@@ -133,11 +133,11 @@ public class ApiTransport {
   }
 
   private Request buildRequest(
-          String method,
-          String url,
-          Map<String, String[]> queryParams,
-          Map<String, String> pathParams,
-          Object body) {
+      String method,
+      String url,
+      Map<String, String[]> queryParams,
+      Map<String, String> pathParams,
+      Object body) {
     String urlWithQueryParams = buildURL(url, queryParams, pathParams);
 
     Request.Builder requestBuilder = new Request.Builder().url(urlWithQueryParams);
@@ -165,12 +165,12 @@ public class ApiTransport {
    * uploads).
    */
   private Request buildMultipartRequest(
-          String method,
-          String url,
-          String contentType,
-          Map<String, String> pathParams,
-          byte[] fileContent,
-          String partNumber) {
+      String method,
+      String url,
+      String contentType,
+      Map<String, String> pathParams,
+      byte[] fileContent,
+      String partNumber) {
 
     String urlWithQueryParams = buildURL(url, null, pathParams);
 
@@ -178,7 +178,7 @@ public class ApiTransport {
 
     // Multipart body builder
     MultipartBody.Builder multipartBuilder =
-            new MultipartBody.Builder().setType(MultipartBody.FORM);
+        new MultipartBody.Builder().setType(MultipartBody.FORM);
 
     // Add file content as a part
     if (fileContent != null) {
@@ -202,7 +202,7 @@ public class ApiTransport {
   }
 
   private String buildURL(
-          String url, Map<String, String[]> queryParams, Map<String, String> pathParams) {
+      String url, Map<String, String[]> queryParams, Map<String, String> pathParams) {
     String processedUrl = null;
     if (url != null && !url.isEmpty()) {
       if (url.startsWith("http://") || url.startsWith("https://")) {
@@ -228,15 +228,15 @@ public class ApiTransport {
     // Add query parameters
     if (queryParams != null && !queryParams.isEmpty()) {
       queryParams.forEach(
-              (key, values) -> {
-                if (values != null) {
-                  for (String value : values) {
-                    if (value != null) {
-                      urlBuilder.addQueryParameter(key, value);
-                    }
-                  }
+          (key, values) -> {
+            if (values != null) {
+              for (String value : values) {
+                if (value != null) {
+                  urlBuilder.addQueryParameter(key, value);
                 }
-              });
+              }
+            }
+          });
     }
 
     return urlBuilder.build().toString();
