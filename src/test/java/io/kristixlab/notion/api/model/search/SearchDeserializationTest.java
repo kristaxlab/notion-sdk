@@ -38,7 +38,7 @@ public class SearchDeserializationTest extends BaseTest {
 
     assertNotNull(searchResponse);
     assertEquals("list", searchResponse.getObject());
-
+    
     assertEquals("page_or_data_source", searchResponse.getType());
     assertNotNull(searchResponse.getPageOrDataSource());
 

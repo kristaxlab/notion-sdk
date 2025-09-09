@@ -26,5 +26,4 @@ public class NotionList<T> extends BaseNotionResponse {
 
   @JsonProperty("type")
   private String type;
-
 }

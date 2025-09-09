@@ -14,5 +14,4 @@ public class LastEditedTimeDatasourceProperty extends DatasourceProperty {
 
   @JsonProperty("last_edited_time")
   private Object lastEditedTime = new Object();
-
 }
