@@ -1,4 +1,4 @@
-package io.kristixlab.notion.api;
+package io.kristixlab.notion.api.exchange;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,4 +1,4 @@
-package io.kristixlab.notion.database.properties;
+package io.kristixlab.notion.api.model.common;
 
 public enum Color {
   DEFAULT("default"),

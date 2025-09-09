@@ -1,12 +1,12 @@
-package io.kristixlab.notion.database.properties;
+package io.kristixlab.notion.api.model.common;
 
-public enum TimestampType {
+public enum Timestamp {
   CREATED_TIME("created_time"),
   LAST_EDITED_TIME("last_edited_time");
 
   private final String value;
 
-  TimestampType(String value) {
+  Timestamp(String value) {
     this.value = value;
   }
 
@@ -14,8 +14,8 @@ public enum TimestampType {
     return value;
   }
 
-  public TimestampType fromValue(String value) {
-    for (TimestampType format : TimestampType.values()) {
+  public Timestamp fromValue(String value) {
+    for (Timestamp format : Timestamp.values()) {
       if (format.value.equals(value)) {
         return format;
       }

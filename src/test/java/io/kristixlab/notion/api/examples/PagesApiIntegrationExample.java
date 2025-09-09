@@ -1,8 +1,9 @@
-package io.kristixlab.notion.api;
+package io.kristixlab.notion.api.examples;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.kristixlab.notion.NotionClient;
+import io.kristixlab.notion.api.PagesApi;
 import io.kristixlab.notion.api.exchange.NotionApiTransport;
 import io.kristixlab.notion.api.model.common.Parent;
 import io.kristixlab.notion.api.model.common.RichText;

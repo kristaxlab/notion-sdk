@@ -1,9 +1,9 @@
-package io.kristixlab.notion.api;
+package io.kristixlab.notion.api.examples;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import io.kristixlab.notion.api.model.IntegrationTest;
+import io.kristixlab.notion.api.UsersApi;
 import io.kristixlab.notion.api.model.users.User;
 import io.kristixlab.notion.api.model.users.UsersList;
 import org.junit.jupiter.api.BeforeEach;

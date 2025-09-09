@@ -5,6 +5,8 @@ import io.kristixlab.notion.api.exchange.NotionApiTransport;
 import io.kristixlab.notion.api.model.databases.CreateDatabaseRequest;
 import io.kristixlab.notion.api.model.databases.Database;
 import io.kristixlab.notion.api.model.databases.UpdateDatabaseRequest;
+import io.kristixlab.notion.api.exchange.ApiRequestUtil;
+
 import java.util.Map;
 
 /**

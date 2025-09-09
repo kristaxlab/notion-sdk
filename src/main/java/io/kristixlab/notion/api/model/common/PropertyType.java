@@ -1,6 +1,4 @@
-package io.kristixlab.notion.database.properties;
-
-import java.util.*;
+package io.kristixlab.notion.api.model.common;
 
 public enum PropertyType {
   TITLE("title"),

@@ -1,9 +1,9 @@
-package io.kristixlab.notion.api;
+package io.kristixlab.notion.api.examples;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import io.kristixlab.notion.api.model.IntegrationTest;
+import io.kristixlab.notion.api.FileUploadsApi;
 import io.kristixlab.notion.api.model.files.FileUploadList;
 import io.kristixlab.notion.api.model.files.FileUploadCreateRequest;
 import io.kristixlab.notion.api.model.files.FileUploadResponse;

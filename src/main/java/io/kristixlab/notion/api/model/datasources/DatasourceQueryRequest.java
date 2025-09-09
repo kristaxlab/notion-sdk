@@ -2,8 +2,8 @@ package io.kristixlab.notion.api.model.datasources;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.kristixlab.notion.api.model.datasources.filter.Filter;
-import io.kristixlab.notion.database.properties.SortDirectionType;
-import io.kristixlab.notion.database.properties.TimestampType;
+import io.kristixlab.notion.api.model.common.SortDirection;
+import io.kristixlab.notion.api.model.common.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.Data;
@@ -36,14 +36,14 @@ public class DatasourceQueryRequest {
     this.sorts.add(sort);
   }
 
-  public void addSort(String property, SortDirectionType direction) {
+  public void addSort(String property, SortDirection direction) {
     if (this.sorts == null) {
       this.sorts = new ArrayList<>();
     }
     this.sorts.add(Sort.by(property, direction));
   }
 
-  public void addSort(TimestampType timestamp, SortDirectionType direction) {
+  public void addSort(Timestamp timestamp, SortDirection direction) {
     if (this.sorts == null) {
       this.sorts = new ArrayList<>();
     }

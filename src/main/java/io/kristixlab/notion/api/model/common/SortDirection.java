@@ -1,12 +1,12 @@
-package io.kristixlab.notion.database.properties;
+package io.kristixlab.notion.api.model.common;
 
-public enum SortDirectionType {
+public enum SortDirection {
   ASCENDING("ascending"),
   DESCENDING("descending");
 
   private final String value;
 
-  SortDirectionType(String value) {
+  SortDirection(String value) {
     this.value = value;
   }
 
@@ -14,8 +14,8 @@ public enum SortDirectionType {
     return value;
   }
 
-  public SortDirectionType fromValue(String value) {
-    for (SortDirectionType format : SortDirectionType.values()) {
+  public SortDirection fromValue(String value) {
+    for (SortDirection format : SortDirection.values()) {
       if (format.value.equals(value)) {
         return format;
       }

@@ -1,6 +1,5 @@
-package io.kristixlab.notion.api.model;
+package io.kristixlab.notion.api.model.blocks;
 
-import io.kristixlab.notion.api.model.blocks.Block;
 import java.util.List;
 
 /** Request object for appending block children. */

@@ -2,10 +2,9 @@ package io.kristixlab.notion.api;
 
 import io.kristixlab.notion.api.exchange.ApiTransport;
 import io.kristixlab.notion.api.exchange.NotionApiTransport;
-import io.kristixlab.notion.api.exchange.exception.ForbiddenException;
-import io.kristixlab.notion.api.exchange.exception.NotFoundException;
-import io.kristixlab.notion.api.exchange.exception.ValidationException;
 import io.kristixlab.notion.api.model.files.*;
+import io.kristixlab.notion.api.exchange.ApiRequestUtil;
+
 import java.util.HashMap;
 import java.util.Map;
 

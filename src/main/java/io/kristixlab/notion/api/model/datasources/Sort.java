@@ -1,8 +1,8 @@
 package io.kristixlab.notion.api.model.datasources;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.kristixlab.notion.database.properties.SortDirectionType;
-import io.kristixlab.notion.database.properties.TimestampType;
+import io.kristixlab.notion.api.model.common.SortDirection;
+import io.kristixlab.notion.api.model.common.Timestamp;
 import lombok.Data;
 
 /** Sort configuration for database queries. */
@@ -17,14 +17,14 @@ public class Sort {
   @JsonProperty("timestamp")
   private String timestamp;
 
-  public static Sort by(String property, SortDirectionType direction) {
+  public static Sort by(String property, SortDirection direction) {
     Sort sort = new Sort();
     sort.setProperty(property);
     sort.setDirection(direction.getValue());
     return sort;
   }
 
-  public static Sort by(TimestampType timestamp, SortDirectionType direction) {
+  public static Sort by(Timestamp timestamp, SortDirection direction) {
     Sort sort = new Sort();
     sort.setTimestamp(timestamp.getValue());
     sort.setDirection(direction.getValue());

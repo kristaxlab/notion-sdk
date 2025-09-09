@@ -1,6 +1,6 @@
-package io.kristixlab.notion.api;
+package io.kristixlab.notion.api.examples;
 
-import io.kristixlab.notion.api.model.IntegrationTest;
+import io.kristixlab.notion.api.DatabasesApi;
 import io.kristixlab.notion.api.model.common.Parent;
 import io.kristixlab.notion.api.model.common.RichText;
 import io.kristixlab.notion.api.model.databases.CreateDatabaseRequest;

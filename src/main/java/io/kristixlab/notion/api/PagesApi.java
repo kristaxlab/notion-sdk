@@ -4,6 +4,8 @@ import io.kristixlab.notion.api.exchange.ApiTransport;
 import io.kristixlab.notion.api.exchange.NotionApiTransport;
 import io.kristixlab.notion.api.model.pages.Page;
 import io.kristixlab.notion.api.model.pages.properties.PageProperty;
+import io.kristixlab.notion.api.exchange.ApiRequestUtil;
+
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;

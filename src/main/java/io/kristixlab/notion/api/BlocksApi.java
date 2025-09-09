@@ -2,9 +2,11 @@ package io.kristixlab.notion.api;
 
 import io.kristixlab.notion.api.exchange.ApiTransport;
 import io.kristixlab.notion.api.exchange.NotionApiTransport;
-import io.kristixlab.notion.api.model.AppendBlockChildrenRequest;
+import io.kristixlab.notion.api.model.blocks.AppendBlockChildrenRequest;
 import io.kristixlab.notion.api.model.blocks.Block;
 import io.kristixlab.notion.api.model.blocks.Blocks;
+import io.kristixlab.notion.api.exchange.ApiRequestUtil;
+
 import java.util.Map;
 
 /**

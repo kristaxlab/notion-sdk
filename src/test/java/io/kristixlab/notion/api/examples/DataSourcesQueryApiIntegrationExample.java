@@ -1,11 +1,11 @@
-package io.kristixlab.notion.api;
+package io.kristixlab.notion.api.examples;
 
-import io.kristixlab.notion.api.model.IntegrationTest;
+import io.kristixlab.notion.api.DatasourcesApi;
 import io.kristixlab.notion.api.model.datasources.DatasourceQueryRequest;
 import io.kristixlab.notion.api.model.datasources.DatasourceQueryResponse;
 import io.kristixlab.notion.api.model.datasources.filter.*;
-import io.kristixlab.notion.database.properties.SortDirectionType;
-import io.kristixlab.notion.database.properties.TimestampType;
+import io.kristixlab.notion.api.model.common.SortDirection;
+import io.kristixlab.notion.api.model.common.Timestamp;
 import java.io.IOException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -53,7 +53,7 @@ public class DataSourcesQueryApiIntegrationExample extends IntegrationTest {
   @Test
   void testQueryDatabaseWithSortRequest() throws IOException {
     DatasourceQueryRequest request = new DatasourceQueryRequest();
-    request.addSort(TimestampType.LAST_EDITED_TIME, SortDirectionType.DESCENDING);
+    request.addSort(Timestamp.LAST_EDITED_TIME, SortDirection.DESCENDING);
     saveToFile(request, "data-source-query-with-sort-request.json");
 
     DatasourceQueryResponse response = dataSourcesApi.query(DATA_SOURCE_ID, request);
@@ -68,7 +68,7 @@ public class DataSourcesQueryApiIntegrationExample extends IntegrationTest {
   void testNumberFilterQuery() throws IOException {
     DatasourceQueryRequest request = new DatasourceQueryRequest();
     request.setFilter("Genre", SelectFilter.equals("Literary Fiction"));
-    request.addSort(TimestampType.LAST_EDITED_TIME, SortDirectionType.ASCENDING);
+    request.addSort(Timestamp.LAST_EDITED_TIME, SortDirection.ASCENDING);
     saveToFile(request, "database-query-with-number-filter-rq.json");
 
     DatasourceQueryResponse response = dataSourcesApi.query(DATA_SOURCE_ID, request, null, 3);

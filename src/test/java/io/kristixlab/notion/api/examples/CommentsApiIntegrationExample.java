@@ -1,9 +1,9 @@
-package io.kristixlab.notion.api;
+package io.kristixlab.notion.api.examples;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import io.kristixlab.notion.api.model.IntegrationTest;
+import io.kristixlab.notion.api.CommentsApi;
 import io.kristixlab.notion.api.model.comments.Comment;
 import io.kristixlab.notion.api.model.comments.CommentDisplayName;
 import io.kristixlab.notion.api.model.comments.CommentsList;

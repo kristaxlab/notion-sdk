@@ -1,6 +1,6 @@
-package io.kristixlab.notion.database.properties;
+package io.kristixlab.notion.api.model.datasources;
 
-public enum NumberFormatType {
+public enum NumberFormat {
   ARGENTINE_PESO("argentine_peso"),
   BAHT("baht"),
   AUSTRALIAN_DOLLAR("australian_dollar"),
@@ -45,7 +45,7 @@ public enum NumberFormatType {
 
   private final String value;
 
-  NumberFormatType(String value) {
+  NumberFormat(String value) {
     this.value = value;
   }
 
@@ -53,8 +53,8 @@ public enum NumberFormatType {
     return value;
   }
 
-  public NumberFormatType fromValue(String value) {
-    for (NumberFormatType format : NumberFormatType.values()) {
+  public NumberFormat fromValue(String value) {
+    for (NumberFormat format : NumberFormat.values()) {
       if (format.value.equals(value)) {
         return format;
       }

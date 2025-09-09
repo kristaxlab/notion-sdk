@@ -32,6 +32,7 @@ dependencies {
 test {
     useJUnitPlatform()
     finalizedBy jacocoTestReport
+    exclude 'io/kristixlab/notion/api/examples/**'
 }
 
 jacocoTestReport {

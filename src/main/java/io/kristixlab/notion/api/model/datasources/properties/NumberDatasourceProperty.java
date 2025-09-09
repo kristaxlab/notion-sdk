@@ -1,7 +1,6 @@
 package io.kristixlab.notion.api.model.datasources.properties;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.kristixlab.notion.database.properties.NumberFormatType;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -26,7 +25,7 @@ public class NumberDatasourceProperty extends DatasourceProperty {
     // "singapore_dollar"
   }
 
-  public static NumberDatasourceProperty of(NumberFormatType format) {
+  public static NumberDatasourceProperty of(io.kristixlab.notion.api.model.datasources.NumberFormat format) {
     return of(format.toString());
   }
 

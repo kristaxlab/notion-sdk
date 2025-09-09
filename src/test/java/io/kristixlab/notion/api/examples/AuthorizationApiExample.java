@@ -1,6 +1,6 @@
-package io.kristixlab.notion.api;
+package io.kristixlab.notion.api.examples;
 
-import io.kristixlab.notion.api.model.IntegrationTest;
+import io.kristixlab.notion.api.AuthorizationApi;
 import io.kristixlab.notion.api.model.authorization.IntrospectTokenResponse;
 import io.kristixlab.notion.api.model.authorization.RevokeTokenResponse;
 import io.kristixlab.notion.api.model.authorization.TokenResponse;
@@ -11,16 +11,11 @@ import org.junit.jupiter.api.Test;
 public class AuthorizationApiExample extends IntegrationTest {
 
   private AuthorizationApi authorizationApi;
-  private BlocksApi blocksApi;
-  private DatabasesApi databasesApi;
-  private PagesApi pagesApi;
 
   @BeforeEach
   protected void setUp() throws Exception {
     super.setUp();
     authorizationApi = new AuthorizationApi(null, getTransport());
-    blocksApi = new BlocksApi(getTransport());
-    pagesApi = new PagesApi(getTransport());
   }
 
   @Test

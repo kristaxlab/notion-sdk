@@ -1,4 +1,4 @@
-package io.kristixlab.notion.api.model;
+package io.kristixlab.notion.api.examples;
 
 import io.kristixlab.notion.NotionClient;
 import io.kristixlab.notion.api.exchange.NotionApiTransport;
@@ -8,6 +8,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import io.kristixlab.notion.api.model.BaseTest;
 import io.kristixlab.notion.api.util.JsonConverter;
 import org.junit.jupiter.api.BeforeEach;
 

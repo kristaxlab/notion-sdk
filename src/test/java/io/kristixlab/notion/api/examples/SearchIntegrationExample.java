@@ -1,8 +1,6 @@
-package io.kristixlab.notion.api;
+package io.kristixlab.notion.api.examples;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import io.kristixlab.notion.api.model.IntegrationTest;
+import io.kristixlab.notion.api.SearchApi;
 import io.kristixlab.notion.api.model.search.SearchFilter;
 import io.kristixlab.notion.api.model.search.SearchRequest;
 import io.kristixlab.notion.api.model.search.SearchResponse;

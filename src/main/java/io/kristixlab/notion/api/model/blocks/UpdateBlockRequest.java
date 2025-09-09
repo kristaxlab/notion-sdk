@@ -1,6 +1,4 @@
-package io.kristixlab.notion.api.model;
-
-import io.kristixlab.notion.api.model.blocks.Block;
+package io.kristixlab.notion.api.model.blocks;
 
 /** Request object for updating a block. */
 public class UpdateBlockRequest {
