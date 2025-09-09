@@ -6,7 +6,6 @@ import io.kristixlab.notion.api.model.datasources.CreateDataSourceRequest;
 import io.kristixlab.notion.api.model.datasources.Datasource;
 import io.kristixlab.notion.api.model.datasources.DatasourceQueryRequest;
 import io.kristixlab.notion.api.model.datasources.DatasourceQueryResponse;
-
 import java.util.Map;
 
 /**
@@ -143,7 +142,7 @@ public class DatasourcesApi {
    * @return Response containing matching pages
    */
   public DatasourceQueryResponse query(
-          String dataSourceId, DatasourceQueryRequest request, String startCursor, Integer pageSize) {
+      String dataSourceId, DatasourceQueryRequest request, String startCursor, Integer pageSize) {
     validateDataSourceId(dataSourceId);
 
     Map<String, String> pathParams = ApiRequestUtil.createPathParams(DATA_SOURCE_ID, dataSourceId);

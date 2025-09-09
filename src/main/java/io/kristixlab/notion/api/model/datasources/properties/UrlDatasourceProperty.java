@@ -9,6 +9,6 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class UrlDatasourceProperty extends DatasourceProperty {
 
-    @JsonProperty("url")
-    private Object url = new Object();
+  @JsonProperty("url")
+  private Object url = new Object();
 }

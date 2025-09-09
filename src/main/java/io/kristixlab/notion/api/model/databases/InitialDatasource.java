@@ -2,7 +2,6 @@ package io.kristixlab.notion.api.model.databases;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.kristixlab.notion.api.model.datasources.properties.DatasourceProperty;
-
 import java.util.HashMap;
 import java.util.Map;
 import lombok.Data;

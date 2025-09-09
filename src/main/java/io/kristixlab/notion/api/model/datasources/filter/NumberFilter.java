@@ -3,7 +3,6 @@ package io.kristixlab.notion.api.model.datasources.filter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.kristixlab.notion.api.model.datasources.filter.condition.NumberFilterCondition;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 @Data
 public class NumberFilter extends Filter {

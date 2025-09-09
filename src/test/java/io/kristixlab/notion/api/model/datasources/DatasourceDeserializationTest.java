@@ -69,7 +69,8 @@ public class DatasourceDeserializationTest extends BaseTest {
     assertEquals("24cc5b96-8ec4-800a-a809-c7f6508f45f2", dataSource.getParent().getDatabaseId());
     assertNotNull(dataSource.getDatabaseParent());
     assertEquals("page_id", dataSource.getDatabaseParent().getType());
-    assertEquals("24cc5b96-8ec4-80d0-b579-f34b9e4d8339", dataSource.getDatabaseParent().getPageId());
+    assertEquals(
+        "24cc5b96-8ec4-80d0-b579-f34b9e4d8339", dataSource.getDatabaseParent().getPageId());
   }
 
   @Test

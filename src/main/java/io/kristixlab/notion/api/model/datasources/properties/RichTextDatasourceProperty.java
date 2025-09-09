@@ -11,5 +11,4 @@ public class RichTextDatasourceProperty extends DatasourceProperty {
 
   @JsonProperty("rich_text")
   private Object richText = new Object();
-
 }

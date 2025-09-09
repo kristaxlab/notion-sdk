@@ -11,5 +11,4 @@ public class FilesDatasourceProperty extends DatasourceProperty {
 
   @JsonProperty("files")
   private Object files = new Object();
-
 }
