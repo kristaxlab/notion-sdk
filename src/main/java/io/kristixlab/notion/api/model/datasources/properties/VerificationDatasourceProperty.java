@@ -14,5 +14,4 @@ public class VerificationDatasourceProperty extends DatasourceProperty {
 
   @JsonProperty("verification")
   private Object verification = new Object();
-
 }

@@ -7,7 +7,10 @@ import lombok.Data;
 @Data
 public class SearchFilter {
 
-  /** The value of the property to filter the results by. Possible values: "page" or "data_source" (was "database" in older API versions) */
+  /**
+   * The value of the property to filter the results by. Possible values: "page" or "data_source"
+   * (was "database" in older API versions)
+   */
   @JsonProperty("value")
   private String value;
 
@@ -28,5 +31,4 @@ public class SearchFilter {
     filter.setValue("data_source");
     return filter;
   }
-
 }

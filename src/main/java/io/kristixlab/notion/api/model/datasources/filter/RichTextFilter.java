@@ -3,7 +3,6 @@ package io.kristixlab.notion.api.model.datasources.filter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.kristixlab.notion.api.model.datasources.filter.condition.TextFilterCondition;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 @Data
 public class RichTextFilter extends Filter {
@@ -58,5 +57,4 @@ public class RichTextFilter extends Filter {
     filter.setRichText(condition);
     return filter;
   }
-
 }

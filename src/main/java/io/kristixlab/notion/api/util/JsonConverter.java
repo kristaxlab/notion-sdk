@@ -59,7 +59,6 @@ public class JsonConverter {
     }
   }
 
-
   public void toFile(File file, Object object) {
     try {
       MAPPER.writerWithDefaultPrettyPrinter().writeValue(file, object);

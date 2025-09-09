@@ -58,5 +58,4 @@ public class Parent {
     parent.setBlockId(blockId);
     return parent;
   }
-
 }
