@@ -1,0 +1,6 @@
+{
+  "revoked": true,
+  "message": "Token successfully revoked",
+  "request_id": "revoke-req-abcd-1234-5678-9876543210ab"
+}
+

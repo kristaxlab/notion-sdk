@@ -1,0 +1,15 @@
+{
+  "filter": {
+    "property": "Genre",
+    "select": {
+      "equals": "Literary Fiction"
+    }
+  },
+  "sorts": [
+    {
+      "direction": "ascending",
+      "timestamp": "last_edited_time"
+    }
+  ],
+  "page_size": 3
+}

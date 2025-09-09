@@ -1,0 +1,7 @@
+{
+  "object": "error",
+  "status": 400,
+  "code": "validation_error",
+  "message": "Internal integrations cannot use display_name type \"user\" because they aren't owned by a single user. Only \"integration\" and \"custom\" types are allowed.",
+  "request_id": "11ad60b6-a2cd-4c76-8581-3be32a09777b"
+}

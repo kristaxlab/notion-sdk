@@ -1,0 +1,256 @@
+{
+  "object": "list",
+  "results": [
+    {
+      "object": "page",
+      "id": "268c5b96-8ec4-8096-a90e-de032d209d2c",
+      "created_time": "2025-09-08T18:06:00.000Z",
+      "last_edited_time": "2025-09-08T18:06:00.000Z",
+      "created_by": {
+        "object": "user",
+        "id": "44444444-4444-43b3-8288-444444444444"
+      },
+      "last_edited_by": {
+        "object": "user",
+        "id": "44444444-4444-43b3-8288-444444444444"
+      },
+      "cover": null,
+      "icon": null,
+      "parent": {
+        "type": "data_source_id",
+        "data_source_id": "264c5b96-8ec4-8055-8b51-000b4a80c6cc",
+        "database_id": "264c5b96-8ec4-8036-99e8-f5c823b87261"
+      },
+      "archived": false,
+      "in_trash": false,
+      "properties": {
+        "Genre": {
+          "id": "%60y%3Az",
+          "type": "select",
+          "select": {
+            "id": "eea4a197-8a56-4fd4-b684-b7d2806caddb",
+            "name": "Literary Fiction",
+            "color": "orange"
+          }
+        },
+        "Author": {
+          "id": "zl%60P",
+          "type": "rich_text",
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "F. Scott Fitzgerald",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "F. Scott Fitzgerald",
+              "href": null
+            }
+          ]
+        },
+        "Book name": {
+          "id": "title",
+          "type": "title",
+          "title": [
+            {
+              "type": "text",
+              "text": {
+                "content": "The Great Gatsby",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "The Great Gatsby",
+              "href": null
+            }
+          ]
+        }
+      },
+      "url": "https://www.notion.so/The-Great-Gatsby-268c5b968ec48096a90ede032d209d2c",
+      "public_url": null
+    },
+    {
+      "object": "page",
+      "id": "268c5b96-8ec4-807d-aba3-f26a99860065",
+      "created_time": "2025-09-08T18:06:00.000Z",
+      "last_edited_time": "2025-09-08T18:06:00.000Z",
+      "created_by": {
+        "object": "user",
+        "id": "44444444-4444-43b3-8288-444444444444"
+      },
+      "last_edited_by": {
+        "object": "user",
+        "id": "44444444-4444-43b3-8288-444444444444"
+      },
+      "cover": null,
+      "icon": null,
+      "parent": {
+        "type": "data_source_id",
+        "data_source_id": "264c5b96-8ec4-8055-8b51-000b4a80c6cc",
+        "database_id": "264c5b96-8ec4-8036-99e8-f5c823b87261"
+      },
+      "archived": false,
+      "in_trash": false,
+      "properties": {
+        "Genre": {
+          "id": "%60y%3Az",
+          "type": "select",
+          "select": {
+            "id": "eea4a197-8a56-4fd4-b684-b7d2806caddb",
+            "name": "Literary Fiction",
+            "color": "orange"
+          }
+        },
+        "Author": {
+          "id": "zl%60P",
+          "type": "rich_text",
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "Harper Lee",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "Harper Lee",
+              "href": null
+            }
+          ]
+        },
+        "Book name": {
+          "id": "title",
+          "type": "title",
+          "title": [
+            {
+              "type": "text",
+              "text": {
+                "content": "To Kill a Mockingbird",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "To Kill a Mockingbird",
+              "href": null
+            }
+          ]
+        }
+      },
+      "url": "https://www.notion.so/To-Kill-a-Mockingbird-268c5b968ec4807daba3f26a99860065",
+      "public_url": null
+    },
+    {
+      "object": "page",
+      "id": "268c5b96-8ec4-8020-bd60-dc332c796412",
+      "created_time": "2025-09-08T18:05:00.000Z",
+      "last_edited_time": "2025-09-08T18:21:00.000Z",
+      "created_by": {
+        "object": "user",
+        "id": "44444444-4444-43b3-8288-444444444444"
+      },
+      "last_edited_by": {
+        "object": "user",
+        "id": "44444444-4444-43b3-8288-444444444444"
+      },
+      "cover": null,
+      "icon": null,
+      "parent": {
+        "type": "data_source_id",
+        "data_source_id": "264c5b96-8ec4-8055-8b51-000b4a80c6cc",
+        "database_id": "264c5b96-8ec4-8036-99e8-f5c823b87261"
+      },
+      "archived": false,
+      "in_trash": false,
+      "properties": {
+        "Genre": {
+          "id": "%60y%3Az",
+          "type": "select",
+          "select": {
+            "id": "eea4a197-8a56-4fd4-b684-b7d2806caddb",
+            "name": "Literary Fiction",
+            "color": "orange"
+          }
+        },
+        "Author": {
+          "id": "zl%60P",
+          "type": "rich_text",
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "\nToni Morrison\n",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "\nToni Morrison\n",
+              "href": null
+            }
+          ]
+        },
+        "Book name": {
+          "id": "title",
+          "type": "title",
+          "title": [
+            {
+              "type": "text",
+              "text": {
+                "content": "Beloved",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "Beloved",
+              "href": null
+            }
+          ]
+        }
+      },
+      "url": "https://www.notion.so/Beloved-268c5b968ec48020bd60dc332c796412",
+      "public_url": null
+    }
+  ],
+  "next_cursor": null,
+  "has_more": false,
+  "type": "page_or_data_source",
+  "page_or_data_source": {},
+  "request_id": "fd25126f-06a6-4cec-91d5-b0e898309a2f"
+}

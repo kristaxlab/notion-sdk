@@ -1,0 +1,27 @@
+{
+  "notionGalleryCover": {
+    "type": "external",
+    "external": {
+      "url": "https://www.notion.so/images/page-cover/met_william_morris_1877_willow.jpg"
+    }
+  },
+  "uploadedCover": {
+    "type": "file",
+    "file": {
+      "url": "https://prod-files...",
+      "expiry_time": "2025-08-11T15:54:30.316Z"
+    }
+  },
+  "linkedUrlCover": {
+    "type": "external",
+    "external": {
+      "url": "https://www.heart.org/-/media/Images/Health-Topics/Congenital-Heart-Defects/50_1683_44a_ASD.jpg?h=551&w=572&sc_lang=en"
+    }
+  },
+  "unsplashCover": {
+    "type": "external",
+    "external": {
+      "url": "https://www.heart.org/-/media/Images/Health-Topics/Congenital-Heart-Defects/50_1683_44a_ASD.jpg?h=551&w=572&sc_lang=en"
+    }
+  }
+}

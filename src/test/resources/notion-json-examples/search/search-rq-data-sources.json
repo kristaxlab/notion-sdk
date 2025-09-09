@@ -1,0 +1,12 @@
+{
+  "query": "some query string",
+  "filter": {
+    "value": "data_source",
+    "property": "object"
+  },
+  "sort": {
+    "direction": "descending",
+    "timestamp": "last_edited_time"
+  },
+  "page_size": 3
+}

@@ -1,0 +1,520 @@
+{
+  "object": "page",
+  "id": "24cc5b96-8ec4-809c-9809-caa1d493ca04",
+  "created_time": "2025-08-11T12:37:00.000Z",
+  "last_edited_time": "2025-08-11T12:51:00.000Z",
+  "created_by": {
+    "object": "user",
+    "id": "aaaaaaa2-cccc-eeee-9999-222222222222"
+  },
+  "last_edited_by": {
+    "object": "user",
+    "id": "aaaaaaa2-cccc-eeee-9999-222222222222"
+  },
+  "cover": {
+    "type": "external",
+    "external": {
+      "url": "https://www.notion.so/images/page-cover/met_william_morris_1877_willow.jpg"
+    }
+  },
+  "icon": {
+    "type": "external",
+    "external": {
+      "url": "https://www.notion.so/icons/light-bulb_purple.svg"
+    }
+  },
+  "parent": {
+    "type": "database_id",
+    "database_id": "24cc5b96-8ec4-800a-a809-c7f6508f45f2"
+  },
+  "archived": false,
+  "in_trash": false,
+  "properties": {
+    "Relation": {
+      "id": "%3AylC",
+      "type": "relation",
+      "relation": [
+        {
+          "id": "24cc5b96-8ec4-81b8-b45f-eefc9156c148"
+        },
+        {
+          "id": "24cc5b96-8ec4-80e7-a620-ca389562e0cc"
+        },
+        {
+          "id": "24cc5b96-8ec4-8017-b930-cd188bb39fc1"
+        }
+      ],
+      "has_more": false
+    },
+    "Google Drive File": {
+      "id": "%3B%3CD%3A",
+      "type": "relation",
+      "relation": [],
+      "has_more": false
+    },
+    "Status": {
+      "id": "%3BpBf",
+      "type": "status",
+      "status": {
+        "id": "20a08d39-867f-4638-9f3f-dec5221ff53e",
+        "name": "In progress",
+        "color": "blue"
+      }
+    },
+    "Formula number": {
+      "id": "%3Crwj",
+      "type": "formula",
+      "formula": {
+        "type": "number",
+        "number": 91
+      }
+    },
+    "Formula date": {
+      "id": "%3Dy%5C%3D",
+      "type": "formula",
+      "formula": {
+        "type": "date",
+        "date": {
+          "start": "2025-08-11",
+          "end": "2025-08-12",
+          "time_zone": null
+        }
+      }
+    },
+    "Button": {
+      "id": "%40gtF",
+      "type": "button",
+      "button": {}
+    },
+    "Select": {
+      "id": "Ag%5Bt",
+      "type": "select",
+      "select": {
+        "id": "04a06ca9-8460-4c65-afa5-4781a8e86396",
+        "name": "option2",
+        "color": "red"
+      }
+    },
+    "Created time": {
+      "id": "Bl%3FN",
+      "type": "created_time",
+      "created_time": "2025-08-11T12:37:00.000Z"
+    },
+    "ID": {
+      "id": "Bz%3C%5D",
+      "type": "unique_id",
+      "unique_id": {
+        "prefix": "NST",
+        "number": 1
+      }
+    },
+    "Last edited time": {
+      "id": "FlA%5D",
+      "type": "last_edited_time",
+      "last_edited_time": "2025-08-11T12:51:00.000Z"
+    },
+    "URL": {
+      "id": "Nb%3Dg",
+      "type": "url",
+      "url": "https://notion.so"
+    },
+    "Formula boolean": {
+      "id": "QCl%3E",
+      "type": "formula",
+      "formula": {
+        "type": "boolean",
+        "boolean": true
+      }
+    },
+    "Formula string": {
+      "id": "R%5CdF",
+      "type": "formula",
+      "formula": {
+        "type": "string",
+        "string": "related rec 1\nrelated rec 2\nrelated rec 3"
+      }
+    },
+    "URL with full show": {
+      "id": "Th%60w",
+      "type": "url",
+      "url": "https://notion.so"
+    },
+    "Number": {
+      "id": "UhW%60",
+      "type": "number",
+      "number": 3.333333
+    },
+    "Created by": {
+      "id": "X%3BT%3A",
+      "type": "created_by",
+      "created_by": {
+        "object": "user",
+        "id": "aaaaaaa2-cccc-eeee-9999-222222222222",
+        "name": "userName",
+        "avatar_url": "https://s3-us-west-2.amazonaws.com/public.notion-static.com/c183efb3-3c41-4cdc-a77b-5802f650e997/avatartion_1_y.png",
+        "type": "person",
+        "person": {
+          "email": "email1@gmail.com"
+        }
+      }
+    },
+    "Email": {
+      "id": "Xke%7C",
+      "type": "email",
+      "email": "email@email.email"
+    },
+    "Phone": {
+      "id": "YwOu",
+      "type": "phone_number",
+      "phone_number": "+484848484848"
+    },
+    "Rollup count unique": {
+      "id": "ckez",
+      "type": "rollup",
+      "rollup": {
+        "type": "number",
+        "number": 3,
+        "function": "unique"
+      }
+    },
+    "Number %": {
+      "id": "d%3CGL",
+      "type": "number",
+      "number": 0.03
+    },
+    "Checkbox": {
+      "id": "njnL",
+      "type": "checkbox",
+      "checkbox": false
+    },
+    "Date": {
+      "id": "nxRu",
+      "type": "date",
+      "date": {
+        "start": "2025-08-11",
+        "end": null,
+        "time_zone": null
+      }
+    },
+    "GitHub Pull Requests": {
+      "id": "pc%3DO",
+      "type": "relation",
+      "relation": [],
+      "has_more": false
+    },
+    "Last edited by": {
+      "id": "v%3CSK",
+      "type": "last_edited_by",
+      "last_edited_by": {
+        "object": "user",
+        "id": "aaaaaaa2-cccc-eeee-9999-222222222222",
+        "name": "userName",
+        "avatar_url": "https://s3-us-west-2.amazonaws.com/public.notion-static.com/c183efb3-3c41-4cdc-a77b-5802f650e997/avatartion_1_y.png",
+        "type": "person",
+        "person": {
+          "email": "email1@gmail.com"
+        }
+      }
+    },
+    "Rollup show original": {
+      "id": "vwZ%3A",
+      "type": "rollup",
+      "rollup": {
+        "type": "array",
+        "array": [
+          {
+            "type": "checkbox",
+            "checkbox": false
+          },
+          {
+            "type": "checkbox",
+            "checkbox": true
+          },
+          {
+            "type": "checkbox",
+            "checkbox": false
+          }
+        ],
+        "function": "show_original"
+      }
+    },
+    "Figma File": {
+      "id": "wJUk",
+      "type": "relation",
+      "relation": [],
+      "has_more": false
+    },
+    "Text": {
+      "id": "wgMV",
+      "type": "rich_text",
+      "rich_text": [
+        {
+          "type": "text",
+          "text": {
+            "content": "we",
+            "link": null
+          },
+          "annotations": {
+            "bold": false,
+            "italic": false,
+            "strikethrough": false,
+            "underline": false,
+            "code": true,
+            "color": "default"
+          },
+          "plain_text": "we",
+          "href": null
+        },
+        {
+          "type": "text",
+          "text": {
+            "content": " ",
+            "link": null
+          },
+          "annotations": {
+            "bold": false,
+            "italic": false,
+            "strikethrough": false,
+            "underline": false,
+            "code": false,
+            "color": "default"
+          },
+          "plain_text": " ",
+          "href": null
+        },
+        {
+          "type": "text",
+          "text": {
+            "content": "have",
+            "link": null
+          },
+          "annotations": {
+            "bold": false,
+            "italic": true,
+            "strikethrough": false,
+            "underline": false,
+            "code": false,
+            "color": "blue"
+          },
+          "plain_text": "have",
+          "href": null
+        },
+        {
+          "type": "text",
+          "text": {
+            "content": " some text ",
+            "link": null
+          },
+          "annotations": {
+            "bold": false,
+            "italic": false,
+            "strikethrough": false,
+            "underline": false,
+            "code": false,
+            "color": "default"
+          },
+          "plain_text": " some text ",
+          "href": null
+        },
+        {
+          "type": "text",
+          "text": {
+            "content": "here ",
+            "link": null
+          },
+          "annotations": {
+            "bold": true,
+            "italic": false,
+            "strikethrough": false,
+            "underline": false,
+            "code": false,
+            "color": "default"
+          },
+          "plain_text": "here ",
+          "href": null
+        },
+        {
+          "type": "text",
+          "text": {
+            "content": "with",
+            "link": {
+              "url": "https://notion.so/"
+            }
+          },
+          "annotations": {
+            "bold": true,
+            "italic": false,
+            "strikethrough": false,
+            "underline": false,
+            "code": false,
+            "color": "default"
+          },
+          "plain_text": "with",
+          "href": "https://notion.so/"
+        },
+        {
+          "type": "text",
+          "text": {
+            "content": " equation ",
+            "link": null
+          },
+          "annotations": {
+            "bold": true,
+            "italic": false,
+            "strikethrough": false,
+            "underline": false,
+            "code": false,
+            "color": "default"
+          },
+          "plain_text": " equation ",
+          "href": null
+        },
+        {
+          "type": "equation",
+          "equation": {
+            "expression": "O(n)"
+          },
+          "annotations": {
+            "bold": true,
+            "italic": false,
+            "strikethrough": false,
+            "underline": false,
+            "code": false,
+            "color": "default"
+          },
+          "plain_text": "O(n)",
+          "href": null
+        }
+      ]
+    },
+    "Person": {
+      "id": "x%5Bi_",
+      "type": "people",
+      "people": [
+        {
+          "object": "user",
+          "id": "aaaaaaa2-cccc-eeee-9999-222222222222",
+          "name": "userName",
+          "avatar_url": "https://s3-us-west-2.amazonaws.com/public.notion-static.com/c183efb3-3c41-4cdc-a77b-5802f650e997/avatartion_1_y.png",
+          "type": "person",
+          "person": {
+            "email": "email1@gmail.com"
+          }
+        },
+        {
+          "object": "user",
+          "id": "d0519c83-74a0-4f52-b552-7304507a099f",
+          "name": "Ania",
+          "avatar_url": "https://s3-us-west-2.amazonaws.com/public.notion-static.com/6bd89bc8-48b1-4e60-a31e-6682465abbaf/avatartion_2_g.png",
+          "type": "person",
+          "person": {
+            "email": "email2@gmail.com"
+          }
+        }
+      ]
+    },
+    "Multi-select": {
+      "id": "y%60nG",
+      "type": "multi_select",
+      "multi_select": [
+        {
+          "id": "f9e31854-e3d3-4f6e-837f-d06e83b32427",
+          "name": "moption1",
+          "color": "brown"
+        },
+        {
+          "id": "c5332e18-419e-4f65-be59-df949a1a4e07",
+          "name": "moption2",
+          "color": "red"
+        }
+      ]
+    },
+    "Date with reminder": {
+      "id": "%7BvcQ",
+      "type": "date",
+      "date": {
+        "start": "2025-08-14",
+        "end": null,
+        "time_zone": null
+      }
+    },
+    "Place": {
+      "id": "%7DR%3BS",
+      "type": "place",
+      "place": null
+    },
+    "Files & media": {
+      "id": "~wGd",
+      "type": "files",
+      "files": [
+        {
+          "name": "weekly_flower_tracker.png",
+          "type": "file",
+          "file": {
+            "url": "https://prod-files-secure.s3.us-west-2.amazonaws.com/b46317c6-e48b-4d5f-ae09-8edc20206ee1/bef47619-98e1-49fc-bae6-82d2bb27736b/weekly_flower_tracker.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=ASIAZI2LB466XYY7DXAB%2F20250811%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20250811T125946Z&X-Amz-Expires=3600&X-Amz-Security-Token=IQoJb3JpZ2luX2VjELX%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLXdlc3QtMiJHMEUCIQCkCmmco0%2FW0YsBK%2FPKvTweJi1bMh7p5NnynNz%2Bbb2X4wIgWCY3vQsDVWPQJ1OsONX41bGipKm3G6cYCQrLvviCdMwqiAQI7v%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FARAAGgw2Mzc0MjMxODM4MDUiDHeI0JFeXW9s40sQ1CrcAyep2Fqo4Wi7QoVVq6Cd8ux4PtAMI8B1TdH7re7lrbD27B1t%2FrqJRYDjA0OOGC96FpeR3G8UFlbptRIb6que%2FVZoLJ8Q3kLuTsffmOn6KrIhYneeYv1%2FAGnWVAuWsoZ%2F6Krv9guZVYfOicFIEAYMcEYlYcQRjoNStWsOYvwi705r8mIqyGHLeNmaQ657aZK3FNEswtOZjgKjspON%2BtOJCzsUWs57svsXTeEndDRFLV7O8T5GODVhKCKbFikQZY58W0YZKZSOXlFctNgXZhEjCfnCMPOsVMsoVb%2Fr9ddlhKSHicsFxMGNsUubKrY%2BNvnOKWV3YOQdp6rf2vIcvh9hxMwZHgL6a0YOfoEhHFOpz3gDVFRoLN8wZE%2FSheUepyuVk%2BdU4744ciBUIixkGQ%2BuUsCXUWxYjCLZwY32OZ1fOY4jLCVkYw0MZN%2BB9fyHTrQd7yye17lGKVB3kKVShuPtx8gEMPXCvoC12XCJROJSk%2FtkQH%2BBPLfFpfgM9CBWi2P6MXeW6HN%2ByxBP9aQr4Lqvw1NduXa1nigx2fPMLIW%2FsotEc91lxXHwwCaSJrd1WteSGCd1SHyvz0m%2FwsiqQgHKkr2yikcwG%2FljpaaBYnJsIGu4uKf5p0BE3Gu2zFbbMKfI58QGOqUBaZgdZbu9G8yCPBArmY4j54nLyzJU6M68D0auNyXeAQ8aPuOt05VZ13ar3hDHo6BQi0MoieokSaCbCJLjsk5qF%2FlREQVszKj2s6KeZsJwq9Z5BqsXphaCYY5B7bEbTu7tQc9X%2FcXBTW0q0%2BQAK6j4ysuEUezMMTN125S%2FIoLndIrh9z8ntczLCRnRpCWtkZ92K2g2h2sTD8DhE2EmWBvVLwlYo%2BtY&X-Amz-Signature=c2f6939897aa3e119086084ad1fc3de468627dceae745166f1db7548f7b1ce7d&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject",
+            "expiry_time": "2025-08-11T13:59:46.617Z"
+          }
+        },
+        {
+          "name": "weekly_flower_tracker.pdf",
+          "type": "file",
+          "file": {
+            "url": "https://prod-files-secure.s3.us-west-2.amazonaws.com/b46317c6-e48b-4d5f-ae09-8edc20206ee1/15c9bfb4-e1e6-41ce-98c8-1bac5a111bfb/weekly_flower_tracker.pdf?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=ASIAZI2LB466XYY7DXAB%2F20250811%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20250811T125946Z&X-Amz-Expires=3600&X-Amz-Security-Token=IQoJb3JpZ2luX2VjELX%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLXdlc3QtMiJHMEUCIQCkCmmco0%2FW0YsBK%2FPKvTweJi1bMh7p5NnynNz%2Bbb2X4wIgWCY3vQsDVWPQJ1OsONX41bGipKm3G6cYCQrLvviCdMwqiAQI7v%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FARAAGgw2Mzc0MjMxODM4MDUiDHeI0JFeXW9s40sQ1CrcAyep2Fqo4Wi7QoVVq6Cd8ux4PtAMI8B1TdH7re7lrbD27B1t%2FrqJRYDjA0OOGC96FpeR3G8UFlbptRIb6que%2FVZoLJ8Q3kLuTsffmOn6KrIhYneeYv1%2FAGnWVAuWsoZ%2F6Krv9guZVYfOicFIEAYMcEYlYcQRjoNStWsOYvwi705r8mIqyGHLeNmaQ657aZK3FNEswtOZjgKjspON%2BtOJCzsUWs57svsXTeEndDRFLV7O8T5GODVhKCKbFikQZY58W0YZKZSOXlFctNgXZhEjCfnCMPOsVMsoVb%2Fr9ddlhKSHicsFxMGNsUubKrY%2BNvnOKWV3YOQdp6rf2vIcvh9hxMwZHgL6a0YOfoEhHFOpz3gDVFRoLN8wZE%2FSheUepyuVk%2BdU4744ciBUIixkGQ%2BuUsCXUWxYjCLZwY32OZ1fOY4jLCVkYw0MZN%2BB9fyHTrQd7yye17lGKVB3kKVShuPtx8gEMPXCvoC12XCJROJSk%2FtkQH%2BBPLfFpfgM9CBWi2P6MXeW6HN%2ByxBP9aQr4Lqvw1NduXa1nigx2fPMLIW%2FsotEc91lxXHwwCaSJrd1WteSGCd1SHyvz0m%2FwsiqQgHKkr2yikcwG%2FljpaaBYnJsIGu4uKf5p0BE3Gu2zFbbMKfI58QGOqUBaZgdZbu9G8yCPBArmY4j54nLyzJU6M68D0auNyXeAQ8aPuOt05VZ13ar3hDHo6BQi0MoieokSaCbCJLjsk5qF%2FlREQVszKj2s6KeZsJwq9Z5BqsXphaCYY5B7bEbTu7tQc9X%2FcXBTW0q0%2BQAK6j4ysuEUezMMTN125S%2FIoLndIrh9z8ntczLCRnRpCWtkZ92K2g2h2sTD8DhE2EmWBvVLwlYo%2BtY&X-Amz-Signature=650cb8a030d7cde3d96783f06915d5c5957c6698337435d7989e40381b855a1c&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject",
+            "expiry_time": "2025-08-11T13:59:46.624Z"
+          }
+        }
+      ]
+    },
+    "Name": {
+      "id": "title",
+      "type": "title",
+      "title": [
+        {
+          "type": "text",
+          "text": {
+            "content": "record with all props",
+            "link": null
+          },
+          "annotations": {
+            "bold": false,
+            "italic": false,
+            "strikethrough": false,
+            "underline": false,
+            "code": false,
+            "color": "default"
+          },
+          "plain_text": "record with all props",
+          "href": null
+        }
+      ]
+    },
+    "Verification": {
+      "id": "verification",
+      "type": "verification",
+      "verification": {
+        "state": "unverified",
+        "verified_by": null,
+        "date": null
+      }
+    },
+    "Owner": {
+      "id": "verification_owner",
+      "type": "people",
+      "people": [
+        {
+          "object": "user",
+          "id": "aaaaaaa2-cccc-eeee-9999-222222222222",
+          "name": "userName",
+          "avatar_url": "https://s3-us-west-2.amazonaws.com/public.notion-static.com/c183efb3-3c41-4cdc-a77b-5802f650e997/avatartion_1_y.png",
+          "type": "person",
+          "person": {
+            "email": "email1@gmail.com"
+          }
+        }
+      ]
+    }
+  },
+  "url": "https://www.notion.so/record-with-all-props-24cc5b968ec4809c9809caa1d493ca04",
+  "public_url": "https://someurlweb.notion.site/record-with-all-props-24cc5b968ec4809c9809caa1d493ca04",
+  "request_id": "92b86be9-43d2-40b7-bbb7-47a6d8fb7640"
+}

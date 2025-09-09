@@ -1,0 +1,8 @@
+{
+  "sorts": [
+    {
+      "direction": "descending",
+      "timestamp": "last_edited_time"
+    }
+  ]
+}

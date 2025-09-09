@@ -1,0 +1,17 @@
+{
+  "object" : "user",
+  "request_id" : "14444444-4444-43b3-8288-444444444444",
+  "id" : "44444444-4444-43b3-8288-444444444444",
+  "name" : "Integration",
+  "type" : "bot",
+  "bot" : {
+    "owner" : {
+      "type" : "workspace",
+      "workspace" : true
+    },
+    "workspace_name" : "Workspace Name",
+    "workspace_limits" : {
+      "max_file_upload_size_in_bytes" : 5368709120
+    }
+  }
+}
