@@ -76,10 +76,10 @@ public class RichText {
   }
 
   public static RichText of(String plainText) {
-    return of(plainText, "default");
+    return of(plainText, Color.DEFAULT);
   }
 
-  public static RichText of(String plainText, String color) {
+  public static RichText of(String plainText, Color color) {
     RichText richText = new RichText();
     richText.setType("text");
     richText.setPlainText(plainText);
@@ -92,7 +92,7 @@ public class RichText {
     annotations.setStrikethrough(false);
     annotations.setUnderline(false);
     annotations.setCode(false);
-    annotations.setColor(color);
+    annotations.setColor(color.getValue());
     richText.setAnnotations(annotations);
     return richText;
   }

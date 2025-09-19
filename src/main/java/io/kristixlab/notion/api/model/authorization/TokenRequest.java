@@ -20,7 +20,7 @@ public class TokenRequest {
   private String redirectUri;
 
   /** Creates a token request with the authorization code and redirect URI. */
-  public static TokenRequest create(String code, String redirectUri) {
+  public static TokenRequest of(String code, String redirectUri) {
     TokenRequest request = new TokenRequest();
     request.setCode(code);
     request.setRedirectUri(redirectUri);

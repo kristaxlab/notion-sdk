@@ -1,6 +1,7 @@
 package io.kristixlab.notion.api.model.pages.properties;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.kristixlab.notion.api.model.common.Color;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -12,10 +13,17 @@ public class SelectProperty extends PageProperty {
   @JsonProperty("select")
   private SelectValue select;
 
-  @Data
-  public static class SelectValue {
-    private String id;
-    private String name;
-    private String color;
+  public static SelectProperty of(SelectValue select) {
+    SelectProperty property = new SelectProperty();
+    property.setSelect(select);
+    return property;
+  }
+
+  public static SelectProperty of(String id, String name, Color color) {
+    return of(SelectValue.of(id, name, color));
+  }
+
+  public static SelectProperty of(String name, Color color) {
+    return of(null, name, color);
   }
 }

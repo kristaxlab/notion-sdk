@@ -1,11 +1,11 @@
 package io.kristixlab.notion.api;
 
 import io.kristixlab.notion.api.exchange.ApiRequestUtil;
-import io.kristixlab.notion.api.exchange.ApiTransport;
-import io.kristixlab.notion.api.exchange.NotionApiTransport;
+import io.kristixlab.notion.api.exchange.transport.ApiTransport;
 import io.kristixlab.notion.api.model.blocks.AppendBlockChildrenRequest;
 import io.kristixlab.notion.api.model.blocks.Block;
 import io.kristixlab.notion.api.model.blocks.Blocks;
+
 import java.util.Map;
 
 /**
@@ -34,7 +34,7 @@ public class BlocksApi {
     Map<String, String> pathParams = ApiRequestUtil.createPathParams(BLOCK_ID, blockId);
 
     return transport.call(
-        "GET", "/blocks/{block_id}/children", null, pathParams, null, Block.class);
+            "GET", "/blocks/{block_id}/children", null, pathParams, null, Block.class);
   }
 
   /**
@@ -50,9 +50,9 @@ public class BlocksApi {
   /**
    * Retrieve block children with pagination.
    *
-   * @param blockId The ID of the parent block
+   * @param blockId     The ID of the parent block
    * @param startCursor Cursor for pagination (optional)
-   * @param pageSize Number of items to return (optional, max 100)
+   * @param pageSize    Number of items to return (optional, max 100)
    * @return BlocksResponse containing the child blocks
    */
   public Blocks retrieveChildren(String blockId, String startCursor, Integer pageSize) {
@@ -62,24 +62,38 @@ public class BlocksApi {
     Map<String, String[]> queryParams = ApiRequestUtil.createQueryParams(startCursor, pageSize);
 
     return transport.call(
-        "GET", "/blocks/{block_id}/children", queryParams, pathParams, null, Blocks.class);
+            "GET", "/blocks/{block_id}/children", queryParams, pathParams, null, Blocks.class);
+  }
+
+
+  /**
+   * Append block children to a parent block.
+   *
+   * @param parentBlockId The ID of the parent block
+   * @param child         child block to append
+   * @return BlocksResponse containing the appended blocks
+   */
+  public Blocks appendChildren(String parentBlockId, Block child) {
+    AppendBlockChildrenRequest request = new AppendBlockChildrenRequest();
+    request.getChildren().add(child);
+    return appendChildren(parentBlockId, request);
   }
 
   /**
    * Append block children to a parent block.
    *
-   * @param blockId The ID of the parent block
-   * @param request The request containing children blocks to append
+   * @param parentBlockId The ID of the parent block
+   * @param request       The request containing children blocks to append
    * @return BlocksResponse containing the appended blocks
    */
-  public Blocks appendChildren(String blockId, AppendBlockChildrenRequest request) {
-    validateBlockId(blockId);
+  public Blocks appendChildren(String parentBlockId, AppendBlockChildrenRequest request) {
+    validateBlockId(parentBlockId);
     validateRequest(request);
 
-    Map<String, String> pathParams = ApiRequestUtil.createPathParams(BLOCK_ID, blockId);
+    Map<String, String> pathParams = ApiRequestUtil.createPathParams(BLOCK_ID, parentBlockId);
 
     return transport.call(
-        "PATCH", "/blocks/{block_id}/children", null, pathParams, request, Blocks.class);
+            "PATCH", "/blocks/{block_id}/children", null, pathParams, request, Blocks.class);
   }
 
   /**

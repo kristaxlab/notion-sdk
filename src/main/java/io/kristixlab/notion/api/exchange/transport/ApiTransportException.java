@@ -1,4 +1,4 @@
-package io.kristixlab.notion.api.exchange;
+package io.kristixlab.notion.api.exchange.transport;
 
 public class ApiTransportException extends RuntimeException {
 

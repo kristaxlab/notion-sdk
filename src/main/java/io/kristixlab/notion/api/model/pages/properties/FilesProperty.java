@@ -13,4 +13,10 @@ public class FilesProperty extends PageProperty {
 
   @JsonProperty("files")
   private List<FileData> files;
+
+  public static FilesProperty of(List<FileData> files) {
+    FilesProperty property = new FilesProperty();
+    property.setFiles(files);
+    return property;
+  }
 }

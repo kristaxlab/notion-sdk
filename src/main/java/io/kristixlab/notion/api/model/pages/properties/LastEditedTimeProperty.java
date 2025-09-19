@@ -11,4 +11,10 @@ public class LastEditedTimeProperty extends PageProperty {
 
   @JsonProperty("last_edited_time")
   private String lastEditedTime;
+
+  public static LastEditedTimeProperty of(String lastEditedTime) {
+    LastEditedTimeProperty property = new LastEditedTimeProperty();
+    property.setLastEditedTime(lastEditedTime);
+    return property;
+  }
 }

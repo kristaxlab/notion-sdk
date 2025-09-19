@@ -11,5 +11,5 @@ public class PlaceProperty extends PageProperty {
   private final String type = "place";
 
   @JsonProperty("place")
-  private Object place;
+  private Object place = new Object();
 }

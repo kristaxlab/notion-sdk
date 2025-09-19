@@ -11,4 +11,10 @@ public class EmailProperty extends PageProperty {
 
   @JsonProperty("email")
   private String email;
+
+  public static EmailProperty of(String email) {
+    EmailProperty property = new EmailProperty();
+    property.setEmail(email);
+    return property;
+  }
 }

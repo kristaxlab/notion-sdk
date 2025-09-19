@@ -1,8 +1,7 @@
 package io.kristixlab.notion.api;
 
 import io.kristixlab.notion.api.exchange.ApiRequestUtil;
-import io.kristixlab.notion.api.exchange.ApiTransport;
-import io.kristixlab.notion.api.exchange.NotionApiTransport;
+import io.kristixlab.notion.api.exchange.transport.ApiTransport;
 import io.kristixlab.notion.api.model.users.User;
 import io.kristixlab.notion.api.model.users.UsersList;
 import java.util.Map;

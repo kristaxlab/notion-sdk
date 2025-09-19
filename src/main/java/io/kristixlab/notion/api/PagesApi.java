@@ -1,9 +1,9 @@
 package io.kristixlab.notion.api;
 
 import io.kristixlab.notion.api.exchange.ApiRequestUtil;
-import io.kristixlab.notion.api.exchange.ApiTransport;
-import io.kristixlab.notion.api.exchange.NotionApiTransport;
+import io.kristixlab.notion.api.exchange.transport.ApiTransport;
 import io.kristixlab.notion.api.model.pages.Page;
+import io.kristixlab.notion.api.model.pages.UpdatePageRequest;
 import io.kristixlab.notion.api.model.pages.properties.PageProperty;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
@@ -57,7 +57,7 @@ public class PagesApi {
    * @param request The update request
    * @return The updated page
    */
-  public Page updateProperties(String pageId, Page request) {
+  public Page update(String pageId, UpdatePageRequest request) {
     validatePageId(pageId);
     validateRequest(request);
 
@@ -93,8 +93,7 @@ public class PagesApi {
     validatePageId(pageId);
 
     Map<String, String> pathParams = ApiRequestUtil.createPathParams(PAGE_ID, pageId);
-    Page body = new Page();
-    body.setArchived(false);
+    UpdatePageRequest body = new UpdatePageRequest();
     body.setInTrash(false);
 
     return transport.call("PATCH", "/pages/{page_id}", null, pathParams, body, Page.class);

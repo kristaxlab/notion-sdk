@@ -12,4 +12,10 @@ public class LastEditedByProperty extends PageProperty {
 
   @JsonProperty("last_edited_by")
   private User lastEditedBy;
+
+  public static LastEditedByProperty of(User lastEditedBy) {
+    LastEditedByProperty property = new LastEditedByProperty();
+    property.setLastEditedBy(lastEditedBy);
+    return property;
+  }
 }

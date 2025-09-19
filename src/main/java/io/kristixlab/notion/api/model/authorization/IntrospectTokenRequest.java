@@ -21,7 +21,7 @@ public class IntrospectTokenRequest {
   private String tokenTypeHint;
 
   /** Creates an introspection request for an access token. */
-  public static IntrospectTokenRequest forAccessToken(String accessToken) {
+  public static IntrospectTokenRequest ofAccessToken(String accessToken) {
     IntrospectTokenRequest request = new IntrospectTokenRequest();
     request.setToken(accessToken);
     request.setTokenTypeHint("access_token");
@@ -29,7 +29,7 @@ public class IntrospectTokenRequest {
   }
 
   /** Creates an introspection request for a refresh token. */
-  public static IntrospectTokenRequest forRefreshToken(String refreshToken) {
+  public static IntrospectTokenRequest ofRefreshToken(String refreshToken) {
     IntrospectTokenRequest request = new IntrospectTokenRequest();
     request.setToken(refreshToken);
     request.setTokenTypeHint("refresh_token");
@@ -37,7 +37,7 @@ public class IntrospectTokenRequest {
   }
 
   /** Creates a basic introspection request without token type hint. */
-  public static IntrospectTokenRequest create(String token) {
+  public static IntrospectTokenRequest of(String token) {
     IntrospectTokenRequest request = new IntrospectTokenRequest();
     request.setToken(token);
     return request;

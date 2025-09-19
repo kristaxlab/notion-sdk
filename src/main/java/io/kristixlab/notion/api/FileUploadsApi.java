@@ -1,8 +1,7 @@
 package io.kristixlab.notion.api;
 
 import io.kristixlab.notion.api.exchange.ApiRequestUtil;
-import io.kristixlab.notion.api.exchange.ApiTransport;
-import io.kristixlab.notion.api.exchange.NotionApiTransport;
+import io.kristixlab.notion.api.exchange.transport.ApiTransport;
 import io.kristixlab.notion.api.model.files.*;
 import java.util.HashMap;
 import java.util.Map;

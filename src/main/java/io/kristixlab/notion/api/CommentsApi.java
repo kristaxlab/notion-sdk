@@ -1,10 +1,10 @@
 package io.kristixlab.notion.api;
 
 import io.kristixlab.notion.api.exchange.ApiRequestUtil;
-import io.kristixlab.notion.api.exchange.ApiTransport;
-import io.kristixlab.notion.api.exchange.NotionApiTransport;
+import io.kristixlab.notion.api.exchange.transport.ApiTransport;
 import io.kristixlab.notion.api.model.comments.Comment;
 import io.kristixlab.notion.api.model.comments.CommentsList;
+import io.kristixlab.notion.api.model.comments.CreateCommentRequest;
 import java.util.Map;
 
 /**
@@ -28,7 +28,7 @@ public class CommentsApi {
    * @param request The comment to create
    * @return The created comment
    */
-  public Comment create(Comment request) {
+  public Comment create(CreateCommentRequest request) {
     validateRequest(request);
 
     return transport.call("POST", "/comments", null, null, request, Comment.class);

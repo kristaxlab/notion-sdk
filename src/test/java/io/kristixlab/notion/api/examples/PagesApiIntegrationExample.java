@@ -2,12 +2,13 @@ package io.kristixlab.notion.api.examples;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.kristixlab.notion.NotionClient;
+import io.kristixlab.notion.api.NotionApiClient;
 import io.kristixlab.notion.api.PagesApi;
-import io.kristixlab.notion.api.exchange.NotionApiTransport;
+import io.kristixlab.notion.api.NotionApiTransport;
 import io.kristixlab.notion.api.model.common.Parent;
 import io.kristixlab.notion.api.model.common.RichText;
 import io.kristixlab.notion.api.model.pages.Page;
+import io.kristixlab.notion.api.model.pages.UpdatePageRequest;
 import io.kristixlab.notion.api.model.pages.properties.NumberProperty;
 import io.kristixlab.notion.api.model.pages.properties.PageProperty;
 import io.kristixlab.notion.api.model.pages.properties.RichTextProperty;
@@ -38,9 +39,9 @@ public class PagesApiIntegrationExample {
   @BeforeEach
   void setUp() throws IOException {
     String token = System.getenv("NOTION_PRIV_INTEGRATION_TOKEN");
-    NotionClient notionClient = new NotionClient(token, null);
+    NotionApiClient notionApiClient = new NotionApiClient(token, null);
 
-    NotionApiTransport transport = new NotionApiTransport(notionClient, token);
+    NotionApiTransport transport = new NotionApiTransport(notionApiClient, token);
     pagesApi = new PagesApi(transport);
     objectMapper = new ObjectMapper();
     objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, true);
@@ -86,7 +87,7 @@ public class PagesApiIntegrationExample {
 
     String id = page.getId();
 
-    Page updatedPage = new Page();
+    UpdatePageRequest updatedPage = new UpdatePageRequest();
     NumberProperty updatedNumber = new NumberProperty();
     updatedNumber.setNumber(4.456);
     updatedPage.setProperties(new HashMap<>());
@@ -102,9 +103,9 @@ public class PagesApiIntegrationExample {
     text.getRichText().get(0).getText().setContent("yay, updated!");
     updatedPage.getProperties().put("Text", text);
     saveToFile(page, "page--update-request.json");
-    updatedPage = pagesApi.updateProperties(id, updatedPage);
+    Page updated = pagesApi.update(id, updatedPage);
 
-    saveToFile(updatedPage, "page-update-response.json");
+    saveToFile(updated, "page-update-response.json");
   }
 
   @Test

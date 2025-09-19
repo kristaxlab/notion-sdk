@@ -11,4 +11,10 @@ public class CreatedTimeProperty extends PageProperty {
 
   @JsonProperty("created_time")
   private String createdTime;
+
+  public static CreatedTimeProperty of(String createdTime) {
+    CreatedTimeProperty property = new CreatedTimeProperty();
+    property.setCreatedTime(createdTime);
+    return property;
+  }
 }

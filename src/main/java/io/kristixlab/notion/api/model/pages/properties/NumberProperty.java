@@ -10,5 +10,11 @@ public class NumberProperty extends PageProperty {
   private final String type = "number";
 
   @JsonProperty("number")
-  private Double number;
+  private Number number;
+
+  public static NumberProperty of(Number number) {
+    NumberProperty property = new NumberProperty();
+    property.setNumber(number);
+    return property;
+  }
 }

@@ -7,4 +7,10 @@ import lombok.Data;
 public class PageReference {
   @JsonProperty("id")
   private String id;
+
+  public static PageReference of(String id) {
+    PageReference pageReference = new PageReference();
+    pageReference.setId(id);
+    return pageReference;
+  }
 }

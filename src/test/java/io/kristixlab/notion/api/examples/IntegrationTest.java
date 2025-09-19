@@ -1,7 +1,7 @@
 package io.kristixlab.notion.api.examples;
 
-import io.kristixlab.notion.NotionClient;
-import io.kristixlab.notion.api.exchange.NotionApiTransport;
+import io.kristixlab.notion.api.NotionApiClient;
+import io.kristixlab.notion.api.NotionApiTransport;
 import io.kristixlab.notion.api.model.BaseTest;
 import io.kristixlab.notion.api.util.JsonConverter;
 import java.io.File;
@@ -24,9 +24,9 @@ public class IntegrationTest extends BaseTest {
     Path outputDir = Paths.get(TEST_OUTPUT_DIR);
     Files.createDirectories(outputDir);
     // String token = "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";
-    NotionClient notionClient = new NotionClient(TOKEN, null);
+    NotionApiClient notionApiClient = new NotionApiClient(TOKEN, null);
     // NotionClient notionClient = new NotionClient(token, null);
-    transport = new NotionApiTransport(notionClient, "Notion API");
+    transport = new NotionApiTransport(notionApiClient, "Notion API");
   }
 
   protected static String getTestOutputDir() {

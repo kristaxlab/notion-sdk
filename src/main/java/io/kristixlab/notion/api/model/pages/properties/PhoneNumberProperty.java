@@ -11,4 +11,10 @@ public class PhoneNumberProperty extends PageProperty {
 
   @JsonProperty("phone_number")
   private String phoneNumber;
+
+  public static PhoneNumberProperty of(String phoneNumber) {
+    PhoneNumberProperty property = new PhoneNumberProperty();
+    property.setPhoneNumber(phoneNumber);
+    return property;
+  }
 }

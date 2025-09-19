@@ -1,7 +1,6 @@
 package io.kristixlab.notion.api;
 
-import io.kristixlab.notion.api.exchange.ApiTransport;
-import io.kristixlab.notion.api.exchange.NotionApiTransport;
+import io.kristixlab.notion.api.exchange.transport.ApiTransport;
 import io.kristixlab.notion.api.model.search.SearchFilter;
 import io.kristixlab.notion.api.model.search.SearchRequest;
 import io.kristixlab.notion.api.model.search.SearchResponse;

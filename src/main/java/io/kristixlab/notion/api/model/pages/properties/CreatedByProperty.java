@@ -12,4 +12,10 @@ public class CreatedByProperty extends PageProperty {
 
   @JsonProperty("created_by")
   private User createdBy;
+
+  public static CreatedByProperty of(User createdBy) {
+    CreatedByProperty property = new CreatedByProperty();
+    property.setCreatedBy(createdBy);
+    return property;
+  }
 }

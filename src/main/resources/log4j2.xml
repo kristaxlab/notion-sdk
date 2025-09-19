@@ -18,7 +18,7 @@
     </Appenders>
 
     <Loggers>
-        <Logger name="io.kristixlab.notion.api.exchange.ApiTransport" level="DEBUG" additivity="false">
+        <Logger name="io.kristixlab.notion.api.exchange.transport.ApiTransport" level="DEBUG" additivity="false">
             <AppenderRef ref="Console"/>
             <AppenderRef ref="RollingFile"/>
         </Logger>

@@ -1,10 +1,11 @@
 package io.kristixlab.notion.api.model.blocks;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /** Request object for appending block children. */
 public class AppendBlockChildrenRequest {
-  private List<Block> children;
+  private List<Block> children = new ArrayList<>();
   private String after;
 
   public AppendBlockChildrenRequest() {}

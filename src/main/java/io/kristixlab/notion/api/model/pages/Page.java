@@ -5,10 +5,12 @@ import io.kristixlab.notion.api.model.common.FileData;
 import io.kristixlab.notion.api.model.common.Icon;
 import io.kristixlab.notion.api.model.common.NotionObject;
 import io.kristixlab.notion.api.model.pages.properties.PageProperty;
-import java.util.Map;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Data
 @Accessors(chain = true)
@@ -16,7 +18,7 @@ import lombok.experimental.Accessors;
 public class Page extends NotionObject {
 
   @JsonProperty("properties")
-  private Map<String, PageProperty> properties;
+  private Map<String, PageProperty> properties = new HashMap<>();
 
   @JsonProperty("url")
   private String url;
@@ -29,6 +31,5 @@ public class Page extends NotionObject {
 
   @JsonProperty("cover")
   private FileData cover;
-}
 
-// https://developers.notion.com/reference/page
+}

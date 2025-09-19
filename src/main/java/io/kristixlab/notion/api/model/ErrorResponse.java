@@ -1,14 +1,18 @@
 package io.kristixlab.notion.api.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import java.util.List;
 import lombok.Data;
+
+import java.util.List;
 
 @Data
 public class ErrorResponse {
 
   @JsonProperty("object")
   private String object;
+
+  @JsonProperty("error")
+  private String error;
 
   @JsonProperty("status")
   private Integer status;

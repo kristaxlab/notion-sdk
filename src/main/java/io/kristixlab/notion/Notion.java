@@ -1,10 +1,12 @@
 package io.kristixlab.notion;
 
+import io.kristixlab.notion.api.NotionApiClient;
+
 public class Notion {
 
-  private NotionClient client;
+  private NotionApiClient client;
 
-  public Notion(NotionClient client) {
+  public Notion(NotionApiClient client) {
     this.client = client;
   }
 
@@ -13,10 +15,10 @@ public class Notion {
   }
 
   static class PageOperations {
-    private NotionClient client;
+    private NotionApiClient client;
     private String pageId;
 
-    public PageOperations(NotionClient client, String pageId) {
+    public PageOperations(NotionApiClient client, String pageId) {
       this.client = client;
       this.pageId = pageId;
     }
