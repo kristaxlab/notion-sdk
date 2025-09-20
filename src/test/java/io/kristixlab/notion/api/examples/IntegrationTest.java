@@ -24,9 +24,9 @@ public class IntegrationTest extends BaseTest {
     Path outputDir = Paths.get(TEST_OUTPUT_DIR);
     Files.createDirectories(outputDir);
     // String token = "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";
-    NotionApiClient notionApiClient = new NotionApiClient(TOKEN, null);
+    NotionApiClient notionApiClient = new NotionApiClient(TOKEN);
     // NotionClient notionClient = new NotionClient(token, null);
-    transport = new NotionApiTransport(notionApiClient, "Notion API");
+    transport = new NotionApiTransport(notionApiClient);
   }
 
   protected static String getTestOutputDir() {

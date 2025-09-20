@@ -2,9 +2,12 @@ package io.kristixlab.notion.api;
 
 import io.kristixlab.notion.api.exchange.ApiRequestUtil;
 import io.kristixlab.notion.api.exchange.transport.ApiTransport;
+import io.kristixlab.notion.api.exchange.transport.URLInfo;
+import io.kristixlab.notion.api.exchange.transport.URLInfoBuilder;
 import io.kristixlab.notion.api.model.comments.Comment;
 import io.kristixlab.notion.api.model.comments.CommentsList;
 import io.kristixlab.notion.api.model.comments.CreateCommentRequest;
+
 import java.util.Map;
 
 /**
@@ -30,8 +33,7 @@ public class CommentsApi {
    */
   public Comment create(CreateCommentRequest request) {
     validateRequest(request);
-
-    return transport.call("POST", "/comments", null, null, request, Comment.class);
+    return transport.call("POST", URLInfo.build("/comments"), request, Comment.class);
   }
 
   /**
@@ -42,10 +44,8 @@ public class CommentsApi {
    */
   public Comment retrieve(String commentId) {
     validateCommentId(commentId);
-
-    Map<String, String> pathParams = ApiRequestUtil.createPathParams(COMMENT_ID, commentId);
-
-    return transport.call("GET", "/comments/{comment_id}", null, pathParams, null, Comment.class);
+    URLInfo urlInfo = URLInfo.builder("/comments/{comment_id}").pathParam(COMMENT_ID, commentId).build();
+    return transport.call("GET", urlInfo, Comment.class);
   }
 
   /**
@@ -61,35 +61,48 @@ public class CommentsApi {
   /**
    * Retrieve comments for a block with pagination.
    *
-   * @param blockId The ID of the block to retrieve comments for
+   * @param blockId     The ID of the block to retrieve comments for
    * @param startCursor The cursor to start from for pagination
-   * @param pageSize The number of results to return (max 100)
+   * @param pageSize    The number of results to return (max 100)
    * @return Comments response containing the comments
    */
   public CommentsList listComments(String blockId, String startCursor, Integer pageSize) {
     validateBlockId(blockId);
 
-    Map<String, String[]> queryParams = ApiRequestUtil.createQueryParams(startCursor, pageSize);
-    queryParams.put(BLOCK_ID, new String[] {blockId});
+    URLInfoBuilder urlInfo = URLInfo.builder("/comments").queryParam(BLOCK_ID, new String[]{blockId});
 
-    return transport.call("GET", "/comments", queryParams, null, null, CommentsList.class);
+    if (startCursor != null) {
+      urlInfo.queryParam(Pagination.START_CURSOR, startCursor);
+    }
+
+    if (pageSize != null) {
+      urlInfo.queryParam(Pagination.PAGE_SIZE, pageSize);
+    }
+
+    return transport.call("GET", urlInfo.build(), CommentsList.class);
   }
 
-  /** Validates the block ID parameter. */
+  /**
+   * Validates the block ID parameter.
+   */
   private void validateCommentId(String commentId) {
     if (commentId == null || commentId.trim().isEmpty()) {
       throw new IllegalArgumentException("Comment ID cannot be null or empty");
     }
   }
 
-  /** Validates the block ID parameter. */
+  /**
+   * Validates the block ID parameter.
+   */
   private void validateBlockId(String blockId) {
     if (blockId == null || blockId.trim().isEmpty()) {
       throw new IllegalArgumentException("Block ID cannot be null or empty");
     }
   }
 
-  /** Validates the request object. */
+  /**
+   * Validates the request object.
+   */
   private void validateRequest(Object request) {
     if (request == null) {
       throw new IllegalArgumentException("Request cannot be null");

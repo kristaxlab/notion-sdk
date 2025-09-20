@@ -1,12 +1,11 @@
 package io.kristixlab.notion.api;
 
-import io.kristixlab.notion.api.exchange.ApiRequestUtil;
 import io.kristixlab.notion.api.exchange.transport.ApiTransport;
+import io.kristixlab.notion.api.exchange.transport.URLInfo;
+import io.kristixlab.notion.api.exchange.transport.URLInfoBuilder;
 import io.kristixlab.notion.api.model.blocks.AppendBlockChildrenRequest;
 import io.kristixlab.notion.api.model.blocks.Block;
 import io.kristixlab.notion.api.model.blocks.Blocks;
-
-import java.util.Map;
 
 /**
  * API for interacting with Notion Blocks endpoints. Provides methods to retrieve, create, update,
@@ -31,10 +30,9 @@ public class BlocksApi {
   public Block retrieve(String blockId) {
     validateBlockId(blockId);
 
-    Map<String, String> pathParams = ApiRequestUtil.createPathParams(BLOCK_ID, blockId);
+    URLInfo urlInfo = URLInfo.builder("/blocks/{block_id}/children").pathParam(BLOCK_ID, blockId).build();
 
-    return transport.call(
-            "GET", "/blocks/{block_id}/children", null, pathParams, null, Block.class);
+    return transport.call("GET", urlInfo, Block.class);
   }
 
   /**
@@ -58,11 +56,17 @@ public class BlocksApi {
   public Blocks retrieveChildren(String blockId, String startCursor, Integer pageSize) {
     validateBlockId(blockId);
 
-    Map<String, String> pathParams = ApiRequestUtil.createPathParams(BLOCK_ID, blockId);
-    Map<String, String[]> queryParams = ApiRequestUtil.createQueryParams(startCursor, pageSize);
+    URLInfoBuilder urlInfo = URLInfo.builder("/blocks/{block_id}/children").pathParam(BLOCK_ID, blockId);
 
-    return transport.call(
-            "GET", "/blocks/{block_id}/children", queryParams, pathParams, null, Blocks.class);
+    if (startCursor != null) {
+      urlInfo.queryParam(Pagination.START_CURSOR, startCursor);
+    }
+
+    if (pageSize != null) {
+      urlInfo.queryParam(Pagination.PAGE_SIZE, pageSize);
+    }
+
+    return transport.call("GET", urlInfo.build(), Blocks.class);
   }
 
 
@@ -90,10 +94,9 @@ public class BlocksApi {
     validateBlockId(parentBlockId);
     validateRequest(request);
 
-    Map<String, String> pathParams = ApiRequestUtil.createPathParams(BLOCK_ID, parentBlockId);
+    URLInfo urlInfo = URLInfo.builder("/blocks/{block_id}/children").pathParam(BLOCK_ID, parentBlockId).build();
 
-    return transport.call(
-            "PATCH", "/blocks/{block_id}/children", null, pathParams, request, Blocks.class);
+    return transport.call("PATCH", urlInfo, request, Blocks.class);
   }
 
   /**
@@ -107,9 +110,9 @@ public class BlocksApi {
     validateBlockId(blockId);
     validateRequest(request);
 
-    Map<String, String> pathParams = ApiRequestUtil.createPathParams(BLOCK_ID, blockId);
+    URLInfo urlInfo = URLInfo.builder("/blocks/{block_id}").pathParam(BLOCK_ID, blockId).build();
 
-    return transport.call("PATCH", "/blocks/{block_id}", null, pathParams, request, Block.class);
+    return transport.call("PATCH", urlInfo, request, Block.class);
   }
 
   /**
@@ -120,10 +123,8 @@ public class BlocksApi {
    */
   public Block delete(String blockId) {
     validateBlockId(blockId);
-
-    Map<String, String> pathParams = ApiRequestUtil.createPathParams(BLOCK_ID, blockId);
-
-    return transport.call("DELETE", "/blocks/{block_id}", null, pathParams, null, Block.class);
+    URLInfo urlInfo = URLInfo.builder("/blocks/{block_id}").pathParam(BLOCK_ID, blockId).build();
+    return transport.call("DELETE", urlInfo, Block.class);
   }
 
   /**
@@ -133,14 +134,9 @@ public class BlocksApi {
    * @return The deleted block (marked as archived)
    */
   public Block restore(String blockId) {
-    validateBlockId(blockId);
-
-    Map<String, String> pathParams = ApiRequestUtil.createPathParams(BLOCK_ID, blockId);
     Block body = new Block();
-    body.setArchived(false);
     body.setInTrash(false);
-
-    return transport.call("PATCH", "/blocks/{block_id}", null, pathParams, body, Block.class);
+    return updateBlock(blockId, body);
   }
 
   /**

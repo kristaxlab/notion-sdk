@@ -1,13 +1,14 @@
 package io.kristixlab.notion.api;
 
-import io.kristixlab.notion.api.exchange.ApiRequestUtil;
 import io.kristixlab.notion.api.exchange.transport.ApiTransport;
+import io.kristixlab.notion.api.exchange.transport.URLInfo;
+import io.kristixlab.notion.api.exchange.transport.URLInfoBuilder;
 import io.kristixlab.notion.api.model.pages.Page;
 import io.kristixlab.notion.api.model.pages.UpdatePageRequest;
 import io.kristixlab.notion.api.model.pages.properties.PageProperty;
+
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
-import java.util.Map;
 
 /**
  * API for interacting with Notion Pages endpoints. Provides methods to retrieve, create, and update
@@ -32,10 +33,8 @@ public class PagesApi {
    */
   public Page retrieve(String pageId) {
     validatePageId(pageId);
-
-    Map<String, String> pathParams = ApiRequestUtil.createPathParams(PAGE_ID, pageId);
-
-    return transport.call("GET", "/pages/{page_id}", null, pathParams, null, Page.class);
+    URLInfo urlInfo = URLInfo.builder("/pages/{page_id}").pathParam(PAGE_ID, pageId).build();
+    return transport.call("GET", urlInfo, Page.class);
   }
 
   /**
@@ -46,14 +45,14 @@ public class PagesApi {
    */
   public Page create(Page request) {
     validateRequest(request);
-
-    return transport.call("POST", "/pages", null, null, request, Page.class);
+    URLInfo urlInfo = URLInfo.build("/pages");
+    return transport.call("POST", urlInfo, request, Page.class);
   }
 
   /**
    * Update page properties.
    *
-   * @param pageId The ID of the page to update
+   * @param pageId  The ID of the page to update
    * @param request The update request
    * @return The updated page
    */
@@ -61,9 +60,9 @@ public class PagesApi {
     validatePageId(pageId);
     validateRequest(request);
 
-    Map<String, String> pathParams = ApiRequestUtil.createPathParams(PAGE_ID, pageId);
+    URLInfo urlInfo = URLInfo.builder("/pages/{page_id}").pathParam(PAGE_ID, pageId).build();
 
-    return transport.call("PATCH", "/pages/{page_id}", null, pathParams, request, Page.class);
+    return transport.call("PATCH", urlInfo, request, Page.class);
   }
 
   /**
@@ -73,14 +72,9 @@ public class PagesApi {
    * @return The archived page
    */
   public Page delete(String pageId) {
-    validatePageId(pageId);
-
-    Map<String, String> pathParams = ApiRequestUtil.createPathParams(PAGE_ID, pageId);
-    Page body = new Page();
-    body.setArchived(true);
-    body.setInTrash(true);
-
-    return transport.call("PATCH", "/pages/{page_id}", null, pathParams, body, Page.class);
+    UpdatePageRequest updatePageRequest = new UpdatePageRequest();
+    updatePageRequest.setInTrash(true);
+    return update(pageId, updatePageRequest);
   }
 
   /**
@@ -90,65 +84,49 @@ public class PagesApi {
    * @return The unarchived page
    */
   public Page restore(String pageId) {
-    validatePageId(pageId);
-
-    Map<String, String> pathParams = ApiRequestUtil.createPathParams(PAGE_ID, pageId);
-    UpdatePageRequest body = new UpdatePageRequest();
-    body.setInTrash(false);
-
-    return transport.call("PATCH", "/pages/{page_id}", null, pathParams, body, Page.class);
+    UpdatePageRequest updatePageRequest = new UpdatePageRequest();
+    updatePageRequest.setInTrash(false);
+    return update(pageId, updatePageRequest);
   }
 
   /**
    * Retrieve a specific page property.
    *
-   * @param pageId The ID of the page
+   * @param pageId     The ID of the page
    * @param propertyId The ID of the property to retrieve
    * @return The property object
    */
   public PageProperty retrieveProperty(String pageId, String propertyId) {
-    validatePageId(pageId);
-    validatePropertyId(propertyId);
-
-    Map<String, String> pathParams =
-        ApiRequestUtil.createPathParams(
-            PAGE_ID, pageId, PROPERTY_ID, URLDecoder.decode(propertyId, StandardCharsets.UTF_8));
-
-    return transport.call(
-        "GET",
-        "/pages/{page_id}/properties/{property_id}",
-        null,
-        pathParams,
-        null,
-        PageProperty.class);
+    return retrieveProperty(pageId, propertyId, null, null);
   }
 
   /**
    * Retrieve a specific page property with pagination.
    *
-   * @param pageId The ID of the page
-   * @param propertyId The ID of the property to retrieve
+   * @param pageId      The ID of the page
+   * @param propertyId  The ID of the property to retrieve
    * @param startCursor Cursor for pagination (optional)
-   * @param pageSize Number of items to return (optional, max 100)
+   * @param pageSize    Number of items to return (optional, max 100)
    * @return The property object
    */
   public PageProperty retrieveProperty(
-      String pageId, String propertyId, String startCursor, Integer pageSize) {
+          String pageId, String propertyId, String startCursor, Integer pageSize) {
     validatePageId(pageId);
     validatePropertyId(propertyId);
 
-    Map<String, String> pathParams =
-        ApiRequestUtil.createPathParams(
-            PAGE_ID, pageId, PROPERTY_ID, URLDecoder.decode(propertyId, StandardCharsets.UTF_8));
-    Map<String, String[]> queryParams = ApiRequestUtil.createQueryParams(startCursor, pageSize);
+    URLInfoBuilder urlInfo = URLInfo.builder("/pages/{page_id}/properties/{property_id}")
+            .pathParam(PAGE_ID, pageId)
+            .pathParam(PROPERTY_ID, URLDecoder.decode(propertyId, StandardCharsets.UTF_8));
 
-    return transport.call(
-        "GET",
-        "/pages/{page_id}/properties/{property_id}",
-        queryParams,
-        pathParams,
-        null,
-        PageProperty.class);
+    if (startCursor != null) {
+      urlInfo.queryParam(Pagination.START_CURSOR, startCursor);
+    }
+
+    if (pageSize != null) {
+      urlInfo.queryParam(Pagination.PAGE_SIZE, pageSize).build();
+    }
+
+    return transport.call("GET", urlInfo.build(), PageProperty.class);
   }
 
   /**

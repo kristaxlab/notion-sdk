@@ -1,12 +1,11 @@
 package io.kristixlab.notion.api;
 
-import io.kristixlab.notion.api.exchange.ApiRequestUtil;
 import io.kristixlab.notion.api.exchange.transport.ApiTransport;
+import io.kristixlab.notion.api.exchange.transport.URLInfo;
 import io.kristixlab.notion.api.model.datasources.CreateDataSourceRequest;
 import io.kristixlab.notion.api.model.datasources.Datasource;
 import io.kristixlab.notion.api.model.datasources.DatasourceQueryRequest;
 import io.kristixlab.notion.api.model.datasources.DatasourceQueryResponse;
-import java.util.Map;
 
 /**
  * API for interacting with Notion Data Sources endpoints (API version 2025-09-03+). Provides
@@ -30,11 +29,9 @@ public class DatasourcesApi {
    */
   public Datasource retrieve(String dataSourceId) {
     validateDataSourceId(dataSourceId);
-
-    Map<String, String> pathParams = ApiRequestUtil.createPathParams(DATA_SOURCE_ID, dataSourceId);
-
-    return transport.call(
-        "GET", "/data_sources/{data_source_id}", null, pathParams, null, Datasource.class);
+    URLInfo urlInfo = URLInfo.builder("/data_sources/{data_source_id}")
+            .pathParam(DATA_SOURCE_ID, dataSourceId).build();
+    return transport.call("GET", urlInfo, Datasource.class);
   }
 
   /**
@@ -45,25 +42,25 @@ public class DatasourcesApi {
    */
   public Datasource create(CreateDataSourceRequest request) {
     validateRequest(request);
-
-    return transport.call("POST", "/data_sources", null, null, request, Datasource.class);
+    return transport.call("POST", URLInfo.build("/data_sources"), request, Datasource.class);
   }
 
   /**
    * Update an existing data source.
    *
    * @param dataSourceId The ID of the data source to update
-   * @param request The request containing updated data source data
+   * @param request      The request containing updated data source data
    * @return The updated data source
    */
+  // TODO replace with UpdateDatasourceRequest to only support fields that are actually possible to change via the API
   public Datasource update(String dataSourceId, Datasource request) {
     validateDataSourceId(dataSourceId);
     validateRequest(request);
 
-    Map<String, String> pathParams = ApiRequestUtil.createPathParams(DATA_SOURCE_ID, dataSourceId);
+    URLInfo urlInfo = URLInfo.builder("/data_sources/{data_source_id}")
+            .pathParam(DATA_SOURCE_ID, dataSourceId).build();
 
-    return transport.call(
-        "PATCH", "/data_sources/{data_source_id}", null, pathParams, request, Datasource.class);
+    return transport.call("PATCH", urlInfo, request, Datasource.class);
   }
 
   /**
@@ -74,11 +71,8 @@ public class DatasourcesApi {
    * @return The updated data source with inTrash set to true
    */
   public Datasource delete(String dataSourceId) {
-    validateDataSourceId(dataSourceId);
-
     Datasource deleteRequest = new Datasource();
     deleteRequest.setInTrash(true);
-
     return update(dataSourceId, deleteRequest);
   }
 
@@ -90,11 +84,8 @@ public class DatasourcesApi {
    * @return The updated data source with inTrash set to false
    */
   public Datasource restore(String dataSourceId) {
-    validateDataSourceId(dataSourceId);
-
     Datasource restoreRequest = new Datasource();
     restoreRequest.setInTrash(false);
-
     return update(dataSourceId, restoreRequest);
   }
 
@@ -105,7 +96,6 @@ public class DatasourcesApi {
    * @return Response containing matching pages
    */
   public DatasourceQueryResponse query(String dataSourceId) {
-    validateDataSourceId(dataSourceId);
     return query(dataSourceId, null, null, null);
   }
 
@@ -113,7 +103,7 @@ public class DatasourcesApi {
    * Query a data source to get pages that match the specified criteria.
    *
    * @param dataSourceId The ID of the data source to query
-   * @param request The query request containing filter and sort criteria
+   * @param request      The query request containing filter and sort criteria
    * @return Response containing matching pages
    */
   public DatasourceQueryResponse query(String dataSourceId, DatasourceQueryRequest request) {
@@ -124,38 +114,40 @@ public class DatasourcesApi {
    * Query a data source with pagination parameters.
    *
    * @param dataSourceId The ID of the data source to query
-   * @param startCursor The cursor to start pagination from
-   * @param pageSize The number of items to return (max 100)
+   * @param startCursor  The cursor to start pagination from
+   * @param pageSize     The number of items to return (max 100)
    * @return Response containing matching pages
    */
   public DatasourceQueryResponse query(String dataSourceId, String startCursor, Integer pageSize) {
-    return query(dataSourceId, null, startCursor, pageSize);
+    return query(dataSourceId, new DatasourceQueryRequest(), startCursor, pageSize);
   }
 
   /**
    * Query a data source with pagination parameters.
    *
    * @param dataSourceId The ID of the data source to query
-   * @param request The query request containing filter and sort criteria
-   * @param pageSize The number of items to return (max 100)
-   * @param startCursor The cursor to start pagination from
+   * @param request      The query request containing filter and sort criteria
+   * @param pageSize     The number of items to return (max 100)
+   * @param startCursor  The cursor to start pagination from
    * @return Response containing matching pages
    */
   public DatasourceQueryResponse query(
-      String dataSourceId, DatasourceQueryRequest request, String startCursor, Integer pageSize) {
+          String dataSourceId, DatasourceQueryRequest request, String startCursor, Integer pageSize) {
     validateDataSourceId(dataSourceId);
+    validateRequest(request);
 
-    Map<String, String> pathParams = ApiRequestUtil.createPathParams(DATA_SOURCE_ID, dataSourceId);
-    request.setStartCursor(startCursor);
-    request.setPageSize(pageSize);
+    if (startCursor != null) {
+      request.setStartCursor(startCursor);
+    }
 
-    return transport.call(
-        "POST",
-        "/data_sources/{data_source_id}/query",
-        null,
-        pathParams,
-        request,
-        DatasourceQueryResponse.class);
+    if (pageSize != null) {
+      request.setPageSize(pageSize);
+    }
+
+    URLInfo urlInfo = URLInfo.builder("/data_sources/{data_source_id}/query").
+            pathParam(DATA_SOURCE_ID, dataSourceId).build();
+
+    return transport.call("POST", urlInfo, request, DatasourceQueryResponse.class);
   }
 
   private void validateDataSourceId(String dataSourceId) {

@@ -1,6 +1,10 @@
 package io.kristixlab.notion.api;
 
+import io.kristixlab.notion.api.exchange.transport.URLInfo;
 import io.kristixlab.notion.api.model.authorization.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * API for handling Notion OAuth authorization flow. Provides methods to exchange authorization
@@ -9,10 +13,10 @@ import io.kristixlab.notion.api.model.authorization.*;
 public class AuthorizationApi {
 
   private final NotionApiTransport transport;
-  private final NotionApiClient client;
+  private final NotionAuthSettings authSettings;
 
-  public AuthorizationApi(NotionApiClient client, NotionApiTransport transport) {
-    this.client = client;
+  public AuthorizationApi(NotionAuthSettings authSettings, NotionApiTransport transport) {
+    this.authSettings = authSettings;
     this.transport = transport;
   }
 
@@ -23,10 +27,10 @@ public class AuthorizationApi {
    * @param code The authorization code
    * @return TokenResponse containing the access token and workspace information
    * <p>
-   * TODO will it work without redirect url?
    */
   public TokenResponse exchangeCodeForToken(String code) {
-    return exchangeCodeForToken(TokenRequest.of(code, client.getAuthSettings().getRedirectUri()));
+    TokenRequest request = TokenRequest.of(code, null);
+    return exchangeCodeForToken(request);
   }
 
   /**
@@ -37,7 +41,8 @@ public class AuthorizationApi {
    * @return TokenResponse containing the access token and workspace information
    */
   public TokenResponse exchangeCodeForToken(String code, String redirectUri) {
-    return exchangeCodeForToken(TokenRequest.of(code, redirectUri));
+    TokenRequest request = TokenRequest.of(code, redirectUri);
+    return exchangeCodeForToken(request);
   }
 
   /**
@@ -48,11 +53,29 @@ public class AuthorizationApi {
    */
   public TokenResponse exchangeCodeForToken(TokenRequest request) {
     validateRequest(request);
-    TokenResponse response = transport.call("POST", "/oauth/token", request, TokenResponse.class);
-    // update client auth settings with new tokens
-    client.getAuthSettings().setAccessToken(response.getAccessToken());
-    client.getAuthSettings().setRefreshToken(response.getRefreshToken());
+    URLInfo urlInfo = URLInfo.build("/oauth/token");
+
+    TokenResponse response = transport.call("POST", urlInfo, request, TokenResponse.class);
+
+    authSettings.setAccessToken(response.getAccessToken());
+    authSettings.setRefreshToken(response.getRefreshToken());
     return response;
+  }
+
+
+  /**
+   * Exchange an authorization code for an access token with a TokenRequest object and client credentials.
+   *
+   * @param request      The token request containing code and redirect URI
+   * @param clientId     The OAuth client ID
+   * @param clientSecret The OAuth client secret
+   * @return TokenResponse containing the access token and workspace information
+   */
+  public TokenResponse exchangeCodeForToken(TokenRequest request, String clientId, String clientSecret) {
+    validateRequest(request);
+    URLInfo urlInfo = URLInfo.build("/oauth/token");
+    Map<String, String> headers = authHeader(clientId, clientSecret);
+    return transport.call("POST", urlInfo, headers, request, TokenResponse.class);
   }
 
   /**
@@ -61,7 +84,10 @@ public class AuthorizationApi {
    * @return TokenResponse containing the new access token and workspace information
    */
   public TokenResponse refreshToken() {
-    return refreshToken(client.getAuthSettings().getRefreshToken());
+    TokenResponse response = refreshToken(authSettings.getRefreshToken());
+    authSettings.setAccessToken(response.getAccessToken());
+    authSettings.setRefreshToken(response.getRefreshToken());
+    return response;
   }
 
   /**
@@ -83,11 +109,36 @@ public class AuthorizationApi {
    */
   public TokenResponse refreshToken(RefreshTokenRequest request) {
     validateRefreshTokenRequest(request);
-    TokenResponse response = transport.call("POST", "/oauth/token", request, TokenResponse.class);
-    // update client auth settings with new tokens
-    client.getAuthSettings().setAccessToken(response.getAccessToken());
-    client.getAuthSettings().setRefreshToken(response.getRefreshToken());
-    return response;
+    URLInfo urlInfo = URLInfo.build("/oauth/token");
+    return transport.call("POST", urlInfo, request, TokenResponse.class);
+  }
+
+  /**
+   * Refresh an access token using a refresh token with client credentials.
+   *
+   * @param refreshToken The refresh token received from the initial OAuth token exchange
+   * @param clientId     The OAuth client ID
+   * @param clientSecret The OAuth client secret
+   * @return TokenResponse containing the new access token and workspace information
+   */
+  public TokenResponse refreshToken(String refreshToken, String clientId, String clientSecret) {
+    RefreshTokenRequest request = RefreshTokenRequest.create(refreshToken);
+    return refreshToken(request, clientId, clientSecret);
+  }
+
+  /**
+   * Refresh an access token using a refresh token with client credentials.
+   *
+   * @param request      The refresh token received from the initial OAuth token exchange
+   * @param clientId     The OAuth client ID
+   * @param clientSecret The OAuth client secret
+   * @return TokenResponse containing the new access token and workspace information
+   */
+  public TokenResponse refreshToken(RefreshTokenRequest request, String clientId, String clientSecret) {
+    validateRefreshTokenRequest(request);
+    URLInfo urlInfo = URLInfo.build("/oauth/token");
+    Map<String, String> headers = authHeader(clientId, clientSecret);
+    return transport.call("POST", urlInfo, headers, request, TokenResponse.class);
   }
 
   /**
@@ -96,7 +147,8 @@ public class AuthorizationApi {
    * @return IntrospectTokenResponse containing token information
    */
   public IntrospectTokenResponse introspectAccessToken() {
-    return introspectAccessToken(client.getAuthSettings().getAccessToken());
+    IntrospectTokenRequest request = IntrospectTokenRequest.of(authSettings.getAccessToken());
+    return introspectToken(request);
   }
 
   /**
@@ -105,7 +157,8 @@ public class AuthorizationApi {
    * @return IntrospectTokenResponse containing token information
    */
   public IntrospectTokenResponse introspectRefreshToken() {
-    return introspectRefreshToken(client.getAuthSettings().getRefreshToken());
+    IntrospectTokenRequest request = IntrospectTokenRequest.of(authSettings.getRefreshToken());
+    return introspectToken(request);
   }
 
   /**
@@ -116,36 +169,8 @@ public class AuthorizationApi {
    * TODO check if it will work without type hint
    */
   public IntrospectTokenResponse introspectToken(String token) {
-    validateToken(token);
-
     IntrospectTokenRequest request = IntrospectTokenRequest.of(token);
-    return transport.call("POST", "/oauth/introspect", request, IntrospectTokenResponse.class);
-  }
-
-  /**
-   * Introspect an access token with type hint.
-   *
-   * @param accessToken The access token to introspect
-   * @return IntrospectTokenResponse containing token information
-   */
-  public IntrospectTokenResponse introspectAccessToken(String accessToken) {
-    validateToken(accessToken);
-
-    IntrospectTokenRequest request = IntrospectTokenRequest.ofAccessToken(accessToken);
-    return transport.call("POST", "/oauth/introspect", request, IntrospectTokenResponse.class);
-  }
-
-  /**
-   * Introspect a refresh token with type hint.
-   *
-   * @param refreshToken The refresh token to introspect
-   * @return IntrospectTokenResponse containing token information
-   */
-  public IntrospectTokenResponse introspectRefreshToken(String refreshToken) {
-    validateToken(refreshToken);
-
-    IntrospectTokenRequest request = IntrospectTokenRequest.ofRefreshToken(refreshToken);
-    return transport.call("POST", "/oauth/introspect", request, IntrospectTokenResponse.class);
+    return introspectToken(request);
   }
 
   /**
@@ -156,7 +181,36 @@ public class AuthorizationApi {
    */
   public IntrospectTokenResponse introspectToken(IntrospectTokenRequest request) {
     validateIntrospectTokenRequest(request);
-    return transport.call("POST", "/oauth/introspect", request, IntrospectTokenResponse.class);
+    URLInfo urlInfo = URLInfo.build("/oauth/introspect");
+    return transport.call("POST", urlInfo, request, IntrospectTokenResponse.class);
+  }
+
+  /**
+   * Introspect a token to get information about its validity and properties with client credentials.
+   *
+   * @param token        The token to introspect (access token or refresh token)
+   * @param clientId     The OAuth client ID
+   * @param clientSecret The OAuth client secret
+   * @return IntrospectTokenResponse containing token information
+   */
+  public IntrospectTokenResponse introspectToken(String token, String clientId, String clientSecret) {
+    IntrospectTokenRequest request = IntrospectTokenRequest.of(token);
+    return introspectToken(request, clientId, clientSecret);
+  }
+
+  /**
+   * Introspect a token using an IntrospectTokenRequest object with client credentials.
+   *
+   * @param request      The introspection request containing token and optional type hint
+   * @param clientId     The OAuth client ID
+   * @param clientSecret The OAuth client secret
+   * @return IntrospectTokenResponse containing token information
+   */
+  public IntrospectTokenResponse introspectToken(IntrospectTokenRequest request, String clientId, String clientSecret) {
+    validateIntrospectTokenRequest(request);
+    URLInfo urlInfo = URLInfo.build("/oauth/introspect");
+    Map<String, String> headers = authHeader(clientId, clientSecret);
+    return transport.call("POST", urlInfo, headers, request, IntrospectTokenResponse.class);
   }
 
 
@@ -166,7 +220,7 @@ public class AuthorizationApi {
    * @return RevokeTokenResponse indicating revocation status
    */
   public RevokeTokenResponse revokeToken() {
-    return revokeToken(client.getAuthSettings().getAccessToken());
+    return revokeToken(authSettings.getAccessToken());
   }
 
   /**
@@ -177,9 +231,23 @@ public class AuthorizationApi {
    */
   public RevokeTokenResponse revokeToken(String token) {
     validateToken(token);
-
     RevokeTokenRequest request = RevokeTokenRequest.create(token);
-    return transport.call("POST", "/oauth/revoke", request, RevokeTokenResponse.class);
+    URLInfo urlInfo = URLInfo.builder("/oauth/revoke").build();
+    return transport.call("POST", urlInfo, request, RevokeTokenResponse.class);
+  }
+
+  public RevokeTokenResponse revokeToken(String token, String clientId, String clientSecret) {
+    validateToken(token);
+    RevokeTokenRequest request = RevokeTokenRequest.create(token);
+    URLInfo urlInfo = URLInfo.build("/oauth/revoke");
+    Map<String, String> headers = authHeader(clientId, clientSecret);
+    return transport.call("POST", urlInfo, headers, request, RevokeTokenResponse.class);
+  }
+
+  private Map<String, String> authHeader(String clientId, String clientSecret) {
+    Map<String, String> headers = new HashMap<>();
+    headers.put("Authorization", NotionAuthUtil.basic(clientId, clientSecret));
+    return headers;
   }
 
   private void validateRequest(TokenRequest request) {

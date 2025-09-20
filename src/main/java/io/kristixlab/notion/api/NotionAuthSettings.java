@@ -3,8 +3,6 @@ package io.kristixlab.notion.api;
 import lombok.Data;
 import lombok.Setter;
 
-import java.util.Base64;
-
 @Data
 public class NotionAuthSettings {
 
@@ -46,7 +44,7 @@ public class NotionAuthSettings {
    * OAuth2 authorization code exchange
    */
   @Setter(lombok.AccessLevel.NONE)
-  private String publicIntegrationBase64AuthHeader;
+  private String oauthBasicHeader;
 
   public void setAccessToken(String accessToken) {
     this.accessToken = accessToken;
@@ -55,27 +53,26 @@ public class NotionAuthSettings {
 
   public void setClientId(String clientId) {
     this.clientId = clientId;
-    this.publicIntegrationBase64AuthHeader = null;
+    this.oauthBasicHeader = null;
   }
 
   public void setClientSecret(String clientSecret) {
     this.clientSecret = clientSecret;
-    this.publicIntegrationBase64AuthHeader = null;
+    this.oauthBasicHeader = null;
   }
 
   public String getTokenAuthHeader() {
     if (tokenAuthHeader == null && accessToken != null) {
-      tokenAuthHeader = "Bearer " + accessToken;
+      tokenAuthHeader = NotionAuthUtil.bearer(accessToken);
     }
     return tokenAuthHeader;
   }
 
-  public String getPublicIntegrationBase64AuthHeader() {
-    if (publicIntegrationBase64AuthHeader == null && clientId != null && clientSecret != null) {
-      String toEncode = clientId + ":" + clientSecret;
-      publicIntegrationBase64AuthHeader = "Basic " + Base64.getEncoder().encodeToString(toEncode.getBytes());
+  public String getOauthBasicHeader() {
+    if (oauthBasicHeader == null && clientId != null && clientSecret != null) {
+      oauthBasicHeader = NotionAuthUtil.basic(clientId, clientSecret);
     }
-    return publicIntegrationBase64AuthHeader;
+    return oauthBasicHeader;
   }
 
 }

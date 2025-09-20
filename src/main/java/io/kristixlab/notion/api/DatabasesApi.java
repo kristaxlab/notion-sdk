@@ -1,11 +1,10 @@
 package io.kristixlab.notion.api;
 
-import io.kristixlab.notion.api.exchange.ApiRequestUtil;
 import io.kristixlab.notion.api.exchange.transport.ApiTransport;
+import io.kristixlab.notion.api.exchange.transport.URLInfo;
 import io.kristixlab.notion.api.model.databases.CreateDatabaseRequest;
 import io.kristixlab.notion.api.model.databases.Database;
 import io.kristixlab.notion.api.model.databases.UpdateDatabaseRequest;
-import java.util.Map;
 
 /**
  * API for interacting with Notion Databases endpoints. Provides methods to retrieve, create,
@@ -14,9 +13,6 @@ import java.util.Map;
 public class DatabasesApi {
 
   private static final String DATABASE_ID = "database_id";
-  private static final String PAGE_SIZE = "page_size";
-  private static final String START_CURSOR = "start_cursor";
-
   private final ApiTransport transport;
 
   public DatabasesApi(NotionApiTransport transport) {
@@ -31,11 +27,8 @@ public class DatabasesApi {
    */
   public Database retrieve(String databaseId) {
     validateDatabaseId(databaseId);
-
-    Map<String, String> pathParams = ApiRequestUtil.createPathParams(DATABASE_ID, databaseId);
-
-    return transport.call(
-        "GET", "/databases/{database_id}", null, pathParams, null, Database.class);
+    URLInfo urlInfo = URLInfo.builder("/databases/{database_id}").pathParam(DATABASE_ID, databaseId).build();
+    return transport.call("GET", urlInfo, Database.class);
   }
 
   /**
@@ -46,8 +39,8 @@ public class DatabasesApi {
    */
   public Database create(CreateDatabaseRequest request) {
     validateRequest(request);
-
-    return transport.call("POST", "/databases", null, null, request, Database.class);
+    URLInfo urlInfo = URLInfo.build("/databases");
+    return transport.call("POST", urlInfo, request, Database.class);
   }
 
   /**
@@ -57,30 +50,23 @@ public class DatabasesApi {
    * @return The updated database
    */
   public Database update(UpdateDatabaseRequest request) {
-    validateDatabaseId(request.getId());
-    validateRequest(request);
-
-    Map<String, String> pathParams = ApiRequestUtil.createPathParams(DATABASE_ID, request.getId());
-
-    return transport.call(
-        "PATCH", "/databases/{database_id}", null, pathParams, request, Database.class);
+    return update(request.getId(), request);
   }
 
   /**
    * Update an existing database.
    *
    * @param databaseId The ID of the database to update
-   * @param request The request containing updated database data
+   * @param request    The request containing updated database data
    * @return The updated database
    */
   public Database update(String databaseId, UpdateDatabaseRequest request) {
     validateDatabaseId(databaseId);
     validateRequest(request);
 
-    Map<String, String> pathParams = ApiRequestUtil.createPathParams(DATABASE_ID, databaseId);
+    URLInfo urlInfo = URLInfo.builder("/databases/{database_id}").pathParam(DATABASE_ID, databaseId).build();
 
-    return transport.call(
-        "PATCH", "/databases/{database_id}", null, pathParams, request, Database.class);
+    return transport.call("PATCH", urlInfo, request, Database.class);
   }
 
   /**
@@ -91,11 +77,8 @@ public class DatabasesApi {
    * @return The updated database with inTrash set to true
    */
   public Database delete(String databaseId) {
-    validateDatabaseId(databaseId);
-
     UpdateDatabaseRequest deleteRequest = new UpdateDatabaseRequest();
     deleteRequest.setInTrash(true);
-
     return update(databaseId, deleteRequest);
   }
 
@@ -106,22 +89,23 @@ public class DatabasesApi {
    * @return The updated database with inTrash set to false
    */
   public Database restore(String databaseId) {
-    validateDatabaseId(databaseId);
-
     UpdateDatabaseRequest restoreRequest = new UpdateDatabaseRequest();
     restoreRequest.setInTrash(false);
-
     return update(databaseId, restoreRequest);
   }
 
-  /** Validates the database ID parameter. */
+  /**
+   * Validates the database ID parameter.
+   */
   private void validateDatabaseId(String databaseId) {
     if (databaseId == null || databaseId.trim().isEmpty()) {
       throw new IllegalArgumentException("Database ID cannot be null or empty");
     }
   }
 
-  /** Validates the request object. */
+  /**
+   * Validates the request object.
+   */
   private void validateRequest(Object request) {
     if (request == null) {
       throw new IllegalArgumentException("Request cannot be null");

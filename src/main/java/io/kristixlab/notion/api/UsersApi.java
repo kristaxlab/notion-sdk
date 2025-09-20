@@ -1,10 +1,10 @@
 package io.kristixlab.notion.api;
 
-import io.kristixlab.notion.api.exchange.ApiRequestUtil;
 import io.kristixlab.notion.api.exchange.transport.ApiTransport;
+import io.kristixlab.notion.api.exchange.transport.URLInfo;
+import io.kristixlab.notion.api.exchange.transport.URLInfoBuilder;
 import io.kristixlab.notion.api.model.users.User;
 import io.kristixlab.notion.api.model.users.UsersList;
-import java.util.Map;
 
 /**
  * API for interacting with Notion Users endpoints. Provides methods to retrieve users and list all
@@ -28,10 +28,8 @@ public class UsersApi {
    */
   public User retrieve(String userId) {
     validateUserId(userId);
-
-    Map<String, String> pathParams = ApiRequestUtil.createPathParams(USER_ID, userId);
-
-    return transport.call("GET", "/users/{user_id}", null, pathParams, null, User.class);
+    URLInfo urlInfo = URLInfo.builder("/users/{user_id}").pathParam(USER_ID, userId).build();
+    return transport.call("GET", urlInfo, User.class);
   }
 
   /**
@@ -49,13 +47,21 @@ public class UsersApi {
    * all users in the workspace.
    *
    * @param startCursor The cursor to start from for pagination
-   * @param pageSize The number of results to return (max 100)
+   * @param pageSize    The number of results to return (max 100)
    * @return UsersList containing users in the workspace
    */
   public UsersList listUsers(String startCursor, Integer pageSize) {
-    Map<String, String[]> queryParams = ApiRequestUtil.createQueryParams(startCursor, pageSize);
+    URLInfoBuilder urlInfo = URLInfo.builder("/users");
 
-    return transport.call("GET", "/users", queryParams, null, null, UsersList.class);
+    if (startCursor != null) {
+      urlInfo.queryParam(Pagination.START_CURSOR, startCursor);
+    }
+
+    if (pageSize != null) {
+      urlInfo.queryParam(Pagination.PAGE_SIZE, pageSize).build();
+    }
+
+    return transport.call("GET", urlInfo.build(), UsersList.class);
   }
 
   /**
@@ -64,10 +70,12 @@ public class UsersApi {
    * @return The current bot user
    */
   public User me() {
-    return transport.call("GET", "/users/me", null, null, null, User.class);
+    return transport.call("GET", URLInfo.build("/users/me"), User.class);
   }
 
-  /** Validates the user ID parameter. */
+  /**
+   * Validates the user ID parameter.
+   */
   private void validateUserId(String userId) {
     if (userId == null || userId.trim().isEmpty()) {
       throw new IllegalArgumentException("User ID cannot be null or empty");

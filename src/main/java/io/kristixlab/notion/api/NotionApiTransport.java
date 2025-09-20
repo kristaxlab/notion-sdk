@@ -1,65 +1,91 @@
 package io.kristixlab.notion.api;
 
+import io.kristixlab.notion.api.exchange.ApiResponse;
 import io.kristixlab.notion.api.exchange.exception.*;
 import io.kristixlab.notion.api.exchange.transport.ApiExchangeException;
 import io.kristixlab.notion.api.exchange.transport.ApiTransport;
+import io.kristixlab.notion.api.exchange.transport.URLInfo;
 import io.kristixlab.notion.api.model.ErrorResponse;
 import io.kristixlab.notion.api.util.JsonConverter;
-import okhttp3.Request;
 import okhttp3.Response;
 
-import java.io.IOException;
+import java.util.Map;
 
 /**
  * Custom transport implementation for Notion API that adds authentication headers.
  */
 public class NotionApiTransport extends ApiTransport {
 
-  private final String version;
   private static final String DEFAULT_VERSION = "2025-09-03"; /*"2022-06-28";*/
   private static final String DEFAULT_BASE_URL = "https://api.notion.com/v1/";
+  private String version;
 
-  private NotionApiClient notionApiClient;
+  private NotionAuthSettings notionAuthSettings;
 
   public NotionApiTransport() {
-    this(DEFAULT_BASE_URL, DEFAULT_VERSION);
   }
 
-  public NotionApiTransport(String baseUrl, String version) {
+  public NotionApiTransport(NotionAuthSettings notionAuthSettings) {
+    this(notionAuthSettings, DEFAULT_BASE_URL, DEFAULT_VERSION);
+  }
+
+  public NotionApiTransport(NotionAuthSettings notionAuthSettings, String baseUrl, String version) {
     super(baseUrl, "NotionAPIv" + version);
-
     this.version = version;
+    this.notionAuthSettings = notionAuthSettings;
   }
 
-  public NotionApiTransport(NotionApiClient client) {
-    super(client.getBaseUrl(), "NotionAPIv" + client.getVersion());
-    this.notionApiClient = client;
-    this.version = client.getVersion();
-  }
-
+  /**
+   * Execute an API request, adding Notion-specific headers.
+   *
+   * @param method       The HTTP method
+   * @param urlInfo      The URL information
+   * @param headerParams The header parameters
+   * @param body         The request body
+   * @param responseType The expected response type
+   * @param <T>          The type of the response
+   * @return The ApiResponse object
+   */
   @Override
-  protected Request.Builder afterBuildRequest(String url, Request.Builder requestBuilder) {
-    String authHeader = null;
-    if ("/oauth/token".equals(url)
-            || "/oauth/introspect".equals(url)
-            || "/oauth/revoke".equals(url)) {
-      authHeader = notionApiClient.getAuthSettings().getPublicIntegrationBase64AuthHeader();
-      if (authHeader == null) {
-        throw new IllegalStateException(
-                "Client ID and Client Secret must be set for OAuth token exchange");
-      }
-    } else {
-      authHeader = notionApiClient.getAuthSettings().getTokenAuthHeader();
+  public <T> ApiResponse<T> execute(String method, URLInfo urlInfo, Map<String, String> headerParams, Object body, Class<T> responseType) {
+    headerParams.put("Notion-Version", version);
+
+    if (!"/file_uploads/{file_upload_id}/send".equals(urlInfo.getUrl())) {
+      headerParams.put("Content-Type", "application/json");
     }
-    return requestBuilder
-            .addHeader("Authorization", authHeader)
-            .addHeader("Notion-Version", this.version)
-            .addHeader("Content-Type", "application/json");
+
+    if (!headerParams.containsKey("Authorization")) {
+      if ("/oauth/token".equals(urlInfo.getUrl())
+              || "/oauth/introspect".equals(urlInfo.getUrl())
+              || "/oauth/revoke".equals(urlInfo.getUrl())) {
+        if (notionAuthSettings.getOauthBasicHeader() == null) {
+          throw new IllegalStateException("Client ID and Client Secret must be set for OAuth token exchange");
+        }
+        headerParams.put("Authorization", notionAuthSettings.getOauthBasicHeader());
+      } else {
+        if (notionAuthSettings.getTokenAuthHeader() == null) {
+          throw new IllegalStateException("Auth token for Notion API is missing");
+        }
+        headerParams.put("Authorization", notionAuthSettings.getTokenAuthHeader());
+      }
+    }
+
+    return super.execute(method, urlInfo, headerParams, body, responseType);
   }
 
+  /**
+   * Handle the API response, mapping HTTP status codes to specific exceptions.
+   *
+   * @param response     The HTTP response
+   * @param responseType The expected response type
+   * @param logBlueprint The log blueprint for logging
+   * @param <RS>         The type of the response
+   * @return The ApiResponse object
+   * @throws ApiExchangeException If an error occurs during the API exchange
+   */
   @Override
-  protected <RS> RS handleResponse(Response response, Class<RS> responseType, String logBlueprint)
-          throws IOException, ApiExchangeException {
+  protected <RS> ApiResponse<RS> handleResponse(Response response, Class<RS> responseType, String logBlueprint)
+          throws ApiExchangeException {
     try {
       return super.handleResponse(response, responseType, logBlueprint);
     } catch (ApiExchangeException e) {

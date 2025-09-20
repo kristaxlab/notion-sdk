@@ -1,10 +1,12 @@
 package io.kristixlab.notion.api;
 
-import io.kristixlab.notion.api.exchange.ApiRequestUtil;
-import io.kristixlab.notion.api.exchange.transport.ApiTransport;
-import io.kristixlab.notion.api.model.files.*;
-import java.util.HashMap;
-import java.util.Map;
+import io.kristixlab.notion.api.exchange.FileRequest;
+import io.kristixlab.notion.api.exchange.transport.URLInfo;
+import io.kristixlab.notion.api.exchange.transport.URLInfoBuilder;
+import io.kristixlab.notion.api.model.files.FileUploadCreateRequest;
+import io.kristixlab.notion.api.model.files.FileUploadList;
+import io.kristixlab.notion.api.model.files.FileUploadResponse;
+import io.kristixlab.notion.api.model.files.FileUploadSendRequest;
 
 /**
  * API for file upload operations in Notion.
@@ -17,7 +19,8 @@ public class FileUploadsApi {
 
   private static final String STATUS = "status";
   private static final String FILE_UPLOAD_ID = "file_upload_id";
-  private final ApiTransport transport;
+
+  private final NotionApiTransport transport;
 
   public FileUploadsApi(NotionApiTransport transport) {
     this.transport = transport;
@@ -33,7 +36,7 @@ public class FileUploadsApi {
    */
   public FileUploadResponse createFileUpload(FileUploadCreateRequest request) {
     validateRequest(request);
-    return transport.call("POST", "/file_uploads", null, null, request, FileUploadResponse.class);
+    return transport.call("POST", URLInfo.build("/file_uploads"), request, FileUploadResponse.class);
   }
 
   /**
@@ -42,58 +45,39 @@ public class FileUploadsApi {
    * https://api.notion.com/v1/file_uploads/{file_upload_id}/send
    *
    * @param fileUploadId The ID of the file upload
-   * @param fileContent The binary content of the file
-   * @param partNumber The part number for multipart uploads
+   * @param fileContent  The binary content of the file
+   * @param partNumber   The part number for multipart uploads
    * @return Response from the file upload service
    */
-  public FileUploadResponse sendFileContent(
-      String fileUploadId, byte[] fileContent, int partNumber) {
-    if (fileUploadId == null || fileUploadId.trim().isEmpty()) {
-      throw new IllegalArgumentException("File upload ID cannot be null or empty");
-    }
-    if (fileContent == null || fileContent.length == 0) {
-      throw new IllegalArgumentException("File content cannot be null or empty");
+  public FileUploadResponse sendFileContent(String fileUploadId, byte[] fileContent, String contentType, Integer partNumber) {
+    validateFileUploadId(fileUploadId);
+    validateFileContent(fileContent);
+    validateFileContentType(contentType);
+
+    URLInfo urlInfo = URLInfo.builder("/file_uploads/{file_upload_id}/send")
+            .pathParam(FILE_UPLOAD_ID, fileUploadId).build();
+
+    FileRequest fileRequest = new FileRequest();
+    fileRequest.setFileContent(fileContent);
+    fileRequest.setContentType(contentType);
+    if (partNumber != null) {
+      fileRequest.getAdditionalInfo().put("part_number", String.valueOf(partNumber));
     }
 
-    // Use the multipart transport method for file uploads
-    return transport.callMultipart(
-        "POST",
-        "/file_uploads/" + fileUploadId + "/send",
-        null,
-        null,
-        fileContent,
-        String.valueOf(partNumber),
-        FileUploadResponse.class);
+    return transport.call("POST", urlInfo, fileRequest, FileUploadResponse.class);
   }
 
   /**
-   * Sends file content to the pre-signed URL using a FileUploadSendRequest object. POST
+   * Sends file content to the pre-signed URL. This is typically done externally using the
+   * upload_url from createFileUpload response. POST
    * https://api.notion.com/v1/file_uploads/{file_upload_id}/send
    *
    * @param fileUploadId The ID of the file upload
-   * @param request request containing part number and file byte array
+   * @param request      request
    * @return Response from the file upload service
    */
   public FileUploadResponse sendFileContent(String fileUploadId, FileUploadSendRequest request) {
-    if (fileUploadId == null || fileUploadId.trim().isEmpty()) {
-      throw new IllegalArgumentException("File upload ID cannot be null or empty");
-    }
-    if (request == null) {
-      throw new IllegalArgumentException("FileUploadSendRequest cannot be null");
-    }
-    if (request.getFile() == null) {
-      throw new IllegalArgumentException("File byte array cannot be null");
-    }
-
-    Map<String, String> pathParams = ApiRequestUtil.createPathParams(FILE_UPLOAD_ID, fileUploadId);
-    return transport.callMultipart(
-        "POST",
-        "/file_uploads/" + fileUploadId + "/send",
-        request.getContentType(),
-        pathParams,
-        request.getFile(),
-        request.getPartNumber(),
-        FileUploadResponse.class);
+    return sendFileContent(fileUploadId, request.getFile(), request.getContentType(), request.getPartNumber());
   }
 
   /**
@@ -104,17 +88,11 @@ public class FileUploadsApi {
    * @return Updated FileUploadResponse with completion status
    */
   public FileUploadResponse completeFileUpload(String fileUploadId) {
-    if (fileUploadId == null || fileUploadId.trim().isEmpty()) {
-      throw new IllegalArgumentException("File upload ID cannot be null or empty");
-    }
+    validateFileUploadId(fileUploadId);
 
-    return transport.call(
-        "POST",
-        "/file_uploads/" + fileUploadId + "/complete",
-        null,
-        null,
-        null,
-        FileUploadResponse.class);
+    URLInfo urlInfo = URLInfo.builder("/file_uploads/{file_upload_id}/complete")
+            .pathParam(FILE_UPLOAD_ID, fileUploadId).build();
+    return transport.call("POST", urlInfo, FileUploadResponse.class);
   }
 
   /**
@@ -125,12 +103,10 @@ public class FileUploadsApi {
    * @return FileUploadResponse containing the file upload details
    */
   public FileUploadResponse retrieveFileUpload(String fileUploadId) {
-    if (fileUploadId == null || fileUploadId.trim().isEmpty()) {
-      throw new IllegalArgumentException("File upload ID cannot be null or empty");
-    }
-
-    return transport.call(
-        "GET", "/file_uploads/" + fileUploadId, null, null, null, FileUploadResponse.class);
+    validateFileUploadId(fileUploadId);
+    URLInfo urlInfo = URLInfo.builder("/file_uploads/{file_upload_id}")
+            .pathParam(FILE_UPLOAD_ID, fileUploadId).build();
+    return transport.call("GET", urlInfo, FileUploadResponse.class);
   }
 
   /**
@@ -139,7 +115,7 @@ public class FileUploadsApi {
    * @return FileUploadListResponse containing the list of file uploads
    */
   public FileUploadList listFileUploads() {
-    return transport.call("GET", "/file_uploads", null, null, null, FileUploadList.class);
+    return listFileUploads(null);
   }
 
   /**
@@ -148,11 +124,7 @@ public class FileUploadsApi {
    * @return FileUploadListResponse containing the list of file uploads
    */
   public FileUploadList listFileUploads(String status) {
-    Map<String, String[]> queryParams = new HashMap<String, String[]>();
-    if (status != null && !status.trim().isEmpty()) {
-      queryParams.put(STATUS, new String[] {status});
-    }
-    return transport.call("GET", "/file_uploads", queryParams, null, null, FileUploadList.class);
+    return listFileUploads(status, null, null);
   }
 
   /**
@@ -160,31 +132,38 @@ public class FileUploadsApi {
    * first.
    *
    * @param startCursor Cursor for pagination (can be null for first page)
-   * @param pageSize Number of items to return (can be null for default)
+   * @param pageSize    Number of items to return (can be null for default)
    * @return FileUploadListResponse containing the paginated list of file uploads
    */
   public FileUploadList listFileUploads(String startCursor, Integer pageSize) {
-    Map<String, String[]> queryParams = ApiRequestUtil.createQueryParams(startCursor, pageSize);
-    return transport.call("GET", "/file_uploads", queryParams, null, null, FileUploadList.class);
+    return listFileUploads(null, startCursor, pageSize);
   }
 
   /**
    * Use this API to retrieve file uploads for the current bot integration, sorted by most recent
    * first.
    *
-   * @param status Filter file uploads by specifying the status. Supported values are pending,
-   *     uploaded, expired, failed.
+   * @param status      Filter file uploads by specifying the status. Supported values are pending,
+   *                    uploaded, expired, failed.
    * @param startCursor Cursor for pagination (can be null for first page)
-   * @param pageSize Number of items to return (can be null for default)
+   * @param pageSize    Number of items to return (can be null for default)
    * @return FileUploadListResponse containing the paginated list of file uploads
    */
   public FileUploadList listFileUploads(String status, String startCursor, Integer pageSize) {
-    Map<String, String[]> queryParams = ApiRequestUtil.createQueryParams(startCursor, pageSize);
+    URLInfoBuilder urlInfo = URLInfo.builder("/file_uploads");
     if (status != null && !status.trim().isEmpty()) {
-      queryParams.put(STATUS, new String[] {status});
+      urlInfo.queryParam(STATUS, new String[]{status});
     }
 
-    return transport.call("GET", "/file_uploads", queryParams, null, null, FileUploadList.class);
+    if (startCursor != null) {
+      urlInfo.queryParam(Pagination.START_CURSOR, startCursor);
+    }
+
+    if (pageSize != null) {
+      urlInfo.queryParam(Pagination.PAGE_SIZE, pageSize);
+    }
+
+    return transport.call("GET", urlInfo.build(), FileUploadList.class);
   }
 
   /**
@@ -206,7 +185,7 @@ public class FileUploadsApi {
 
     if (!("multi_part".equals(mode) || "external_url".equals(mode) || "single_part".equals(mode))) {
       throw new IllegalArgumentException(
-          "Mode must be one of: multi_part, external_url, single_part");
+              "Mode must be one of: multi_part, external_url, single_part");
     }
 
     // Validate filename for multi_part and external_url modes
@@ -226,7 +205,7 @@ public class FileUploadsApi {
       int numberOfParts = request.getNumberOfParts();
       if (numberOfParts < 1 || numberOfParts > 1000) {
         throw new IllegalArgumentException(
-            "Number of parts must be between 1 and 1,000 for multi_part mode");
+                "Number of parts must be between 1 and 1,000 for multi_part mode");
       }
     }
 
@@ -240,6 +219,24 @@ public class FileUploadsApi {
       if (!externalUrl.toLowerCase().startsWith("https://")) {
         throw new IllegalArgumentException("External URL must be an HTTPS URL");
       }
+    }
+  }
+
+  private void validateFileUploadId(String fileUploadId) {
+    if (fileUploadId == null || fileUploadId.trim().isEmpty()) {
+      throw new IllegalArgumentException("File upload ID cannot be null or empty");
+    }
+  }
+
+  private void validateFileContent(byte[] fileContent) {
+    if (fileContent == null || fileContent.length == 0) {
+      throw new IllegalArgumentException("File content cannot be null or empty");
+    }
+  }
+
+  private void validateFileContentType(String contentType) {
+    if (contentType == null || contentType.trim().isEmpty()) {
+      throw new IllegalArgumentException("File content type cannot be null or empty");
     }
   }
 }

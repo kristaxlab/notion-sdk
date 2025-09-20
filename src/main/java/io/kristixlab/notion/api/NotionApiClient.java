@@ -48,17 +48,6 @@ public class NotionApiClient {
    * If neither is set, an IllegalArgumentException is thrown.
    */
   public NotionApiClient() {
-    String token = System.getenv("NOTION_SDK_AUTH_TOKEN");
-
-    String clientId = System.getenv("NOTION_SDK_OAUTH_CLIENT_ID");
-    String clientSecret = System.getenv("NOTION_SDK_OAUTH_CLIENT_SECRET");
-    String redirectUri = System.getenv("NOTION_SDK_OAUTH_REDIRECT_URI");
-
-    if (token != null && !token.isEmpty()) {
-      initWithAuthToken(token);
-    } else if (clientId != null && !clientId.isEmpty() && clientSecret != null && !clientSecret.isEmpty()) {
-      initAsPublicIntegration(clientId, clientSecret, redirectUri, null, null;
-    }
   }
 
   /**
@@ -111,7 +100,7 @@ public class NotionApiClient {
       throw new IllegalArgumentException("Token cannot be null or empty");
     }
     authSettings.setAccessToken(token);
-    transport = new NotionApiTransport(this);
+    transport = new NotionApiTransport(this.getAuthSettings());
     initApis(transport);
   }
 
@@ -127,12 +116,12 @@ public class NotionApiClient {
     authSettings.setRedirectUri(redirectUri);
     authSettings.setAccessToken(accessToken);
     authSettings.setRefreshToken(refreshToken);
-    transport = new NotionApiTransport(this);
+    transport = new NotionApiTransport(this.getAuthSettings());
     initApis(transport);
   }
 
   private void initApis(NotionApiTransport transport) {
-    this.authorizationApi = new AuthorizationApi(this, transport);
+    this.authorizationApi = new AuthorizationApi(this.getAuthSettings(), transport);
     this.blocksApi = new BlocksApi(transport);
     this.pagesApi = new PagesApi(transport);
     this.databasesApi = new DatabasesApi(transport);
@@ -184,6 +173,14 @@ public class NotionApiClient {
 
   private NotionApiTransport getTransport() {
     return transport;
+  }
+
+  public void shutdown() {
+    try {
+      transport.shutdown();
+    } catch (Exception e) {
+      // calm shutdown
+    }
   }
 
 }

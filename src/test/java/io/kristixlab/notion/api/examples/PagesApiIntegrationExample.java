@@ -3,8 +3,8 @@ package io.kristixlab.notion.api.examples;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.kristixlab.notion.api.NotionApiClient;
-import io.kristixlab.notion.api.PagesApi;
 import io.kristixlab.notion.api.NotionApiTransport;
+import io.kristixlab.notion.api.PagesApi;
 import io.kristixlab.notion.api.model.common.Parent;
 import io.kristixlab.notion.api.model.common.RichText;
 import io.kristixlab.notion.api.model.pages.Page;
@@ -14,6 +14,9 @@ import io.kristixlab.notion.api.model.pages.properties.PageProperty;
 import io.kristixlab.notion.api.model.pages.properties.RichTextProperty;
 import io.kristixlab.notion.api.model.pages.properties.TitleProperty;
 import io.kristixlab.notion.api.util.JsonConverter;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -21,8 +24,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 
 /**
  * Integration test for PagesApi that calls actual Notion API endpoints. Stores all responses to
@@ -39,9 +40,9 @@ public class PagesApiIntegrationExample {
   @BeforeEach
   void setUp() throws IOException {
     String token = System.getenv("NOTION_PRIV_INTEGRATION_TOKEN");
-    NotionApiClient notionApiClient = new NotionApiClient(token, null);
+    NotionApiClient notionApiClient = new NotionApiClient(token);
 
-    NotionApiTransport transport = new NotionApiTransport(notionApiClient, token);
+    NotionApiTransport transport = new NotionApiTransport(notionApiClient.getAuthSettings());
     pagesApi = new PagesApi(transport);
     objectMapper = new ObjectMapper();
     objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, true);
@@ -136,7 +137,9 @@ public class PagesApiIntegrationExample {
     saveToFile(unarchivedPage, "page-unarchive-response.json");
   }
 
-  /** Helper method to save API responses to JSON files. */
+  /**
+   * Helper method to save API responses to JSON files.
+   */
   private void saveToFile(Object response, String filename) throws IOException {
     File outputFile = new File(TEST_OUTPUT_DIR + filename);
     JsonConverter.getInstance().toFile(outputFile, response);

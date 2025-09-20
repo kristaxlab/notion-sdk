@@ -1,6 +1,7 @@
 package io.kristixlab.notion.api;
 
 import io.kristixlab.notion.api.exchange.transport.ApiTransport;
+import io.kristixlab.notion.api.exchange.transport.URLInfo;
 import io.kristixlab.notion.api.model.search.SearchFilter;
 import io.kristixlab.notion.api.model.search.SearchRequest;
 import io.kristixlab.notion.api.model.search.SearchResponse;
@@ -26,7 +27,7 @@ public class SearchApi {
    */
   public SearchResponse search(SearchRequest request) {
     validateRequest(request);
-    return transport.call("POST", "/search", null, null, request, SearchResponse.class);
+    return transport.call("POST", URLInfo.build("/search"), request, SearchResponse.class);
   }
 
   /**
@@ -44,7 +45,7 @@ public class SearchApi {
   /**
    * Search with query and filter (pages or data sources only).
    *
-   * @param query The text to search for
+   * @param query  The text to search for
    * @param filter Filter to limit results to pages or data sources
    * @return SearchResponse containing filtered results
    */
@@ -58,9 +59,9 @@ public class SearchApi {
   /**
    * Search with query, filter, and sorting.
    *
-   * @param query The text to search for
+   * @param query  The text to search for
    * @param filter Filter to limit results to pages or data sources
-   * @param sort Sorting criteria for results
+   * @param sort   Sorting criteria for results
    * @return SearchResponse containing filtered and sorted results
    */
   public SearchResponse search(String query, SearchFilter filter, SearchSort sort) {
@@ -74,8 +75,8 @@ public class SearchApi {
   /**
    * Search with pagination support.
    *
-   * @param query The text to search for
-   * @param pageSize Number of results per page (max 100)
+   * @param query       The text to search for
+   * @param pageSize    Number of results per page (max 100)
    * @param startCursor Cursor for pagination
    * @return SearchResponse with paginated results
    */
@@ -120,7 +121,7 @@ public class SearchApi {
   /**
    * Get all pages and data sources with pagination.
    *
-   * @param pageSize Number of results per page (max 100)
+   * @param pageSize    Number of results per page (max 100)
    * @param startCursor Cursor for pagination
    * @return SearchResponse with paginated results
    */
@@ -137,7 +138,7 @@ public class SearchApi {
     }
 
     if (request.getPageSize() != null
-        && (request.getPageSize() < 1 || request.getPageSize() > 100)) {
+            && (request.getPageSize() < 1 || request.getPageSize() > 100)) {
       throw new IllegalArgumentException("Page size must be between 1 and 100");
     }
   }

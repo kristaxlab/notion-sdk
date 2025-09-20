@@ -78,33 +78,4 @@ public class Main {
     //        );
 
   }
-
-  //  Content Block Properties
-  //          paragraph
-  //  heading_1
-  //          heading_2
-  //  heading_3
-  //          quote
-  //  callout
-  //          code
-  //  equation
-  //
-
-  //  Embed Block Properties
-  //          embed
-  //  bookmark
-
-  //  Layout Block Properties
-  //          column_list
-  //  column
-  //          table
-  //  table_row
-  //  Special Block Properties
-  //          divider
-  //          breadcrumb
-  //          table_of_contents
-  //          link_to_page
-  //          template    // unsupported
-  //          synced_block
-  //          ai_block  // unsupported
 }

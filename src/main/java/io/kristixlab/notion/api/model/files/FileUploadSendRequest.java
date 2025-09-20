@@ -19,8 +19,10 @@ public class FileUploadSendRequest {
    * When using a mode=multi_part File Upload to send files greater than 20 MB in parts, this is the
    * current part number. Must be an integer between 1 and 1000 provided as a string form field.
    */
-  private String partNumber;
+  private Integer partNumber;
 
-  /** Content type of the file being uploaded, e.g., "image/png" or "application/pdf". */
+  /**
+   * Content type of the file being uploaded, e.g., "image/png" or "application/pdf".
+   */
   private String contentType;
 }

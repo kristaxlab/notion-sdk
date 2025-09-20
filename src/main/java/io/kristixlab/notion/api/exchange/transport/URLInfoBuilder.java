@@ -42,6 +42,11 @@ public class URLInfoBuilder {
     return this;
   }
 
+  public URLInfoBuilder queryParam(String key, Object value) {
+    queryParam(key, toList(String.valueOf(value)));
+    return this;
+  }
+
   public URLInfoBuilder queryParams(Map<String, String> queryParams) {
     queryParams.forEach((key, value) -> urlInfo.getQueryParams().put(key, List.of(value)));
     return this;

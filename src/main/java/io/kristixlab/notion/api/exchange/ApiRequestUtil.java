@@ -1,68 +1,74 @@
 package io.kristixlab.notion.api.exchange;
 
-import java.util.HashMap;
+import io.kristixlab.notion.api.exchange.transport.URLInfo;
+import okhttp3.HttpUrl;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
+/**
+ * Util class to work with okhttp3 librry
+ */
 public class ApiRequestUtil {
 
   /**
-   * Creates a map of path parameters for API requests.
+   * Builds url string with query and path params applied.
    *
-   * @param key The key for the path parameter
-   * @param value The value for the path parameter
-   * @return Map containing the path parameters
+   * @param baseUrl will be added as prefix to urlInfo if urlInfo url does not start with http:// or https://
+   * @param urlInfo object containing info about url + query + pqth params
+   * @return url string enriched by provided query and path param values
    */
-  public static Map<String, String> createPathParams(String key, String value) {
-    return createPathParams(key, value, null, null);
+  public static String buildURL(String baseUrl, URLInfo urlInfo) {
+    String processedUrl = urlInfo.getUrl();
+    if (processedUrl != null && !processedUrl.isEmpty()) {
+      if (!urlInfo.getUrl().startsWith("http://") && !urlInfo.getUrl().startsWith("https://")) {
+        processedUrl = baseUrl + (processedUrl.startsWith("/") ? "" : "/") + processedUrl;
+      }
+    }
+    if (urlInfo.getPathParams() != null && !urlInfo.getPathParams().isEmpty()) {
+      for (Map.Entry<String, String> entry : urlInfo.getPathParams().entrySet()) {
+        String value = URLEncoder.encode(entry.getValue(), StandardCharsets.UTF_8);
+        processedUrl = processedUrl.replace("{" + entry.getKey() + "}", value);
+      }
+    }
+
+    HttpUrl httpUrl = HttpUrl.parse(processedUrl);
+    if (httpUrl == null) {
+      throw new IllegalArgumentException("Invalid URL: " + processedUrl);
+    }
+
+    HttpUrl.Builder urlBuilder = httpUrl.newBuilder();
+
+    // Add query parameters
+    if (urlInfo.getQueryParams() != null && !urlInfo.getQueryParams().isEmpty()) {
+      urlInfo.getQueryParams().forEach(
+              (key, values) -> {
+                if (values != null) {
+                  for (String value : values) {
+                    if (value != null) {
+                      urlBuilder.addQueryParameter(key, value);
+                    }
+                  }
+                }
+              });
+    }
+
+    return urlBuilder.build().toString();
   }
 
-  /**
-   * Creates a map of path parameters for API requests.
-   *
-   * @param key The key for the path parameter
-   * @param value The value for the path parameter
-   * @return Map containing the path parameters
-   */
-  public static Map<String, String> createPathParams(
-      String key, String value, String key2, String value2) {
-    Map<String, String> pathParams = new HashMap<>();
-    if (key != null && value != null) {
-      pathParams.put(key, value);
+  public static RequestBody fileToRequestBody(FileRequest file) {
+    MultipartBody.Builder multipartBuilder = new MultipartBody.Builder().setType(MultipartBody.FORM);
+    if (file.getFileContent() != null) {
+      RequestBody fileBody = RequestBody.create(file.getFileContent(), MediaType.parse(file.getContentType()));
+      multipartBuilder.addFormDataPart("file", file.getFileName(), fileBody);
     }
-    if (key2 != null && value2 != null) {
-      pathParams.put(key2, value2);
+    if (file.getAdditionalInfo() != null) {
+      file.getAdditionalInfo().forEach((key, value) -> multipartBuilder.addFormDataPart(key, value));
     }
-    return pathParams;
-  }
-
-  /**
-   * Creates a map of query parameters for pagination.
-   *
-   * @param startCursor The cursor to start from (optional)
-   * @param pageSize The number of items to return (optional, max 100)
-   * @return Map containing the query parameters
-   */
-  public static Map<String, String[]> createQueryParams(String startCursor, Integer pageSize) {
-    Map<String, String[]> queryParams = new HashMap<>();
-    if (startCursor != null && !startCursor.trim().isEmpty()) {
-      queryParams.put("start_cursor", new String[] {startCursor});
-    }
-    if (pageSize != null) {
-      validatePageSize(pageSize);
-      queryParams.put("page_size", new String[] {pageSize.toString()});
-    }
-    return queryParams;
-  }
-
-  /**
-   * Validates the page size.
-   *
-   * @param pageSize The page size to validate
-   * @throws IllegalArgumentException if the page size is less than 1 or greater than 100
-   */
-  private static void validatePageSize(int pageSize) {
-    if (pageSize < 1 || pageSize > 100) {
-      throw new IllegalArgumentException("Page size must be between 1 and 100");
-    }
+    return multipartBuilder.build();
   }
 }

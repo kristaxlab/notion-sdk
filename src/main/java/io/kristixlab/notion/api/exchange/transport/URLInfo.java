@@ -1,9 +1,10 @@
 package io.kristixlab.notion.api.exchange.transport;
 
+import lombok.Data;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import lombok.Data;
 
 @Data
 public class URLInfo {
@@ -14,5 +15,15 @@ public class URLInfo {
 
   public static URLInfoBuilder builder() {
     return new URLInfoBuilder();
+  }
+
+  public static URLInfoBuilder builder(String url) {
+    return new URLInfoBuilder().url(url);
+  }
+
+  public static URLInfo build(String url) {
+    URLInfo urlInfo = new URLInfo();
+    urlInfo.setUrl(url);
+    return urlInfo;
   }
 }
