@@ -1,10 +1,11 @@
-package io.kristixlab.notion.api;
+package io.kristixlab.notion.api.http;
 
-import io.kristixlab.notion.api.http.ApiResponse;
+import io.kristixlab.notion.api.NotionAuthSettings;
 import io.kristixlab.notion.api.http.exception.*;
-import io.kristixlab.notion.api.http.transport.ApiExchangeException;
-import io.kristixlab.notion.api.http.transport.ApiTransport;
-import io.kristixlab.notion.api.http.transport.URLInfo;
+import io.kristixlab.notion.api.http.transport.exception.HttpResponseException;
+import io.kristixlab.notion.api.http.transport.HttpTransportImpl;
+import io.kristixlab.notion.api.http.transport.rq.URLInfo;
+import io.kristixlab.notion.api.http.transport.rs.ApiResponse;
 import io.kristixlab.notion.api.model.ErrorResponse;
 import io.kristixlab.notion.api.json.JsonConverter;
 import okhttp3.Response;
@@ -14,7 +15,7 @@ import java.util.Map;
 /**
  * Custom transport implementation for Notion API that adds authentication headers.
  */
-public class NotionApiTransport extends ApiTransport {
+public class NotionHttpTransport extends HttpTransportImpl {
 
   private static final String DEFAULT_VERSION = "2025-09-03"; /*"2022-06-28";*/
   private static final String DEFAULT_BASE_URL = "https://api.notion.com/v1/";
@@ -22,14 +23,14 @@ public class NotionApiTransport extends ApiTransport {
 
   private NotionAuthSettings notionAuthSettings;
 
-  public NotionApiTransport() {
+  public NotionHttpTransport() {
   }
 
-  public NotionApiTransport(NotionAuthSettings notionAuthSettings) {
+  public NotionHttpTransport(NotionAuthSettings notionAuthSettings) {
     this(notionAuthSettings, DEFAULT_BASE_URL, DEFAULT_VERSION);
   }
 
-  public NotionApiTransport(NotionAuthSettings notionAuthSettings, String baseUrl, String version) {
+  public NotionHttpTransport(NotionAuthSettings notionAuthSettings, String baseUrl, String version) {
     super(baseUrl, "NotionAPIv" + version);
     this.version = version;
     this.notionAuthSettings = notionAuthSettings;
@@ -81,14 +82,14 @@ public class NotionApiTransport extends ApiTransport {
    * @param logBlueprint The log blueprint for logging
    * @param <RS>         The type of the response
    * @return The ApiResponse object
-   * @throws ApiExchangeException If an error occurs during the API exchange
+   * @throws HttpResponseException If an error occurs during the API exchange
    */
   @Override
   protected <RS> ApiResponse<RS> handleResponse(Response response, Class<RS> responseType, String logBlueprint)
-          throws ApiExchangeException {
+          throws HttpResponseException {
     try {
       return super.handleResponse(response, responseType, logBlueprint);
-    } catch (ApiExchangeException e) {
+    } catch (HttpResponseException e) {
       String message = null;
       String code = null;
       String requestId = null;

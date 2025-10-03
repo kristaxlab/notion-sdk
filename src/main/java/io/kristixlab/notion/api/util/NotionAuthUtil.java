@@ -1,4 +1,4 @@
-package io.kristixlab.notion.api;
+package io.kristixlab.notion.api.util;
 
 import java.util.Base64;
 

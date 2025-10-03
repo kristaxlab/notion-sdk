@@ -1,4 +1,4 @@
-package io.kristixlab.notion.api.http;
+package io.kristixlab.notion.api.http.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

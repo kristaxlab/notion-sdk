@@ -1,8 +1,11 @@
 package io.kristixlab.notion.api.http.transport;
 
-import io.kristixlab.notion.api.http.ApiRequestUtil;
-import io.kristixlab.notion.api.http.ApiResponse;
-import io.kristixlab.notion.api.http.FileRequest;
+import io.kristixlab.notion.api.http.transport.exception.HttpResponseException;
+import io.kristixlab.notion.api.http.transport.exception.HttpTransportException;
+import io.kristixlab.notion.api.http.transport.rs.ApiResponse;
+import io.kristixlab.notion.api.http.transport.rq.FileRequest;
+import io.kristixlab.notion.api.http.transport.rq.URLInfo;
+import io.kristixlab.notion.api.http.transport.util.ApiRequestUtil;
 import io.kristixlab.notion.api.json.JsonConverter;
 import lombok.Getter;
 import okhttp3.*;
@@ -14,9 +17,9 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
-public class ApiTransport implements Transport {
+public class HttpTransportImpl implements HttpTransport {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(ApiTransport.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(HttpTransportImpl.class);
   private static final MediaType JSON_MEDIA_TYPE = MediaType.parse("application/json");
 
   @Getter
@@ -25,7 +28,7 @@ public class ApiTransport implements Transport {
   @Getter
   private final String apiName;
 
-  public ApiTransport() {
+  public HttpTransportImpl() {
     this.httpClient = createHttpClient();
     if (baseUrl == null) {
       baseUrl = "";
@@ -33,7 +36,7 @@ public class ApiTransport implements Transport {
     this.apiName = "API Transport";
   }
 
-  public ApiTransport(String baseUrl, String apiName) {
+  public HttpTransportImpl(String baseUrl, String apiName) {
     this.httpClient = createHttpClient();
     if (baseUrl == null) {
       baseUrl = "";
@@ -94,12 +97,12 @@ public class ApiTransport implements Transport {
       return response;
     } catch (IOException e) {
       LOGGER.error("[{}] Network error calling {} API", logBlueprint, getApiName(), e);
-      throw new ApiTransportException("Network error: " + e.getMessage(), e);
+      throw new HttpTransportException("Network error: " + e.getMessage(), e);
     }
   }
 
   protected <T> ApiResponse<T> handleResponse(Response response, Class<T> responseType, String logBlueprint)
-          throws ApiExchangeException {
+          throws HttpResponseException {
     if (!response.isSuccessful()) {
       return handleErrorResponse(response, logBlueprint);
     }
@@ -114,11 +117,11 @@ public class ApiTransport implements Transport {
       LOGGER.debug("[{}] Error response body: \n{}", logBlueprint, rsBodyString);
     }
 
-    throw new ApiExchangeException(getApiName(), response.code(), rsBodyString);
+    throw new HttpResponseException(getApiName(), response.code(), rsBodyString);
   }
 
   protected <T> ApiResponse<T> handleSuccessfulResponse(Response response, Class<T> responseType, String logBlueprint)
-          throws ApiExchangeException {
+          throws HttpResponseException {
 
     ApiResponse<T> rs = new ApiResponse<>();
     rs.setStatus(response.code());
@@ -145,7 +148,7 @@ public class ApiTransport implements Transport {
       return response.body().string();
     } catch (IOException e) {
       LOGGER.error("[{}] Failed to read response body ", logBlueprint);
-      throw new ApiExchangeException(getApiName(), response.code(), "[{}] Failed to read response body");
+      throw new HttpTransportException("["+logBlueprint+"] Failed to read response body", e);
     }
 
   }

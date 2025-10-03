@@ -3,7 +3,7 @@ package io.kristixlab.notion.api.examples;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.kristixlab.notion.api.NotionApiClient;
-import io.kristixlab.notion.api.NotionApiTransport;
+import io.kristixlab.notion.api.http.NotionHttpTransport;
 import io.kristixlab.notion.api.endpoints.impl.PagesEndpointImpl;
 import io.kristixlab.notion.api.model.common.Parent;
 import io.kristixlab.notion.api.model.common.RichText;
@@ -42,7 +42,7 @@ public class PagesEndpointImplIntegrationExample {
     String token = System.getenv("NOTION_PRIV_INTEGRATION_TOKEN");
     NotionApiClient notionApiClient = new NotionApiClient(token);
 
-    NotionApiTransport transport = new NotionApiTransport(notionApiClient.getAuthSettings());
+    NotionHttpTransport transport = new NotionHttpTransport(notionApiClient.getAuthSettings());
     pagesApi = new PagesEndpointImpl(transport);
     objectMapper = new ObjectMapper();
     objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, true);

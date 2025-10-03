@@ -1,6 +1,7 @@
-package io.kristixlab.notion.api.http;
+package io.kristixlab.notion.api.http.transport.util;
 
-import io.kristixlab.notion.api.http.transport.URLInfo;
+import io.kristixlab.notion.api.http.transport.rq.URLInfo;
+import io.kristixlab.notion.api.http.transport.rq.FileRequest;
 import okhttp3.HttpUrl;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;

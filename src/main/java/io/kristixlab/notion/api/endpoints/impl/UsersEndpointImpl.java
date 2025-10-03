@@ -1,11 +1,11 @@
 package io.kristixlab.notion.api.endpoints.impl;
 
-import io.kristixlab.notion.api.NotionApiTransport;
-import io.kristixlab.notion.api.Pagination;
+import io.kristixlab.notion.api.http.NotionHttpTransport;
+import io.kristixlab.notion.api.util.Pagination;
 import io.kristixlab.notion.api.endpoints.UsersEndpoint;
-import io.kristixlab.notion.api.http.transport.ApiTransport;
-import io.kristixlab.notion.api.http.transport.URLInfo;
-import io.kristixlab.notion.api.http.transport.URLInfoBuilder;
+import io.kristixlab.notion.api.http.transport.HttpTransportImpl;
+import io.kristixlab.notion.api.http.transport.rq.URLInfo;
+import io.kristixlab.notion.api.http.transport.util.URLInfoBuilder;
 import io.kristixlab.notion.api.model.users.User;
 import io.kristixlab.notion.api.model.users.UsersList;
 
@@ -17,9 +17,9 @@ public class UsersEndpointImpl implements UsersEndpoint {
 
   private static final String USER_ID = "user_id";
 
-  private final ApiTransport transport;
+  private final HttpTransportImpl transport;
 
-  public UsersEndpointImpl(NotionApiTransport transport) {
+  public UsersEndpointImpl(NotionHttpTransport transport) {
     this.transport = transport;
   }
 

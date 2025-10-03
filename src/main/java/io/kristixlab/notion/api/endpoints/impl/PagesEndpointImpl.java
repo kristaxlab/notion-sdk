@@ -1,10 +1,10 @@
 package io.kristixlab.notion.api.endpoints.impl;
 
-import io.kristixlab.notion.api.NotionApiTransport;
-import io.kristixlab.notion.api.Pagination;
-import io.kristixlab.notion.api.http.transport.ApiTransport;
-import io.kristixlab.notion.api.http.transport.URLInfo;
-import io.kristixlab.notion.api.http.transport.URLInfoBuilder;
+import io.kristixlab.notion.api.http.NotionHttpTransport;
+import io.kristixlab.notion.api.util.Pagination;
+import io.kristixlab.notion.api.http.transport.HttpTransportImpl;
+import io.kristixlab.notion.api.http.transport.rq.URLInfo;
+import io.kristixlab.notion.api.http.transport.util.URLInfoBuilder;
 import io.kristixlab.notion.api.model.pages.Page;
 import io.kristixlab.notion.api.model.pages.UpdatePageRequest;
 import io.kristixlab.notion.api.model.pages.properties.PageProperty;
@@ -22,9 +22,9 @@ public class PagesEndpointImpl implements PagesEndpoint {
   private static final String PAGE_ID = "page_id";
   private static final String PROPERTY_ID = "property_id";
 
-  private final ApiTransport transport;
+  private final HttpTransportImpl transport;
 
-  public PagesEndpointImpl(NotionApiTransport transport) {
+  public PagesEndpointImpl(NotionHttpTransport transport) {
     this.transport = transport;
   }
 

@@ -10,6 +10,7 @@ Visit https://notion.so/profile/integrations to create and manage public and pri
  */
 
 import io.kristixlab.notion.api.endpoints.impl.*;
+import io.kristixlab.notion.api.http.NotionHttpTransport;
 import lombok.Getter;
 
 public class NotionApiClient {
@@ -23,7 +24,7 @@ public class NotionApiClient {
   /**
    * Transport layer for making API calls
    */
-  private NotionApiTransport transport;
+  private NotionHttpTransport transport;
 
   /**
    * Api classes
@@ -101,7 +102,7 @@ public class NotionApiClient {
       throw new IllegalArgumentException("Token cannot be null or empty");
     }
     authSettings.setAccessToken(token);
-    transport = new NotionApiTransport(this.getAuthSettings());
+    transport = new NotionHttpTransport(this.getAuthSettings());
     initApis(transport);
   }
 
@@ -117,11 +118,11 @@ public class NotionApiClient {
     authSettings.setRedirectUri(redirectUri);
     authSettings.setAccessToken(accessToken);
     authSettings.setRefreshToken(refreshToken);
-    transport = new NotionApiTransport(this.getAuthSettings());
+    transport = new NotionHttpTransport(this.getAuthSettings());
     initApis(transport);
   }
 
-  private void initApis(NotionApiTransport transport) {
+  private void initApis(NotionHttpTransport transport) {
     this.authorizationApi = new AuthorizationEndpointImpl(this.getAuthSettings(), transport);
     this.blocksEndpointImpl = new BlocksEndpointImpl(transport);
     this.pagesApi = new PagesEndpointImpl(transport);
@@ -172,7 +173,7 @@ public class NotionApiClient {
     return BASE_URL;
   }
 
-  private NotionApiTransport getTransport() {
+  private NotionHttpTransport getTransport() {
     return transport;
   }
 

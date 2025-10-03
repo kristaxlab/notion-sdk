@@ -1,12 +1,12 @@
 package io.kristixlab.notion.api.endpoints.impl;
 
-import io.kristixlab.notion.api.NotionApiTransport;
+import io.kristixlab.notion.api.http.NotionHttpTransport;
 import io.kristixlab.notion.api.NotionAuthSettings;
-import io.kristixlab.notion.api.NotionAuthUtil;
+import io.kristixlab.notion.api.util.NotionAuthUtil;
 import io.kristixlab.notion.api.endpoints.AuthenticationEndpoint;
 import io.kristixlab.notion.api.model.authorization.TokenRequest;
 import io.kristixlab.notion.api.model.authorization.TokenResponse;
-import io.kristixlab.notion.api.http.transport.URLInfo;
+import io.kristixlab.notion.api.http.transport.rq.URLInfo;
 import io.kristixlab.notion.api.model.authorization.*;
 
 import java.util.HashMap;
@@ -18,10 +18,10 @@ import java.util.Map;
  */
 public class AuthorizationEndpointImpl implements AuthenticationEndpoint {
 
-  private final NotionApiTransport transport;
+  private final NotionHttpTransport transport;
   private final NotionAuthSettings authSettings;
 
-  public AuthorizationEndpointImpl(NotionAuthSettings authSettings, NotionApiTransport transport) {
+  public AuthorizationEndpointImpl(NotionAuthSettings authSettings, NotionHttpTransport transport) {
     this.authSettings = authSettings;
     this.transport = transport;
   }

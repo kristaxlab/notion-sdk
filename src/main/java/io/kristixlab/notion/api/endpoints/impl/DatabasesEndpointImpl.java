@@ -1,9 +1,9 @@
 package io.kristixlab.notion.api.endpoints.impl;
 
-import io.kristixlab.notion.api.NotionApiTransport;
+import io.kristixlab.notion.api.http.NotionHttpTransport;
 import io.kristixlab.notion.api.endpoints.DatabasesEndpoint;
-import io.kristixlab.notion.api.http.transport.ApiTransport;
-import io.kristixlab.notion.api.http.transport.URLInfo;
+import io.kristixlab.notion.api.http.transport.HttpTransportImpl;
+import io.kristixlab.notion.api.http.transport.rq.URLInfo;
 import io.kristixlab.notion.api.model.databases.CreateDatabaseRequest;
 import io.kristixlab.notion.api.model.databases.Database;
 import io.kristixlab.notion.api.model.databases.UpdateDatabaseRequest;
@@ -15,9 +15,9 @@ import io.kristixlab.notion.api.model.databases.UpdateDatabaseRequest;
 public class DatabasesEndpointImpl implements DatabasesEndpoint {
 
   private static final String DATABASE_ID = "database_id";
-  private final ApiTransport transport;
+  private final HttpTransportImpl transport;
 
-  public DatabasesEndpointImpl(NotionApiTransport transport) {
+  public DatabasesEndpointImpl(NotionHttpTransport transport) {
     this.transport = transport;
   }
 

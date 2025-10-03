@@ -1,11 +1,11 @@
 package io.kristixlab.notion.api.endpoints.impl;
 
-import io.kristixlab.notion.api.NotionApiTransport;
-import io.kristixlab.notion.api.Pagination;
+import io.kristixlab.notion.api.http.NotionHttpTransport;
+import io.kristixlab.notion.api.http.transport.HttpTransportImpl;
+import io.kristixlab.notion.api.util.Pagination;
 import io.kristixlab.notion.api.endpoints.BlocksEndpoint;
-import io.kristixlab.notion.api.http.transport.ApiTransport;
-import io.kristixlab.notion.api.http.transport.URLInfo;
-import io.kristixlab.notion.api.http.transport.URLInfoBuilder;
+import io.kristixlab.notion.api.http.transport.rq.URLInfo;
+import io.kristixlab.notion.api.http.transport.util.URLInfoBuilder;
 import io.kristixlab.notion.api.model.blocks.AppendBlockChildrenRequest;
 import io.kristixlab.notion.api.model.blocks.Block;
 import io.kristixlab.notion.api.model.blocks.Blocks;
@@ -18,9 +18,9 @@ public class BlocksEndpointImpl implements BlocksEndpoint {
 
   private static final String BLOCK_ID = "block_id";
 
-  private final ApiTransport transport;
+  private final HttpTransportImpl transport;
 
-  public BlocksEndpointImpl(NotionApiTransport transport) {
+  public BlocksEndpointImpl(NotionHttpTransport transport) {
     this.transport = transport;
   }
 

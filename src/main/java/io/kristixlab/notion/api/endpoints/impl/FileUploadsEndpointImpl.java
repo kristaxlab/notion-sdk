@@ -1,11 +1,11 @@
 package io.kristixlab.notion.api.endpoints.impl;
 
-import io.kristixlab.notion.api.NotionApiTransport;
-import io.kristixlab.notion.api.Pagination;
+import io.kristixlab.notion.api.http.NotionHttpTransport;
+import io.kristixlab.notion.api.util.Pagination;
 import io.kristixlab.notion.api.endpoints.FileUploadsEndpoint;
-import io.kristixlab.notion.api.http.FileRequest;
-import io.kristixlab.notion.api.http.transport.URLInfo;
-import io.kristixlab.notion.api.http.transport.URLInfoBuilder;
+import io.kristixlab.notion.api.http.transport.rq.FileRequest;
+import io.kristixlab.notion.api.http.transport.rq.URLInfo;
+import io.kristixlab.notion.api.http.transport.util.URLInfoBuilder;
 import io.kristixlab.notion.api.model.files.FileUploadCreateRequest;
 import io.kristixlab.notion.api.model.files.FileUploadList;
 import io.kristixlab.notion.api.model.files.FileUploadResponse;
@@ -23,9 +23,9 @@ public class FileUploadsEndpointImpl implements FileUploadsEndpoint {
   private static final String STATUS = "status";
   private static final String FILE_UPLOAD_ID = "file_upload_id";
 
-  private final NotionApiTransport transport;
+  private final NotionHttpTransport transport;
 
-  public FileUploadsEndpointImpl(NotionApiTransport transport) {
+  public FileUploadsEndpointImpl(NotionHttpTransport transport) {
     this.transport = transport;
   }
 

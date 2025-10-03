@@ -1,10 +1,11 @@
 package io.kristixlab.notion.api.http.transport;
 
-import io.kristixlab.notion.api.http.ApiResponse;
+import io.kristixlab.notion.api.http.transport.rs.ApiResponse;
+import io.kristixlab.notion.api.http.transport.rq.URLInfo;
 
 import java.util.Map;
 
-public interface Transport {
+public interface HttpTransport {
 
   <T> ApiResponse<T> execute(String method, URLInfo urlInfo, Map<String, String> headerParams, Object body, Class<T> responseType);
 

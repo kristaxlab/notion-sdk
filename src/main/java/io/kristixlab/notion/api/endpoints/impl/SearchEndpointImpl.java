@@ -1,9 +1,9 @@
 package io.kristixlab.notion.api.endpoints.impl;
 
-import io.kristixlab.notion.api.NotionApiTransport;
+import io.kristixlab.notion.api.http.NotionHttpTransport;
 import io.kristixlab.notion.api.endpoints.SearchEndpoint;
-import io.kristixlab.notion.api.http.transport.ApiTransport;
-import io.kristixlab.notion.api.http.transport.URLInfo;
+import io.kristixlab.notion.api.http.transport.HttpTransportImpl;
+import io.kristixlab.notion.api.http.transport.rq.URLInfo;
 import io.kristixlab.notion.api.model.search.SearchFilter;
 import io.kristixlab.notion.api.model.search.SearchRequest;
 import io.kristixlab.notion.api.model.search.SearchResponse;
@@ -15,9 +15,9 @@ import io.kristixlab.notion.api.model.search.SearchSort;
  */
 public class SearchEndpointImpl implements SearchEndpoint {
 
-  private final ApiTransport transport;
+  private final HttpTransportImpl transport;
 
-  public SearchEndpointImpl(NotionApiTransport transport) {
+  public SearchEndpointImpl(NotionHttpTransport transport) {
     this.transport = transport;
   }
 

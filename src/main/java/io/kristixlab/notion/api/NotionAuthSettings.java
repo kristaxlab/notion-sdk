@@ -1,5 +1,6 @@
 package io.kristixlab.notion.api;
 
+import io.kristixlab.notion.api.util.NotionAuthUtil;
 import lombok.Data;
 import lombok.Setter;
 
