@@ -15,16 +15,6 @@ public class CheckboxFilter extends Filter {
   @JsonProperty("checkbox")
   private CheckboxFilterCondition checkbox;
 
-  @Data
-  public static class CheckboxFilterCondition {
-
-    @JsonProperty("equals")
-    private Boolean equals;
-
-    @JsonProperty("does_not_equal")
-    private Boolean doesNotEqual;
-  }
-
   public static CheckboxFilter isChecked() {
     CheckboxFilter filter = new CheckboxFilter();
     CheckboxFilterCondition condition = new CheckboxFilterCondition();
@@ -39,5 +29,15 @@ public class CheckboxFilter extends Filter {
     condition.setEquals(false);
     filter.setCheckbox(condition);
     return filter;
+  }
+
+  @Data
+  public static class CheckboxFilterCondition {
+
+    @JsonProperty("equals")
+    private Boolean equals;
+
+    @JsonProperty("does_not_equal")
+    private Boolean doesNotEqual;
   }
 }

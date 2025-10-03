@@ -4,7 +4,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-/** Database property for email columns. Stores email addresses with validation. */
+/**
+ * Database property for email columns. Stores email addresses with validation.
+ */
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class EmailDatasourceProperty extends DatasourceProperty {

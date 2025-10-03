@@ -2,9 +2,9 @@ package io.kristixlab.notion.api.http.transport;
 
 import io.kristixlab.notion.api.http.transport.exception.HttpResponseException;
 import io.kristixlab.notion.api.http.transport.exception.HttpTransportException;
-import io.kristixlab.notion.api.http.transport.rs.ApiResponse;
 import io.kristixlab.notion.api.http.transport.rq.FileRequest;
 import io.kristixlab.notion.api.http.transport.rq.URLInfo;
+import io.kristixlab.notion.api.http.transport.rs.ApiResponse;
 import io.kristixlab.notion.api.http.transport.util.ApiRequestUtil;
 import io.kristixlab.notion.api.json.JsonConverter;
 import lombok.Getter;
@@ -21,12 +21,11 @@ public class HttpTransportImpl implements HttpTransport {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(HttpTransportImpl.class);
   private static final MediaType JSON_MEDIA_TYPE = MediaType.parse("application/json");
-
-  @Getter
-  private String baseUrl = "https://api.example.com"; // Default base URL, can be overridden
   private final OkHttpClient httpClient;
   @Getter
   private final String apiName;
+  @Getter
+  private String baseUrl = "https://api.example.com"; // Default base URL, can be overridden
 
   public HttpTransportImpl() {
     this.httpClient = createHttpClient();
@@ -148,7 +147,7 @@ public class HttpTransportImpl implements HttpTransport {
       return response.body().string();
     } catch (IOException e) {
       LOGGER.error("[{}] Failed to read response body ", logBlueprint);
-      throw new HttpTransportException("["+logBlueprint+"] Failed to read response body", e);
+      throw new HttpTransportException("[" + logBlueprint + "] Failed to read response body", e);
     }
 
   }

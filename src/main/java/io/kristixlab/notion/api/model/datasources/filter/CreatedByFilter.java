@@ -2,9 +2,10 @@ package io.kristixlab.notion.api.model.datasources.filter;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.kristixlab.notion.api.model.datasources.filter.condition.UserFilterCondition;
-import java.util.UUID;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import java.util.UUID;
 
 @Data
 @EqualsAndHashCode(callSuper = true)

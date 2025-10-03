@@ -4,9 +4,10 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.kristixlab.notion.api.model.common.Icon;
 import io.kristixlab.notion.api.model.common.RichText;
-import java.util.List;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import java.util.List;
 
 /**
  * Represents a callout block in Notion.
@@ -16,17 +17,19 @@ import lombok.EqualsAndHashCode;
  * custom icons, and nested child blocks.
  *
  * @author KristaxLab
- * @since 1.0
  * @see Block
  * @see RichText
  * @see Icon
+ * @since 1.0
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class CalloutBlock extends Block {
 
-  /** The callout configuration */
+  /**
+   * The callout configuration
+   */
   @JsonProperty("callout")
   private Callout callout;
 
@@ -38,19 +41,27 @@ public class CalloutBlock extends Block {
    */
   @Data
   public static class Callout {
-    /** The rich text content of the callout */
+    /**
+     * The rich text content of the callout
+     */
     @JsonProperty("rich_text")
     private List<RichText> richText;
 
-    /** The icon displayed with the callout */
+    /**
+     * The icon displayed with the callout
+     */
     @JsonProperty("icon")
     private Icon icon;
 
-    /** The color of the callout background and text */
+    /**
+     * The color of the callout background and text
+     */
     @JsonProperty("color")
     private String color;
 
-    /** Child blocks nested under this callout */
+    /**
+     * Child blocks nested under this callout
+     */
     @JsonProperty("children")
     private List<Block> children;
   }

@@ -1,7 +1,7 @@
 package io.kristixlab.notion.api.endpoints.impl;
 
-import io.kristixlab.notion.api.http.NotionHttpTransport;
 import io.kristixlab.notion.api.endpoints.DatasourcesEndpoint;
+import io.kristixlab.notion.api.http.NotionHttpTransport;
 import io.kristixlab.notion.api.http.transport.HttpTransportImpl;
 import io.kristixlab.notion.api.http.transport.rq.URLInfo;
 import io.kristixlab.notion.api.model.datasources.CreateDataSourceRequest;

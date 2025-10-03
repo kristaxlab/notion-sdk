@@ -5,7 +5,9 @@ import io.kristixlab.notion.api.model.common.PageReference;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-/** Page attachment in a comment. */
+/**
+ * Page attachment in a comment.
+ */
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class PageCommentAttachment extends CommentAttachment {

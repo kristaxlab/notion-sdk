@@ -13,14 +13,16 @@ import lombok.EqualsAndHashCode;
  * directly, but serves as a parent for individual column blocks.
  *
  * @author KristaxLab
- * @since 1.0
  * @see Block
+ * @since 1.0
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class ColumnListBlock extends Block {
-  /** The column list configuration */
+  /**
+   * The column list configuration
+   */
   @JsonProperty("column_list")
   private ColumnList columnList;
 

@@ -1,8 +1,9 @@
 package io.kristixlab.notion.api.model.common;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import java.util.List;
 import lombok.Data;
+
+import java.util.List;
 
 @Data
 public class FileData {

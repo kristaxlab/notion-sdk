@@ -1,7 +1,7 @@
 package io.kristixlab.notion.api.endpoints;
 
-import io.kristixlab.notion.api.model.pages.UpdatePageRequest;
 import io.kristixlab.notion.api.model.pages.Page;
+import io.kristixlab.notion.api.model.pages.UpdatePageRequest;
 import io.kristixlab.notion.api.model.pages.properties.PageProperty;
 
 /*

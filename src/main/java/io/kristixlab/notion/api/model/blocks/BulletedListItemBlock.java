@@ -3,9 +3,10 @@ package io.kristixlab.notion.api.model.blocks;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.kristixlab.notion.api.model.common.RichText;
-import java.util.List;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import java.util.List;
 
 /**
  * Represents a bulleted list item block in Notion.
@@ -16,15 +17,17 @@ import lombok.EqualsAndHashCode;
  * </p>
  *
  * @author KristaxLab
- * @since 1.0
  * @see Block
  * @see RichText
+ * @since 1.0
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class BulletedListItemBlock extends Block {
-  /** The bulleted list item configuration */
+  /**
+   * The bulleted list item configuration
+   */
   @JsonProperty("bulleted_list_item")
   private BulletedListItem bulletedListItem;
 
@@ -37,15 +40,21 @@ public class BulletedListItemBlock extends Block {
    */
   @Data
   public static class BulletedListItem {
-    /** The rich text content of the list item */
+    /**
+     * The rich text content of the list item
+     */
     @JsonProperty("rich_text")
     private List<RichText> richText;
 
-    /** The color of the list item text */
+    /**
+     * The color of the list item text
+     */
     @JsonProperty("color")
     private String color;
 
-    /** Child blocks nested under this list item */
+    /**
+     * Child blocks nested under this list item
+     */
     @JsonProperty("children")
     private List<Block> children;
   }

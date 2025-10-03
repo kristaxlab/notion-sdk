@@ -9,6 +9,7 @@ test if parent of database can be workspace (root page), UI allows?
 Visit https://notion.so/profile/integrations to create and manage public and private Notion integrations
  */
 
+import io.kristixlab.notion.api.endpoints.*;
 import io.kristixlab.notion.api.endpoints.impl.*;
 import io.kristixlab.notion.api.http.NotionHttpTransport;
 import lombok.Getter;
@@ -133,35 +134,35 @@ public class NotionApiClient {
     this.usersApi = new UsersEndpointImpl(transport);
   }
 
-  public AuthorizationEndpointImpl authorization() {
+  public AuthorizationEndpoint authorization() {
     return authorizationApi;
   }
 
-  public BlocksEndpointImpl blocks() {
+  public BlocksEndpoint blocks() {
     return blocksEndpointImpl;
   }
 
-  public PagesEndpointImpl pages() {
+  public PagesEndpoint pages() {
     return pagesApi;
   }
 
-  public DatabasesEndpointImpl databases() {
+  public DatabasesEndpoint databases() {
     return databasesEndpointImpl;
   }
 
-  public CommentsEndpointImpl comments() {
+  public CommentsEndpoint comments() {
     return commentsApi;
   }
 
-  public FileUploadsEndpointImpl fileUploads() {
+  public FileUploadsEndpoint fileUploads() {
     return fileUploadsApi;
   }
 
-  public SearchEndpointImpl search() {
+  public SearchEndpoint search() {
     return searchApi;
   }
 
-  public UsersEndpointImpl users() {
+  public UsersEndpoint users() {
     return usersApi;
   }
 

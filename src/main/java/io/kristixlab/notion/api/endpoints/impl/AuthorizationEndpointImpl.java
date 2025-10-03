@@ -1,13 +1,11 @@
 package io.kristixlab.notion.api.endpoints.impl;
 
-import io.kristixlab.notion.api.http.NotionHttpTransport;
 import io.kristixlab.notion.api.NotionAuthSettings;
-import io.kristixlab.notion.api.util.NotionAuthUtil;
-import io.kristixlab.notion.api.endpoints.AuthenticationEndpoint;
-import io.kristixlab.notion.api.model.authorization.TokenRequest;
-import io.kristixlab.notion.api.model.authorization.TokenResponse;
+import io.kristixlab.notion.api.endpoints.AuthorizationEndpoint;
+import io.kristixlab.notion.api.http.NotionHttpTransport;
 import io.kristixlab.notion.api.http.transport.rq.URLInfo;
 import io.kristixlab.notion.api.model.authorization.*;
+import io.kristixlab.notion.api.util.NotionAuthUtil;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -16,7 +14,7 @@ import java.util.Map;
  * API for handling Notion OAuth authorization flow. Provides methods to exchange authorization
  * codes for access tokens, refresh tokens, introspect tokens, and revoke tokens.
  */
-public class AuthorizationEndpointImpl implements AuthenticationEndpoint {
+public class AuthorizationEndpointImpl implements AuthorizationEndpoint {
 
   private final NotionHttpTransport transport;
   private final NotionAuthSettings authSettings;

@@ -2,10 +2,11 @@ package io.kristixlab.notion.api.model.pages.properties;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.kristixlab.notion.api.model.common.Color;
-import java.util.ArrayList;
-import java.util.List;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -14,6 +15,20 @@ public class MultiSelectProperty extends PageProperty {
 
   @JsonProperty("multi_select")
   private List<SelectValue> multiSelect;
+
+  public static MultiSelectProperty of(List<SelectValue> options) {
+    MultiSelectProperty property = new MultiSelectProperty();
+    property.setMultiSelect(options);
+    return property;
+  }
+
+  public static MultiSelectProperty of(SelectValue... options) {
+    MultiSelectProperty property = new MultiSelectProperty();
+    for (SelectValue option : options) {
+      property.add(option);
+    }
+    return property;
+  }
 
   public MultiSelectProperty add(SelectValue option) {
     if (this.multiSelect == null) {
@@ -29,19 +44,5 @@ public class MultiSelectProperty extends PageProperty {
 
   public MultiSelectProperty add(String id, String name, Color color) {
     return add(SelectValue.of(id, name, color));
-  }
-
-  public static MultiSelectProperty of(List<SelectValue> options) {
-    MultiSelectProperty property = new MultiSelectProperty();
-    property.setMultiSelect(options);
-    return property;
-  }
-
-  public static MultiSelectProperty of(SelectValue... options) {
-    MultiSelectProperty property = new MultiSelectProperty();
-    for (SelectValue option : options) {
-      property.add(option);
-    }
-    return property;
   }
 }

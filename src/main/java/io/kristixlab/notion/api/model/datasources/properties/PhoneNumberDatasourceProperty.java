@@ -4,7 +4,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-/** Database property for phone number columns. Stores phone numbers with validation. */
+/**
+ * Database property for phone number columns. Stores phone numbers with validation.
+ */
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class PhoneNumberDatasourceProperty extends DatasourceProperty {

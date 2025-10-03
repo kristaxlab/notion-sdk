@@ -1,13 +1,13 @@
 package io.kristixlab.notion.api.endpoints.impl;
 
-import io.kristixlab.notion.api.http.NotionHttpTransport;
-import io.kristixlab.notion.api.util.Pagination;
 import io.kristixlab.notion.api.endpoints.UsersEndpoint;
+import io.kristixlab.notion.api.http.NotionHttpTransport;
 import io.kristixlab.notion.api.http.transport.HttpTransportImpl;
 import io.kristixlab.notion.api.http.transport.rq.URLInfo;
 import io.kristixlab.notion.api.http.transport.util.URLInfoBuilder;
 import io.kristixlab.notion.api.model.users.User;
 import io.kristixlab.notion.api.model.users.UsersList;
+import io.kristixlab.notion.api.util.Pagination;
 
 /**
  * API for interacting with Notion Users endpoints. Provides methods to retrieve users and list all

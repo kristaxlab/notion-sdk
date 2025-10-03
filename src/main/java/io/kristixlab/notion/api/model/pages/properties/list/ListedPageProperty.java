@@ -7,16 +7,16 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import lombok.Data;
 
 @JsonTypeInfo(
-    use = JsonTypeInfo.Id.NAME,
-    defaultImpl = ListedUnknownProperty.class,
-    include = JsonTypeInfo.As.EXISTING_PROPERTY,
-    property = "type",
-    visible = true)
+        use = JsonTypeInfo.Id.NAME,
+        defaultImpl = ListedUnknownProperty.class,
+        include = JsonTypeInfo.As.EXISTING_PROPERTY,
+        property = "type",
+        visible = true)
 @JsonSubTypes({
-  @JsonSubTypes.Type(value = ListedPeopleProperty.class, name = "people"),
-  @JsonSubTypes.Type(value = ListedRelationProperty.class, name = "relation"),
-  @JsonSubTypes.Type(value = ListedRichTextProperty.class, name = "rich_text"),
-  @JsonSubTypes.Type(value = ListedTitleProperty.class, name = "title")
+        @JsonSubTypes.Type(value = ListedPeopleProperty.class, name = "people"),
+        @JsonSubTypes.Type(value = ListedRelationProperty.class, name = "relation"),
+        @JsonSubTypes.Type(value = ListedRichTextProperty.class, name = "rich_text"),
+        @JsonSubTypes.Type(value = ListedTitleProperty.class, name = "title")
 })
 @Data
 public class ListedPageProperty {

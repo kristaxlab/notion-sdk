@@ -17,14 +17,15 @@ public class RollupFilter extends Filter {
 
   @JsonTypeInfo(use = JsonTypeInfo.Id.DEDUCTION, defaultImpl = Object.class)
   @JsonSubTypes({
-    @JsonSubTypes.Type(value = RollupAnyDatabaseFilter.class),
-    @JsonSubTypes.Type(value = RollupEveryDatabaseFilter.class),
-    @JsonSubTypes.Type(value = RollupNoneDatabaseFilter.class),
-    @JsonSubTypes.Type(value = RollupDateDatabaseFilter.class),
-    @JsonSubTypes.Type(value = RollupNumberDatabaseFilter.class)
+          @JsonSubTypes.Type(value = RollupAnyDatabaseFilter.class),
+          @JsonSubTypes.Type(value = RollupEveryDatabaseFilter.class),
+          @JsonSubTypes.Type(value = RollupNoneDatabaseFilter.class),
+          @JsonSubTypes.Type(value = RollupDateDatabaseFilter.class),
+          @JsonSubTypes.Type(value = RollupNumberDatabaseFilter.class)
   })
   @Data
-  public static class RollupCondition {}
+  public static class RollupCondition {
+  }
 
   // Specific rollup filter types
   @Data

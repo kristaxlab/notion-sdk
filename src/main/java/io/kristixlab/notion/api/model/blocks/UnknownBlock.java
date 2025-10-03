@@ -12,4 +12,5 @@ import lombok.EqualsAndHashCode;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class UnknownBlock extends Block {}
+public class UnknownBlock extends Block {
+}

@@ -4,7 +4,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-/** Database property for files columns. Allows uploading and storing files. */
+/**
+ * Database property for files columns. Allows uploading and storing files.
+ */
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class FilesDatasourceProperty extends DatasourceProperty {

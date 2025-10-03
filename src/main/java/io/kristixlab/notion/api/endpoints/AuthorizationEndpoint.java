@@ -7,7 +7,7 @@ import io.kristixlab.notion.api.model.authorization.*;
  *
  * @see <a href="https://developers.notion.com/reference/authentication">Notion Authentication Endpoint</a>
  */
-public interface AuthenticationEndpoint {
+public interface AuthorizationEndpoint {
 
   TokenResponse createToken(String code);
 

@@ -1,11 +1,14 @@
 package io.kristixlab.notion.api.model.datasources.properties;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import java.util.List;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-/** Database property for status columns. Similar to select but designed for workflow states. */
+import java.util.List;
+
+/**
+ * Database property for status columns. Similar to select but designed for workflow states.
+ */
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class StatusDatasourceProperty extends DatasourceProperty {
@@ -32,7 +35,7 @@ public class StatusDatasourceProperty extends DatasourceProperty {
 
     @JsonProperty("color")
     private String
-        color; // "default", "gray", "brown", "orange", "yellow", "green", "blue", "purple", "pink",
+            color; // "default", "gray", "brown", "orange", "yellow", "green", "blue", "purple", "pink",
 
     // "red"
 

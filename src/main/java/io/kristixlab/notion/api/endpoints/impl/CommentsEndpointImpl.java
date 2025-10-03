@@ -1,14 +1,14 @@
 package io.kristixlab.notion.api.endpoints.impl;
 
+import io.kristixlab.notion.api.endpoints.CommentsEndpoint;
 import io.kristixlab.notion.api.http.NotionHttpTransport;
 import io.kristixlab.notion.api.http.transport.HttpTransportImpl;
-import io.kristixlab.notion.api.util.Pagination;
-import io.kristixlab.notion.api.endpoints.CommentsEndpoint;
 import io.kristixlab.notion.api.http.transport.rq.URLInfo;
 import io.kristixlab.notion.api.http.transport.util.URLInfoBuilder;
 import io.kristixlab.notion.api.model.comments.Comment;
 import io.kristixlab.notion.api.model.comments.CommentsList;
 import io.kristixlab.notion.api.model.comments.CreateCommentRequest;
+import io.kristixlab.notion.api.util.Pagination;
 
 /**
  * API for interacting with Notion Comments endpoints. Provides methods to create and retrieve

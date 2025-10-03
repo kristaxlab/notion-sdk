@@ -3,10 +3,11 @@ package io.kristixlab.notion.api.model.blocks;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.kristixlab.notion.api.model.common.RichText;
-import java.util.List;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+
+import java.util.List;
 
 /**
  * Represents a heading 2 block in Notion.
@@ -15,15 +16,17 @@ import lombok.experimental.Accessors;
  * It can optionally be toggleable to show/hide child content and supports rich text formatting.
  *
  * @author KristaxLab
- * @since 1.0
  * @see Block
  * @see RichText
+ * @since 1.0
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class HeadingTwoBlock extends Block {
-  /** The heading 2 configuration */
+  /**
+   * The heading 2 configuration
+   */
   @JsonProperty("heading_2")
   private Heading heading2;
 
@@ -35,20 +38,28 @@ public class HeadingTwoBlock extends Block {
    */
   @Data
   public static class Heading {
-    /** The rich text content of the heading */
+    /**
+     * The rich text content of the heading
+     */
     @JsonProperty("rich_text")
     private List<RichText> richText;
 
-    /** The color of the heading text */
+    /**
+     * The color of the heading text
+     */
     @JsonProperty("color")
     private String color;
 
-    /** Whether the heading can be toggled to show/hide children */
+    /**
+     * Whether the heading can be toggled to show/hide children
+     */
     @Accessors(fluent = true)
     @JsonProperty("is_toggleable")
     private Boolean isToggleable;
 
-    /** Child blocks nested under this heading */
+    /**
+     * Child blocks nested under this heading
+     */
     @JsonProperty("children")
     private List<Block> children;
   }

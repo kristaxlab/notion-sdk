@@ -6,17 +6,18 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+
 public class JsonConverter {
 
-  private static JsonConverter CONVERTER = new JsonConverter();
-  private final ObjectMapper MAPPER;
   private static final Logger LOGGER = LoggerFactory.getLogger(JsonConverter.class);
+  private static final JsonConverter CONVERTER = new JsonConverter();
+  private final ObjectMapper MAPPER;
 
   private JsonConverter() {
     MAPPER = new ObjectMapper();

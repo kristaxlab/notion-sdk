@@ -14,17 +14,17 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @JsonTypeInfo(
-    use = JsonTypeInfo.Id.NAME,
-    defaultImpl = NotionObject.class,
-    property = "object",
-    visible = true)
+        use = JsonTypeInfo.Id.NAME,
+        defaultImpl = NotionObject.class,
+        property = "object",
+        visible = true)
 @JsonSubTypes({
-  @JsonSubTypes.Type(value = Page.class, name = "page"),
-  @JsonSubTypes.Type(value = Database.class, name = "database"),
-  @JsonSubTypes.Type(value = Datasource.class, name = "data_source"),
-  @JsonSubTypes.Type(value = Comment.class, name = "comment"),
-  @JsonSubTypes.Type(value = User.class, name = "user"),
-  @JsonSubTypes.Type(value = Block.class, name = "block")
+        @JsonSubTypes.Type(value = Page.class, name = "page"),
+        @JsonSubTypes.Type(value = Database.class, name = "database"),
+        @JsonSubTypes.Type(value = Datasource.class, name = "data_source"),
+        @JsonSubTypes.Type(value = Comment.class, name = "comment"),
+        @JsonSubTypes.Type(value = User.class, name = "user"),
+        @JsonSubTypes.Type(value = Block.class, name = "block")
 })
 @Data
 @EqualsAndHashCode(callSuper = true)

@@ -2,10 +2,13 @@ package io.kristixlab.notion.api.model.comments;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.kristixlab.notion.api.model.common.RichText;
-import java.util.List;
 import lombok.Data;
 
-/** Represents a Notion comment object. Comments are attached to pages or discussion threads. */
+import java.util.List;
+
+/**
+ * Represents a Notion comment object. Comments are attached to pages or discussion threads.
+ */
 @Data
 public class CreateCommentRequest {
 

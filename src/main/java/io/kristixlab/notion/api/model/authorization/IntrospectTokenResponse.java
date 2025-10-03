@@ -13,15 +13,21 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class IntrospectTokenResponse extends BaseNotionResponse {
 
-  /** Whether the token is active (valid and not expired). */
+  /**
+   * Whether the token is active (valid and not expired).
+   */
   @JsonProperty("active")
   private Boolean active;
 
-  /** The scope associated with the token - space-separated list of permissions. */
+  /**
+   * The scope associated with the token - space-separated list of permissions.
+   */
   @JsonProperty("scope")
   private String scope;
 
-  /** Issued at time of the token (Unix timestamp in milliseconds). */
+  /**
+   * Issued at time of the token (Unix timestamp in milliseconds).
+   */
   @JsonProperty("iat")
   private Long iat;
 }

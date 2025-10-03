@@ -5,7 +5,9 @@ import io.kristixlab.notion.api.model.common.SortDirection;
 import io.kristixlab.notion.api.model.common.Timestamp;
 import lombok.Data;
 
-/** Sort configuration for database queries. */
+/**
+ * Sort configuration for database queries.
+ */
 @Data
 public class Sort {
   @JsonProperty("property")

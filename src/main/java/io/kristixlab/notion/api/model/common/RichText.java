@@ -1,9 +1,10 @@
 package io.kristixlab.notion.api.model.common;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Data;
+
 import java.util.ArrayList;
 import java.util.List;
-import lombok.Data;
 
 @Data
 public class RichText {
@@ -28,6 +29,34 @@ public class RichText {
 
   @JsonProperty("equation")
   private Equation equation;
+
+  public static RichText of(String plainText) {
+    return of(plainText, Color.DEFAULT);
+  }
+
+  public static RichText of(String plainText, Color color) {
+    RichText richText = new RichText();
+    richText.setType("text");
+    richText.setPlainText(plainText);
+    Text text = new Text();
+    text.setContent(plainText);
+    richText.setText(text);
+    Annotations annotations = new Annotations();
+    annotations.setBold(false);
+    annotations.setItalic(false);
+    annotations.setStrikethrough(false);
+    annotations.setUnderline(false);
+    annotations.setCode(false);
+    annotations.setColor(color.getValue());
+    richText.setAnnotations(annotations);
+    return richText;
+  }
+
+  public static List<RichText> asList(String plainText) {
+    List<RichText> list = new ArrayList<>();
+    list.add(of(plainText));
+    return list;
+  }
 
   @Data
   public static class Annotations {
@@ -73,33 +102,5 @@ public class RichText {
 
     @JsonProperty("expression")
     private String expression;
-  }
-
-  public static RichText of(String plainText) {
-    return of(plainText, Color.DEFAULT);
-  }
-
-  public static RichText of(String plainText, Color color) {
-    RichText richText = new RichText();
-    richText.setType("text");
-    richText.setPlainText(plainText);
-    Text text = new Text();
-    text.setContent(plainText);
-    richText.setText(text);
-    Annotations annotations = new Annotations();
-    annotations.setBold(false);
-    annotations.setItalic(false);
-    annotations.setStrikethrough(false);
-    annotations.setUnderline(false);
-    annotations.setCode(false);
-    annotations.setColor(color.getValue());
-    richText.setAnnotations(annotations);
-    return richText;
-  }
-
-  public static List<RichText> asList(String plainText) {
-    List<RichText> list = new ArrayList<>();
-    list.add(of(plainText));
-    return list;
   }
 }

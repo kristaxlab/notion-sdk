@@ -1,7 +1,7 @@
 package io.kristixlab.notion.api.http.transport;
 
-import io.kristixlab.notion.api.http.transport.rs.ApiResponse;
 import io.kristixlab.notion.api.http.transport.rq.URLInfo;
+import io.kristixlab.notion.api.http.transport.rs.ApiResponse;
 
 import java.util.Map;
 

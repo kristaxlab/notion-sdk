@@ -1,14 +1,14 @@
 package io.kristixlab.notion.api.endpoints.impl;
 
+import io.kristixlab.notion.api.endpoints.PagesEndpoint;
 import io.kristixlab.notion.api.http.NotionHttpTransport;
-import io.kristixlab.notion.api.util.Pagination;
 import io.kristixlab.notion.api.http.transport.HttpTransportImpl;
 import io.kristixlab.notion.api.http.transport.rq.URLInfo;
 import io.kristixlab.notion.api.http.transport.util.URLInfoBuilder;
 import io.kristixlab.notion.api.model.pages.Page;
 import io.kristixlab.notion.api.model.pages.UpdatePageRequest;
 import io.kristixlab.notion.api.model.pages.properties.PageProperty;
-import io.kristixlab.notion.api.endpoints.PagesEndpoint;
+import io.kristixlab.notion.api.util.Pagination;
 
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;

@@ -1,8 +1,7 @@
 package io.kristixlab.notion.api.endpoints.impl;
 
-import io.kristixlab.notion.api.http.NotionHttpTransport;
-import io.kristixlab.notion.api.util.Pagination;
 import io.kristixlab.notion.api.endpoints.FileUploadsEndpoint;
+import io.kristixlab.notion.api.http.NotionHttpTransport;
 import io.kristixlab.notion.api.http.transport.rq.FileRequest;
 import io.kristixlab.notion.api.http.transport.rq.URLInfo;
 import io.kristixlab.notion.api.http.transport.util.URLInfoBuilder;
@@ -10,6 +9,7 @@ import io.kristixlab.notion.api.model.files.FileUploadCreateRequest;
 import io.kristixlab.notion.api.model.files.FileUploadList;
 import io.kristixlab.notion.api.model.files.FileUploadResponse;
 import io.kristixlab.notion.api.model.files.FileUploadSendRequest;
+import io.kristixlab.notion.api.util.Pagination;
 
 /**
  * API for file upload operations in Notion.

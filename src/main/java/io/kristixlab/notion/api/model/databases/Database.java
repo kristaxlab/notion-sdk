@@ -1,12 +1,18 @@
 package io.kristixlab.notion.api.model.databases;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.kristixlab.notion.api.model.common.*;
-import java.util.List;
+import io.kristixlab.notion.api.model.common.FileData;
+import io.kristixlab.notion.api.model.common.Icon;
+import io.kristixlab.notion.api.model.common.NotionObject;
+import io.kristixlab.notion.api.model.common.RichText;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-/** Represents a Notion database object. Contains the database schema, properties, and metadata. */
+import java.util.List;
+
+/**
+ * Represents a Notion database object. Contains the database schema, properties, and metadata.
+ */
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class Database extends NotionObject {

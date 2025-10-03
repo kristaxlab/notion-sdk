@@ -5,4 +5,5 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class ListedUnknownProperty extends ListedPageProperty {}
+public class ListedUnknownProperty extends ListedPageProperty {
+}

@@ -30,7 +30,7 @@ public class RollupDatasourceProperty extends DatasourceProperty {
 
     @JsonProperty("function")
     private String
-        function; // "count", "count_values", "empty", "not_empty", "unique", "show_unique",
+            function; // "count", "count_values", "empty", "not_empty", "unique", "show_unique",
     // "percent_empty", "percent_not_empty", "sum", "average", "median", "min", "max",
     // "range", "earliest_date", "latest_date", "date_range", "checked", "unchecked",
     // "percent_checked", "percent_unchecked", "show_original"
