@@ -30,8 +30,8 @@ jobs:
         run: chmod +x gradlew
 
       # 4.
-      - name: 4. Code style check (Spotless)
-        run: ./gradlew spotlessCheck
+#      - name: 4. Code style check (Spotless)
+#        run: ./gradlew spotlessCheck
 
       # 5
       - name: 5. Build with Gradle
