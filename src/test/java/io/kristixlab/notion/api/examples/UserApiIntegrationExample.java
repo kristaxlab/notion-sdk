@@ -3,7 +3,7 @@ package io.kristixlab.notion.api.examples;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import io.kristixlab.notion.api.UsersApi;
+import io.kristixlab.notion.api.endpoints.impl.UsersEndpointImpl;
 import io.kristixlab.notion.api.model.users.User;
 import io.kristixlab.notion.api.model.users.UsersList;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,12 +18,12 @@ public class UserApiIntegrationExample extends IntegrationTest {
 
   private static final String TOKEN = "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";
 
-  private static UsersApi usersApi;
+  private static UsersEndpointImpl usersApi;
 
   @BeforeEach
   protected void setUp() throws Exception {
     super.setUp();
-    usersApi = new UsersApi(getTransport());
+    usersApi = new UsersEndpointImpl(getTransport());
   }
 
   @Test

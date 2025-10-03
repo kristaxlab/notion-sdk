@@ -9,6 +9,7 @@ test if parent of database can be workspace (root page), UI allows?
 Visit https://notion.so/profile/integrations to create and manage public and private Notion integrations
  */
 
+import io.kristixlab.notion.api.endpoints.impl.*;
 import lombok.Getter;
 
 public class NotionApiClient {
@@ -27,14 +28,14 @@ public class NotionApiClient {
   /**
    * Api classes
    */
-  private AuthorizationApi authorizationApi;
-  private BlocksApi blocksApi;
-  private PagesApi pagesApi;
-  private DatabasesApi databasesApi;
-  private CommentsApi commentsApi;
-  private FileUploadsApi fileUploadsApi;
-  private SearchApi searchApi;
-  private UsersApi usersApi;
+  private AuthorizationEndpointImpl authorizationApi;
+  private BlocksEndpointImpl blocksEndpointImpl;
+  private PagesEndpointImpl pagesApi;
+  private DatabasesEndpointImpl databasesEndpointImpl;
+  private CommentsEndpointImpl commentsApi;
+  private FileUploadsEndpointImpl fileUploadsApi;
+  private SearchEndpointImpl searchApi;
+  private UsersEndpointImpl usersApi;
 
   /**
    * Default constructor. Initializes the client using environment variables.
@@ -121,45 +122,45 @@ public class NotionApiClient {
   }
 
   private void initApis(NotionApiTransport transport) {
-    this.authorizationApi = new AuthorizationApi(this.getAuthSettings(), transport);
-    this.blocksApi = new BlocksApi(transport);
-    this.pagesApi = new PagesApi(transport);
-    this.databasesApi = new DatabasesApi(transport);
-    this.commentsApi = new CommentsApi(transport);
-    this.fileUploadsApi = new FileUploadsApi(transport);
-    this.searchApi = new SearchApi(transport);
-    this.usersApi = new UsersApi(transport);
+    this.authorizationApi = new AuthorizationEndpointImpl(this.getAuthSettings(), transport);
+    this.blocksEndpointImpl = new BlocksEndpointImpl(transport);
+    this.pagesApi = new PagesEndpointImpl(transport);
+    this.databasesEndpointImpl = new DatabasesEndpointImpl(transport);
+    this.commentsApi = new CommentsEndpointImpl(transport);
+    this.fileUploadsApi = new FileUploadsEndpointImpl(transport);
+    this.searchApi = new SearchEndpointImpl(transport);
+    this.usersApi = new UsersEndpointImpl(transport);
   }
 
-  public AuthorizationApi authorization() {
+  public AuthorizationEndpointImpl authorization() {
     return authorizationApi;
   }
 
-  public BlocksApi blocks() {
-    return blocksApi;
+  public BlocksEndpointImpl blocks() {
+    return blocksEndpointImpl;
   }
 
-  public PagesApi pages() {
+  public PagesEndpointImpl pages() {
     return pagesApi;
   }
 
-  public DatabasesApi databases() {
-    return databasesApi;
+  public DatabasesEndpointImpl databases() {
+    return databasesEndpointImpl;
   }
 
-  public CommentsApi comments() {
+  public CommentsEndpointImpl comments() {
     return commentsApi;
   }
 
-  public FileUploadsApi fileUploads() {
+  public FileUploadsEndpointImpl fileUploads() {
     return fileUploadsApi;
   }
 
-  public SearchApi search() {
+  public SearchEndpointImpl search() {
     return searchApi;
   }
 
-  public UsersApi users() {
+  public UsersEndpointImpl users() {
     return usersApi;
   }
 

@@ -1,12 +1,12 @@
 package io.kristixlab.notion.api;
 
-import io.kristixlab.notion.api.exchange.ApiResponse;
-import io.kristixlab.notion.api.exchange.exception.*;
-import io.kristixlab.notion.api.exchange.transport.ApiExchangeException;
-import io.kristixlab.notion.api.exchange.transport.ApiTransport;
-import io.kristixlab.notion.api.exchange.transport.URLInfo;
+import io.kristixlab.notion.api.http.ApiResponse;
+import io.kristixlab.notion.api.http.exception.*;
+import io.kristixlab.notion.api.http.transport.ApiExchangeException;
+import io.kristixlab.notion.api.http.transport.ApiTransport;
+import io.kristixlab.notion.api.http.transport.URLInfo;
 import io.kristixlab.notion.api.model.ErrorResponse;
-import io.kristixlab.notion.api.util.JsonConverter;
+import io.kristixlab.notion.api.json.JsonConverter;
 import okhttp3.Response;
 
 import java.util.Map;

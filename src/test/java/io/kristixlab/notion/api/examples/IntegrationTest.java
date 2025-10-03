@@ -3,7 +3,7 @@ package io.kristixlab.notion.api.examples;
 import io.kristixlab.notion.api.NotionApiClient;
 import io.kristixlab.notion.api.NotionApiTransport;
 import io.kristixlab.notion.api.model.BaseTest;
-import io.kristixlab.notion.api.util.JsonConverter;
+import io.kristixlab.notion.api.json.JsonConverter;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;

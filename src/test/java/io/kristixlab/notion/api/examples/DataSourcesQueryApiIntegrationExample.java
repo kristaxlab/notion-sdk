@@ -1,6 +1,6 @@
 package io.kristixlab.notion.api.examples;
 
-import io.kristixlab.notion.api.DatasourcesApi;
+import io.kristixlab.notion.api.endpoints.impl.DatasourcesEndpointImpl;
 import io.kristixlab.notion.api.model.common.SortDirection;
 import io.kristixlab.notion.api.model.common.Timestamp;
 import io.kristixlab.notion.api.model.datasources.DatasourceQueryRequest;
@@ -18,12 +18,12 @@ public class DataSourcesQueryApiIntegrationExample extends IntegrationTest {
 
   // Book notes data source id
   private static final String DATA_SOURCE_ID = "264c5b96-8ec4-8055-8b51-000b4a80c6cc";
-  private static DatasourcesApi dataSourcesApi;
+  private static DatasourcesEndpointImpl dataSourcesApi;
 
   @BeforeEach
   protected void setUp() throws Exception {
     super.setUp();
-    dataSourcesApi = new DatasourcesApi(getTransport());
+    dataSourcesApi = new DatasourcesEndpointImpl(getTransport());
   }
 
   /**

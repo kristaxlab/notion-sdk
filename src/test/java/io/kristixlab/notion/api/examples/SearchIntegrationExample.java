@@ -1,6 +1,6 @@
 package io.kristixlab.notion.api.examples;
 
-import io.kristixlab.notion.api.SearchApi;
+import io.kristixlab.notion.api.endpoints.impl.SearchEndpointImpl;
 import io.kristixlab.notion.api.model.search.SearchFilter;
 import io.kristixlab.notion.api.model.search.SearchRequest;
 import io.kristixlab.notion.api.model.search.SearchResponse;
@@ -9,12 +9,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class SearchIntegrationExample extends IntegrationTest {
-  private static SearchApi searchApi;
+  private static SearchEndpointImpl searchApi;
 
   @BeforeEach
   protected void setUp() throws Exception {
     super.setUp();
-    searchApi = new SearchApi(getTransport());
+    searchApi = new SearchEndpointImpl(getTransport());
   }
 
   @Test

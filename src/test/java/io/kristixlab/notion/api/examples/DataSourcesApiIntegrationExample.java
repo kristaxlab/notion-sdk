@@ -3,7 +3,7 @@ package io.kristixlab.notion.api.examples;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import io.kristixlab.notion.api.DatasourcesApi;
+import io.kristixlab.notion.api.endpoints.impl.DatasourcesEndpointImpl;
 import io.kristixlab.notion.api.model.common.Parent;
 import io.kristixlab.notion.api.model.common.RichText;
 import io.kristixlab.notion.api.model.datasources.CreateDataSourceRequest;
@@ -25,12 +25,12 @@ public class DataSourcesApiIntegrationExample extends IntegrationTest {
   private static final String DATABASE_ID = "24cc5b96-8ec4-800a-a809-c7f6508f45f2";
   private static final String DATA_SOURCE_ID = "24cc5b96-8ec4-808c-858f-000b4c20ad62";
 
-  private DatasourcesApi dataSourcesApi;
+  private DatasourcesEndpointImpl dataSourcesApi;
 
   @BeforeEach
   protected void setUp() throws Exception {
     super.setUp();
-    dataSourcesApi = new DatasourcesApi(getTransport());
+    dataSourcesApi = new DatasourcesEndpointImpl(getTransport());
   }
 
   @Test
