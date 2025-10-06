@@ -6,8 +6,8 @@ import io.kristixlab.notion.api.http.transport.HttpTransportImpl;
 import io.kristixlab.notion.api.http.transport.rq.URLInfo;
 import io.kristixlab.notion.api.model.datasources.CreateDataSourceRequest;
 import io.kristixlab.notion.api.model.datasources.DataSource;
-import io.kristixlab.notion.api.model.datasources.DataSourceQuery;
 import io.kristixlab.notion.api.model.datasources.DataSourcePageList;
+import io.kristixlab.notion.api.model.datasources.DataSourceQuery;
 
 /**
  * API for interacting with Notion Data Sources endpoints (API version 2025-09-03+). Provides

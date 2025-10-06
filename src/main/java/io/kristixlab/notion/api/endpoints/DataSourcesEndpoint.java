@@ -2,8 +2,8 @@ package io.kristixlab.notion.api.endpoints;
 
 import io.kristixlab.notion.api.model.datasources.CreateDataSourceRequest;
 import io.kristixlab.notion.api.model.datasources.DataSource;
-import io.kristixlab.notion.api.model.datasources.DataSourceQuery;
 import io.kristixlab.notion.api.model.datasources.DataSourcePageList;
+import io.kristixlab.notion.api.model.datasources.DataSourceQuery;
 
 /**
  * Interface defining operations for Notion Datasources.
