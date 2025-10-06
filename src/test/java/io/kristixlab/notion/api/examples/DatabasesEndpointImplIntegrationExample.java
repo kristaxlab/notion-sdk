@@ -84,41 +84,41 @@ public class DatabasesEndpointImplIntegrationExample extends IntegrationTest {
     return database;
   }
 
-  private Map<String, DatasourceProperty> properties() {
+  private Map<String, DataSourcePropertySchema> properties() {
     // Create properties
-    Map<String, DatasourceProperty> properties = new HashMap<>();
+    Map<String, DataSourcePropertySchema> properties = new HashMap<>();
 
     // Title property (required)
-    TitleDatasourceProperty titleProp = new TitleDatasourceProperty();
+    TitleDataSourcePropertySchema titleProp = new TitleDataSourcePropertySchema();
     titleProp.setName("Name");
     titleProp.setType("title");
     properties.put("Name", titleProp);
 
     // Rich text property
-    RichTextDatasourceProperty textProp = new RichTextDatasourceProperty();
+    RichTextDataSourcePropertySchema textProp = new RichTextDataSourcePropertySchema();
     textProp.setName("Description");
     textProp.setType("rich_text");
     // Note: RichTextDatabaseProperty doesn't need additional configuration
     properties.put("Description", textProp);
 
     // Number property
-    NumberDatasourceProperty numberProp = new NumberDatasourceProperty();
+    NumberDataSourcePropertySchema numberProp = new NumberDataSourcePropertySchema();
     numberProp.setType("number");
-    NumberDatasourceProperty.NumberFormat numberFormat =
-        new NumberDatasourceProperty.NumberFormat();
+    NumberDataSourcePropertySchema.NumberFormat numberFormat =
+        new NumberDataSourcePropertySchema.NumberFormat();
     numberFormat.setFormat("number");
     numberProp.setNumber(numberFormat);
     properties.put("Priority", numberProp);
 
     // Checkbox property
-    CheckboxDatasourceProperty checkboxProp = new CheckboxDatasourceProperty();
+    CheckboxDataSourcePropertySchema checkboxProp = new CheckboxDataSourcePropertySchema();
     checkboxProp.setName("Completed");
     checkboxProp.setType("checkbox");
     // Note: CheckboxDatabaseProperty doesn't need additional configuration
     properties.put("Completed", checkboxProp);
 
     // Select property
-    SelectDatasourceProperty selectProp = new SelectDatasourceProperty();
+    SelectDataSourcePropertySchema selectProp = new SelectDataSourcePropertySchema();
     selectProp.setType("select");
 
     List<SelectOption> options =

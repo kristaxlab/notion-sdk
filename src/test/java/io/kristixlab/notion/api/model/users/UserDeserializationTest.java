@@ -53,18 +53,18 @@ public class UserDeserializationTest extends BaseTest {
 
   @Test
   void testUsersListBasicFields() throws Exception {
-    UsersList usersList = loadFromFile("users/users-list-rs.json", UsersList.class);
+    UserList userList = loadFromFile("users/users-list-rs.json", UserList.class);
 
-    assertEquals("list", usersList.getObject());
-    assertEquals("14444444-4444-43b3-8288-444444444444", usersList.getRequestId());
-    assertFalse(usersList.hasMore());
-    assertEquals("user", usersList.getType());
-    assertNotNull(usersList.getUser()); // Empty user object in list response
-    assertNotNull(usersList.getResults());
-    assertEquals(3, usersList.getResults().size());
+    assertEquals("list", userList.getObject());
+    assertEquals("14444444-4444-43b3-8288-444444444444", userList.getRequestId());
+    assertFalse(userList.hasMore());
+    assertEquals("user", userList.getType());
+    assertNotNull(userList.getUser()); // Empty user object in list response
+    assertNotNull(userList.getResults());
+    assertEquals(3, userList.getResults().size());
 
     // Test first user (person)
-    User firstUser = usersList.getResults().get(0);
+    User firstUser = userList.getResults().get(0);
     assertEquals("user", firstUser.getObject());
     assertEquals("44444444-4444-43b3-8288-444444444444", firstUser.getId());
     assertEquals("userName", firstUser.getName());
@@ -74,7 +74,7 @@ public class UserDeserializationTest extends BaseTest {
     assertNull(firstUser.getBot());
 
     // Test second user (bot with full info)
-    User secondUser = usersList.getResults().get(1);
+    User secondUser = userList.getResults().get(1);
     assertEquals("44444444-4444-43b3-8288-444444444422", secondUser.getId());
     assertEquals("Integration", secondUser.getName());
     assertEquals("bot", secondUser.getType());
@@ -83,7 +83,7 @@ public class UserDeserializationTest extends BaseTest {
     assertNull(secondUser.getPerson());
 
     // Test third user (bot with empty bot object)
-    User thirdUser = usersList.getResults().get(2);
+    User thirdUser = userList.getResults().get(2);
     assertEquals("44444444-4444-43b3-8288-444444444433", thirdUser.getId());
     assertEquals("Notion MCP (Beta)", thirdUser.getName());
     assertEquals("bot", thirdUser.getType());

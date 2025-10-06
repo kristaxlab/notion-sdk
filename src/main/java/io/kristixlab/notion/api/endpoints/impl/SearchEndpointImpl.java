@@ -5,8 +5,8 @@ import io.kristixlab.notion.api.http.NotionHttpTransport;
 import io.kristixlab.notion.api.http.transport.HttpTransportImpl;
 import io.kristixlab.notion.api.http.transport.rq.URLInfo;
 import io.kristixlab.notion.api.model.search.SearchFilter;
-import io.kristixlab.notion.api.model.search.SearchRequest;
-import io.kristixlab.notion.api.model.search.SearchResponse;
+import io.kristixlab.notion.api.model.search.SearchQuery;
+import io.kristixlab.notion.api.model.search.SearchResult;
 import io.kristixlab.notion.api.model.search.SearchSort;
 
 /**
@@ -27,9 +27,9 @@ public class SearchEndpointImpl implements SearchEndpoint {
    * @param request The search request with query, filters, and pagination options
    * @return SearchResponse containing results and pagination info
    */
-  public SearchResponse search(SearchRequest request) {
+  public SearchResult search(SearchQuery request) {
     validateRequest(request);
-    return transport.call("POST", URLInfo.build("/search"), request, SearchResponse.class);
+    return transport.call("POST", URLInfo.build("/search"), request, SearchResult.class);
   }
 
   /**
@@ -38,8 +38,8 @@ public class SearchEndpointImpl implements SearchEndpoint {
    * @param query The text to search for in page and data source titles
    * @return SearchResponse containing results
    */
-  public SearchResponse search(String query) {
-    SearchRequest request = new SearchRequest();
+  public SearchResult search(String query) {
+    SearchQuery request = new SearchQuery();
     request.setQuery(query);
     return search(request);
   }
@@ -51,8 +51,8 @@ public class SearchEndpointImpl implements SearchEndpoint {
    * @param filter Filter to limit results to pages or data sources
    * @return SearchResponse containing filtered results
    */
-  public SearchResponse search(String query, SearchFilter filter) {
-    SearchRequest request = new SearchRequest();
+  public SearchResult search(String query, SearchFilter filter) {
+    SearchQuery request = new SearchQuery();
     request.setQuery(query);
     request.setFilter(filter);
     return search(request);
@@ -66,8 +66,8 @@ public class SearchEndpointImpl implements SearchEndpoint {
    * @param sort   Sorting criteria for results
    * @return SearchResponse containing filtered and sorted results
    */
-  public SearchResponse search(String query, SearchFilter filter, SearchSort sort) {
-    SearchRequest request = new SearchRequest();
+  public SearchResult search(String query, SearchFilter filter, SearchSort sort) {
+    SearchQuery request = new SearchQuery();
     request.setQuery(query);
     request.setFilter(filter);
     request.setSort(sort);
@@ -82,8 +82,8 @@ public class SearchEndpointImpl implements SearchEndpoint {
    * @param startCursor Cursor for pagination
    * @return SearchResponse with paginated results
    */
-  public SearchResponse search(String query, Integer pageSize, String startCursor) {
-    SearchRequest request = new SearchRequest();
+  public SearchResult search(String query, Integer pageSize, String startCursor) {
+    SearchQuery request = new SearchQuery();
     request.setQuery(query);
     request.setPageSize(pageSize);
     request.setStartCursor(startCursor);
@@ -96,7 +96,7 @@ public class SearchEndpointImpl implements SearchEndpoint {
    * @param query The text to search for in page titles
    * @return SearchResponse containing only page results
    */
-  public SearchResponse searchPages(String query) {
+  public SearchResult searchPages(String query) {
     return search(query, SearchFilter.pages());
   }
 
@@ -106,7 +106,7 @@ public class SearchEndpointImpl implements SearchEndpoint {
    * @param query The text to search for in data source titles
    * @return SearchResponse containing only data source results
    */
-  public SearchResponse searchDataSources(String query) {
+  public SearchResult searchDataSources(String query) {
     return search(query, SearchFilter.dataSources());
   }
 
@@ -115,8 +115,8 @@ public class SearchEndpointImpl implements SearchEndpoint {
    *
    * @return SearchResponse containing all accessible pages and data sources
    */
-  public SearchResponse getAll() {
-    SearchRequest request = new SearchRequest();
+  public SearchResult getAll() {
+    SearchQuery request = new SearchQuery();
     return search(request);
   }
 
@@ -127,14 +127,14 @@ public class SearchEndpointImpl implements SearchEndpoint {
    * @param startCursor Cursor for pagination
    * @return SearchResponse with paginated results
    */
-  public SearchResponse getAll(Integer pageSize, String startCursor) {
-    SearchRequest request = new SearchRequest();
+  public SearchResult getAll(Integer pageSize, String startCursor) {
+    SearchQuery request = new SearchQuery();
     request.setPageSize(pageSize);
     request.setStartCursor(startCursor);
     return search(request);
   }
 
-  private void validateRequest(SearchRequest request) {
+  private void validateRequest(SearchQuery request) {
     if (request == null) {
       throw new IllegalArgumentException("Search request cannot be null");
     }

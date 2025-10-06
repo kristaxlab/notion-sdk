@@ -3,7 +3,7 @@ package io.kristixlab.notion.api.model.pages;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.kristixlab.notion.api.model.common.FileData;
 import io.kristixlab.notion.api.model.common.Icon;
-import io.kristixlab.notion.api.model.common.NotionObject;
+import io.kristixlab.notion.api.model.common.NotionObjectType;
 import io.kristixlab.notion.api.model.pages.properties.PageProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -15,7 +15,7 @@ import java.util.Map;
 @Data
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper = true)
-public class Page extends NotionObject {
+public class Page extends NotionObjectType {
 
   @JsonProperty("properties")
   private Map<String, PageProperty> properties = new HashMap<>();

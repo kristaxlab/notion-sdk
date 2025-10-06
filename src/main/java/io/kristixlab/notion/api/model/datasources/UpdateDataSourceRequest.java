@@ -5,7 +5,7 @@ import io.kristixlab.notion.api.model.common.FileData;
 import io.kristixlab.notion.api.model.common.Icon;
 import io.kristixlab.notion.api.model.common.Parent;
 import io.kristixlab.notion.api.model.common.RichText;
-import io.kristixlab.notion.api.model.datasources.properties.DatasourceProperty;
+import io.kristixlab.notion.api.model.datasources.properties.DataSourcePropertySchema;
 import lombok.Data;
 
 import java.util.List;
@@ -28,7 +28,7 @@ public class UpdateDataSourceRequest {
   private FileData cover;
 
   @JsonProperty("properties")
-  private Map<String, DatasourceProperty> properties;
+  private Map<String, DataSourcePropertySchema> properties;
 
   @JsonProperty("parent")
   private Parent parent;

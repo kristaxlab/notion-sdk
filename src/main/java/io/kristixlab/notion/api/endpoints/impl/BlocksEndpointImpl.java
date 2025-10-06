@@ -7,7 +7,7 @@ import io.kristixlab.notion.api.http.transport.rq.URLInfo;
 import io.kristixlab.notion.api.http.transport.util.URLInfoBuilder;
 import io.kristixlab.notion.api.model.blocks.AppendBlockChildrenRequest;
 import io.kristixlab.notion.api.model.blocks.Block;
-import io.kristixlab.notion.api.model.blocks.Blocks;
+import io.kristixlab.notion.api.model.blocks.BlockList;
 import io.kristixlab.notion.api.util.Pagination;
 
 /**
@@ -44,7 +44,7 @@ public class BlocksEndpointImpl implements BlocksEndpoint {
    * @param blockId The ID of the parent block
    * @return BlocksResponse containing the child blocks
    */
-  public Blocks retrieveChildren(String blockId) {
+  public BlockList retrieveChildren(String blockId) {
     return retrieveChildren(blockId, null, null);
   }
 
@@ -56,7 +56,7 @@ public class BlocksEndpointImpl implements BlocksEndpoint {
    * @param pageSize    Number of items to return (optional, max 100)
    * @return BlocksResponse containing the child blocks
    */
-  public Blocks retrieveChildren(String blockId, String startCursor, Integer pageSize) {
+  public BlockList retrieveChildren(String blockId, String startCursor, Integer pageSize) {
     validateBlockId(blockId);
 
     URLInfoBuilder urlInfo = URLInfo.builder("/blocks/{block_id}/children").pathParam(BLOCK_ID, blockId);
@@ -69,7 +69,7 @@ public class BlocksEndpointImpl implements BlocksEndpoint {
       urlInfo.queryParam(Pagination.PAGE_SIZE, pageSize);
     }
 
-    return transport.call("GET", urlInfo.build(), Blocks.class);
+    return transport.call("GET", urlInfo.build(), BlockList.class);
   }
 
 
@@ -80,7 +80,7 @@ public class BlocksEndpointImpl implements BlocksEndpoint {
    * @param child         child block to append
    * @return BlocksResponse containing the appended blocks
    */
-  public Blocks appendChildren(String parentBlockId, Block child) {
+  public BlockList appendChildren(String parentBlockId, Block child) {
     AppendBlockChildrenRequest request = new AppendBlockChildrenRequest();
     request.getChildren().add(child);
     return appendChildren(parentBlockId, request);
@@ -93,13 +93,13 @@ public class BlocksEndpointImpl implements BlocksEndpoint {
    * @param request       The request containing children blocks to append
    * @return BlocksResponse containing the appended blocks
    */
-  public Blocks appendChildren(String parentBlockId, AppendBlockChildrenRequest request) {
+  public BlockList appendChildren(String parentBlockId, AppendBlockChildrenRequest request) {
     validateBlockId(parentBlockId);
     validateRequest(request);
 
     URLInfo urlInfo = URLInfo.builder("/blocks/{block_id}/children").pathParam(BLOCK_ID, parentBlockId).build();
 
-    return transport.call("PATCH", urlInfo, request, Blocks.class);
+    return transport.call("PATCH", urlInfo, request, BlockList.class);
   }
 
   /**

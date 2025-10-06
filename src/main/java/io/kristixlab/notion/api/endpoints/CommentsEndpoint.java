@@ -1,7 +1,7 @@
 package io.kristixlab.notion.api.endpoints;
 
 import io.kristixlab.notion.api.model.comments.Comment;
-import io.kristixlab.notion.api.model.comments.CommentsList;
+import io.kristixlab.notion.api.model.comments.CommentList;
 import io.kristixlab.notion.api.model.comments.CreateCommentRequest;
 
 /**
@@ -14,7 +14,7 @@ public interface CommentsEndpoint {
 
   Comment retrieve(String commentId);
 
-  CommentsList listComments(String blockId);
+  CommentList listComments(String blockId);
 
-  CommentsList listComments(String blockId, String startCursor, Integer pageSize);
+  CommentList listComments(String blockId, String startCursor, Integer pageSize);
 }

@@ -7,7 +7,7 @@ import io.kristixlab.notion.api.http.transport.exception.HttpResponseException;
 import io.kristixlab.notion.api.http.transport.rq.URLInfo;
 import io.kristixlab.notion.api.http.transport.rs.ApiResponse;
 import io.kristixlab.notion.api.json.JsonConverter;
-import io.kristixlab.notion.api.model.ErrorResponse;
+import io.kristixlab.notion.api.model.NotionError;
 import okhttp3.Response;
 
 import java.util.Map;
@@ -95,8 +95,8 @@ public class NotionHttpTransport extends HttpTransportImpl {
       String requestId = null;
 
       try {
-        ErrorResponse error =
-                JsonConverter.getInstance().toObject(e.getBody(), ErrorResponse.class);
+        NotionError error =
+                JsonConverter.getInstance().toObject(e.getBody(), NotionError.class);
         message = error.getMessage();
         code = error.getCode() != null ? error.getCode() : error.getError();
         requestId = error.getRequestId();

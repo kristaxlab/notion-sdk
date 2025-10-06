@@ -3,7 +3,7 @@ package io.kristixlab.notion.api.model.databases;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.kristixlab.notion.api.model.common.FileData;
 import io.kristixlab.notion.api.model.common.Icon;
-import io.kristixlab.notion.api.model.common.NotionObject;
+import io.kristixlab.notion.api.model.common.NotionObjectType;
 import io.kristixlab.notion.api.model.common.RichText;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -15,7 +15,7 @@ import java.util.List;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class Database extends NotionObject {
+public class Database extends NotionObjectType {
 
   @JsonProperty("title")
   private List<RichText> title;
@@ -39,5 +39,5 @@ public class Database extends NotionObject {
   private Boolean isInline;
 
   @JsonProperty("data_sources")
-  private List<DatasourceReference> dataSources;
+  private List<DataSourceReference> dataSources;
 }

@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import io.kristixlab.notion.api.model.common.NotionObject;
+import io.kristixlab.notion.api.model.common.NotionObjectType;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -22,7 +22,7 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author KristaxLab
- * @see NotionObject
+ * @see NotionObjectType
  * @since 1.0
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -68,7 +68,7 @@ import lombok.experimental.Accessors;
 })
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class Block extends NotionObject {
+public class Block extends NotionObjectType {
 
   /**
    * The type of the block (e.g., "paragraph", "heading_1", "image", etc.)
@@ -413,5 +413,3 @@ public class Block extends NotionObject {
     return (UnknownBlock) this;
   }
 }
-
-// https://developers.notion.com/reference/block

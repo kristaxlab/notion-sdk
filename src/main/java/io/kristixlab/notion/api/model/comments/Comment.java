@@ -1,7 +1,7 @@
 package io.kristixlab.notion.api.model.comments;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.kristixlab.notion.api.model.common.NotionObject;
+import io.kristixlab.notion.api.model.common.NotionObjectType;
 import io.kristixlab.notion.api.model.common.RichText;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -13,7 +13,7 @@ import java.util.List;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class Comment extends NotionObject {
+public class Comment extends NotionObjectType {
 
   @JsonProperty("discussion_id")
   private String discussionId;

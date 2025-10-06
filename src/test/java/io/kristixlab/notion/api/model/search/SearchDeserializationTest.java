@@ -9,7 +9,7 @@ public class SearchDeserializationTest extends BaseTest {
 
   @Test
   void testSearchPagesRequest() throws Exception {
-    SearchRequest request = loadFromFile("search/search-rq-pages.json", SearchRequest.class);
+    SearchQuery request = loadFromFile("search/search-rq-pages.json", SearchQuery.class);
 
     assertEquals("notes", request.getQuery());
     assertNotNull(request.getFilter());
@@ -21,7 +21,7 @@ public class SearchDeserializationTest extends BaseTest {
 
   @Test
   void testSearchDataSourcesRequest() throws Exception {
-    SearchRequest request = loadFromFile("search/search-rq-data-sources.json", SearchRequest.class);
+    SearchQuery request = loadFromFile("search/search-rq-data-sources.json", SearchQuery.class);
 
     assertEquals("some query string", request.getQuery());
     assertNotNull(request.getFilter());
@@ -33,35 +33,35 @@ public class SearchDeserializationTest extends BaseTest {
 
   @Test
   void testSearchResponse() throws Exception {
-    SearchResponse searchResponse =
-        loadFromFile("search/search-rs-paginated.json", SearchResponse.class);
+    SearchResult searchResult =
+        loadFromFile("search/search-rs-paginated.json", SearchResult.class);
 
-    assertNotNull(searchResponse);
-    assertEquals("list", searchResponse.getObject());
+    assertNotNull(searchResult);
+    assertEquals("list", searchResult.getObject());
 
-    assertEquals("page_or_data_source", searchResponse.getType());
-    assertNotNull(searchResponse.getPageOrDataSource());
+    assertEquals("page_or_data_source", searchResult.getType());
+    assertNotNull(searchResult.getPageOrDataSource());
 
-    assertNotNull(searchResponse.getResults());
-    assertEquals(3, searchResponse.getResults().size());
+    assertNotNull(searchResult.getResults());
+    assertEquals(3, searchResult.getResults().size());
 
-    assertTrue(searchResponse.hasMore());
-    assertNotNull(searchResponse.getNextCursor());
+    assertTrue(searchResult.hasMore());
+    assertNotNull(searchResult.getNextCursor());
   }
 
   @Test
   void testEmptyResponse() throws Exception {
-    SearchResponse searchResponse =
-        loadFromFile("search/search-rs-empty.json", SearchResponse.class);
+    SearchResult searchResult =
+        loadFromFile("search/search-rs-empty.json", SearchResult.class);
 
-    assertEquals("list", searchResponse.getObject());
-    assertEquals("page_or_data_source", searchResponse.getType());
-    assertNotNull(searchResponse.getPageOrDataSource());
+    assertEquals("list", searchResult.getObject());
+    assertEquals("page_or_data_source", searchResult.getType());
+    assertNotNull(searchResult.getPageOrDataSource());
 
-    assertNull(searchResponse.getNextCursor());
-    assertFalse(searchResponse.hasMore());
+    assertNull(searchResult.getNextCursor());
+    assertFalse(searchResult.hasMore());
 
-    assertNotNull(searchResponse.getResults());
-    assertEquals(0, searchResponse.getResults().size());
+    assertNotNull(searchResult.getResults());
+    assertEquals(0, searchResult.getResults().size());
   }
 }

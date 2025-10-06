@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import io.kristixlab.notion.api.endpoints.impl.UsersEndpointImpl;
 import io.kristixlab.notion.api.model.users.User;
-import io.kristixlab.notion.api.model.users.UsersList;
+import io.kristixlab.notion.api.model.users.UserList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -29,7 +29,7 @@ public class UserApiIntegrationExample extends IntegrationTest {
   @Test
   void testListAllUsers() throws Exception {
     // Retrieve a user by ID
-    UsersList users = usersApi.listUsers();
+    UserList users = usersApi.listUsers();
     saveToFile(users, "users-list-rs.json");
 
     // Validate the retrieved user

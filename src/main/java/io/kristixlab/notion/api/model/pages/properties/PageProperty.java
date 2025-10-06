@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import io.kristixlab.notion.api.model.common.NotionList;
+import io.kristixlab.notion.api.model.common.NotionListType;
 import io.kristixlab.notion.api.model.pages.properties.list.ListedPageProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -44,7 +44,7 @@ import lombok.EqualsAndHashCode;
 })
 @Data
 @EqualsAndHashCode(callSuper = true)
-public abstract class PageProperty extends NotionList<ListedPageProperty> {
+public abstract class PageProperty extends NotionListType<ListedPageProperty> {
 
   @JsonProperty("id")
   private String id;

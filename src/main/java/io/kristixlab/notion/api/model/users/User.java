@@ -1,13 +1,13 @@
 package io.kristixlab.notion.api.model.users;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.kristixlab.notion.api.model.BaseNotionResponse;
+import io.kristixlab.notion.api.model.BaseNotionObject;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class User extends BaseNotionResponse {
+public class User extends BaseNotionObject {
 
   @JsonProperty("id")
   private String id;

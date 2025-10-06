@@ -6,7 +6,7 @@ import io.kristixlab.notion.api.http.transport.HttpTransportImpl;
 import io.kristixlab.notion.api.http.transport.rq.URLInfo;
 import io.kristixlab.notion.api.http.transport.util.URLInfoBuilder;
 import io.kristixlab.notion.api.model.users.User;
-import io.kristixlab.notion.api.model.users.UsersList;
+import io.kristixlab.notion.api.model.users.UserList;
 import io.kristixlab.notion.api.util.Pagination;
 
 /**
@@ -41,7 +41,7 @@ public class UsersEndpointImpl implements UsersEndpoint {
    *
    * @return UsersList containing all users in the workspace
    */
-  public UsersList listUsers() {
+  public UserList listUsers() {
     return listUsers(null, null);
   }
 
@@ -53,7 +53,7 @@ public class UsersEndpointImpl implements UsersEndpoint {
    * @param pageSize    The number of results to return (max 100)
    * @return UsersList containing users in the workspace
    */
-  public UsersList listUsers(String startCursor, Integer pageSize) {
+  public UserList listUsers(String startCursor, Integer pageSize) {
     URLInfoBuilder urlInfo = URLInfo.builder("/users");
 
     if (startCursor != null) {
@@ -64,7 +64,7 @@ public class UsersEndpointImpl implements UsersEndpoint {
       urlInfo.queryParam(Pagination.PAGE_SIZE, pageSize).build();
     }
 
-    return transport.call("GET", urlInfo.build(), UsersList.class);
+    return transport.call("GET", urlInfo.build(), UserList.class);
   }
 
   /**

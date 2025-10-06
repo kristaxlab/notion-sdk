@@ -12,11 +12,11 @@ import io.kristixlab.notion.api.model.databases.UpdateDatabaseRequest;
 public interface DatabasesEndpoint {
   Database create(CreateDatabaseRequest request);
 
-  Database retrieve(String databaseId);
-
   Database update(UpdateDatabaseRequest request);
 
   Database update(String databaseId, UpdateDatabaseRequest request);
+
+  Database retrieve(String databaseId);
 
   Database delete(String databaseId);
 

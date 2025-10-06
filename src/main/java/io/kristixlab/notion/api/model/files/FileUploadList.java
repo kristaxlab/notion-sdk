@@ -1,7 +1,7 @@
 package io.kristixlab.notion.api.model.files;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.kristixlab.notion.api.model.common.NotionList;
+import io.kristixlab.notion.api.model.common.NotionListType;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -10,7 +10,7 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class FileUploadList extends NotionList<FileUploadResponse> {
+public class FileUploadList extends NotionListType<FileUploadResponse> {
 
   @JsonProperty("file_upload")
   private Object fileUpload;

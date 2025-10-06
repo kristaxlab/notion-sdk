@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import io.kristixlab.notion.api.endpoints.impl.CommentsEndpointImpl;
 import io.kristixlab.notion.api.model.comments.Comment;
 import io.kristixlab.notion.api.model.comments.CommentDisplayName;
-import io.kristixlab.notion.api.model.comments.CommentsList;
+import io.kristixlab.notion.api.model.comments.CommentList;
 import io.kristixlab.notion.api.model.comments.CustomDisplayName;
 import io.kristixlab.notion.api.model.common.Parent;
 import io.kristixlab.notion.api.model.common.RichText;
@@ -70,7 +70,7 @@ public class CommentsEndpointImplIntegrationExample extends IntegrationTest {
    */
   @Test
   void testRetrieveCommentsForBlock() throws IOException {
-    CommentsList response = commentsApi.listComments(BLOCK_ID);
+    CommentList response = commentsApi.listComments(BLOCK_ID);
     saveToFile(response, "comments-list-for-block-response.json");
 
     assertNotNull(response);
@@ -82,7 +82,7 @@ public class CommentsEndpointImplIntegrationExample extends IntegrationTest {
    */
   @Test
   void testRetrieveCommentsForPage() throws IOException {
-    CommentsList response = commentsApi.listComments(PAGE_ID);
+    CommentList response = commentsApi.listComments(PAGE_ID);
     saveToFile(response, "comments-list-for-page-response.json");
 
     assertNotNull(response);
@@ -95,7 +95,7 @@ public class CommentsEndpointImplIntegrationExample extends IntegrationTest {
    */
   @Test
   void testRetrieveCommentsWithPagination() throws IOException {
-    CommentsList response = commentsApi.listComments(BLOCK_ID, null, 5);
+    CommentList response = commentsApi.listComments(BLOCK_ID, null, 5);
     saveToFile(response, "comments-list-paginated-response.json");
 
     // Validate the response
@@ -111,8 +111,8 @@ public class CommentsEndpointImplIntegrationExample extends IntegrationTest {
   void testCommentDeserialization() throws IOException {
     // This test assumes a comment response has been saved previously
     try {
-      CommentsList loadedResponse =
-          loadFromFile("comments-retrieve-block-response.json", CommentsList.class);
+      CommentList loadedResponse =
+          loadFromFile("comments-retrieve-block-response.json", CommentList.class);
       saveToFile(loadedResponse, "comments-deserialized-response.json");
 
       assertNotNull(loadedResponse);

@@ -6,7 +6,7 @@ import io.kristixlab.notion.api.http.transport.HttpTransportImpl;
 import io.kristixlab.notion.api.http.transport.rq.URLInfo;
 import io.kristixlab.notion.api.http.transport.util.URLInfoBuilder;
 import io.kristixlab.notion.api.model.comments.Comment;
-import io.kristixlab.notion.api.model.comments.CommentsList;
+import io.kristixlab.notion.api.model.comments.CommentList;
 import io.kristixlab.notion.api.model.comments.CreateCommentRequest;
 import io.kristixlab.notion.api.util.Pagination;
 
@@ -54,7 +54,7 @@ public class CommentsEndpointImpl implements CommentsEndpoint {
    * @param blockId The ID of the block to retrieve comments for
    * @return Comments response containing the comments
    */
-  public CommentsList listComments(String blockId) {
+  public CommentList listComments(String blockId) {
     return listComments(blockId, null, null);
   }
 
@@ -66,7 +66,7 @@ public class CommentsEndpointImpl implements CommentsEndpoint {
    * @param pageSize    The number of results to return (max 100)
    * @return Comments response containing the comments
    */
-  public CommentsList listComments(String blockId, String startCursor, Integer pageSize) {
+  public CommentList listComments(String blockId, String startCursor, Integer pageSize) {
     validateBlockId(blockId);
 
     URLInfoBuilder urlInfo = URLInfo.builder("/comments").queryParam(BLOCK_ID, new String[]{blockId});
@@ -79,7 +79,7 @@ public class CommentsEndpointImpl implements CommentsEndpoint {
       urlInfo.queryParam(Pagination.PAGE_SIZE, pageSize);
     }
 
-    return transport.call("GET", urlInfo.build(), CommentsList.class);
+    return transport.call("GET", urlInfo.build(), CommentList.class);
   }
 
   /**

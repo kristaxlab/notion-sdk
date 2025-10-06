@@ -1,7 +1,7 @@
 package io.kristixlab.notion.api.model.authorization;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.kristixlab.notion.api.model.BaseNotionResponse;
+import io.kristixlab.notion.api.model.BaseNotionObject;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -10,7 +10,7 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class RevokeTokenResponse extends BaseNotionResponse {
+public class RevokeTokenResponse extends BaseNotionObject {
 
   /**
    * Indicates whether the token was successfully revoked. This field may not be present in all

@@ -1,7 +1,7 @@
 package io.kristixlab.notion.api.model.authorization;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.kristixlab.notion.api.model.BaseNotionResponse;
+import io.kristixlab.notion.api.model.BaseNotionObject;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -11,7 +11,7 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class IntrospectTokenResponse extends BaseNotionResponse {
+public class IntrospectTokenResponse extends BaseNotionObject {
 
   /**
    * Whether the token is active (valid and not expired).

@@ -1,7 +1,8 @@
 package io.kristixlab.notion.api.model.authorization;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.kristixlab.notion.api.model.BaseNotionResponse;
+import io.kristixlab.notion.api.model.BaseNotionObject;
+import io.kristixlab.notion.api.model.users.Owner;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -10,7 +11,7 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class TokenResponse extends BaseNotionResponse {
+public class TokenResponse extends BaseNotionObject {
 
   /**
    * The access token that can be used to make authenticated requests.

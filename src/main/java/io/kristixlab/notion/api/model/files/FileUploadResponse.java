@@ -1,7 +1,7 @@
 package io.kristixlab.notion.api.model.files;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.kristixlab.notion.api.model.BaseNotionResponse;
+import io.kristixlab.notion.api.model.BaseNotionObject;
 import io.kristixlab.notion.api.model.users.User;
 import lombok.Data;
 
@@ -11,7 +11,7 @@ import lombok.Data;
  * <p>Contains the file upload information including pre-signed URL and metadata.
  */
 @Data
-public class FileUploadResponse extends BaseNotionResponse {
+public class FileUploadResponse extends BaseNotionObject {
 
   /**
    * The unique identifier for the file upload.

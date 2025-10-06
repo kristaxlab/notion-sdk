@@ -8,7 +8,7 @@ import java.io.InputStream;
 import org.junit.jupiter.api.BeforeAll;
 
 class BaseBlockDeserializationTest {
-  protected static Blocks response;
+  protected static BlockList response;
 
   @BeforeAll
   static void init() throws Exception {
@@ -19,7 +19,7 @@ class BaseBlockDeserializationTest {
             .getClassLoader()
             .getResourceAsStream("notion-json-examples/blocks/blocks-retrieve-children-rs.json");
     assertNotNull(is, "Test JSON file not found");
-    response = mapper.readValue(is, Blocks.class);
+    response = mapper.readValue(is, BlockList.class);
     assertNotNull(response);
     assertNotNull(response.getResults());
     assertFalse(response.getResults().isEmpty());
