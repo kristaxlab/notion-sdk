@@ -9,5 +9,4 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class UnknownFilter extends Filter {
-}
+public class UnknownFilter extends Filter {}

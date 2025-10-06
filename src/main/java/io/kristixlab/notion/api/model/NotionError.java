@@ -1,10 +1,9 @@
 package io.kristixlab.notion.api.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-
-import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -40,4 +39,3 @@ public class NotionError extends BaseNotionObject {
     private String minimumApiVersion;
   }
 }
-

@@ -4,14 +4,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import io.kristixlab.notion.api.model.common.SortDirection;
 import io.kristixlab.notion.api.model.common.Timestamp;
 import io.kristixlab.notion.api.model.datasources.filter.Filter;
-import lombok.Data;
-
 import java.util.ArrayList;
 import java.util.List;
+import lombok.Data;
 
-/**
- * Request object for querying a database. Supports filtering, sorting, and pagination.
- */
+/** Request object for querying a database. Supports filtering, sorting, and pagination. */
 @Data
 public class DataSourceQuery {
 

@@ -8,13 +8,10 @@ import io.kristixlab.notion.api.http.transport.rq.URLInfo;
 import io.kristixlab.notion.api.http.transport.rs.ApiResponse;
 import io.kristixlab.notion.api.json.JsonConverter;
 import io.kristixlab.notion.api.model.NotionError;
+import java.util.Map;
 import okhttp3.Response;
 
-import java.util.Map;
-
-/**
- * Custom transport implementation for Notion API that adds authentication headers.
- */
+/** Custom transport implementation for Notion API that adds authentication headers. */
 public class NotionHttpTransport extends HttpTransportImpl {
 
   private static final String DEFAULT_VERSION = "2025-09-03"; /*"2022-06-28";*/
@@ -23,14 +20,14 @@ public class NotionHttpTransport extends HttpTransportImpl {
 
   private NotionAuthSettings notionAuthSettings;
 
-  public NotionHttpTransport() {
-  }
+  public NotionHttpTransport() {}
 
   public NotionHttpTransport(NotionAuthSettings notionAuthSettings) {
     this(notionAuthSettings, DEFAULT_BASE_URL, DEFAULT_VERSION);
   }
 
-  public NotionHttpTransport(NotionAuthSettings notionAuthSettings, String baseUrl, String version) {
+  public NotionHttpTransport(
+      NotionAuthSettings notionAuthSettings, String baseUrl, String version) {
     super(baseUrl, "NotionAPIv" + version);
     this.version = version;
     this.notionAuthSettings = notionAuthSettings;
@@ -39,16 +36,21 @@ public class NotionHttpTransport extends HttpTransportImpl {
   /**
    * Execute an API request, adding Notion-specific headers.
    *
-   * @param method       The HTTP method
-   * @param urlInfo      The URL information
+   * @param method The HTTP method
+   * @param urlInfo The URL information
    * @param headerParams The header parameters
-   * @param body         The request body
+   * @param body The request body
    * @param responseType The expected response type
-   * @param <T>          The type of the response
+   * @param <T> The type of the response
    * @return The ApiResponse object
    */
   @Override
-  public <T> ApiResponse<T> execute(String method, URLInfo urlInfo, Map<String, String> headerParams, Object body, Class<T> responseType) {
+  public <T> ApiResponse<T> execute(
+      String method,
+      URLInfo urlInfo,
+      Map<String, String> headerParams,
+      Object body,
+      Class<T> responseType) {
     headerParams.put("Notion-Version", version);
 
     if (!"/file_uploads/{file_upload_id}/send".equals(urlInfo.getUrl())) {
@@ -57,10 +59,11 @@ public class NotionHttpTransport extends HttpTransportImpl {
 
     if (!headerParams.containsKey("Authorization")) {
       if ("/oauth/token".equals(urlInfo.getUrl())
-              || "/oauth/introspect".equals(urlInfo.getUrl())
-              || "/oauth/revoke".equals(urlInfo.getUrl())) {
+          || "/oauth/introspect".equals(urlInfo.getUrl())
+          || "/oauth/revoke".equals(urlInfo.getUrl())) {
         if (notionAuthSettings.getOauthBasicHeader() == null) {
-          throw new IllegalStateException("Client ID and Client Secret must be set for OAuth token exchange");
+          throw new IllegalStateException(
+              "Client ID and Client Secret must be set for OAuth token exchange");
         }
         headerParams.put("Authorization", notionAuthSettings.getOauthBasicHeader());
       } else {
@@ -77,16 +80,16 @@ public class NotionHttpTransport extends HttpTransportImpl {
   /**
    * Handle the API response, mapping HTTP status codes to specific exceptions.
    *
-   * @param response     The HTTP response
+   * @param response The HTTP response
    * @param responseType The expected response type
    * @param logBlueprint The log blueprint for logging
-   * @param <RS>         The type of the response
+   * @param <RS> The type of the response
    * @return The ApiResponse object
    * @throws HttpResponseException If an error occurs during the API exchange
    */
   @Override
-  protected <RS> ApiResponse<RS> handleResponse(Response response, Class<RS> responseType, String logBlueprint)
-          throws HttpResponseException {
+  protected <RS> ApiResponse<RS> handleResponse(
+      Response response, Class<RS> responseType, String logBlueprint) throws HttpResponseException {
     try {
       return super.handleResponse(response, responseType, logBlueprint);
     } catch (HttpResponseException e) {
@@ -95,8 +98,7 @@ public class NotionHttpTransport extends HttpTransportImpl {
       String requestId = null;
 
       try {
-        NotionError error =
-                JsonConverter.getInstance().toObject(e.getBody(), NotionError.class);
+        NotionError error = JsonConverter.getInstance().toObject(e.getBody(), NotionError.class);
         message = error.getMessage();
         code = error.getCode() != null ? error.getCode() : error.getError();
         requestId = error.getRequestId();
@@ -130,5 +132,4 @@ public class NotionHttpTransport extends HttpTransportImpl {
       }
     }
   }
-
 }

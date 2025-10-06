@@ -3,8 +3,9 @@ package io.kristixlab.notion.api.examples;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.kristixlab.notion.api.NotionApiClient;
-import io.kristixlab.notion.api.http.NotionHttpTransport;
 import io.kristixlab.notion.api.endpoints.impl.PagesEndpointImpl;
+import io.kristixlab.notion.api.http.NotionHttpTransport;
+import io.kristixlab.notion.api.json.JsonConverter;
 import io.kristixlab.notion.api.model.common.Parent;
 import io.kristixlab.notion.api.model.common.RichText;
 import io.kristixlab.notion.api.model.pages.Page;
@@ -13,10 +14,6 @@ import io.kristixlab.notion.api.model.pages.properties.NumberProperty;
 import io.kristixlab.notion.api.model.pages.properties.PageProperty;
 import io.kristixlab.notion.api.model.pages.properties.RichTextProperty;
 import io.kristixlab.notion.api.model.pages.properties.TitleProperty;
-import io.kristixlab.notion.api.json.JsonConverter;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -24,6 +21,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Integration test for PagesApi that calls actual Notion API endpoints. Stores all responses to
@@ -137,9 +136,7 @@ public class PagesEndpointImplIntegrationExample {
     saveToFile(unarchivedPage, "page-unarchive-response.json");
   }
 
-  /**
-   * Helper method to save API responses to JSON files.
-   */
+  /** Helper method to save API responses to JSON files. */
   private void saveToFile(Object response, String filename) throws IOException {
     File outputFile = new File(TEST_OUTPUT_DIR + filename);
     JsonConverter.getInstance().toFile(outputFile, response);

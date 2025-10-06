@@ -4,9 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-/**
- * Database property for unique_id columns. Generates unique sequential numbers for each page.
- */
+/** Database property for unique_id columns. Generates unique sequential numbers for each page. */
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class UniqueIdDataSourcePropertySchema extends DataSourcePropertySchema {

@@ -23,7 +23,8 @@ public interface DataSourcesEndpoint {
 
   DataSourcePageList query(String dataSourceId, String startCursor, Integer pageSize);
 
-  DataSourcePageList query(String dataSourceId, DataSourceQuery request, String startCursor, Integer pageSize);
+  DataSourcePageList query(
+      String dataSourceId, DataSourceQuery request, String startCursor, Integer pageSize);
 
   DataSource delete(String dataSourceId);
 

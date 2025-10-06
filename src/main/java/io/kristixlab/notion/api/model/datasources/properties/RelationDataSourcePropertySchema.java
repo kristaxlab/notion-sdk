@@ -4,9 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-/**
- * Database property for relation columns. Links to pages in another database/data source.
- */
+/** Database property for relation columns. Links to pages in another database/data source. */
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class RelationDataSourcePropertySchema extends DataSourcePropertySchema {

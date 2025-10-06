@@ -3,10 +3,9 @@ package io.kristixlab.notion.api.model.blocks;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.kristixlab.notion.api.model.common.RichText;
+import java.util.List;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-
-import java.util.List;
 
 /**
  * Represents a to-do block in Notion.
@@ -24,9 +23,7 @@ import java.util.List;
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class ToDoBlock extends Block {
-  /**
-   * The to-do configuration
-   */
+  /** The to-do configuration */
   @JsonProperty("to_do")
   private ToDo toDo;
 
@@ -38,27 +35,19 @@ public class ToDoBlock extends Block {
    */
   @Data
   public static class ToDo {
-    /**
-     * The rich text content of the to-do item
-     */
+    /** The rich text content of the to-do item */
     @JsonProperty("rich_text")
     private List<RichText> richText;
 
-    /**
-     * Whether the to-do item is checked/completed
-     */
+    /** Whether the to-do item is checked/completed */
     @JsonProperty("checked")
     private Boolean checked;
 
-    /**
-     * The color of the to-do text
-     */
+    /** The color of the to-do text */
     @JsonProperty("color")
     private String color;
 
-    /**
-     * Child blocks nested under this to-do item
-     */
+    /** Child blocks nested under this to-do item */
     @JsonProperty("children")
     private List<Block> children;
   }

@@ -7,25 +7,22 @@ import io.kristixlab.notion.api.http.transport.rq.URLInfo;
 import io.kristixlab.notion.api.http.transport.rs.ApiResponse;
 import io.kristixlab.notion.api.http.transport.util.ApiRequestUtil;
 import io.kristixlab.notion.api.json.JsonConverter;
-import lombok.Getter;
-import okhttp3.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
+import lombok.Getter;
+import okhttp3.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class HttpTransportImpl implements HttpTransport {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(HttpTransportImpl.class);
   private static final MediaType JSON_MEDIA_TYPE = MediaType.parse("application/json");
   private final OkHttpClient httpClient;
-  @Getter
-  private final String apiName;
-  @Getter
-  private String baseUrl = "https://api.example.com"; // Default base URL, can be overridden
+  @Getter private final String apiName;
+  @Getter private String baseUrl = "https://api.example.com"; // Default base URL, can be overridden
 
   public HttpTransportImpl() {
     this.httpClient = createHttpClient();
@@ -48,10 +45,10 @@ public class HttpTransportImpl implements HttpTransport {
 
   private OkHttpClient createHttpClient() {
     return new OkHttpClient.Builder()
-            .connectTimeout(30, TimeUnit.SECONDS)
-            .readTimeout(30, TimeUnit.SECONDS)
-            .writeTimeout(30, TimeUnit.SECONDS)
-            .build();
+        .connectTimeout(30, TimeUnit.SECONDS)
+        .readTimeout(30, TimeUnit.SECONDS)
+        .writeTimeout(30, TimeUnit.SECONDS)
+        .build();
   }
 
   @Override
@@ -64,7 +61,12 @@ public class HttpTransportImpl implements HttpTransport {
     return call(method, urlInfo, null, body, responseType);
   }
 
-  public <T> ApiResponse<T> execute(String method, URLInfo urlInfo, Map<String, String> headerParams, Object body, Class<T> responseType) {
+  public <T> ApiResponse<T> execute(
+      String method,
+      URLInfo urlInfo,
+      Map<String, String> headerParams,
+      Object body,
+      Class<T> responseType) {
     String logBlueprint = UUID.randomUUID().toString();
 
     if (LOGGER.isDebugEnabled()) {
@@ -76,7 +78,8 @@ public class HttpTransportImpl implements HttpTransport {
     if (LOGGER.isDebugEnabled()) {
       LOGGER.debug("[{}] Request method: {}, url: {}", logBlueprint, method, request.url());
       if (request.body() != null) {
-        LOGGER.debug("[{}] Request body: \n{}", logBlueprint, JsonConverter.getInstance().toJson(body));
+        LOGGER.debug(
+            "[{}] Request body: \n{}", logBlueprint, JsonConverter.getInstance().toJson(body));
       }
     }
 
@@ -85,7 +88,12 @@ public class HttpTransportImpl implements HttpTransport {
   }
 
   @Override
-  public <T> T call(String method, URLInfo urlInfo, Map<String, String> headerParams, Object body, Class<T> responseType) {
+  public <T> T call(
+      String method,
+      URLInfo urlInfo,
+      Map<String, String> headerParams,
+      Object body,
+      Class<T> responseType) {
     ApiResponse<T> apiRs = execute(method, urlInfo, headerParams, body, responseType);
     return apiRs.getBody();
   }
@@ -100,8 +108,8 @@ public class HttpTransportImpl implements HttpTransport {
     }
   }
 
-  protected <T> ApiResponse<T> handleResponse(Response response, Class<T> responseType, String logBlueprint)
-          throws HttpResponseException {
+  protected <T> ApiResponse<T> handleResponse(
+      Response response, Class<T> responseType, String logBlueprint) throws HttpResponseException {
     if (!response.isSuccessful()) {
       return handleErrorResponse(response, logBlueprint);
     }
@@ -111,7 +119,8 @@ public class HttpTransportImpl implements HttpTransport {
   protected <T> ApiResponse<T> handleErrorResponse(Response response, String logBlueprint) {
     String rsBodyString = readBodyString(response, logBlueprint);
 
-    LOGGER.error("[{}] Response from {} with error: {}", logBlueprint, getApiName(), response.code());
+    LOGGER.error(
+        "[{}] Response from {} with error: {}", logBlueprint, getApiName(), response.code());
     if (LOGGER.isDebugEnabled()) {
       LOGGER.debug("[{}] Error response body: \n{}", logBlueprint, rsBodyString);
     }
@@ -119,8 +128,8 @@ public class HttpTransportImpl implements HttpTransport {
     throw new HttpResponseException(getApiName(), response.code(), rsBodyString);
   }
 
-  protected <T> ApiResponse<T> handleSuccessfulResponse(Response response, Class<T> responseType, String logBlueprint)
-          throws HttpResponseException {
+  protected <T> ApiResponse<T> handleSuccessfulResponse(
+      Response response, Class<T> responseType, String logBlueprint) throws HttpResponseException {
 
     ApiResponse<T> rs = new ApiResponse<>();
     rs.setStatus(response.code());
@@ -128,7 +137,8 @@ public class HttpTransportImpl implements HttpTransport {
 
     String rsBodyString = readBodyString(response, logBlueprint);
     if (LOGGER.isDebugEnabled()) {
-      LOGGER.debug("[{}] Response from {} with code: {}", logBlueprint, getApiName(), response.code());
+      LOGGER.debug(
+          "[{}] Response from {} with code: {}", logBlueprint, getApiName(), response.code());
       if (LOGGER.isDebugEnabled()) {
         LOGGER.debug("[{}] Response body: \n{}", logBlueprint, rsBodyString);
       }
@@ -149,10 +159,14 @@ public class HttpTransportImpl implements HttpTransport {
       LOGGER.error("[{}] Failed to read response body ", logBlueprint);
       throw new HttpTransportException("[" + logBlueprint + "] Failed to read response body", e);
     }
-
   }
 
-  private Request buildRequest(String method, URLInfo urlInfo, Map<String, String> headers, Object body, String logBlueprint) {
+  private Request buildRequest(
+      String method,
+      URLInfo urlInfo,
+      Map<String, String> headers,
+      Object body,
+      String logBlueprint) {
     // url
     String url = ApiRequestUtil.buildURL(getBaseUrl(), urlInfo);
     Request.Builder requestBuilder = new Request.Builder().url(url);
@@ -176,7 +190,7 @@ public class HttpTransportImpl implements HttpTransport {
       if ("GET".equalsIgnoreCase(method) || "HEAD".equalsIgnoreCase(method)) {
         requestBuilder.method(method, null);
       } else {
-        //TODO do I need it?
+        // TODO do I need it?
         // For POST, PUT, PATCH without body, use empty body
         RequestBody emptyBody = RequestBody.create("", JSON_MEDIA_TYPE);
         requestBuilder.method(method, emptyBody);
@@ -187,16 +201,17 @@ public class HttpTransportImpl implements HttpTransport {
     return afterBuildRequest(url, requestBuilder, logBlueprint).build();
   }
 
-  protected Request.Builder afterBuildRequest(String url, Request.Builder requestBuilder, String logBlueprint) {
+  protected Request.Builder afterBuildRequest(
+      String url, Request.Builder requestBuilder, String logBlueprint) {
     return requestBuilder;
   }
 
-  //TODO customizable logger
+  // TODO customizable logger
   protected Logger getLogger() {
     return LOGGER;
   }
 
-  //TODO do I need this?
+  // TODO do I need this?
   public void shutdown() {
     if (httpClient != null) {
       httpClient.dispatcher().executorService().shutdown();

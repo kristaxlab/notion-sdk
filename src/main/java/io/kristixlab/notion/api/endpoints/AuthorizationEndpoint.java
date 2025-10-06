@@ -5,7 +5,8 @@ import io.kristixlab.notion.api.model.authorization.*;
 /**
  * Interface defining operations for Notion Authentication/Authorization.
  *
- * @see <a href="https://developers.notion.com/reference/authentication">Notion Authentication Endpoint</a>
+ * @see <a href="https://developers.notion.com/reference/authentication">Notion Authentication
+ *     Endpoint</a>
  */
 public interface AuthorizationEndpoint {
 
@@ -17,7 +18,6 @@ public interface AuthorizationEndpoint {
 
   TokenResponse createToken(TokenRequest request, String clientId, String clientSecret);
 
-
   IntrospectTokenResponse introspectAccessToken();
 
   IntrospectTokenResponse introspectRefreshToken();
@@ -28,15 +28,14 @@ public interface AuthorizationEndpoint {
 
   IntrospectTokenResponse introspectToken(String token, String clientId, String clientSecret);
 
-  IntrospectTokenResponse introspectToken(IntrospectTokenRequest request, String clientId, String clientSecret);
-
+  IntrospectTokenResponse introspectToken(
+      IntrospectTokenRequest request, String clientId, String clientSecret);
 
   RevokeTokenResponse revokeToken();
 
   RevokeTokenResponse revokeToken(String token);
 
   RevokeTokenResponse revokeToken(String token, String clientId, String clientSecret);
-
 
   TokenResponse refreshToken();
 

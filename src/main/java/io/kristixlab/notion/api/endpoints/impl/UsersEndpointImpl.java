@@ -50,7 +50,7 @@ public class UsersEndpointImpl implements UsersEndpoint {
    * all users in the workspace.
    *
    * @param startCursor The cursor to start from for pagination
-   * @param pageSize    The number of results to return (max 100)
+   * @param pageSize The number of results to return (max 100)
    * @return UsersList containing users in the workspace
    */
   public UserList listUsers(String startCursor, Integer pageSize) {
@@ -76,9 +76,7 @@ public class UsersEndpointImpl implements UsersEndpoint {
     return transport.call("GET", URLInfo.build("/users/me"), User.class);
   }
 
-  /**
-   * Validates the user ID parameter.
-   */
+  /** Validates the user ID parameter. */
   private void validateUserId(String userId) {
     if (userId == null || userId.trim().isEmpty()) {
       throw new IllegalArgumentException("User ID cannot be null or empty");

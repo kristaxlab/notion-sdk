@@ -6,7 +6,6 @@ import io.kristixlab.notion.api.http.NotionHttpTransport;
 import io.kristixlab.notion.api.http.transport.rq.URLInfo;
 import io.kristixlab.notion.api.model.authorization.*;
 import io.kristixlab.notion.api.util.NotionAuthUtil;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,12 +24,12 @@ public class AuthorizationEndpointImpl implements AuthorizationEndpoint {
   }
 
   /**
-   * Convenience method to exchange authorization code for token.
-   * Redirect uri is taken from the Notion client auth settings.
+   * Convenience method to exchange authorization code for token. Redirect uri is taken from the
+   * Notion client auth settings.
    *
    * @param code The authorization code
    * @return TokenResponse containing the access token and workspace information
-   * <p>
+   *     <p>
    */
   public TokenResponse createToken(String code) {
     TokenRequest request = TokenRequest.of(code, null);
@@ -40,7 +39,7 @@ public class AuthorizationEndpointImpl implements AuthorizationEndpoint {
   /**
    * Exchange an authorization code for an access token.
    *
-   * @param code        The authorization code received from the OAuth authorization flow
+   * @param code The authorization code received from the OAuth authorization flow
    * @param redirectUri The redirect URI used in the initial authorization request
    * @return TokenResponse containing the access token and workspace information
    */
@@ -66,12 +65,12 @@ public class AuthorizationEndpointImpl implements AuthorizationEndpoint {
     return response;
   }
 
-
   /**
-   * Exchange an authorization code for an access token with a TokenRequest object and client credentials.
+   * Exchange an authorization code for an access token with a TokenRequest object and client
+   * credentials.
    *
-   * @param request      The token request containing code and redirect URI
-   * @param clientId     The OAuth client ID
+   * @param request The token request containing code and redirect URI
+   * @param clientId The OAuth client ID
    * @param clientSecret The OAuth client secret
    * @return TokenResponse containing the access token and workspace information
    */
@@ -121,7 +120,7 @@ public class AuthorizationEndpointImpl implements AuthorizationEndpoint {
    * Refresh an access token using a refresh token with client credentials.
    *
    * @param refreshToken The refresh token received from the initial OAuth token exchange
-   * @param clientId     The OAuth client ID
+   * @param clientId The OAuth client ID
    * @param clientSecret The OAuth client secret
    * @return TokenResponse containing the new access token and workspace information
    */
@@ -133,12 +132,13 @@ public class AuthorizationEndpointImpl implements AuthorizationEndpoint {
   /**
    * Refresh an access token using a refresh token with client credentials.
    *
-   * @param request      The refresh token received from the initial OAuth token exchange
-   * @param clientId     The OAuth client ID
+   * @param request The refresh token received from the initial OAuth token exchange
+   * @param clientId The OAuth client ID
    * @param clientSecret The OAuth client secret
    * @return TokenResponse containing the new access token and workspace information
    */
-  public TokenResponse refreshToken(RefreshTokenRequest request, String clientId, String clientSecret) {
+  public TokenResponse refreshToken(
+      RefreshTokenRequest request, String clientId, String clientSecret) {
     validateRefreshTokenRequest(request);
     URLInfo urlInfo = URLInfo.build("/oauth/token");
     Map<String, String> headers = authHeader(clientId, clientSecret);
@@ -169,8 +169,8 @@ public class AuthorizationEndpointImpl implements AuthorizationEndpoint {
    * Introspect a token to get information about its validity and properties.
    *
    * @param token The token to introspect (access token or refresh token)
-   * @return IntrospectTokenResponse containing token information
-   * TODO check if it will work without type hint
+   * @return IntrospectTokenResponse containing token information TODO check if it will work without
+   *     type hint
    */
   public IntrospectTokenResponse introspectToken(String token) {
     IntrospectTokenRequest request = IntrospectTokenRequest.of(token);
@@ -190,14 +190,16 @@ public class AuthorizationEndpointImpl implements AuthorizationEndpoint {
   }
 
   /**
-   * Introspect a token to get information about its validity and properties with client credentials.
+   * Introspect a token to get information about its validity and properties with client
+   * credentials.
    *
-   * @param token        The token to introspect (access token or refresh token)
-   * @param clientId     The OAuth client ID
+   * @param token The token to introspect (access token or refresh token)
+   * @param clientId The OAuth client ID
    * @param clientSecret The OAuth client secret
    * @return IntrospectTokenResponse containing token information
    */
-  public IntrospectTokenResponse introspectToken(String token, String clientId, String clientSecret) {
+  public IntrospectTokenResponse introspectToken(
+      String token, String clientId, String clientSecret) {
     IntrospectTokenRequest request = IntrospectTokenRequest.of(token);
     return introspectToken(request, clientId, clientSecret);
   }
@@ -205,18 +207,18 @@ public class AuthorizationEndpointImpl implements AuthorizationEndpoint {
   /**
    * Introspect a token using an IntrospectTokenRequest object with client credentials.
    *
-   * @param request      The introspection request containing token and optional type hint
-   * @param clientId     The OAuth client ID
+   * @param request The introspection request containing token and optional type hint
+   * @param clientId The OAuth client ID
    * @param clientSecret The OAuth client secret
    * @return IntrospectTokenResponse containing token information
    */
-  public IntrospectTokenResponse introspectToken(IntrospectTokenRequest request, String clientId, String clientSecret) {
+  public IntrospectTokenResponse introspectToken(
+      IntrospectTokenRequest request, String clientId, String clientSecret) {
     validateIntrospectTokenRequest(request);
     URLInfo urlInfo = URLInfo.build("/oauth/introspect");
     Map<String, String> headers = authHeader(clientId, clientSecret);
     return transport.call("POST", urlInfo, headers, request, IntrospectTokenResponse.class);
   }
-
 
   /**
    * Revoke the access token stored in the Notion client auth settings.

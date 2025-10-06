@@ -6,10 +6,9 @@ import io.kristixlab.notion.api.model.common.Icon;
 import io.kristixlab.notion.api.model.common.Parent;
 import io.kristixlab.notion.api.model.common.RichText;
 import io.kristixlab.notion.api.model.datasources.properties.DataSourcePropertySchema;
-import lombok.Data;
-
 import java.util.List;
 import java.util.Map;
+import lombok.Data;
 
 /**
  * Represents a Notion data source object. Contains the data source schema, properties, and

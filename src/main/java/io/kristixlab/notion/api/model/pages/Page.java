@@ -5,12 +5,11 @@ import io.kristixlab.notion.api.model.common.FileData;
 import io.kristixlab.notion.api.model.common.Icon;
 import io.kristixlab.notion.api.model.common.NotionObjectType;
 import io.kristixlab.notion.api.model.pages.properties.PageProperty;
+import java.util.HashMap;
+import java.util.Map;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
-
-import java.util.HashMap;
-import java.util.Map;
 
 @Data
 @Accessors(chain = true)
@@ -31,5 +30,4 @@ public class Page extends NotionObjectType {
 
   @JsonProperty("cover")
   private FileData cover;
-
 }

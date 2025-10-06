@@ -4,9 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-/**
- * Database property for number columns. Supports different number formats.
- */
+/** Database property for number columns. Supports different number formats. */
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class NumberDataSourcePropertySchema extends DataSourcePropertySchema {
@@ -15,7 +13,7 @@ public class NumberDataSourcePropertySchema extends DataSourcePropertySchema {
   private NumberFormat number = new NumberFormat();
 
   public static NumberDataSourcePropertySchema of(
-          io.kristixlab.notion.api.model.datasources.NumberFormat format) {
+      io.kristixlab.notion.api.model.datasources.NumberFormat format) {
     return of(format.toString());
   }
 
@@ -31,7 +29,7 @@ public class NumberDataSourcePropertySchema extends DataSourcePropertySchema {
   public static class NumberFormat {
     @JsonProperty("format")
     private String
-            format; // "number", "number_with_commas", "percent", "dollar", "canadian_dollar", "euro",
+        format; // "number", "number_with_commas", "percent", "dollar", "canadian_dollar", "euro",
     // "pound", "yen", "ruble", "rupee", "won", "yuan", "real", "lira", "rupiah",
     // "franc", "hong_kong_dollar", "new_zealand_dollar", "krona", "norwegian_krone",
     // "mexican_peso", "rand", "new_taiwan_dollar", "danish_krone", "zloty", "baht",

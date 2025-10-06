@@ -39,7 +39,8 @@ public class FileUploadsEndpointImpl implements FileUploadsEndpoint {
    */
   public FileUploadResponse createFileUpload(FileUploadCreateRequest request) {
     validateRequest(request);
-    return transport.call("POST", URLInfo.build("/file_uploads"), request, FileUploadResponse.class);
+    return transport.call(
+        "POST", URLInfo.build("/file_uploads"), request, FileUploadResponse.class);
   }
 
   /**
@@ -48,17 +49,20 @@ public class FileUploadsEndpointImpl implements FileUploadsEndpoint {
    * https://api.notion.com/v1/file_uploads/{file_upload_id}/send
    *
    * @param fileUploadId The ID of the file upload
-   * @param fileContent  The binary content of the file
-   * @param partNumber   The part number for multipart uploads
+   * @param fileContent The binary content of the file
+   * @param partNumber The part number for multipart uploads
    * @return Response from the file upload service
    */
-  public FileUploadResponse sendFileContent(String fileUploadId, byte[] fileContent, String contentType, Integer partNumber) {
+  public FileUploadResponse sendFileContent(
+      String fileUploadId, byte[] fileContent, String contentType, Integer partNumber) {
     validateFileUploadId(fileUploadId);
     validateFileContent(fileContent);
     validateFileContentType(contentType);
 
-    URLInfo urlInfo = URLInfo.builder("/file_uploads/{file_upload_id}/send")
-            .pathParam(FILE_UPLOAD_ID, fileUploadId).build();
+    URLInfo urlInfo =
+        URLInfo.builder("/file_uploads/{file_upload_id}/send")
+            .pathParam(FILE_UPLOAD_ID, fileUploadId)
+            .build();
 
     FileRequest fileRequest = new FileRequest();
     fileRequest.setFileContent(fileContent);
@@ -76,11 +80,12 @@ public class FileUploadsEndpointImpl implements FileUploadsEndpoint {
    * https://api.notion.com/v1/file_uploads/{file_upload_id}/send
    *
    * @param fileUploadId The ID of the file upload
-   * @param request      request
+   * @param request request
    * @return Response from the file upload service
    */
   public FileUploadResponse sendFileContent(String fileUploadId, FileUploadSendRequest request) {
-    return sendFileContent(fileUploadId, request.getFile(), request.getContentType(), request.getPartNumber());
+    return sendFileContent(
+        fileUploadId, request.getFile(), request.getContentType(), request.getPartNumber());
   }
 
   /**
@@ -93,8 +98,10 @@ public class FileUploadsEndpointImpl implements FileUploadsEndpoint {
   public FileUploadResponse completeFileUpload(String fileUploadId) {
     validateFileUploadId(fileUploadId);
 
-    URLInfo urlInfo = URLInfo.builder("/file_uploads/{file_upload_id}/complete")
-            .pathParam(FILE_UPLOAD_ID, fileUploadId).build();
+    URLInfo urlInfo =
+        URLInfo.builder("/file_uploads/{file_upload_id}/complete")
+            .pathParam(FILE_UPLOAD_ID, fileUploadId)
+            .build();
     return transport.call("POST", urlInfo, FileUploadResponse.class);
   }
 
@@ -107,8 +114,10 @@ public class FileUploadsEndpointImpl implements FileUploadsEndpoint {
    */
   public FileUploadResponse retrieveFileUpload(String fileUploadId) {
     validateFileUploadId(fileUploadId);
-    URLInfo urlInfo = URLInfo.builder("/file_uploads/{file_upload_id}")
-            .pathParam(FILE_UPLOAD_ID, fileUploadId).build();
+    URLInfo urlInfo =
+        URLInfo.builder("/file_uploads/{file_upload_id}")
+            .pathParam(FILE_UPLOAD_ID, fileUploadId)
+            .build();
     return transport.call("GET", urlInfo, FileUploadResponse.class);
   }
 
@@ -135,7 +144,7 @@ public class FileUploadsEndpointImpl implements FileUploadsEndpoint {
    * first.
    *
    * @param startCursor Cursor for pagination (can be null for first page)
-   * @param pageSize    Number of items to return (can be null for default)
+   * @param pageSize Number of items to return (can be null for default)
    * @return FileUploadListResponse containing the paginated list of file uploads
    */
   public FileUploadList listFileUploads(String startCursor, Integer pageSize) {
@@ -146,16 +155,16 @@ public class FileUploadsEndpointImpl implements FileUploadsEndpoint {
    * Use this API to retrieve file uploads for the current bot integration, sorted by most recent
    * first.
    *
-   * @param status      Filter file uploads by specifying the status. Supported values are pending,
-   *                    uploaded, expired, failed.
+   * @param status Filter file uploads by specifying the status. Supported values are pending,
+   *     uploaded, expired, failed.
    * @param startCursor Cursor for pagination (can be null for first page)
-   * @param pageSize    Number of items to return (can be null for default)
+   * @param pageSize Number of items to return (can be null for default)
    * @return FileUploadListResponse containing the paginated list of file uploads
    */
   public FileUploadList listFileUploads(String status, String startCursor, Integer pageSize) {
     URLInfoBuilder urlInfo = URLInfo.builder("/file_uploads");
     if (status != null && !status.trim().isEmpty()) {
-      urlInfo.queryParam(STATUS, new String[]{status});
+      urlInfo.queryParam(STATUS, new String[] {status});
     }
 
     if (startCursor != null) {
@@ -188,7 +197,7 @@ public class FileUploadsEndpointImpl implements FileUploadsEndpoint {
 
     if (!("multi_part".equals(mode) || "external_url".equals(mode) || "single_part".equals(mode))) {
       throw new IllegalArgumentException(
-              "Mode must be one of: multi_part, external_url, single_part");
+          "Mode must be one of: multi_part, external_url, single_part");
     }
 
     // Validate filename for multi_part and external_url modes
@@ -208,7 +217,7 @@ public class FileUploadsEndpointImpl implements FileUploadsEndpoint {
       int numberOfParts = request.getNumberOfParts();
       if (numberOfParts < 1 || numberOfParts > 1000) {
         throw new IllegalArgumentException(
-                "Number of parts must be between 1 and 1,000 for multi_part mode");
+            "Number of parts must be between 1 and 1,000 for multi_part mode");
       }
     }
 

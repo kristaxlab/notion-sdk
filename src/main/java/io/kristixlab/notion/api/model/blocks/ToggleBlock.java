@@ -3,10 +3,9 @@ package io.kristixlab.notion.api.model.blocks;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.kristixlab.notion.api.model.common.RichText;
+import java.util.List;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-
-import java.util.List;
 
 /**
  * Represents a toggle block in Notion.
@@ -24,9 +23,7 @@ import java.util.List;
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class ToggleBlock extends Block {
-  /**
-   * The toggle configuration
-   */
+  /** The toggle configuration */
   @JsonProperty("toggle")
   private Toggle toggle;
 
@@ -38,21 +35,15 @@ public class ToggleBlock extends Block {
    */
   @Data
   public static class Toggle {
-    /**
-     * The rich text content of the toggle header
-     */
+    /** The rich text content of the toggle header */
     @JsonProperty("rich_text")
     private List<RichText> richText;
 
-    /**
-     * The color of the toggle text
-     */
+    /** The color of the toggle text */
     @JsonProperty("color")
     private String color;
 
-    /**
-     * Child blocks that can be toggled to show/hide
-     */
+    /** Child blocks that can be toggled to show/hide */
     @JsonProperty("children")
     private List<Block> children;
   }

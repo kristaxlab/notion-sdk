@@ -9,9 +9,7 @@ import lombok.Data;
 @Data
 public class IntrospectTokenRequest {
 
-  /**
-   * The token to introspect (access token or refresh token).
-   */
+  /** The token to introspect (access token or refresh token). */
   @JsonProperty("token")
   private String token;
 
@@ -22,9 +20,7 @@ public class IntrospectTokenRequest {
   @JsonProperty("token_type_hint")
   private String tokenTypeHint;
 
-  /**
-   * Creates an introspection request for an access token.
-   */
+  /** Creates an introspection request for an access token. */
   public static IntrospectTokenRequest ofAccessToken(String accessToken) {
     IntrospectTokenRequest request = new IntrospectTokenRequest();
     request.setToken(accessToken);
@@ -32,9 +28,7 @@ public class IntrospectTokenRequest {
     return request;
   }
 
-  /**
-   * Creates an introspection request for a refresh token.
-   */
+  /** Creates an introspection request for a refresh token. */
   public static IntrospectTokenRequest ofRefreshToken(String refreshToken) {
     IntrospectTokenRequest request = new IntrospectTokenRequest();
     request.setToken(refreshToken);
@@ -42,9 +36,7 @@ public class IntrospectTokenRequest {
     return request;
   }
 
-  /**
-   * Creates a basic introspection request without token type hint.
-   */
+  /** Creates a basic introspection request without token type hint. */
   public static IntrospectTokenRequest of(String token) {
     IntrospectTokenRequest request = new IntrospectTokenRequest();
     request.setToken(token);

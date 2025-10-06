@@ -186,7 +186,8 @@ public class DataSourceDeserializationTest extends BaseTest {
     assertNotNull(statusProperty.getStatus().getOptions());
     assertEquals(3, statusProperty.getStatus().getOptions().size());
 
-    StatusDataSourcePropertySchema.StatusOption option1 = statusProperty.getStatus().getOptions().get(0);
+    StatusDataSourcePropertySchema.StatusOption option1 =
+        statusProperty.getStatus().getOptions().get(0);
     assertEquals("6760d97c-3591-4fae-978a-5c769ad64092", option1.getId());
     assertEquals("Not started", option1.getName());
     assertEquals("default", option1.getColor());
@@ -195,7 +196,8 @@ public class DataSourceDeserializationTest extends BaseTest {
     assertNotNull(statusProperty.getStatus().getGroups());
     assertEquals(3, statusProperty.getStatus().getGroups().size());
 
-    StatusDataSourcePropertySchema.StatusGroup group1 = statusProperty.getStatus().getGroups().get(0);
+    StatusDataSourcePropertySchema.StatusGroup group1 =
+        statusProperty.getStatus().getGroups().get(0);
     assertEquals("469f4651-6825-41a1-8958-e9b7c5e7bb85", group1.getId());
     assertEquals("To-do", group1.getName());
     assertEquals("gray", group1.getColor());
@@ -226,7 +228,8 @@ public class DataSourceDeserializationTest extends BaseTest {
     assertEquals("QaJw", relationProperty.getRelation().getDualProperty().getSyncedPropertyId());
 
     // Test single property relation
-    DataSourcePropertySchema singleRelationProp = dataSource.getProperties().get("one side relation");
+    DataSourcePropertySchema singleRelationProp =
+        dataSource.getProperties().get("one side relation");
     assertNotNull(singleRelationProp);
     RelationDataSourcePropertySchema singleRelationProperty = singleRelationProp.asRelation();
     assertEquals("single_property", singleRelationProperty.getRelation().getType());
@@ -284,7 +287,8 @@ public class DataSourceDeserializationTest extends BaseTest {
     assertEquals("unique", rollupProperty.getRollup().getFunction());
 
     // Test rollup show original
-    DataSourcePropertySchema rollupShowProp = dataSource.getProperties().get("Rollup show original");
+    DataSourcePropertySchema rollupShowProp =
+        dataSource.getProperties().get("Rollup show original");
     assertNotNull(rollupShowProp);
     RollupDataSourcePropertySchema rollupShowProperty = rollupShowProp.asRollup();
     assertEquals("show_original", rollupShowProperty.getRollup().getFunction());
@@ -352,7 +356,8 @@ public class DataSourceDeserializationTest extends BaseTest {
     assertEquals("created_time", createdTimeProp.getType());
 
     // Test last edited time
-    DataSourcePropertySchema lastEditedTimeProp = dataSource.getProperties().get("Last edited time");
+    DataSourcePropertySchema lastEditedTimeProp =
+        dataSource.getProperties().get("Last edited time");
     assertNotNull(lastEditedTimeProp);
     assertTrue(lastEditedTimeProp.isLastEditedTime());
     assertEquals("FlA%5D", lastEditedTimeProp.getId());
@@ -415,7 +420,8 @@ public class DataSourceDeserializationTest extends BaseTest {
     assertNotNull(dateProperty.getDate());
 
     // Test date with reminder
-    DataSourcePropertySchema dateReminderProp = dataSource.getProperties().get("Date with reminder");
+    DataSourcePropertySchema dateReminderProp =
+        dataSource.getProperties().get("Date with reminder");
     assertNotNull(dateReminderProp);
     assertTrue(dateReminderProp.isDate());
     assertEquals("%7BvcQ", dateReminderProp.getId());

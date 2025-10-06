@@ -1,9 +1,8 @@
 package io.kristixlab.notion.api.http.transport.rq;
 
-import lombok.Data;
-
 import java.util.HashMap;
 import java.util.Map;
+import lombok.Data;
 
 @Data
 public class FileRequest {

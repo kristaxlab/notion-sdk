@@ -6,9 +6,7 @@ import io.kristixlab.notion.api.model.common.NotionObjectType;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-/**
- * Response object for search API calls containing search results and pagination info.
- */
+/** Response object for search API calls containing search results and pagination info. */
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class SearchResult extends NotionListType<NotionObjectType> {

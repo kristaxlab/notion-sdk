@@ -5,9 +5,7 @@ import io.kristixlab.notion.api.model.common.PageReference;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-/**
- * Database attachment in a comment.
- */
+/** Database attachment in a comment. */
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class DatabaseCommentAttachment extends CommentAttachment {

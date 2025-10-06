@@ -33,7 +33,8 @@ public class BlocksEndpointImpl implements BlocksEndpoint {
   public Block retrieve(String blockId) {
     validateBlockId(blockId);
 
-    URLInfo urlInfo = URLInfo.builder("/blocks/{block_id}/children").pathParam(BLOCK_ID, blockId).build();
+    URLInfo urlInfo =
+        URLInfo.builder("/blocks/{block_id}/children").pathParam(BLOCK_ID, blockId).build();
 
     return transport.call("GET", urlInfo, Block.class);
   }
@@ -51,15 +52,16 @@ public class BlocksEndpointImpl implements BlocksEndpoint {
   /**
    * Retrieve block children with pagination.
    *
-   * @param blockId     The ID of the parent block
+   * @param blockId The ID of the parent block
    * @param startCursor Cursor for pagination (optional)
-   * @param pageSize    Number of items to return (optional, max 100)
+   * @param pageSize Number of items to return (optional, max 100)
    * @return BlocksResponse containing the child blocks
    */
   public BlockList retrieveChildren(String blockId, String startCursor, Integer pageSize) {
     validateBlockId(blockId);
 
-    URLInfoBuilder urlInfo = URLInfo.builder("/blocks/{block_id}/children").pathParam(BLOCK_ID, blockId);
+    URLInfoBuilder urlInfo =
+        URLInfo.builder("/blocks/{block_id}/children").pathParam(BLOCK_ID, blockId);
 
     if (startCursor != null) {
       urlInfo.queryParam(Pagination.START_CURSOR, startCursor);
@@ -72,12 +74,11 @@ public class BlocksEndpointImpl implements BlocksEndpoint {
     return transport.call("GET", urlInfo.build(), BlockList.class);
   }
 
-
   /**
    * Append block children to a parent block.
    *
    * @param parentBlockId The ID of the parent block
-   * @param child         child block to append
+   * @param child child block to append
    * @return BlocksResponse containing the appended blocks
    */
   public BlockList appendChildren(String parentBlockId, Block child) {
@@ -90,14 +91,15 @@ public class BlocksEndpointImpl implements BlocksEndpoint {
    * Append block children to a parent block.
    *
    * @param parentBlockId The ID of the parent block
-   * @param request       The request containing children blocks to append
+   * @param request The request containing children blocks to append
    * @return BlocksResponse containing the appended blocks
    */
   public BlockList appendChildren(String parentBlockId, AppendBlockChildrenRequest request) {
     validateBlockId(parentBlockId);
     validateRequest(request);
 
-    URLInfo urlInfo = URLInfo.builder("/blocks/{block_id}/children").pathParam(BLOCK_ID, parentBlockId).build();
+    URLInfo urlInfo =
+        URLInfo.builder("/blocks/{block_id}/children").pathParam(BLOCK_ID, parentBlockId).build();
 
     return transport.call("PATCH", urlInfo, request, BlockList.class);
   }

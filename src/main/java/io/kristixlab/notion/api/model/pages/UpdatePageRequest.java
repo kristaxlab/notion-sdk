@@ -5,9 +5,8 @@ import io.kristixlab.notion.api.model.common.FileData;
 import io.kristixlab.notion.api.model.common.Icon;
 import io.kristixlab.notion.api.model.common.Parent;
 import io.kristixlab.notion.api.model.pages.properties.PageProperty;
-import lombok.Data;
-
 import java.util.Map;
+import lombok.Data;
 
 @Data
 public class UpdatePageRequest {

@@ -31,8 +31,10 @@ public class DataSourcesEndpointImpl implements DataSourcesEndpoint {
    */
   public DataSource retrieve(String dataSourceId) {
     validateDataSourceId(dataSourceId);
-    URLInfo urlInfo = URLInfo.builder("/data_sources/{data_source_id}")
-            .pathParam(DATA_SOURCE_ID, dataSourceId).build();
+    URLInfo urlInfo =
+        URLInfo.builder("/data_sources/{data_source_id}")
+            .pathParam(DATA_SOURCE_ID, dataSourceId)
+            .build();
     return transport.call("GET", urlInfo, DataSource.class);
   }
 
@@ -51,16 +53,19 @@ public class DataSourcesEndpointImpl implements DataSourcesEndpoint {
    * Update an existing data source.
    *
    * @param dataSourceId The ID of the data source to update
-   * @param request      The request containing updated data source data
+   * @param request The request containing updated data source data
    * @return The updated data source
    */
-  // TODO replace with UpdateDatasourceRequest to only support fields that are actually possible to change via the API
+  // TODO replace with UpdateDatasourceRequest to only support fields that are actually possible to
+  // change via the API
   public DataSource update(String dataSourceId, DataSource request) {
     validateDataSourceId(dataSourceId);
     validateRequest(request);
 
-    URLInfo urlInfo = URLInfo.builder("/data_sources/{data_source_id}")
-            .pathParam(DATA_SOURCE_ID, dataSourceId).build();
+    URLInfo urlInfo =
+        URLInfo.builder("/data_sources/{data_source_id}")
+            .pathParam(DATA_SOURCE_ID, dataSourceId)
+            .build();
 
     return transport.call("PATCH", urlInfo, request, DataSource.class);
   }
@@ -105,7 +110,7 @@ public class DataSourcesEndpointImpl implements DataSourcesEndpoint {
    * Query a data source to get pages that match the specified criteria.
    *
    * @param dataSourceId The ID of the data source to query
-   * @param request      The query request containing filter and sort criteria
+   * @param request The query request containing filter and sort criteria
    * @return Response containing matching pages
    */
   public DataSourcePageList query(String dataSourceId, DataSourceQuery request) {
@@ -116,8 +121,8 @@ public class DataSourcesEndpointImpl implements DataSourcesEndpoint {
    * Query a data source with pagination parameters.
    *
    * @param dataSourceId The ID of the data source to query
-   * @param startCursor  The cursor to start pagination from
-   * @param pageSize     The number of items to return (max 100)
+   * @param startCursor The cursor to start pagination from
+   * @param pageSize The number of items to return (max 100)
    * @return Response containing matching pages
    */
   public DataSourcePageList query(String dataSourceId, String startCursor, Integer pageSize) {
@@ -128,13 +133,13 @@ public class DataSourcesEndpointImpl implements DataSourcesEndpoint {
    * Query a data source with pagination parameters.
    *
    * @param dataSourceId The ID of the data source to query
-   * @param request      The query request containing filter and sort criteria
-   * @param pageSize     The number of items to return (max 100)
-   * @param startCursor  The cursor to start pagination from
+   * @param request The query request containing filter and sort criteria
+   * @param pageSize The number of items to return (max 100)
+   * @param startCursor The cursor to start pagination from
    * @return Response containing matching pages
    */
   public DataSourcePageList query(
-          String dataSourceId, DataSourceQuery request, String startCursor, Integer pageSize) {
+      String dataSourceId, DataSourceQuery request, String startCursor, Integer pageSize) {
     validateDataSourceId(dataSourceId);
     validateRequest(request);
 
@@ -146,8 +151,10 @@ public class DataSourcesEndpointImpl implements DataSourcesEndpoint {
       request.setPageSize(pageSize);
     }
 
-    URLInfo urlInfo = URLInfo.builder("/data_sources/{data_source_id}/query").
-            pathParam(DATA_SOURCE_ID, dataSourceId).build();
+    URLInfo urlInfo =
+        URLInfo.builder("/data_sources/{data_source_id}/query")
+            .pathParam(DATA_SOURCE_ID, dataSourceId)
+            .build();
 
     return transport.call("POST", urlInfo, request, DataSourcePageList.class);
   }

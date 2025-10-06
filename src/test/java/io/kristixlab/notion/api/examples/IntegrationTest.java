@@ -2,8 +2,8 @@ package io.kristixlab.notion.api.examples;
 
 import io.kristixlab.notion.api.NotionApiClient;
 import io.kristixlab.notion.api.http.NotionHttpTransport;
-import io.kristixlab.notion.api.model.BaseTest;
 import io.kristixlab.notion.api.json.JsonConverter;
+import io.kristixlab.notion.api.model.BaseTest;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;

@@ -3,10 +3,9 @@ package io.kristixlab.notion.api.model.blocks;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.kristixlab.notion.api.model.common.RichText;
+import java.util.List;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-
-import java.util.List;
 
 /**
  * Represents a quote block in Notion.
@@ -25,9 +24,7 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 public class QuoteBlock extends Block {
 
-  /**
-   * The quote configuration
-   */
+  /** The quote configuration */
   @JsonProperty("quote")
   private Quote quote;
 
@@ -39,21 +36,15 @@ public class QuoteBlock extends Block {
    */
   @Data
   public static class Quote {
-    /**
-     * The rich text content of the quote
-     */
+    /** The rich text content of the quote */
     @JsonProperty("rich_text")
     private List<RichText> richText;
 
-    /**
-     * The color of the quote text
-     */
+    /** The color of the quote text */
     @JsonProperty("color")
     private String color;
 
-    /**
-     * Child blocks nested under this quote
-     */
+    /** Child blocks nested under this quote */
     @JsonProperty("children")
     private List<Block> children;
   }

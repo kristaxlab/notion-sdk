@@ -44,7 +44,8 @@ public class CommentsEndpointImpl implements CommentsEndpoint {
    */
   public Comment retrieve(String commentId) {
     validateCommentId(commentId);
-    URLInfo urlInfo = URLInfo.builder("/comments/{comment_id}").pathParam(COMMENT_ID, commentId).build();
+    URLInfo urlInfo =
+        URLInfo.builder("/comments/{comment_id}").pathParam(COMMENT_ID, commentId).build();
     return transport.call("GET", urlInfo, Comment.class);
   }
 
@@ -61,15 +62,16 @@ public class CommentsEndpointImpl implements CommentsEndpoint {
   /**
    * Retrieve comments for a block with pagination.
    *
-   * @param blockId     The ID of the block to retrieve comments for
+   * @param blockId The ID of the block to retrieve comments for
    * @param startCursor The cursor to start from for pagination
-   * @param pageSize    The number of results to return (max 100)
+   * @param pageSize The number of results to return (max 100)
    * @return Comments response containing the comments
    */
   public CommentList listComments(String blockId, String startCursor, Integer pageSize) {
     validateBlockId(blockId);
 
-    URLInfoBuilder urlInfo = URLInfo.builder("/comments").queryParam(BLOCK_ID, new String[]{blockId});
+    URLInfoBuilder urlInfo =
+        URLInfo.builder("/comments").queryParam(BLOCK_ID, new String[] {blockId});
 
     if (startCursor != null) {
       urlInfo.queryParam(Pagination.START_CURSOR, startCursor);
@@ -82,27 +84,21 @@ public class CommentsEndpointImpl implements CommentsEndpoint {
     return transport.call("GET", urlInfo.build(), CommentList.class);
   }
 
-  /**
-   * Validates the block ID parameter.
-   */
+  /** Validates the block ID parameter. */
   private void validateCommentId(String commentId) {
     if (commentId == null || commentId.trim().isEmpty()) {
       throw new IllegalArgumentException("Comment ID cannot be null or empty");
     }
   }
 
-  /**
-   * Validates the block ID parameter.
-   */
+  /** Validates the block ID parameter. */
   private void validateBlockId(String blockId) {
     if (blockId == null || blockId.trim().isEmpty()) {
       throw new IllegalArgumentException("Block ID cannot be null or empty");
     }
   }
 
-  /**
-   * Validates the request object.
-   */
+  /** Validates the request object. */
   private void validateRequest(Object request) {
     if (request == null) {
       throw new IllegalArgumentException("Request cannot be null");

@@ -5,9 +5,7 @@ import io.kristixlab.notion.api.model.BaseNotionObject;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-/**
- * Response object for token revocation indicating successful revocation.
- */
+/** Response object for token revocation indicating successful revocation. */
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class RevokeTokenResponse extends BaseNotionObject {
@@ -19,9 +17,7 @@ public class RevokeTokenResponse extends BaseNotionObject {
   @JsonProperty("revoked")
   private Boolean revoked;
 
-  /**
-   * Optional message about the revocation status.
-   */
+  /** Optional message about the revocation status. */
   @JsonProperty("message")
   private String message;
 }

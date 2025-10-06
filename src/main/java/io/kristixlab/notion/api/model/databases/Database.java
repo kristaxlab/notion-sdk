@@ -5,14 +5,11 @@ import io.kristixlab.notion.api.model.common.FileData;
 import io.kristixlab.notion.api.model.common.Icon;
 import io.kristixlab.notion.api.model.common.NotionObjectType;
 import io.kristixlab.notion.api.model.common.RichText;
+import java.util.List;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.util.List;
-
-/**
- * Represents a Notion database object. Contains the database schema, properties, and metadata.
- */
+/** Represents a Notion database object. Contains the database schema, properties, and metadata. */
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class Database extends NotionObjectType {

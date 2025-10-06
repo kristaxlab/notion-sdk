@@ -18,7 +18,7 @@ public class NotionApiException extends RuntimeException {
 
   public String toString() {
     return String.format(
-            "%s\n Notion API Exception - Status: %d, Code: %s, Message: %s, Request ID: %s",
-            this.getClass().getName(), status, code, message, request_id);
+        "%s\n Notion API Exception - Status: %d, Code: %s, Message: %s, Request ID: %s",
+        this.getClass().getName(), status, code, message, request_id);
   }
 }

@@ -1,11 +1,10 @@
 package io.kristixlab.notion.api.http.transport.rq;
 
 import io.kristixlab.notion.api.http.transport.util.URLInfoBuilder;
-import lombok.Data;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import lombok.Data;
 
 @Data
 public class URLInfo {

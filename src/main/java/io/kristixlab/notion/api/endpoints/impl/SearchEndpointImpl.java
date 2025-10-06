@@ -47,7 +47,7 @@ public class SearchEndpointImpl implements SearchEndpoint {
   /**
    * Search with query and filter (pages or data sources only).
    *
-   * @param query  The text to search for
+   * @param query The text to search for
    * @param filter Filter to limit results to pages or data sources
    * @return SearchResponse containing filtered results
    */
@@ -61,9 +61,9 @@ public class SearchEndpointImpl implements SearchEndpoint {
   /**
    * Search with query, filter, and sorting.
    *
-   * @param query  The text to search for
+   * @param query The text to search for
    * @param filter Filter to limit results to pages or data sources
-   * @param sort   Sorting criteria for results
+   * @param sort Sorting criteria for results
    * @return SearchResponse containing filtered and sorted results
    */
   public SearchResult search(String query, SearchFilter filter, SearchSort sort) {
@@ -77,8 +77,8 @@ public class SearchEndpointImpl implements SearchEndpoint {
   /**
    * Search with pagination support.
    *
-   * @param query       The text to search for
-   * @param pageSize    Number of results per page (max 100)
+   * @param query The text to search for
+   * @param pageSize Number of results per page (max 100)
    * @param startCursor Cursor for pagination
    * @return SearchResponse with paginated results
    */
@@ -123,7 +123,7 @@ public class SearchEndpointImpl implements SearchEndpoint {
   /**
    * Get all pages and data sources with pagination.
    *
-   * @param pageSize    Number of results per page (max 100)
+   * @param pageSize Number of results per page (max 100)
    * @param startCursor Cursor for pagination
    * @return SearchResponse with paginated results
    */
@@ -140,7 +140,7 @@ public class SearchEndpointImpl implements SearchEndpoint {
     }
 
     if (request.getPageSize() != null
-            && (request.getPageSize() < 1 || request.getPageSize() > 100)) {
+        && (request.getPageSize() < 1 || request.getPageSize() > 100)) {
       throw new IllegalArgumentException("Page size must be between 1 and 100");
     }
   }

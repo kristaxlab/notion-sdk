@@ -1,10 +1,9 @@
 package io.kristixlab.notion.api.model.datasources.properties;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-
-import java.util.List;
 
 /**
  * Database property for multi-select columns. Allows users to select multiple options from a

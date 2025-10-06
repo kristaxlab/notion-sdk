@@ -11,36 +11,38 @@ import lombok.Data;
  * of database columns.
  */
 @JsonTypeInfo(
-        use = JsonTypeInfo.Id.NAME,
-        defaultImpl = UnknownDataSourcePropertySchema.class,
-        include = JsonTypeInfo.As.EXISTING_PROPERTY,
-        property = "type",
-        visible = true)
+    use = JsonTypeInfo.Id.NAME,
+    defaultImpl = UnknownDataSourcePropertySchema.class,
+    include = JsonTypeInfo.As.EXISTING_PROPERTY,
+    property = "type",
+    visible = true)
 @JsonSubTypes({
-        @JsonSubTypes.Type(value = CheckboxDataSourcePropertySchema.class, name = "checkbox"),
-        @JsonSubTypes.Type(value = ButtonDataSourcePropertySchema.class, name = "button"),
-        @JsonSubTypes.Type(value = CreatedByDataSourcePropertySchema.class, name = "created_by"),
-        @JsonSubTypes.Type(value = CreatedTimeDataSourcePropertySchema.class, name = "created_time"),
-        @JsonSubTypes.Type(value = DateDataSourcePropertySchema.class, name = "date"),
-        @JsonSubTypes.Type(value = EmailDataSourcePropertySchema.class, name = "email"),
-        @JsonSubTypes.Type(value = FilesDataSourcePropertySchema.class, name = "files"),
-        @JsonSubTypes.Type(value = FormulaDataSourcePropertySchema.class, name = "formula"),
-        @JsonSubTypes.Type(value = LastEditedByDataSourcePropertySchema.class, name = "last_edited_by"),
-        @JsonSubTypes.Type(value = LastEditedTimeDataSourcePropertySchema.class, name = "last_edited_time"),
-        @JsonSubTypes.Type(value = MultiSelectDataSourcePropertySchema.class, name = "multi_select"),
-        @JsonSubTypes.Type(value = NumberDataSourcePropertySchema.class, name = "number"),
-        @JsonSubTypes.Type(value = PeopleDataSourcePropertySchema.class, name = "people"),
-        @JsonSubTypes.Type(value = PhoneNumberDataSourcePropertySchema.class, name = "phone_number"),
-        @JsonSubTypes.Type(value = RelationDataSourcePropertySchema.class, name = "relation"),
-        @JsonSubTypes.Type(value = RichTextDataSourcePropertySchema.class, name = "rich_text"),
-        @JsonSubTypes.Type(value = RollupDataSourcePropertySchema.class, name = "rollup"),
-        @JsonSubTypes.Type(value = SelectDataSourcePropertySchema.class, name = "select"),
-        @JsonSubTypes.Type(value = StatusDataSourcePropertySchema.class, name = "status"),
-        @JsonSubTypes.Type(value = TitleDataSourcePropertySchema.class, name = "title"),
-        @JsonSubTypes.Type(value = UniqueIdDataSourcePropertySchema.class, name = "unique_id"),
-        @JsonSubTypes.Type(value = UrlDataSourcePropertySchema.class, name = "url"),
-        @JsonSubTypes.Type(value = VerificationDataSourcePropertySchema.class, name = "verification"),
-        @JsonSubTypes.Type(value = PlaceDataSourcePropertySchema.class, name = "place")
+  @JsonSubTypes.Type(value = CheckboxDataSourcePropertySchema.class, name = "checkbox"),
+  @JsonSubTypes.Type(value = ButtonDataSourcePropertySchema.class, name = "button"),
+  @JsonSubTypes.Type(value = CreatedByDataSourcePropertySchema.class, name = "created_by"),
+  @JsonSubTypes.Type(value = CreatedTimeDataSourcePropertySchema.class, name = "created_time"),
+  @JsonSubTypes.Type(value = DateDataSourcePropertySchema.class, name = "date"),
+  @JsonSubTypes.Type(value = EmailDataSourcePropertySchema.class, name = "email"),
+  @JsonSubTypes.Type(value = FilesDataSourcePropertySchema.class, name = "files"),
+  @JsonSubTypes.Type(value = FormulaDataSourcePropertySchema.class, name = "formula"),
+  @JsonSubTypes.Type(value = LastEditedByDataSourcePropertySchema.class, name = "last_edited_by"),
+  @JsonSubTypes.Type(
+      value = LastEditedTimeDataSourcePropertySchema.class,
+      name = "last_edited_time"),
+  @JsonSubTypes.Type(value = MultiSelectDataSourcePropertySchema.class, name = "multi_select"),
+  @JsonSubTypes.Type(value = NumberDataSourcePropertySchema.class, name = "number"),
+  @JsonSubTypes.Type(value = PeopleDataSourcePropertySchema.class, name = "people"),
+  @JsonSubTypes.Type(value = PhoneNumberDataSourcePropertySchema.class, name = "phone_number"),
+  @JsonSubTypes.Type(value = RelationDataSourcePropertySchema.class, name = "relation"),
+  @JsonSubTypes.Type(value = RichTextDataSourcePropertySchema.class, name = "rich_text"),
+  @JsonSubTypes.Type(value = RollupDataSourcePropertySchema.class, name = "rollup"),
+  @JsonSubTypes.Type(value = SelectDataSourcePropertySchema.class, name = "select"),
+  @JsonSubTypes.Type(value = StatusDataSourcePropertySchema.class, name = "status"),
+  @JsonSubTypes.Type(value = TitleDataSourcePropertySchema.class, name = "title"),
+  @JsonSubTypes.Type(value = UniqueIdDataSourcePropertySchema.class, name = "unique_id"),
+  @JsonSubTypes.Type(value = UrlDataSourcePropertySchema.class, name = "url"),
+  @JsonSubTypes.Type(value = VerificationDataSourcePropertySchema.class, name = "verification"),
+  @JsonSubTypes.Type(value = PlaceDataSourcePropertySchema.class, name = "place")
 })
 @Data
 public abstract class DataSourcePropertySchema {

@@ -1,9 +1,8 @@
 package io.kristixlab.notion.api.model.datasources.filter.condition;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Data;
-
 import java.util.UUID;
+import lombok.Data;
 
 @Data
 public class UserFilterCondition {

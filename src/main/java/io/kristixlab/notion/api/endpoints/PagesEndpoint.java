@@ -16,7 +16,8 @@ public interface PagesEndpoint {
 
   PageProperty retrieveProperty(String pageId, String propertyId);
 
-  PageProperty retrieveProperty(String pageId, String propertyId, String startCursor, Integer pageSize);
+  PageProperty retrieveProperty(
+      String pageId, String propertyId, String startCursor, Integer pageSize);
 
   Page update(String pageId, UpdatePageRequest request);
 

@@ -5,13 +5,10 @@ import io.kristixlab.notion.api.model.common.FileData;
 import io.kristixlab.notion.api.model.common.Icon;
 import io.kristixlab.notion.api.model.common.Parent;
 import io.kristixlab.notion.api.model.common.RichText;
+import java.util.List;
 import lombok.Data;
 
-import java.util.List;
-
-/**
- * Request object for creating a database with initial data source (API version 2025-09-03+).
- */
+/** Request object for creating a database with initial data source (API version 2025-09-03+). */
 @Data
 public class CreateDatabaseRequest {
 

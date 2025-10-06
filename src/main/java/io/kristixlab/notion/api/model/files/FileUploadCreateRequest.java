@@ -3,15 +3,11 @@ package io.kristixlab.notion.api.model.files;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
-/**
- * Request object for uploading a file to Notion.
- */
+/** Request object for uploading a file to Notion. */
 @Data
 public class FileUploadCreateRequest {
 
-  /**
-   * multi_part / external_url / single_part
-   */
+  /** multi_part / external_url / single_part */
   @JsonProperty("mode")
   private String mode;
 
@@ -23,9 +19,7 @@ public class FileUploadCreateRequest {
   @JsonProperty("filename")
   private String filename;
 
-  /**
-   * The MIME type of the file.
-   */
+  /** The MIME type of the file. */
   @JsonProperty("content_type")
   private String contentType;
 

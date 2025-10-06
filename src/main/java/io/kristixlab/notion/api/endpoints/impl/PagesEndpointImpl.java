@@ -9,7 +9,6 @@ import io.kristixlab.notion.api.model.pages.Page;
 import io.kristixlab.notion.api.model.pages.UpdatePageRequest;
 import io.kristixlab.notion.api.model.pages.properties.PageProperty;
 import io.kristixlab.notion.api.util.Pagination;
-
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 
@@ -55,7 +54,7 @@ public class PagesEndpointImpl implements PagesEndpoint {
   /**
    * Retrieve a specific page property.
    *
-   * @param pageId     The ID of the page
+   * @param pageId The ID of the page
    * @param propertyId The ID of the property to retrieve
    * @return The property object
    */
@@ -66,18 +65,19 @@ public class PagesEndpointImpl implements PagesEndpoint {
   /**
    * Retrieve a specific page property with pagination.
    *
-   * @param pageId      The ID of the page
-   * @param propertyId  The ID of the property to retrieve
+   * @param pageId The ID of the page
+   * @param propertyId The ID of the property to retrieve
    * @param startCursor Cursor for pagination (optional)
-   * @param pageSize    Number of items to return (optional, max 100)
+   * @param pageSize Number of items to return (optional, max 100)
    * @return The property object
    */
   public PageProperty retrieveProperty(
-          String pageId, String propertyId, String startCursor, Integer pageSize) {
+      String pageId, String propertyId, String startCursor, Integer pageSize) {
     validatePageId(pageId);
     validatePropertyId(propertyId);
 
-    URLInfoBuilder urlInfo = URLInfo.builder("/pages/{page_id}/properties/{property_id}")
+    URLInfoBuilder urlInfo =
+        URLInfo.builder("/pages/{page_id}/properties/{property_id}")
             .pathParam(PAGE_ID, pageId)
             .pathParam(PROPERTY_ID, URLDecoder.decode(propertyId, StandardCharsets.UTF_8));
 
@@ -95,7 +95,7 @@ public class PagesEndpointImpl implements PagesEndpoint {
   /**
    * Update page properties.
    *
-   * @param pageId  The ID of the page to update
+   * @param pageId The ID of the page to update
    * @param request The update request
    * @return The updated page
    */

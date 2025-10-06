@@ -17,7 +17,9 @@ public class HttpResponseException extends RuntimeException {
   }
 
   public HttpResponseException(String apiName, int status, String body, String message) {
-    super(String.format("Error in API %s: Status code %d, Message: %d, Body: %s",
+    super(
+        String.format(
+            "Error in API %s: Status code %d, Message: %d, Body: %s",
             apiName, status, message != null ? message : "none", body));
     this.apiName = apiName;
     this.status = status;

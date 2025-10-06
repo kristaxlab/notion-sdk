@@ -1,7 +1,6 @@
 package io.kristixlab.notion.api.http.transport.util;
 
 import io.kristixlab.notion.api.http.transport.rq.URLInfo;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;

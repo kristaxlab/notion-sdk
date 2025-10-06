@@ -21,8 +21,6 @@ public class FileUploadSendRequest {
    */
   private Integer partNumber;
 
-  /**
-   * Content type of the file being uploaded, e.g., "image/png" or "application/pdf".
-   */
+  /** Content type of the file being uploaded, e.g., "image/png" or "application/pdf". */
   private String contentType;
 }

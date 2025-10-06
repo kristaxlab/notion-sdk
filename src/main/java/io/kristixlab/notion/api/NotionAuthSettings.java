@@ -8,41 +8,33 @@ import lombok.Setter;
 public class NotionAuthSettings {
 
   /**
-   * Access token for Notion API. Can be a token from a public integration obtained via exchange toekn call
-   * or a token from a private integration.
+   * Access token for Notion API. Can be a token from a public integration obtained via exchange
+   * toekn call or a token from a private integration.
    */
   private String accessToken;
 
-  /**
-   * Refresh token for Notion API. Only applicable for public integrations.
-   */
+  /** Refresh token for Notion API. Only applicable for public integrations. */
   private String refreshToken;
 
   /**
-   * This field stores the "Bearer accessToken" string that is used as an Http Header for Notion API authentication
+   * This field stores the "Bearer accessToken" string that is used as an Http Header for Notion API
+   * authentication
    */
   @Setter(lombok.AccessLevel.NONE)
   private String tokenAuthHeader;
 
-
-  /**
-   * Client id for Notion public integration
-   */
+  /** Client id for Notion public integration */
   private String clientId;
 
-  /**
-   * Client token for Notion public integration
-   */
+  /** Client token for Notion public integration */
   private String clientSecret;
 
-  /**
-   * Redirect url for Notion public integration
-   */
+  /** Redirect url for Notion public integration */
   private String redirectUri;
 
   /**
-   * this field stores a base 64 encoded string of "Basic clientId:clientToken" that is used as an Http Header for
-   * OAuth2 authorization code exchange
+   * this field stores a base 64 encoded string of "Basic clientId:clientToken" that is used as an
+   * Http Header for OAuth2 authorization code exchange
    */
   @Setter(lombok.AccessLevel.NONE)
   private String oauthBasicHeader;
@@ -75,5 +67,4 @@ public class NotionAuthSettings {
     }
     return oauthBasicHeader;
   }
-
 }

@@ -33,8 +33,7 @@ public class SearchDeserializationTest extends BaseTest {
 
   @Test
   void testSearchResponse() throws Exception {
-    SearchResult searchResult =
-        loadFromFile("search/search-rs-paginated.json", SearchResult.class);
+    SearchResult searchResult = loadFromFile("search/search-rs-paginated.json", SearchResult.class);
 
     assertNotNull(searchResult);
     assertEquals("list", searchResult.getObject());
@@ -51,8 +50,7 @@ public class SearchDeserializationTest extends BaseTest {
 
   @Test
   void testEmptyResponse() throws Exception {
-    SearchResult searchResult =
-        loadFromFile("search/search-rs-empty.json", SearchResult.class);
+    SearchResult searchResult = loadFromFile("search/search-rs-empty.json", SearchResult.class);
 
     assertEquals("list", searchResult.getObject());
     assertEquals("page_or_data_source", searchResult.getType());

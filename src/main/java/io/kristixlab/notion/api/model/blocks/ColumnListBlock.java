@@ -20,9 +20,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class ColumnListBlock extends Block {
-  /**
-   * The column list configuration
-   */
+  /** The column list configuration */
   @JsonProperty("column_list")
   private ColumnList columnList;
 

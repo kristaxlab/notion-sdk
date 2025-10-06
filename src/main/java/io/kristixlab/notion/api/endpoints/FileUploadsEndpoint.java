@@ -13,7 +13,8 @@ import io.kristixlab.notion.api.model.files.FileUploadSendRequest;
 public interface FileUploadsEndpoint {
   FileUploadResponse createFileUpload(FileUploadCreateRequest request);
 
-  FileUploadResponse sendFileContent(String fileUploadId, byte[] fileContent, String contentType, Integer partNumber);
+  FileUploadResponse sendFileContent(
+      String fileUploadId, byte[] fileContent, String contentType, Integer partNumber);
 
   FileUploadResponse sendFileContent(String fileUploadId, FileUploadSendRequest request);
 

@@ -3,10 +3,9 @@ package io.kristixlab.notion.api.model.blocks;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.kristixlab.notion.api.model.common.RichText;
+import java.util.List;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-
-import java.util.List;
 
 /**
  * Represents a numbered list item block in Notion.
@@ -24,9 +23,7 @@ import java.util.List;
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class NumberedListItemBlock extends Block {
-  /**
-   * The numbered list item configuration
-   */
+  /** The numbered list item configuration */
   @JsonProperty("numbered_list_item")
   private NumberedListItem numberedListItem;
 
@@ -38,21 +35,15 @@ public class NumberedListItemBlock extends Block {
    */
   @Data
   public static class NumberedListItem {
-    /**
-     * The rich text content of the list item
-     */
+    /** The rich text content of the list item */
     @JsonProperty("rich_text")
     private List<RichText> richText;
 
-    /**
-     * The color of the list item text
-     */
+    /** The color of the list item text */
     @JsonProperty("color")
     private String color;
 
-    /**
-     * Child blocks nested under this list item
-     */
+    /** Child blocks nested under this list item */
     @JsonProperty("children")
     private List<Block> children;
   }

@@ -29,7 +29,8 @@ public class DatabasesEndpointImpl implements DatabasesEndpoint {
    */
   public Database retrieve(String databaseId) {
     validateDatabaseId(databaseId);
-    URLInfo urlInfo = URLInfo.builder("/databases/{database_id}").pathParam(DATABASE_ID, databaseId).build();
+    URLInfo urlInfo =
+        URLInfo.builder("/databases/{database_id}").pathParam(DATABASE_ID, databaseId).build();
     return transport.call("GET", urlInfo, Database.class);
   }
 
@@ -59,14 +60,15 @@ public class DatabasesEndpointImpl implements DatabasesEndpoint {
    * Update an existing database.
    *
    * @param databaseId The ID of the database to update
-   * @param request    The request containing updated database data
+   * @param request The request containing updated database data
    * @return The updated database
    */
   public Database update(String databaseId, UpdateDatabaseRequest request) {
     validateDatabaseId(databaseId);
     validateRequest(request);
 
-    URLInfo urlInfo = URLInfo.builder("/databases/{database_id}").pathParam(DATABASE_ID, databaseId).build();
+    URLInfo urlInfo =
+        URLInfo.builder("/databases/{database_id}").pathParam(DATABASE_ID, databaseId).build();
 
     return transport.call("PATCH", urlInfo, request, Database.class);
   }
@@ -96,18 +98,14 @@ public class DatabasesEndpointImpl implements DatabasesEndpoint {
     return update(databaseId, restoreRequest);
   }
 
-  /**
-   * Validates the database ID parameter.
-   */
+  /** Validates the database ID parameter. */
   private void validateDatabaseId(String databaseId) {
     if (databaseId == null || databaseId.trim().isEmpty()) {
       throw new IllegalArgumentException("Database ID cannot be null or empty");
     }
   }
 
-  /**
-   * Validates the request object.
-   */
+  /** Validates the request object. */
   private void validateRequest(Object request) {
     if (request == null) {
       throw new IllegalArgumentException("Request cannot be null");

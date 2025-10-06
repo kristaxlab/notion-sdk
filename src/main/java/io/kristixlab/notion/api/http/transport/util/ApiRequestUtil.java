@@ -2,24 +2,22 @@ package io.kristixlab.notion.api.http.transport.util;
 
 import io.kristixlab.notion.api.http.transport.rq.FileRequest;
 import io.kristixlab.notion.api.http.transport.rq.URLInfo;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.util.Map;
 import okhttp3.HttpUrl;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
-import java.util.Map;
-
-/**
- * Util class to work with okhttp3 librry
- */
+/** Util class to work with okhttp3 librry */
 public class ApiRequestUtil {
 
   /**
    * Builds url string with query and path params applied.
    *
-   * @param baseUrl will be added as prefix to urlInfo if urlInfo url does not start with http:// or https://
+   * @param baseUrl will be added as prefix to urlInfo if urlInfo url does not start with http:// or
+   *     https://
    * @param urlInfo object containing info about url + query + pqth params
    * @return url string enriched by provided query and path param values
    */
@@ -46,7 +44,9 @@ public class ApiRequestUtil {
 
     // Add query parameters
     if (urlInfo.getQueryParams() != null && !urlInfo.getQueryParams().isEmpty()) {
-      urlInfo.getQueryParams().forEach(
+      urlInfo
+          .getQueryParams()
+          .forEach(
               (key, values) -> {
                 if (values != null) {
                   for (String value : values) {
@@ -62,13 +62,16 @@ public class ApiRequestUtil {
   }
 
   public static RequestBody fileToRequestBody(FileRequest file) {
-    MultipartBody.Builder multipartBuilder = new MultipartBody.Builder().setType(MultipartBody.FORM);
+    MultipartBody.Builder multipartBuilder =
+        new MultipartBody.Builder().setType(MultipartBody.FORM);
     if (file.getFileContent() != null) {
-      RequestBody fileBody = RequestBody.create(file.getFileContent(), MediaType.parse(file.getContentType()));
+      RequestBody fileBody =
+          RequestBody.create(file.getFileContent(), MediaType.parse(file.getContentType()));
       multipartBuilder.addFormDataPart("file", file.getFileName(), fileBody);
     }
     if (file.getAdditionalInfo() != null) {
-      file.getAdditionalInfo().forEach((key, value) -> multipartBuilder.addFormDataPart(key, value));
+      file.getAdditionalInfo()
+          .forEach((key, value) -> multipartBuilder.addFormDataPart(key, value));
     }
     return multipartBuilder.build();
   }

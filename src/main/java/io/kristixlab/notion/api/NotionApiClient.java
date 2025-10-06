@@ -1,6 +1,5 @@
 package io.kristixlab.notion.api;
 
-
 /*
 TODO upgrade
 update error message with additional data
@@ -19,18 +18,14 @@ public class NotionApiClient {
   private static final String VERSION = "2025-09-03";
   private static final String BASE_URL = "https://api.notion.com/v1/";
 
-  @Getter
-  private final NotionAuthSettings authSettings = new NotionAuthSettings();
+  @Getter private final NotionAuthSettings authSettings = new NotionAuthSettings();
 
-  /**
-   * Transport layer for making API calls
-   */
+  /** Transport layer for making API calls */
   private NotionHttpTransport transport;
 
-  /**
-   * Api classes
-   */
+  /** Api classes */
   private AuthorizationEndpointImpl authorizationApi;
+
   private BlocksEndpointImpl blocksEndpointImpl;
   private PagesEndpointImpl pagesApi;
   private DatabasesEndpointImpl databasesEndpointImpl;
@@ -41,25 +36,25 @@ public class NotionApiClient {
 
   /**
    * Default constructor. Initializes the client using environment variables.
+   *
    * <ul>
    *   <li>NOTION_AUTH_TOKEN - for private integration token
    *   <li>NOTION_CLIENT_ID - for public integration client id
    *   <li>NOTION_CLIENT_TOKEN - for public integration client token
    *   <li>NOTION_REDIRECT_URI - optional, for public integration redirect uri
    * </ul>
-   * If NOTION_AUTH_TOKEN is set, it takes precedence over client id and token.
-   * If neither is set, an IllegalArgumentException is thrown.
+   *
+   * If NOTION_AUTH_TOKEN is set, it takes precedence over client id and token. If neither is set,
+   * an IllegalArgumentException is thrown.
    */
-  public NotionApiClient() {
-  }
+  public NotionApiClient() {}
 
   /**
    * Constructor using a direct access token.
    *
-   * @param token The access token for the Notion API.
-   *              Must not be null or empty.
-   *              This token is used for simple token-based authentication with the Notion API.
-   *              When this field is set, it takes precedence over OAuth credentials.
+   * @param token The access token for the Notion API. Must not be null or empty. This token is used
+   *     for simple token-based authentication with the Notion API. When this field is set, it takes
+   *     precedence over OAuth credentials.
    * @throws IllegalArgumentException if token is null or empty
    */
   public NotionApiClient(String token) {
@@ -69,12 +64,11 @@ public class NotionApiClient {
   /**
    * Constructor using public integration credentials.
    *
-   * @param clientId    The client ID for the Notion public integration.
-   *                    Must not be null or empty.
-   * @param clientToken The client token for the Notion public integration.
-   *                    Must not be null or empty.
-   * @param redirectUri The redirect URI for the Notion public integration.
-   *                    Can be null or empty if not applicable.
+   * @param clientId The client ID for the Notion public integration. Must not be null or empty.
+   * @param clientToken The client token for the Notion public integration. Must not be null or
+   *     empty.
+   * @param redirectUri The redirect URI for the Notion public integration. Can be null or empty if
+   *     not applicable.
    * @throws IllegalArgumentException if clientId or clientToken is null or empty
    */
   public NotionApiClient(String clientId, String clientToken, String redirectUri) {
@@ -84,17 +78,21 @@ public class NotionApiClient {
   /**
    * Constructor using public integration credentials.
    *
-   * @param clientId     The client ID for the Notion public integration.
-   *                     Must not be null or empty.
-   * @param clientToken  The client token for the Notion public integration.
-   *                     Must not be null or empty.
-   * @param redirectUri  The redirect URI for the Notion public integration.
-   *                     Can be null or empty if not applicable.
-   * @param accessToken  The access token for the Notion API.
+   * @param clientId The client ID for the Notion public integration. Must not be null or empty.
+   * @param clientToken The client token for the Notion public integration. Must not be null or
+   *     empty.
+   * @param redirectUri The redirect URI for the Notion public integration. Can be null or empty if
+   *     not applicable.
+   * @param accessToken The access token for the Notion API.
    * @param refreshToken The refresh token for the Notion API.
    * @throws IllegalArgumentException if clientId or clientToken is null or empty
    */
-  public NotionApiClient(String clientId, String clientToken, String redirectUri, String accessToken, String refreshToken) {
+  public NotionApiClient(
+      String clientId,
+      String clientToken,
+      String redirectUri,
+      String accessToken,
+      String refreshToken) {
     initAsPublicIntegration(clientId, clientToken, redirectUri, accessToken, refreshToken);
   }
 
@@ -107,7 +105,12 @@ public class NotionApiClient {
     initApis(transport);
   }
 
-  private void initAsPublicIntegration(String clientId, String clientToken, String redirectUri, String accessToken, String refreshToken) {
+  private void initAsPublicIntegration(
+      String clientId,
+      String clientToken,
+      String redirectUri,
+      String accessToken,
+      String refreshToken) {
     if (clientId == null || clientId.isEmpty()) {
       throw new IllegalArgumentException("Client id cannot be null or empty");
     }
@@ -185,5 +188,4 @@ public class NotionApiClient {
       // calm shutdown
     }
   }
-
 }
