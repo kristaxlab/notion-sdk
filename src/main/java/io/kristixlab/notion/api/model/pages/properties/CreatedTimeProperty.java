@@ -1,13 +1,14 @@
 package io.kristixlab.notion.api.model.pages.properties;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.kristixlab.notion.api.util.PagePropertyType;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class CreatedTimeProperty extends PageProperty {
-  private final String type = "created_time";
+  private final String type = PagePropertyType.CREATED_TIME.type();
 
   @JsonProperty("created_time")
   private String createdTime;

@@ -2,6 +2,7 @@ package io.kristixlab.notion.api.model.pages.properties;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.kristixlab.notion.api.model.common.Color;
+import io.kristixlab.notion.api.util.PagePropertyType;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.Data;
@@ -10,7 +11,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class MultiSelectProperty extends PageProperty {
-  private final String type = "multi_select";
+  private final String type = PagePropertyType.MULTI_SELECT.type();
 
   @JsonProperty("multi_select")
   private List<SelectValue> multiSelect;

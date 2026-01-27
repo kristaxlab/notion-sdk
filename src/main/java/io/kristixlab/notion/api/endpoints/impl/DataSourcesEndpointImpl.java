@@ -8,6 +8,7 @@ import io.kristixlab.notion.api.model.datasources.CreateDataSourceRequest;
 import io.kristixlab.notion.api.model.datasources.DataSource;
 import io.kristixlab.notion.api.model.datasources.DataSourcePageList;
 import io.kristixlab.notion.api.model.datasources.DataSourceQuery;
+import io.kristixlab.notion.api.model.pages.templates.Templates;
 
 /**
  * API for interacting with Notion Data Sources endpoints (API version 2025-09-03+). Provides
@@ -157,6 +158,21 @@ public class DataSourcesEndpointImpl implements DataSourcesEndpoint {
             .build();
 
     return transport.call("POST", urlInfo, request, DataSourcePageList.class);
+  }
+
+  /**
+   * Retrieve a data source templates by its ID.
+   *
+   * @param dataSourceId The ID of the data source to retrieve templates for
+   * @return Templates
+   */
+  public Templates retrieveTemplates(String dataSourceId) {
+    validateDataSourceId(dataSourceId);
+    URLInfo urlInfo =
+        URLInfo.builder("/data_sources/{data_source_id}/templates")
+            .pathParam(DATA_SOURCE_ID, dataSourceId)
+            .build();
+    return transport.call("GET", urlInfo, Templates.class);
   }
 
   private void validateDataSourceId(String dataSourceId) {

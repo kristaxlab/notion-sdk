@@ -5,11 +5,12 @@ import io.kristixlab.notion.api.model.common.FileData;
 import io.kristixlab.notion.api.model.common.Icon;
 import io.kristixlab.notion.api.model.common.Parent;
 import io.kristixlab.notion.api.model.pages.properties.PageProperty;
+import io.kristixlab.notion.api.model.pages.templates.TemplateParams;
 import java.util.Map;
 import lombok.Data;
 
 @Data
-public class UpdatePageRequest {
+public class UpdatePageParams {
 
   @JsonProperty("id")
   private String id;
@@ -28,4 +29,11 @@ public class UpdatePageRequest {
 
   @JsonProperty("in_trash")
   private Boolean inTrash;
+
+  @JsonProperty("template")
+  private TemplateParams template;
+
+  // TODO check how it works (isnt iit a part of templateParams?)
+  @JsonProperty("erase_content")
+  private Boolean eraseContent;
 }

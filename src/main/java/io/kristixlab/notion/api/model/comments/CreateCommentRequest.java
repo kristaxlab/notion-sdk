@@ -25,11 +25,4 @@ public class CreateCommentRequest {
 
   @JsonProperty("display_name")
   private CommentDisplayName displayName;
-
-  public static class CommentDisplayName {
-
-    /* example: "integration" */
-    @JsonProperty("type")
-    private String type;
-  }
 }

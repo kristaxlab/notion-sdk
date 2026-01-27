@@ -8,8 +8,9 @@ import io.kristixlab.notion.api.http.NotionHttpTransport;
 import io.kristixlab.notion.api.json.JsonConverter;
 import io.kristixlab.notion.api.model.common.Parent;
 import io.kristixlab.notion.api.model.common.RichText;
+import io.kristixlab.notion.api.model.pages.CreatePageParams;
 import io.kristixlab.notion.api.model.pages.Page;
-import io.kristixlab.notion.api.model.pages.UpdatePageRequest;
+import io.kristixlab.notion.api.model.pages.UpdatePageParams;
 import io.kristixlab.notion.api.model.pages.properties.NumberProperty;
 import io.kristixlab.notion.api.model.pages.properties.PageProperty;
 import io.kristixlab.notion.api.model.pages.properties.RichTextProperty;
@@ -53,7 +54,7 @@ public class PagesEndpointImplIntegrationExample {
 
   @Test
   void createPage() throws IOException {
-    Page page = new Page();
+    CreatePageParams page = new CreatePageParams();
     NumberProperty number = new NumberProperty();
     number.setNumber(7.77);
     page.setProperties(new HashMap<>());
@@ -61,13 +62,13 @@ public class PagesEndpointImplIntegrationExample {
     page.setParent(Parent.datasourceParent("264c5b96-8ec4-8055-8b51-000b4a80c6cc"));
     saveToFile(page, "page-create-request.json");
 
-    page = pagesApi.create(page);
-    saveToFile(page, "page-create-response.json");
+    Page pageRs = pagesApi.create(page);
+    saveToFile(pageRs, "page-create-response.json");
   }
 
   @Test
   void updatePage() throws IOException {
-    Page page = new Page();
+    CreatePageParams page = new CreatePageParams();
     NumberProperty number = new NumberProperty();
     number.setNumber(7.77);
     TitleProperty title = new TitleProperty();
@@ -83,11 +84,11 @@ public class PagesEndpointImplIntegrationExample {
     page.getProperties().put("title", title);
     saveToFile(page, "page-create-before-update-request.json");
 
-    page = pagesApi.create(page);
+    Page pageRs = pagesApi.create(page);
 
-    String id = page.getId();
+    String id = pageRs.getId();
 
-    UpdatePageRequest updatedPage = new UpdatePageRequest();
+    UpdatePageParams updatedPage = new UpdatePageParams();
     NumberProperty updatedNumber = new NumberProperty();
     updatedNumber.setNumber(4.456);
     updatedPage.setProperties(new HashMap<>());

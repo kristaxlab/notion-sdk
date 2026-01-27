@@ -1,7 +1,8 @@
 package io.kristixlab.notion.api.endpoints;
 
+import io.kristixlab.notion.api.model.pages.CreatePageParams;
 import io.kristixlab.notion.api.model.pages.Page;
-import io.kristixlab.notion.api.model.pages.UpdatePageRequest;
+import io.kristixlab.notion.api.model.pages.UpdatePageParams;
 import io.kristixlab.notion.api.model.pages.properties.PageProperty;
 
 /*
@@ -10,7 +11,7 @@ import io.kristixlab.notion.api.model.pages.properties.PageProperty;
  */
 public interface PagesEndpoint {
 
-  Page create(Page request);
+  Page create(CreatePageParams request);
 
   Page retrieve(String pageId);
 
@@ -19,7 +20,7 @@ public interface PagesEndpoint {
   PageProperty retrieveProperty(
       String pageId, String propertyId, String startCursor, Integer pageSize);
 
-  Page update(String pageId, UpdatePageRequest request);
+  Page update(String pageId, UpdatePageParams request);
 
   Page delete(String pageId);
 

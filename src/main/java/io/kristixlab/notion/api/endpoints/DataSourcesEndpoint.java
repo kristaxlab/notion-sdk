@@ -4,6 +4,7 @@ import io.kristixlab.notion.api.model.datasources.CreateDataSourceRequest;
 import io.kristixlab.notion.api.model.datasources.DataSource;
 import io.kristixlab.notion.api.model.datasources.DataSourcePageList;
 import io.kristixlab.notion.api.model.datasources.DataSourceQuery;
+import io.kristixlab.notion.api.model.pages.templates.Templates;
 
 /**
  * Interface defining operations for Notion Datasources.
@@ -25,6 +26,8 @@ public interface DataSourcesEndpoint {
 
   DataSourcePageList query(
       String dataSourceId, DataSourceQuery request, String startCursor, Integer pageSize);
+
+  Templates retrieveTemplates(String dataSourceId);
 
   DataSource delete(String dataSourceId);
 

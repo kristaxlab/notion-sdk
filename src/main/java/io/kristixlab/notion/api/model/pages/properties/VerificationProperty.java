@@ -3,13 +3,14 @@ package io.kristixlab.notion.api.model.pages.properties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.kristixlab.notion.api.model.common.DateData;
 import io.kristixlab.notion.api.model.users.User;
+import io.kristixlab.notion.api.util.PagePropertyType;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class VerificationProperty extends PageProperty {
-  private final String type = "verification";
+  private final String type = PagePropertyType.VERIFICATION.type();
 
   @JsonProperty("verification")
   private VerificationValue verification;

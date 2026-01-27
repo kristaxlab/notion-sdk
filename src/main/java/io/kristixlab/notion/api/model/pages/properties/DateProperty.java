@@ -2,6 +2,7 @@ package io.kristixlab.notion.api.model.pages.properties;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.kristixlab.notion.api.model.common.DateData;
+import io.kristixlab.notion.api.util.PagePropertyType;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import lombok.Data;
@@ -10,7 +11,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class DateProperty extends PageProperty {
-  private final String type = "date";
+  private final String type = PagePropertyType.DATE.type();
 
   @JsonProperty("date")
   private DateData date;

@@ -2,6 +2,7 @@ package io.kristixlab.notion.api.model.pages.properties;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.kristixlab.notion.api.model.common.DateData;
+import io.kristixlab.notion.api.util.PagePropertyType;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -9,7 +10,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class FormulaProperty extends PageProperty {
 
-  private final String type = "formula";
+  private final String type = PagePropertyType.FORMULA.type();
 
   @JsonProperty("formula")
   private FormulaValue formula;

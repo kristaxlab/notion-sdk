@@ -1,6 +1,7 @@
 package io.kristixlab.notion.api.examples;
 
 import io.kristixlab.notion.api.NotionApiClient;
+import io.kristixlab.notion.api.NotionAuthSettings;
 import io.kristixlab.notion.api.http.NotionHttpTransport;
 import io.kristixlab.notion.api.json.JsonConverter;
 import io.kristixlab.notion.api.model.BaseTest;
@@ -26,7 +27,8 @@ public class IntegrationTest extends BaseTest {
     // String token = "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";
     NotionApiClient notionApiClient = new NotionApiClient(TOKEN);
     // NotionClient notionClient = new NotionClient(token, null);
-    transport = new NotionHttpTransport(notionApiClient);
+    NotionAuthSettings authSettings = new NotionAuthSettings();
+    transport = new NotionHttpTransport(authSettings);
   }
 
   protected static String getTestOutputDir() {

@@ -1,5 +1,6 @@
 package io.kristixlab.notion.api.model.pages;
 
+import static io.kristixlab.notion.api.util.PagePropertyUtil.asPropertyItem;
 import static org.junit.jupiter.api.Assertions.*;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -10,6 +11,8 @@ import io.kristixlab.notion.api.model.pages.properties.PageProperty;
 import io.kristixlab.notion.api.model.pages.properties.PropertyItem;
 import io.kristixlab.notion.api.model.pages.properties.list.*;
 import io.kristixlab.notion.api.model.users.User;
+import io.kristixlab.notion.api.util.PagePropertyType;
+import io.kristixlab.notion.api.util.PagePropertyUtil;
 import java.io.IOException;
 import java.io.InputStream;
 import org.junit.jupiter.api.BeforeEach;
@@ -40,19 +43,11 @@ class PagePropertyRetrieveDeserializationTest {
     assertEquals("UhW%60", property.getId());
     assertNotNull(property.getRequestId());
 
-    assertTrue(property.isNumber());
+    assertTrue(PagePropertyType.NUMBER.type().equals(property.getType()));
 
     assertTrue(property instanceof NumberProperty);
-    NumberProperty numberProperty = property.asNumber();
-    assertEquals(3.333333, numberProperty.getNumber(), 0.000001);
-
-    // Test as* method
-    NumberProperty asNumber = property.asNumber();
-    assertNotNull(asNumber);
-    assertEquals(3.333333, asNumber.getNumber(), 0.000001);
-
-    // Test getter method
-    assertEquals(3.333333, numberProperty.getNumber(), 0.000001);
+    NumberProperty numberProperty = PagePropertyUtil.asNumber(property);
+    assertEquals(3.333333, numberProperty.getNumber());
   }
 
   @Test
@@ -234,12 +229,12 @@ class PagePropertyRetrieveDeserializationTest {
     assertEquals("userName", asPeople.getPeople().getName());
 
     // Verify property item data
-    assertTrue(property.isPropertyItem());
+    assertTrue(PagePropertyType.PROPERTY_ITEM.type().equals(property.getType()));
     assertTrue(property instanceof PropertyItem);
-    assertNotNull(property.asPropertyItem().getPropertyItem());
-    assertEquals("x%5Bi_", property.asPropertyItem().getPropertyItem().getId());
-    assertEquals("people", property.asPropertyItem().getPropertyItem().getType());
-    assertNull(property.asPropertyItem().getPropertyItem().getNextUrl());
+    assertNotNull(asPropertyItem(property).getPropertyItem());
+    assertEquals("x%5Bi_", asPropertyItem(property).getPropertyItem().getId());
+    assertEquals("people", asPropertyItem(property).getPropertyItem().getType());
+    assertNull(asPropertyItem(property).getPropertyItem().getNextUrl());
 
     // Test pagination info
     assertNull(property.getNextCursor());
@@ -290,10 +285,10 @@ class PagePropertyRetrieveDeserializationTest {
     assertEquals("we", asRichText.getRichText().getPlainText());
 
     // Verify property item data
-    assertNotNull(property.asPropertyItem().getPropertyItem());
-    assertEquals("wgMV", property.asPropertyItem().getPropertyItem().getId());
-    assertEquals("rich_text", property.asPropertyItem().getPropertyItem().getType());
-    assertNull(property.asPropertyItem().getPropertyItem().getNextUrl());
+    assertNotNull(asPropertyItem(property).getPropertyItem());
+    assertEquals("wgMV", asPropertyItem(property).getPropertyItem().getId());
+    assertEquals("rich_text", asPropertyItem(property).getPropertyItem().getType());
+    assertNull(asPropertyItem(property).getPropertyItem().getNextUrl());
 
     // Test pagination info
     assertNull(property.getNextCursor());

@@ -5,8 +5,9 @@ import io.kristixlab.notion.api.http.NotionHttpTransport;
 import io.kristixlab.notion.api.http.transport.HttpTransportImpl;
 import io.kristixlab.notion.api.http.transport.rq.URLInfo;
 import io.kristixlab.notion.api.http.transport.util.URLInfoBuilder;
+import io.kristixlab.notion.api.model.pages.CreatePageParams;
 import io.kristixlab.notion.api.model.pages.Page;
-import io.kristixlab.notion.api.model.pages.UpdatePageRequest;
+import io.kristixlab.notion.api.model.pages.UpdatePageParams;
 import io.kristixlab.notion.api.model.pages.properties.PageProperty;
 import io.kristixlab.notion.api.util.Pagination;
 import java.net.URLDecoder;
@@ -33,7 +34,7 @@ public class PagesEndpointImpl implements PagesEndpoint {
    * @param request The request containing page data
    * @return The created page
    */
-  public Page create(Page request) {
+  public Page create(CreatePageParams request) {
     validateRequest(request);
     URLInfo urlInfo = URLInfo.build("/pages");
     return transport.call("POST", urlInfo, request, Page.class);
@@ -99,7 +100,7 @@ public class PagesEndpointImpl implements PagesEndpoint {
    * @param request The update request
    * @return The updated page
    */
-  public Page update(String pageId, UpdatePageRequest request) {
+  public Page update(String pageId, UpdatePageParams request) {
     validatePageId(pageId);
     validateRequest(request);
 
@@ -115,9 +116,9 @@ public class PagesEndpointImpl implements PagesEndpoint {
    * @return The archived page
    */
   public Page delete(String pageId) {
-    UpdatePageRequest updatePageRequest = new UpdatePageRequest();
-    updatePageRequest.setInTrash(true);
-    return update(pageId, updatePageRequest);
+    UpdatePageParams updatePageParams = new UpdatePageParams();
+    updatePageParams.setInTrash(true);
+    return update(pageId, updatePageParams);
   }
 
   /**
@@ -127,9 +128,9 @@ public class PagesEndpointImpl implements PagesEndpoint {
    * @return The unarchived page
    */
   public Page restore(String pageId) {
-    UpdatePageRequest updatePageRequest = new UpdatePageRequest();
-    updatePageRequest.setInTrash(false);
-    return update(pageId, updatePageRequest);
+    UpdatePageParams updatePageParams = new UpdatePageParams();
+    updatePageParams.setInTrash(false);
+    return update(pageId, updatePageParams);
   }
 
   /**

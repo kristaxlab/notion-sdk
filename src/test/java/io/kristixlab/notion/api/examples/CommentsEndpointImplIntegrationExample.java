@@ -4,10 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import io.kristixlab.notion.api.endpoints.impl.CommentsEndpointImpl;
-import io.kristixlab.notion.api.model.comments.Comment;
-import io.kristixlab.notion.api.model.comments.CommentDisplayName;
-import io.kristixlab.notion.api.model.comments.CommentList;
-import io.kristixlab.notion.api.model.comments.CustomDisplayName;
+import io.kristixlab.notion.api.model.comments.*;
 import io.kristixlab.notion.api.model.common.Parent;
 import io.kristixlab.notion.api.model.common.RichText;
 import java.io.IOException;
@@ -36,7 +33,7 @@ public class CommentsEndpointImplIntegrationExample extends IntegrationTest {
   /** Test creating a comment on a page. This will create a new comment and save the response. */
   @Test
   void testCreateComment() throws IOException {
-    Comment comment = createCommentRequest("reply from user", "purple");
+    CreateCommentRequest comment = createCommentRequest("reply from user", "purple");
     saveToFile(comment, "comment-create-rq.json");
 
     Comment createdComment = commentsApi.create(comment);
@@ -125,8 +122,8 @@ public class CommentsEndpointImplIntegrationExample extends IntegrationTest {
   }
 
   /** Creates a comment request object for testing. */
-  private Comment createCommentRequest(String text, String color) {
-    Comment comment = new Comment();
+  private CreateCommentRequest createCommentRequest(String text, String color) {
+    CreateCommentRequest comment = new CreateCommentRequest();
     comment.setDiscussionId("254c5b96-8ec4-809e-b971-001c658e6652");
     // Set parent to the specified page
     Parent parent = new Parent();

@@ -1,13 +1,14 @@
 package io.kristixlab.notion.api.model.pages.properties;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.kristixlab.notion.api.util.PagePropertyType;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class StatusProperty extends PageProperty {
-  private final String type = "status";
+  private final String type = PagePropertyType.STATUS.type();
 
   @JsonProperty("status")
   private StatusValue status;
