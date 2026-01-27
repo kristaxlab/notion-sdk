@@ -41,9 +41,11 @@ jobs:
 
       # 6
       - name: Coverage
+        if: always()
         run: ./gradlew jacocoTestReport jacocoIntegrationTestReport
 
       - name: Prepare Pages content
+        if: always()
         run: |
           mkdir -p pages/jacoco/unit
           mkdir -p pages/jacoco/integration
@@ -52,6 +54,7 @@ jobs:
           cp -r build/reports/jacoco/jacocoIntegrationTestReport/html/* pages/jacoco/integration/
 
       - name: Publish to GitHub Pages
+        if: always()
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
