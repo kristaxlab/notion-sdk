@@ -50,8 +50,8 @@ jobs:
           mkdir -p pages/jacoco/unit
           mkdir -p pages/jacoco/integration
 
-          cp -r build/reports/jacoco/test/html/* pages/jacoco/unit/
-          cp -r build/reports/jacoco/jacocoIntegrationTestReport/html/* pages/jacoco/integration/
+          cp -r build/reports/tests/test/* pages/jacoco/unit/
+          cp -r build/reports/tests/integrationTest/* pages/jacoco/integration/
 
       - name: Publish to GitHub Pages
         if: always()
