@@ -71,8 +71,8 @@ jacocoTestReport {
         xml.required = true
         html.required = true
         csv.required = false
-        html.outputLocation = layout.buildDirectory.dir("reports/jacoco/test/html")
-        xml.outputLocation = layout.buildDirectory.file("reports/jacoco/test/jacocoTestReport.xml")
+        html.outputLocation = layout.buildDirectory.dir("reports/tests/test/html")
+        xml.outputLocation = layout.buildDirectory.file("reports/tests/test/jacocoTestReport.xml")
     }
 }
 
@@ -90,8 +90,8 @@ tasks.register('jacocoIntegrationTestReport', JacocoReport) {
         xml.required = true
         html.required = true
         csv.required = false
-        html.outputLocation = layout.buildDirectory.dir("reports/jacoco/integrationTest/html")
-        xml.outputLocation = layout.buildDirectory.file("reports/jacoco/integrationTest/jacocoIntegrationTestReport.xml")
+        html.outputLocation = layout.buildDirectory.dir("reports/tests/integrationTest/html")
+        xml.outputLocation = layout.buildDirectory.file("reports/tests/integrationTest/jacocoIntegrationTestReport.xml")
     }
 }
 
