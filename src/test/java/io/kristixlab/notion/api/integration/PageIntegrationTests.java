@@ -26,7 +26,6 @@ public class PageIntegrationTests {
     assertNotNull(
         SETTINGS.getString(PAGE_PARENT_ID),
         "Parent page ID for creating pages is not set in the settings");
-    SETTINGS.getString("asd." + PAGE_PARENT_ID + ".type");
   }
 
   @Test

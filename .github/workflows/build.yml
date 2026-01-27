@@ -35,18 +35,25 @@ jobs:
 
       # 5
       - name: 5. Build with Gradle
+        env:
+          TESTING_BOT_TOKEN: ${{ secrets.TESTING_BOT_TOKEN }}
         run: ./gradlew build
 
       # 6
-      - name: 6. Generate code coverage report
-        run: ./gradlew jacocoTestReport
+      - name: Coverage
+        run: ./gradlew jacocoTestReport jacocoIntegrationTestReport
 
-      # 7
-      - name: 7. Upload coverage reports
-        uses: actions/upload-artifact@v4
+      - name: Prepare Pages content
+        run: |
+          mkdir -p pages/jacoco/unit
+          mkdir -p pages/jacoco/integration
+
+          cp -r build/reports/jacoco/test/html/* pages/jacoco/unit/
+          cp -r build/reports/jacoco/jacocoIntegrationTestReport/html/* pages/jacoco/integration/
+
+      - name: Publish to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
         with:
-          name: coverage-reports
-          path: |
-            build/reports/jacoco/
-              build/jacoco/
-            retention-days: 30
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: pages

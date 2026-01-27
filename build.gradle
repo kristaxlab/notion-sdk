@@ -34,21 +34,60 @@ test {
     useJUnitPlatform()
     finalizedBy jacocoTestReport
     exclude 'io/kristixlab/notion/api/examples/**'
+    exclude 'io/kristixlab/notion/api/integration/**'
+    jacoco {
+        destinationFile = layout.buildDirectory.file("jacoco/test.exec").get().asFile
+    }
 }
+
+tasks.register('integrationTest', Test) {
+    description = 'Runs integration tests'
+    group = 'verification'
+
+    testClassesDirs = sourceSets.test.output.classesDirs
+    classpath = sourceSets.test.runtimeClasspath
+
+    include 'io/kristixlab/notion/api/integration/**'
+    shouldRunAfter test
+
+    useJUnitPlatform()
+
+    jacoco {
+        destinationFile = layout.buildDirectory.file("jacoco/integrationTest.exec").get().asFile
+    }
+    finalizedBy jacocoIntegrationTestReport
+}
+
 
 jacocoTestReport {
     dependsOn test
+    executionData layout.buildDirectory.file("jacoco/test.exec")
+
+    sourceDirectories.from files(sourceSets.main.allSource.srcDirs)
+    classDirectories.from files(sourceSets.main.output)
+
     reports {
         xml.required = true
         html.required = true
         csv.required = false
+        html.outputLocation = layout.buildDirectory.dir("reports/jacoco/test/html")
+        xml.outputLocation = layout.buildDirectory.file("reports/jacoco/test/jacocoTestReport.xml")
     }
-    afterEvaluate {
-        getClassDirectories().setFrom(
-            files(getClassDirectories().files.collect { file ->
-                fileTree(dir: file)
-            })
-        )
+}
+
+tasks.register('jacocoIntegrationTestReport', JacocoReport) {
+    dependsOn integrationTest
+    executionData layout.buildDirectory.file("jacoco/integrationTest.exec")
+
+    sourceDirectories.from files(sourceSets.main.allSource.srcDirs)
+    classDirectories.from files(sourceSets.main.output)
+
+    reports {
+        xml.required = true
+        html.required = true
+        csv.required = false
+        html.outputLocation = layout.buildDirectory.dir("reports/jacoco/integrationTest/html")
+        xml.outputLocation = layout.buildDirectory.file("reports/jacoco/integrationTest/jacocoIntegrationTestReport.xml")
     }
 }
 
