@@ -1,0 +1,245 @@
+package io.kristixlab.notion.api.integration;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import lombok.extern.slf4j.Slf4j;
+import org.yaml.snakeyaml.Yaml;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * Loads and validates settings for integration tests (Singleton pattern).
+ *
+ * <p>Loading order: 1. Environment variables 2. src/test/resources/integration-tests.yml
+ */
+@Slf4j
+public final class IntegrationTestsSettings {
+
+  private static final String SETTINGS_FILE_DFLT = "integration-tests.yml";
+  private static final String SETTINGS_FILE_PATH = "src/test/resources/integration-tests.yml";
+
+  private static IntegrationTestsSettings instance;
+  private final Map<String, Object> settings;
+
+  private IntegrationTestsSettings() {
+    this.settings = loadSettings();
+  }
+
+  /**
+   * Gets the singleton instance of IntegrationTestsSettings.
+   *
+   * @return the singleton instance
+   */
+  public static synchronized IntegrationTestsSettings getInstance() {
+    if (instance == null) {
+      instance = new IntegrationTestsSettings();
+    }
+    return instance;
+  }
+
+  /**
+   * Gets a string value from the settings using a dot-separated key path.
+   *
+   * @param key the dot-separated key path (e.g., "workspace.id")
+   * @return the string value, or null if not found
+   */
+  public String getString(String key) {
+    // First try environment variable
+    String envValue = getFromEnvironment(key);
+    if (envValue != null) {
+      return envValue;
+    }
+
+    // Then try YAML file
+    return (String) getValue(key);
+  }
+
+  /**
+   * Gets an integer value from the settings using a dot-separated key path.
+   *
+   * @param key the dot-separated key path
+   * @return the integer value, or null if not found or not a valid integer
+   */
+  public Integer getInteger(String key) {
+    // First try environment variable
+    String envValue = getFromEnvironment(key);
+    if (envValue != null) {
+      try {
+        return Integer.parseInt(envValue);
+      } catch (NumberFormatException e) {
+        log.warn("Environment variable {} is not a valid integer: {}", key, envValue);
+      }
+    }
+
+    // Then try YAML file
+    return (Integer) getValue(key);
+  }
+
+  /**
+   * Gets a long value from the settings using a dot-separated key path.
+   *
+   * @param key the dot-separated key path
+   * @return the long value, or null if not found or not a valid long
+   */
+  public Long getLong(String key) {
+    // First try environment variable
+    String envValue = getFromEnvironment(key);
+    if (envValue != null) {
+      try {
+        return Long.parseLong(envValue);
+      } catch (NumberFormatException e) {
+        log.warn("Environment variable {} is not a valid long: {}", key, envValue);
+      }
+    }
+
+    // Then try YAML file
+    return (Long) getValue(key);
+  }
+
+  /**
+   * Gets a double value from the settings using a dot-separated key path.
+   *
+   * @param key the dot-separated key path
+   * @return the double value, or null if not found or not a valid double
+   */
+  public Double getDouble(String key) {
+    // First try environment variable
+    String envValue = getFromEnvironment(key);
+    if (envValue != null) {
+      try {
+        return Double.parseDouble(envValue);
+      } catch (NumberFormatException e) {
+        log.warn("Environment variable {} is not a valid double: {}", key, envValue);
+      }
+    }
+
+    // Then try YAML file
+    return (Double) getValue(key);
+  }
+
+  /**
+   * Gets a boolean value from the settings using a dot-separated key path.
+   *
+   * @param key the dot-separated key path
+   * @return the boolean value, or null if not found or not a valid boolean
+   */
+  public Boolean getBoolean(String key) {
+    // First try environment variable
+    String envValue = getFromEnvironment(key);
+    if (envValue != null) {
+      return Boolean.parseBoolean(envValue);
+    }
+
+    // Then try YAML file
+    return (Boolean) getValue(key);
+  }
+
+  /**
+   * Gets a list of strings from the settings using a dot-separated key path.
+   *
+   * @param key the dot-separated key path
+   * @return the list of strings, or empty list if not found or not a valid array
+   */
+  @SuppressWarnings("unchecked")
+  public List<String> getList(String key) {
+    // Environment variables don't support lists directly
+
+    // Try YAML file
+    return (List<String>) getValue(key);
+  }
+
+  /**
+   * Gets a map of key-value pairs from the settings using a dot-separated key path.
+   *
+   * @param key the dot-separated key path
+   * @return the map of string keys to string values, or empty map if not found or not a valid object
+   */
+  @SuppressWarnings("unchecked")
+  public Map<String, String> getMap(String key) {
+    // Environment variables don't support maps directly
+
+    // Try YAML file
+    return (Map<String, String>) getValue(key);
+  }
+
+  /**
+   * Checks if a setting exists at the given key path.
+   *
+   * @param key the dot-separated key path
+   * @return true if the setting exists, false otherwise
+   */
+  public boolean exists(String key) {
+    return getFromEnvironment(key) != null || getValue(key) != null;
+  }
+
+  private String getFromEnvironment(String key) {
+    // Convert dot notation to environment variable format
+    String envKey = key.toUpperCase().replace('.', '_');
+    return System.getenv(envKey);
+  }
+
+  private Object getValue(String key) {
+    if (settings == null) {
+      return null;
+    }
+    return getValue(settings, new ArrayList<>(List.of(key.split("\\."))), 0);
+  }
+
+  @SuppressWarnings("unchecked")
+  private Object getValue(Map<String, Object> settingsMap, List<String> segments, int startFrom) {
+    if (startFrom == segments.size() || settings == null) {
+      return null;
+    }
+
+    Object nested = null;
+    String key = "";
+    while(startFrom < segments.size()) {
+      key += (!key.isEmpty() ? "." : "") + segments.get(startFrom);
+      nested = settingsMap.get(key);
+      if (nested != null) {
+        if (startFrom != segments.size() - 1 && nested instanceof Map) {
+          return getValue((Map<String, Object>) nested, segments, startFrom+1);
+        } else {
+          return nested;
+        }
+      }
+      startFrom++;
+    }
+
+    return nested;
+  }
+
+  private Map<String, Object> loadSettings() {
+    Yaml yaml = new Yaml();
+
+    // First try to load from classpath
+    try (InputStream resourceStream = getClass().getClassLoader().getResourceAsStream(SETTINGS_FILE_DFLT)) {
+      if (resourceStream != null) {
+        log.info("Loading integration test settings from classpath: {}", SETTINGS_FILE_DFLT);
+        return yaml.load(resourceStream);
+      }
+    } catch (IOException e) {
+      log.error("Failed to load integration test settings from classpath", e);
+    }
+
+// Then try to load from file system
+    File file = new File(SETTINGS_FILE_PATH);
+    if (file.exists()) {
+      try (InputStream fileStream = new FileInputStream(SETTINGS_FILE_PATH)) {
+        log.info("Loading integration test settings from file: {}", SETTINGS_FILE_PATH);
+        return yaml.load(fileStream);
+      } catch (IOException e) {
+        log.error("Failed to load integration test settings from file", e);
+      }
+    }
+
+    log.warn("Integration test settings file not found. Using empty settings.");
+    return new HashMap<>();
+  }
+}

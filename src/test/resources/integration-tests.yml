@@ -1,0 +1,23 @@
+workspace:
+  id: "test-workspace"
+  timeout: 5000
+  enabled: true
+
+pages.endpoint:
+  create-page:
+    parent-page: 2f4cd6cf14068001ac57e261d1c18fda
+    timeout: 30
+  update-page:
+    timeout: 20
+
+database:
+  properties:
+    - "title"
+    - "description"
+    - "status"
+
+nested:
+  config:
+    settings:
+      debug: false
+      max_retries: 3
