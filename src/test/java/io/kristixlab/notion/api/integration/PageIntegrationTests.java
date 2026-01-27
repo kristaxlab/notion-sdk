@@ -1,5 +1,7 @@
 package io.kristixlab.notion.api.integration;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import io.kristixlab.notion.api.NotionApiClient;
 import io.kristixlab.notion.api.http.exception.ValidationException;
 import io.kristixlab.notion.api.model.common.Parent;
@@ -7,7 +9,6 @@ import io.kristixlab.notion.api.model.pages.CreatePageParams;
 import io.kristixlab.notion.api.model.pages.Page;
 import io.kristixlab.notion.api.model.pages.properties.TitleProperty;
 import io.kristixlab.notion.api.util.PagePropertyUtil;
-import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -22,9 +23,10 @@ public class PageIntegrationTests {
     NOTION = NotionClientProvider.internalTestingClient();
     SETTINGS = IntegrationTestsSettings.getInstance();
 
-    assertNotNull(SETTINGS.getString(PAGE_PARENT_ID),
+    assertNotNull(
+        SETTINGS.getString(PAGE_PARENT_ID),
         "Parent page ID for creating pages is not set in the settings");
-    SETTINGS.getString("asd." +PAGE_PARENT_ID+".type");
+    SETTINGS.getString("asd." + PAGE_PARENT_ID + ".type");
   }
 
   @Test

@@ -1,9 +1,5 @@
 package io.kristixlab.notion.api.integration;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import lombok.extern.slf4j.Slf4j;
-import org.yaml.snakeyaml.Yaml;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -12,6 +8,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import lombok.extern.slf4j.Slf4j;
+import org.yaml.snakeyaml.Yaml;
 
 /**
  * Loads and validates settings for integration tests (Singleton pattern).
@@ -158,7 +156,8 @@ public final class IntegrationTestsSettings {
    * Gets a map of key-value pairs from the settings using a dot-separated key path.
    *
    * @param key the dot-separated key path
-   * @return the map of string keys to string values, or empty map if not found or not a valid object
+   * @return the map of string keys to string values, or empty map if not found or not a valid
+   *     object
    */
   @SuppressWarnings("unchecked")
   public Map<String, String> getMap(String key) {
@@ -199,12 +198,12 @@ public final class IntegrationTestsSettings {
 
     Object nested = null;
     String key = "";
-    while(startFrom < segments.size()) {
+    while (startFrom < segments.size()) {
       key += (!key.isEmpty() ? "." : "") + segments.get(startFrom);
       nested = settingsMap.get(key);
       if (nested != null) {
         if (startFrom != segments.size() - 1 && nested instanceof Map) {
-          return getValue((Map<String, Object>) nested, segments, startFrom+1);
+          return getValue((Map<String, Object>) nested, segments, startFrom + 1);
         } else {
           return nested;
         }
@@ -219,7 +218,8 @@ public final class IntegrationTestsSettings {
     Yaml yaml = new Yaml();
 
     // First try to load from classpath
-    try (InputStream resourceStream = getClass().getClassLoader().getResourceAsStream(SETTINGS_FILE_DFLT)) {
+    try (InputStream resourceStream =
+        getClass().getClassLoader().getResourceAsStream(SETTINGS_FILE_DFLT)) {
       if (resourceStream != null) {
         log.info("Loading integration test settings from classpath: {}", SETTINGS_FILE_DFLT);
         return yaml.load(resourceStream);
@@ -228,7 +228,7 @@ public final class IntegrationTestsSettings {
       log.error("Failed to load integration test settings from classpath", e);
     }
 
-// Then try to load from file system
+    // Then try to load from file system
     File file = new File(SETTINGS_FILE_PATH);
     if (file.exists()) {
       try (InputStream fileStream = new FileInputStream(SETTINGS_FILE_PATH)) {
