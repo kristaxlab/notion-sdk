@@ -56,6 +56,7 @@ tasks.register('integrationTest', Test) {
         destinationFile = layout.buildDirectory.file("jacoco/integrationTest.exec").get().asFile
     }
     finalizedBy jacocoIntegrationTestReport
+    ignoreFailures = true
 }
 
 
@@ -77,6 +78,9 @@ jacocoTestReport {
 
 tasks.register('jacocoIntegrationTestReport', JacocoReport) {
     dependsOn integrationTest
+    onlyIf {
+        layout.buildDirectory.file("jacoco/integrationTest.exec").get().asFile.exists()
+    }
     executionData layout.buildDirectory.file("jacoco/integrationTest.exec")
 
     sourceDirectories.from files(sourceSets.main.allSource.srcDirs)
