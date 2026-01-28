@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BlocksEndpointImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">notion-sdk</a> &gt; <a href="index.source.html" class="el_package">io.kristixlab.notion.api.endpoints.impl</a> &gt; <span class="el_source">BlocksEndpointImpl.java</span></div><h1>BlocksEndpointImpl.java</h1><pre class="source lang-java linenums">package io.kristixlab.notion.api.endpoints.impl;
+
+import io.kristixlab.notion.api.endpoints.BlocksEndpoint;
+import io.kristixlab.notion.api.http.NotionHttpTransport;
+import io.kristixlab.notion.api.http.transport.HttpTransportImpl;
+import io.kristixlab.notion.api.http.transport.rq.URLInfo;
+import io.kristixlab.notion.api.http.transport.util.URLInfoBuilder;
+import io.kristixlab.notion.api.model.blocks.AppendBlockChildrenRequest;
+import io.kristixlab.notion.api.model.blocks.Block;
+import io.kristixlab.notion.api.model.blocks.BlockList;
+import io.kristixlab.notion.api.util.Pagination;
+
+/**
+ * API for interacting with Notion Blocks endpoints. Provides methods to retrieve, create, update,
+ * and delete blocks.
+ */
+public class BlocksEndpointImpl implements BlocksEndpoint {
+
+  private static final String BLOCK_ID = &quot;block_id&quot;;
+
+  private final HttpTransportImpl transport;
+
+<span class="nc" id="L23">  public BlocksEndpointImpl(NotionHttpTransport transport) {</span>
+<span class="nc" id="L24">    this.transport = transport;</span>
+<span class="nc" id="L25">  }</span>
+
+  /**
+   * Retrieve a block by its ID.
+   *
+   * @param blockId The ID of the block to retrieve
+   * @return The block object
+   */
+  public Block retrieve(String blockId) {
+<span class="nc" id="L34">    validateBlockId(blockId);</span>
+
+<span class="nc" id="L36">    URLInfo urlInfo =</span>
+<span class="nc" id="L37">        URLInfo.builder(&quot;/blocks/{block_id}/children&quot;).pathParam(BLOCK_ID, blockId).build();</span>
+
+<span class="nc" id="L39">    return transport.call(&quot;GET&quot;, urlInfo, Block.class);</span>
+  }
+
+  /**
+   * Retrieve block children (children of a block).
+   *
+   * @param blockId The ID of the parent block
+   * @return BlocksResponse containing the child blocks
+   */
+  public BlockList retrieveChildren(String blockId) {
+<span class="nc" id="L49">    return retrieveChildren(blockId, null, null);</span>
+  }
+
+  /**
+   * Retrieve block children with pagination.
+   *
+   * @param blockId The ID of the parent block
+   * @param startCursor Cursor for pagination (optional)
+   * @param pageSize Number of items to return (optional, max 100)
+   * @return BlocksResponse containing the child blocks
+   */
+  public BlockList retrieveChildren(String blockId, String startCursor, Integer pageSize) {
+<span class="nc" id="L61">    validateBlockId(blockId);</span>
+
+<span class="nc" id="L63">    URLInfoBuilder urlInfo =</span>
+<span class="nc" id="L64">        URLInfo.builder(&quot;/blocks/{block_id}/children&quot;).pathParam(BLOCK_ID, blockId);</span>
+
+<span class="nc bnc" id="L66" title="All 2 branches missed.">    if (startCursor != null) {</span>
+<span class="nc" id="L67">      urlInfo.queryParam(Pagination.START_CURSOR, startCursor);</span>
+    }
+
+<span class="nc bnc" id="L70" title="All 2 branches missed.">    if (pageSize != null) {</span>
+<span class="nc" id="L71">      urlInfo.queryParam(Pagination.PAGE_SIZE, pageSize);</span>
+    }
+
+<span class="nc" id="L74">    return transport.call(&quot;GET&quot;, urlInfo.build(), BlockList.class);</span>
+  }
+
+  /**
+   * Append block children to a parent block.
+   *
+   * @param parentBlockId The ID of the parent block
+   * @param child child block to append
+   * @return BlocksResponse containing the appended blocks
+   */
+  public BlockList appendChildren(String parentBlockId, Block child) {
+<span class="nc" id="L85">    AppendBlockChildrenRequest request = new AppendBlockChildrenRequest();</span>
+<span class="nc" id="L86">    request.getChildren().add(child);</span>
+<span class="nc" id="L87">    return appendChildren(parentBlockId, request);</span>
+  }
+
+  /**
+   * Append block children to a parent block.
+   *
+   * @param parentBlockId The ID of the parent block
+   * @param request The request containing children blocks to append
+   * @return BlocksResponse containing the appended blocks
+   */
+  public BlockList appendChildren(String parentBlockId, AppendBlockChildrenRequest request) {
+<span class="nc" id="L98">    validateBlockId(parentBlockId);</span>
+<span class="nc" id="L99">    validateRequest(request);</span>
+
+<span class="nc" id="L101">    URLInfo urlInfo =</span>
+<span class="nc" id="L102">        URLInfo.builder(&quot;/blocks/{block_id}/children&quot;).pathParam(BLOCK_ID, parentBlockId).build();</span>
+
+<span class="nc" id="L104">    return transport.call(&quot;PATCH&quot;, urlInfo, request, BlockList.class);</span>
+  }
+
+  /**
+   * Update a block.
+   *
+   * @param blockId The ID of the block to update
+   * @param request The update request
+   * @return The updated block
+   */
+  public Block update(String blockId, Block request) {
+<span class="nc" id="L115">    validateBlockId(blockId);</span>
+<span class="nc" id="L116">    validateRequest(request);</span>
+
+<span class="nc" id="L118">    URLInfo urlInfo = URLInfo.builder(&quot;/blocks/{block_id}&quot;).pathParam(BLOCK_ID, blockId).build();</span>
+
+<span class="nc" id="L120">    return transport.call(&quot;PATCH&quot;, urlInfo, request, Block.class);</span>
+  }
+
+  /**
+   * Delete a block.
+   *
+   * @param blockId The ID of the block to delete
+   * @return The deleted block (marked as archived)
+   */
+  public Block delete(String blockId) {
+<span class="nc" id="L130">    validateBlockId(blockId);</span>
+<span class="nc" id="L131">    URLInfo urlInfo = URLInfo.builder(&quot;/blocks/{block_id}&quot;).pathParam(BLOCK_ID, blockId).build();</span>
+<span class="nc" id="L132">    return transport.call(&quot;DELETE&quot;, urlInfo, Block.class);</span>
+  }
+
+  /**
+   * Delete a block.
+   *
+   * @param blockId The ID of the block to delete
+   * @return The deleted block (marked as archived)
+   */
+  public Block restore(String blockId) {
+<span class="nc" id="L142">    Block body = new Block();</span>
+<span class="nc" id="L143">    body.setInTrash(false);</span>
+<span class="nc" id="L144">    return update(blockId, body);</span>
+  }
+
+  /**
+   * Validates the block ID.
+   *
+   * @param blockId The block ID to validate
+   * @throws IllegalArgumentException if the block ID is null or empty
+   */
+  private void validateBlockId(String blockId) {
+<span class="nc bnc" id="L154" title="All 4 branches missed.">    if (blockId == null || blockId.trim().isEmpty()) {</span>
+<span class="nc" id="L155">      throw new IllegalArgumentException(&quot;Block ID cannot be null or empty&quot;);</span>
+    }
+<span class="nc" id="L157">  }</span>
+
+  /**
+   * Validates the request object.
+   *
+   * @param request The request object to validate
+   * @throws IllegalArgumentException if the request is null
+   */
+  private void validateRequest(Object request) {
+<span class="nc bnc" id="L166" title="All 2 branches missed.">    if (request == null) {</span>
+<span class="nc" id="L167">      throw new IllegalArgumentException(&quot;Request cannot be null&quot;);</span>
+    }
+<span class="nc" id="L169">  }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
