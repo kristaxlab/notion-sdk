@@ -34,7 +34,7 @@ test {
     useJUnitPlatform()
     finalizedBy jacocoTestReport
     exclude 'io/kristixlab/notion/api/examples/**'
-    exclude 'io/kristixlab/notion/api/integration/**'
+    exclude 'integration/**'
     jacoco {
         destinationFile = layout.buildDirectory.file("jacoco/test.exec").get().asFile
     }
@@ -48,7 +48,7 @@ tasks.register('integrationTest', Test) {
     testClassesDirs = sourceSets.test.output.classesDirs
     classpath = sourceSets.test.runtimeClasspath
 
-    include 'io/kristixlab/notion/api/integration/**'
+    include 'integration/**'
     shouldRunAfter test
 
     useJUnitPlatform()

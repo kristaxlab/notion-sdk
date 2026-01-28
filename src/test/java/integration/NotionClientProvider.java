@@ -1,4 +1,4 @@
-package io.kristixlab.notion.api.integration;
+package integration;
 
 import io.kristixlab.notion.api.NotionApiClient;
 

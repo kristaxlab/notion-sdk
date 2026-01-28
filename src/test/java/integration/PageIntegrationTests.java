@@ -1,4 +1,4 @@
-package io.kristixlab.notion.api.integration;
+package integration;
 
 import static org.junit.jupiter.api.Assertions.*;
 

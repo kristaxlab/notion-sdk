@@ -1,4 +1,4 @@
-package io.kristixlab.notion.api.integration;
+package integration;
 
 import java.io.File;
 import java.io.FileInputStream;
