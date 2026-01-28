@@ -53,11 +53,219 @@ jobs:
       - name: Prepare Pages content
         if: always()
         run: |
-          mkdir -p pages/jacoco/unit
-          mkdir -p pages/jacoco/integration
+          # Create report folder name with branch, timestamp, and commit
+          BRANCH_NAME="${{ github.ref_name }}"
+          TIMESTAMP=$(date +"%Y-%m-%d-%Hh%Mm%Ss")
+          COMMIT_SHORT="${{ github.sha }}"
+          COMMIT_SHORT=${COMMIT_SHORT:0:7}
+          REPORT_FOLDER="${BRANCH_NAME}-${TIMESTAMP}-${COMMIT_SHORT}"
+          
+          echo "REPORT_FOLDER=${REPORT_FOLDER}" >> $GITHUB_ENV
+          mkdir -p pages/jacoco/${REPORT_FOLDER}/unit
+          mkdir -p pages/jacoco/${REPORT_FOLDER}/integration
 
-          cp -r build/reports/tests/test/* pages/jacoco/unit/
-          cp -r build/reports/tests/integrationTest/* pages/jacoco/integration/
+          cp -r build/reports/tests/test/* pages/jacoco/${REPORT_FOLDER}/unit/
+          cp -r build/reports/tests/integrationTest/* pages/jacoco/${REPORT_FOLDER}/integration/
+
+          # Copy JaCoCo coverage reports if they exist
+          if [ -d "build/reports/jacoco/test" ]; then
+            mkdir -p "temp_pages/jacoco/${REPORT_FOLDER}/coverage"
+            cp -r build/reports/jacoco/test/* "temp_pages/jacoco/${REPORT_FOLDER}/coverage/"
+          fi
+
+      - name: Checkout existing gh-pages
+        if: always()
+        uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+          path: existing_pages
+          fetch-depth: 0
+        continue-on-error: true
+
+
+      - name: Merge with existing reports
+        if: always()
+        run: |
+          # Copy existing reports if they exist
+          if [ -d "existing_pages/jacoco" ]; then
+          cp -r existing_pages/jacoco/* temp_pages/jacoco/ || true
+          fi
+          
+          # Generate the index.html
+          cat > temp_pages/index.html << 'EOF'
+          <!DOCTYPE html>
+          <html lang="en">
+          <head>
+           <meta charset="UTF-8">
+           <meta name="viewport" content="width=device-width, initial-scale=1.0">
+           <title>JaCoCo Test Reports</title>
+           <style>
+               body { font-family: Arial, sans-serif; margin: 20px; background-color: #f5f5f5; }
+               .header { background: #2c3e50; color: white; padding: 20px; border-radius: 8px; margin-bottom: 20px; }
+               .filters { background: white; padding: 20px; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+               .filter-group { display: inline-block; margin-right: 20px; margin-bottom: 10px; }
+               .filter-group label { display: block; margin-bottom: 5px; font-weight: bold; }
+               .filter-group input, .filter-group select { padding: 8px; border: 1px solid #ddd; border-radius: 4px; }
+               .report-item { background: white; margin: 10px 0; padding: 15px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+               .report-item h3 { margin: 0 0 10px 0; color: #2c3e50; }
+               .report-links a { display: inline-block; margin-right: 15px; padding: 8px 16px; background: #3498db; color: white; text-decoration: none; border-radius: 4px; }
+               .report-links a:hover { background: #2980b9; }
+               .meta-info { color: #7f8c8d; font-size: 0.9em; margin-bottom: 10px; }
+               .hidden { display: none; }
+               #clearFilters { background: #e74c3c; color: white; padding: 8px 16px; border: none; border-radius: 4px; cursor: pointer; }
+               #clearFilters:hover { background: #c0392b; }
+           </style>
+          </head>
+          <body>
+           <div class="header">
+               <h1>JaCoCo Test Reports</h1>
+               <p>Browse test and coverage reports by branch, date, or commit</p>
+           </div>
+          
+           <div class="filters">
+               <div class="filter-group">
+                   <label for="branchFilter">Branch:</label>
+                   <select id="branchFilter">
+                       <option value="">All branches</option>
+                   </select>
+               </div>
+               <div class="filter-group">
+                   <label for="dateFilter">Date:</label>
+                   <input type="date" id="dateFilter">
+               </div>
+               <div class="filter-group">
+                   <label for="commitFilter">Commit:</label>
+                   <input type="text" id="commitFilter" placeholder="Enter commit hash">
+               </div>
+               <div class="filter-group">
+                   <button id="clearFilters">Clear Filters</button>
+               </div>
+           </div>
+          
+           <div id="reportsList">
+               <!-- Reports will be populated by JavaScript -->
+           </div>
+          
+           <script>
+               const reports = [
+          EOF
+          
+          # Generate JavaScript data for reports
+          for report_dir in temp_pages/jacoco/*/; do
+           if [ -d "$report_dir" ]; then
+               folder_name=$(basename "$report_dir")
+               # Parse folder name: branch-YYYY-MM-DD-HHhMMmSSs-commit
+               branch=$(echo "$folder_name" | sed -E 's/^(.*)-[0-9]{4}-[0-9]{2}-[0-9]{2}-[0-9]{2}h[0-9]{2}m[0-9]{2}s-[a-f0-9]{7}$/\1/')
+               date_part=$(echo "$folder_name" | sed -E 's/^.*-([0-9]{4}-[0-9]{2}-[0-9]{2})-[0-9]{2}h[0-9]{2}m[0-9]{2}s-[a-f0-9]{7}$/\1/')
+               commit=$(echo "$folder_name" | sed -E 's/^.*-[0-9]{4}-[0-9]{2}-[0-9]{2}-[0-9]{2}h[0-9]{2}m[0-9]{2}s-([a-f0-9]{7})$/\1/')
+          
+               echo "                {" >> temp_pages/index.html
+               echo "                    folder: '$folder_name'," >> temp_pages/index.html
+               echo "                    branch: '$branch'," >> temp_pages/index.html
+               echo "                    date: '$date_part'," >> temp_pages/index.html
+               echo "                    commit: '$commit'," >> temp_pages/index.html
+               echo "                    hasUnit: $([ -d "$report_dir/unit" ] && echo "true" || echo "false")," >> temp_pages/index.html
+               echo "                    hasIntegration: $([ -d "$report_dir/integration" ] && echo "true" || echo "false")," >> temp_pages/index.html
+               echo "                    hasCoverage: $([ -d "$report_dir/coverage" ] && echo "true" || echo "false")" >> temp_pages/index.html
+               echo "                }," >> temp_pages/index.html
+           fi
+          done
+          
+          # Complete the JavaScript and HTML
+          cat >> temp_pages/index.html << 'EOF'
+               ];
+          
+               // Remove trailing comma if exists
+               if (reports.length > 0 && reports[reports.length - 1].folder) {
+                   // Reports are valid
+               }
+          
+               function populateBranchFilter() {
+                   const branches = [...new Set(reports.map(r => r.branch))].sort();
+                   const branchFilter = document.getElementById('branchFilter');
+                   branches.forEach(branch => {
+                       const option = document.createElement('option');
+                       option.value = branch;
+                       option.textContent = branch;
+                       branchFilter.appendChild(option);
+                   });
+               }
+          
+               function renderReports(filteredReports = reports) {
+                   const reportsList = document.getElementById('reportsList');
+                   reportsList.innerHTML = '';
+          
+                   // Sort by date desc, then by branch
+                   filteredReports.sort((a, b) => {
+                       const dateCompare = new Date(b.date) - new Date(a.date);
+                       if (dateCompare === 0) {
+                           return a.branch.localeCompare(b.branch);
+                       }
+                       return dateCompare;
+                   });
+          
+                   filteredReports.forEach(report => {
+                       const div = document.createElement('div');
+                       div.className = 'report-item';
+          
+                       const links = [];
+                       if (report.hasUnit) links.push(`<a href="jacoco/${report.folder}/unit/index.html" target="_blank">Unit Tests</a>`);
+                       if (report.hasIntegration) links.push(`<a href="jacoco/${report.folder}/integration/index.html" target="_blank">Integration Tests</a>`);
+                       if (report.hasCoverage) links.push(`<a href="jacoco/${report.folder}/coverage/html/index.html" target="_blank">Coverage Report</a>`);
+          
+                       div.innerHTML = `
+                           <h3>${report.folder}</h3>
+                           <div class="meta-info">
+                               <strong>Branch:</strong> ${report.branch} | 
+                               <strong>Date:</strong> ${report.date} | 
+                               <strong>Commit:</strong> ${report.commit}
+                           </div><div class="report-links">
+                               ${links.join('')}
+                           </div>
+                       `;
+                       reportsList.appendChild(div);
+                   });
+          
+                   if (filteredReports.length === 0) {
+                       reportsList.innerHTML = '<p>No reports found matching the current filters.</p>';
+                   }
+               }
+          
+               function applyFilters() {
+                   const branchFilter = document.getElementById('branchFilter').value;
+                   const dateFilter = document.getElementById('dateFilter').value;
+                   const commitFilter = document.getElementById('commitFilter').value.toLowerCase();
+          
+                   const filtered = reports.filter(report => {
+                       const branchMatch = !branchFilter || report.branch === branchFilter;
+                       const dateMatch = !dateFilter || report.date === dateFilter;
+                       const commitMatch = !commitFilter || report.commit.toLowerCase().includes(commitFilter);
+                       return branchMatch && dateMatch && commitMatch;
+                   });
+          
+                   renderReports(filtered);
+               }
+          
+               function clearFilters() {
+                   document.getElementById('branchFilter').value = '';
+                   document.getElementById('dateFilter').value = '';
+                   document.getElementById('commitFilter').value = '';
+                   renderReports();
+               }
+          
+               // Initialize
+               populateBranchFilter();
+               renderReports();
+          
+               // Event listeners
+               document.getElementById('branchFilter').addEventListener('change', applyFilters);
+               document.getElementById('dateFilter').addEventListener('change', applyFilters);
+               document.getElementById('commitFilter').addEventListener('input', applyFilters);
+               document.getElementById('clearFilters').addEventListener('click', clearFilters);
+           </script>
+          </body>
+          </html>
+          EOF
 
       - name: Publish to GitHub Pages
         if: always()
@@ -66,3 +274,4 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
           publish_dir: pages
+          keep_files: false
