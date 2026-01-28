@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>HttpTransportImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">notion-sdk</a> &gt; <a href="index.source.html" class="el_package">io.kristixlab.notion.api.http.transport</a> &gt; <span class="el_source">HttpTransportImpl.java</span></div><h1>HttpTransportImpl.java</h1><pre class="source lang-java linenums">package io.kristixlab.notion.api.http.transport;
+
+import io.kristixlab.notion.api.http.transport.exception.HttpResponseException;
+import io.kristixlab.notion.api.http.transport.exception.HttpTransportException;
+import io.kristixlab.notion.api.http.transport.rq.FileRequest;
+import io.kristixlab.notion.api.http.transport.rq.URLInfo;
+import io.kristixlab.notion.api.http.transport.rs.ApiResponse;
+import io.kristixlab.notion.api.http.transport.util.ApiRequestUtil;
+import io.kristixlab.notion.api.json.JsonConverter;
+import java.io.IOException;
+import java.util.Map;
+import java.util.UUID;
+import java.util.concurrent.TimeUnit;
+import lombok.Getter;
+import okhttp3.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+public class HttpTransportImpl implements HttpTransport {
+
+<span class="nc" id="L21">  private static final Logger LOGGER = LoggerFactory.getLogger(HttpTransportImpl.class);</span>
+<span class="nc" id="L22">  private static final MediaType JSON_MEDIA_TYPE = MediaType.parse(&quot;application/json&quot;);</span>
+  private final OkHttpClient httpClient;
+  @Getter private final String apiName;
+<span class="nc" id="L25">  @Getter private String baseUrl = &quot;https://api.example.com&quot;; // Default base URL, can be overridden</span>
+
+<span class="nc" id="L27">  public HttpTransportImpl() {</span>
+<span class="nc" id="L28">    this.httpClient = createHttpClient();</span>
+<span class="nc bnc" id="L29" title="All 2 branches missed.">    if (baseUrl == null) {</span>
+<span class="nc" id="L30">      baseUrl = &quot;&quot;;</span>
+    }
+<span class="nc" id="L32">    this.apiName = &quot;API Transport&quot;;</span>
+<span class="nc" id="L33">  }</span>
+
+<span class="nc" id="L35">  public HttpTransportImpl(String baseUrl, String apiName) {</span>
+<span class="nc" id="L36">    this.httpClient = createHttpClient();</span>
+<span class="nc bnc" id="L37" title="All 2 branches missed.">    if (baseUrl == null) {</span>
+<span class="nc" id="L38">      baseUrl = &quot;&quot;;</span>
+<span class="nc bnc" id="L39" title="All 6 branches missed.">    } else if (baseUrl.endsWith(&quot;/&quot;) &amp;&amp; !baseUrl.equals(&quot;https://&quot;) &amp;&amp; !baseUrl.equals(&quot;http://&quot;)) {</span>
+<span class="nc" id="L40">      baseUrl = baseUrl.substring(0, baseUrl.length() - 1);</span>
+    }
+<span class="nc" id="L42">    this.baseUrl = baseUrl;</span>
+<span class="nc bnc" id="L43" title="All 2 branches missed.">    this.apiName = apiName == null ? &quot;API Transport&quot; : apiName;</span>
+<span class="nc" id="L44">  }</span>
+
+  private OkHttpClient createHttpClient() {
+<span class="nc" id="L47">    return new OkHttpClient.Builder()</span>
+<span class="nc" id="L48">        .connectTimeout(30, TimeUnit.SECONDS)</span>
+<span class="nc" id="L49">        .readTimeout(30, TimeUnit.SECONDS)</span>
+<span class="nc" id="L50">        .writeTimeout(30, TimeUnit.SECONDS)</span>
+<span class="nc" id="L51">        .build();</span>
+  }
+
+  @Override
+  public &lt;T&gt; T call(String method, URLInfo urlInfo, Class&lt;T&gt; responseType) {
+<span class="nc" id="L56">    return call(method, urlInfo, null, responseType);</span>
+  }
+
+  @Override
+  public &lt;T&gt; T call(String method, URLInfo urlInfo, Object body, Class&lt;T&gt; responseType) {
+<span class="nc" id="L61">    return call(method, urlInfo, null, body, responseType);</span>
+  }
+
+  public &lt;T&gt; ApiResponse&lt;T&gt; execute(
+      String method,
+      URLInfo urlInfo,
+      Map&lt;String, String&gt; headerParams,
+      Object body,
+      Class&lt;T&gt; responseType) {
+<span class="nc" id="L70">    String logBlueprint = UUID.randomUUID().toString();</span>
+
+<span class="nc bnc" id="L72" title="All 2 branches missed.">    if (LOGGER.isDebugEnabled()) {</span>
+<span class="nc" id="L73">      LOGGER.debug(&quot;[{}] Calling {}&quot;, logBlueprint, getApiName());</span>
+<span class="nc" id="L74">      LOGGER.debug(&quot;[{}] Building request...&quot;, logBlueprint);</span>
+    }
+<span class="nc" id="L76">    Request request = buildRequest(method, urlInfo, headerParams, body, logBlueprint);</span>
+
+<span class="nc bnc" id="L78" title="All 2 branches missed.">    if (LOGGER.isDebugEnabled()) {</span>
+<span class="nc" id="L79">      LOGGER.debug(&quot;[{}] Request method: {}, url: {}&quot;, logBlueprint, method, request.url());</span>
+<span class="nc bnc" id="L80" title="All 2 branches missed.">      if (request.body() != null) {</span>
+<span class="nc" id="L81">        LOGGER.debug(</span>
+<span class="nc" id="L82">            &quot;[{}] Request body: \n{}&quot;, logBlueprint, JsonConverter.getInstance().toJson(body));</span>
+      }
+    }
+
+<span class="nc" id="L86">    Response rs = executeRequest(request, logBlueprint);</span>
+<span class="nc" id="L87">    return handleResponse(rs, responseType, logBlueprint);</span>
+  }
+
+  @Override
+  public &lt;T&gt; T call(
+      String method,
+      URLInfo urlInfo,
+      Map&lt;String, String&gt; headerParams,
+      Object body,
+      Class&lt;T&gt; responseType) {
+<span class="nc" id="L97">    ApiResponse&lt;T&gt; apiRs = execute(method, urlInfo, headerParams, body, responseType);</span>
+<span class="nc" id="L98">    return apiRs.getBody();</span>
+  }
+
+  private Response executeRequest(Request request, String logBlueprint) {
+<span class="nc" id="L102">    Call call = httpClient.newCall(request);</span>
+<span class="nc" id="L103">    try (Response response = call.execute()) {</span>
+<span class="nc" id="L104">      return response;</span>
+<span class="nc" id="L105">    } catch (IOException e) {</span>
+<span class="nc" id="L106">      LOGGER.error(&quot;[{}] Network error calling {} API&quot;, logBlueprint, getApiName(), e);</span>
+<span class="nc" id="L107">      throw new HttpTransportException(&quot;Network error: &quot; + e.getMessage(), e);</span>
+    }
+  }
+
+  protected &lt;T&gt; ApiResponse&lt;T&gt; handleResponse(
+      Response response, Class&lt;T&gt; responseType, String logBlueprint) throws HttpResponseException {
+<span class="nc bnc" id="L113" title="All 2 branches missed.">    if (!response.isSuccessful()) {</span>
+<span class="nc" id="L114">      return handleErrorResponse(response, logBlueprint);</span>
+    }
+<span class="nc" id="L116">    return handleSuccessfulResponse(response, responseType, logBlueprint);</span>
+  }
+
+  protected &lt;T&gt; ApiResponse&lt;T&gt; handleErrorResponse(Response response, String logBlueprint) {
+<span class="nc" id="L120">    String rsBodyString = readBodyString(response, logBlueprint);</span>
+
+<span class="nc" id="L122">    LOGGER.error(</span>
+<span class="nc" id="L123">        &quot;[{}] Response from {} with error: {}&quot;, logBlueprint, getApiName(), response.code());</span>
+<span class="nc bnc" id="L124" title="All 2 branches missed.">    if (LOGGER.isDebugEnabled()) {</span>
+<span class="nc" id="L125">      LOGGER.debug(&quot;[{}] Error response body: \n{}&quot;, logBlueprint, rsBodyString);</span>
+    }
+
+<span class="nc" id="L128">    throw new HttpResponseException(getApiName(), response.code(), rsBodyString);</span>
+  }
+
+  protected &lt;T&gt; ApiResponse&lt;T&gt; handleSuccessfulResponse(
+      Response response, Class&lt;T&gt; responseType, String logBlueprint) throws HttpResponseException {
+
+<span class="nc" id="L134">    ApiResponse&lt;T&gt; rs = new ApiResponse&lt;&gt;();</span>
+<span class="nc" id="L135">    rs.setStatus(response.code());</span>
+<span class="nc" id="L136">    response.headers().forEach(h -&gt; rs.getHeaders().put(h.getFirst(), h.getSecond()));</span>
+
+<span class="nc" id="L138">    String rsBodyString = readBodyString(response, logBlueprint);</span>
+<span class="nc bnc" id="L139" title="All 2 branches missed.">    if (LOGGER.isDebugEnabled()) {</span>
+<span class="nc" id="L140">      LOGGER.debug(</span>
+<span class="nc" id="L141">          &quot;[{}] Response from {} with code: {}&quot;, logBlueprint, getApiName(), response.code());</span>
+<span class="nc bnc" id="L142" title="All 2 branches missed.">      if (LOGGER.isDebugEnabled()) {</span>
+<span class="nc" id="L143">        LOGGER.debug(&quot;[{}] Response body: \n{}&quot;, logBlueprint, rsBodyString);</span>
+      }
+    }
+
+<span class="nc bnc" id="L147" title="All 2 branches missed.">    if (responseType != String.class) {</span>
+<span class="nc" id="L148">      rs.setBody(JsonConverter.getInstance().toObject(rsBodyString, responseType));</span>
+    } else {
+<span class="nc" id="L150">      rs.setBody((T) rsBodyString);</span>
+    }
+<span class="nc" id="L152">    return rs;</span>
+  }
+
+  private String readBodyString(Response response, String logBlueprint) {
+    try {
+<span class="nc" id="L157">      return response.body().string();</span>
+<span class="nc" id="L158">    } catch (IOException e) {</span>
+<span class="nc" id="L159">      LOGGER.error(&quot;[{}] Failed to read response body &quot;, logBlueprint);</span>
+<span class="nc" id="L160">      throw new HttpTransportException(&quot;[&quot; + logBlueprint + &quot;] Failed to read response body&quot;, e);</span>
+    }
+  }
+
+  private Request buildRequest(
+      String method,
+      URLInfo urlInfo,
+      Map&lt;String, String&gt; headers,
+      Object body,
+      String logBlueprint) {
+    // url
+<span class="nc" id="L171">    String url = ApiRequestUtil.buildURL(getBaseUrl(), urlInfo);</span>
+<span class="nc" id="L172">    Request.Builder requestBuilder = new Request.Builder().url(url);</span>
+
+    // headers
+<span class="nc bnc" id="L175" title="All 2 branches missed.">    if (headers != null) {</span>
+<span class="nc" id="L176">      headers.forEach(requestBuilder::addHeader);</span>
+    }
+
+    // body
+<span class="nc" id="L180">    RequestBody requestBody = null;</span>
+<span class="nc bnc" id="L181" title="All 2 branches missed.">    if (body != null) {</span>
+<span class="nc bnc" id="L182" title="All 2 branches missed.">      if (body instanceof FileRequest) {</span>
+<span class="nc" id="L183">        requestBody = ApiRequestUtil.fileToRequestBody(((FileRequest) body));</span>
+      } else {
+<span class="nc" id="L185">        String jsonContent = JsonConverter.getInstance().toJson(body);</span>
+<span class="nc" id="L186">        requestBody = RequestBody.create(jsonContent, JSON_MEDIA_TYPE);</span>
+<span class="nc" id="L187">      }</span>
+    } else {
+      // Handle methods that don't allow body (GET, HEAD) vs those that do
+<span class="nc bnc" id="L190" title="All 4 branches missed.">      if (&quot;GET&quot;.equalsIgnoreCase(method) || &quot;HEAD&quot;.equalsIgnoreCase(method)) {</span>
+<span class="nc" id="L191">        requestBuilder.method(method, null);</span>
+      } else {
+        // TODO do I need it?
+        // For POST, PUT, PATCH without body, use empty body
+<span class="nc" id="L195">        RequestBody emptyBody = RequestBody.create(&quot;&quot;, JSON_MEDIA_TYPE);</span>
+<span class="nc" id="L196">        requestBuilder.method(method, emptyBody);</span>
+      }
+    }
+<span class="nc" id="L199">    requestBuilder.method(method, requestBody);</span>
+
+<span class="nc" id="L201">    return afterBuildRequest(url, requestBuilder, logBlueprint).build();</span>
+  }
+
+  protected Request.Builder afterBuildRequest(
+      String url, Request.Builder requestBuilder, String logBlueprint) {
+<span class="nc" id="L206">    return requestBuilder;</span>
+  }
+
+  // TODO customizable logger
+  protected Logger getLogger() {
+<span class="nc" id="L211">    return LOGGER;</span>
+  }
+
+  // TODO do I need this?
+  public void shutdown() {
+<span class="nc bnc" id="L216" title="All 2 branches missed.">    if (httpClient != null) {</span>
+<span class="nc" id="L217">      httpClient.dispatcher().executorService().shutdown();</span>
+<span class="nc" id="L218">      httpClient.connectionPool().evictAll();</span>
+    }
+<span class="nc" id="L220">  }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
