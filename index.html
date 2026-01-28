@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>JaCoCo Test Reports</title>
+ <style>
+     body { font-family: Arial, sans-serif; margin: 20px; background-color: #f5f5f5; }
+     .header { background: #2c3e50; color: white; padding: 20px; border-radius: 8px; margin-bottom: 20px; }
+     .filters { background: white; padding: 20px; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+     .filter-group { display: inline-block; margin-right: 20px; margin-bottom: 10px; }
+     .filter-group label { display: block; margin-bottom: 5px; font-weight: bold; }
+     .filter-group input, .filter-group select { padding: 8px; border: 1px solid #ddd; border-radius: 4px; }
+     .report-item { background: white; margin: 10px 0; padding: 15px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+     .report-item h3 { margin: 0 0 10px 0; color: #2c3e50; }
+     .report-links a { display: inline-block; margin-right: 15px; padding: 8px 16px; background: #3498db; color: white; text-decoration: none; border-radius: 4px; }
+     .report-links a:hover { background: #2980b9; }
+     .meta-info { color: #7f8c8d; font-size: 0.9em; margin-bottom: 10px; }
+     .hidden { display: none; }
+     #clearFilters { background: #e74c3c; color: white; padding: 8px 16px; border: none; border-radius: 4px; cursor: pointer; }
+     #clearFilters:hover { background: #c0392b; }
+ </style>
+</head>
+<body>
+ <div class="header">
+     <h1>JaCoCo Test Reports</h1>
+     <p>Browse test and coverage reports by branch, date, or commit</p>
+ </div>
+
+ <div class="filters">
+     <div class="filter-group">
+         <label for="branchFilter">Branch:</label>
+         <select id="branchFilter">
+             <option value="">All branches</option>
+         </select>
+     </div>
+     <div class="filter-group">
+         <label for="dateFilter">Date:</label>
+         <input type="date" id="dateFilter">
+     </div>
+     <div class="filter-group">
+         <label for="commitFilter">Commit:</label>
+         <input type="text" id="commitFilter" placeholder="Enter commit hash">
+     </div>
+     <div class="filter-group">
+         <button id="clearFilters">Clear Filters</button>
+     </div>
+ </div>
+
+ <div id="reportsList">
+     <!-- Reports will be populated by JavaScript -->
+ </div>
+
+ <script>
+     const reports = [
+                {
+                    folder: 'notion-api-initial-2026-01-28-15h39m21s-3647b51',
+                    branch: 'notion-api-initial',
+                    date: '2026-01-28',
+                    commit: '3647b51',
+                    hasUnit: true,
+                    hasIntegration: true,
+                    hasCoverage: false
+                },
+                {
+                    folder: 'notion-api-initial-2026-01-28-15h40m54s-b074bcf',
+                    branch: 'notion-api-initial',
+                    date: '2026-01-28',
+                    commit: 'b074bcf',
+                    hasUnit: true,
+                    hasIntegration: true,
+                    hasCoverage: true
+                },
+     ];
+
+     // Remove trailing comma if exists
+     if (reports.length > 0 && reports[reports.length - 1].folder) {
+         // Reports are valid
+     }
+
+     function populateBranchFilter() {
+         const branches = [...new Set(reports.map(r => r.branch))].sort();
+         const branchFilter = document.getElementById('branchFilter');
+         branches.forEach(branch => {
+             const option = document.createElement('option');
+             option.value = branch;
+             option.textContent = branch;
+             branchFilter.appendChild(option);
+         });
+     }
+
+     function renderReports(filteredReports = reports) {
+         const reportsList = document.getElementById('reportsList');
+         reportsList.innerHTML = '';
+
+         // Sort by date desc, then by branch
+         filteredReports.sort((a, b) => {
+             const dateCompare = new Date(b.date) - new Date(a.date);
+             if (dateCompare === 0) {
+                 return a.branch.localeCompare(b.branch);
+             }
+             return dateCompare;
+         });
+
+         filteredReports.forEach(report => {
+             const div = document.createElement('div');
+             div.className = 'report-item';
+
+             const links = [];
+             if (report.hasUnit) links.push(`<a href="jacoco/${report.folder}/unit/index.html" target="_blank">Unit Tests</a>`);
+             if (report.hasIntegration) links.push(`<a href="jacoco/${report.folder}/integration/index.html" target="_blank">Integration Tests</a>`);
+             if (report.hasCoverage) links.push(`<a href="jacoco/${report.folder}/coverage/html/index.html" target="_blank">Coverage Report</a>`);
+
+             div.innerHTML = `
+                 <h3>${report.folder}</h3>
+                 <div class="meta-info">
+                     <strong>Branch:</strong> ${report.branch} | 
+                     <strong>Date:</strong> ${report.date} | 
+                     <strong>Commit:</strong> ${report.commit}
+                 </div><div class="report-links">
+                     ${links.join('')}
+                 </div>
+             `;
+             reportsList.appendChild(div);
+         });
+
+         if (filteredReports.length === 0) {
+             reportsList.innerHTML = '<p>No reports found matching the current filters.</p>';
+         }
+     }
+
+     function applyFilters() {
+         const branchFilter = document.getElementById('branchFilter').value;
+         const dateFilter = document.getElementById('dateFilter').value;
+         const commitFilter = document.getElementById('commitFilter').value.toLowerCase();
+
+         const filtered = reports.filter(report => {
+             const branchMatch = !branchFilter || report.branch === branchFilter;
+             const dateMatch = !dateFilter || report.date === dateFilter;
+             const commitMatch = !commitFilter || report.commit.toLowerCase().includes(commitFilter);
+             return branchMatch && dateMatch && commitMatch;
+         });
+
+         renderReports(filtered);
+     }
+
+     function clearFilters() {
+         document.getElementById('branchFilter').value = '';
+         document.getElementById('dateFilter').value = '';
+         document.getElementById('commitFilter').value = '';
+         renderReports();
+     }
+
+     // Initialize
+     populateBranchFilter();
+     renderReports();
+
+     // Event listeners
+     document.getElementById('branchFilter').addEventListener('change', applyFilters);
+     document.getElementById('dateFilter').addEventListener('change', applyFilters);
+     document.getElementById('commitFilter').addEventListener('input', applyFilters);
+     document.getElementById('clearFilters').addEventListener('click', clearFilters);
+ </script>
+</body>
+</html>
