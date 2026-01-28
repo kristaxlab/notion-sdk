@@ -69,8 +69,8 @@ jobs:
 
           # Copy JaCoCo coverage reports if they exist
           if [ -d "build/reports/jacoco/test" ]; then
-            mkdir -p "temp_pages/jacoco/${REPORT_FOLDER}/coverage"
-            cp -r build/reports/jacoco/test/* "temp_pages/jacoco/${REPORT_FOLDER}/coverage/"
+            mkdir -p "pages/jacoco/${REPORT_FOLDER}/coverage"
+            cp -r build/reports/jacoco/test/* "pages/jacoco/${REPORT_FOLDER}/coverage/"
           fi
 
       - name: Checkout existing gh-pages
@@ -88,11 +88,11 @@ jobs:
         run: |
           # Copy existing reports if they exist
           if [ -d "existing_pages/jacoco" ]; then
-          cp -r existing_pages/jacoco/* temp_pages/jacoco/ || true
+          cp -r existing_pages/jacoco/* pages/jacoco/ || true
           fi
           
           # Generate the index.html
-          cat > temp_pages/index.html << 'EOF'
+          cat > pages/index.html << 'EOF'
           <!DOCTYPE html>
           <html lang="en">
           <head>
@@ -151,7 +151,7 @@ jobs:
           EOF
           
           # Generate JavaScript data for reports
-          for report_dir in temp_pages/jacoco/*/; do
+          for report_dir in pages/jacoco/*/; do
            if [ -d "$report_dir" ]; then
                folder_name=$(basename "$report_dir")
                # Parse folder name: branch-YYYY-MM-DD-HHhMMmSSs-commit
@@ -159,20 +159,20 @@ jobs:
                date_part=$(echo "$folder_name" | sed -E 's/^.*-([0-9]{4}-[0-9]{2}-[0-9]{2})-[0-9]{2}h[0-9]{2}m[0-9]{2}s-[a-f0-9]{7}$/\1/')
                commit=$(echo "$folder_name" | sed -E 's/^.*-[0-9]{4}-[0-9]{2}-[0-9]{2}-[0-9]{2}h[0-9]{2}m[0-9]{2}s-([a-f0-9]{7})$/\1/')
           
-               echo "                {" >> temp_pages/index.html
-               echo "                    folder: '$folder_name'," >> temp_pages/index.html
-               echo "                    branch: '$branch'," >> temp_pages/index.html
-               echo "                    date: '$date_part'," >> temp_pages/index.html
-               echo "                    commit: '$commit'," >> temp_pages/index.html
-               echo "                    hasUnit: $([ -d "$report_dir/unit" ] && echo "true" || echo "false")," >> temp_pages/index.html
-               echo "                    hasIntegration: $([ -d "$report_dir/integration" ] && echo "true" || echo "false")," >> temp_pages/index.html
-               echo "                    hasCoverage: $([ -d "$report_dir/coverage" ] && echo "true" || echo "false")" >> temp_pages/index.html
-               echo "                }," >> temp_pages/index.html
+               echo "                {" >> pages/index.html
+               echo "                    folder: '$folder_name'," >> pages/index.html
+               echo "                    branch: '$branch'," >> pages/index.html
+               echo "                    date: '$date_part'," >> pages/index.html
+               echo "                    commit: '$commit'," >> pages/index.html
+               echo "                    hasUnit: $([ -d "$report_dir/unit" ] && echo "true" || echo "false")," >> pages/index.html
+               echo "                    hasIntegration: $([ -d "$report_dir/integration" ] && echo "true" || echo "false")," >> pages/index.html
+               echo "                    hasCoverage: $([ -d "$report_dir/coverage" ] && echo "true" || echo "false")" >> pages/index.html
+               echo "                }," >> pages/index.html
            fi
           done
           
           # Complete the JavaScript and HTML
-          cat >> temp_pages/index.html << 'EOF'
+          cat >> pages/index.html << 'EOF'
                ];
           
                // Remove trailing comma if exists
