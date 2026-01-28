@@ -1,0 +1,38 @@
+
+// Reusable method to load environment variables for any task
+def loadEnvVarsForTask(Task task, String envFileName) {
+    task.doFirst {
+        def envFile = file(envFileName)
+        if (envFile.exists()) {
+            println "📋 Loading environment variables from ${envFileName} for task '${task.name}':"
+            def loadedVars = [:]
+
+            envFile.readLines().each { line ->
+                if (line && !line.startsWith('#') && line.contains('=')) {
+                    def (key, value) = line.split('=', 2)
+                    // Check system env first, then use .env value
+                    def finalValue = System.getenv(key) ?: value
+                    loadedVars[key] = finalValue
+                    task.environment(key, finalValue)  // Pass to task environment
+
+                    if (System.getenv(key)) {
+                        println "   ✅ Using system env: $key"
+                    } else {
+                        println "   📁 Loaded from .env: $key"
+                    }
+                }
+            }
+
+            if (loadedVars.isEmpty()) {
+                println "   ⚠️  No valid environment variables found in ${envFileName}"
+            } else {
+                println "   🎯 Total variables loaded for '${task.name}': ${loadedVars.size()}"
+            }
+        } else {
+            println "📋 No ${envFileName} file found for task '${task.name}'"
+        }
+    }
+}
+
+// Make the function available to the main build script
+ext.loadEnvVarsForTask = this.&loadEnvVarsForTask

@@ -7,3 +7,5 @@ src/test/.DS_Store
 /src/test/resources/notion-api-responses/
 /src/test/resources/notion-api-integration-tests/
 logs/
+.env.integrationTest
+.env.test

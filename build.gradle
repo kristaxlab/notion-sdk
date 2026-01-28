@@ -4,6 +4,8 @@ plugins {
     id 'com.diffplug.spotless' version '7.2.1'
 }
 
+apply from: 'gradle/env-loader.gradle'
+
 group = 'io.github.kristixlab'
 version = '1.0-SNAPSHOT'
 
@@ -40,26 +42,6 @@ test {
     }
 }
 
-tasks.register('integrationTest', Test) {
-    description = 'Runs integration tests'
-    group = 'verification'
-
-    environment("TESTING_BOT_TOKEN", System.getProperty("TESTING_BOT_TOKEN"))
-    testClassesDirs = sourceSets.test.output.classesDirs
-    classpath = sourceSets.test.runtimeClasspath
-
-    include 'integration/**'
-    shouldRunAfter test
-
-    useJUnitPlatform()
-
-    jacoco {
-        destinationFile = layout.buildDirectory.file("jacoco/integrationTest.exec").get().asFile
-    }
-    finalizedBy jacocoIntegrationTestReport
-}
-
-
 jacocoTestReport {
     dependsOn test
     executionData layout.buildDirectory.file("jacoco/test.exec")
@@ -94,6 +76,27 @@ tasks.register('jacocoIntegrationTestReport', JacocoReport) {
         xml.outputLocation = layout.buildDirectory.file("reports/jacoco/integrationTest/jacocoIntegrationTestReport.xml")
     }
 }
+
+tasks.register('integrationTest', Test) {
+    description = 'Runs integration tests'
+    group = 'verification'
+
+    testClassesDirs = sourceSets.test.output.classesDirs
+    classpath = sourceSets.test.runtimeClasspath
+
+    include 'integration/**'
+    shouldRunAfter test
+
+    useJUnitPlatform()
+
+    jacoco {
+        destinationFile = layout.buildDirectory.file("jacoco/integrationTest.exec").get().asFile
+    }
+    finalizedBy jacocoIntegrationTestReport
+}
+
+loadEnvVarsForTask(test, '.env.test')
+loadEnvVarsForTask(integrationTest, '.env.integrationTest')
 
 // Configure JaCoCo version and exclusions
 jacoco {
