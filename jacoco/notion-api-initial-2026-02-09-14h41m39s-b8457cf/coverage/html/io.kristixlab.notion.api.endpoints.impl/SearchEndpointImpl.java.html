@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SearchEndpointImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">notion-sdk</a> &gt; <a href="index.source.html" class="el_package">io.kristixlab.notion.api.endpoints.impl</a> &gt; <span class="el_source">SearchEndpointImpl.java</span></div><h1>SearchEndpointImpl.java</h1><pre class="source lang-java linenums">package io.kristixlab.notion.api.endpoints.impl;
+
+import io.kristixlab.notion.api.endpoints.SearchEndpoint;
+import io.kristixlab.notion.api.http.NotionHttpTransport;
+import io.kristixlab.notion.api.http.transport.HttpTransportImpl;
+import io.kristixlab.notion.api.http.transport.rq.URLInfo;
+import io.kristixlab.notion.api.model.search.SearchFilter;
+import io.kristixlab.notion.api.model.search.SearchQuery;
+import io.kristixlab.notion.api.model.search.SearchResult;
+import io.kristixlab.notion.api.model.search.SearchSort;
+
+/**
+ * API for searching through pages and data sources in a workspace. Provides methods to search with
+ * various filters and sorting options.
+ */
+public class SearchEndpointImpl implements SearchEndpoint {
+
+  private final HttpTransportImpl transport;
+
+<span class="nc" id="L20">  public SearchEndpointImpl(NotionHttpTransport transport) {</span>
+<span class="nc" id="L21">    this.transport = transport;</span>
+<span class="nc" id="L22">  }</span>
+
+  /**
+   * Search through pages and data sources in the workspace.
+   *
+   * @param request The search request with query, filters, and pagination options
+   * @return SearchResponse containing results and pagination info
+   */
+  public SearchResult search(SearchQuery request) {
+<span class="nc" id="L31">    validateRequest(request);</span>
+<span class="nc" id="L32">    return transport.call(&quot;POST&quot;, URLInfo.build(&quot;/search&quot;), request, SearchResult.class);</span>
+  }
+
+  /**
+   * Simple search with just a query string.
+   *
+   * @param query The text to search for in page and data source titles
+   * @return SearchResponse containing results
+   */
+  public SearchResult search(String query) {
+<span class="nc" id="L42">    SearchQuery request = new SearchQuery();</span>
+<span class="nc" id="L43">    request.setQuery(query);</span>
+<span class="nc" id="L44">    return search(request);</span>
+  }
+
+  /**
+   * Search with query and filter (pages or data sources only).
+   *
+   * @param query The text to search for
+   * @param filter Filter to limit results to pages or data sources
+   * @return SearchResponse containing filtered results
+   */
+  public SearchResult search(String query, SearchFilter filter) {
+<span class="nc" id="L55">    SearchQuery request = new SearchQuery();</span>
+<span class="nc" id="L56">    request.setQuery(query);</span>
+<span class="nc" id="L57">    request.setFilter(filter);</span>
+<span class="nc" id="L58">    return search(request);</span>
+  }
+
+  /**
+   * Search with query, filter, and sorting.
+   *
+   * @param query The text to search for
+   * @param filter Filter to limit results to pages or data sources
+   * @param sort Sorting criteria for results
+   * @return SearchResponse containing filtered and sorted results
+   */
+  public SearchResult search(String query, SearchFilter filter, SearchSort sort) {
+<span class="nc" id="L70">    SearchQuery request = new SearchQuery();</span>
+<span class="nc" id="L71">    request.setQuery(query);</span>
+<span class="nc" id="L72">    request.setFilter(filter);</span>
+<span class="nc" id="L73">    request.setSort(sort);</span>
+<span class="nc" id="L74">    return search(request);</span>
+  }
+
+  /**
+   * Search with pagination support.
+   *
+   * @param query The text to search for
+   * @param pageSize Number of results per page (max 100)
+   * @param startCursor Cursor for pagination
+   * @return SearchResponse with paginated results
+   */
+  public SearchResult search(String query, Integer pageSize, String startCursor) {
+<span class="nc" id="L86">    SearchQuery request = new SearchQuery();</span>
+<span class="nc" id="L87">    request.setQuery(query);</span>
+<span class="nc" id="L88">    request.setPageSize(pageSize);</span>
+<span class="nc" id="L89">    request.setStartCursor(startCursor);</span>
+<span class="nc" id="L90">    return search(request);</span>
+  }
+
+  /**
+   * Search only pages in the workspace.
+   *
+   * @param query The text to search for in page titles
+   * @return SearchResponse containing only page results
+   */
+  public SearchResult searchPages(String query) {
+<span class="nc" id="L100">    return search(query, SearchFilter.pages());</span>
+  }
+
+  /**
+   * Search only data sources in the workspace (API version 2025-09-03+).
+   *
+   * @param query The text to search for in data source titles
+   * @return SearchResponse containing only data source results
+   */
+  public SearchResult searchDataSources(String query) {
+<span class="nc" id="L110">    return search(query, SearchFilter.dataSources());</span>
+  }
+
+  /**
+   * Get all pages and data sources (no query filter).
+   *
+   * @return SearchResponse containing all accessible pages and data sources
+   */
+  public SearchResult getAll() {
+<span class="nc" id="L119">    SearchQuery request = new SearchQuery();</span>
+<span class="nc" id="L120">    return search(request);</span>
+  }
+
+  /**
+   * Get all pages and data sources with pagination.
+   *
+   * @param pageSize Number of results per page (max 100)
+   * @param startCursor Cursor for pagination
+   * @return SearchResponse with paginated results
+   */
+  public SearchResult getAll(Integer pageSize, String startCursor) {
+<span class="nc" id="L131">    SearchQuery request = new SearchQuery();</span>
+<span class="nc" id="L132">    request.setPageSize(pageSize);</span>
+<span class="nc" id="L133">    request.setStartCursor(startCursor);</span>
+<span class="nc" id="L134">    return search(request);</span>
+  }
+
+  private void validateRequest(SearchQuery request) {
+<span class="nc bnc" id="L138" title="All 2 branches missed.">    if (request == null) {</span>
+<span class="nc" id="L139">      throw new IllegalArgumentException(&quot;Search request cannot be null&quot;);</span>
+    }
+
+<span class="nc bnc" id="L142" title="All 2 branches missed.">    if (request.getPageSize() != null</span>
+<span class="nc bnc" id="L143" title="All 4 branches missed.">        &amp;&amp; (request.getPageSize() &lt; 1 || request.getPageSize() &gt; 100)) {</span>
+<span class="nc" id="L144">      throw new IllegalArgumentException(&quot;Page size must be between 1 and 100&quot;);</span>
+    }
+<span class="nc" id="L146">  }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

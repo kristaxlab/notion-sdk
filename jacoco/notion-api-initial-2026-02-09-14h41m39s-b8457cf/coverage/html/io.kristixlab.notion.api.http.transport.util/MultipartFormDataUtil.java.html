@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MultipartFormDataUtil.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">notion-sdk</a> &gt; <a href="index.source.html" class="el_package">io.kristixlab.notion.api.http.transport.util</a> &gt; <span class="el_source">MultipartFormDataUtil.java</span></div><h1>MultipartFormDataUtil.java</h1><pre class="source lang-java linenums">package io.kristixlab.notion.api.http.transport.util;
+
+import io.kristixlab.notion.api.http.transport.rq.MultipartFormDataRequest;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+
+import okhttp3.*;
+import okio.BufferedSink;
+
+/** Util class to work with okhttp3 librry */
+<span class="nc" id="L14">public class MultipartFormDataUtil {</span>
+
+  public static RequestBody toRequestBody(
+      MultipartFormDataRequest multipartFormDataRequest, boolean asStream) {
+<span class="nc" id="L18">    MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM);</span>
+
+<span class="nc" id="L20">    multipartFormDataRequest</span>
+<span class="nc" id="L21">        .getParts()</span>
+<span class="nc" id="L22">        .forEach(</span>
+            part -&gt; {
+<span class="nc bnc" id="L24" title="All 2 branches missed.">              if (part instanceof MultipartFormDataRequest.FilePart filePart) {</span>
+<span class="nc" id="L25">                addFileToMultipart(filePart, builder, asStream);</span>
+<span class="nc bnc" id="L26" title="All 2 branches missed.">              } else if (part instanceof MultipartFormDataRequest.ByteArrayPart byteArrayPart) {</span>
+<span class="nc" id="L27">                addBytesArrayToMultipart(byteArrayPart, builder);</span>
+<span class="nc bnc" id="L28" title="All 2 branches missed.">              } else if (part instanceof MultipartFormDataRequest.InputStreamPart inputStreamPart) {</span>
+<span class="nc" id="L29">                addInputStreamToMultipart(inputStreamPart, builder);</span>
+              } else {
+<span class="nc" id="L31">                builder.addFormDataPart(part.getName(), String.valueOf(part.getContent()));</span>
+              }
+<span class="nc" id="L33">            });</span>
+
+<span class="nc" id="L35">    return builder.build();</span>
+  }
+
+  /** adds file to request */
+  private static void addFileToMultipart(
+      MultipartFormDataRequest.FilePart filePart,
+      MultipartBody.Builder rqBuilder,
+      boolean asStream) {
+
+<span class="nc" id="L44">    File file = filePart.getContent();</span>
+<span class="nc bnc" id="L45" title="All 4 branches missed.">    if (file == null || !file.exists()) {</span>
+<span class="nc bnc" id="L46" title="All 2 branches missed.">      String filePath = (file != null) ? file.getAbsolutePath() : &quot;null&quot;;</span>
+<span class="nc" id="L47">      throw new IllegalArgumentException(&quot;File is null or does not exist: &quot; + filePath);</span>
+    }
+
+<span class="nc" id="L50">    RequestBody fileBody = null;</span>
+<span class="nc" id="L51">    String contentType = filePart.getHeaders().get(&quot;Content-Type&quot;);</span>
+
+<span class="nc bnc" id="L53" title="All 2 branches missed.">    if (asStream) {</span>
+<span class="nc" id="L54">      fileBody = asStreamRequestBody(file, contentType);</span>
+    } else {
+<span class="nc" id="L56">      try (InputStream inputStream = new FileInputStream(file)) {</span>
+<span class="nc" id="L57">        byte[] fileContent = inputStream.readAllBytes();</span>
+<span class="nc bnc" id="L58" title="All 4 branches missed.">        if (contentType == null || contentType.isEmpty()) {</span>
+<span class="nc" id="L59">          fileBody = RequestBody.create(fileContent);</span>
+        } else {
+<span class="nc" id="L61">          fileBody = RequestBody.create(fileContent, MediaType.parse(contentType));</span>
+        }
+<span class="nc" id="L63">      } catch (IOException e) {</span>
+<span class="nc" id="L64">        throw new RuntimeException(&quot;Failed to read file content: &quot; + file.getAbsolutePath(), e);</span>
+<span class="nc" id="L65">      }</span>
+    }
+
+<span class="nc bnc" id="L68" title="All 2 branches missed.">    if (filePart.getFileName() != null) {</span>
+<span class="nc" id="L69">      rqBuilder.addFormDataPart(filePart.getName(), filePart.getFileName(), fileBody);</span>
+    } else {
+<span class="nc" id="L71">      rqBuilder.addPart(</span>
+<span class="nc" id="L72">          Headers.of(</span>
+              &quot;Content-Disposition&quot;,
+              &quot;form-data; name=\&quot;&quot;
+<span class="nc" id="L75">                  + filePart.getName()</span>
+                  + &quot;\&quot;; filename=\&quot;&quot;
+<span class="nc" id="L77">                  + file.getName()</span>
+                  + &quot;\&quot;&quot;),
+          fileBody);
+    }
+<span class="nc" id="L81">  }</span>
+
+  private static RequestBody asStreamRequestBody(File file, String contentType) {
+<span class="nc" id="L84">    return new RequestBody() {</span>
+<span class="nc" id="L85">      private final File fileRef = file;</span>
+
+      @Override
+      public MediaType contentType() {
+<span class="nc bnc" id="L89" title="All 4 branches missed.">        if (contentType != null &amp;&amp; !contentType.isEmpty()) {</span>
+<span class="nc" id="L90">          return MediaType.parse(contentType);</span>
+        }
+<span class="nc" id="L92">        return MediaType.parse(&quot;application/octet-stream&quot;);</span>
+      }
+
+      @Override
+      public long contentLength() throws IOException {
+<span class="nc" id="L97">        return fileRef.length();</span>
+      }
+
+      @Override
+      public void writeTo(BufferedSink sink) throws IOException {
+<span class="nc" id="L102">        try (InputStream is = new FileInputStream(fileRef)) {</span>
+<span class="nc" id="L103">          byte[] buffer = new byte[8192]; // 8 KB buffer</span>
+          int bytesRead;
+<span class="nc bnc" id="L105" title="All 2 branches missed.">          while ((bytesRead = is.read(buffer)) != -1) {</span>
+<span class="nc" id="L106">            sink.write(buffer, 0, bytesRead);</span>
+          }
+<span class="nc" id="L108">        } catch (IOException e) {</span>
+<span class="nc" id="L109">          throw new IOException(&quot;Error reading file: &quot; + fileRef.getAbsolutePath(), e);</span>
+<span class="nc" id="L110">        }</span>
+<span class="nc" id="L111">      }</span>
+    };
+  }
+
+  private static void addInputStreamToMultipart(
+      MultipartFormDataRequest.InputStreamPart inputStreamPart, MultipartBody.Builder rqBuilder) {
+
+<span class="nc" id="L118">    RequestBody isBody =</span>
+<span class="nc" id="L119">        asStreamRequestBody(</span>
+<span class="nc" id="L120">            inputStreamPart.getContent(), inputStreamPart.getHeaders().get(&quot;Content-Type&quot;));</span>
+<span class="nc bnc" id="L121" title="All 2 branches missed.">    if (inputStreamPart.getFileName() != null) {</span>
+<span class="nc" id="L122">      rqBuilder.addFormDataPart(inputStreamPart.getName(), inputStreamPart.getFileName(), isBody);</span>
+    } else {
+<span class="nc" id="L124">      rqBuilder.addPart(</span>
+<span class="nc" id="L125">          Headers.of(</span>
+              &quot;Content-Disposition&quot;,
+              &quot;form-data; name=\&quot;&quot;
+<span class="nc" id="L128">                  + inputStreamPart.getName()</span>
+                  + &quot;\&quot;; filename=\&quot;&quot;
+<span class="nc" id="L130">                  + inputStreamPart.getName()</span>
+                  + &quot;\&quot;&quot;),
+          isBody);
+    }
+<span class="nc" id="L134">  }</span>
+
+  public static RequestBody asStreamRequestBody(InputStream inputStream, String contentType) {
+<span class="nc" id="L137">    return new RequestBody() {</span>
+
+      @Override
+      public MediaType contentType() {
+<span class="nc bnc" id="L141" title="All 4 branches missed.">        if (contentType != null &amp;&amp; !contentType.isEmpty()) {</span>
+<span class="nc" id="L142">          return MediaType.parse(contentType);</span>
+        }
+<span class="nc" id="L144">        return MediaType.parse(&quot;application/octet-stream&quot;);</span>
+      }
+
+      @Override
+      public void writeTo(BufferedSink sink) throws IOException {
+<span class="nc" id="L149">        try (inputStream) {</span>
+<span class="nc" id="L150">          byte[] buffer = new byte[8192]; // 8 KB buffer</span>
+          int bytesRead;
+<span class="nc bnc" id="L152" title="All 2 branches missed.">          while ((bytesRead = inputStream.read(buffer)) != -1) {</span>
+<span class="nc" id="L153">            sink.write(buffer, 0, bytesRead);</span>
+          }
+        }
+<span class="nc" id="L156">      }</span>
+    };
+  }
+
+  private static void addBytesArrayToMultipart(
+      MultipartFormDataRequest.ByteArrayPart byteArrayPart, MultipartBody.Builder rqBuilder) {
+<span class="nc" id="L162">    byte[] bytes = byteArrayPart.getContent();</span>
+<span class="nc bnc" id="L163" title="All 4 branches missed.">    if (bytes == null || bytes.length == 0) {</span>
+<span class="nc" id="L164">      throw new IllegalArgumentException(</span>
+<span class="nc" id="L165">          &quot;Byte array is null or empty for part: &quot; + byteArrayPart.getName());</span>
+    }
+<span class="nc" id="L167">    String contentType = byteArrayPart.getHeaders().get(&quot;Content-Type&quot;);</span>
+    RequestBody byteArrayBody;
+<span class="nc bnc" id="L169" title="All 4 branches missed.">    if (contentType == null || contentType.isEmpty()) {</span>
+<span class="nc" id="L170">      byteArrayBody = RequestBody.create(bytes);</span>
+    } else {
+<span class="nc" id="L172">      byteArrayBody = RequestBody.create(bytes, MediaType.parse(contentType));</span>
+    }
+
+<span class="nc bnc" id="L175" title="All 2 branches missed.">    if (byteArrayPart.getFileName() != null) {</span>
+<span class="nc" id="L176">      rqBuilder.addFormDataPart(</span>
+<span class="nc" id="L177">          byteArrayPart.getName(), byteArrayPart.getFileName(), byteArrayBody);</span>
+    } else {
+<span class="nc" id="L179">      rqBuilder.addPart(</span>
+<span class="nc" id="L180">          Headers.of(&quot;Content-Disposition&quot;, &quot;form-data; name=\&quot;&quot; + byteArrayPart.getName() + &quot;\&quot;&quot;),</span>
+          byteArrayBody);
+    }
+<span class="nc" id="L183">  }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

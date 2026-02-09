@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Icon.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">notion-sdk</a> &gt; <a href="index.source.html" class="el_package">io.kristixlab.notion.api.model.common</a> &gt; <span class="el_source">Icon.java</span></div><h1>Icon.java</h1><pre class="source lang-java linenums">package io.kristixlab.notion.api.model.common;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Data;
+/* TODO handle the mess of types insside */
+@Data
+public class Icon {
+
+  @JsonProperty(&quot;type&quot;)
+  private String type;
+
+  @JsonProperty(&quot;emoji&quot;)
+  private String emoji;
+
+  @JsonProperty(&quot;custom_emoji&quot;)
+  private CustomEmoji customEmoji;
+
+  @JsonProperty(&quot;file&quot;)
+  private File file;
+
+  @JsonProperty(&quot;external&quot;)
+  private ExternalFile external;
+
+  @Data
+  public static class CustomEmoji {
+    @JsonProperty(&quot;id&quot;)
+    private String id;
+
+    @JsonProperty(&quot;name&quot;)
+    private String name;
+
+    @JsonProperty(&quot;url&quot;)
+    private String url;
+  }
+
+  public static Icon fromExternalUrl(String url) {
+<span class="nc" id="L37">    Icon icon = new Icon();</span>
+<span class="nc" id="L38">    icon.setType(&quot;external&quot;);</span>
+<span class="nc" id="L39">    ExternalFile external = new ExternalFile();</span>
+<span class="nc" id="L40">    external.setUrl(url);</span>
+<span class="nc" id="L41">    icon.setExternal(external);</span>
+<span class="nc" id="L42">    return icon;</span>
+  }
+
+  public static Icon fromEmoji(String emoji) {
+<span class="nc" id="L46">    Icon icon = new Icon();</span>
+<span class="nc" id="L47">    icon.setType(&quot;emoji&quot;);</span>
+<span class="nc" id="L48">    icon.setEmoji(emoji);</span>
+<span class="nc" id="L49">    return icon;</span>
+  }
+
+  public static Icon fromFileUrl(String url) {
+<span class="nc" id="L53">    Icon icon = new Icon();</span>
+<span class="nc" id="L54">    icon.setType(&quot;file&quot;);</span>
+<span class="nc" id="L55">    File file = new File();</span>
+<span class="nc" id="L56">    file.setUrl(url);</span>
+<span class="nc" id="L57">    icon.setFile(file);</span>
+<span class="nc" id="L58">    return icon;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

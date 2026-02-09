@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UsersEndpointImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">notion-sdk</a> &gt; <a href="index.source.html" class="el_package">io.kristixlab.notion.api.endpoints.impl</a> &gt; <span class="el_source">UsersEndpointImpl.java</span></div><h1>UsersEndpointImpl.java</h1><pre class="source lang-java linenums">package io.kristixlab.notion.api.endpoints.impl;
+
+import io.kristixlab.notion.api.endpoints.UsersEndpoint;
+import io.kristixlab.notion.api.http.NotionHttpTransport;
+import io.kristixlab.notion.api.http.transport.HttpTransportImpl;
+import io.kristixlab.notion.api.http.transport.rq.URLInfo;
+import io.kristixlab.notion.api.http.transport.util.URLInfoBuilder;
+import io.kristixlab.notion.api.model.users.User;
+import io.kristixlab.notion.api.model.users.UserList;
+import io.kristixlab.notion.api.util.Pagination;
+
+/**
+ * API for interacting with Notion Users endpoints. Provides methods to retrieve users and list all
+ * users in the workspace.
+ */
+public class UsersEndpointImpl implements UsersEndpoint {
+
+  private static final String USER_ID = &quot;user_id&quot;;
+
+  private final HttpTransportImpl transport;
+
+<span class="nc" id="L22">  public UsersEndpointImpl(NotionHttpTransport transport) {</span>
+<span class="nc" id="L23">    this.transport = transport;</span>
+<span class="nc" id="L24">  }</span>
+
+  /**
+   * Retrieve a user by their ID. Returns a User object for the user with the specified ID.
+   *
+   * @param userId The ID of the user to retrieve
+   * @return The user object
+   */
+  public User retrieve(String userId) {
+<span class="nc" id="L33">    validateUserId(userId);</span>
+<span class="nc" id="L34">    URLInfo urlInfo = URLInfo.builder(&quot;/users/{user_id}&quot;).pathParam(USER_ID, userId).build();</span>
+<span class="nc" id="L35">    return transport.call(&quot;GET&quot;, urlInfo, User.class);</span>
+  }
+
+  /**
+   * List all users in the workspace with default parameters. Returns a paginated list of User
+   * objects for all users in the workspace.
+   *
+   * @return UsersList containing all users in the workspace
+   */
+  public UserList listUsers() {
+<span class="nc" id="L45">    return listUsers(null, null);</span>
+  }
+
+  /**
+   * List all users in the workspace with pagination. Returns a paginated list of User objects for
+   * all users in the workspace.
+   *
+   * @param startCursor The cursor to start from for pagination
+   * @param pageSize The number of results to return (max 100)
+   * @return UsersList containing users in the workspace
+   */
+  public UserList listUsers(String startCursor, Integer pageSize) {
+<span class="nc" id="L57">    URLInfoBuilder urlInfo = URLInfo.builder(&quot;/users&quot;);</span>
+
+<span class="nc bnc" id="L59" title="All 2 branches missed.">    if (startCursor != null) {</span>
+<span class="nc" id="L60">      urlInfo.queryParam(Pagination.START_CURSOR, startCursor);</span>
+    }
+
+<span class="nc bnc" id="L63" title="All 2 branches missed.">    if (pageSize != null) {</span>
+<span class="nc" id="L64">      urlInfo.queryParam(Pagination.PAGE_SIZE, pageSize).build();</span>
+    }
+
+<span class="nc" id="L67">    return transport.call(&quot;GET&quot;, urlInfo.build(), UserList.class);</span>
+  }
+
+  /**
+   * Retrieve the current bot user. Returns information about the current bot user.
+   *
+   * @return The current bot user
+   */
+  public User me() {
+<span class="nc" id="L76">    return transport.call(&quot;GET&quot;, URLInfo.build(&quot;/users/me&quot;), User.class);</span>
+  }
+
+  /** Validates the user ID parameter. */
+  private void validateUserId(String userId) {
+<span class="nc bnc" id="L81" title="All 4 branches missed.">    if (userId == null || userId.trim().isEmpty()) {</span>
+<span class="nc" id="L82">      throw new IllegalArgumentException(&quot;User ID cannot be null or empty&quot;);</span>
+    }
+<span class="nc" id="L84">  }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
