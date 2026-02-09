@@ -17,6 +17,7 @@ dependencies {
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.18.1'
     implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.15.2'
     implementation 'org.projectlombok:lombok:1.18.32'
+    implementation 'org.yaml:snakeyaml:2.2'
     annotationProcessor 'org.projectlombok:lombok:1.18.32'
 
     implementation 'org.slf4j:slf4j-api:2.0.17'
@@ -85,8 +86,6 @@ tasks.register('integrationTest', Test) {
     classpath = sourceSets.test.runtimeClasspath
 
     include 'integration/**'
-    shouldRunAfter test
-
     useJUnitPlatform()
 
     jacoco {
@@ -95,8 +94,8 @@ tasks.register('integrationTest', Test) {
     finalizedBy jacocoIntegrationTestReport
 }
 
-loadEnvVarsForTask(test, '.env.test')
-loadEnvVarsForTask(integrationTest, '.env.integrationTest')
+loadEnvVarsForTask(test, '.env.local')
+loadEnvVarsForTask(integrationTest, '.env.local')
 
 // Configure JaCoCo version and exclusions
 jacoco {
