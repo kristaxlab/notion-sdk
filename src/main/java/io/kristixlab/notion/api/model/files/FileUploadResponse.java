@@ -31,17 +31,13 @@ public class FileUploadResponse extends BaseNotionObject {
   @JsonProperty("last_edited_time")
   private String lastEditedTime;
 
-  /** The expiration time for the upload URL. */
-  @JsonProperty("expiry_time")
-  private String expiryTime;
-
-  /** The pre-signed URL where the file should be uploaded. */
-  @JsonProperty("upload_url")
-  private String uploadUrl;
-
   /** Whether the file upload is archived. */
   @JsonProperty("archived")
   private Boolean archived;
+
+  /** The expiration time for the upload URL. */
+  @JsonProperty("expiry_time")
+  private String expiryTime;
 
   /** The status of the file upload (e.g., "pending"). */
   @JsonProperty("status")
@@ -58,4 +54,46 @@ public class FileUploadResponse extends BaseNotionObject {
   /** The size of the file in bytes. */
   @JsonProperty("content_length")
   private Long contentLength;
+
+  /** The pre-signed URL where the file should be uploaded. */
+  @JsonProperty("upload_url")
+  private String uploadUrl;
+
+  @JsonProperty("number_of_parts")
+  private NumberOfParts numberOfParts;
+
+  /** The URL to access the completed file upload. */
+  @JsonProperty("complete_url")
+  private String completeUrl;
+
+  @JsonProperty("file_import_result")
+  private FileImportResult fileImportResult;
+
+  public static class FileImportResult {
+    /** ISO-8601 */
+    @JsonProperty("imported_time")
+    private String importedTime;
+
+    @JsonProperty("type")
+    private String type;
+
+    /** Empty object. */
+    @JsonProperty("success")
+    private Object success;
+
+    /** The reason for failure, if applicable. */
+    @JsonProperty("error")
+    private FileUploadError error;
+  }
+
+  @Data
+  public static class NumberOfParts {
+    /** The total number of parts the file was split into for upload. */
+    @JsonProperty("total")
+    private Integer total;
+
+    /** The part number of the current upload part. */
+    @JsonProperty("sent")
+    private Integer sent;
+  }
 }

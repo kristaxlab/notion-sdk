@@ -2,11 +2,13 @@ package io.kristixlab.notion.api.http.transport;
 
 import io.kristixlab.notion.api.http.transport.exception.HttpResponseException;
 import io.kristixlab.notion.api.http.transport.exception.HttpTransportException;
-import io.kristixlab.notion.api.http.transport.rq.FileRequest;
+import io.kristixlab.notion.api.http.transport.rq.MultipartFormDataRequest;
 import io.kristixlab.notion.api.http.transport.rq.URLInfo;
 import io.kristixlab.notion.api.http.transport.rs.ApiResponse;
-import io.kristixlab.notion.api.http.transport.util.ApiRequestUtil;
+import io.kristixlab.notion.api.http.transport.util.MultipartFormDataUtil;
+import io.kristixlab.notion.api.http.transport.util.UrlUtil;
 import io.kristixlab.notion.api.json.JsonConverter;
+import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 import java.util.UUID;
@@ -76,8 +78,14 @@ public class HttpTransportImpl implements HttpTransport {
     Request request = buildRequest(method, urlInfo, headerParams, body, logBlueprint);
 
     if (LOGGER.isDebugEnabled()) {
-      LOGGER.debug("[{}] Request method: {}, url: {}", logBlueprint, method, request.url());
+      LOGGER.debug(
+          "[{}] Request method: {}, url: {}, content-type: {}",
+          logBlueprint,
+          method,
+          request.url(),
+          request.header("Content-Type"));
       if (request.body() != null) {
+        // TODO adjust for MultipartFormDataRequest
         LOGGER.debug(
             "[{}] Request body: \n{}", logBlueprint, JsonConverter.getInstance().toJson(body));
       }
@@ -100,8 +108,8 @@ public class HttpTransportImpl implements HttpTransport {
 
   private Response executeRequest(Request request, String logBlueprint) {
     Call call = httpClient.newCall(request);
-    try (Response response = call.execute()) {
-      return response;
+    try {
+      return call.execute();
     } catch (IOException e) {
       LOGGER.error("[{}] Network error calling {} API", logBlueprint, getApiName(), e);
       throw new HttpTransportException("Network error: " + e.getMessage(), e);
@@ -153,10 +161,10 @@ public class HttpTransportImpl implements HttpTransport {
   }
 
   private String readBodyString(Response response, String logBlueprint) {
-    try {
-      return response.body().string();
-    } catch (IOException e) {
-      LOGGER.error("[{}] Failed to read response body ", logBlueprint);
+    try (ResponseBody body = response.body()) {
+      return body.string();
+    } catch (Exception e) {
+      LOGGER.error("[{}] Failed to read response body ", logBlueprint, e);
       throw new HttpTransportException("[" + logBlueprint + "] Failed to read response body", e);
     }
   }
@@ -168,7 +176,7 @@ public class HttpTransportImpl implements HttpTransport {
       Object body,
       String logBlueprint) {
     // url
-    String url = ApiRequestUtil.buildURL(getBaseUrl(), urlInfo);
+    String url = UrlUtil.buildURL(getBaseUrl(), urlInfo);
     Request.Builder requestBuilder = new Request.Builder().url(url);
 
     // headers
@@ -179,11 +187,16 @@ public class HttpTransportImpl implements HttpTransport {
     // body
     RequestBody requestBody = null;
     if (body != null) {
-      if (body instanceof FileRequest) {
-        requestBody = ApiRequestUtil.fileToRequestBody(((FileRequest) body));
+      if (body instanceof MultipartFormDataRequest) {
+        // TODO make configurable with notion.endpoints.file-uploads.stream.threshold.bytes
+        long threasholdBytes = 1 * 1024 * 1024; // 1MB threshold for streaming
+        boolean asStream = shouldBeStreamed((MultipartFormDataRequest) body, threasholdBytes);
+        requestBody =
+            MultipartFormDataUtil.toRequestBody(((MultipartFormDataRequest) body), asStream);
       } else {
         String jsonContent = JsonConverter.getInstance().toJson(body);
         requestBody = RequestBody.create(jsonContent, JSON_MEDIA_TYPE);
+        requestBuilder.addHeader("Content-Type", "application/json");
       }
     } else {
       // Handle methods that don't allow body (GET, HEAD) vs those that do
@@ -199,6 +212,20 @@ public class HttpTransportImpl implements HttpTransport {
     requestBuilder.method(method, requestBody);
 
     return afterBuildRequest(url, requestBuilder, logBlueprint).build();
+  }
+
+  private boolean shouldBeStreamed(MultipartFormDataRequest body, long thresholdBytes) {
+    MultipartFormDataRequest.FilePart filePart =
+        body.getParts().stream()
+            .filter(part -> part instanceof MultipartFormDataRequest.FilePart)
+            .map(part -> (MultipartFormDataRequest.FilePart) part)
+            .findFirst()
+            .orElse(null);
+    if (filePart != null) {
+      File file = filePart.getContent();
+      return file != null && file.length() >= thresholdBytes;
+    }
+    return false;
   }
 
   protected Request.Builder afterBuildRequest(

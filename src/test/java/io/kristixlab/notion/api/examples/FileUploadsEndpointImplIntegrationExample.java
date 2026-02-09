@@ -4,10 +4,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import io.kristixlab.notion.api.endpoints.impl.FileUploadsEndpointImpl;
-import io.kristixlab.notion.api.model.files.FileUploadCreateRequest;
+import io.kristixlab.notion.api.model.files.FileUploadCreateParams;
 import io.kristixlab.notion.api.model.files.FileUploadList;
 import io.kristixlab.notion.api.model.files.FileUploadResponse;
-import io.kristixlab.notion.api.model.files.FileUploadSendRequest;
+import io.kristixlab.notion.api.model.files.FileUploadSendParams;
 import java.io.InputStream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,7 +25,7 @@ public class FileUploadsEndpointImplIntegrationExample extends IntegrationTest {
   @Test
   void testCreateAndSendFileUploads() throws Exception {
     // Create a file upload request
-    FileUploadCreateRequest request = new FileUploadCreateRequest();
+    FileUploadCreateParams request = new FileUploadCreateParams();
     request.setMode("single_part");
     request.setFilename("snowy_day.jpg");
     request.setContentType("image/jpeg");
@@ -47,8 +47,9 @@ public class FileUploadsEndpointImplIntegrationExample extends IntegrationTest {
       byte[] fileContent = inputStream.readAllBytes();
 
       // Send file content
-      FileUploadSendRequest sendRequest = new FileUploadSendRequest();
-      sendRequest.setFile(fileContent);
+      FileUploadSendParams sendRequest = new FileUploadSendParams();
+      //TODO
+//      sendRequest.setFile(fileContent);
       sendRequest.setContentType(createResponse.getContentType());
       FileUploadResponse sendResponse =
           fileUploadsApi.sendFileContent(createResponse.getId(), sendRequest);

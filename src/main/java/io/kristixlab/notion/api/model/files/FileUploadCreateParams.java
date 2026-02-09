@@ -5,7 +5,7 @@ import lombok.Data;
 
 /** Request object for uploading a file to Notion. */
 @Data
-public class FileUploadCreateRequest {
+public class FileUploadCreateParams {
 
   /** multi_part / external_url / single_part */
   @JsonProperty("mode")
@@ -26,6 +26,8 @@ public class FileUploadCreateRequest {
   /**
    * When mode is multi_part, the number of parts you are uploading. Must be between 1 and 1,000.
    * This must match the number of parts as well as the final part_number you send.
+   *
+   * Not allowed when mode is single_part or external_url.
    */
   @JsonProperty("number_of_parts")
   private Integer numberOfParts;
@@ -35,5 +37,5 @@ public class FileUploadCreateRequest {
    * your workspace.
    */
   @JsonProperty("external_url")
-  private String external_url;
+  private String externalUrl;
 }

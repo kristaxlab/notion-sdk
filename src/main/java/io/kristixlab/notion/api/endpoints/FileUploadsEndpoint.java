@@ -1,9 +1,6 @@
 package io.kristixlab.notion.api.endpoints;
 
-import io.kristixlab.notion.api.model.files.FileUploadCreateRequest;
-import io.kristixlab.notion.api.model.files.FileUploadList;
-import io.kristixlab.notion.api.model.files.FileUploadResponse;
-import io.kristixlab.notion.api.model.files.FileUploadSendRequest;
+import io.kristixlab.notion.api.model.files.*;
 
 /**
  * Interface defining operations for Notion File Uploads.
@@ -11,12 +8,9 @@ import io.kristixlab.notion.api.model.files.FileUploadSendRequest;
  * @see <a href="https://developers.notion.com/reference/file-uploads">Notion File Uploads API</a>
  */
 public interface FileUploadsEndpoint {
-  FileUploadResponse createFileUpload(FileUploadCreateRequest request);
+  FileUploadResponse createFileUpload(FileUploadCreateParams request);
 
-  FileUploadResponse sendFileContent(
-      String fileUploadId, byte[] fileContent, String contentType, Integer partNumber);
-
-  FileUploadResponse sendFileContent(String fileUploadId, FileUploadSendRequest request);
+  FileUploadResponse sendFileContent(String fileUploadId, FileUploadSendParams request);
 
   FileUploadResponse completeFileUpload(String fileUploadId);
 

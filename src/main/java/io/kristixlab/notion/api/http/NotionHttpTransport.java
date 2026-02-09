@@ -8,6 +8,7 @@ import io.kristixlab.notion.api.http.transport.rq.URLInfo;
 import io.kristixlab.notion.api.http.transport.rs.ApiResponse;
 import io.kristixlab.notion.api.json.JsonConverter;
 import io.kristixlab.notion.api.model.NotionError;
+import java.util.HashMap;
 import java.util.Map;
 import okhttp3.Response;
 
@@ -51,11 +52,14 @@ public class NotionHttpTransport extends HttpTransportImpl {
       Map<String, String> headerParams,
       Object body,
       Class<T> responseType) {
+
+    if (headerParams == null) {
+      headerParams = new HashMap<>();
+    }
+
     headerParams.put("Notion-Version", version);
 
-    if (!"/file_uploads/{file_upload_id}/send".equals(urlInfo.getUrl())) {
-      headerParams.put("Content-Type", "application/json");
-    }
+    headerParams.put("Accept", "application/json");
 
     if (!headerParams.containsKey("Authorization")) {
       if ("/oauth/token".equals(urlInfo.getUrl())
