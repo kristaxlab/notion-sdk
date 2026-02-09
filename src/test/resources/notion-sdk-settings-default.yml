@@ -1,0 +1,21 @@
+notion:
+  endpoints:
+    file-uploads:
+      stream-after-bytes: 1024
+
+  test:
+    boolean: true
+    integer: 42
+    string: "Hello, Notion SDK!"
+    long: 1234567890123456789
+    double: 3.14159
+
+    list:
+      - value1
+      - value2
+      - value3
+
+    map:
+      key1: value1
+      key2: value2
+      key3: value3

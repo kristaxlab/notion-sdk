@@ -1,0 +1,4 @@
+notion:
+  endpoints:
+    file-uploads:
+      stream-after-bytes: 2048
