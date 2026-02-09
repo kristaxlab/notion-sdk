@@ -11,13 +11,14 @@ public class FileData {
   private String type;
 
   @JsonProperty("external")
-  private FileData.External external;
+  private ExternalFile external;
 
+  /** TODO check if file and file_upload are mutually exclusive */
   @JsonProperty("file")
-  private FileData.File file;
+  private File file;
 
   @JsonProperty("file_upload")
-  private FileData.FileUpload fileUpload;
+  private FileUpload fileUpload;
 
   // TODO no caption for covers and emojis, do I have to divide this class to two?
   // check if captionas are for page props.
@@ -27,26 +28,24 @@ public class FileData {
   @JsonProperty("name")
   private String name;
 
-  @Data
-  public static class External {
-    @JsonProperty("url")
-    private String url;
+
+  public static FileData fromExternalUrl(String url) {
+    FileData fileData = new FileData();
+    fileData.setType("external");
+    ExternalFile external = new ExternalFile();
+    external.setUrl(url);
+    fileData.setExternal(external);
+    return fileData;
   }
 
-  @Data
-  public static class File {
-
-    @JsonProperty("url")
-    private String url;
-
-    @JsonProperty("expiry_time")
-    private String expiryTime;
+  public static FileData fromFileUpload(String url) {
+    FileData fileData = new FileData();
+    fileData.setType("file");
+    File file = new File();
+    file.setUrl(url);
+    fileData.setFile(file);
+    return fileData;
   }
 
-  @Data
-  public static class FileUpload {
 
-    @JsonProperty("id")
-    private String id;
-  }
 }

@@ -12,6 +12,9 @@ public class Bot {
   @JsonProperty("workspace_name")
   private String workspaceName;
 
+  @JsonProperty("workspace_id")
+  private String workspaceId;
+
   @JsonProperty("workspace_limits")
   private WorkspaceLimits workspaceLimits;
 }
