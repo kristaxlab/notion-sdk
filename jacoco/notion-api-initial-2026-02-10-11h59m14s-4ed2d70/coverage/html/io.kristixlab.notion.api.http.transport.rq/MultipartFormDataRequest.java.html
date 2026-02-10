@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MultipartFormDataRequest.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">notion-sdk</a> &gt; <a href="index.source.html" class="el_package">io.kristixlab.notion.api.http.transport.rq</a> &gt; <span class="el_source">MultipartFormDataRequest.java</span></div><h1>MultipartFormDataRequest.java</h1><pre class="source lang-java linenums">package io.kristixlab.notion.api.http.transport.rq;
+
+import java.io.File;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+@Data
+public class MultipartFormDataRequest {
+  private String boundary = &quot;----WebKitFormBoundary&quot; + System.currentTimeMillis();
+  private List&lt;Part&gt; parts = new ArrayList&lt;&gt;();
+
+  public void addFilePart(String name, File file, String fileName, String contentType) {
+<span class="nc" id="L18">    FilePart part = new FilePart();</span>
+<span class="nc" id="L19">    part.setName(name);</span>
+<span class="nc" id="L20">    part.setFileName(fileName);</span>
+<span class="nc" id="L21">    part.setContent(file);</span>
+<span class="nc" id="L22">    part.getHeaders().put(&quot;Content-Type&quot;, contentType);</span>
+<span class="nc" id="L23">    parts.add(part);</span>
+<span class="nc" id="L24">  }</span>
+
+  public void addFilePart(String name, File file) {
+<span class="nc" id="L27">    FilePart part = new FilePart();</span>
+<span class="nc" id="L28">    part.setName(name);</span>
+<span class="nc" id="L29">    part.setContent(file);</span>
+<span class="nc" id="L30">    parts.add(part);</span>
+<span class="nc" id="L31">  }</span>
+
+  public void addInputStreamPart(
+      String name, InputStream inputStream, String fileName, String contentType) {
+<span class="nc" id="L35">    InputStreamPart part = new InputStreamPart();</span>
+<span class="nc" id="L36">    part.setName(name);</span>
+<span class="nc" id="L37">    part.setFileName(fileName);</span>
+<span class="nc" id="L38">    part.setContent(inputStream);</span>
+<span class="nc" id="L39">    part.getHeaders().put(&quot;Content-Type&quot;, contentType);</span>
+<span class="nc" id="L40">    parts.add(part);</span>
+<span class="nc" id="L41">  }</span>
+
+  public void addByteArrayPart(String name, byte[] array, String fileName, String contentType) {
+<span class="nc" id="L44">    ByteArrayPart part = new ByteArrayPart();</span>
+<span class="nc" id="L45">    part.setName(name);</span>
+<span class="nc" id="L46">    part.setContent(array);</span>
+<span class="nc" id="L47">    part.setFileName(fileName);</span>
+<span class="nc" id="L48">    part.getHeaders().put(&quot;Content-Type&quot;, contentType);</span>
+<span class="nc" id="L49">    parts.add(part);</span>
+<span class="nc" id="L50">  }</span>
+
+  public void addPart(String name, Object value) {
+<span class="nc" id="L53">    Part part = new Part();</span>
+<span class="nc" id="L54">    part.setName(name);</span>
+<span class="nc" id="L55">    part.setContent(value);</span>
+<span class="nc" id="L56">    parts.add(part);</span>
+<span class="nc" id="L57">  }</span>
+
+  @Data
+  public static class Part&lt;T&gt; {
+    String name;
+    Map&lt;String, String&gt; headers = new HashMap&lt;&gt;();
+
+    T content;
+  }
+
+  @Data
+  @EqualsAndHashCode(callSuper = true)
+  public static class FilePart extends Part&lt;File&gt; {
+    String fileName;
+  }
+
+  @Data
+  @EqualsAndHashCode(callSuper = true)
+  public static class InputStreamPart extends Part&lt;InputStream&gt; {
+    String fileName;
+  }
+
+  @Data
+  @EqualsAndHashCode(callSuper = true)
+  public static class ByteArrayPart extends Part&lt;byte[]&gt; {
+    String fileName;
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
