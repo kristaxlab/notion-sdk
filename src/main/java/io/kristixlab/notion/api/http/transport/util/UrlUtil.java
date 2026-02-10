@@ -26,7 +26,7 @@ public class UrlUtil {
    * @param urlInfo object containing info about url + query + path params
    * @return URL string enriched by provided query and path param values
    */
-  public static String buildURL(String baseUrl, URLInfo urlInfo) {
+  public static String toUrlString(String baseUrl, URLInfo urlInfo) {
     String processedUrl = buildBaseUrl(baseUrl, urlInfo.getUrl());
     processedUrl = applyPathParameters(processedUrl, urlInfo.getPathParams());
 

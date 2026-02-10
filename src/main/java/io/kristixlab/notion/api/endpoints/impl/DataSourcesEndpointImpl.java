@@ -47,7 +47,7 @@ public class DataSourcesEndpointImpl implements DataSourcesEndpoint {
    */
   public DataSource create(CreateDataSourceRequest request) {
     validateRequest(request);
-    return transport.call("POST", URLInfo.build("/data_sources"), request, DataSource.class);
+    return transport.call("POST", URLInfo.from("/data_sources"), request, DataSource.class);
   }
 
   /**

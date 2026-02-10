@@ -4,7 +4,6 @@ import io.kristixlab.notion.api.endpoints.FileUploadsEndpoint;
 import io.kristixlab.notion.api.http.NotionHttpTransport;
 import io.kristixlab.notion.api.http.transport.rq.MultipartFormDataRequest;
 import io.kristixlab.notion.api.http.transport.rq.URLInfo;
-import io.kristixlab.notion.api.http.transport.util.URLInfoBuilder;
 import io.kristixlab.notion.api.model.files.*;
 import io.kristixlab.notion.api.util.Pagination;
 
@@ -36,8 +35,7 @@ public class FileUploadsEndpointImpl implements FileUploadsEndpoint {
    */
   public FileUploadResponse createFileUpload(FileUploadCreateParams request) {
     validateRequest(request);
-    return transport.call(
-        "POST", URLInfo.build("/file_uploads"), request, FileUploadResponse.class);
+    return transport.call("POST", URLInfo.from("/file_uploads"), request, FileUploadResponse.class);
   }
 
   /**
@@ -147,7 +145,7 @@ public class FileUploadsEndpointImpl implements FileUploadsEndpoint {
    * @return FileUploadListResponse containing the paginated list of file uploads
    */
   public FileUploadList listFileUploads(String status, String startCursor, Integer pageSize) {
-    URLInfoBuilder urlInfo = URLInfo.builder("/file_uploads");
+    URLInfo.Builder urlInfo = URLInfo.builder("/file_uploads");
     if (status != null && !status.trim().isEmpty()) {
       urlInfo.queryParam(STATUS, status);
     }

@@ -176,7 +176,7 @@ public class HttpTransportImpl implements HttpTransport {
       Object body,
       String logBlueprint) {
     // url
-    String url = UrlUtil.buildURL(getBaseUrl(), urlInfo);
+    String url = UrlUtil.toUrlString(getBaseUrl(), urlInfo);
     Request.Builder requestBuilder = new Request.Builder().url(url);
 
     // headers

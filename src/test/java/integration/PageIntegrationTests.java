@@ -18,7 +18,7 @@ public class PageIntegrationTests {
 
   private static NotionApiClient NOTION;
   private static IntegrationTestsSettings SETTINGS;
-  private static String PAGE_PARENT_ID = "pages.endpoint.create-page.parent-page";
+  private static String PAGE_PARENT_ID = "notion.endpoints.pages.create-page.parent-page";
   private static String EXTERNAL_ICON_URL = "common-media.images.icon-external";
 
   @BeforeAll

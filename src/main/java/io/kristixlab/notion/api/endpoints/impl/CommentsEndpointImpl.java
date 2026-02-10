@@ -4,7 +4,6 @@ import io.kristixlab.notion.api.endpoints.CommentsEndpoint;
 import io.kristixlab.notion.api.http.NotionHttpTransport;
 import io.kristixlab.notion.api.http.transport.HttpTransportImpl;
 import io.kristixlab.notion.api.http.transport.rq.URLInfo;
-import io.kristixlab.notion.api.http.transport.util.URLInfoBuilder;
 import io.kristixlab.notion.api.model.comments.Comment;
 import io.kristixlab.notion.api.model.comments.CommentList;
 import io.kristixlab.notion.api.model.comments.CreateCommentRequest;
@@ -33,7 +32,7 @@ public class CommentsEndpointImpl implements CommentsEndpoint {
    */
   public Comment create(CreateCommentRequest request) {
     validateRequest(request);
-    return transport.call("POST", URLInfo.build("/comments"), request, Comment.class);
+    return transport.call("POST", URLInfo.from("/comments"), request, Comment.class);
   }
 
   /**
@@ -70,7 +69,7 @@ public class CommentsEndpointImpl implements CommentsEndpoint {
   public CommentList listComments(String blockId, String startCursor, Integer pageSize) {
     validateBlockId(blockId);
 
-    URLInfoBuilder urlInfo =
+    URLInfo.Builder urlInfo =
         URLInfo.builder("/comments").queryParam(BLOCK_ID, new String[] {blockId});
 
     if (startCursor != null) {

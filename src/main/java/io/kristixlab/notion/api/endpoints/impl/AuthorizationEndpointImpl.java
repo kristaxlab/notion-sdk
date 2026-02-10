@@ -56,7 +56,7 @@ public class AuthorizationEndpointImpl implements AuthorizationEndpoint {
    */
   public TokenResponse createToken(TokenRequest request) {
     validateRequest(request);
-    URLInfo urlInfo = URLInfo.build("/oauth/token");
+    URLInfo urlInfo = URLInfo.from("/oauth/token");
 
     TokenResponse response = transport.call("POST", urlInfo, request, TokenResponse.class);
 
@@ -76,7 +76,7 @@ public class AuthorizationEndpointImpl implements AuthorizationEndpoint {
    */
   public TokenResponse createToken(TokenRequest request, String clientId, String clientSecret) {
     validateRequest(request);
-    URLInfo urlInfo = URLInfo.build("/oauth/token");
+    URLInfo urlInfo = URLInfo.from("/oauth/token");
     Map<String, String> headers = authHeader(clientId, clientSecret);
     return transport.call("POST", urlInfo, headers, request, TokenResponse.class);
   }
@@ -112,7 +112,7 @@ public class AuthorizationEndpointImpl implements AuthorizationEndpoint {
    */
   public TokenResponse refreshToken(RefreshTokenRequest request) {
     validateRefreshTokenRequest(request);
-    URLInfo urlInfo = URLInfo.build("/oauth/token");
+    URLInfo urlInfo = URLInfo.from("/oauth/token");
     return transport.call("POST", urlInfo, request, TokenResponse.class);
   }
 
@@ -140,7 +140,7 @@ public class AuthorizationEndpointImpl implements AuthorizationEndpoint {
   public TokenResponse refreshToken(
       RefreshTokenRequest request, String clientId, String clientSecret) {
     validateRefreshTokenRequest(request);
-    URLInfo urlInfo = URLInfo.build("/oauth/token");
+    URLInfo urlInfo = URLInfo.from("/oauth/token");
     Map<String, String> headers = authHeader(clientId, clientSecret);
     return transport.call("POST", urlInfo, headers, request, TokenResponse.class);
   }
@@ -185,7 +185,7 @@ public class AuthorizationEndpointImpl implements AuthorizationEndpoint {
    */
   public IntrospectTokenResponse introspectToken(IntrospectTokenRequest request) {
     validateIntrospectTokenRequest(request);
-    URLInfo urlInfo = URLInfo.build("/oauth/introspect");
+    URLInfo urlInfo = URLInfo.from("/oauth/introspect");
     return transport.call("POST", urlInfo, request, IntrospectTokenResponse.class);
   }
 
@@ -215,7 +215,7 @@ public class AuthorizationEndpointImpl implements AuthorizationEndpoint {
   public IntrospectTokenResponse introspectToken(
       IntrospectTokenRequest request, String clientId, String clientSecret) {
     validateIntrospectTokenRequest(request);
-    URLInfo urlInfo = URLInfo.build("/oauth/introspect");
+    URLInfo urlInfo = URLInfo.from("/oauth/introspect");
     Map<String, String> headers = authHeader(clientId, clientSecret);
     return transport.call("POST", urlInfo, headers, request, IntrospectTokenResponse.class);
   }
@@ -245,7 +245,7 @@ public class AuthorizationEndpointImpl implements AuthorizationEndpoint {
   public RevokeTokenResponse revokeToken(String token, String clientId, String clientSecret) {
     validateToken(token);
     RevokeTokenRequest request = RevokeTokenRequest.create(token);
-    URLInfo urlInfo = URLInfo.build("/oauth/revoke");
+    URLInfo urlInfo = URLInfo.from("/oauth/revoke");
     Map<String, String> headers = authHeader(clientId, clientSecret);
     return transport.call("POST", urlInfo, headers, request, RevokeTokenResponse.class);
   }

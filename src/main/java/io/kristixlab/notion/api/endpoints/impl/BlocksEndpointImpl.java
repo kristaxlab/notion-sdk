@@ -4,7 +4,6 @@ import io.kristixlab.notion.api.endpoints.BlocksEndpoint;
 import io.kristixlab.notion.api.http.NotionHttpTransport;
 import io.kristixlab.notion.api.http.transport.HttpTransportImpl;
 import io.kristixlab.notion.api.http.transport.rq.URLInfo;
-import io.kristixlab.notion.api.http.transport.util.URLInfoBuilder;
 import io.kristixlab.notion.api.model.blocks.AppendBlockChildrenRequest;
 import io.kristixlab.notion.api.model.blocks.Block;
 import io.kristixlab.notion.api.model.blocks.BlockList;
@@ -60,7 +59,7 @@ public class BlocksEndpointImpl implements BlocksEndpoint {
   public BlockList retrieveChildren(String blockId, String startCursor, Integer pageSize) {
     validateBlockId(blockId);
 
-    URLInfoBuilder urlInfo =
+    URLInfo.Builder urlInfo =
         URLInfo.builder("/blocks/{block_id}/children").pathParam(BLOCK_ID, blockId);
 
     if (startCursor != null) {

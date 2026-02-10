@@ -4,7 +4,6 @@ import io.kristixlab.notion.api.endpoints.UsersEndpoint;
 import io.kristixlab.notion.api.http.NotionHttpTransport;
 import io.kristixlab.notion.api.http.transport.HttpTransportImpl;
 import io.kristixlab.notion.api.http.transport.rq.URLInfo;
-import io.kristixlab.notion.api.http.transport.util.URLInfoBuilder;
 import io.kristixlab.notion.api.model.users.User;
 import io.kristixlab.notion.api.model.users.UserList;
 import io.kristixlab.notion.api.util.Pagination;
@@ -54,7 +53,7 @@ public class UsersEndpointImpl implements UsersEndpoint {
    * @return UsersList containing users in the workspace
    */
   public UserList listUsers(String startCursor, Integer pageSize) {
-    URLInfoBuilder urlInfo = URLInfo.builder("/users");
+    URLInfo.Builder urlInfo = URLInfo.builder("/users");
 
     if (startCursor != null) {
       urlInfo.queryParam(Pagination.START_CURSOR, startCursor);
@@ -73,7 +72,7 @@ public class UsersEndpointImpl implements UsersEndpoint {
    * @return The current bot user
    */
   public User me() {
-    return transport.call("GET", URLInfo.build("/users/me"), User.class);
+    return transport.call("GET", URLInfo.from("/users/me"), User.class);
   }
 
   /** Validates the user ID parameter. */

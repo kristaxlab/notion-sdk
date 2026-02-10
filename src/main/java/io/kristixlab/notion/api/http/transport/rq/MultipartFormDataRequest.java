@@ -11,7 +11,6 @@ import lombok.EqualsAndHashCode;
 
 @Data
 public class MultipartFormDataRequest {
-  private String boundary = "----WebKitFormBoundary" + System.currentTimeMillis();
   private List<Part> parts = new ArrayList<>();
 
   public void addFilePart(String name, File file, String fileName, String contentType) {

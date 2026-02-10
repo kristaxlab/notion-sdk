@@ -29,7 +29,7 @@ public class SearchEndpointImpl implements SearchEndpoint {
    */
   public SearchResult search(SearchQuery request) {
     validateRequest(request);
-    return transport.call("POST", URLInfo.build("/search"), request, SearchResult.class);
+    return transport.call("POST", URLInfo.from("/search"), request, SearchResult.class);
   }
 
   /**

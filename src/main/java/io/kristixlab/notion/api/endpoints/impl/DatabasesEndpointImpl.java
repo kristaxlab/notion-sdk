@@ -42,7 +42,7 @@ public class DatabasesEndpointImpl implements DatabasesEndpoint {
    */
   public Database create(CreateDatabaseRequest request) {
     validateRequest(request);
-    URLInfo urlInfo = URLInfo.build("/databases");
+    URLInfo urlInfo = URLInfo.from("/databases");
     return transport.call("POST", urlInfo, request, Database.class);
   }
 

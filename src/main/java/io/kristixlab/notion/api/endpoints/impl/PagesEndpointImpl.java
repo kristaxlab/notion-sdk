@@ -4,7 +4,6 @@ import io.kristixlab.notion.api.endpoints.PagesEndpoint;
 import io.kristixlab.notion.api.http.NotionHttpTransport;
 import io.kristixlab.notion.api.http.transport.HttpTransportImpl;
 import io.kristixlab.notion.api.http.transport.rq.URLInfo;
-import io.kristixlab.notion.api.http.transport.util.URLInfoBuilder;
 import io.kristixlab.notion.api.model.pages.CreatePageParams;
 import io.kristixlab.notion.api.model.pages.Page;
 import io.kristixlab.notion.api.model.pages.UpdatePageParams;
@@ -36,7 +35,7 @@ public class PagesEndpointImpl implements PagesEndpoint {
    */
   public Page create(CreatePageParams request) {
     validateRequest(request);
-    URLInfo urlInfo = URLInfo.build("/pages");
+    URLInfo urlInfo = URLInfo.from("/pages");
     return transport.call("POST", urlInfo, request, Page.class);
   }
 
@@ -77,7 +76,7 @@ public class PagesEndpointImpl implements PagesEndpoint {
     validatePageId(pageId);
     validatePropertyId(propertyId);
 
-    URLInfoBuilder urlInfo =
+    URLInfo.Builder urlInfo =
         URLInfo.builder("/pages/{page_id}/properties/{property_id}")
             .pathParam(PAGE_ID, pageId)
             .pathParam(PROPERTY_ID, URLDecoder.decode(propertyId, StandardCharsets.UTF_8));
