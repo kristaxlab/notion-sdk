@@ -30,7 +30,8 @@ public class MultipartFormDataRequest {
     parts.add(part);
   }
 
-  public void addInputStreamPart(String name, InputStream inputStream, String fileName, String contentType) {
+  public void addInputStreamPart(
+      String name, InputStream inputStream, String fileName, String contentType) {
     InputStreamPart part = new InputStreamPart();
     part.setName(name);
     part.setFileName(fileName);

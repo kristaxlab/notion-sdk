@@ -2,6 +2,7 @@ package io.kristixlab.notion.api.model.common;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
+
 /* TODO handle the mess of types insside */
 @Data
 public class Icon {

@@ -5,7 +5,6 @@ import lombok.Data;
 
 @Data
 public class ExternalFile {
-    @JsonProperty("url")
-    private String url;
-
+  @JsonProperty("url")
+  private String url;
 }

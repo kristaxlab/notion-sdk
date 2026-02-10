@@ -4,8 +4,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import io.kristixlab.notion.api.NotionApiClient;
 import io.kristixlab.notion.api.http.exception.ValidationException;
-import io.kristixlab.notion.api.model.common.ExternalFile;
-import io.kristixlab.notion.api.model.common.FileData;
 import io.kristixlab.notion.api.model.common.Icon;
 import io.kristixlab.notion.api.model.common.Parent;
 import io.kristixlab.notion.api.model.pages.CoverParams;
@@ -67,7 +65,8 @@ public class PageIntegrationTests {
   @Test
   public void createStandalonePageInt13() {
     String title = "INT-13 page " + System.currentTimeMillis();
-    CreatePageParams newPage = createPageParams(title, Parent.pageParent(SETTINGS.getString(PAGE_PARENT_ID)));
+    CreatePageParams newPage =
+        createPageParams(title, Parent.pageParent(SETTINGS.getString(PAGE_PARENT_ID)));
     Page page = NOTION.pages().create(newPage);
 
     // common fields that should present for a newly created page
@@ -84,12 +83,12 @@ public class PageIntegrationTests {
     assertEquals(1, page.getProperties().size());
     assertNotNull(page.getProperties().get("title"));
     assertEquals(
-            title,
-            PagePropertyUtil.asTitle(page.getProperties().get("title"))
-                    .getTitle()
-                    .get(0)
-                    .getText()
-                    .getContent());
+        title,
+        PagePropertyUtil.asTitle(page.getProperties().get("title"))
+            .getTitle()
+            .get(0)
+            .getText()
+            .getContent());
   }
 
   @Test

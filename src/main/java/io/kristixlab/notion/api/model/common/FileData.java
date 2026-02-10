@@ -28,7 +28,6 @@ public class FileData {
   @JsonProperty("name")
   private String name;
 
-
   public static FileData fromExternalUrl(String url) {
     FileData fileData = new FileData();
     fileData.setType("external");
@@ -46,6 +45,4 @@ public class FileData {
     fileData.setFile(file);
     return fileData;
   }
-
-
 }

@@ -27,7 +27,7 @@ public class FileUploadCreateParams {
    * When mode is multi_part, the number of parts you are uploading. Must be between 1 and 1,000.
    * This must match the number of parts as well as the final part_number you send.
    *
-   * Not allowed when mode is single_part or external_url.
+   * <p>Not allowed when mode is single_part or external_url.
    */
   @JsonProperty("number_of_parts")
   private Integer numberOfParts;

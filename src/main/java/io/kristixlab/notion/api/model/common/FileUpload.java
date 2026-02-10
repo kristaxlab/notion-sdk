@@ -6,6 +6,6 @@ import lombok.Data;
 @Data
 public class FileUpload {
 
-    @JsonProperty("id")
-    private String id;
+  @JsonProperty("id")
+  private String id;
 }

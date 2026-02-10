@@ -12,5 +12,4 @@ public class FileCommentAttachment extends CommentAttachment {
 
   @JsonProperty("file")
   private File file;
-
 }

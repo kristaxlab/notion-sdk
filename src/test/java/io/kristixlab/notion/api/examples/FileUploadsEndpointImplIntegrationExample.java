@@ -48,8 +48,8 @@ public class FileUploadsEndpointImplIntegrationExample extends IntegrationTest {
 
       // Send file content
       FileUploadSendParams sendRequest = new FileUploadSendParams();
-      //TODO
-//      sendRequest.setFile(fileContent);
+      // TODO
+      //      sendRequest.setFile(fileContent);
       sendRequest.setContentType(createResponse.getContentType());
       FileUploadResponse sendResponse =
           fileUploadsApi.sendFileContent(createResponse.getId(), sendRequest);

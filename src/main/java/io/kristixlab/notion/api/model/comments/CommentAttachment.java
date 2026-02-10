@@ -2,7 +2,6 @@ package io.kristixlab.notion.api.model.comments;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.kristixlab.notion.api.model.common.File;
-import io.kristixlab.notion.api.model.common.FileData;
 import lombok.Data;
 
 @Data

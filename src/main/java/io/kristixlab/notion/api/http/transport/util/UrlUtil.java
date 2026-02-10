@@ -21,7 +21,8 @@ public class UrlUtil {
   /**
    * Builds URL string with query and path params applied.
    *
-   * @param baseUrl will be added as prefix to urlInfo if urlInfo url does not start with {@code http://} or {@code https://}
+   * @param baseUrl will be added as prefix to urlInfo if urlInfo url does not start with {@code
+   *     http://} or {@code https://}
    * @param urlInfo object containing info about url + query + path params
    * @return URL string enriched by provided query and path param values
    */
@@ -37,9 +38,7 @@ public class UrlUtil {
     return urlBuilder.build().toString();
   }
 
-  /**
-   * Builds the base URL by combining baseUrl with the provided url if needed.
-   */
+  /** Builds the base URL by combining baseUrl with the provided url if needed. */
   private static String buildBaseUrl(String baseUrl, String url) {
     if (url == null || url.isEmpty()) {
       return baseUrl;
@@ -53,16 +52,12 @@ public class UrlUtil {
     return baseUrl + separator + url;
   }
 
-  /**
-   * Checks if the URL is absolute (starts with {@code http://} or {@code https://}).
-   */
+  /** Checks if the URL is absolute (starts with {@code http://} or {@code https://}). */
   private static boolean isAbsoluteUrl(String url) {
     return url.startsWith(HTTP_PREFIX) || url.startsWith(HTTPS_PREFIX);
   }
 
-  /**
-   * Applies path parameters to the URL by replacing {param} placeholders.
-   */
+  /** Applies path parameters to the URL by replacing {param} placeholders. */
   private static String applyPathParameters(String url, Map<String, String> pathParams) {
     if (pathParams == null || pathParams.isEmpty()) {
       return url;
@@ -75,9 +70,7 @@ public class UrlUtil {
     return url;
   }
 
-  /**
-   * Parses the URL string and validates it.
-   */
+  /** Parses the URL string and validates it. */
   private static HttpUrl parseUrl(String url) {
     HttpUrl httpUrl = HttpUrl.parse(url);
     if (httpUrl == null) {
@@ -86,22 +79,19 @@ public class UrlUtil {
     return httpUrl;
   }
 
-  /**
-   * Adds query parameters to the URL builder.
-   */
-  private static void addQueryParameters(HttpUrl.Builder urlBuilder, Map<String, List<String>> queryParams) {
+  /** Adds query parameters to the URL builder. */
+  private static void addQueryParameters(
+      HttpUrl.Builder urlBuilder, Map<String, List<String>> queryParams) {
     if (queryParams == null || queryParams.isEmpty()) {
       return;
     }
 
-    queryParams.forEach((key, values) ->
-        addQueryParameterValues(urlBuilder, key, values));
+    queryParams.forEach((key, values) -> addQueryParameterValues(urlBuilder, key, values));
   }
 
-  /**
-   * Adds all non-null values for a single query parameter key.
-   */
-  private static void addQueryParameterValues(HttpUrl.Builder urlBuilder, String key, List<String> values) {
+  /** Adds all non-null values for a single query parameter key. */
+  private static void addQueryParameterValues(
+      HttpUrl.Builder urlBuilder, String key, List<String> values) {
     if (values == null) {
       return;
     }

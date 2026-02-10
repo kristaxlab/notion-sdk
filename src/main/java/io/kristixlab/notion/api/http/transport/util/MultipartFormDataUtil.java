@@ -1,12 +1,10 @@
 package io.kristixlab.notion.api.http.transport.util;
 
 import io.kristixlab.notion.api.http.transport.rq.MultipartFormDataRequest;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-
 import okhttp3.*;
 import okio.BufferedSink;
 

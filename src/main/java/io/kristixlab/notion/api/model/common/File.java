@@ -6,9 +6,9 @@ import lombok.Data;
 @Data
 public class File {
 
-    @JsonProperty("url")
-    private String url;
+  @JsonProperty("url")
+  private String url;
 
-    @JsonProperty("expiry_time")
-    private String expiryTime;
+  @JsonProperty("expiry_time")
+  private String expiryTime;
 }
