@@ -6,7 +6,9 @@
  <title>JaCoCo Test Reports</title>
  <style>
      body { font-family: Arial, sans-serif; margin: 20px; background-color: #f5f5f5; }
-     .header { background: #2c3e50; color: white; padding: 20px; border-radius: 8px; margin-bottom: 20px; }
+     .header { background: #2c3e50; color: white; padding: 20px; border-radius: 8px; margin-bottom: 20px; position: relative; }
+     .back-button { position: absolute; top: 20px; right: 20px; background: #27ae60; color: white; padding: 10px 20px; text-decoration: none; border-radius: 4px; font-weight: bold; }
+     .back-button:hover { background: #229954; }
      .filters { background: white; padding: 20px; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
      .filter-group { display: inline-block; margin-right: 20px; margin-bottom: 10px; }
      .filter-group label { display: block; margin-bottom: 5px; font-weight: bold; }
@@ -16,6 +18,8 @@
      .report-links a { display: inline-block; margin-right: 15px; padding: 8px 16px; background: #3498db; color: white; text-decoration: none; border-radius: 4px; }
      .report-links a:hover { background: #2980b9; }
      .meta-info { color: #7f8c8d; font-size: 0.9em; margin-bottom: 10px; }
+     .time-ago { color: #95a5a6; font-style: italic; }
+     .author { color: #16a085; font-weight: bold; }
      .hidden { display: none; }
      #clearFilters { background: #e74c3c; color: white; padding: 8px 16px; border: none; border-radius: 4px; cursor: pointer; }
      #clearFilters:hover { background: #c0392b; }
@@ -25,6 +29,7 @@
  <div class="header">
      <h1>JaCoCo Test Reports</h1>
      <p>Browse test and coverage reports by branch, date, or commit</p>
+     <a href="../.." class="back-button">← Back to Main</a>
  </div>
 
  <div class="filters">
@@ -57,7 +62,10 @@
                     folder: 'notion-api-initial-2026-01-28-15h39m21s-3647b51',
                     branch: 'notion-api-initial',
                     date: '2026-01-28',
+                    time: '15:39:21',
                     commit: '3647b51',
+                    author: 'kristaxlab',
+                    timestamp: 1770725802,
                     hasUnit: true,
                     hasIntegration: true,
                     hasCoverage: false
@@ -66,7 +74,10 @@
                     folder: 'notion-api-initial-2026-01-28-15h40m54s-b074bcf',
                     branch: 'notion-api-initial',
                     date: '2026-01-28',
+                    time: '15:40:54',
                     commit: 'b074bcf',
+                    author: 'kristaxlab',
+                    timestamp: 1770725802,
                     hasUnit: true,
                     hasIntegration: true,
                     hasCoverage: true
@@ -75,7 +86,10 @@
                     folder: 'notion-api-initial-2026-01-28-16h02m22s-b1d5f54',
                     branch: 'notion-api-initial',
                     date: '2026-01-28',
+                    time: '16:02:22',
                     commit: 'b1d5f54',
+                    author: 'kristaxlab',
+                    timestamp: 1770725802,
                     hasUnit: true,
                     hasIntegration: true,
                     hasCoverage: true
@@ -84,7 +98,10 @@
                     folder: 'notion-api-initial-2026-01-28-17h47m40s-c1ab98c',
                     branch: 'notion-api-initial',
                     date: '2026-01-28',
+                    time: '17:47:40',
                     commit: 'c1ab98c',
+                    author: 'kristaxlab',
+                    timestamp: 1770725802,
                     hasUnit: true,
                     hasIntegration: true,
                     hasCoverage: true
@@ -93,7 +110,10 @@
                     folder: 'notion-api-initial-2026-02-09-14h41m39s-b8457cf',
                     branch: 'notion-api-initial',
                     date: '2026-02-09',
+                    time: '14:41:39',
                     commit: 'b8457cf',
+                    author: 'kristaxlab',
+                    timestamp: 1770725802,
                     hasUnit: true,
                     hasIntegration: true,
                     hasCoverage: true
@@ -102,7 +122,22 @@
                     folder: 'notion-api-initial-2026-02-10-11h59m14s-4ed2d70',
                     branch: 'notion-api-initial',
                     date: '2026-02-10',
+                    time: '11:59:14',
                     commit: '4ed2d70',
+                    author: 'kristaxlab',
+                    timestamp: 1770725802,
+                    hasUnit: true,
+                    hasIntegration: true,
+                    hasCoverage: true
+                },
+                {
+                    folder: 'notion-api-initial-2026-02-10-12h17m35s-2e44ae8',
+                    branch: 'notion-api-initial',
+                    date: '2026-02-10',
+                    time: '12:17:35',
+                    commit: '2e44ae8',
+                    author: 'kristaxlab',
+                    timestamp: 1770725802,
                     hasUnit: true,
                     hasIntegration: true,
                     hasCoverage: true
@@ -112,6 +147,18 @@
      // Remove trailing comma if exists
      if (reports.length > 0 && reports[reports.length - 1].folder) {
          // Reports are valid
+     }
+
+     function timeAgo(timestamp) {
+         const now = Math.floor(Date.now() / 1000);
+         const diff = now - timestamp;
+
+         if (diff < 60) return `${diff}s ago`;
+         if (diff < 3600) return `${Math.floor(diff / 60)}min ago`;
+         if (diff < 86400) return `${Math.floor(diff / 3600)}h ago`;
+         if (diff < 2592000) return `${Math.floor(diff / 86400)}d ago`;
+         if (diff < 31536000) return `${Math.floor(diff / 2592000)}mo ago`;
+         return `${Math.floor(diff / 31536000)}y ago`;
      }
 
      function populateBranchFilter() {
@@ -129,14 +176,8 @@
          const reportsList = document.getElementById('reportsList');
          reportsList.innerHTML = '';
 
-         // Sort by date desc, then by branch
-         filteredReports.sort((a, b) => {
-             const dateCompare = new Date(b.date) - new Date(a.date);
-             if (dateCompare === 0) {
-                 return a.branch.localeCompare(b.branch);
-             }
-             return dateCompare;
-         });
+         // Sort by timestamp desc
+         filteredReports.sort((a, b) => b.timestamp - a.timestamp);
 
          filteredReports.forEach(report => {
              const div = document.createElement('div');
@@ -151,9 +192,12 @@
                  <h3>${report.folder}</h3>
                  <div class="meta-info">
                      <strong>Branch:</strong> ${report.branch} | 
-                     <strong>Date:</strong> ${report.date} | 
-                     <strong>Commit:</strong> ${report.commit}
-                 </div><div class="report-links">
+                     <strong>Date:</strong> ${report.date} ${report.time} | 
+                     <strong>Commit:</strong> ${report.commit} | 
+                     <span class="author">By: ${report.author}</span> | 
+                     <span class="time-ago">${timeAgo(report.timestamp)}</span>
+                 </div>
+                 <div class="report-links">
                      ${links.join('')}
                  </div>
              `;

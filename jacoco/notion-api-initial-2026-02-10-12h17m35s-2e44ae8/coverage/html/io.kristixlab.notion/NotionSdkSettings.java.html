@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>NotionSdkSettings.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">notion-sdk</a> &gt; <a href="index.source.html" class="el_package">io.kristixlab.notion</a> &gt; <span class="el_source">NotionSdkSettings.java</span></div><h1>NotionSdkSettings.java</h1><pre class="source lang-java linenums">package io.kristixlab.notion;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import lombok.extern.slf4j.Slf4j;
+import org.yaml.snakeyaml.Yaml;
+
+/**
+ * Loads and validates settings for integration tests (Singleton pattern).
+ *
+ * &lt;p&gt;Loading order: 1. Environment variables 2. src/test/resources/integration-tests.yml
+ */
+<span class="fc" id="L17">@Slf4j</span>
+public final class NotionSdkSettings {
+
+  private static final String SETTINGS_FILE = &quot;notion-sdk-settings.yml&quot;;
+  private static final String SETTINGS_FILE_DFLT = &quot;notion-sdk-settings-default.yml&quot;;
+
+  private static NotionSdkSettings instance;
+  private final Map&lt;String, Object&gt; settings;
+  private final Map&lt;String, Object&gt; defaultSettings;
+
+<span class="fc" id="L27">  private NotionSdkSettings() {</span>
+<span class="fc" id="L28">    this.defaultSettings = loadSettings(SETTINGS_FILE_DFLT);</span>
+<span class="fc" id="L29">    this.settings = loadSettings(SETTINGS_FILE);</span>
+<span class="fc" id="L30">  }</span>
+
+  /**
+   * Gets the singleton instance of IntegrationTestsSettings.
+   *
+   * @return the singleton instance
+   */
+  public static synchronized NotionSdkSettings getInstance() {
+<span class="fc bfc" id="L38" title="All 2 branches covered.">    if (instance == null) {</span>
+<span class="fc" id="L39">      instance = new NotionSdkSettings();</span>
+    }
+<span class="fc" id="L41">    return instance;</span>
+  }
+
+  /**
+   * Gets a string value from the settings using a dot-separated key path.
+   *
+   * @param key the dot-separated key path (e.g., &quot;workspace.id&quot;)
+   * @return the string value, or null if not found
+   */
+  public String getString(String key) {
+    // First try environment variable
+<span class="fc" id="L52">    String envValue = getFromEnvironment(key);</span>
+<span class="pc bpc" id="L53" title="1 of 2 branches missed.">    if (envValue != null) {</span>
+<span class="nc" id="L54">      return envValue;</span>
+    }
+
+    // Then try YAML file
+<span class="fc" id="L58">    return (String) getValue(key);</span>
+  }
+
+  /**
+   * Gets an integer value from the settings using a dot-separated key path.
+   *
+   * @param key the dot-separated key path
+   * @return the integer value, or null if not found or not a valid integer
+   */
+  public Integer getInteger(String key) {
+    // First try environment variable
+<span class="fc" id="L69">    String envValue = getFromEnvironment(key);</span>
+<span class="pc bpc" id="L70" title="1 of 2 branches missed.">    if (envValue != null) {</span>
+      try {
+<span class="nc" id="L72">        return Integer.parseInt(envValue);</span>
+<span class="nc" id="L73">      } catch (NumberFormatException e) {</span>
+<span class="nc" id="L74">        log.warn(&quot;Environment variable {} is not a valid integer: {}&quot;, key, envValue);</span>
+      }
+    }
+
+    // Then try YAML file
+<span class="fc" id="L79">    return (Integer) getValue(key);</span>
+  }
+
+  /**
+   * Gets a long value from the settings using a dot-separated key path.
+   *
+   * @param key the dot-separated key path
+   * @return the long value, or null if not found or not a valid long
+   */
+  public Long getLong(String key) {
+    // First try environment variable
+<span class="fc" id="L90">    String envValue = getFromEnvironment(key);</span>
+<span class="pc bpc" id="L91" title="1 of 2 branches missed.">    if (envValue != null) {</span>
+      try {
+<span class="nc" id="L93">        return Long.parseLong(envValue);</span>
+<span class="nc" id="L94">      } catch (NumberFormatException e) {</span>
+<span class="nc" id="L95">        log.warn(&quot;Environment variable {} is not a valid long: {}&quot;, key, envValue);</span>
+      }
+    }
+
+    // Then try YAML file
+<span class="fc" id="L100">    return (Long) getValue(key);</span>
+  }
+
+  /**
+   * Gets a double value from the settings using a dot-separated key path.
+   *
+   * @param key the dot-separated key path
+   * @return the double value, or null if not found or not a valid double
+   */
+  public Double getDouble(String key) {
+    // First try environment variable
+<span class="fc" id="L111">    String envValue = getFromEnvironment(key);</span>
+<span class="pc bpc" id="L112" title="1 of 2 branches missed.">    if (envValue != null) {</span>
+      try {
+<span class="nc" id="L114">        return Double.parseDouble(envValue);</span>
+<span class="nc" id="L115">      } catch (NumberFormatException e) {</span>
+<span class="nc" id="L116">        log.warn(&quot;Environment variable {} is not a valid double: {}&quot;, key, envValue);</span>
+      }
+    }
+
+    // Then try YAML file
+<span class="fc" id="L121">    return (Double) getValue(key);</span>
+  }
+
+  /**
+   * Gets a boolean value from the settings using a dot-separated key path.
+   *
+   * @param key the dot-separated key path
+   * @return the boolean value, or null if not found or not a valid boolean
+   */
+  public Boolean getBoolean(String key) {
+    // First try environment variable
+<span class="fc" id="L132">    String envValue = getFromEnvironment(key);</span>
+<span class="pc bpc" id="L133" title="1 of 2 branches missed.">    if (envValue != null) {</span>
+<span class="nc" id="L134">      return Boolean.parseBoolean(envValue);</span>
+    }
+
+    // Then try YAML file
+<span class="fc" id="L138">    return (Boolean) getValue(key);</span>
+  }
+
+  /**
+   * Gets a list of strings from the settings using a dot-separated key path.
+   *
+   * @param key the dot-separated key path
+   * @return the list of strings, or empty list if not found or not a valid array
+   */
+  @SuppressWarnings(&quot;unchecked&quot;)
+  public List&lt;String&gt; getList(String key) {
+    // Environment variables don't support lists directly
+
+    // Try YAML file
+<span class="fc" id="L152">    return (List&lt;String&gt;) getValue(key);</span>
+  }
+
+  /**
+   * Gets a map of key-value pairs from the settings using a dot-separated key path.
+   *
+   * @param key the dot-separated key path
+   * @return the map of string keys to string values, or empty map if not found or not a valid
+   *     object
+   */
+  @SuppressWarnings(&quot;unchecked&quot;)
+  public Map&lt;String, String&gt; getMap(String key) {
+    // Environment variables don't support maps directly
+
+    // Try YAML file
+<span class="fc" id="L167">    return (Map&lt;String, String&gt;) getValue(key);</span>
+  }
+
+  /**
+   * Checks if a setting exists at the given key path.
+   *
+   * @param key the dot-separated key path
+   * @return true if the setting exists, false otherwise
+   */
+  public boolean exists(String key) {
+<span class="pc bpc" id="L177" title="1 of 4 branches missed.">    return getFromEnvironment(key) != null || getValue(key) != null;</span>
+  }
+
+  private String getFromEnvironment(String key) {
+    // Convert dot notation to environment variable format
+<span class="fc" id="L182">    String envKey = key.toUpperCase().replace('.', '_');</span>
+<span class="fc" id="L183">    return System.getenv(envKey);</span>
+  }
+
+  public Object getValue(String key) {
+<span class="pc bpc" id="L187" title="3 of 4 branches missed.">    if (settings == null &amp;&amp; defaultSettings == null) {</span>
+<span class="nc" id="L188">      return null;</span>
+    }
+<span class="fc" id="L190">    Object value = getValue(settings, new ArrayList&lt;&gt;(List.of(key.split(&quot;\\.&quot;))), 0);</span>
+<span class="fc bfc" id="L191" title="All 2 branches covered.">    if (value == null) {</span>
+<span class="fc" id="L192">      value = getValue(defaultSettings, new ArrayList&lt;&gt;(List.of(key.split(&quot;\\.&quot;))), 0);</span>
+    }
+<span class="fc" id="L194">    return value;</span>
+  }
+
+  @SuppressWarnings(&quot;unchecked&quot;)
+  private Object getValue(Map&lt;String, Object&gt; settingsMap, List&lt;String&gt; segments, int startFrom) {
+<span class="pc bpc" id="L199" title="2 of 4 branches missed.">    if (startFrom == segments.size() || settings == null) {</span>
+<span class="nc" id="L200">      return null;</span>
+    }
+
+<span class="fc" id="L203">    Object nested = null;</span>
+<span class="fc" id="L204">    String key = &quot;&quot;;</span>
+<span class="fc bfc" id="L205" title="All 2 branches covered.">    while (startFrom &lt; segments.size()) {</span>
+<span class="fc bfc" id="L206" title="All 2 branches covered.">      key += (!key.isEmpty() ? &quot;.&quot; : &quot;&quot;) + segments.get(startFrom);</span>
+<span class="fc" id="L207">      nested = settingsMap.get(key);</span>
+<span class="fc bfc" id="L208" title="All 2 branches covered.">      if (nested != null) {</span>
+<span class="fc bfc" id="L209" title="All 2 branches covered.">        if (startFrom != segments.size() - 1) {</span>
+<span class="fc bfc" id="L210" title="All 2 branches covered.">          if (nested instanceof Map) {</span>
+<span class="fc" id="L211">            return getValue((Map&lt;String, Object&gt;) nested, segments, startFrom + 1);</span>
+          } else {
+<span class="fc" id="L213">            return null;</span>
+          }
+        } else {
+<span class="fc" id="L216">          return nested;</span>
+        }
+      }
+<span class="fc" id="L219">      startFrom++;</span>
+    }
+
+<span class="fc" id="L222">    return nested;</span>
+  }
+
+  private Map&lt;String, Object&gt; loadSettings(String resourceName) {
+<span class="fc" id="L226">    Yaml yaml = new Yaml();</span>
+
+    // First try to load from classpath
+<span class="fc" id="L229">    try (InputStream resourceStream =</span>
+<span class="fc" id="L230">        getClass().getClassLoader().getResourceAsStream(resourceName)) {</span>
+<span class="pc bpc" id="L231" title="1 of 2 branches missed.">      if (resourceStream != null) {</span>
+<span class="fc" id="L232">        log.info(&quot;Loading integration test settings from classpath: {}&quot;, resourceName);</span>
+<span class="fc" id="L233">        return yaml.load(resourceStream);</span>
+      }
+<span class="pc bpc" id="L235" title="1 of 2 branches missed.">    } catch (IOException e) {</span>
+<span class="nc" id="L236">      log.error(&quot;Failed to load integration test settings from classpath&quot;, e);</span>
+<span class="nc" id="L237">    }</span>
+
+<span class="nc" id="L239">    log.warn(&quot;Integration test settings file not found. Using empty settings.&quot;);</span>
+<span class="nc" id="L240">    return new HashMap&lt;&gt;();</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

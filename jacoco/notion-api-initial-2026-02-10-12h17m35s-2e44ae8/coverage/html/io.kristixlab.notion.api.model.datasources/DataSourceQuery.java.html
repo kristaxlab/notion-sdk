@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DataSourceQuery.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">notion-sdk</a> &gt; <a href="index.source.html" class="el_package">io.kristixlab.notion.api.model.datasources</a> &gt; <span class="el_source">DataSourceQuery.java</span></div><h1>DataSourceQuery.java</h1><pre class="source lang-java linenums">package io.kristixlab.notion.api.model.datasources;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import io.kristixlab.notion.api.model.common.SortDirection;
+import io.kristixlab.notion.api.model.common.Timestamp;
+import io.kristixlab.notion.api.model.datasources.filter.Filter;
+import java.util.ArrayList;
+import java.util.List;
+import lombok.Data;
+
+/** Request object for querying a database. Supports filtering, sorting, and pagination. */
+@Data
+public class DataSourceQuery {
+
+  @JsonProperty(&quot;filter&quot;)
+  private Filter filter;
+
+  @JsonProperty(&quot;sorts&quot;)
+  private List&lt;Sort&gt; sorts;
+
+  @JsonProperty(&quot;start_cursor&quot;)
+  private String startCursor;
+
+  @JsonProperty(&quot;page_size&quot;)
+  private Integer pageSize;
+
+  public void setFilter(String property, Filter filter) {
+<span class="nc" id="L28">    filter.setProperty(property);</span>
+<span class="nc" id="L29">    this.filter = filter;</span>
+<span class="nc" id="L30">  }</span>
+
+  public void addSort(Sort sort) {
+<span class="nc bnc" id="L33" title="All 2 branches missed.">    if (this.sorts == null) {</span>
+<span class="nc" id="L34">      this.sorts = new ArrayList&lt;&gt;();</span>
+    }
+<span class="nc" id="L36">    this.sorts.add(sort);</span>
+<span class="nc" id="L37">  }</span>
+
+  public void addSort(String property, SortDirection direction) {
+<span class="nc bnc" id="L40" title="All 2 branches missed.">    if (this.sorts == null) {</span>
+<span class="nc" id="L41">      this.sorts = new ArrayList&lt;&gt;();</span>
+    }
+<span class="nc" id="L43">    this.sorts.add(Sort.by(property, direction));</span>
+<span class="nc" id="L44">  }</span>
+
+  public void addSort(Timestamp timestamp, SortDirection direction) {
+<span class="nc bnc" id="L47" title="All 2 branches missed.">    if (this.sorts == null) {</span>
+<span class="nc" id="L48">      this.sorts = new ArrayList&lt;&gt;();</span>
+    }
+<span class="nc" id="L50">    this.sorts.add(Sort.by(timestamp, direction));</span>
+<span class="nc" id="L51">  }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
