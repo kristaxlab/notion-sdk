@@ -12,6 +12,7 @@ jobs:
 
   build:
     runs-on: ubuntu-latest
+    environment: %{{ github.ref_name == 'main' && 'production' || 'dev' }}
 
     permissions:
       contents: write
