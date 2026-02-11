@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CoverParams.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">notion-sdk</a> &gt; <a href="index.source.html" class="el_package">io.kristixlab.notion.api.model.pages</a> &gt; <span class="el_source">CoverParams.java</span></div><h1>CoverParams.java</h1><pre class="source lang-java linenums">package io.kristixlab.notion.api.model.pages;
+
+import io.kristixlab.notion.api.model.common.ExternalFile;
+import io.kristixlab.notion.api.model.common.FileUpload;
+import lombok.Data;
+
+@Data
+public class CoverParams {
+
+  private String type;
+
+  private FileUpload file;
+
+  private ExternalFile external;
+
+  public static CoverParams fromFileUpload(FileUpload fileUpload) {
+<span class="nc" id="L17">    CoverParams coverParams = new CoverParams();</span>
+<span class="nc" id="L18">    coverParams.setType(&quot;file&quot;);</span>
+<span class="nc" id="L19">    coverParams.setFile(fileUpload);</span>
+<span class="nc" id="L20">    return coverParams;</span>
+  }
+
+  public static CoverParams fromExternalUrl(String url) {
+<span class="nc" id="L24">    CoverParams coverParams = new CoverParams();</span>
+<span class="nc" id="L25">    coverParams.setType(&quot;external&quot;);</span>
+<span class="nc" id="L26">    ExternalFile external = new ExternalFile();</span>
+<span class="nc" id="L27">    external.setUrl(url);</span>
+<span class="nc" id="L28">    coverParams.setExternal(external);</span>
+<span class="nc" id="L29">    return coverParams;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
