@@ -16,16 +16,23 @@ public class JsonConverter {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(JsonConverter.class);
   private static final JsonConverter CONVERTER = new JsonConverter();
-  private final ObjectMapper MAPPER;
+  private final ObjectMapper strictMappe;
+  private final ObjectMapper regularMapper;
 
   private JsonConverter() {
-    MAPPER = new ObjectMapper();
-    MAPPER.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, true);
-    MAPPER.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-    MAPPER.configure(SerializationFeature.WRITE_NULL_MAP_VALUES, false);
-    MAPPER.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
-    MAPPER.enable(SerializationFeature.INDENT_OUTPUT);
-    MAPPER.registerModule(new JavaTimeModule());
+    strictMappe = configureMapper(true);
+    regularMapper = configureMapper(false);
+  }
+
+  private ObjectMapper configureMapper(boolean failOnUnknown) {
+    ObjectMapper mapper = new ObjectMapper();
+    mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, failOnUnknown);
+    mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+    mapper.configure(SerializationFeature.WRITE_NULL_MAP_VALUES, false);
+    mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
+    mapper.enable(SerializationFeature.INDENT_OUTPUT);
+    mapper.registerModule(new JavaTimeModule());
+    return mapper;
   }
 
   public static JsonConverter getInstance() {
@@ -34,8 +41,13 @@ public class JsonConverter {
 
   // TODO log unrecognized fields
   public <T> T toObject(String json, Class<T> type) {
+    return toObject(json, type, true);
+  }
+
+  public <T> T toObject(String json, Class<T> type, boolean strict) {
+    ObjectMapper mapper = strict ? strictMappe : regularMapper;
     try {
-      return MAPPER.readValue(json, type);
+      return mapper.readValue(json, type);
     } catch (Exception e) {
       LOGGER.error("Error converting JSON to {}: {}", type.toString(), e.getMessage());
       throw new RuntimeException(e);
@@ -49,9 +61,9 @@ public class JsonConverter {
   public String toJson(Object object, boolean pretty) {
     try {
       if (pretty) {
-        return MAPPER.writerWithDefaultPrettyPrinter().writeValueAsString(object);
+        return strictMappe.writerWithDefaultPrettyPrinter().writeValueAsString(object);
       } else {
-        return MAPPER.writeValueAsString(object);
+        return strictMappe.writeValueAsString(object);
       }
     } catch (JsonProcessingException e) {
       LOGGER.error("Error converting object to JSON: {}", e.getMessage());
@@ -61,7 +73,7 @@ public class JsonConverter {
 
   public void toFile(File file, Object object) {
     try {
-      MAPPER.writerWithDefaultPrettyPrinter().writeValue(file, object);
+      strictMappe.writerWithDefaultPrettyPrinter().writeValue(file, object);
     } catch (IOException e) {
       LOGGER.error("Error saving object to file {}: {}", file.getAbsolutePath(), e.getMessage());
       throw new RuntimeException(e);
@@ -83,7 +95,7 @@ public class JsonConverter {
       if (is == null) {
         throw new IllegalArgumentException("Resource not found: " + filePath);
       }
-      return MAPPER.readValue(is, targetClass);
+      return strictMappe.readValue(is, targetClass);
     } catch (IOException e) {
       LOGGER.error("Error loading object from file {}: {}", filePath, e.getMessage());
       throw new RuntimeException(e);

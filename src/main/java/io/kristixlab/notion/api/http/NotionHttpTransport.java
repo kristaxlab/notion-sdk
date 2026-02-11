@@ -1,11 +1,13 @@
 package io.kristixlab.notion.api.http;
 
+import io.kristixlab.notion.NotionSdkSettings;
 import io.kristixlab.notion.api.NotionAuthSettings;
 import io.kristixlab.notion.api.http.exception.*;
 import io.kristixlab.notion.api.http.transport.HttpTransportImpl;
 import io.kristixlab.notion.api.http.transport.exception.HttpResponseException;
 import io.kristixlab.notion.api.http.transport.rq.URLInfo;
 import io.kristixlab.notion.api.http.transport.rs.ApiResponse;
+import io.kristixlab.notion.api.http.transport.util.HttpTransportConfig;
 import io.kristixlab.notion.api.json.JsonConverter;
 import io.kristixlab.notion.api.model.NotionError;
 import java.util.HashMap;
@@ -29,7 +31,14 @@ public class NotionHttpTransport extends HttpTransportImpl {
 
   public NotionHttpTransport(
       NotionAuthSettings notionAuthSettings, String baseUrl, String version) {
-    super(baseUrl, "NotionAPIv" + version);
+    super(
+        HttpTransportConfig.builder()
+            .baseUrl(baseUrl)
+            .apiName("NotionAPIv" + version)
+            .jsonFailOnUnknownProperties(
+                NotionSdkSettings.getInstance()
+                    .getBoolean("notion.api.json.fail-on-unknown-properties", false))
+            .build());
     this.version = version;
     this.notionAuthSettings = notionAuthSettings;
   }
@@ -102,7 +111,13 @@ public class NotionHttpTransport extends HttpTransportImpl {
       String requestId = null;
 
       try {
-        NotionError error = JsonConverter.getInstance().toObject(e.getBody(), NotionError.class);
+
+        NotionError error =
+            JsonConverter.getInstance()
+                .toObject(
+                    e.getBody(),
+                    NotionError.class,
+                    this.getConfig().isJsonFailOnUnknownProperties());
         message = error.getMessage();
         code = error.getCode() != null ? error.getCode() : error.getError();
         requestId = error.getRequestId();

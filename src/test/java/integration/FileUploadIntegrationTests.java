@@ -2,6 +2,8 @@ package integration;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import integration.util.IntegrationTestUtil;
+import io.kristixlab.notion.NotionSdkSettings;
 import io.kristixlab.notion.api.NotionApiClient;
 import io.kristixlab.notion.api.endpoints.util.FileUploadUtils;
 import io.kristixlab.notion.api.model.files.*;
@@ -16,20 +18,21 @@ import org.junit.jupiter.api.Test;
 public class FileUploadIntegrationTests {
 
   private static NotionApiClient NOTION;
-  private static IntegrationTestsSettings SETTINGS;
-  private static final String EXTERNAL_IMG = "common-media.images.external.mountains";
-  private static final String IMAGE_FILE_357KB = "files/image_357kb.jpg";
-  private static final String VIDEO_FILE_18MB = "files/video_sakura_18mb.MOV";
+  private static NotionSdkSettings SETTINGS;
+  private static final String EXTERNAL_IMG = "integration-tests.assets.external.image-url";
+  private static final String IMAGE_FILE_PATH = "integration-tests.assets.files.image-file-path";
+  private static final String VIDEO_FILE_PATH = "integration-tests.assets.files.video-file-path";
 
   @BeforeAll
   public static void initClient() {
     NOTION = NotionClientProvider.internalTestingClient();
-    SETTINGS = IntegrationTestsSettings.getInstance();
+    SETTINGS = NotionSdkSettings.getInstance();
 
-    assertNotNull(
-        SETTINGS.getString(EXTERNAL_IMG),
-        "Url of external resource to be uploaded via file uploads is missing: prop="
-            + EXTERNAL_IMG);
+    IntegrationTestUtil.checkThatExists(SETTINGS, FileUploadIntegrationTests.class, EXTERNAL_IMG);
+    IntegrationTestUtil.checkThatExists(
+        SETTINGS, FileUploadIntegrationTests.class, IMAGE_FILE_PATH);
+    IntegrationTestUtil.checkThatExists(
+        SETTINGS, FileUploadIntegrationTests.class, VIDEO_FILE_PATH);
   }
 
   /**
@@ -60,7 +63,7 @@ public class FileUploadIntegrationTests {
   @Test
   public void testFileUploadSinglePartInt14() throws IOException {
     // prerequisites
-    String filePath = IMAGE_FILE_357KB;
+    String filePath = SETTINGS.getString(IMAGE_FILE_PATH);
     File file = IntegrationTestUtil.loadFileFailIfMissing(filePath, getClass().getClassLoader());
     String uploadedFilename = "int-14-image.jpg";
     String expectedContentType = "image/jpeg";
@@ -98,7 +101,7 @@ public class FileUploadIntegrationTests {
   @Test
   public void testFileUploadSinglePartBigFileInt15() throws IOException {
     // prerequisites
-    String filePath = IMAGE_FILE_357KB;
+    String filePath = SETTINGS.getString(IMAGE_FILE_PATH);
     File file = IntegrationTestUtil.loadFileFailIfMissing(filePath, getClass().getClassLoader());
     String uploadedFilename = "int-15-image.jpg";
 
@@ -130,7 +133,7 @@ public class FileUploadIntegrationTests {
   @Test
   public void testFileUploadSinglePartInt18() throws IOException {
     // prerequisites
-    String filePath = IMAGE_FILE_357KB;
+    String filePath = SETTINGS.getString(IMAGE_FILE_PATH);
     File file = IntegrationTestUtil.loadFileFailIfMissing(filePath, getClass().getClassLoader());
     String uploadedFilename = "int-18-image.jpg";
 
@@ -186,7 +189,7 @@ public class FileUploadIntegrationTests {
   // @NotionPlan(acceptedPlans = {NotionPlan.PRO, NotionPlan.ENTERPRISE})
   public void testFileUploadMultiPartInt20() throws IOException {
     // prerequisites
-    String filePath = VIDEO_FILE_18MB;
+    String filePath = SETTINGS.getString(VIDEO_FILE_PATH);
     File file = IntegrationTestUtil.loadFileFailIfMissing(filePath, getClass().getClassLoader());
     String uploadedFilename = "int-20-video_18mb.jpg";
     long partSizeInBytes = 5 * 1024 * 1024; // 5 MB

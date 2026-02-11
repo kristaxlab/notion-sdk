@@ -14,6 +14,7 @@ import org.yaml.snakeyaml.Yaml;
  *
  * <p>Loading order: 1. Environment variables 2. src/test/resources/integration-tests.yml
  */
+//TODO add .properties support
 @Slf4j
 public final class NotionSdkSettings {
 
@@ -119,6 +120,20 @@ public final class NotionSdkSettings {
 
     // Then try YAML file
     return (Double) getValue(key);
+  }
+
+  /**
+   * Gets a boolean value from the settings using a dot-separated key path.
+   *
+   * @param key the dot-separated key path
+   * @return the boolean value, or null if not found or not a valid boolean
+   */
+  public boolean getBoolean(String key, boolean defaultValue) {
+    Boolean value = getBoolean(key);
+    if (value != null) {
+      return value;
+    }
+    return defaultValue;
   }
 
   /**

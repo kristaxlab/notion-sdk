@@ -2,6 +2,8 @@ package integration;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import integration.util.IntegrationTestUtil;
+import io.kristixlab.notion.NotionSdkSettings;
 import io.kristixlab.notion.api.NotionApiClient;
 import io.kristixlab.notion.api.http.exception.ValidationException;
 import io.kristixlab.notion.api.model.common.Icon;
@@ -17,18 +19,18 @@ import org.junit.jupiter.api.Test;
 public class PageIntegrationTests {
 
   private static NotionApiClient NOTION;
-  private static IntegrationTestsSettings SETTINGS;
-  private static String PAGE_PARENT_ID = "notion.endpoints.pages.create-page.parent-page";
-  private static String EXTERNAL_ICON_URL = "common-media.images.icon-external";
+  private static NotionSdkSettings SETTINGS;
+  private static final String PAGE_PARENT_ID =
+      "integration-tests.endpoints.pages.create-page.parent-page-id";
+  private static final String EXTERNAL_IMAGE_URL = "integration-tests.assets.external.image-url";
 
   @BeforeAll
   public static void initClient() {
     NOTION = NotionClientProvider.internalTestingClient();
-    SETTINGS = IntegrationTestsSettings.getInstance();
+    SETTINGS = NotionSdkSettings.getInstance();
 
-    assertNotNull(
-        SETTINGS.getString(PAGE_PARENT_ID),
-        "Parent page ID for creating pages is not set in the settings");
+    IntegrationTestUtil.checkThatExists(SETTINGS, PageIntegrationTests.class, PAGE_PARENT_ID);
+    IntegrationTestUtil.checkThatExists(SETTINGS, PageIntegrationTests.class, EXTERNAL_IMAGE_URL);
   }
 
   /** INT-1: Standalone pages: create empty page nested into another */
@@ -105,8 +107,8 @@ public class PageIntegrationTests {
     CreatePageParams newPage = new CreatePageParams();
     newPage.getProperties().put("title", TitleProperty.of(title));
     newPage.setParent(parent);
-    newPage.setIcon(Icon.fromExternalUrl(SETTINGS.getString(EXTERNAL_ICON_URL)));
-    newPage.setCover(CoverParams.fromExternalUrl(SETTINGS.getString(EXTERNAL_ICON_URL)));
+    newPage.setIcon(Icon.fromExternalUrl(SETTINGS.getString(EXTERNAL_IMAGE_URL)));
+    newPage.setCover(CoverParams.fromExternalUrl(SETTINGS.getString(EXTERNAL_IMAGE_URL)));
     return newPage;
   }
 

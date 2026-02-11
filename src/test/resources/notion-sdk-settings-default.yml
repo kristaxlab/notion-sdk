@@ -1,7 +1,8 @@
 notion:
   endpoints:
     file-uploads:
-      stream-after-bytes: 1024
+      stream-after-bytes: 10485760 # 10 MB
+      split-size-bytes: 10485760 # 10 MB
 
   test:
     boolean: true

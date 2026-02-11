@@ -5,6 +5,7 @@ import io.kristixlab.notion.api.http.transport.exception.HttpTransportException;
 import io.kristixlab.notion.api.http.transport.rq.MultipartFormDataRequest;
 import io.kristixlab.notion.api.http.transport.rq.URLInfo;
 import io.kristixlab.notion.api.http.transport.rs.ApiResponse;
+import io.kristixlab.notion.api.http.transport.util.HttpTransportConfig;
 import io.kristixlab.notion.api.http.transport.util.MultipartFormDataUtil;
 import io.kristixlab.notion.api.http.transport.util.UrlUtil;
 import io.kristixlab.notion.api.json.JsonConverter;
@@ -25,6 +26,7 @@ public class HttpTransportImpl implements HttpTransport {
   private final OkHttpClient httpClient;
   @Getter private final String apiName;
   @Getter private String baseUrl = "https://api.example.com"; // Default base URL, can be overridden
+  private HttpTransportConfig config = new HttpTransportConfig();
 
   public HttpTransportImpl() {
     this.httpClient = createHttpClient();
@@ -43,6 +45,11 @@ public class HttpTransportImpl implements HttpTransport {
     }
     this.baseUrl = baseUrl;
     this.apiName = apiName == null ? "API Transport" : apiName;
+  }
+
+  public HttpTransportImpl(HttpTransportConfig config) {
+    this(config.getBaseUrl(), config.getApiName());
+    this.config = config;
   }
 
   private OkHttpClient createHttpClient() {
@@ -153,7 +160,9 @@ public class HttpTransportImpl implements HttpTransport {
     }
 
     if (responseType != String.class) {
-      rs.setBody(JsonConverter.getInstance().toObject(rsBodyString, responseType));
+      rs.setBody(
+          JsonConverter.getInstance()
+              .toObject(rsBodyString, responseType, getConfig().isJsonFailOnUnknownProperties()));
     } else {
       rs.setBody((T) rsBodyString);
     }
@@ -236,6 +245,10 @@ public class HttpTransportImpl implements HttpTransport {
   // TODO customizable logger
   protected Logger getLogger() {
     return LOGGER;
+  }
+
+  protected HttpTransportConfig getConfig() {
+    return config;
   }
 
   // TODO do I need this?

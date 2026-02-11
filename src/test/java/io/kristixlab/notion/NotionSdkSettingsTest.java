@@ -34,7 +34,7 @@ class NotionSdkSettingsTest {
         NotionSdkSettings.getInstance()
             .getInteger("notion.endpoints.file-uploads.stream-after-bytes");
 
-    assertEquals(2048, intVal);
+    assertEquals(5242880, intVal);
   }
 
   @Test

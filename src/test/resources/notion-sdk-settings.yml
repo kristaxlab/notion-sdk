@@ -1,4 +1,34 @@
 notion:
+  api:
+    fail-on-unknown-properties: true
   endpoints:
     file-uploads:
-      stream-after-bytes: 2048
+      stream-after-bytes: 5242880 # 5 MB
+
+integration-tests:
+  plan: free # TODO impl excluding tests with inappropriate plan
+  assets:
+    external:
+      image-url: "https://images.unsplash.com/photo-1665939858489-897d566b6650?q=80&w=2748&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+      icon-url: "https://"
+      image-url-2: "https://www.notion.so/front-static/external/readme/images/api-hanging@2x.png"
+
+    files:
+      image-file-path: "files/image_357kb.jpg"
+      video-file-path: "files/video_sakura_18mb.MOV"
+
+  endpoints:
+    common-media:
+      external:
+        image-url: "https://images.unsplash.com/photo-1665939858489-897d566b6650?q=80&w=2748&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+        icon-url: "https://"
+      files:
+        image-file-path: "files/image_357kb.jpg"
+        video-file-path: "files/video_sakura_18mb.MOV"
+
+    pages:
+      create-page:
+        parent-page-id: 2f4cd6cf14068001ac57e261d1c18fda
+
+    file-uploads:
+      external-image-url: "https://images.unsplash.com/photo-1665939858489-897d566b6650?q=80&w=2748&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"

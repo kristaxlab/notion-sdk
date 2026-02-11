@@ -1,7 +1,9 @@
-package integration;
+package integration.util;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.fail;
 
+import io.kristixlab.notion.NotionSdkSettings;
 import java.io.File;
 import java.net.URL;
 
@@ -18,5 +20,11 @@ public class IntegrationTestUtil {
     }
 
     return new File(url.getFile());
+  }
+
+  public static void checkThatExists(NotionSdkSettings settings, Class clazz, String key) {
+    String value = settings.getString(key);
+    assertNotNull(
+        value, String.format("Property '%s' is missing in settings for %s", key, clazz.getName()));
   }
 }
