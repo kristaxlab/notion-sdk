@@ -197,9 +197,8 @@ public class HttpTransportImpl implements HttpTransport {
     RequestBody requestBody = null;
     if (body != null) {
       if (body instanceof MultipartFormDataRequest) {
-        // TODO make configurable with notion.endpoints.file-uploads.stream.threshold.bytes
-        long threasholdBytes = 1 * 1024 * 1024; // 1MB threshold for streaming
-        boolean asStream = shouldBeStreamed((MultipartFormDataRequest) body, threasholdBytes);
+        Long thresholdBytes = getConfig().getStreamFileAfterBytes();
+        boolean asStream = shouldBeStreamed((MultipartFormDataRequest) body, thresholdBytes);
         requestBody =
             MultipartFormDataUtil.toRequestBody(((MultipartFormDataRequest) body), asStream);
       } else {
@@ -223,7 +222,10 @@ public class HttpTransportImpl implements HttpTransport {
     return afterBuildRequest(url, requestBuilder, logBlueprint).build();
   }
 
-  private boolean shouldBeStreamed(MultipartFormDataRequest body, long thresholdBytes) {
+  private boolean shouldBeStreamed(MultipartFormDataRequest body, Long thresholdBytes) {
+    if (thresholdBytes == null) {
+      return false;
+    }
     MultipartFormDataRequest.FilePart filePart =
         body.getParts().stream()
             .filter(part -> part instanceof MultipartFormDataRequest.FilePart)

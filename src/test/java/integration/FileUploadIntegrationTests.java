@@ -21,7 +21,11 @@ public class FileUploadIntegrationTests {
   private static NotionSdkSettings SETTINGS;
   private static final String EXTERNAL_IMG = "integration-tests.assets.external.image-url";
   private static final String IMAGE_FILE_PATH = "integration-tests.assets.files.image-file-path";
+  private static final String IMAGE_FILE_PATH_4MB =
+      "integration-tests.assets.files.image-file-path-4mb";
   private static final String VIDEO_FILE_PATH = "integration-tests.assets.files.video-file-path";
+  private static final String SPLIT_FILE_SIZE =
+      "notion.endpoints.file-uploads.multi-part.split-size-bytes";
 
   @BeforeAll
   public static void initClient() {
@@ -32,7 +36,11 @@ public class FileUploadIntegrationTests {
     IntegrationTestUtil.checkThatExists(
         SETTINGS, FileUploadIntegrationTests.class, IMAGE_FILE_PATH);
     IntegrationTestUtil.checkThatExists(
+        SETTINGS, FileUploadIntegrationTests.class, IMAGE_FILE_PATH_4MB);
+    IntegrationTestUtil.checkThatExists(
         SETTINGS, FileUploadIntegrationTests.class, VIDEO_FILE_PATH);
+    IntegrationTestUtil.checkThatExists(
+        SETTINGS, FileUploadIntegrationTests.class, SPLIT_FILE_SIZE);
   }
 
   /**
@@ -40,7 +48,7 @@ public class FileUploadIntegrationTests {
    * response
    */
   @Test
-  public void listAllFileUploadsInt16() throws IOException {
+  public void testListAllFileUploadsInt16() throws IOException {
     FileUploadList response = NOTION.fileUploads().listFileUploads();
     assertNotNull(response);
     assertNotNull(response.getRequestId());
@@ -61,7 +69,7 @@ public class FileUploadIntegrationTests {
 
   /** INT-14: File Uploads: upload a single-part file */
   @Test
-  public void testFileUploadSinglePartInt14() throws IOException {
+  public void testFileUploadSinglePartAsFileInt14() throws IOException {
     // prerequisites
     String filePath = SETTINGS.getString(IMAGE_FILE_PATH);
     File file = IntegrationTestUtil.loadFileFailIfMissing(filePath, getClass().getClassLoader());
@@ -99,7 +107,7 @@ public class FileUploadIntegrationTests {
 
   /** INT-15: File Uploads: upload a single-part file sent as stream */
   @Test
-  public void testFileUploadSinglePartBigFileInt15() throws IOException {
+  public void testFileUploadSinglePartAsStreamInt15() throws IOException {
     // prerequisites
     String filePath = SETTINGS.getString(IMAGE_FILE_PATH);
     File file = IntegrationTestUtil.loadFileFailIfMissing(filePath, getClass().getClassLoader());
@@ -131,7 +139,7 @@ public class FileUploadIntegrationTests {
 
   /** INT-18: File Uploads: upload a single-part file as byte[] */
   @Test
-  public void testFileUploadSinglePartInt18() throws IOException {
+  public void testFileUploadSinglePartAsBytesInt18() throws IOException {
     // prerequisites
     String filePath = SETTINGS.getString(IMAGE_FILE_PATH);
     File file = IntegrationTestUtil.loadFileFailIfMissing(filePath, getClass().getClassLoader());
@@ -192,8 +200,10 @@ public class FileUploadIntegrationTests {
     String filePath = SETTINGS.getString(VIDEO_FILE_PATH);
     File file = IntegrationTestUtil.loadFileFailIfMissing(filePath, getClass().getClassLoader());
     String uploadedFilename = "int-20-video_18mb.jpg";
-    long partSizeInBytes = 5 * 1024 * 1024; // 5 MB
+    long partSizeInBytes = SETTINGS.getLong(SPLIT_FILE_SIZE);
     int numberOfParts = FileUploadUtils.calculateNumberOfParts(file.length(), partSizeInBytes);
+    assertTrue(
+        numberOfParts > 1, "File should be split into more than 1 part for multi-part upload test");
 
     // Step 1 - Create File Upload
     FileUploadCreateParams request = new FileUploadCreateParams();

@@ -14,7 +14,7 @@ import org.yaml.snakeyaml.Yaml;
  *
  * <p>Loading order: 1. Environment variables 2. src/test/resources/integration-tests.yml
  */
-//TODO add .properties support
+// TODO add .properties support
 @Slf4j
 public final class NotionSdkSettings {
 
@@ -56,7 +56,12 @@ public final class NotionSdkSettings {
     }
 
     // Then try YAML file
-    return (String) getValue(key);
+    Object value = getValue(key);
+    if (value == null || value instanceof List || value instanceof Map) {
+      return null;
+    }
+
+    return value.toString();
   }
 
   /**
@@ -77,7 +82,26 @@ public final class NotionSdkSettings {
     }
 
     // Then try YAML file
-    return (Integer) getValue(key);
+    Object value = getValue(key);
+    if (value == null) {
+      return null;
+    }
+
+    return Integer.parseInt(value.toString());
+  }
+
+  /**
+   * Gets a long value from the settings using a dot-separated key path.
+   *
+   * @param key the dot-separated key path
+   * @return the long value, or null if not found or not a valid long
+   */
+  public Long getLong(String key, long defaultValue) {
+    Long value = getLong(key);
+    if (value != null) {
+      return value;
+    }
+    return defaultValue;
   }
 
   /**
@@ -98,7 +122,12 @@ public final class NotionSdkSettings {
     }
 
     // Then try YAML file
-    return (Long) getValue(key);
+    Object value = getValue(key);
+    if (value == null) {
+      return null;
+    }
+
+    return Long.parseLong(value.toString());
   }
 
   /**
@@ -119,7 +148,11 @@ public final class NotionSdkSettings {
     }
 
     // Then try YAML file
-    return (Double) getValue(key);
+    Object value = getValue(key);
+    if (value == null) {
+      return null;
+    }
+    return Double.parseDouble(value.toString());
   }
 
   /**
@@ -150,7 +183,11 @@ public final class NotionSdkSettings {
     }
 
     // Then try YAML file
-    return (Boolean) getValue(key);
+    Object value = getValue(key);
+    if (value == null) {
+      return null;
+    }
+    return Boolean.parseBoolean(value.toString());
   }
 
   /**

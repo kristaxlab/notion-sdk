@@ -38,6 +38,10 @@ public class NotionHttpTransport extends HttpTransportImpl {
             .jsonFailOnUnknownProperties(
                 NotionSdkSettings.getInstance()
                     .getBoolean("notion.api.json.fail-on-unknown-properties", false))
+            .streamFileAfterBytes(
+                NotionSdkSettings.getInstance()
+                    .getLong(
+                        "notion.endpoints.file-uploads.stream-file-after-bytes", 1 * 1024 * 1024))
             .build());
     this.version = version;
     this.notionAuthSettings = notionAuthSettings;

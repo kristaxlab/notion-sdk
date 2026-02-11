@@ -46,7 +46,13 @@ jobs:
           TESTING_BOT_TOKEN: ${{ secrets.TESTING_BOT_TOKEN }}
         run: ./gradlew build
 
-      # 6
+      - name: 5a. Run Integration Tests
+        if: success() || failure()  # Run even if unit tests fail
+        env:
+          TESTING_BOT_TOKEN: ${{ secrets.TESTING_BOT_TOKEN }}
+        run: ./gradlew integrationTest
+
+
       - name: Coverage
         if: always()
         run: ./gradlew jacocoTestReport jacocoIntegrationTestReport

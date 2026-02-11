@@ -1,17 +1,9 @@
-workspace:
-  id: "test-workspace"
-  timeout: 5000
-  enabled: true
-
-config:
-  settings:
-# TODO implement fail-on-unknown-properties
+notion:
+  api:
     fail-on-unknown-properties: true
 
-notion:
-  plan: free # TODO other plans for testing
   endpoints:
     file-uploads:
-      stream-after-bytes: 5242880 # 5 MB
-      split-size-bytes: 10485760 # 10 MB
-
+      stream-file-after-bytes: 1048576 # 1 MB
+      multi-part:
+        split-size-bytes: 5242880 # 10 MB

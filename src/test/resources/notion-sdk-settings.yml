@@ -15,6 +15,7 @@ integration-tests:
 
     files:
       image-file-path: "files/image_357kb.jpg"
+      image-file-path-4mb: "files/image_nature_water_tree.jpg"
       video-file-path: "files/video_sakura_18mb.MOV"
 
   endpoints:
