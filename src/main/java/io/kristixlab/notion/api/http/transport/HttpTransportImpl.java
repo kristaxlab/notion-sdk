@@ -197,6 +197,7 @@ public class HttpTransportImpl implements HttpTransport {
     RequestBody requestBody = null;
     if (body != null) {
       if (body instanceof MultipartFormDataRequest) {
+        // TODO impl test to check that streaming configuration is working
         Long thresholdBytes = getConfig().getStreamFileAfterBytes();
         boolean asStream = shouldBeStreamed((MultipartFormDataRequest) body, thresholdBytes);
         requestBody =

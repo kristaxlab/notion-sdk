@@ -6,4 +6,4 @@ notion:
     file-uploads:
       stream-file-after-bytes: 1048576 # 1 MB
       multi-part:
-        split-size-bytes: 5242880 # 10 MB
+        split-size-bytes: 10485760 # 10 MB
