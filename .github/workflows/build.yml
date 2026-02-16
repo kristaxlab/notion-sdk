@@ -44,7 +44,7 @@ jobs:
       - name: 5. Build with Gradle
         env:
           TESTING_BOT_TOKEN: ${{ secrets.TESTING_BOT_TOKEN }}
-        run: ./gradlew build
+        run: ./gradlew clean build
 
       - name: 5a. Run Integration Tests
         if: success() || failure()  # Run even if unit tests fail
