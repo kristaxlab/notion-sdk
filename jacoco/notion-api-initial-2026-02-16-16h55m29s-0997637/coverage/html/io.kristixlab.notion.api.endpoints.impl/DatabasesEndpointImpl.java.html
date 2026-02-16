@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DatabasesEndpointImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">notion-sdk</a> &gt; <a href="index.source.html" class="el_package">io.kristixlab.notion.api.endpoints.impl</a> &gt; <span class="el_source">DatabasesEndpointImpl.java</span></div><h1>DatabasesEndpointImpl.java</h1><pre class="source lang-java linenums">package io.kristixlab.notion.api.endpoints.impl;
+
+import io.kristixlab.notion.api.endpoints.DatabasesEndpoint;
+import io.kristixlab.notion.api.http.NotionHttpTransport;
+import io.kristixlab.notion.api.http.transport.HttpTransportImpl;
+import io.kristixlab.notion.api.http.transport.rq.URLInfo;
+import io.kristixlab.notion.api.model.databases.CreateDatabaseRequest;
+import io.kristixlab.notion.api.model.databases.Database;
+import io.kristixlab.notion.api.model.databases.UpdateDatabaseRequest;
+
+/**
+ * API for interacting with Notion Databases endpoints. Provides methods to retrieve, create,
+ * update, and query databases.
+ */
+public class DatabasesEndpointImpl implements DatabasesEndpoint {
+
+  private static final String DATABASE_ID = &quot;database_id&quot;;
+  private final HttpTransportImpl transport;
+
+<span class="nc" id="L20">  public DatabasesEndpointImpl(NotionHttpTransport transport) {</span>
+<span class="nc" id="L21">    this.transport = transport;</span>
+<span class="nc" id="L22">  }</span>
+
+  /**
+   * Retrieve a database by its ID.
+   *
+   * @param databaseId The ID of the database to retrieve
+   * @return The database object
+   */
+  public Database retrieve(String databaseId) {
+<span class="nc" id="L31">    validateDatabaseId(databaseId);</span>
+<span class="nc" id="L32">    URLInfo urlInfo =</span>
+<span class="nc" id="L33">        URLInfo.builder(&quot;/databases/{database_id}&quot;).pathParam(DATABASE_ID, databaseId).build();</span>
+<span class="nc" id="L34">    return transport.call(&quot;GET&quot;, urlInfo, Database.class);</span>
+  }
+
+  /**
+   * Create a new database.
+   *
+   * @param request The request containing database data
+   * @return The created database
+   */
+  public Database create(CreateDatabaseRequest request) {
+<span class="nc" id="L44">    validateRequest(request);</span>
+<span class="nc" id="L45">    URLInfo urlInfo = URLInfo.from(&quot;/databases&quot;);</span>
+<span class="nc" id="L46">    return transport.call(&quot;POST&quot;, urlInfo, request, Database.class);</span>
+  }
+
+  /**
+   * Update an existing database.
+   *
+   * @param request The request containing updated database data
+   * @return The updated database
+   */
+  public Database update(UpdateDatabaseRequest request) {
+<span class="nc" id="L56">    return update(request.getId(), request);</span>
+  }
+
+  /**
+   * Update an existing database.
+   *
+   * @param databaseId The ID of the database to update
+   * @param request The request containing updated database data
+   * @return The updated database
+   */
+  public Database update(String databaseId, UpdateDatabaseRequest request) {
+<span class="nc" id="L67">    validateDatabaseId(databaseId);</span>
+<span class="nc" id="L68">    validateRequest(request);</span>
+
+<span class="nc" id="L70">    URLInfo urlInfo =</span>
+<span class="nc" id="L71">        URLInfo.builder(&quot;/databases/{database_id}&quot;).pathParam(DATABASE_ID, databaseId).build();</span>
+
+<span class="nc" id="L73">    return transport.call(&quot;PATCH&quot;, urlInfo, request, Database.class);</span>
+  }
+
+  /**
+   * Delete a database by moving it to trash. This operation sets the database's inTrash property to
+   * true.
+   *
+   * @param databaseId The ID of the database to delete
+   * @return The updated database with inTrash set to true
+   */
+  public Database delete(String databaseId) {
+<span class="nc" id="L84">    UpdateDatabaseRequest deleteRequest = new UpdateDatabaseRequest();</span>
+<span class="nc" id="L85">    deleteRequest.setInTrash(true);</span>
+<span class="nc" id="L86">    return update(databaseId, deleteRequest);</span>
+  }
+
+  /**
+   * Restore a database from trash. This operation sets the database's inTrash property to false.
+   *
+   * @param databaseId The ID of the database to restore
+   * @return The updated database with inTrash set to false
+   */
+  public Database restore(String databaseId) {
+<span class="nc" id="L96">    UpdateDatabaseRequest restoreRequest = new UpdateDatabaseRequest();</span>
+<span class="nc" id="L97">    restoreRequest.setInTrash(false);</span>
+<span class="nc" id="L98">    return update(databaseId, restoreRequest);</span>
+  }
+
+  /** Validates the database ID parameter. */
+  private void validateDatabaseId(String databaseId) {
+<span class="nc bnc" id="L103" title="All 4 branches missed.">    if (databaseId == null || databaseId.trim().isEmpty()) {</span>
+<span class="nc" id="L104">      throw new IllegalArgumentException(&quot;Database ID cannot be null or empty&quot;);</span>
+    }
+<span class="nc" id="L106">  }</span>
+
+  /** Validates the request object. */
+  private void validateRequest(Object request) {
+<span class="nc bnc" id="L110" title="All 2 branches missed.">    if (request == null) {</span>
+<span class="nc" id="L111">      throw new IllegalArgumentException(&quot;Request cannot be null&quot;);</span>
+    }
+<span class="nc" id="L113">  }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

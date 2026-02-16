@@ -13,7 +13,7 @@
     "unitPassed": 0,
     "unitTotal": 0,
     "integrationPassed": 0,
-    "integrationTotal": ,
+    "integrationTotal": 0,
     "coveragePercent": 6
   }
 ,
@@ -31,7 +31,7 @@
     "unitPassed": 0,
     "unitTotal": 0,
     "integrationPassed": 0,
-    "integrationTotal": ,
+    "integrationTotal": 0,
     "coveragePercent": 6
   }
 ,
@@ -49,7 +49,7 @@
     "unitPassed": 0,
     "unitTotal": 0,
     "integrationPassed": 0,
-    "integrationTotal": ,
+    "integrationTotal": 0,
     "coveragePercent": 6
   }
 ,
@@ -133,6 +133,24 @@
     "commit": "595e1c5",
     "author": "kristaxlab",
     "timestamp": 1771260404,
+    "hasUnit": true,
+    "hasIntegration": true,
+    "hasCoverage": true,
+    "unitPassed": 0,
+    "unitTotal": 0,
+    "integrationPassed": 0,
+    "integrationTotal": 0,
+    "coveragePercent": 6
+  }
+,
+  {
+    "folder": "notion-api-initial-2026-02-16-16h55m29s-0997637",
+    "branch": "notion-api-initial",
+    "date": "2026-02-16",
+    "time": "16:55:29",
+    "commit": "0997637",
+    "author": "kristaxlab",
+    "timestamp": 1771260875,
     "hasUnit": true,
     "hasIntegration": true,
     "hasCoverage": true,
