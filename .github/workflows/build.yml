@@ -83,6 +83,53 @@ jobs:
             mkdir -p "pages/jacoco/${REPORT_FOLDER}/coverage"
             cp -r build/reports/jacoco/test/* "pages/jacoco/${REPORT_FOLDER}/coverage/"
           fi
+          
+          # Extract test statistics
+          # Unit tests stats from index.html
+          unit_passed=0
+          unit_total=0
+          if [ -f "pages/jacoco/${REPORT_FOLDER}/unit/index.html" ]; then
+            unit_stats=$(grep -oP '(?<=<div class="percent">)[0-9]+(?=%</div>)|(?<=<div id="tests">)[^<]+(?=</div>)' "pages/jacoco/${REPORT_FOLDER}/unit/index.html" | head -2 || echo "")
+            if [ -n "$unit_stats" ]; then
+              unit_total=$(echo "$unit_stats" | sed -n '1p' | grep -oP '\d+' | tail -1 || echo "0")
+              unit_passed=$unit_total
+            fi
+          fi
+          
+          # Integration tests stats
+          integration_passed=0
+          integration_total=0
+          if [ -f "pages/jacoco/${REPORT_FOLDER}/integration/index.html" ]; then
+            integration_stats=$(grep -oP '(?<=<div id="tests">)[^<]+(?=</div>)' "pages/jacoco/${REPORT_FOLDER}/integration/index.html" | head -1 || echo "")
+            if [ -n "$integration_stats" ]; then
+              integration_total=$(echo "$integration_stats" | grep -oP '\d+' | tail -1 || echo "0")
+              integration_passed=$integration_total
+            fi
+          fi
+          
+          # Coverage percentage from JaCoCo XML report
+          coverage_percent="0"
+          if [ -f "pages/jacoco/${REPORT_FOLDER}/coverage/jacocoTestReport.xml" ]; then
+            coverage_percent=$(grep -oP '(?<=type="INSTRUCTION" missed=")[0-9]+(?=" covered=")' "pages/jacoco/${REPORT_FOLDER}/coverage/jacocoTestReport.xml" | head -1 || echo "0")
+            coverage_covered=$(grep -oP '(?<=type="INSTRUCTION" missed="[0-9]+" covered=")[0-9]+(?=")' "pages/jacoco/${REPORT_FOLDER}/coverage/jacocoTestReport.xml" | head -1 || echo "0")
+            if [ "$coverage_percent" != "0" ] || [ "$coverage_covered" != "0" ]; then
+              total=$((coverage_percent + coverage_covered))
+              if [ $total -gt 0 ]; then
+                coverage_percent=$(awk "BEGIN {printf \"%.0f\", ($coverage_covered / $total) * 100}")
+              fi
+            fi
+          fi
+          
+          # Save metadata for this report
+          cat > "pages/jacoco/${REPORT_FOLDER}/.metadata" << EOF
+          author=${GITHUB_ACTOR}
+          timestamp=${COMMIT_TIMESTAMP}
+          unit_passed=${unit_passed}
+          unit_total=${unit_total}
+          integration_passed=${integration_passed}
+          integration_total=${integration_total}
+          coverage_percent=${coverage_percent}
+          EOF
 
       - name: Checkout existing gh-pages
         if: always()
@@ -99,206 +146,80 @@ jobs:
         run: |
           # Copy existing reports if they exist
           if [ -d "existing_pages/jacoco" ]; then
-          cp -r existing_pages/jacoco/* pages/jacoco/ || true
+            cp -r existing_pages/jacoco/* pages/jacoco/ || true
           fi
           
-          # Generate the index.html
-          cat > pages/index.html << 'EOF'
-          <!DOCTYPE html>
-          <html lang="en">
-          <head>
-           <meta charset="UTF-8">
-           <meta name="viewport" content="width=device-width, initial-scale=1.0">
-           <title>JaCoCo Test Reports</title>
-           <style>
-               body { font-family: Arial, sans-serif; margin: 20px; background-color: #f5f5f5; }
-               .header { background: #2c3e50; color: white; padding: 20px; border-radius: 8px; margin-bottom: 20px; position: relative; }
-               .back-button { position: absolute; top: 20px; right: 20px; background: #27ae60; color: white; padding: 10px 20px; text-decoration: none; border-radius: 4px; font-weight: bold; }
-               .back-button:hover { background: #229954; }
-               .filters { background: white; padding: 20px; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-               .filter-group { display: inline-block; margin-right: 20px; margin-bottom: 10px; }
-               .filter-group label { display: block; margin-bottom: 5px; font-weight: bold; }
-               .filter-group input, .filter-group select { padding: 8px; border: 1px solid #ddd; border-radius: 4px; }
-               .report-item { background: white; margin: 10px 0; padding: 15px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-               .report-item h3 { margin: 0 0 10px 0; color: #2c3e50; }
-               .report-links a { display: inline-block; margin-right: 15px; padding: 8px 16px; background: #3498db; color: white; text-decoration: none; border-radius: 4px; }
-               .report-links a:hover { background: #2980b9; }
-               .meta-info { color: #7f8c8d; font-size: 0.9em; margin-bottom: 10px; }
-               .time-ago { color: #95a5a6; font-style: italic; }
-               .author { color: #16a085; font-weight: bold; }
-               .hidden { display: none; }
-               #clearFilters { background: #e74c3c; color: white; padding: 8px 16px; border: none; border-radius: 4px; cursor: pointer; }
-               #clearFilters:hover { background: #c0392b; }
-           </style>
-          </head>
-          <body>
-           <div class="header">
-               <h1>JaCoCo Test Reports</h1>
-               <p>Browse test and coverage reports by branch, date, or commit</p>
-               <a href="../.." class="back-button">← Back to Main</a>
-           </div>
+          # Copy the index.html template
+          cp .github/pages-template/index.html pages/index.html
           
-           <div class="filters">
-               <div class="filter-group">
-                   <label for="branchFilter">Branch:</label>
-                   <select id="branchFilter">
-                       <option value="">All branches</option>
-                   </select>
-               </div>
-               <div class="filter-group">
-                   <label for="dateFilter">Date:</label>
-                   <input type="date" id="dateFilter">
-               </div>
-               <div class="filter-group">
-                   <label for="commitFilter">Commit:</label>
-                   <input type="text" id="commitFilter" placeholder="Enter commit hash">
-               </div>
-               <div class="filter-group">
-                   <button id="clearFilters">Clear Filters</button>
-               </div>
-           </div>
+          # Generate reports.json with all report metadata
+          echo "[" > pages/reports.json
           
-           <div id="reportsList">
-               <!-- Reports will be populated by JavaScript -->
-           </div>
-          
-           <script>
-               const reports = [
-          EOF
-          
-          # Generate JavaScript data for reports
+          first=true
           for report_dir in pages/jacoco/*/; do
-           if [ -d "$report_dir" ]; then
-               folder_name=$(basename "$report_dir")
-               # Parse folder name: branch-YYYY-MM-DD-HHhMMmSSs-commit
-               branch=$(echo "$folder_name" | sed -E 's/^(.*)-[0-9]{4}-[0-9]{2}-[0-9]{2}-[0-9]{2}h[0-9]{2}m[0-9]{2}s-[a-f0-9]{7}$/\1/')
-               date_part=$(echo "$folder_name" | sed -E 's/^.*-([0-9]{4}-[0-9]{2}-[0-9]{2})-[0-9]{2}h[0-9]{2}m[0-9]{2}s-[a-f0-9]{7}$/\1/')
-               time_part=$(echo "$folder_name" | sed -E 's/^.*-[0-9]{4}-[0-9]{2}-[0-9]{2}-([0-9]{2})h([0-9]{2})m([0-9]{2})s-[a-f0-9]{7}$/\1:\2:\3/')
-               commit=$(echo "$folder_name" | sed -E 's/^.*-[0-9]{4}-[0-9]{2}-[0-9]{2}-[0-9]{2}h[0-9]{2}m[0-9]{2}s-([a-f0-9]{7})$/\1/')
-          
-               # Get author from git if possible (fallback to environment variable)
-               author="${GITHUB_ACTOR:-unknown}"
-               timestamp="${COMMIT_TIMESTAMP:-$(date +%s)}"
-          
-               echo "                {" >> pages/index.html
-               echo "                    folder: '$folder_name'," >> pages/index.html
-               echo "                    branch: '$branch'," >> pages/index.html
-               echo "                    date: '$date_part'," >> pages/index.html
-               echo "                    time: '$time_part'," >> pages/index.html
-               echo "                    commit: '$commit'," >> pages/index.html
-               echo "                    author: '$author'," >> pages/index.html
-               echo "                    timestamp: $timestamp," >> pages/index.html
-               echo "                    hasUnit: $([ -d "$report_dir/unit" ] && echo "true" || echo "false")," >> pages/index.html
-               echo "                    hasIntegration: $([ -d "$report_dir/integration" ] && echo "true" || echo "false")," >> pages/index.html
-               echo "                    hasCoverage: $([ -d "$report_dir/coverage" ] && echo "true" || echo "false")" >> pages/index.html
-               echo "                }," >> pages/index.html
-           fi
+            if [ -d "$report_dir" ]; then
+              folder_name=$(basename "$report_dir")
+              
+              # Parse folder name: branch-YYYY-MM-DD-HHhMMmSSs-commit
+              branch=$(echo "$folder_name" | sed -E 's/^(.*)-[0-9]{4}-[0-9]{2}-[0-9]{2}-[0-9]{2}h[0-9]{2}m[0-9]{2}s-[a-f0-9]{7}$/\1/')
+              date_part=$(echo "$folder_name" | sed -E 's/^.*-([0-9]{4}-[0-9]{2}-[0-9]{2})-[0-9]{2}h[0-9]{2}m[0-9]{2}s-[a-f0-9]{7}$/\1/')
+              time_part=$(echo "$folder_name" | sed -E 's/^.*-[0-9]{4}-[0-9]{2}-[0-9]{2}-([0-9]{2})h([0-9]{2})m([0-9]{2})s-[a-f0-9]{7}$/\1:\2:\3/')
+              commit=$(echo "$folder_name" | sed -E 's/^.*-[0-9]{4}-[0-9]{2}-[0-9]{2}-[0-9]{2}h[0-9]{2}m[0-9]{2}s-([a-f0-9]{7})$/\1/')
+              
+              # Extract author and timestamp from folder metadata if it exists
+              metadata_file="$report_dir/.metadata"
+              if [ -f "$metadata_file" ]; then
+                author=$(cat "$metadata_file" | grep "^author=" | cut -d'=' -f2)
+                timestamp=$(cat "$metadata_file" | grep "^timestamp=" | cut -d'=' -f2)
+                unit_passed=$(cat "$metadata_file" | grep "^unit_passed=" | cut -d'=' -f2 || echo "0")
+                unit_total=$(cat "$metadata_file" | grep "^unit_total=" | cut -d'=' -f2 || echo "0")
+                integration_passed=$(cat "$metadata_file" | grep "^integration_passed=" | cut -d'=' -f2 || echo "0")
+                integration_total=$(cat "$metadata_file" | grep "^integration_total=" | cut -d'=' -f2 || echo "0")
+                coverage_percent=$(cat "$metadata_file" | grep "^coverage_percent=" | cut -d'=' -f2 || echo "0")
+              else
+                author="unknown"
+                timestamp=$(date +%s)
+                unit_passed="0"
+                unit_total="0"
+                integration_passed="0"
+                integration_total="0"
+                coverage_percent="0"
+              fi
+              
+              # Add comma if not first item
+              if [ "$first" = false ]; then
+                echo "," >> pages/reports.json
+              fi
+              first=false
+              
+              # Check what reports exist
+              has_unit=$([ -d "$report_dir/unit" ] && echo "true" || echo "false")
+              has_integration=$([ -d "$report_dir/integration" ] && echo "true" || echo "false")
+              has_coverage=$([ -d "$report_dir/coverage" ] && echo "true" || echo "false")
+              
+              # Generate JSON object using echo
+              echo "  {" >> pages/reports.json
+              echo "    \"folder\": \"$folder_name\"," >> pages/reports.json
+              echo "    \"branch\": \"$branch\"," >> pages/reports.json
+              echo "    \"date\": \"$date_part\"," >> pages/reports.json
+              echo "    \"time\": \"$time_part\"," >> pages/reports.json
+              echo "    \"commit\": \"$commit\"," >> pages/reports.json
+              echo "    \"author\": \"$author\"," >> pages/reports.json
+              echo "    \"timestamp\": $timestamp," >> pages/reports.json
+              echo "    \"hasUnit\": $has_unit," >> pages/reports.json
+              echo "    \"hasIntegration\": $has_integration," >> pages/reports.json
+              echo "    \"hasCoverage\": $has_coverage," >> pages/reports.json
+              echo "    \"unitPassed\": $unit_passed," >> pages/reports.json
+              echo "    \"unitTotal\": $unit_total," >> pages/reports.json
+              echo "    \"integrationPassed\": $integration_passed," >> pages/reports.json
+              echo "    \"integrationTotal\": $integration_total," >> pages/reports.json
+              echo "    \"coveragePercent\": $coverage_percent" >> pages/reports.json
+              echo "  }" >> pages/reports.json
+            fi
           done
           
-          # Complete the JavaScript and HTML
-          cat >> pages/index.html << 'EOF'
-               ];
-          
-               // Remove trailing comma if exists
-               if (reports.length > 0 && reports[reports.length - 1].folder) {
-                   // Reports are valid
-               }
-          
-               function timeAgo(timestamp) {
-                   const now = Math.floor(Date.now() / 1000);
-                   const diff = now - timestamp;
-          
-                   if (diff < 60) return `${diff}s ago`;
-                   if (diff < 3600) return `${Math.floor(diff / 60)}min ago`;
-                   if (diff < 86400) return `${Math.floor(diff / 3600)}h ago`;
-                   if (diff < 2592000) return `${Math.floor(diff / 86400)}d ago`;
-                   if (diff < 31536000) return `${Math.floor(diff / 2592000)}mo ago`;
-                   return `${Math.floor(diff / 31536000)}y ago`;
-               }
-          
-               function populateBranchFilter() {
-                   const branches = [...new Set(reports.map(r => r.branch))].sort();
-                   const branchFilter = document.getElementById('branchFilter');
-                   branches.forEach(branch => {
-                       const option = document.createElement('option');
-                       option.value = branch;
-                       option.textContent = branch;
-                       branchFilter.appendChild(option);
-                   });
-               }
-          
-               function renderReports(filteredReports = reports) {
-                   const reportsList = document.getElementById('reportsList');
-                   reportsList.innerHTML = '';
-          
-                   // Sort by timestamp desc
-                   filteredReports.sort((a, b) => b.timestamp - a.timestamp);
-          
-                   filteredReports.forEach(report => {
-                       const div = document.createElement('div');
-                       div.className = 'report-item';
-          
-                       const links = [];
-                       if (report.hasUnit) links.push(`<a href="jacoco/${report.folder}/unit/index.html" target="_blank">Unit Tests</a>`);
-                       if (report.hasIntegration) links.push(`<a href="jacoco/${report.folder}/integration/index.html" target="_blank">Integration Tests</a>`);
-                       if (report.hasCoverage) links.push(`<a href="jacoco/${report.folder}/coverage/html/index.html" target="_blank">Coverage Report</a>`);
-          
-                       div.innerHTML = `
-                           <h3>${report.folder}</h3>
-                           <div class="meta-info">
-                               <strong>Branch:</strong> ${report.branch} | 
-                               <strong>Date:</strong> ${report.date} ${report.time} | 
-                               <strong>Commit:</strong> ${report.commit} | 
-                               <span class="author">By: ${report.author}</span> | 
-                               <span class="time-ago">${timeAgo(report.timestamp)}</span>
-                           </div>
-                           <div class="report-links">
-                               ${links.join('')}
-                           </div>
-                       `;
-                       reportsList.appendChild(div);
-                   });
-          
-                   if (filteredReports.length === 0) {
-                       reportsList.innerHTML = '<p>No reports found matching the current filters.</p>';
-                   }
-               }
-          
-               function applyFilters() {
-                   const branchFilter = document.getElementById('branchFilter').value;
-                   const dateFilter = document.getElementById('dateFilter').value;
-                   const commitFilter = document.getElementById('commitFilter').value.toLowerCase();
-          
-                   const filtered = reports.filter(report => {
-                       const branchMatch = !branchFilter || report.branch === branchFilter;
-                       const dateMatch = !dateFilter || report.date === dateFilter;
-                       const commitMatch = !commitFilter || report.commit.toLowerCase().includes(commitFilter);
-                       return branchMatch && dateMatch && commitMatch;
-                   });
-          
-                   renderReports(filtered);
-               }
-          
-               function clearFilters() {
-                   document.getElementById('branchFilter').value = '';
-                   document.getElementById('dateFilter').value = '';
-                   document.getElementById('commitFilter').value = '';
-                   renderReports();
-               }
-          
-               // Initialize
-               populateBranchFilter();
-               renderReports();
-          
-               // Event listeners
-               document.getElementById('branchFilter').addEventListener('change', applyFilters);
-               document.getElementById('dateFilter').addEventListener('change', applyFilters);
-               document.getElementById('commitFilter').addEventListener('input', applyFilters);
-               document.getElementById('clearFilters').addEventListener('click', clearFilters);
-           </script>
-          </body>
-          </html>
-          EOF
+          echo "" >> pages/reports.json
+          echo "]" >> pages/reports.json
 
       - name: Publish to GitHub Pages
         if: always()

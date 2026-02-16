@@ -1,0 +1,53 @@
+[
+  {
+    "folder": "main-2026-02-16-10h30m15s-abc1234",
+    "branch": "main",
+    "date": "2026-02-16",
+    "time": "10:30:15",
+    "commit": "abc1234",
+    "author": "kristixlab",
+    "timestamp": 1739703015,
+    "hasUnit": true,
+    "hasIntegration": true,
+    "hasCoverage": true,
+    "unitPassed": 77,
+    "unitTotal": 77,
+    "integrationPassed": 2,
+    "integrationTotal": 5,
+    "coveragePercent": 34
+  },
+  {
+    "folder": "develop-2026-02-15-14h20m05s-def5678",
+    "branch": "develop",
+    "date": "2026-02-15",
+    "time": "14:20:05",
+    "commit": "def5678",
+    "author": "johndoe",
+    "timestamp": 1739630405,
+    "hasUnit": true,
+    "hasIntegration": true,
+    "hasCoverage": true,
+    "unitPassed": 75,
+    "unitTotal": 77,
+    "integrationPassed": 5,
+    "integrationTotal": 5,
+    "coveragePercent": 85
+  },
+  {
+    "folder": "notion-api-initial-2026-02-14-09h15m30s-ghi9012",
+    "branch": "notion-api-initial",
+    "date": "2026-02-14",
+    "time": "09:15:30",
+    "commit": "ghi9012",
+    "author": "janedoe",
+    "timestamp": 1739524530,
+    "hasUnit": true,
+    "hasIntegration": false,
+    "hasCoverage": true,
+    "unitPassed": 50,
+    "unitTotal": 50,
+    "integrationPassed": 0,
+    "integrationTotal": 0,
+    "coveragePercent": 72
+  }
+]
