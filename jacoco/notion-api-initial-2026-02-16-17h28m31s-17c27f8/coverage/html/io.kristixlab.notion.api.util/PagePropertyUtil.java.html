@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PagePropertyUtil.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">notion-sdk</a> &gt; <a href="index.source.html" class="el_package">io.kristixlab.notion.api.util</a> &gt; <span class="el_source">PagePropertyUtil.java</span></div><h1>PagePropertyUtil.java</h1><pre class="source lang-java linenums">package io.kristixlab.notion.api.util;
+
+import io.kristixlab.notion.api.model.pages.properties.*;
+
+<span class="nc" id="L5">public class PagePropertyUtil {</span>
+
+  public static boolean isNumber(PageProperty property) {
+<span class="nc" id="L8">    return PagePropertyType.NUMBER.type().equals(property.getType());</span>
+  }
+
+  public static NumberProperty asNumber(PageProperty property) {
+<span class="fc" id="L12">    return (NumberProperty) property;</span>
+  }
+
+  public static boolean isTitle(PageProperty property) {
+<span class="nc" id="L16">    return PagePropertyType.TITLE.type().equals(property.getType());</span>
+  }
+
+  public static TitleProperty asTitle(PageProperty property) {
+<span class="nc" id="L20">    return (TitleProperty) property;</span>
+  }
+
+  public static boolean isRichText(PageProperty property) {
+<span class="nc" id="L24">    return PagePropertyType.RICH_TEXT.type().equals(property.getType());</span>
+  }
+
+  public static RichTextProperty asRichText(PageProperty property) {
+<span class="nc" id="L28">    return (RichTextProperty) property;</span>
+  }
+
+  public static boolean isSelect(PageProperty property) {
+<span class="nc" id="L32">    return PagePropertyType.SELECT.type().equals(property.getType());</span>
+  }
+
+  public static SelectProperty asSelect(PageProperty property) {
+<span class="nc" id="L36">    return (SelectProperty) property;</span>
+  }
+
+  public static boolean isMultiSelect(PageProperty property) {
+<span class="nc" id="L40">    return PagePropertyType.MULTI_SELECT.type().equals(property.getType());</span>
+  }
+
+  public static MultiSelectProperty asMultiSelect(PageProperty property) {
+<span class="nc" id="L44">    return (MultiSelectProperty) property;</span>
+  }
+
+  public static boolean isCheckbox(PageProperty property) {
+<span class="nc" id="L48">    return PagePropertyType.CHECKBOX.type().equals(property.getType());</span>
+  }
+
+  public static CheckboxProperty asCheckbox(PageProperty property) {
+<span class="nc" id="L52">    return (CheckboxProperty) property;</span>
+  }
+
+  public static boolean isCreatedTime(PageProperty property) {
+<span class="nc" id="L56">    return PagePropertyType.CREATED_TIME.type().equals(property.getType());</span>
+  }
+
+  public static CreatedTimeProperty asCreatedTime(PageProperty property) {
+<span class="nc" id="L60">    return (CreatedTimeProperty) property;</span>
+  }
+
+  public static boolean isLastEditedTime(PageProperty property) {
+<span class="nc" id="L64">    return PagePropertyType.LAST_EDITED_TIME.type().equals(property.getType());</span>
+  }
+
+  public static LastEditedTimeProperty asLastEditedTime(PageProperty property) {
+<span class="nc" id="L68">    return (LastEditedTimeProperty) property;</span>
+  }
+
+  public static boolean isCreatedBy(PageProperty property) {
+<span class="nc" id="L72">    return PagePropertyType.CREATED_BY.type().equals(property.getType());</span>
+  }
+
+  public static CreatedByProperty asCreatedBy(PageProperty property) {
+<span class="nc" id="L76">    return (CreatedByProperty) property;</span>
+  }
+
+  public static boolean isLastEditedBy(PageProperty property) {
+<span class="nc" id="L80">    return PagePropertyType.LAST_EDITED_BY.type().equals(property.getType());</span>
+  }
+
+  public static LastEditedByProperty asLastEditedBy(PageProperty property) {
+<span class="nc" id="L84">    return (LastEditedByProperty) property;</span>
+  }
+
+  public static boolean isDate(PageProperty property) {
+<span class="nc" id="L88">    return PagePropertyType.DATE.type().equals(property.getType());</span>
+  }
+
+  public static DateProperty asDate(PageProperty property) {
+<span class="nc" id="L92">    return (DateProperty) property;</span>
+  }
+
+  public static boolean isEmail(PageProperty property) {
+<span class="nc" id="L96">    return PagePropertyType.EMAIL.type().equals(property.getType());</span>
+  }
+
+  public static EmailProperty asEmail(PageProperty property) {
+<span class="nc" id="L100">    return (EmailProperty) property;</span>
+  }
+
+  public static boolean isPhoneNumber(PageProperty property) {
+<span class="nc" id="L104">    return PagePropertyType.PHONE_NUMBER.type().equals(property.getType());</span>
+  }
+
+  public static PhoneNumberProperty asPhoneNumber(PageProperty property) {
+<span class="nc" id="L108">    return (PhoneNumberProperty) property;</span>
+  }
+
+  public static boolean isFiles(PageProperty property) {
+<span class="nc" id="L112">    return PagePropertyType.FILES.type().equals(property.getType());</span>
+  }
+
+  public static FilesProperty asFiles(PageProperty property) {
+<span class="nc" id="L116">    return (FilesProperty) property;</span>
+  }
+
+  public static boolean isPeople(PageProperty property) {
+<span class="nc" id="L120">    return PagePropertyType.PEOPLE.type().equals(property.getType());</span>
+  }
+
+  public static PeopleProperty asPeople(PageProperty property) {
+<span class="nc" id="L124">    return (PeopleProperty) property;</span>
+  }
+
+  public static boolean isRelation(PageProperty property) {
+<span class="nc" id="L128">    return PagePropertyType.RELATION.type().equals(property.getType());</span>
+  }
+
+  public static RelationProperty asRelation(PageProperty property) {
+<span class="nc" id="L132">    return (RelationProperty) property;</span>
+  }
+
+  public static boolean isRollup(PageProperty property) {
+<span class="nc" id="L136">    return PagePropertyType.ROLLUP.type().equals(property.getType());</span>
+  }
+
+  public static RollupProperty asRollup(PageProperty property) {
+<span class="nc" id="L140">    return (RollupProperty) property;</span>
+  }
+
+  public static boolean isFormula(PageProperty property) {
+<span class="nc" id="L144">    return PagePropertyType.FORMULA.type().equals(property.getType());</span>
+  }
+
+  public static FormulaProperty asFormula(PageProperty property) {
+<span class="nc" id="L148">    return (FormulaProperty) property;</span>
+  }
+
+  public static boolean isUrl(PageProperty property) {
+<span class="nc" id="L152">    return PagePropertyType.URL.type().equals(property.getType());</span>
+  }
+
+  public static UrlProperty asUrl(PageProperty property) {
+<span class="nc" id="L156">    return (UrlProperty) property;</span>
+  }
+
+  public static boolean isStatus(PageProperty property) {
+<span class="nc" id="L160">    return PagePropertyType.STATUS.type().equals(property.getType());</span>
+  }
+
+  public static StatusProperty asStatus(PageProperty property) {
+<span class="nc" id="L164">    return (StatusProperty) property;</span>
+  }
+
+  public static boolean isButton(PageProperty property) {
+<span class="nc" id="L168">    return PagePropertyType.BUTTON.type().equals(property.getType());</span>
+  }
+
+  public static ButtonProperty asButton(PageProperty property) {
+<span class="nc" id="L172">    return (ButtonProperty) property;</span>
+  }
+
+  public static boolean isPlace(PageProperty property) {
+<span class="nc" id="L176">    return PagePropertyType.PLACE.type().equals(property.getType());</span>
+  }
+
+  public static PlaceProperty asPlace(PageProperty property) {
+<span class="nc" id="L180">    return (PlaceProperty) property;</span>
+  }
+
+  public static boolean isVerification(PageProperty property) {
+<span class="nc" id="L184">    return PagePropertyType.VERIFICATION.type().equals(property.getType());</span>
+  }
+
+  public static VerificationProperty asVerification(PageProperty property) {
+<span class="nc" id="L188">    return (VerificationProperty) property;</span>
+  }
+
+  public static boolean isUniqueId(PageProperty property) {
+<span class="nc" id="L192">    return PagePropertyType.UNIQUE_ID.type().equals(property.getType());</span>
+  }
+
+  public static UniqueIdProperty asUniqueId(PageProperty property) {
+<span class="nc" id="L196">    return (UniqueIdProperty) property;</span>
+  }
+
+  public static boolean isPropertyItem(PageProperty property) {
+<span class="nc" id="L200">    return PagePropertyType.PROPERTY_ITEM.type().equals(property.getType());</span>
+  }
+
+  public static PropertyItem asPropertyItem(PageProperty property) {
+<span class="fc" id="L204">    return (PropertyItem) property;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

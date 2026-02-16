@@ -160,5 +160,23 @@
     "integrationTotal": 0,
     "coveragePercent": 6
   }
+,
+  {
+    "folder": "notion-api-initial-2026-02-16-17h28m31s-17c27f8",
+    "branch": "notion-api-initial",
+    "date": "2026-02-16",
+    "time": "17:28:31",
+    "commit": "17c27f8",
+    "author": "kristaxlab",
+    "timestamp": 1771262844,
+    "hasUnit": true,
+    "hasIntegration": true,
+    "hasCoverage": true,
+    "unitPassed": 144,
+    "unitTotal": 144,
+    "integrationPassed": 10,
+    "integrationTotal": 10,
+    "coveragePercent": 6
+  }
 
 ]
