@@ -233,6 +233,15 @@ jobs:
                 fi
               fi
               
+              # Ensure all variables have valid defaults (prevent empty values in JSON)
+              author="${author:-unknown}"
+              timestamp="${timestamp:-0}"
+              unit_passed="${unit_passed:-0}"
+              unit_total="${unit_total:-0}"
+              integration_passed="${integration_passed:-0}"
+              integration_total="${integration_total:-0}"
+              coverage_percent="${coverage_percent:-0}"
+              
               # Add comma if not first item
               if [ "$first" = false ]; then
                 echo "," >> pages/reports.json
