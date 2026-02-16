@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>NumberDataSourcePropertySchema.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">notion-sdk</a> &gt; <a href="index.source.html" class="el_package">io.kristixlab.notion.api.model.datasources.properties</a> &gt; <span class="el_source">NumberDataSourcePropertySchema.java</span></div><h1>NumberDataSourcePropertySchema.java</h1><pre class="source lang-java linenums">package io.kristixlab.notion.api.model.datasources.properties;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+/** Database property for number columns. Supports different number formats. */
+@Data
+@EqualsAndHashCode(callSuper = true)
+public class NumberDataSourcePropertySchema extends DataSourcePropertySchema {
+
+  @JsonProperty(&quot;number&quot;)
+  private NumberFormat number = new NumberFormat();
+
+  public static NumberDataSourcePropertySchema of(
+      io.kristixlab.notion.api.model.datasources.NumberFormat format) {
+<span class="nc" id="L17">    return of(format.toString());</span>
+  }
+
+  public static NumberDataSourcePropertySchema of(String format) {
+<span class="nc" id="L21">    NumberDataSourcePropertySchema property = new NumberDataSourcePropertySchema();</span>
+<span class="nc" id="L22">    NumberFormat numberFormat = new NumberFormat();</span>
+<span class="nc" id="L23">    numberFormat.setFormat(format);</span>
+<span class="nc" id="L24">    property.setNumber(numberFormat);</span>
+<span class="nc" id="L25">    return property;</span>
+  }
+
+  @Data
+  public static class NumberFormat {
+    @JsonProperty(&quot;format&quot;)
+    private String
+        format; // &quot;number&quot;, &quot;number_with_commas&quot;, &quot;percent&quot;, &quot;dollar&quot;, &quot;canadian_dollar&quot;, &quot;euro&quot;,
+    // &quot;pound&quot;, &quot;yen&quot;, &quot;ruble&quot;, &quot;rupee&quot;, &quot;won&quot;, &quot;yuan&quot;, &quot;real&quot;, &quot;lira&quot;, &quot;rupiah&quot;,
+    // &quot;franc&quot;, &quot;hong_kong_dollar&quot;, &quot;new_zealand_dollar&quot;, &quot;krona&quot;, &quot;norwegian_krone&quot;,
+    // &quot;mexican_peso&quot;, &quot;rand&quot;, &quot;new_taiwan_dollar&quot;, &quot;danish_krone&quot;, &quot;zloty&quot;, &quot;baht&quot;,
+    // &quot;forint&quot;, &quot;koruna&quot;, &quot;shekel&quot;, &quot;chilean_peso&quot;, &quot;philippine_peso&quot;, &quot;dirham&quot;,
+    // &quot;colombian_peso&quot;, &quot;riyal&quot;, &quot;ringgit&quot;, &quot;leu&quot;, &quot;argentine_peso&quot;, &quot;uruguayan_peso&quot;,
+    // &quot;singapore_dollar&quot;
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
