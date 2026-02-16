@@ -89,33 +89,39 @@ jobs:
           unit_passed=0
           unit_total=0
           if [ -f "pages/jacoco/${REPORT_FOLDER}/unit/index.html" ]; then
-            unit_stats=$(grep -oP '(?<=<div class="percent">)[0-9]+(?=%</div>)|(?<=<div id="tests">)[^<]+(?=</div>)' "pages/jacoco/${REPORT_FOLDER}/unit/index.html" | head -2 || echo "")
-            if [ -n "$unit_stats" ]; then
-              unit_total=$(echo "$unit_stats" | sed -n '1p' | grep -oP '\d+' | tail -1 || echo "0")
-              unit_passed=$unit_total
-            fi
+            # Extract test count from "X tests" pattern
+            unit_total=$(grep -o '[0-9]* tests' "pages/jacoco/${REPORT_FOLDER}/unit/index.html" | head -1 | grep -o '[0-9]*' || echo "0")
+            # Extract failures count
+            unit_failures=$(grep -o '[0-9]* failures' "pages/jacoco/${REPORT_FOLDER}/unit/index.html" | head -1 | grep -o '[0-9]*' || echo "0")
+            # Calculate passed
+            unit_passed=$((unit_total - unit_failures))
           fi
           
           # Integration tests stats
           integration_passed=0
           integration_total=0
           if [ -f "pages/jacoco/${REPORT_FOLDER}/integration/index.html" ]; then
-            integration_stats=$(grep -oP '(?<=<div id="tests">)[^<]+(?=</div>)' "pages/jacoco/${REPORT_FOLDER}/integration/index.html" | head -1 || echo "")
-            if [ -n "$integration_stats" ]; then
-              integration_total=$(echo "$integration_stats" | grep -oP '\d+' | tail -1 || echo "0")
-              integration_passed=$integration_total
-            fi
+            # Extract test count from "X tests" pattern
+            integration_total=$(grep -o '[0-9]* tests' "pages/jacoco/${REPORT_FOLDER}/integration/index.html" | head -1 | grep -o '[0-9]*' || echo "0")
+            # Extract failures count
+            integration_failures=$(grep -o '[0-9]* failures' "pages/jacoco/${REPORT_FOLDER}/integration/index.html" | head -1 | grep -o '[0-9]*' || echo "0")
+            # Calculate passed
+            integration_passed=$((integration_total - integration_failures))
           fi
           
           # Coverage percentage from JaCoCo XML report
           coverage_percent="0"
           if [ -f "pages/jacoco/${REPORT_FOLDER}/coverage/jacocoTestReport.xml" ]; then
-            coverage_percent=$(grep -oP '(?<=type="INSTRUCTION" missed=")[0-9]+(?=" covered=")' "pages/jacoco/${REPORT_FOLDER}/coverage/jacocoTestReport.xml" | head -1 || echo "0")
-            coverage_covered=$(grep -oP '(?<=type="INSTRUCTION" missed="[0-9]+" covered=")[0-9]+(?=")' "pages/jacoco/${REPORT_FOLDER}/coverage/jacocoTestReport.xml" | head -1 || echo "0")
-            if [ "$coverage_percent" != "0" ] || [ "$coverage_covered" != "0" ]; then
-              total=$((coverage_percent + coverage_covered))
-              if [ $total -gt 0 ]; then
-                coverage_percent=$(awk "BEGIN {printf \"%.0f\", ($coverage_covered / $total) * 100}")
+            # Extract missed and covered instruction counts
+            coverage_line=$(grep 'type="INSTRUCTION"' "pages/jacoco/${REPORT_FOLDER}/coverage/jacocoTestReport.xml" | head -1)
+            if [ -n "$coverage_line" ]; then
+              coverage_missed=$(echo "$coverage_line" | sed -n 's/.*missed="\([0-9]*\)".*/\1/p')
+              coverage_covered=$(echo "$coverage_line" | sed -n 's/.*covered="\([0-9]*\)".*/\1/p')
+              if [ -n "$coverage_missed" ] && [ -n "$coverage_covered" ]; then
+                total=$((coverage_missed + coverage_covered))
+                if [ $total -gt 0 ]; then
+                  coverage_percent=$((coverage_covered * 100 / total))
+                fi
               fi
             fi
           fi
@@ -177,13 +183,54 @@ jobs:
                 integration_total=$(cat "$metadata_file" | grep "^integration_total=" | cut -d'=' -f2 || echo "0")
                 coverage_percent=$(cat "$metadata_file" | grep "^coverage_percent=" | cut -d'=' -f2 || echo "0")
               else
+                # Fallback for old reports without metadata
                 author="unknown"
-                timestamp=$(date +%s)
+                
+                # Try to derive timestamp from folder name (format: branch-YYYY-MM-DD-HHhMMmSSs-commit)
+                # Convert to Unix timestamp, fallback to epoch start (0) if parsing fails
+                timestamp=0
+                if [ -n "$date_part" ] && [ -n "$time_part" ]; then
+                  # Try to parse the date/time (works on GNU date, may not work on BSD/macOS)
+                  timestamp=$(date -d "${date_part} ${time_part}" +%s 2>/dev/null || echo "0")
+                fi
+                
+                # Extract unit test stats from HTML if available
                 unit_passed="0"
                 unit_total="0"
+                if [ -f "$report_dir/unit/index.html" ]; then
+                  unit_total=$(grep -o '[0-9]* tests' "$report_dir/unit/index.html" | head -1 | grep -o '[0-9]*' || echo "0")
+                  unit_failures=$(grep -o '[0-9]* failures' "$report_dir/unit/index.html" | head -1 | grep -o '[0-9]*' || echo "0")
+                  if [ -n "$unit_total" ] && [ -n "$unit_failures" ]; then
+                    unit_passed=$((unit_total - unit_failures))
+                  fi
+                fi
+                
+                # Extract integration test stats from HTML if available
                 integration_passed="0"
                 integration_total="0"
+                if [ -f "$report_dir/integration/index.html" ]; then
+                  integration_total=$(grep -o '[0-9]* tests' "$report_dir/integration/index.html" | head -1 | grep -o '[0-9]*' || echo "0")
+                  integration_failures=$(grep -o '[0-9]* failures' "$report_dir/integration/index.html" | head -1 | grep -o '[0-9]*' || echo "0")
+                  if [ -n "$integration_total" ] && [ -n "$integration_failures" ]; then
+                    integration_passed=$((integration_total - integration_failures))
+                  fi
+                fi
+                
+                # Extract coverage percentage from JaCoCo XML if available
                 coverage_percent="0"
+                if [ -f "$report_dir/coverage/jacocoTestReport.xml" ]; then
+                  coverage_line=$(grep 'type="INSTRUCTION"' "$report_dir/coverage/jacocoTestReport.xml" | head -1)
+                  if [ -n "$coverage_line" ]; then
+                    coverage_missed=$(echo "$coverage_line" | sed -n 's/.*missed="\([0-9]*\)".*/\1/p')
+                    coverage_covered=$(echo "$coverage_line" | sed -n 's/.*covered="\([0-9]*\)".*/\1/p')
+                    if [ -n "$coverage_missed" ] && [ -n "$coverage_covered" ]; then
+                      total=$((coverage_missed + coverage_covered))
+                      if [ $total -gt 0 ]; then
+                        coverage_percent=$((coverage_covered * 100 / total))
+                      fi
+                    fi
+                  fi
+                fi
               fi
               
               # Add comma if not first item
