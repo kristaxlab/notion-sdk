@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DataSourcePropertySchema.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">notion-sdk</a> &gt; <a href="index.source.html" class="el_package">io.kristixlab.notion.api.model.datasources.properties</a> &gt; <span class="el_source">DataSourcePropertySchema.java</span></div><h1>DataSourcePropertySchema.java</h1><pre class="source lang-java linenums">package io.kristixlab.notion.api.model.datasources.properties;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import lombok.Data;
+
+/**
+ * Base class for database property objects. Database properties define the schema and configuration
+ * of database columns.
+ */
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    defaultImpl = UnknownDataSourcePropertySchema.class,
+    include = JsonTypeInfo.As.EXISTING_PROPERTY,
+    property = &quot;type&quot;,
+    visible = true)
+@JsonSubTypes({
+  @JsonSubTypes.Type(value = CheckboxDataSourcePropertySchema.class, name = &quot;checkbox&quot;),
+  @JsonSubTypes.Type(value = ButtonDataSourcePropertySchema.class, name = &quot;button&quot;),
+  @JsonSubTypes.Type(value = CreatedByDataSourcePropertySchema.class, name = &quot;created_by&quot;),
+  @JsonSubTypes.Type(value = CreatedTimeDataSourcePropertySchema.class, name = &quot;created_time&quot;),
+  @JsonSubTypes.Type(value = DateDataSourcePropertySchema.class, name = &quot;date&quot;),
+  @JsonSubTypes.Type(value = EmailDataSourcePropertySchema.class, name = &quot;email&quot;),
+  @JsonSubTypes.Type(value = FilesDataSourcePropertySchema.class, name = &quot;files&quot;),
+  @JsonSubTypes.Type(value = FormulaDataSourcePropertySchema.class, name = &quot;formula&quot;),
+  @JsonSubTypes.Type(value = LastEditedByDataSourcePropertySchema.class, name = &quot;last_edited_by&quot;),
+  @JsonSubTypes.Type(
+      value = LastEditedTimeDataSourcePropertySchema.class,
+      name = &quot;last_edited_time&quot;),
+  @JsonSubTypes.Type(value = MultiSelectDataSourcePropertySchema.class, name = &quot;multi_select&quot;),
+  @JsonSubTypes.Type(value = NumberDataSourcePropertySchema.class, name = &quot;number&quot;),
+  @JsonSubTypes.Type(value = PeopleDataSourcePropertySchema.class, name = &quot;people&quot;),
+  @JsonSubTypes.Type(value = PhoneNumberDataSourcePropertySchema.class, name = &quot;phone_number&quot;),
+  @JsonSubTypes.Type(value = RelationDataSourcePropertySchema.class, name = &quot;relation&quot;),
+  @JsonSubTypes.Type(value = RichTextDataSourcePropertySchema.class, name = &quot;rich_text&quot;),
+  @JsonSubTypes.Type(value = RollupDataSourcePropertySchema.class, name = &quot;rollup&quot;),
+  @JsonSubTypes.Type(value = SelectDataSourcePropertySchema.class, name = &quot;select&quot;),
+  @JsonSubTypes.Type(value = StatusDataSourcePropertySchema.class, name = &quot;status&quot;),
+  @JsonSubTypes.Type(value = TitleDataSourcePropertySchema.class, name = &quot;title&quot;),
+  @JsonSubTypes.Type(value = UniqueIdDataSourcePropertySchema.class, name = &quot;unique_id&quot;),
+  @JsonSubTypes.Type(value = UrlDataSourcePropertySchema.class, name = &quot;url&quot;),
+  @JsonSubTypes.Type(value = VerificationDataSourcePropertySchema.class, name = &quot;verification&quot;),
+  @JsonSubTypes.Type(value = PlaceDataSourcePropertySchema.class, name = &quot;place&quot;)
+})
+@Data
+public abstract class DataSourcePropertySchema {
+
+  @JsonProperty(&quot;id&quot;)
+  private String id;
+
+  @JsonProperty(&quot;name&quot;)
+  private String name;
+
+  @JsonProperty(&quot;type&quot;)
+  private String type;
+
+  @JsonProperty(&quot;description&quot;)
+  private String description;
+
+  // Type conversion methods similar to PageProperty
+  public CheckboxDataSourcePropertySchema asCheckbox() {
+<span class="nc" id="L64">    return (CheckboxDataSourcePropertySchema) this;</span>
+  }
+
+  public CreatedByDataSourcePropertySchema asCreatedBy() {
+<span class="nc" id="L68">    return (CreatedByDataSourcePropertySchema) this;</span>
+  }
+
+  public CreatedTimeDataSourcePropertySchema asCreatedTime() {
+<span class="nc" id="L72">    return (CreatedTimeDataSourcePropertySchema) this;</span>
+  }
+
+  public DateDataSourcePropertySchema asDate() {
+<span class="fc" id="L76">    return (DateDataSourcePropertySchema) this;</span>
+  }
+
+  public EmailDataSourcePropertySchema asEmail() {
+<span class="nc" id="L80">    return (EmailDataSourcePropertySchema) this;</span>
+  }
+
+  public FilesDataSourcePropertySchema asFiles() {
+<span class="nc" id="L84">    return (FilesDataSourcePropertySchema) this;</span>
+  }
+
+  public FormulaDataSourcePropertySchema asFormula() {
+<span class="fc" id="L88">    return (FormulaDataSourcePropertySchema) this;</span>
+  }
+
+  public LastEditedByDataSourcePropertySchema asLastEditedBy() {
+<span class="nc" id="L92">    return (LastEditedByDataSourcePropertySchema) this;</span>
+  }
+
+  public LastEditedTimeDataSourcePropertySchema asLastEditedTime() {
+<span class="nc" id="L96">    return (LastEditedTimeDataSourcePropertySchema) this;</span>
+  }
+
+  public MultiSelectDataSourcePropertySchema asMultiSelect() {
+<span class="fc" id="L100">    return (MultiSelectDataSourcePropertySchema) this;</span>
+  }
+
+  public NumberDataSourcePropertySchema asNumber() {
+<span class="fc" id="L104">    return (NumberDataSourcePropertySchema) this;</span>
+  }
+
+  public PeopleDataSourcePropertySchema asPeople() {
+<span class="nc" id="L108">    return (PeopleDataSourcePropertySchema) this;</span>
+  }
+
+  public PhoneNumberDataSourcePropertySchema asPhoneNumber() {
+<span class="nc" id="L112">    return (PhoneNumberDataSourcePropertySchema) this;</span>
+  }
+
+  public RelationDataSourcePropertySchema asRelation() {
+<span class="fc" id="L116">    return (RelationDataSourcePropertySchema) this;</span>
+  }
+
+  public RichTextDataSourcePropertySchema asRichText() {
+<span class="fc" id="L120">    return (RichTextDataSourcePropertySchema) this;</span>
+  }
+
+  public RollupDataSourcePropertySchema asRollup() {
+<span class="fc" id="L124">    return (RollupDataSourcePropertySchema) this;</span>
+  }
+
+  public SelectDataSourcePropertySchema asSelect() {
+<span class="fc" id="L128">    return (SelectDataSourcePropertySchema) this;</span>
+  }
+
+  public StatusDataSourcePropertySchema asStatus() {
+<span class="fc" id="L132">    return (StatusDataSourcePropertySchema) this;</span>
+  }
+
+  public TitleDataSourcePropertySchema asTitle() {
+<span class="fc" id="L136">    return (TitleDataSourcePropertySchema) this;</span>
+  }
+
+  public UniqueIdDataSourcePropertySchema asUniqueId() {
+<span class="fc" id="L140">    return (UniqueIdDataSourcePropertySchema) this;</span>
+  }
+
+  public UrlDataSourcePropertySchema asUrl() {
+<span class="nc" id="L144">    return (UrlDataSourcePropertySchema) this;</span>
+  }
+
+  public VerificationDataSourcePropertySchema asVerification() {
+<span class="nc" id="L148">    return (VerificationDataSourcePropertySchema) this;</span>
+  }
+
+  // Type checking methods
+  @JsonIgnore
+  public boolean isButton() {
+<span class="nc" id="L154">    return &quot;button&quot;.equals(type);</span>
+  }
+
+  @JsonIgnore
+  public boolean isCheckbox() {
+<span class="fc" id="L159">    return &quot;checkbox&quot;.equals(type);</span>
+  }
+
+  @JsonIgnore
+  public boolean isCreatedBy() {
+<span class="fc" id="L164">    return &quot;created_by&quot;.equals(type);</span>
+  }
+
+  @JsonIgnore
+  public boolean isCreatedTime() {
+<span class="fc" id="L169">    return &quot;created_time&quot;.equals(type);</span>
+  }
+
+  @JsonIgnore
+  public boolean isDate() {
+<span class="fc" id="L174">    return &quot;date&quot;.equals(type);</span>
+  }
+
+  @JsonIgnore
+  public boolean isEmail() {
+<span class="fc" id="L179">    return &quot;email&quot;.equals(type);</span>
+  }
+
+  @JsonIgnore
+  public boolean isFiles() {
+<span class="fc" id="L184">    return &quot;files&quot;.equals(type);</span>
+  }
+
+  @JsonIgnore
+  public boolean isFormula() {
+<span class="fc" id="L189">    return &quot;formula&quot;.equals(type);</span>
+  }
+
+  @JsonIgnore
+  public boolean isLastEditedBy() {
+<span class="fc" id="L194">    return &quot;last_edited_by&quot;.equals(type);</span>
+  }
+
+  @JsonIgnore
+  public boolean isLastEditedTime() {
+<span class="fc" id="L199">    return &quot;last_edited_time&quot;.equals(type);</span>
+  }
+
+  @JsonIgnore
+  public boolean isMultiSelect() {
+<span class="fc" id="L204">    return &quot;multi_select&quot;.equals(type);</span>
+  }
+
+  @JsonIgnore
+  public boolean isNumber() {
+<span class="fc" id="L209">    return &quot;number&quot;.equals(type);</span>
+  }
+
+  @JsonIgnore
+  public boolean isPeople() {
+<span class="fc" id="L214">    return &quot;people&quot;.equals(type);</span>
+  }
+
+  @JsonIgnore
+  public boolean isPhoneNumber() {
+<span class="fc" id="L219">    return &quot;phone_number&quot;.equals(type);</span>
+  }
+
+  @JsonIgnore
+  public boolean isRelation() {
+<span class="fc" id="L224">    return &quot;relation&quot;.equals(type);</span>
+  }
+
+  @JsonIgnore
+  public boolean isRichText() {
+<span class="fc" id="L229">    return &quot;rich_text&quot;.equals(type);</span>
+  }
+
+  @JsonIgnore
+  public boolean isRollup() {
+<span class="fc" id="L234">    return &quot;rollup&quot;.equals(type);</span>
+  }
+
+  @JsonIgnore
+  public boolean isSelect() {
+<span class="fc" id="L239">    return &quot;select&quot;.equals(type);</span>
+  }
+
+  @JsonIgnore
+  public boolean isStatus() {
+<span class="fc" id="L244">    return &quot;status&quot;.equals(type);</span>
+  }
+
+  @JsonIgnore
+  public boolean isTitle() {
+<span class="fc" id="L249">    return &quot;title&quot;.equals(type);</span>
+  }
+
+  @JsonIgnore
+  public boolean isUniqueId() {
+<span class="fc" id="L254">    return &quot;unique_id&quot;.equals(type);</span>
+  }
+
+  @JsonIgnore
+  public boolean isUrl() {
+<span class="fc" id="L259">    return &quot;url&quot;.equals(type);</span>
+  }
+
+  @JsonIgnore
+  public boolean isVerification() {
+<span class="fc" id="L264">    return &quot;verification&quot;.equals(type);</span>
+  }
+
+  @JsonIgnore
+  public boolean isPlace() {
+<span class="nc" id="L269">    return &quot;place&quot;.equals(type);</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
