@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RichText.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">notion-sdk</a> &gt; <a href="index.source.html" class="el_package">io.kristixlab.notion.api.model.common</a> &gt; <span class="el_source">RichText.java</span></div><h1>RichText.java</h1><pre class="source lang-java linenums">package io.kristixlab.notion.api.model.common;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.ArrayList;
+import java.util.List;
+import lombok.Data;
+
+@Data
+public class RichText {
+
+  @JsonProperty(&quot;type&quot;)
+  private String type;
+
+  @JsonProperty(&quot;plain_text&quot;)
+  private String plainText;
+
+  @JsonProperty(&quot;href&quot;)
+  private String href;
+
+  @JsonProperty(&quot;annotations&quot;)
+  private Annotations annotations;
+
+  @JsonProperty(&quot;text&quot;)
+  private Text text;
+
+  @JsonProperty(&quot;mention&quot;)
+  private Mention mention;
+
+  @JsonProperty(&quot;equation&quot;)
+  private Equation equation;
+
+  public static RichText of(String plainText) {
+<span class="nc" id="L33">    return of(plainText, Color.DEFAULT);</span>
+  }
+
+  public static RichText of(String plainText, Color color) {
+<span class="nc" id="L37">    RichText richText = new RichText();</span>
+<span class="nc" id="L38">    richText.setType(&quot;text&quot;);</span>
+<span class="nc" id="L39">    richText.setPlainText(plainText);</span>
+<span class="nc" id="L40">    Text text = new Text();</span>
+<span class="nc" id="L41">    text.setContent(plainText);</span>
+<span class="nc" id="L42">    richText.setText(text);</span>
+<span class="nc" id="L43">    Annotations annotations = new Annotations();</span>
+<span class="nc" id="L44">    annotations.setBold(false);</span>
+<span class="nc" id="L45">    annotations.setItalic(false);</span>
+<span class="nc" id="L46">    annotations.setStrikethrough(false);</span>
+<span class="nc" id="L47">    annotations.setUnderline(false);</span>
+<span class="nc" id="L48">    annotations.setCode(false);</span>
+<span class="nc" id="L49">    annotations.setColor(color.getValue());</span>
+<span class="nc" id="L50">    richText.setAnnotations(annotations);</span>
+<span class="nc" id="L51">    return richText;</span>
+  }
+
+  public static List&lt;RichText&gt; asList(String plainText) {
+<span class="nc" id="L55">    List&lt;RichText&gt; list = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L56">    list.add(of(plainText));</span>
+<span class="nc" id="L57">    return list;</span>
+  }
+
+  @Data
+  public static class Annotations {
+
+    @JsonProperty(&quot;bold&quot;)
+    private boolean bold;
+
+    @JsonProperty(&quot;italic&quot;)
+    private boolean italic;
+
+    @JsonProperty(&quot;strikethrough&quot;)
+    private boolean strikethrough;
+
+    @JsonProperty(&quot;underline&quot;)
+    private boolean underline;
+
+    @JsonProperty(&quot;code&quot;)
+    private boolean code;
+
+    @JsonProperty(&quot;color&quot;)
+    private String color;
+  }
+
+  @Data
+  public static class Text {
+
+    @JsonProperty(&quot;content&quot;)
+    private String content;
+
+    @JsonProperty(&quot;link&quot;)
+    private Link link;
+  }
+
+  @Data
+  public static class Link {
+
+    @JsonProperty(&quot;url&quot;)
+    private String url;
+  }
+
+  @Data
+  public static class Equation {
+
+    @JsonProperty(&quot;expression&quot;)
+    private String expression;
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

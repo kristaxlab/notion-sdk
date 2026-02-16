@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=edge"/>
+<title>Test results - PageIntegrationTests</title>
+<link href="../css/base-style.css" rel="stylesheet" type="text/css"/>
+<link href="../css/style.css" rel="stylesheet" type="text/css"/>
+<script src="../js/report.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="content">
+<h1>PageIntegrationTests</h1>
+<div class="breadcrumbs">
+<a href="../index.html">all</a> &gt; 
+<a href="../packages/integration.html">integration</a> &gt; PageIntegrationTests</div>
+<div id="summary">
+<table>
+<tr>
+<td>
+<div class="summaryGroup">
+<table>
+<tr>
+<td>
+<div class="infoBox" id="tests">
+<div class="counter">3</div>
+<p>tests</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="failures">
+<div class="counter">0</div>
+<p>failures</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="ignored">
+<div class="counter">0</div>
+<p>ignored</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="duration">
+<div class="counter">1.264s</div>
+<p>duration</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</td>
+<td>
+<div class="infoBox success" id="successRate">
+<div class="percent">100%</div>
+<p>successful</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="tabs">
+<ul class="tabLinks">
+<li>
+<a href="#tab0">Tests</a>
+</li>
+<li>
+<a href="#tab1">Standard output</a>
+</li>
+</ul>
+<div id="tab0" class="tab">
+<h2>Tests</h2>
+<table>
+<thead>
+<tr>
+<th>Test</th>
+<th>Duration</th>
+<th>Result</th>
+</tr>
+</thead>
+<tr>
+<td class="success">createPageWithoutParent()</td>
+<td class="success">0.363s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">createStandalonePageInt1()</td>
+<td class="success">0.320s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">createStandalonePageInt13()</td>
+<td class="success">0.581s</td>
+<td class="success">passed</td>
+</tr>
+</table>
+</div>
+<div id="tab1" class="tab">
+<h2>Standard output</h2>
+<span class="code">
+<pre>2026-02-16 16:40:14.298 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [bd41a88f-77e5-434f-b8ad-eeec51f4aa86] Calling NotionAPIv2025-09-03
+2026-02-16 16:40:14.299 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [bd41a88f-77e5-434f-b8ad-eeec51f4aa86] Building request...
+2026-02-16 16:40:14.389 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [bd41a88f-77e5-434f-b8ad-eeec51f4aa86] Request method: POST, url: https://api.notion.com/v1/pages, content-type: application/json
+2026-02-16 16:40:14.390 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [bd41a88f-77e5-434f-b8ad-eeec51f4aa86] Request body: 
+{
+  &quot;properties&quot; : {
+    &quot;title&quot; : {
+      &quot;type&quot; : &quot;title&quot;,
+      &quot;title&quot; : [ {
+        &quot;type&quot; : &quot;text&quot;,
+        &quot;plain_text&quot; : &quot;INT-13 page 1771260014288&quot;,
+        &quot;annotations&quot; : {
+          &quot;bold&quot; : false,
+          &quot;italic&quot; : false,
+          &quot;strikethrough&quot; : false,
+          &quot;underline&quot; : false,
+          &quot;code&quot; : false,
+          &quot;color&quot; : &quot;default&quot;
+        },
+        &quot;text&quot; : {
+          &quot;content&quot; : &quot;INT-13 page 1771260014288&quot;
+        }
+      } ]
+    }
+  },
+  &quot;content&quot; : [ ],
+  &quot;children&quot; : [ ],
+  &quot;icon&quot; : {
+    &quot;type&quot; : &quot;external&quot;,
+    &quot;external&quot; : {
+      &quot;url&quot; : &quot;https://images.unsplash.com/photo-1665939858489-897d566b6650?q=80&amp;w=2748&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&quot;
+    }
+  },
+  &quot;cover&quot; : {
+    &quot;type&quot; : &quot;external&quot;,
+    &quot;external&quot; : {
+      &quot;url&quot; : &quot;https://images.unsplash.com/photo-1665939858489-897d566b6650?q=80&amp;w=2748&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&quot;
+    }
+  },
+  &quot;parent&quot; : {
+    &quot;type&quot; : &quot;page_id&quot;,
+    &quot;page_id&quot; : &quot;2f4cd6cf14068001ac57e261d1c18fda&quot;
+  }
+}
+2026-02-16 16:40:14.822 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [bd41a88f-77e5-434f-b8ad-eeec51f4aa86] Response from NotionAPIv2025-09-03 with code: 200
+2026-02-16 16:40:14.823 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [bd41a88f-77e5-434f-b8ad-eeec51f4aa86] Response body: 
+{&quot;object&quot;:&quot;page&quot;,&quot;id&quot;:&quot;309cd6cf-1406-8177-8f2f-ea98d42b26b1&quot;,&quot;created_time&quot;:&quot;2026-02-16T16:40:00.000Z&quot;,&quot;last_edited_time&quot;:&quot;2026-02-16T16:40:00.000Z&quot;,&quot;created_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;last_edited_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;cover&quot;:{&quot;type&quot;:&quot;external&quot;,&quot;external&quot;:{&quot;url&quot;:&quot;https://images.unsplash.com/photo-1665939858489-897d566b6650?q=80&amp;w=2748&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&quot;}},&quot;icon&quot;:{&quot;type&quot;:&quot;external&quot;,&quot;external&quot;:{&quot;url&quot;:&quot;https://images.unsplash.com/photo-1665939858489-897d566b6650?q=80&amp;w=2748&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&quot;}},&quot;parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;2f4cd6cf-1406-8001-ac57-e261d1c18fda&quot;},&quot;archived&quot;:false,&quot;in_trash&quot;:false,&quot;is_locked&quot;:false,&quot;properties&quot;:{&quot;title&quot;:{&quot;id&quot;:&quot;title&quot;,&quot;type&quot;:&quot;title&quot;,&quot;title&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;INT-13 page 1771260014288&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;INT-13 page 1771260014288&quot;,&quot;href&quot;:null}]}},&quot;url&quot;:&quot;https://www.notion.so/INT-13-page-1771260014288-309cd6cf140681778f2fea98d42b26b1&quot;,&quot;public_url&quot;:null,&quot;request_id&quot;:&quot;799b9920-e47d-4f01-8dd8-03467ff69122&quot;}
+2026-02-16 16:40:14.870 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [108b8cd8-8dec-4aa4-aa9a-e2ae80153ac0] Calling NotionAPIv2025-09-03
+2026-02-16 16:40:14.871 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [108b8cd8-8dec-4aa4-aa9a-e2ae80153ac0] Building request...
+2026-02-16 16:40:14.872 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [108b8cd8-8dec-4aa4-aa9a-e2ae80153ac0] Request method: POST, url: https://api.notion.com/v1/pages, content-type: application/json
+2026-02-16 16:40:14.873 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [108b8cd8-8dec-4aa4-aa9a-e2ae80153ac0] Request body: 
+{
+  &quot;properties&quot; : {
+    &quot;title&quot; : {
+      &quot;type&quot; : &quot;title&quot;,
+      &quot;title&quot; : [ {
+        &quot;type&quot; : &quot;text&quot;,
+        &quot;plain_text&quot; : &quot;INT-1 page 1771260014870&quot;,
+        &quot;annotations&quot; : {
+          &quot;bold&quot; : false,
+          &quot;italic&quot; : false,
+          &quot;strikethrough&quot; : false,
+          &quot;underline&quot; : false,
+          &quot;code&quot; : false,
+          &quot;color&quot; : &quot;default&quot;
+        },
+        &quot;text&quot; : {
+          &quot;content&quot; : &quot;INT-1 page 1771260014870&quot;
+        }
+      } ]
+    }
+  },
+  &quot;content&quot; : [ ],
+  &quot;children&quot; : [ ],
+  &quot;parent&quot; : {
+    &quot;type&quot; : &quot;page_id&quot;,
+    &quot;page_id&quot; : &quot;2f4cd6cf14068001ac57e261d1c18fda&quot;
+  }
+}
+2026-02-16 16:40:15.187 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [108b8cd8-8dec-4aa4-aa9a-e2ae80153ac0] Response from NotionAPIv2025-09-03 with code: 200
+2026-02-16 16:40:15.188 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [108b8cd8-8dec-4aa4-aa9a-e2ae80153ac0] Response body: 
+{&quot;object&quot;:&quot;page&quot;,&quot;id&quot;:&quot;309cd6cf-1406-8144-ae7a-c6add34a1da1&quot;,&quot;created_time&quot;:&quot;2026-02-16T16:40:00.000Z&quot;,&quot;last_edited_time&quot;:&quot;2026-02-16T16:40:00.000Z&quot;,&quot;created_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;last_edited_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;cover&quot;:null,&quot;icon&quot;:null,&quot;parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;2f4cd6cf-1406-8001-ac57-e261d1c18fda&quot;},&quot;archived&quot;:false,&quot;in_trash&quot;:false,&quot;is_locked&quot;:false,&quot;properties&quot;:{&quot;title&quot;:{&quot;id&quot;:&quot;title&quot;,&quot;type&quot;:&quot;title&quot;,&quot;title&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;INT-1 page 1771260014870&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;INT-1 page 1771260014870&quot;,&quot;href&quot;:null}]}},&quot;url&quot;:&quot;https://www.notion.so/INT-1-page-1771260014870-309cd6cf14068144ae7ac6add34a1da1&quot;,&quot;public_url&quot;:null,&quot;request_id&quot;:&quot;29a01480-dfd4-4bf6-a21c-ae33e671171d&quot;}
+2026-02-16 16:40:15.192 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [dd626fc7-5186-4e13-ac61-c5e9b9330e8c] Calling NotionAPIv2025-09-03
+2026-02-16 16:40:15.193 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [dd626fc7-5186-4e13-ac61-c5e9b9330e8c] Building request...
+2026-02-16 16:40:15.194 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [dd626fc7-5186-4e13-ac61-c5e9b9330e8c] Request method: POST, url: https://api.notion.com/v1/pages, content-type: application/json
+2026-02-16 16:40:15.194 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [dd626fc7-5186-4e13-ac61-c5e9b9330e8c] Request body: 
+{
+  &quot;properties&quot; : {
+    &quot;title&quot; : {
+      &quot;type&quot; : &quot;title&quot;,
+      &quot;title&quot; : [ {
+        &quot;type&quot; : &quot;text&quot;,
+        &quot;plain_text&quot; : &quot;Dummy page 1771260015191&quot;,
+        &quot;annotations&quot; : {
+          &quot;bold&quot; : false,
+          &quot;italic&quot; : false,
+          &quot;strikethrough&quot; : false,
+          &quot;underline&quot; : false,
+          &quot;code&quot; : false,
+          &quot;color&quot; : &quot;default&quot;
+        },
+        &quot;text&quot; : {
+          &quot;content&quot; : &quot;Dummy page 1771260015191&quot;
+        }
+      } ]
+    }
+  },
+  &quot;content&quot; : [ ],
+  &quot;children&quot; : [ ]
+}
+2026-02-16 16:40:15.547 [Test worker] ERROR io.kristixlab.notion.api.http.transport.HttpTransportImpl - [dd626fc7-5186-4e13-ac61-c5e9b9330e8c] Response from NotionAPIv2025-09-03 with error: 400
+2026-02-16 16:40:15.547 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [dd626fc7-5186-4e13-ac61-c5e9b9330e8c] Error response body: 
+{&quot;object&quot;:&quot;error&quot;,&quot;status&quot;:400,&quot;code&quot;:&quot;validation_error&quot;,&quot;message&quot;:&quot;Provide a `parent.page_id` or `parent.database_id` parameter to create a page, or use a public integration with `insert_content` capability. Internal integrations aren't owned by a single user, so creating workspace-level private pages is not supported.&quot;,&quot;request_id&quot;:&quot;1a00e5bf-c68f-44bc-83b7-cdd2ff3cb314&quot;}
+</pre>
+</span>
+</div>
+</div>
+<div id="footer">
+<p>
+<div>
+<label class="hidden" id="label-for-line-wrapping-toggle" for="line-wrapping-toggle">Wrap lines
+<input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
+</label>
+</div>Generated by 
+<a href="http://www.gradle.org">Gradle 8.8</a> at Feb 16, 2026, 4:40:16 PM</p>
+</div>
+</div>
+</body>
+</html>

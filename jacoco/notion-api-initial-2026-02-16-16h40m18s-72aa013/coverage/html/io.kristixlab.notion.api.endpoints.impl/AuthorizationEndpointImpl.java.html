@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AuthorizationEndpointImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">notion-sdk</a> &gt; <a href="index.source.html" class="el_package">io.kristixlab.notion.api.endpoints.impl</a> &gt; <span class="el_source">AuthorizationEndpointImpl.java</span></div><h1>AuthorizationEndpointImpl.java</h1><pre class="source lang-java linenums">package io.kristixlab.notion.api.endpoints.impl;
+
+import io.kristixlab.notion.api.NotionAuthSettings;
+import io.kristixlab.notion.api.endpoints.AuthorizationEndpoint;
+import io.kristixlab.notion.api.http.NotionHttpTransport;
+import io.kristixlab.notion.api.http.transport.rq.URLInfo;
+import io.kristixlab.notion.api.model.authorization.*;
+import io.kristixlab.notion.api.util.NotionAuthUtil;
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * API for handling Notion OAuth authorization flow. Provides methods to exchange authorization
+ * codes for access tokens, refresh tokens, introspect tokens, and revoke tokens.
+ */
+public class AuthorizationEndpointImpl implements AuthorizationEndpoint {
+
+  private final NotionHttpTransport transport;
+  private final NotionAuthSettings authSettings;
+
+<span class="nc" id="L21">  public AuthorizationEndpointImpl(NotionAuthSettings authSettings, NotionHttpTransport transport) {</span>
+<span class="nc" id="L22">    this.authSettings = authSettings;</span>
+<span class="nc" id="L23">    this.transport = transport;</span>
+<span class="nc" id="L24">  }</span>
+
+  /**
+   * Convenience method to exchange authorization code for token. Redirect uri is taken from the
+   * Notion client auth settings.
+   *
+   * @param code The authorization code
+   * @return TokenResponse containing the access token and workspace information
+   *     &lt;p&gt;
+   */
+  public TokenResponse createToken(String code) {
+<span class="nc" id="L35">    TokenRequest request = TokenRequest.of(code, null);</span>
+<span class="nc" id="L36">    return createToken(request);</span>
+  }
+
+  /**
+   * Exchange an authorization code for an access token.
+   *
+   * @param code The authorization code received from the OAuth authorization flow
+   * @param redirectUri The redirect URI used in the initial authorization request
+   * @return TokenResponse containing the access token and workspace information
+   */
+  public TokenResponse createToken(String code, String redirectUri) {
+<span class="nc" id="L47">    TokenRequest request = TokenRequest.of(code, redirectUri);</span>
+<span class="nc" id="L48">    return createToken(request);</span>
+  }
+
+  /**
+   * Exchange an authorization code for an access token with a TokenRequest object.
+   *
+   * @param request The token request containing code and redirect URI
+   * @return TokenResponse containing the access token and workspace information
+   */
+  public TokenResponse createToken(TokenRequest request) {
+<span class="nc" id="L58">    validateRequest(request);</span>
+<span class="nc" id="L59">    URLInfo urlInfo = URLInfo.from(&quot;/oauth/token&quot;);</span>
+
+<span class="nc" id="L61">    TokenResponse response = transport.call(&quot;POST&quot;, urlInfo, request, TokenResponse.class);</span>
+
+<span class="nc" id="L63">    authSettings.setAccessToken(response.getAccessToken());</span>
+<span class="nc" id="L64">    authSettings.setRefreshToken(response.getRefreshToken());</span>
+<span class="nc" id="L65">    return response;</span>
+  }
+
+  /**
+   * Exchange an authorization code for an access token with a TokenRequest object and client
+   * credentials.
+   *
+   * @param request The token request containing code and redirect URI
+   * @param clientId The OAuth client ID
+   * @param clientSecret The OAuth client secret
+   * @return TokenResponse containing the access token and workspace information
+   */
+  public TokenResponse createToken(TokenRequest request, String clientId, String clientSecret) {
+<span class="nc" id="L78">    validateRequest(request);</span>
+<span class="nc" id="L79">    URLInfo urlInfo = URLInfo.from(&quot;/oauth/token&quot;);</span>
+<span class="nc" id="L80">    Map&lt;String, String&gt; headers = authHeader(clientId, clientSecret);</span>
+<span class="nc" id="L81">    return transport.call(&quot;POST&quot;, urlInfo, headers, request, TokenResponse.class);</span>
+  }
+
+  /**
+   * Refresh an access token using a refresh token stored in the client auth settings.
+   *
+   * @return TokenResponse containing the new access token and workspace information
+   */
+  public TokenResponse refreshToken() {
+<span class="nc" id="L90">    TokenResponse response = refreshToken(authSettings.getRefreshToken());</span>
+<span class="nc" id="L91">    authSettings.setAccessToken(response.getAccessToken());</span>
+<span class="nc" id="L92">    authSettings.setRefreshToken(response.getRefreshToken());</span>
+<span class="nc" id="L93">    return response;</span>
+  }
+
+  /**
+   * Refresh an access token using a refresh token.
+   *
+   * @param refreshToken The refresh token received from the initial OAuth token exchange
+   * @return TokenResponse containing the new access token and workspace information
+   */
+  public TokenResponse refreshToken(String refreshToken) {
+<span class="nc" id="L103">    RefreshTokenRequest request = RefreshTokenRequest.create(refreshToken);</span>
+<span class="nc" id="L104">    return refreshToken(request);</span>
+  }
+
+  /**
+   * Refresh an access token using a RefreshTokenRequest object.
+   *
+   * @param request The refresh token request containing the refresh token
+   * @return TokenResponse containing the new access token and workspace information
+   */
+  public TokenResponse refreshToken(RefreshTokenRequest request) {
+<span class="nc" id="L114">    validateRefreshTokenRequest(request);</span>
+<span class="nc" id="L115">    URLInfo urlInfo = URLInfo.from(&quot;/oauth/token&quot;);</span>
+<span class="nc" id="L116">    return transport.call(&quot;POST&quot;, urlInfo, request, TokenResponse.class);</span>
+  }
+
+  /**
+   * Refresh an access token using a refresh token with client credentials.
+   *
+   * @param refreshToken The refresh token received from the initial OAuth token exchange
+   * @param clientId The OAuth client ID
+   * @param clientSecret The OAuth client secret
+   * @return TokenResponse containing the new access token and workspace information
+   */
+  public TokenResponse refreshToken(String refreshToken, String clientId, String clientSecret) {
+<span class="nc" id="L128">    RefreshTokenRequest request = RefreshTokenRequest.create(refreshToken);</span>
+<span class="nc" id="L129">    return refreshToken(request, clientId, clientSecret);</span>
+  }
+
+  /**
+   * Refresh an access token using a refresh token with client credentials.
+   *
+   * @param request The refresh token received from the initial OAuth token exchange
+   * @param clientId The OAuth client ID
+   * @param clientSecret The OAuth client secret
+   * @return TokenResponse containing the new access token and workspace information
+   */
+  public TokenResponse refreshToken(
+      RefreshTokenRequest request, String clientId, String clientSecret) {
+<span class="nc" id="L142">    validateRefreshTokenRequest(request);</span>
+<span class="nc" id="L143">    URLInfo urlInfo = URLInfo.from(&quot;/oauth/token&quot;);</span>
+<span class="nc" id="L144">    Map&lt;String, String&gt; headers = authHeader(clientId, clientSecret);</span>
+<span class="nc" id="L145">    return transport.call(&quot;POST&quot;, urlInfo, headers, request, TokenResponse.class);</span>
+  }
+
+  /**
+   * Introspect the Notion API access token stored in the Notion client auth settings.
+   *
+   * @return IntrospectTokenResponse containing token information
+   */
+  public IntrospectTokenResponse introspectAccessToken() {
+<span class="nc" id="L154">    IntrospectTokenRequest request = IntrospectTokenRequest.of(authSettings.getAccessToken());</span>
+<span class="nc" id="L155">    return introspectToken(request);</span>
+  }
+
+  /**
+   * Introspect the Notion API refresh token stored in the Notion client auth settings.
+   *
+   * @return IntrospectTokenResponse containing token information
+   */
+  public IntrospectTokenResponse introspectRefreshToken() {
+<span class="nc" id="L164">    IntrospectTokenRequest request = IntrospectTokenRequest.of(authSettings.getRefreshToken());</span>
+<span class="nc" id="L165">    return introspectToken(request);</span>
+  }
+
+  /**
+   * Introspect a token to get information about its validity and properties.
+   *
+   * @param token The token to introspect (access token or refresh token)
+   * @return IntrospectTokenResponse containing token information TODO check if it will work without
+   *     type hint
+   */
+  public IntrospectTokenResponse introspectToken(String token) {
+<span class="nc" id="L176">    IntrospectTokenRequest request = IntrospectTokenRequest.of(token);</span>
+<span class="nc" id="L177">    return introspectToken(request);</span>
+  }
+
+  /**
+   * Introspect a token using an IntrospectTokenRequest object.
+   *
+   * @param request The introspection request containing token and optional type hint
+   * @return IntrospectTokenResponse containing token information
+   */
+  public IntrospectTokenResponse introspectToken(IntrospectTokenRequest request) {
+<span class="nc" id="L187">    validateIntrospectTokenRequest(request);</span>
+<span class="nc" id="L188">    URLInfo urlInfo = URLInfo.from(&quot;/oauth/introspect&quot;);</span>
+<span class="nc" id="L189">    return transport.call(&quot;POST&quot;, urlInfo, request, IntrospectTokenResponse.class);</span>
+  }
+
+  /**
+   * Introspect a token to get information about its validity and properties with client
+   * credentials.
+   *
+   * @param token The token to introspect (access token or refresh token)
+   * @param clientId The OAuth client ID
+   * @param clientSecret The OAuth client secret
+   * @return IntrospectTokenResponse containing token information
+   */
+  public IntrospectTokenResponse introspectToken(
+      String token, String clientId, String clientSecret) {
+<span class="nc" id="L203">    IntrospectTokenRequest request = IntrospectTokenRequest.of(token);</span>
+<span class="nc" id="L204">    return introspectToken(request, clientId, clientSecret);</span>
+  }
+
+  /**
+   * Introspect a token using an IntrospectTokenRequest object with client credentials.
+   *
+   * @param request The introspection request containing token and optional type hint
+   * @param clientId The OAuth client ID
+   * @param clientSecret The OAuth client secret
+   * @return IntrospectTokenResponse containing token information
+   */
+  public IntrospectTokenResponse introspectToken(
+      IntrospectTokenRequest request, String clientId, String clientSecret) {
+<span class="nc" id="L217">    validateIntrospectTokenRequest(request);</span>
+<span class="nc" id="L218">    URLInfo urlInfo = URLInfo.from(&quot;/oauth/introspect&quot;);</span>
+<span class="nc" id="L219">    Map&lt;String, String&gt; headers = authHeader(clientId, clientSecret);</span>
+<span class="nc" id="L220">    return transport.call(&quot;POST&quot;, urlInfo, headers, request, IntrospectTokenResponse.class);</span>
+  }
+
+  /**
+   * Revoke the access token stored in the Notion client auth settings.
+   *
+   * @return RevokeTokenResponse indicating revocation status
+   */
+  public RevokeTokenResponse revokeToken() {
+<span class="nc" id="L229">    return revokeToken(authSettings.getAccessToken());</span>
+  }
+
+  /**
+   * Revoke a token (access token or refresh token).
+   *
+   * @param token The token to revoke (access token or refresh token)
+   * @return RevokeTokenResponse indicating revocation status
+   */
+  public RevokeTokenResponse revokeToken(String token) {
+<span class="nc" id="L239">    validateToken(token);</span>
+<span class="nc" id="L240">    RevokeTokenRequest request = RevokeTokenRequest.create(token);</span>
+<span class="nc" id="L241">    URLInfo urlInfo = URLInfo.builder(&quot;/oauth/revoke&quot;).build();</span>
+<span class="nc" id="L242">    return transport.call(&quot;POST&quot;, urlInfo, request, RevokeTokenResponse.class);</span>
+  }
+
+  public RevokeTokenResponse revokeToken(String token, String clientId, String clientSecret) {
+<span class="nc" id="L246">    validateToken(token);</span>
+<span class="nc" id="L247">    RevokeTokenRequest request = RevokeTokenRequest.create(token);</span>
+<span class="nc" id="L248">    URLInfo urlInfo = URLInfo.from(&quot;/oauth/revoke&quot;);</span>
+<span class="nc" id="L249">    Map&lt;String, String&gt; headers = authHeader(clientId, clientSecret);</span>
+<span class="nc" id="L250">    return transport.call(&quot;POST&quot;, urlInfo, headers, request, RevokeTokenResponse.class);</span>
+  }
+
+  private Map&lt;String, String&gt; authHeader(String clientId, String clientSecret) {
+<span class="nc" id="L254">    Map&lt;String, String&gt; headers = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L255">    headers.put(&quot;Authorization&quot;, NotionAuthUtil.basic(clientId, clientSecret));</span>
+<span class="nc" id="L256">    return headers;</span>
+  }
+
+  private void validateRequest(TokenRequest request) {
+<span class="nc bnc" id="L260" title="All 2 branches missed.">    if (request == null) {</span>
+<span class="nc" id="L261">      throw new IllegalArgumentException(&quot;Token request cannot be null&quot;);</span>
+    }
+<span class="nc" id="L263">    validateCode(request.getCode());</span>
+<span class="nc" id="L264">  }</span>
+
+  private void validateCode(String code) {
+<span class="nc bnc" id="L267" title="All 4 branches missed.">    if (code == null || code.trim().isEmpty()) {</span>
+<span class="nc" id="L268">      throw new IllegalArgumentException(&quot;Authorization code cannot be null or empty&quot;);</span>
+    }
+<span class="nc" id="L270">  }</span>
+
+  private void validateRefreshToken(String refreshToken) {
+<span class="nc bnc" id="L273" title="All 4 branches missed.">    if (refreshToken == null || refreshToken.trim().isEmpty()) {</span>
+<span class="nc" id="L274">      throw new IllegalArgumentException(&quot;Refresh token cannot be null or empty&quot;);</span>
+    }
+<span class="nc" id="L276">  }</span>
+
+  private void validateRefreshTokenRequest(RefreshTokenRequest request) {
+<span class="nc bnc" id="L279" title="All 2 branches missed.">    if (request == null) {</span>
+<span class="nc" id="L280">      throw new IllegalArgumentException(&quot;Refresh token request cannot be null&quot;);</span>
+    }
+<span class="nc" id="L282">    validateRefreshToken(request.getRefreshToken());</span>
+<span class="nc" id="L283">  }</span>
+
+  private void validateToken(String token) {
+<span class="nc bnc" id="L286" title="All 4 branches missed.">    if (token == null || token.trim().isEmpty()) {</span>
+<span class="nc" id="L287">      throw new IllegalArgumentException(&quot;Token cannot be null or empty&quot;);</span>
+    }
+<span class="nc" id="L289">  }</span>
+
+  private void validateIntrospectTokenRequest(IntrospectTokenRequest request) {
+<span class="nc bnc" id="L292" title="All 2 branches missed.">    if (request == null) {</span>
+<span class="nc" id="L293">      throw new IllegalArgumentException(&quot;Introspect token request cannot be null&quot;);</span>
+    }
+<span class="nc" id="L295">    validateToken(request.getToken());</span>
+<span class="nc" id="L296">  }</span>
+
+  private void validateRevokeTokenRequest(RevokeTokenRequest request) {
+<span class="nc bnc" id="L299" title="All 2 branches missed.">    if (request == null) {</span>
+<span class="nc" id="L300">      throw new IllegalArgumentException(&quot;Revoke token request cannot be null&quot;);</span>
+    }
+<span class="nc" id="L302">    validateToken(request.getToken());</span>
+<span class="nc" id="L303">  }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
