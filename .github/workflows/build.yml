@@ -84,29 +84,47 @@ jobs:
             cp -r build/reports/jacoco/test/* "pages/jacoco/${REPORT_FOLDER}/coverage/"
           fi
           
-          # Extract test statistics
-          # Unit tests stats from index.html
+          # Extract test statistics from JUnit XML files (more reliable than HTML parsing)
+          # Unit tests stats from XML
           unit_passed=0
           unit_total=0
-          if [ -f "pages/jacoco/${REPORT_FOLDER}/unit/index.html" ]; then
-            # Extract test count from "X tests" pattern
-            unit_total=$(grep -o '[0-9]* tests' "pages/jacoco/${REPORT_FOLDER}/unit/index.html" | head -1 | grep -o '[0-9]*' || echo "0")
-            # Extract failures count
-            unit_failures=$(grep -o '[0-9]* failures' "pages/jacoco/${REPORT_FOLDER}/unit/index.html" | head -1 | grep -o '[0-9]*' || echo "0")
-            # Calculate passed
-            unit_passed=$((unit_total - unit_failures))
+          unit_failures=0
+          unit_errors=0
+          if [ -d "build/test-results/test" ]; then
+            for xml_file in build/test-results/test/TEST-*.xml; do
+              if [ -f "$xml_file" ]; then
+                # Extract tests, failures, and errors attributes from testsuite tag
+                tests=$(grep '<testsuite' "$xml_file" | sed -n 's/.*tests="\([0-9]*\)".*/\1/p' | head -1)
+                failures=$(grep '<testsuite' "$xml_file" | sed -n 's/.*failures="\([0-9]*\)".*/\1/p' | head -1)
+                errors=$(grep '<testsuite' "$xml_file" | sed -n 's/.*errors="\([0-9]*\)".*/\1/p' | head -1)
+                
+                unit_total=$((unit_total + ${tests:-0}))
+                unit_failures=$((unit_failures + ${failures:-0}))
+                unit_errors=$((unit_errors + ${errors:-0}))
+              fi
+            done
+            unit_passed=$((unit_total - unit_failures - unit_errors))
           fi
           
-          # Integration tests stats
+          # Integration tests stats from XML
           integration_passed=0
           integration_total=0
-          if [ -f "pages/jacoco/${REPORT_FOLDER}/integration/index.html" ]; then
-            # Extract test count from "X tests" pattern
-            integration_total=$(grep -o '[0-9]* tests' "pages/jacoco/${REPORT_FOLDER}/integration/index.html" | head -1 | grep -o '[0-9]*' || echo "0")
-            # Extract failures count
-            integration_failures=$(grep -o '[0-9]* failures' "pages/jacoco/${REPORT_FOLDER}/integration/index.html" | head -1 | grep -o '[0-9]*' || echo "0")
-            # Calculate passed
-            integration_passed=$((integration_total - integration_failures))
+          integration_failures=0
+          integration_errors=0
+          if [ -d "build/test-results/integrationTest" ]; then
+            for xml_file in build/test-results/integrationTest/TEST-*.xml; do
+              if [ -f "$xml_file" ]; then
+                # Extract tests, failures, and errors attributes from testsuite tag
+                tests=$(grep '<testsuite' "$xml_file" | sed -n 's/.*tests="\([0-9]*\)".*/\1/p' | head -1)
+                failures=$(grep '<testsuite' "$xml_file" | sed -n 's/.*failures="\([0-9]*\)".*/\1/p' | head -1)
+                errors=$(grep '<testsuite' "$xml_file" | sed -n 's/.*errors="\([0-9]*\)".*/\1/p' | head -1)
+                
+                integration_total=$((integration_total + ${tests:-0}))
+                integration_failures=$((integration_failures + ${failures:-0}))
+                integration_errors=$((integration_errors + ${errors:-0}))
+              fi
+            done
+            integration_passed=$((integration_total - integration_failures - integration_errors))
           fi
           
           # Coverage percentage from JaCoCo XML report

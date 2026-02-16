@@ -10,9 +10,12 @@ This directory contains the template files for the GitHub Pages deployment.
 
 1. The GitHub Actions workflow generates test reports in the `jacoco/` directory
 2. Each report folder is named: `{branch}-{date}-{time}-{commit}`
-3. A `.metadata` file stores the author and timestamp for each report
-4. The workflow generates `reports.json` containing metadata for all reports
-5. `index.html` fetches and displays all reports dynamically
+3. Test statistics are extracted from:
+   - **JUnit XML files** (`test-results/test/TEST-*.xml`) for test counts (more reliable)
+   - **JaCoCo XML report** (`jacocoTestReport.xml`) for coverage percentage
+4. A `.metadata` file stores the author, timestamp, and all statistics for each report
+5. The workflow generates `reports.json` containing metadata for all reports
+6. `index.html` fetches and displays all reports dynamically
 
 ## Features
 
@@ -29,10 +32,12 @@ The workflow intelligently handles old report folders that were created before t
 
 ### Metadata Extraction
 For reports without `.metadata` files, the workflow automatically:
-- **Extracts test statistics** from existing HTML reports (unit/integration test counts)
+- **Extracts test statistics** from existing HTML reports (unit/integration test counts) as fallback
 - **Extracts coverage percentage** from JaCoCo XML reports
 - **Parses timestamps** from the folder name format (`YYYY-MM-DD-HHhMMmSSs`)
 - **Sets author** to "unknown" when not available
+
+**Note**: New reports use JUnit XML files (`TEST-*.xml`) for test statistics, which are more reliable than HTML parsing. Old reports fall back to HTML parsing since the original XML files are not archived.
 
 ### Timestamp Fallback
 - **Primary**: Reads from `.metadata` file

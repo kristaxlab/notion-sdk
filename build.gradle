@@ -36,28 +36,10 @@ dependencies {
 test {
     useJUnitPlatform()
     finalizedBy jacocoTestReport
-    exclude 'io/kristixlab/notion/api/examples/**'
-    exclude 'integration/**'
-    jacoco {
-        destinationFile = layout.buildDirectory.file("jacoco/test.exec").get().asFile
-    }
+    exclude 'io/kristixlab/notion/api/examples/**', 'integration/**'
 }
 
-jacocoTestReport {
-    dependsOn test
-    executionData layout.buildDirectory.file("jacoco/test.exec")
-
-    sourceDirectories.from files(sourceSets.main.allSource.srcDirs)
-    classDirectories.from files(sourceSets.main.output)
-
-    reports {
-        xml.required = true
-        html.required = true
-        csv.required = false
-        html.outputLocation = layout.buildDirectory.dir("reports/jacoco/test/html")
-        xml.outputLocation = layout.buildDirectory.file("reports/jacoco/test/jacocoTestReport.xml")
-    }
-}
+jacocoTestReport.reports.xml.required = true
 
 tasks.register('jacocoIntegrationTestReport', JacocoReport) {
     dependsOn integrationTest
