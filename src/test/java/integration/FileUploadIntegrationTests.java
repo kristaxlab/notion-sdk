@@ -13,8 +13,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
+@Tag("integration")
 public class FileUploadIntegrationTests {
 
   private static NotionApiClient NOTION;
