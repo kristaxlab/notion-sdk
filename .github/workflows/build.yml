@@ -104,21 +104,33 @@ jobs:
             echo "✅ Copied coverage reports"
           fi
           
+          # Display in logs
           echo ""
           echo "📊 =========================================="
           echo "📊 Reports published for branch: ${BRANCH_NAME}"
           echo "📊 =========================================="
-          echo ""
-          echo "🔗 Test Reports:"
-          echo "   https://kristaxlab.github.io/notion-sdk/reports/${SAFE_BRANCH_NAME}/latest/test/"
-          echo ""
-          echo "🔗 Integration Test Reports:"
-          echo "   https://kristaxlab.github.io/notion-sdk/reports/${SAFE_BRANCH_NAME}/latest/integrationTest/"
-          echo ""
-          echo "🔗 Coverage Reports:"
-          echo "   https://kristaxlab.github.io/notion-sdk/reports/${SAFE_BRANCH_NAME}/latest/coverage/"
-          echo ""
-          echo "📊 =========================================="
+          
+          # Create GitHub Job Summary (visible at the top of the workflow run)
+          cat >> $GITHUB_STEP_SUMMARY << EOF
+          ## 📊 Test Reports Published
+          
+          **Branch:** \`${BRANCH_NAME}\`
+          
+          | Report Type | Link |
+          |-------------|------|
+          | 🧪 **Unit Tests** | [View Report](https://kristaxlab.github.io/notion-sdk/reports/${SAFE_BRANCH_NAME}/latest/test/) |
+          | 🔧 **Integration Tests** | [View Report](https://kristaxlab.github.io/notion-sdk/reports/${SAFE_BRANCH_NAME}/latest/integrationTest/) |
+          | 📈 **Code Coverage** | [View Report](https://kristaxlab.github.io/notion-sdk/reports/${SAFE_BRANCH_NAME}/latest/coverage/) |
+          
+          ---
+          
+          ### 🔗 Direct Links
+          - Test Reports: https://kristaxlab.github.io/notion-sdk/reports/${SAFE_BRANCH_NAME}/latest/test/
+          - Integration Test Reports: https://kristaxlab.github.io/notion-sdk/reports/${SAFE_BRANCH_NAME}/latest/integrationTest/
+          - Coverage Reports: https://kristaxlab.github.io/notion-sdk/reports/${SAFE_BRANCH_NAME}/latest/coverage/
+          EOF
+          
+          echo "✅ Report links added to Job Summary"
 
       - name: Publish to GitHub Pages
         if: always()
