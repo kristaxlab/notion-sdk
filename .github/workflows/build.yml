@@ -37,8 +37,8 @@ jobs:
         run: chmod +x gradlew
 
       # 4.
-#      - name: 4. Code style check (Spotless)
-#        run: ./gradlew spotlessCheck
+      - name: 4. Code style check (Spotless)
+        run: ./gradlew spotlessCheck
 
       # 5
       - name: 5. Build with Gradle
@@ -52,109 +52,6 @@ jobs:
           TESTING_BOT_TOKEN: ${{ secrets.TESTING_BOT_TOKEN }}
         run: ./gradlew integrationTest
 
-
-      - name: Coverage
-        if: always()
-        run: ./gradlew jacocoTestReport jacocoIntegrationTestReport
-
-      - name: Prepare Pages content
-        if: always()
-        run: |
-          # Create report folder name with branch, timestamp, and commit
-          BRANCH_NAME="${{ github.ref_name }}"
-          TIMESTAMP=$(date +"%Y-%m-%d-%Hh%Mm%Ss")
-          COMMIT_SHORT="${{ github.sha }}"
-          COMMIT_SHORT=${COMMIT_SHORT:0:7}
-          REPORT_FOLDER="${BRANCH_NAME}-${TIMESTAMP}-${COMMIT_SHORT}"
-          GITHUB_ACTOR="${{ github.actor }}"
-          COMMIT_TIMESTAMP=$(git show -s --format=%ct)
-          
-          echo "REPORT_FOLDER=${REPORT_FOLDER}" >> $GITHUB_ENV
-          echo "GITHUB_ACTOR=${GITHUB_ACTOR}" >> $GITHUB_ENV
-          echo "COMMIT_TIMESTAMP=${COMMIT_TIMESTAMP}" >> $GITHUB_ENV
-          mkdir -p pages/jacoco/${REPORT_FOLDER}/unit
-          mkdir -p pages/jacoco/${REPORT_FOLDER}/integration
-
-          cp -r build/reports/tests/test/* pages/jacoco/${REPORT_FOLDER}/unit/
-          cp -r build/reports/tests/integrationTest/* pages/jacoco/${REPORT_FOLDER}/integration/
-
-          # Copy JaCoCo coverage reports if they exist
-          if [ -d "build/reports/jacoco/test" ]; then
-            mkdir -p "pages/jacoco/${REPORT_FOLDER}/coverage"
-            cp -r build/reports/jacoco/test/* "pages/jacoco/${REPORT_FOLDER}/coverage/"
-          fi
-          
-          # Extract test statistics from JUnit XML files (more reliable than HTML parsing)
-          # Unit tests stats from XML
-          unit_passed=0
-          unit_total=0
-          unit_failures=0
-          unit_errors=0
-          if [ -d "build/test-results/test" ]; then
-            for xml_file in build/test-results/test/TEST-*.xml; do
-              if [ -f "$xml_file" ]; then
-                # Extract tests, failures, and errors attributes from testsuite tag
-                tests=$(grep '<testsuite' "$xml_file" | sed -n 's/.*tests="\([0-9]*\)".*/\1/p' | head -1)
-                failures=$(grep '<testsuite' "$xml_file" | sed -n 's/.*failures="\([0-9]*\)".*/\1/p' | head -1)
-                errors=$(grep '<testsuite' "$xml_file" | sed -n 's/.*errors="\([0-9]*\)".*/\1/p' | head -1)
-                
-                unit_total=$((unit_total + ${tests:-0}))
-                unit_failures=$((unit_failures + ${failures:-0}))
-                unit_errors=$((unit_errors + ${errors:-0}))
-              fi
-            done
-            unit_passed=$((unit_total - unit_failures - unit_errors))
-          fi
-          
-          # Integration tests stats from XML
-          integration_passed=0
-          integration_total=0
-          integration_failures=0
-          integration_errors=0
-          if [ -d "build/test-results/integrationTest" ]; then
-            for xml_file in build/test-results/integrationTest/TEST-*.xml; do
-              if [ -f "$xml_file" ]; then
-                # Extract tests, failures, and errors attributes from testsuite tag
-                tests=$(grep '<testsuite' "$xml_file" | sed -n 's/.*tests="\([0-9]*\)".*/\1/p' | head -1)
-                failures=$(grep '<testsuite' "$xml_file" | sed -n 's/.*failures="\([0-9]*\)".*/\1/p' | head -1)
-                errors=$(grep '<testsuite' "$xml_file" | sed -n 's/.*errors="\([0-9]*\)".*/\1/p' | head -1)
-                
-                integration_total=$((integration_total + ${tests:-0}))
-                integration_failures=$((integration_failures + ${failures:-0}))
-                integration_errors=$((integration_errors + ${errors:-0}))
-              fi
-            done
-            integration_passed=$((integration_total - integration_failures - integration_errors))
-          fi
-          
-          # Coverage percentage from JaCoCo XML report
-          coverage_percent="0"
-          if [ -f "pages/jacoco/${REPORT_FOLDER}/coverage/jacocoTestReport.xml" ]; then
-            # Extract missed and covered instruction counts
-            coverage_line=$(grep 'type="INSTRUCTION"' "pages/jacoco/${REPORT_FOLDER}/coverage/jacocoTestReport.xml" | head -1)
-            if [ -n "$coverage_line" ]; then
-              coverage_missed=$(echo "$coverage_line" | sed -n 's/.*missed="\([0-9]*\)".*/\1/p')
-              coverage_covered=$(echo "$coverage_line" | sed -n 's/.*covered="\([0-9]*\)".*/\1/p')
-              if [ -n "$coverage_missed" ] && [ -n "$coverage_covered" ]; then
-                total=$((coverage_missed + coverage_covered))
-                if [ $total -gt 0 ]; then
-                  coverage_percent=$((coverage_covered * 100 / total))
-                fi
-              fi
-            fi
-          fi
-          
-          # Save metadata for this report
-          cat > "pages/jacoco/${REPORT_FOLDER}/.metadata" << EOF
-          author=${GITHUB_ACTOR}
-          timestamp=${COMMIT_TIMESTAMP}
-          unit_passed=${unit_passed}
-          unit_total=${unit_total}
-          integration_passed=${integration_passed}
-          integration_total=${integration_total}
-          coverage_percent=${coverage_percent}
-          EOF
-
       - name: Checkout existing gh-pages
         if: always()
         uses: actions/checkout@v4
@@ -164,136 +61,64 @@ jobs:
           fetch-depth: 0
         continue-on-error: true
 
-
       - name: Merge with existing reports
         if: always()
         run: |
-          # Copy existing reports if they exist
-          if [ -d "existing_pages/jacoco" ]; then
-            cp -r existing_pages/jacoco/* pages/jacoco/ || true
+          BRANCH_NAME="${GITHUB_REF_NAME}"
+          SAFE_BRANCH_NAME=$(echo "$BRANCH_NAME" | sed 's/[^a-zA-Z0-9-]/_/g')
+          
+          mkdir -p pages
+          
+          # Copy all existing reports to preserve other branches
+          if [ -d "existing_pages" ]; then
+            cp -r existing_pages/* pages/ || true
           fi
           
-          # Copy the index.html template
-          cp .github/pages-template/index.html pages/index.html
+          # Remove old reports for this branch to ensure latest results override
+          BRANCH_REPORTS_DIR="pages/reports/${SAFE_BRANCH_NAME}/latest"
+          if [ -d "${BRANCH_REPORTS_DIR}" ]; then
+            echo "🗑️  Removing old reports for branch: ${SAFE_BRANCH_NAME}"
+            rm -rf "${BRANCH_REPORTS_DIR}"
+          fi
           
-          # Generate reports.json with all report metadata
-          echo "[" > pages/reports.json
+          # Create fresh branch-specific directory structure
+          mkdir -p "${BRANCH_REPORTS_DIR}/test"
+          mkdir -p "${BRANCH_REPORTS_DIR}/integrationTest"
+          mkdir -p "${BRANCH_REPORTS_DIR}/coverage"
           
-          first=true
-          for report_dir in pages/jacoco/*/; do
-            if [ -d "$report_dir" ]; then
-              folder_name=$(basename "$report_dir")
-              
-              # Parse folder name: branch-YYYY-MM-DD-HHhMMmSSs-commit
-              branch=$(echo "$folder_name" | sed -E 's/^(.*)-[0-9]{4}-[0-9]{2}-[0-9]{2}-[0-9]{2}h[0-9]{2}m[0-9]{2}s-[a-f0-9]{7}$/\1/')
-              date_part=$(echo "$folder_name" | sed -E 's/^.*-([0-9]{4}-[0-9]{2}-[0-9]{2})-[0-9]{2}h[0-9]{2}m[0-9]{2}s-[a-f0-9]{7}$/\1/')
-              time_part=$(echo "$folder_name" | sed -E 's/^.*-[0-9]{4}-[0-9]{2}-[0-9]{2}-([0-9]{2})h([0-9]{2})m([0-9]{2})s-[a-f0-9]{7}$/\1:\2:\3/')
-              commit=$(echo "$folder_name" | sed -E 's/^.*-[0-9]{4}-[0-9]{2}-[0-9]{2}-[0-9]{2}h[0-9]{2}m[0-9]{2}s-([a-f0-9]{7})$/\1/')
-              
-              # Extract author and timestamp from folder metadata if it exists
-              metadata_file="$report_dir/.metadata"
-              if [ -f "$metadata_file" ]; then
-                author=$(cat "$metadata_file" | grep "^author=" | cut -d'=' -f2)
-                timestamp=$(cat "$metadata_file" | grep "^timestamp=" | cut -d'=' -f2)
-                unit_passed=$(cat "$metadata_file" | grep "^unit_passed=" | cut -d'=' -f2 || echo "0")
-                unit_total=$(cat "$metadata_file" | grep "^unit_total=" | cut -d'=' -f2 || echo "0")
-                integration_passed=$(cat "$metadata_file" | grep "^integration_passed=" | cut -d'=' -f2 || echo "0")
-                integration_total=$(cat "$metadata_file" | grep "^integration_total=" | cut -d'=' -f2 || echo "0")
-                coverage_percent=$(cat "$metadata_file" | grep "^coverage_percent=" | cut -d'=' -f2 || echo "0")
-              else
-                # Fallback for old reports without metadata
-                author="unknown"
-                
-                # Try to derive timestamp from folder name (format: branch-YYYY-MM-DD-HHhMMmSSs-commit)
-                # Convert to Unix timestamp, fallback to epoch start (0) if parsing fails
-                timestamp=0
-                if [ -n "$date_part" ] && [ -n "$time_part" ]; then
-                  # Try to parse the date/time (works on GNU date, may not work on BSD/macOS)
-                  timestamp=$(date -d "${date_part} ${time_part}" +%s 2>/dev/null || echo "0")
-                fi
-                
-                # Extract unit test stats from HTML if available
-                unit_passed="0"
-                unit_total="0"
-                if [ -f "$report_dir/unit/index.html" ]; then
-                  unit_total=$(grep -o '[0-9]* tests' "$report_dir/unit/index.html" | head -1 | grep -o '[0-9]*' || echo "0")
-                  unit_failures=$(grep -o '[0-9]* failures' "$report_dir/unit/index.html" | head -1 | grep -o '[0-9]*' || echo "0")
-                  if [ -n "$unit_total" ] && [ -n "$unit_failures" ]; then
-                    unit_passed=$((unit_total - unit_failures))
-                  fi
-                fi
-                
-                # Extract integration test stats from HTML if available
-                integration_passed="0"
-                integration_total="0"
-                if [ -f "$report_dir/integration/index.html" ]; then
-                  integration_total=$(grep -o '[0-9]* tests' "$report_dir/integration/index.html" | head -1 | grep -o '[0-9]*' || echo "0")
-                  integration_failures=$(grep -o '[0-9]* failures' "$report_dir/integration/index.html" | head -1 | grep -o '[0-9]*' || echo "0")
-                  if [ -n "$integration_total" ] && [ -n "$integration_failures" ]; then
-                    integration_passed=$((integration_total - integration_failures))
-                  fi
-                fi
-                
-                # Extract coverage percentage from JaCoCo XML if available
-                coverage_percent="0"
-                if [ -f "$report_dir/coverage/jacocoTestReport.xml" ]; then
-                  coverage_line=$(grep 'type="INSTRUCTION"' "$report_dir/coverage/jacocoTestReport.xml" | head -1)
-                  if [ -n "$coverage_line" ]; then
-                    coverage_missed=$(echo "$coverage_line" | sed -n 's/.*missed="\([0-9]*\)".*/\1/p')
-                    coverage_covered=$(echo "$coverage_line" | sed -n 's/.*covered="\([0-9]*\)".*/\1/p')
-                    if [ -n "$coverage_missed" ] && [ -n "$coverage_covered" ]; then
-                      total=$((coverage_missed + coverage_covered))
-                      if [ $total -gt 0 ]; then
-                        coverage_percent=$((coverage_covered * 100 / total))
-                      fi
-                    fi
-                  fi
-                fi
-              fi
-              
-              # Ensure all variables have valid defaults (prevent empty values in JSON)
-              author="${author:-unknown}"
-              timestamp="${timestamp:-0}"
-              unit_passed="${unit_passed:-0}"
-              unit_total="${unit_total:-0}"
-              integration_passed="${integration_passed:-0}"
-              integration_total="${integration_total:-0}"
-              coverage_percent="${coverage_percent:-0}"
-              
-              # Add comma if not first item
-              if [ "$first" = false ]; then
-                echo "," >> pages/reports.json
-              fi
-              first=false
-              
-              # Check what reports exist
-              has_unit=$([ -d "$report_dir/unit" ] && echo "true" || echo "false")
-              has_integration=$([ -d "$report_dir/integration" ] && echo "true" || echo "false")
-              has_coverage=$([ -d "$report_dir/coverage" ] && echo "true" || echo "false")
-              
-              # Generate JSON object using echo
-              echo "  {" >> pages/reports.json
-              echo "    \"folder\": \"$folder_name\"," >> pages/reports.json
-              echo "    \"branch\": \"$branch\"," >> pages/reports.json
-              echo "    \"date\": \"$date_part\"," >> pages/reports.json
-              echo "    \"time\": \"$time_part\"," >> pages/reports.json
-              echo "    \"commit\": \"$commit\"," >> pages/reports.json
-              echo "    \"author\": \"$author\"," >> pages/reports.json
-              echo "    \"timestamp\": $timestamp," >> pages/reports.json
-              echo "    \"hasUnit\": $has_unit," >> pages/reports.json
-              echo "    \"hasIntegration\": $has_integration," >> pages/reports.json
-              echo "    \"hasCoverage\": $has_coverage," >> pages/reports.json
-              echo "    \"unitPassed\": $unit_passed," >> pages/reports.json
-              echo "    \"unitTotal\": $unit_total," >> pages/reports.json
-              echo "    \"integrationPassed\": $integration_passed," >> pages/reports.json
-              echo "    \"integrationTotal\": $integration_total," >> pages/reports.json
-              echo "    \"coveragePercent\": $coverage_percent" >> pages/reports.json
-              echo "  }" >> pages/reports.json
-            fi
-          done
+          # Copy test reports
+          if [ -d "build/reports/tests/test" ]; then
+            cp -r build/reports/tests/test/* "${BRANCH_REPORTS_DIR}/test/" || true
+            echo "✅ Copied test reports"
+          fi
           
-          echo "" >> pages/reports.json
-          echo "]" >> pages/reports.json
+          # Copy integration test reports
+          if [ -d "build/reports/tests/integrationTest" ]; then
+            cp -r build/reports/tests/integrationTest/* "${BRANCH_REPORTS_DIR}/integrationTest/" || true
+            echo "✅ Copied integration test reports"
+          fi
+          
+          # Copy coverage reports
+          if [ -d "build/reports/jacoco/test" ]; then
+            cp -r build/reports/jacoco/test/* "${BRANCH_REPORTS_DIR}/coverage/" || true
+            echo "✅ Copied coverage reports"
+          fi
+          
+          echo ""
+          echo "📊 =========================================="
+          echo "📊 Reports published for branch: ${BRANCH_NAME}"
+          echo "📊 =========================================="
+          echo ""
+          echo "🔗 Test Reports:"
+          echo "   https://kristaxlab.github.io/notion-sdk/reports/${SAFE_BRANCH_NAME}/latest/test/"
+          echo ""
+          echo "🔗 Integration Test Reports:"
+          echo "   https://kristaxlab.github.io/notion-sdk/reports/${SAFE_BRANCH_NAME}/latest/integrationTest/"
+          echo ""
+          echo "🔗 Coverage Reports:"
+          echo "   https://kristaxlab.github.io/notion-sdk/reports/${SAFE_BRANCH_NAME}/latest/coverage/"
+          echo ""
+          echo "📊 =========================================="
 
       - name: Publish to GitHub Pages
         if: always()
@@ -302,4 +127,4 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
           publish_dir: pages
-          keep_files: false
+          keep_files: true
