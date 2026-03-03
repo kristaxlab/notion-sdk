@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>NotionHttpTransport.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">notion-sdk</a> &gt; <a href="index.source.html" class="el_package">io.kristixlab.notion.api.http</a> &gt; <span class="el_source">NotionHttpTransport.java</span></div><h1>NotionHttpTransport.java</h1><pre class="source lang-java linenums">package io.kristixlab.notion.api.http;
+
+import io.kristixlab.notion.NotionSdkSettings;
+import io.kristixlab.notion.api.NotionAuthSettings;
+import io.kristixlab.notion.api.http.exception.*;
+import io.kristixlab.notion.api.http.transport.HttpTransportImpl;
+import io.kristixlab.notion.api.http.transport.exception.HttpResponseException;
+import io.kristixlab.notion.api.http.transport.rq.URLInfo;
+import io.kristixlab.notion.api.http.transport.rs.ApiResponse;
+import io.kristixlab.notion.api.http.transport.util.HttpTransportConfig;
+import io.kristixlab.notion.api.json.JsonConverter;
+import io.kristixlab.notion.api.model.NotionError;
+import java.util.HashMap;
+import java.util.Map;
+import okhttp3.Response;
+
+/** Custom transport implementation for Notion API that adds authentication headers. */
+public class NotionHttpTransport extends HttpTransportImpl {
+
+  private static final String DEFAULT_VERSION = &quot;2025-09-03&quot;; /*&quot;2022-06-28&quot;;*/
+  private static final String DEFAULT_BASE_URL = &quot;https://api.notion.com/v1/&quot;;
+  private String version;
+
+  private NotionAuthSettings notionAuthSettings;
+
+<span class="nc" id="L26">  public NotionHttpTransport() {}</span>
+
+  public NotionHttpTransport(NotionAuthSettings notionAuthSettings) {
+<span class="nc" id="L29">    this(notionAuthSettings, DEFAULT_BASE_URL, DEFAULT_VERSION);</span>
+<span class="nc" id="L30">  }</span>
+
+  public NotionHttpTransport(
+      NotionAuthSettings notionAuthSettings, String baseUrl, String version) {
+<span class="nc" id="L34">    super(</span>
+<span class="nc" id="L35">        HttpTransportConfig.builder()</span>
+<span class="nc" id="L36">            .baseUrl(baseUrl)</span>
+<span class="nc" id="L37">            .apiName(&quot;NotionAPIv&quot; + version)</span>
+<span class="nc" id="L38">            .jsonFailOnUnknownProperties(</span>
+<span class="nc" id="L39">                NotionSdkSettings.getInstance()</span>
+<span class="nc" id="L40">                    .getBoolean(&quot;notion.api.json.fail-on-unknown-properties&quot;, false))</span>
+<span class="nc" id="L41">            .streamFileAfterBytes(</span>
+<span class="nc" id="L42">                NotionSdkSettings.getInstance()</span>
+<span class="nc" id="L43">                    .getLong(</span>
+                        &quot;notion.endpoints.file-uploads.stream-file-after-bytes&quot;, 1 * 1024 * 1024))
+<span class="nc" id="L45">            .build());</span>
+<span class="nc" id="L46">    this.version = version;</span>
+<span class="nc" id="L47">    this.notionAuthSettings = notionAuthSettings;</span>
+<span class="nc" id="L48">  }</span>
+
+  /**
+   * Execute an API request, adding Notion-specific headers.
+   *
+   * @param method The HTTP method
+   * @param urlInfo The URL information
+   * @param headerParams The header parameters
+   * @param body The request body
+   * @param responseType The expected response type
+   * @param &lt;T&gt; The type of the response
+   * @return The ApiResponse object
+   */
+  @Override
+  public &lt;T&gt; ApiResponse&lt;T&gt; execute(
+      String method,
+      URLInfo urlInfo,
+      Map&lt;String, String&gt; headerParams,
+      Object body,
+      Class&lt;T&gt; responseType) {
+
+<span class="nc bnc" id="L69" title="All 2 branches missed.">    if (headerParams == null) {</span>
+<span class="nc" id="L70">      headerParams = new HashMap&lt;&gt;();</span>
+    }
+
+<span class="nc" id="L73">    headerParams.put(&quot;Notion-Version&quot;, version);</span>
+
+<span class="nc" id="L75">    headerParams.put(&quot;Accept&quot;, &quot;application/json&quot;);</span>
+
+<span class="nc bnc" id="L77" title="All 2 branches missed.">    if (!headerParams.containsKey(&quot;Authorization&quot;)) {</span>
+<span class="nc bnc" id="L78" title="All 2 branches missed.">      if (&quot;/oauth/token&quot;.equals(urlInfo.getUrl())</span>
+<span class="nc bnc" id="L79" title="All 2 branches missed.">          || &quot;/oauth/introspect&quot;.equals(urlInfo.getUrl())</span>
+<span class="nc bnc" id="L80" title="All 2 branches missed.">          || &quot;/oauth/revoke&quot;.equals(urlInfo.getUrl())) {</span>
+<span class="nc bnc" id="L81" title="All 2 branches missed.">        if (notionAuthSettings.getOauthBasicHeader() == null) {</span>
+<span class="nc" id="L82">          throw new IllegalStateException(</span>
+              &quot;Client ID and Client Secret must be set for OAuth token exchange&quot;);
+        }
+<span class="nc" id="L85">        headerParams.put(&quot;Authorization&quot;, notionAuthSettings.getOauthBasicHeader());</span>
+      } else {
+<span class="nc bnc" id="L87" title="All 2 branches missed.">        if (notionAuthSettings.getTokenAuthHeader() == null) {</span>
+<span class="nc" id="L88">          throw new IllegalStateException(&quot;Auth token for Notion API is missing&quot;);</span>
+        }
+<span class="nc" id="L90">        headerParams.put(&quot;Authorization&quot;, notionAuthSettings.getTokenAuthHeader());</span>
+      }
+    }
+
+<span class="nc" id="L94">    return super.execute(method, urlInfo, headerParams, body, responseType);</span>
+  }
+
+  /**
+   * Handle the API response, mapping HTTP status codes to specific exceptions.
+   *
+   * @param response The HTTP response
+   * @param responseType The expected response type
+   * @param logBlueprint The log blueprint for logging
+   * @param &lt;RS&gt; The type of the response
+   * @return The ApiResponse object
+   * @throws HttpResponseException If an error occurs during the API exchange
+   */
+  @Override
+  protected &lt;RS&gt; ApiResponse&lt;RS&gt; handleResponse(
+      Response response, Class&lt;RS&gt; responseType, String logBlueprint) throws HttpResponseException {
+    try {
+<span class="nc" id="L111">      return super.handleResponse(response, responseType, logBlueprint);</span>
+<span class="nc" id="L112">    } catch (HttpResponseException e) {</span>
+<span class="nc" id="L113">      String message = null;</span>
+<span class="nc" id="L114">      String code = null;</span>
+<span class="nc" id="L115">      String requestId = null;</span>
+
+      try {
+
+        NotionError error =
+<span class="nc" id="L120">            JsonConverter.getInstance()</span>
+<span class="nc" id="L121">                .toObject(</span>
+<span class="nc" id="L122">                    e.getBody(),</span>
+                    NotionError.class,
+<span class="nc" id="L124">                    this.getConfig().isJsonFailOnUnknownProperties());</span>
+<span class="nc" id="L125">        message = error.getMessage();</span>
+<span class="nc bnc" id="L126" title="All 2 branches missed.">        code = error.getCode() != null ? error.getCode() : error.getError();</span>
+<span class="nc" id="L127">        requestId = error.getRequestId();</span>
+<span class="nc" id="L128">      } catch (Exception ex) {</span>
+<span class="nc" id="L129">        message = e.getBody();</span>
+<span class="nc" id="L130">      }</span>
+
+<span class="nc bnc" id="L132" title="All 11 branches missed.">      switch (e.getStatus()) {</span>
+        case 400:
+<span class="nc" id="L134">          throw new ValidationException(code, message, requestId);</span>
+        case 401:
+<span class="nc" id="L136">          throw new UnauthorizedException(code, message, requestId);</span>
+        case 403:
+<span class="nc" id="L138">          throw new ForbiddenException(code, message, requestId);</span>
+        case 404:
+<span class="nc" id="L140">          throw new NotFoundException(code, message, requestId);</span>
+        case 409:
+<span class="nc" id="L142">          throw new ConflictException(code, message, requestId);</span>
+        case 429:
+<span class="nc" id="L144">          throw new TooManyRequestsException(code, message, requestId);</span>
+        case 500:
+<span class="nc" id="L146">          throw new InternalServerException(code, message, requestId);</span>
+        case 502:
+<span class="nc" id="L148">          throw new BadGatewayException(code, message, requestId);</span>
+        case 503:
+<span class="nc" id="L150">          throw new ServiceUnavailableException(code, message, requestId);</span>
+        case 504:
+<span class="nc" id="L152">          throw new GatewayTimeoutException(code, message, requestId);</span>
+        default:
+<span class="nc" id="L154">          throw e;</span>
+      }
+    }
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

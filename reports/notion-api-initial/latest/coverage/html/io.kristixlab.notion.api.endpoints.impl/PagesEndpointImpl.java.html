@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PagesEndpointImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">notion-sdk</a> &gt; <a href="index.source.html" class="el_package">io.kristixlab.notion.api.endpoints.impl</a> &gt; <span class="el_source">PagesEndpointImpl.java</span></div><h1>PagesEndpointImpl.java</h1><pre class="source lang-java linenums">package io.kristixlab.notion.api.endpoints.impl;
+
+import io.kristixlab.notion.api.endpoints.PagesEndpoint;
+import io.kristixlab.notion.api.http.NotionHttpTransport;
+import io.kristixlab.notion.api.http.transport.HttpTransportImpl;
+import io.kristixlab.notion.api.http.transport.rq.URLInfo;
+import io.kristixlab.notion.api.model.pages.CreatePageParams;
+import io.kristixlab.notion.api.model.pages.Page;
+import io.kristixlab.notion.api.model.pages.UpdatePageParams;
+import io.kristixlab.notion.api.model.pages.properties.PageProperty;
+import io.kristixlab.notion.api.util.Pagination;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
+
+/**
+ * API for interacting with Notion Pages endpoints. Provides methods to retrieve, create, and update
+ * pages.
+ */
+public class PagesEndpointImpl implements PagesEndpoint {
+
+  private static final String PAGE_ID = &quot;page_id&quot;;
+  private static final String PROPERTY_ID = &quot;property_id&quot;;
+
+  private final HttpTransportImpl transport;
+
+<span class="nc" id="L26">  public PagesEndpointImpl(NotionHttpTransport transport) {</span>
+<span class="nc" id="L27">    this.transport = transport;</span>
+<span class="nc" id="L28">  }</span>
+
+  /**
+   * Create a new page.
+   *
+   * @param request The request containing page data
+   * @return The created page
+   */
+  public Page create(CreatePageParams request) {
+<span class="nc" id="L37">    validateRequest(request);</span>
+<span class="nc" id="L38">    URLInfo urlInfo = URLInfo.from(&quot;/pages&quot;);</span>
+<span class="nc" id="L39">    return transport.call(&quot;POST&quot;, urlInfo, request, Page.class);</span>
+  }
+
+  /**
+   * Retrieve a page by its ID.
+   *
+   * @param pageId The ID of the page to retrieve
+   * @return The page object
+   */
+  public Page retrieve(String pageId) {
+<span class="nc" id="L49">    validatePageId(pageId);</span>
+<span class="nc" id="L50">    URLInfo urlInfo = URLInfo.builder(&quot;/pages/{page_id}&quot;).pathParam(PAGE_ID, pageId).build();</span>
+<span class="nc" id="L51">    return transport.call(&quot;GET&quot;, urlInfo, Page.class);</span>
+  }
+
+  /**
+   * Retrieve a specific page property.
+   *
+   * @param pageId The ID of the page
+   * @param propertyId The ID of the property to retrieve
+   * @return The property object
+   */
+  public PageProperty retrieveProperty(String pageId, String propertyId) {
+<span class="nc" id="L62">    return retrieveProperty(pageId, propertyId, null, null);</span>
+  }
+
+  /**
+   * Retrieve a specific page property with pagination.
+   *
+   * @param pageId The ID of the page
+   * @param propertyId The ID of the property to retrieve
+   * @param startCursor Cursor for pagination (optional)
+   * @param pageSize Number of items to return (optional, max 100)
+   * @return The property object
+   */
+  public PageProperty retrieveProperty(
+      String pageId, String propertyId, String startCursor, Integer pageSize) {
+<span class="nc" id="L76">    validatePageId(pageId);</span>
+<span class="nc" id="L77">    validatePropertyId(propertyId);</span>
+
+<span class="nc" id="L79">    URLInfo.Builder urlInfo =</span>
+<span class="nc" id="L80">        URLInfo.builder(&quot;/pages/{page_id}/properties/{property_id}&quot;)</span>
+<span class="nc" id="L81">            .pathParam(PAGE_ID, pageId)</span>
+<span class="nc" id="L82">            .pathParam(PROPERTY_ID, URLDecoder.decode(propertyId, StandardCharsets.UTF_8));</span>
+
+<span class="nc bnc" id="L84" title="All 2 branches missed.">    if (startCursor != null) {</span>
+<span class="nc" id="L85">      urlInfo.queryParam(Pagination.START_CURSOR, startCursor);</span>
+    }
+
+<span class="nc bnc" id="L88" title="All 2 branches missed.">    if (pageSize != null) {</span>
+<span class="nc" id="L89">      urlInfo.queryParam(Pagination.PAGE_SIZE, pageSize).build();</span>
+    }
+
+<span class="nc" id="L92">    return transport.call(&quot;GET&quot;, urlInfo.build(), PageProperty.class);</span>
+  }
+
+  /**
+   * Update page properties.
+   *
+   * @param pageId The ID of the page to update
+   * @param request The update request
+   * @return The updated page
+   */
+  public Page update(String pageId, UpdatePageParams request) {
+<span class="nc" id="L103">    validatePageId(pageId);</span>
+<span class="nc" id="L104">    validateRequest(request);</span>
+
+<span class="nc" id="L106">    URLInfo urlInfo = URLInfo.builder(&quot;/pages/{page_id}&quot;).pathParam(PAGE_ID, pageId).build();</span>
+
+<span class="nc" id="L108">    return transport.call(&quot;PATCH&quot;, urlInfo, request, Page.class);</span>
+  }
+
+  /**
+   * Archive a page.
+   *
+   * @param pageId The ID of the page to archive
+   * @return The archived page
+   */
+  public Page delete(String pageId) {
+<span class="nc" id="L118">    UpdatePageParams updatePageParams = new UpdatePageParams();</span>
+<span class="nc" id="L119">    updatePageParams.setInTrash(true);</span>
+<span class="nc" id="L120">    return update(pageId, updatePageParams);</span>
+  }
+
+  /**
+   * Unarchive a page.
+   *
+   * @param pageId The ID of the page to unarchive
+   * @return The unarchived page
+   */
+  public Page restore(String pageId) {
+<span class="nc" id="L130">    UpdatePageParams updatePageParams = new UpdatePageParams();</span>
+<span class="nc" id="L131">    updatePageParams.setInTrash(false);</span>
+<span class="nc" id="L132">    return update(pageId, updatePageParams);</span>
+  }
+
+  /**
+   * Validates the page ID.
+   *
+   * @param pageId The page ID to validate
+   * @throws IllegalArgumentException if the page ID is null or empty
+   */
+  private void validatePageId(String pageId) {
+<span class="nc bnc" id="L142" title="All 4 branches missed.">    if (pageId == null || pageId.trim().isEmpty()) {</span>
+<span class="nc" id="L143">      throw new IllegalArgumentException(&quot;Page ID cannot be null or empty&quot;);</span>
+    }
+<span class="nc" id="L145">  }</span>
+
+  /**
+   * Validates the request object.
+   *
+   * @param request The request object to validate
+   * @throws IllegalArgumentException if the request is null
+   */
+  private void validateRequest(Object request) {
+<span class="nc bnc" id="L154" title="All 2 branches missed.">    if (request == null) {</span>
+<span class="nc" id="L155">      throw new IllegalArgumentException(&quot;Request cannot be null&quot;);</span>
+    }
+<span class="nc" id="L157">  }</span>
+
+  /**
+   * Validates the property ID.
+   *
+   * @param propertyId The property ID to validate
+   * @throws IllegalArgumentException if the property ID is null or empty
+   */
+  private void validatePropertyId(String propertyId) {
+<span class="nc bnc" id="L166" title="All 4 branches missed.">    if (propertyId == null || propertyId.trim().isEmpty()) {</span>
+<span class="nc" id="L167">      throw new IllegalArgumentException(&quot;Property ID cannot be null or empty&quot;);</span>
+    }
+<span class="nc" id="L169">  }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
