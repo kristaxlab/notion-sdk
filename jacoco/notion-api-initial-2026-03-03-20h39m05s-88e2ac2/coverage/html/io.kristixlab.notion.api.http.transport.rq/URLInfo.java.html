@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>URLInfo.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">notion-sdk</a> &gt; <a href="index.source.html" class="el_package">io.kristixlab.notion.api.http.transport.rq</a> &gt; <span class="el_source">URLInfo.java</span></div><h1>URLInfo.java</h1><pre class="source lang-java linenums">package io.kristixlab.notion.api.http.transport.rq;
+
+import java.util.*;
+import lombok.Data;
+
+@Data
+public class URLInfo {
+
+  private String baseUrl;
+  private String url;
+  private Map&lt;String, List&lt;String&gt;&gt; queryParams = new HashMap&lt;&gt;();
+  private Map&lt;String, String&gt; pathParams = new HashMap&lt;&gt;();
+
+  public static Builder builder() {
+<span class="nc" id="L15">    return new Builder();</span>
+  }
+
+  public static URLInfo.Builder builder(String url) {
+<span class="nc" id="L19">    return new URLInfo.Builder().url(url);</span>
+  }
+
+  public static URLInfo from(String url) {
+<span class="nc" id="L23">    return new URLInfo.Builder().url(url).build();</span>
+  }
+
+<span class="nc" id="L26">  public static class Builder {</span>
+
+<span class="nc" id="L28">    private final URLInfo urlInfo = new URLInfo();</span>
+
+    public URLInfo build() {
+<span class="nc" id="L31">      return urlInfo;</span>
+    }
+
+    public Builder url(String url) {
+<span class="nc" id="L35">      urlInfo.setUrl(url);</span>
+<span class="nc" id="L36">      return this;</span>
+    }
+
+    public Builder pathParam(String key, String value) {
+<span class="nc" id="L40">      urlInfo.getPathParams().put(key, value);</span>
+<span class="nc" id="L41">      return this;</span>
+    }
+
+    public Builder pathParams(Map&lt;String, String&gt; pathParams) {
+<span class="nc" id="L45">      urlInfo.getPathParams().putAll(pathParams);</span>
+<span class="nc" id="L46">      return this;</span>
+    }
+
+    public Builder queryParam(String key, List&lt;String&gt; values) {
+<span class="nc bnc" id="L50" title="All 2 branches missed.">      if (urlInfo.getQueryParams().containsKey(key)) {</span>
+<span class="nc" id="L51">        urlInfo.getQueryParams().get(key).addAll(values);</span>
+      } else {
+<span class="nc" id="L53">        urlInfo.getQueryParams().put(key, values);</span>
+      }
+<span class="nc" id="L55">      return this;</span>
+    }
+
+    public Builder queryParam(String key, String value) {
+<span class="nc" id="L59">      queryParam(key, toList(value));</span>
+<span class="nc" id="L60">      return this;</span>
+    }
+
+    public Builder queryParam(String key, Object value) {
+<span class="nc" id="L64">      queryParam(key, toList(String.valueOf(value)));</span>
+<span class="nc" id="L65">      return this;</span>
+    }
+
+    public Builder queryParams(Map&lt;String, String&gt; queryParams) {
+<span class="nc" id="L69">      queryParams.forEach((key, value) -&gt; urlInfo.getQueryParams().put(key, List.of(value)));</span>
+<span class="nc" id="L70">      return this;</span>
+    }
+
+    public Builder queryParamsArrays(Map&lt;String, String[]&gt; queryParams) {
+<span class="nc" id="L74">      queryParams.forEach((key, values) -&gt; urlInfo.getQueryParams().put(key, toList(values)));</span>
+<span class="nc" id="L75">      return this;</span>
+    }
+
+    public Builder queryParamsLists(Map&lt;String, List&lt;String&gt;&gt; queryParams) {
+<span class="nc" id="L79">      urlInfo.getQueryParams().putAll(queryParams);</span>
+<span class="nc" id="L80">      return this;</span>
+    }
+
+    private List&lt;String&gt; toList(String value) {
+<span class="nc" id="L84">      List&lt;String&gt; values = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L85">      values.add(value);</span>
+<span class="nc" id="L86">      return values;</span>
+    }
+
+    private List&lt;String&gt; toList(String[] array) {
+<span class="nc" id="L90">      List&lt;String&gt; values = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L91">      Collections.addAll(values, array);</span>
+<span class="nc" id="L92">      return values;</span>
+    }
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
