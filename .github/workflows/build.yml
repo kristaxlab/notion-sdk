@@ -100,7 +100,7 @@ jobs:
           
           # Copy coverage reports
           if [ -d "build/reports/jacoco/test" ]; then
-            cp -r build/reports/jacoco/test/* "${BRANCH_REPORTS_DIR}/coverage/" || true
+            cp -r build/reports/jacoco/test/html/* "${BRANCH_REPORTS_DIR}/coverage/" || true
             echo "✅ Copied coverage reports"
           fi
           
@@ -115,16 +115,6 @@ jobs:
           ## 📊 Test Reports Published
           
           **Branch:** \`${BRANCH_NAME}\`
-          
-          | Report Type | Link |
-          |-------------|------|
-          | 🧪 **Unit Tests** | [View Report](https://kristaxlab.github.io/notion-sdk/reports/${SAFE_BRANCH_NAME}/latest/test/) |
-          | 🔧 **Integration Tests** | [View Report](https://kristaxlab.github.io/notion-sdk/reports/${SAFE_BRANCH_NAME}/latest/integrationTest/) |
-          | 📈 **Code Coverage** | [View Report](https://kristaxlab.github.io/notion-sdk/reports/${SAFE_BRANCH_NAME}/latest/coverage/) |
-          
-          ---
-          
-          ### 🔗 Direct Links
           - Test Reports: https://kristaxlab.github.io/notion-sdk/reports/${SAFE_BRANCH_NAME}/latest/test/
           - Integration Test Reports: https://kristaxlab.github.io/notion-sdk/reports/${SAFE_BRANCH_NAME}/latest/integrationTest/
           - Coverage Reports: https://kristaxlab.github.io/notion-sdk/reports/${SAFE_BRANCH_NAME}/latest/coverage/
