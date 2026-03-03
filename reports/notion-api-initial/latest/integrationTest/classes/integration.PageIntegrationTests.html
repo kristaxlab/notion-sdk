@@ -41,7 +41,7 @@
 </td>
 <td>
 <div class="infoBox" id="duration">
-<div class="counter">1.081s</div>
+<div class="counter">0.924s</div>
 <p>duration</p>
 </div>
 </td>
@@ -58,16 +58,16 @@
 </tr>
 </table>
 </div>
-<div id="tabs">
+<div class="tab-container">
 <ul class="tabLinks">
 <li>
-<a href="#tab0">Tests</a>
+<a href="#">Tests</a>
 </li>
 <li>
-<a href="#tab1">Standard output</a>
+<a href="#">Standard output</a>
 </li>
 </ul>
-<div id="tab0" class="tab">
+<div class="tab">
 <h2>Tests</h2>
 <table>
 <thead>
@@ -79,7 +79,7 @@
 </thead>
 <tr>
 <td class="success">createPageWithoutParent()</td>
-<td class="success">0.237s</td>
+<td class="success">0.120s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
@@ -89,25 +89,25 @@
 </tr>
 <tr>
 <td class="success">createStandalonePageInt13()</td>
-<td class="success">0.564s</td>
+<td class="success">0.524s</td>
 <td class="success">passed</td>
 </tr>
 </table>
 </div>
-<div id="tab1" class="tab">
+<div class="tab">
 <h2>Standard output</h2>
 <span class="code">
-<pre>2026-03-03 20:44:31.072 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [5751ae4d-1ed6-4d5c-a1e9-48afad992e6d] Calling NotionAPIv2025-09-03
-2026-03-03 20:44:31.073 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [5751ae4d-1ed6-4d5c-a1e9-48afad992e6d] Building request...
-2026-03-03 20:44:31.166 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [5751ae4d-1ed6-4d5c-a1e9-48afad992e6d] Request method: POST, url: https://api.notion.com/v1/pages, content-type: application/json
-2026-03-03 20:44:31.167 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [5751ae4d-1ed6-4d5c-a1e9-48afad992e6d] Request body: 
+<pre>2026-03-03 20:46:25.183 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [78e7d662-765b-4c5e-92f4-0e3167e1c904] Calling NotionAPIv2025-09-03
+2026-03-03 20:46:25.184 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [78e7d662-765b-4c5e-92f4-0e3167e1c904] Building request...
+2026-03-03 20:46:25.281 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [78e7d662-765b-4c5e-92f4-0e3167e1c904] Request method: POST, url: https://api.notion.com/v1/pages, content-type: application/json
+2026-03-03 20:46:25.282 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [78e7d662-765b-4c5e-92f4-0e3167e1c904] Request body: 
 {
   &quot;properties&quot; : {
     &quot;title&quot; : {
       &quot;type&quot; : &quot;title&quot;,
       &quot;title&quot; : [ {
         &quot;type&quot; : &quot;text&quot;,
-        &quot;plain_text&quot; : &quot;INT-13 page 1772570671058&quot;,
+        &quot;plain_text&quot; : &quot;INT-13 page 1772570785169&quot;,
         &quot;annotations&quot; : {
           &quot;bold&quot; : false,
           &quot;italic&quot; : false,
@@ -117,7 +117,7 @@
           &quot;color&quot; : &quot;default&quot;
         },
         &quot;text&quot; : {
-          &quot;content&quot; : &quot;INT-13 page 1772570671058&quot;
+          &quot;content&quot; : &quot;INT-13 page 1772570785169&quot;
         }
       } ]
     }
@@ -141,20 +141,20 @@
     &quot;page_id&quot; : &quot;2f4cd6cf14068001ac57e261d1c18fda&quot;
   }
 }
-2026-03-03 20:44:31.566 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [5751ae4d-1ed6-4d5c-a1e9-48afad992e6d] Response from NotionAPIv2025-09-03 with code: 200
-2026-03-03 20:44:31.566 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [5751ae4d-1ed6-4d5c-a1e9-48afad992e6d] Response body: 
-{&quot;object&quot;:&quot;page&quot;,&quot;id&quot;:&quot;318cd6cf-1406-8170-93a3-c3bea3d3027a&quot;,&quot;created_time&quot;:&quot;2026-03-03T20:44:00.000Z&quot;,&quot;last_edited_time&quot;:&quot;2026-03-03T20:44:00.000Z&quot;,&quot;created_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;last_edited_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;cover&quot;:{&quot;type&quot;:&quot;external&quot;,&quot;external&quot;:{&quot;url&quot;:&quot;https://images.unsplash.com/photo-1665939858489-897d566b6650?q=80&amp;w=2748&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&quot;}},&quot;icon&quot;:{&quot;type&quot;:&quot;external&quot;,&quot;external&quot;:{&quot;url&quot;:&quot;https://images.unsplash.com/photo-1665939858489-897d566b6650?q=80&amp;w=2748&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&quot;}},&quot;parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;2f4cd6cf-1406-8001-ac57-e261d1c18fda&quot;},&quot;archived&quot;:false,&quot;in_trash&quot;:false,&quot;is_locked&quot;:false,&quot;properties&quot;:{&quot;title&quot;:{&quot;id&quot;:&quot;title&quot;,&quot;type&quot;:&quot;title&quot;,&quot;title&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;INT-13 page 1772570671058&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;INT-13 page 1772570671058&quot;,&quot;href&quot;:null}]}},&quot;url&quot;:&quot;https://www.notion.so/INT-13-page-1772570671058-318cd6cf1406817093a3c3bea3d3027a&quot;,&quot;public_url&quot;:null,&quot;request_id&quot;:&quot;3eb4f07d-403b-45f7-beaf-993d24a4205c&quot;}
-2026-03-03 20:44:31.625 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [43e3ad52-a8f4-41a3-8081-553394c48961] Calling NotionAPIv2025-09-03
-2026-03-03 20:44:31.625 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [43e3ad52-a8f4-41a3-8081-553394c48961] Building request...
-2026-03-03 20:44:31.627 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [43e3ad52-a8f4-41a3-8081-553394c48961] Request method: POST, url: https://api.notion.com/v1/pages, content-type: application/json
-2026-03-03 20:44:31.627 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [43e3ad52-a8f4-41a3-8081-553394c48961] Request body: 
+2026-03-03 20:46:25.641 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [78e7d662-765b-4c5e-92f4-0e3167e1c904] Response from NotionAPIv2025-09-03 with code: 200
+2026-03-03 20:46:25.641 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [78e7d662-765b-4c5e-92f4-0e3167e1c904] Response body: 
+{&quot;object&quot;:&quot;page&quot;,&quot;id&quot;:&quot;318cd6cf-1406-8138-a865-d6277cefd273&quot;,&quot;created_time&quot;:&quot;2026-03-03T20:46:00.000Z&quot;,&quot;last_edited_time&quot;:&quot;2026-03-03T20:46:00.000Z&quot;,&quot;created_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;last_edited_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;cover&quot;:{&quot;type&quot;:&quot;external&quot;,&quot;external&quot;:{&quot;url&quot;:&quot;https://images.unsplash.com/photo-1665939858489-897d566b6650?q=80&amp;w=2748&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&quot;}},&quot;icon&quot;:{&quot;type&quot;:&quot;external&quot;,&quot;external&quot;:{&quot;url&quot;:&quot;https://images.unsplash.com/photo-1665939858489-897d566b6650?q=80&amp;w=2748&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&quot;}},&quot;parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;2f4cd6cf-1406-8001-ac57-e261d1c18fda&quot;},&quot;archived&quot;:false,&quot;in_trash&quot;:false,&quot;is_locked&quot;:false,&quot;properties&quot;:{&quot;title&quot;:{&quot;id&quot;:&quot;title&quot;,&quot;type&quot;:&quot;title&quot;,&quot;title&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;INT-13 page 1772570785169&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;INT-13 page 1772570785169&quot;,&quot;href&quot;:null}]}},&quot;url&quot;:&quot;https://www.notion.so/INT-13-page-1772570785169-318cd6cf14068138a865d6277cefd273&quot;,&quot;public_url&quot;:null,&quot;request_id&quot;:&quot;900f2959-bc10-4415-ad4a-af3736058572&quot;}
+2026-03-03 20:46:25.696 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [767a985f-f3a0-4ec0-9b5b-4cd182b02302] Calling NotionAPIv2025-09-03
+2026-03-03 20:46:25.697 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [767a985f-f3a0-4ec0-9b5b-4cd182b02302] Building request...
+2026-03-03 20:46:25.698 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [767a985f-f3a0-4ec0-9b5b-4cd182b02302] Request method: POST, url: https://api.notion.com/v1/pages, content-type: application/json
+2026-03-03 20:46:25.699 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [767a985f-f3a0-4ec0-9b5b-4cd182b02302] Request body: 
 {
   &quot;properties&quot; : {
     &quot;title&quot; : {
       &quot;type&quot; : &quot;title&quot;,
       &quot;title&quot; : [ {
         &quot;type&quot; : &quot;text&quot;,
-        &quot;plain_text&quot; : &quot;INT-1 page 1772570671625&quot;,
+        &quot;plain_text&quot; : &quot;INT-1 page 1772570785696&quot;,
         &quot;annotations&quot; : {
           &quot;bold&quot; : false,
           &quot;italic&quot; : false,
@@ -164,7 +164,7 @@
           &quot;color&quot; : &quot;default&quot;
         },
         &quot;text&quot; : {
-          &quot;content&quot; : &quot;INT-1 page 1772570671625&quot;
+          &quot;content&quot; : &quot;INT-1 page 1772570785696&quot;
         }
       } ]
     }
@@ -176,20 +176,20 @@
     &quot;page_id&quot; : &quot;2f4cd6cf14068001ac57e261d1c18fda&quot;
   }
 }
-2026-03-03 20:44:31.902 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [43e3ad52-a8f4-41a3-8081-553394c48961] Response from NotionAPIv2025-09-03 with code: 200
-2026-03-03 20:44:31.903 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [43e3ad52-a8f4-41a3-8081-553394c48961] Response body: 
-{&quot;object&quot;:&quot;page&quot;,&quot;id&quot;:&quot;318cd6cf-1406-81ce-9046-d86d572f47dc&quot;,&quot;created_time&quot;:&quot;2026-03-03T20:44:00.000Z&quot;,&quot;last_edited_time&quot;:&quot;2026-03-03T20:44:00.000Z&quot;,&quot;created_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;last_edited_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;cover&quot;:null,&quot;icon&quot;:null,&quot;parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;2f4cd6cf-1406-8001-ac57-e261d1c18fda&quot;},&quot;archived&quot;:false,&quot;in_trash&quot;:false,&quot;is_locked&quot;:false,&quot;properties&quot;:{&quot;title&quot;:{&quot;id&quot;:&quot;title&quot;,&quot;type&quot;:&quot;title&quot;,&quot;title&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;INT-1 page 1772570671625&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;INT-1 page 1772570671625&quot;,&quot;href&quot;:null}]}},&quot;url&quot;:&quot;https://www.notion.so/INT-1-page-1772570671625-318cd6cf140681ce9046d86d572f47dc&quot;,&quot;public_url&quot;:null,&quot;request_id&quot;:&quot;68ed080a-6991-4a68-b85d-665d75d616bc&quot;}
-2026-03-03 20:44:31.909 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [8dbdd170-86d2-4d0c-b49f-312aadb53ea7] Calling NotionAPIv2025-09-03
-2026-03-03 20:44:31.910 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [8dbdd170-86d2-4d0c-b49f-312aadb53ea7] Building request...
-2026-03-03 20:44:31.910 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [8dbdd170-86d2-4d0c-b49f-312aadb53ea7] Request method: POST, url: https://api.notion.com/v1/pages, content-type: application/json
-2026-03-03 20:44:31.911 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [8dbdd170-86d2-4d0c-b49f-312aadb53ea7] Request body: 
+2026-03-03 20:46:25.974 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [767a985f-f3a0-4ec0-9b5b-4cd182b02302] Response from NotionAPIv2025-09-03 with code: 200
+2026-03-03 20:46:25.974 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [767a985f-f3a0-4ec0-9b5b-4cd182b02302] Response body: 
+{&quot;object&quot;:&quot;page&quot;,&quot;id&quot;:&quot;318cd6cf-1406-8128-986d-efdd51970429&quot;,&quot;created_time&quot;:&quot;2026-03-03T20:46:00.000Z&quot;,&quot;last_edited_time&quot;:&quot;2026-03-03T20:46:00.000Z&quot;,&quot;created_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;last_edited_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;cover&quot;:null,&quot;icon&quot;:null,&quot;parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;2f4cd6cf-1406-8001-ac57-e261d1c18fda&quot;},&quot;archived&quot;:false,&quot;in_trash&quot;:false,&quot;is_locked&quot;:false,&quot;properties&quot;:{&quot;title&quot;:{&quot;id&quot;:&quot;title&quot;,&quot;type&quot;:&quot;title&quot;,&quot;title&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;INT-1 page 1772570785696&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;INT-1 page 1772570785696&quot;,&quot;href&quot;:null}]}},&quot;url&quot;:&quot;https://www.notion.so/INT-1-page-1772570785696-318cd6cf14068128986defdd51970429&quot;,&quot;public_url&quot;:null,&quot;request_id&quot;:&quot;5f2e4bf6-cda6-402f-a04c-4ce3571e60b6&quot;}
+2026-03-03 20:46:25.981 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [32a7de58-5980-4b11-a89e-8d4c97bef2f8] Calling NotionAPIv2025-09-03
+2026-03-03 20:46:25.981 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [32a7de58-5980-4b11-a89e-8d4c97bef2f8] Building request...
+2026-03-03 20:46:25.982 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [32a7de58-5980-4b11-a89e-8d4c97bef2f8] Request method: POST, url: https://api.notion.com/v1/pages, content-type: application/json
+2026-03-03 20:46:25.982 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [32a7de58-5980-4b11-a89e-8d4c97bef2f8] Request body: 
 {
   &quot;properties&quot; : {
     &quot;title&quot; : {
       &quot;type&quot; : &quot;title&quot;,
       &quot;title&quot; : [ {
         &quot;type&quot; : &quot;text&quot;,
-        &quot;plain_text&quot; : &quot;Dummy page 1772570671908&quot;,
+        &quot;plain_text&quot; : &quot;Dummy page 1772570785979&quot;,
         &quot;annotations&quot; : {
           &quot;bold&quot; : false,
           &quot;italic&quot; : false,
@@ -199,7 +199,7 @@
           &quot;color&quot; : &quot;default&quot;
         },
         &quot;text&quot; : {
-          &quot;content&quot; : &quot;Dummy page 1772570671908&quot;
+          &quot;content&quot; : &quot;Dummy page 1772570785979&quot;
         }
       } ]
     }
@@ -207,9 +207,9 @@
   &quot;content&quot; : [ ],
   &quot;children&quot; : [ ]
 }
-2026-03-03 20:44:32.137 [Test worker] ERROR io.kristixlab.notion.api.http.transport.HttpTransportImpl - [8dbdd170-86d2-4d0c-b49f-312aadb53ea7] Response from NotionAPIv2025-09-03 with error: 400
-2026-03-03 20:44:32.137 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [8dbdd170-86d2-4d0c-b49f-312aadb53ea7] Error response body: 
-{&quot;object&quot;:&quot;error&quot;,&quot;status&quot;:400,&quot;code&quot;:&quot;validation_error&quot;,&quot;message&quot;:&quot;Provide a `parent.page_id` or `parent.database_id` parameter to create a page, or use a public integration with `insert_content` capability. Internal integrations aren't owned by a single user, so creating workspace-level private pages is not supported.&quot;,&quot;request_id&quot;:&quot;8a276a41-9595-4af7-bd83-d86318f7e138&quot;}
+2026-03-03 20:46:26.093 [Test worker] ERROR io.kristixlab.notion.api.http.transport.HttpTransportImpl - [32a7de58-5980-4b11-a89e-8d4c97bef2f8] Response from NotionAPIv2025-09-03 with error: 400
+2026-03-03 20:46:26.093 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [32a7de58-5980-4b11-a89e-8d4c97bef2f8] Error response body: 
+{&quot;object&quot;:&quot;error&quot;,&quot;status&quot;:400,&quot;code&quot;:&quot;validation_error&quot;,&quot;message&quot;:&quot;Provide a `parent.page_id` or `parent.database_id` parameter to create a page, or use a public integration with `insert_content` capability. Internal integrations aren't owned by a single user, so creating workspace-level private pages is not supported.&quot;,&quot;request_id&quot;:&quot;7eeb7b7f-65c9-4238-bb36-df96294f901a&quot;}
 </pre>
 </span>
 </div>
@@ -221,7 +221,7 @@
 <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
 </label>
 </div>Generated by 
-<a href="http://www.gradle.org">Gradle 8.8</a> at Mar 3, 2026, 8:44:33 PM</p>
+<a href="https://www.gradle.org">Gradle 8.14.4</a> at Mar 3, 2026, 8:46:26 PM</p>
 </div>
 </div>
 </body>
