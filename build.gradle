@@ -49,7 +49,12 @@ spotless {
 
 test {
     finalizedBy jacocoTestReport
-    exclude 'io/kristixlab/notion/api/examples/**', 'integration/**'
+
+    useJUnitPlatform {
+        excludeTags("integration")
+    }
+
+    exclude 'io/kristixlab/notion/api/examples/**'
 
     jacoco {
         excludes += ['**/*$Generated*']
@@ -69,7 +74,10 @@ tasks.register('integrationTest', Test) {
     testClassesDirs = sourceSets.test.output.classesDirs
     classpath = sourceSets.test.runtimeClasspath
 
-    include 'integration/**'
+    useJUnitPlatform {
+        excludeTags 'paid'
+        includeTags("integration")
+    }
 }
 
 tasks.withType(Test) {
