@@ -3,7 +3,7 @@ package io.kristixlab.notion.api.examples;
 import io.kristixlab.notion.api.endpoints.impl.DatabasesEndpointImpl;
 import io.kristixlab.notion.api.model.common.Parent;
 import io.kristixlab.notion.api.model.common.RichText;
-import io.kristixlab.notion.api.model.databases.CreateDatabaseRequest;
+import io.kristixlab.notion.api.model.databases.CreateDatabaseParams;
 import io.kristixlab.notion.api.model.databases.Database;
 import io.kristixlab.notion.api.model.databases.InitialDatasource;
 import io.kristixlab.notion.api.model.databases.UpdateDatabaseRequest;
@@ -41,7 +41,7 @@ public class DatabasesEndpointImplIntegrationExample extends IntegrationTest {
   @Test
   void createAndUpdateDatabase() throws IOException {
     // Create a new database with PAGE_ID as parent
-    CreateDatabaseRequest newDatabase = createDatabaseRequest();
+    CreateDatabaseParams newDatabase = createDatabaseRequest();
     saveToFile(newDatabase, "database-create-request.json");
 
     Database createdDatabase = databasesEndpointImpl.create(newDatabase);
@@ -71,13 +71,15 @@ public class DatabasesEndpointImplIntegrationExample extends IntegrationTest {
   }
 
   /** Creates a database request object for testing. */
-  private CreateDatabaseRequest createDatabaseRequest() {
-    CreateDatabaseRequest database = new CreateDatabaseRequest();
+  private CreateDatabaseParams createDatabaseRequest() {
+    CreateDatabaseParams database = new CreateDatabaseParams();
 
     database.setParent(Parent.pageParent(PAGE_ID));
 
-    database.setTitle(RichText.asList("Test SDK Database with initial props"));
-    database.setDescription(RichText.asList("Database created via SDK for testing purposes"));
+    database.setTitle(
+        RichText.builder().fromText("Test SDK Database with initial props").buildAsList());
+    database.setDescription(
+        RichText.builder().fromText("Database created via SDK for testing purposes").buildAsList());
 
     database.setInitialDataSource(InitialDatasource.of(properties()));
     database.setIsInline(true);

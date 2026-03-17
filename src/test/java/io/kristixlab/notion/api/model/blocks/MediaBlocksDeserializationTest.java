@@ -167,11 +167,11 @@ public class MediaBlocksDeserializationTest extends BaseBlockDeserializationTest
     RichText caption1 = img.getImage().getCaption().get(0);
     assertEquals("text", caption1.getType());
     assertEquals("hello, ", caption1.getPlainText());
-    assertFalse(caption1.getAnnotations().isUnderline());
+    assertFalse(caption1.getAnnotations().getUnderline());
     RichText caption2 = img.getImage().getCaption().get(1);
     assertEquals("text", caption2.getType());
     assertEquals("it’s me", caption2.getPlainText());
-    assertTrue(caption2.getAnnotations().isUnderline());
+    assertTrue(caption2.getAnnotations().getUnderline());
   }
 
   @Test

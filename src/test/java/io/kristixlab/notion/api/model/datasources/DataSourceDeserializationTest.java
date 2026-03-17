@@ -45,7 +45,7 @@ public class DataSourceDeserializationTest extends BaseTest {
     RichText titleText = dataSource.getTitle().get(0);
     assertEquals("text", titleText.getType());
     assertEquals("notion sdk // test database", titleText.getPlainText());
-    assertFalse(titleText.getAnnotations().isBold());
+    assertFalse(titleText.getAnnotations().getBold());
 
     // Test description
     assertNotNull(dataSource.getDescription());

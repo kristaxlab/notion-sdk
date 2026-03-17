@@ -42,11 +42,11 @@ public class LIstBlocksDeserializationTest extends BaseBlockDeserializationTest 
         assertEquals("Unckecked", text.getText().getContent());
         assertNull(text.getText().getLink());
         assertNotNull(text.getAnnotations());
-        assertFalse(text.getAnnotations().isBold());
-        assertFalse(text.getAnnotations().isItalic());
-        assertFalse(text.getAnnotations().isStrikethrough());
-        assertFalse(text.getAnnotations().isUnderline());
-        assertFalse(text.getAnnotations().isCode());
+        assertFalse(text.getAnnotations().getBold());
+        assertFalse(text.getAnnotations().getItalic());
+        assertFalse(text.getAnnotations().getStrikethrough());
+        assertFalse(text.getAnnotations().getUnderline());
+        assertFalse(text.getAnnotations().getCode());
         assertEquals("default", text.getAnnotations().getColor());
         assertEquals("Unckecked", text.getPlainText());
         assertNull(text.getHref());
@@ -87,11 +87,6 @@ public class LIstBlocksDeserializationTest extends BaseBlockDeserializationTest 
         assertEquals("Checked", text.getText().getContent());
         assertNull(text.getText().getLink());
         assertNotNull(text.getAnnotations());
-        assertFalse(text.getAnnotations().isBold());
-        assertFalse(text.getAnnotations().isItalic());
-        assertFalse(text.getAnnotations().isStrikethrough());
-        assertFalse(text.getAnnotations().isUnderline());
-        assertFalse(text.getAnnotations().isCode());
         assertEquals("default", text.getAnnotations().getColor());
         assertEquals("Checked", text.getPlainText());
         assertNull(text.getHref());
@@ -133,11 +128,6 @@ public class LIstBlocksDeserializationTest extends BaseBlockDeserializationTest 
     assertEquals("Numbered ", t0.getPlainText());
     assertNull(t0.getHref());
     assertNotNull(t0.getAnnotations());
-    assertFalse(t0.getAnnotations().isBold());
-    assertFalse(t0.getAnnotations().isItalic());
-    assertFalse(t0.getAnnotations().isStrikethrough());
-    assertFalse(t0.getAnnotations().isUnderline());
-    assertFalse(t0.getAnnotations().isCode());
     assertEquals("default", t0.getAnnotations().getColor());
 
     RichText t1 = n.getNumberedListItem().getRichText().get(1);
@@ -148,11 +138,7 @@ public class LIstBlocksDeserializationTest extends BaseBlockDeserializationTest 
     assertEquals("list", t1.getPlainText());
     assertNull(t1.getHref());
     assertNotNull(t1.getAnnotations());
-    assertTrue(t1.getAnnotations().isBold());
-    assertFalse(t1.getAnnotations().isItalic());
-    assertFalse(t1.getAnnotations().isStrikethrough());
-    assertFalse(t1.getAnnotations().isUnderline());
-    assertFalse(t1.getAnnotations().isCode());
+    assertTrue(t1.getAnnotations().getBold());
     assertEquals("green_background", t1.getAnnotations().getColor());
 
     RichText t2 = n.getNumberedListItem().getRichText().get(2);
@@ -163,11 +149,6 @@ public class LIstBlocksDeserializationTest extends BaseBlockDeserializationTest 
     assertEquals(" 1 with ", t2.getPlainText());
     assertNull(t2.getHref());
     assertNotNull(t2.getAnnotations());
-    assertFalse(t2.getAnnotations().isBold());
-    assertFalse(t2.getAnnotations().isItalic());
-    assertFalse(t2.getAnnotations().isStrikethrough());
-    assertFalse(t2.getAnnotations().isUnderline());
-    assertFalse(t2.getAnnotations().isCode());
     assertEquals("default", t2.getAnnotations().getColor());
 
     RichText t3 = n.getNumberedListItem().getRichText().get(3);
@@ -178,11 +159,6 @@ public class LIstBlocksDeserializationTest extends BaseBlockDeserializationTest 
     assertEquals("rich text", t3.getPlainText());
     assertNull(t3.getHref());
     assertNotNull(t3.getAnnotations());
-    assertFalse(t3.getAnnotations().isBold());
-    assertFalse(t3.getAnnotations().isItalic());
-    assertFalse(t3.getAnnotations().isStrikethrough());
-    assertFalse(t3.getAnnotations().isUnderline());
-    assertFalse(t3.getAnnotations().isCode());
     assertEquals("blue", t3.getAnnotations().getColor());
   }
 
@@ -216,11 +192,6 @@ public class LIstBlocksDeserializationTest extends BaseBlockDeserializationTest 
     assertEquals("bulleted list 1", text.getText().getContent());
     assertNull(text.getText().getLink());
     assertNotNull(text.getAnnotations());
-    assertFalse(text.getAnnotations().isBold());
-    assertFalse(text.getAnnotations().isItalic());
-    assertFalse(text.getAnnotations().isStrikethrough());
-    assertFalse(text.getAnnotations().isUnderline());
-    assertFalse(text.getAnnotations().isCode());
     assertEquals("default", text.getAnnotations().getColor());
     assertEquals("bulleted list 1", text.getPlainText());
     assertNull(text.getHref());

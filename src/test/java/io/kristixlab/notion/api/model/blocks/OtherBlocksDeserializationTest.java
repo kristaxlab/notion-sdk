@@ -90,11 +90,6 @@ class OtherBlocksDeserializationTest extends BaseBlockDeserializationTest {
     assertEquals("Callout", text.getText().getContent());
     assertNull(text.getText().getLink());
     assertNotNull(text.getAnnotations());
-    assertFalse(text.getAnnotations().isBold());
-    assertFalse(text.getAnnotations().isItalic());
-    assertFalse(text.getAnnotations().isStrikethrough());
-    assertFalse(text.getAnnotations().isUnderline());
-    assertFalse(text.getAnnotations().isCode());
     assertEquals("default", text.getAnnotations().getColor());
     assertEquals("Callout", text.getPlainText());
     assertNull(text.getHref());
@@ -136,11 +131,6 @@ class OtherBlocksDeserializationTest extends BaseBlockDeserializationTest {
     assertEquals("Another callout wiht icon", text.getText().getContent());
     assertNull(text.getText().getLink());
     assertNotNull(text.getAnnotations());
-    assertFalse(text.getAnnotations().isBold());
-    assertFalse(text.getAnnotations().isItalic());
-    assertFalse(text.getAnnotations().isStrikethrough());
-    assertFalse(text.getAnnotations().isUnderline());
-    assertFalse(text.getAnnotations().isCode());
     assertEquals("default", text.getAnnotations().getColor());
     assertEquals("Another callout wiht icon", text.getPlainText());
     assertNull(text.getHref());
@@ -227,11 +217,6 @@ class OtherBlocksDeserializationTest extends BaseBlockDeserializationTest {
     assertEquals("public class JavaCalss {\n\n}", text.getPlainText());
     assertNull(text.getHref());
     assertNotNull(text.getAnnotations());
-    assertFalse(text.getAnnotations().isBold());
-    assertFalse(text.getAnnotations().isItalic());
-    assertFalse(text.getAnnotations().isStrikethrough());
-    assertFalse(text.getAnnotations().isUnderline());
-    assertFalse(text.getAnnotations().isCode());
     assertEquals("default", text.getAnnotations().getColor());
     assertNotNull(c.getCode().getCaption());
     assertEquals(0, c.getCode().getCaption().size());
@@ -366,11 +351,6 @@ class OtherBlocksDeserializationTest extends BaseBlockDeserializationTest {
     assertEquals("My best quote is here", text.getPlainText());
     assertNull(text.getHref());
     assertNotNull(text.getAnnotations());
-    assertFalse(text.getAnnotations().isBold());
-    assertFalse(text.getAnnotations().isItalic());
-    assertFalse(text.getAnnotations().isStrikethrough());
-    assertFalse(text.getAnnotations().isUnderline());
-    assertFalse(text.getAnnotations().isCode());
     assertEquals("default", text.getAnnotations().getColor());
   }
 

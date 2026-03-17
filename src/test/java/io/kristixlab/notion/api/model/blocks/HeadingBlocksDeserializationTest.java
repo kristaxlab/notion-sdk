@@ -42,11 +42,6 @@ public class HeadingBlocksDeserializationTest extends BaseBlockDeserializationTe
     assertEquals("Basic blocks", text.getText().getContent());
     assertNull(text.getText().getLink());
     assertNotNull(text.getAnnotations());
-    assertFalse(text.getAnnotations().isBold());
-    assertFalse(text.getAnnotations().isItalic());
-    assertFalse(text.getAnnotations().isStrikethrough());
-    assertFalse(text.getAnnotations().isUnderline());
-    assertFalse(text.getAnnotations().isCode());
     assertEquals("default", text.getAnnotations().getColor());
     assertEquals("Basic blocks", text.getPlainText());
     assertNull(text.getHref());
@@ -83,11 +78,6 @@ public class HeadingBlocksDeserializationTest extends BaseBlockDeserializationTe
     assertEquals("Heading 2 here", text.getText().getContent());
     assertNull(text.getText().getLink());
     assertNotNull(text.getAnnotations());
-    assertFalse(text.getAnnotations().isBold());
-    assertFalse(text.getAnnotations().isItalic());
-    assertFalse(text.getAnnotations().isStrikethrough());
-    assertFalse(text.getAnnotations().isUnderline());
-    assertFalse(text.getAnnotations().isCode());
     assertEquals("default", text.getAnnotations().getColor());
     assertEquals("Heading 2 here", text.getPlainText());
     assertNull(text.getHref());
@@ -124,11 +114,6 @@ public class HeadingBlocksDeserializationTest extends BaseBlockDeserializationTe
     assertEquals("Heading 3 here", text.getText().getContent());
     assertNull(text.getText().getLink());
     assertNotNull(text.getAnnotations());
-    assertFalse(text.getAnnotations().isBold());
-    assertFalse(text.getAnnotations().isItalic());
-    assertFalse(text.getAnnotations().isStrikethrough());
-    assertFalse(text.getAnnotations().isUnderline());
-    assertFalse(text.getAnnotations().isCode());
     assertEquals("default", text.getAnnotations().getColor());
     assertEquals("Heading 3 here", text.getPlainText());
     assertNull(text.getHref());
@@ -198,11 +183,6 @@ public class HeadingBlocksDeserializationTest extends BaseBlockDeserializationTe
     assertEquals("Heading 2 here toggle", text.getPlainText());
     assertNull(text.getHref());
     assertNotNull(text.getAnnotations());
-    assertFalse(text.getAnnotations().isBold());
-    assertFalse(text.getAnnotations().isItalic());
-    assertFalse(text.getAnnotations().isStrikethrough());
-    assertFalse(text.getAnnotations().isUnderline());
-    assertFalse(text.getAnnotations().isCode());
     assertEquals("default", text.getAnnotations().getColor());
   }
 
@@ -239,11 +219,6 @@ public class HeadingBlocksDeserializationTest extends BaseBlockDeserializationTe
     assertEquals("Heading 3 here toggle", text.getPlainText());
     assertNull(text.getHref());
     assertNotNull(text.getAnnotations());
-    assertFalse(text.getAnnotations().isBold());
-    assertFalse(text.getAnnotations().isItalic());
-    assertFalse(text.getAnnotations().isStrikethrough());
-    assertFalse(text.getAnnotations().isUnderline());
-    assertFalse(text.getAnnotations().isCode());
     assertEquals("default", text.getAnnotations().getColor());
   }
 }

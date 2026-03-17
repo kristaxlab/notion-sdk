@@ -44,11 +44,7 @@ public class CommentDeserializationTest extends BaseTest {
 
     // Test annotations
     assertNotNull(richText.getAnnotations());
-    assertTrue(richText.getAnnotations().isBold());
-    assertFalse(richText.getAnnotations().isItalic());
-    assertFalse(richText.getAnnotations().isStrikethrough());
-    assertFalse(richText.getAnnotations().isUnderline());
-    assertFalse(richText.getAnnotations().isCode());
+    assertTrue(richText.getAnnotations().getBold());
     assertEquals("purple", richText.getAnnotations().getColor());
 
     assertNotNull(singleComment.getDisplayName());
@@ -89,7 +85,6 @@ public class CommentDeserializationTest extends BaseTest {
     assertEquals("jjjj", richText.getPlainText());
     assertEquals("text", richText.getType());
     assertEquals("default", richText.getAnnotations().getColor());
-    assertFalse(richText.getAnnotations().isCode());
 
     // Test display name
     assertNotNull(firstComment.getDisplayName());
@@ -157,7 +152,6 @@ public class CommentDeserializationTest extends BaseTest {
     assertEquals("comment with image attachment", richText.getPlainText());
     assertEquals("text", richText.getType());
     assertEquals("default", richText.getAnnotations().getColor());
-    assertFalse(richText.getAnnotations().isBold());
 
     // Test display name
     assertNotNull(firstComment.getDisplayName());

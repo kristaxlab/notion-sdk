@@ -31,8 +31,8 @@ public class DatabaseDeserializationTest extends BaseTest {
 
   @Test
   void testCreateDatabaseRequest() throws Exception {
-    CreateDatabaseRequest request =
-        loadFromFile("databases/database-create-rq.json", CreateDatabaseRequest.class);
+    CreateDatabaseParams request =
+        loadFromFile("databases/database-create-rq.json", CreateDatabaseParams.class);
 
     assertNotNull(request);
     assertNotNull(request.getTitle());

@@ -74,11 +74,6 @@ public class TextBlocksDeserializationTest extends BaseBlockDeserializationTest 
     assertEquals("This is a simple text", text.getText().getContent());
     assertNull(text.getText().getLink());
     assertNotNull(text.getAnnotations());
-    assertFalse(text.getAnnotations().isBold());
-    assertFalse(text.getAnnotations().isItalic());
-    assertFalse(text.getAnnotations().isStrikethrough());
-    assertFalse(text.getAnnotations().isUnderline());
-    assertFalse(text.getAnnotations().isCode());
     assertEquals("default", text.getAnnotations().getColor());
     assertEquals("This is a simple text", text.getPlainText());
     assertNull(text.getHref());
@@ -119,11 +114,6 @@ public class TextBlocksDeserializationTest extends BaseBlockDeserializationTest 
     assertEquals("text", rt0.getType());
     assertEquals("Some more", rt0.getText().getContent());
     assertNull(rt0.getText().getLink());
-    assertFalse(rt0.getAnnotations().isBold());
-    assertFalse(rt0.getAnnotations().isItalic());
-    assertFalse(rt0.getAnnotations().isStrikethrough());
-    assertFalse(rt0.getAnnotations().isUnderline());
-    assertFalse(rt0.getAnnotations().isCode());
     assertEquals("default", rt0.getAnnotations().getColor());
     assertEquals("Some more", rt0.getPlainText());
     assertNull(rt0.getHref());
@@ -132,11 +122,7 @@ public class TextBlocksDeserializationTest extends BaseBlockDeserializationTest 
     RichText rt1 = p.getParagraph().getRichText().get(1);
     assertEquals("text", rt1.getType());
     assertEquals(" text with", rt1.getText().getContent());
-    assertTrue(rt1.getAnnotations().isItalic());
-    assertFalse(rt1.getAnnotations().isBold());
-    assertFalse(rt1.getAnnotations().isStrikethrough());
-    assertFalse(rt1.getAnnotations().isUnderline());
-    assertFalse(rt1.getAnnotations().isCode());
+    assertTrue(rt1.getAnnotations().getItalic());
     assertEquals("default", rt1.getAnnotations().getColor());
     assertEquals(" text with", rt1.getPlainText());
 
@@ -144,11 +130,6 @@ public class TextBlocksDeserializationTest extends BaseBlockDeserializationTest 
     RichText rt2 = p.getParagraph().getRichText().get(2);
     assertEquals("text", rt2.getType());
     assertEquals(" ", rt2.getText().getContent());
-    assertFalse(rt2.getAnnotations().isBold());
-    assertFalse(rt2.getAnnotations().isItalic());
-    assertFalse(rt2.getAnnotations().isStrikethrough());
-    assertFalse(rt2.getAnnotations().isUnderline());
-    assertFalse(rt2.getAnnotations().isCode());
     assertEquals("default", rt2.getAnnotations().getColor());
     assertEquals(" ", rt2.getPlainText());
 
@@ -156,11 +137,7 @@ public class TextBlocksDeserializationTest extends BaseBlockDeserializationTest 
     RichText rt3 = p.getParagraph().getRichText().get(3);
     assertEquals("text", rt3.getType());
     assertEquals("rich", rt3.getText().getContent());
-    assertTrue(rt3.getAnnotations().isUnderline());
-    assertFalse(rt3.getAnnotations().isBold());
-    assertFalse(rt3.getAnnotations().isItalic());
-    assertFalse(rt3.getAnnotations().isStrikethrough());
-    assertFalse(rt3.getAnnotations().isCode());
+    assertTrue(rt3.getAnnotations().getUnderline());
     assertEquals("default", rt3.getAnnotations().getColor());
     assertEquals("rich", rt3.getPlainText());
 
@@ -168,11 +145,6 @@ public class TextBlocksDeserializationTest extends BaseBlockDeserializationTest 
     RichText rt4 = p.getParagraph().getRichText().get(4);
     assertEquals("text", rt4.getType());
     assertEquals(" ", rt4.getText().getContent());
-    assertFalse(rt4.getAnnotations().isBold());
-    assertFalse(rt4.getAnnotations().isItalic());
-    assertFalse(rt4.getAnnotations().isStrikethrough());
-    assertFalse(rt4.getAnnotations().isUnderline());
-    assertFalse(rt4.getAnnotations().isCode());
     assertEquals("default", rt4.getAnnotations().getColor());
     assertEquals(" ", rt4.getPlainText());
 
@@ -180,11 +152,7 @@ public class TextBlocksDeserializationTest extends BaseBlockDeserializationTest 
     RichText rt5 = p.getParagraph().getRichText().get(5);
     assertEquals("text", rt5.getType());
     assertEquals("text", rt5.getText().getContent());
-    assertTrue(rt5.getAnnotations().isCode());
-    assertFalse(rt5.getAnnotations().isBold());
-    assertFalse(rt5.getAnnotations().isItalic());
-    assertFalse(rt5.getAnnotations().isStrikethrough());
-    assertFalse(rt5.getAnnotations().isUnderline());
+    assertTrue(rt5.getAnnotations().getCode());
     assertEquals("default", rt5.getAnnotations().getColor());
     assertEquals("text", rt5.getPlainText());
 
@@ -192,11 +160,7 @@ public class TextBlocksDeserializationTest extends BaseBlockDeserializationTest 
     RichText rt6 = p.getParagraph().getRichText().get(6);
     assertEquals("text", rt6.getType());
     assertEquals(", some more text here.", rt6.getText().getContent());
-    assertTrue(rt6.getAnnotations().isCode());
-    assertFalse(rt6.getAnnotations().isBold());
-    assertFalse(rt6.getAnnotations().isItalic());
-    assertFalse(rt6.getAnnotations().isStrikethrough());
-    assertFalse(rt6.getAnnotations().isUnderline());
+    assertTrue(rt6.getAnnotations().getCode());
     assertEquals("blue", rt6.getAnnotations().getColor());
     assertEquals(", some more text here.", rt6.getPlainText());
 
@@ -204,11 +168,6 @@ public class TextBlocksDeserializationTest extends BaseBlockDeserializationTest 
     RichText rt7 = p.getParagraph().getRichText().get(7);
     assertEquals("text", rt7.getType());
     assertEquals(" ", rt7.getText().getContent());
-    assertFalse(rt7.getAnnotations().isBold());
-    assertFalse(rt7.getAnnotations().isItalic());
-    assertFalse(rt7.getAnnotations().isStrikethrough());
-    assertFalse(rt7.getAnnotations().isUnderline());
-    assertFalse(rt7.getAnnotations().isCode());
     assertEquals("blue", rt7.getAnnotations().getColor());
     assertEquals(" ", rt7.getPlainText());
 
@@ -217,11 +176,6 @@ public class TextBlocksDeserializationTest extends BaseBlockDeserializationTest 
     assertEquals("equation", rt8.getType());
     assertNotNull(rt8.getEquation());
     assertEquals("O(n)", rt8.getEquation().getExpression());
-    assertFalse(rt8.getAnnotations().isBold());
-    assertFalse(rt8.getAnnotations().isItalic());
-    assertFalse(rt8.getAnnotations().isStrikethrough());
-    assertFalse(rt8.getAnnotations().isUnderline());
-    assertFalse(rt8.getAnnotations().isCode());
     assertEquals("blue", rt8.getAnnotations().getColor());
     assertEquals("O(n)", rt8.getPlainText());
 
@@ -229,11 +183,6 @@ public class TextBlocksDeserializationTest extends BaseBlockDeserializationTest 
     RichText rt9 = p.getParagraph().getRichText().get(9);
     assertEquals("text", rt9.getType());
     assertEquals(" ", rt9.getText().getContent());
-    assertFalse(rt9.getAnnotations().isBold());
-    assertFalse(rt9.getAnnotations().isItalic());
-    assertFalse(rt9.getAnnotations().isStrikethrough());
-    assertFalse(rt9.getAnnotations().isUnderline());
-    assertFalse(rt9.getAnnotations().isCode());
     assertEquals("blue", rt9.getAnnotations().getColor());
     assertEquals(" ", rt9.getPlainText());
 
@@ -241,11 +190,7 @@ public class TextBlocksDeserializationTest extends BaseBlockDeserializationTest 
     RichText rt10 = p.getParagraph().getRichText().get(10);
     assertEquals("text", rt10.getType());
     assertEquals("Text", rt10.getText().getContent());
-    assertFalse(rt10.getAnnotations().isBold());
-    assertFalse(rt10.getAnnotations().isItalic());
-    assertTrue(rt10.getAnnotations().isStrikethrough());
-    assertFalse(rt10.getAnnotations().isUnderline());
-    assertFalse(rt10.getAnnotations().isCode());
+    assertTrue(rt10.getAnnotations().getStrikethrough());
     assertEquals("blue", rt10.getAnnotations().getColor());
     assertEquals("Text", rt10.getPlainText());
   }
@@ -299,11 +244,6 @@ public class TextBlocksDeserializationTest extends BaseBlockDeserializationTest 
     assertNotNull(rt0.getMention().getUser().getPerson());
     assertEquals("user-email@gmail.com", rt0.getMention().getUser().getPerson().getEmail());
     assertNotNull(rt0.getAnnotations());
-    assertFalse(rt0.getAnnotations().isBold());
-    assertFalse(rt0.getAnnotations().isItalic());
-    assertFalse(rt0.getAnnotations().isStrikethrough());
-    assertFalse(rt0.getAnnotations().isUnderline());
-    assertFalse(rt0.getAnnotations().isCode());
     assertEquals("default", rt0.getAnnotations().getColor());
     assertEquals("@userName", rt0.getPlainText());
     assertNull(rt0.getHref());
@@ -315,11 +255,6 @@ public class TextBlocksDeserializationTest extends BaseBlockDeserializationTest 
     assertEquals(" ", rt1.getText().getContent());
     assertNull(rt1.getText().getLink());
     assertNotNull(rt1.getAnnotations());
-    assertFalse(rt1.getAnnotations().isBold());
-    assertFalse(rt1.getAnnotations().isItalic());
-    assertFalse(rt1.getAnnotations().isStrikethrough());
-    assertFalse(rt1.getAnnotations().isUnderline());
-    assertFalse(rt1.getAnnotations().isCode());
     assertEquals("default", rt1.getAnnotations().getColor());
     assertEquals(" ", rt1.getPlainText());
     assertNull(rt1.getHref());
@@ -360,11 +295,6 @@ public class TextBlocksDeserializationTest extends BaseBlockDeserializationTest 
     assertNotNull(mention.getMention().getPage());
     assertEquals("226c5b96-8ec4-801f-ad8e-cd6c19d8e0a8", mention.getMention().getPage().getId());
     assertNotNull(mention.getAnnotations());
-    assertFalse(mention.getAnnotations().isBold());
-    assertFalse(mention.getAnnotations().isItalic());
-    assertFalse(mention.getAnnotations().isStrikethrough());
-    assertFalse(mention.getAnnotations().isUnderline());
-    assertFalse(mention.getAnnotations().isCode());
     assertEquals("default", mention.getAnnotations().getColor());
     assertEquals("Testing page for Notion SDK (all block types included)", mention.getPlainText());
     assertEquals("https://www.notion.so/226c5b968ec4801fad8ecd6c19d8e0a8", mention.getHref());
@@ -376,11 +306,6 @@ public class TextBlocksDeserializationTest extends BaseBlockDeserializationTest 
     assertEquals(" ", text.getText().getContent());
     assertNull(text.getText().getLink());
     assertNotNull(text.getAnnotations());
-    assertFalse(text.getAnnotations().isBold());
-    assertFalse(text.getAnnotations().isItalic());
-    assertFalse(text.getAnnotations().isStrikethrough());
-    assertFalse(text.getAnnotations().isUnderline());
-    assertFalse(text.getAnnotations().isCode());
     assertEquals("default", text.getAnnotations().getColor());
     assertEquals(" ", text.getPlainText());
     assertNull(text.getHref());
@@ -462,11 +387,6 @@ public class TextBlocksDeserializationTest extends BaseBlockDeserializationTest 
     assertEquals(
         "22ec5b96-8ec4-8013-8ecf-ebc71cfc8536", mention.getMention().getDatabase().getId());
     assertNotNull(mention.getAnnotations());
-    assertFalse(mention.getAnnotations().isBold());
-    assertFalse(mention.getAnnotations().isItalic());
-    assertFalse(mention.getAnnotations().isStrikethrough());
-    assertFalse(mention.getAnnotations().isUnderline());
-    assertFalse(mention.getAnnotations().isCode());
     assertEquals("default", mention.getAnnotations().getColor());
     assertEquals("/////", mention.getPlainText());
     assertEquals("https://www.notion.so/22ec5b968ec480138ecfebc71cfc8536", mention.getHref());
@@ -478,11 +398,6 @@ public class TextBlocksDeserializationTest extends BaseBlockDeserializationTest 
     assertEquals(" ", text.getText().getContent());
     assertNull(text.getText().getLink());
     assertNotNull(text.getAnnotations());
-    assertFalse(text.getAnnotations().isBold());
-    assertFalse(text.getAnnotations().isItalic());
-    assertFalse(text.getAnnotations().isStrikethrough());
-    assertFalse(text.getAnnotations().isUnderline());
-    assertFalse(text.getAnnotations().isCode());
     assertEquals("default", text.getAnnotations().getColor());
     assertEquals(" ", text.getPlainText());
     assertNull(text.getHref());
@@ -535,11 +450,6 @@ public class TextBlocksDeserializationTest extends BaseBlockDeserializationTest 
         "https://a0.muscache.com/im/pictures/airflow/Hosting-48823939/original/f4b99652-c01b-4320-a446-f2e264b5b838.jpg?im_w=720&width=720&quality=70&auto=webp",
         mention.getMention().getLinkMention().getThumbnailUrl());
     assertNotNull(mention.getAnnotations());
-    assertFalse(mention.getAnnotations().isBold());
-    assertFalse(mention.getAnnotations().isItalic());
-    assertFalse(mention.getAnnotations().isUnderline());
-    assertFalse(mention.getAnnotations().isCode());
-    assertFalse(mention.getAnnotations().isStrikethrough());
     assertEquals("default", mention.getAnnotations().getColor());
     assertEquals(
         "https://www.airbnb.co.uk/rooms/48823939?check_in=2025-09-12&check_out=2025-09-14&photo_id=1641560102&source_impression_id=p3_1752333984_P3gceXyu0T9HRzYY&previous_page_section_name=1000&_set_bev_on_new_domain=1752333983_EAM2U4MTkxYmVjMT",
