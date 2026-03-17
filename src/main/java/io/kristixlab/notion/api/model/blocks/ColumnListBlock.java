@@ -24,6 +24,11 @@ public class ColumnListBlock extends Block {
   @JsonProperty("column_list")
   private ColumnList columnList;
 
+  public ColumnListBlock() {
+    setType("column_list");
+    columnList = new ColumnList();
+  }
+
   /**
    * Represents the configuration for a column list.
    *

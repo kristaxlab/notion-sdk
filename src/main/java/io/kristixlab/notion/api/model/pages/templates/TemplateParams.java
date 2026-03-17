@@ -14,4 +14,12 @@ public class TemplateParams {
    */
   @JsonProperty("template_id")
   private String templateId;
+
+  /*
+   * IANA timezone to use when resolving template variables like @now and @today
+   * Examples: "America/New_York""Europe/London""Asia/Tokyo"
+   * Defaults to the authorizing user's timezone for public integrations, or UTC for internal integrations
+   */
+  @JsonProperty("timezone")
+  private String timezone;
 }

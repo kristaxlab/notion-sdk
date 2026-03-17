@@ -13,4 +13,9 @@ public class ImageBlock extends Block {
 
   @JsonProperty("image")
   private FileData image;
+
+  public ImageBlock() {
+    setType("image");
+    image = new FileData();
+  }
 }

@@ -27,6 +27,11 @@ public class HeadingThreeBlock extends Block {
   @JsonProperty("heading_3")
   private Heading heading3;
 
+  public HeadingThreeBlock() {
+    setType("heading_3");
+    heading3 = new Heading();
+  }
+
   /**
    * Represents the configuration for a heading 3.
    *

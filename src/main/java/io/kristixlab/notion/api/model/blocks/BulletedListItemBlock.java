@@ -26,6 +26,18 @@ public class BulletedListItemBlock extends Block {
   @JsonProperty("bulleted_list_item")
   private BulletedListItem bulletedListItem;
 
+  public BulletedListItemBlock() {
+    setType("bulleted_list_item");
+    bulletedListItem = new BulletedListItem();
+  }
+
+  public static BulletedListItemBlock of(String text) {
+    BulletedListItemBlock block = new BulletedListItemBlock();
+    List<RichText> richTexts = RichText.builder().fromText(text).buildAsList();
+    block.getBulletedListItem().setRichText(richTexts);
+    return block;
+  }
+
   /**
    * Represents the configuration for a bulleted list item.
    *

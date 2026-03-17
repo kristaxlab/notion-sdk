@@ -14,6 +14,11 @@ public class BookmarkBlock extends Block {
   @JsonProperty("bookmark")
   private Bookmark bookmark;
 
+  public BookmarkBlock() {
+    setType("bookmark");
+    bookmark = new Bookmark();
+  }
+
   @Data
   public static class Bookmark {
     @JsonProperty("url")

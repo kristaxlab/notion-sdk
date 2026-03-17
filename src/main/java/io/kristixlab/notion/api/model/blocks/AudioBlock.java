@@ -13,4 +13,9 @@ public class AudioBlock extends Block {
 
   @JsonProperty("audio")
   private FileData audio;
+
+  public AudioBlock() {
+    setType("audio");
+    audio = new FileData();
+  }
 }

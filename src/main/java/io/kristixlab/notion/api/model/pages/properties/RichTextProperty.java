@@ -18,7 +18,8 @@ public class RichTextProperty extends PageProperty {
 
   public static RichTextProperty of(String text) {
     RichTextProperty property = new RichTextProperty();
-    property.getRichText().add(RichText.of(text));
+    List<RichText> richTexts = RichText.builder().fromText(text).buildAsList();
+    property.setRichText(richTexts);
     return property;
   }
 

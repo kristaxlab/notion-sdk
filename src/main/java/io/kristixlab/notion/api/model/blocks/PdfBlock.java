@@ -13,4 +13,9 @@ public class PdfBlock extends Block {
 
   @JsonProperty("pdf")
   private FileData pdf;
+
+  public PdfBlock() {
+    setType("pdf");
+    pdf = new FileData();
+  }
 }

@@ -28,6 +28,11 @@ public class QuoteBlock extends Block {
   @JsonProperty("quote")
   private Quote quote;
 
+  public QuoteBlock() {
+    setType("quote");
+    quote = new Quote();
+  }
+
   /**
    * Represents the configuration for a quote block.
    *

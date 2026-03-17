@@ -30,6 +30,11 @@ public class CalloutBlock extends Block {
   @JsonProperty("callout")
   private Callout callout;
 
+  public CalloutBlock() {
+    setType("callout");
+    callout = new Callout();
+  }
+
   /**
    * Represents the configuration for a callout block.
    *

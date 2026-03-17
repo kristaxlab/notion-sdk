@@ -10,5 +10,10 @@ import lombok.EqualsAndHashCode;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class BreadcrumbBlock extends Block {
   @JsonProperty("breadcrumb")
-  private Object breadcrumb = new Object(); // Notion returns an empty object
+  private Object breadcrumb; // Notion returns an empty object
+
+  public BreadcrumbBlock() {
+    setType("breadcrumb");
+    breadcrumb = new Object();
+  }
 }

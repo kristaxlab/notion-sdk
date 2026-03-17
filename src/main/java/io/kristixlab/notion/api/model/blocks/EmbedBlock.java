@@ -14,6 +14,11 @@ public class EmbedBlock extends Block {
   @JsonProperty("embed")
   private Embed embed;
 
+  public EmbedBlock() {
+    setType("embed");
+    embed = new Embed();
+  }
+
   @Data
   public static class Embed {
     @JsonProperty("url")

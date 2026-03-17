@@ -4,30 +4,22 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import io.kristixlab.notion.api.model.blocks.Block;
 import io.kristixlab.notion.api.model.common.Icon;
 import io.kristixlab.notion.api.model.common.Parent;
+import io.kristixlab.notion.api.model.common.Position;
 import io.kristixlab.notion.api.model.pages.properties.PageProperty;
 import io.kristixlab.notion.api.model.pages.templates.TemplateParams;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import lombok.Data;
 
+// TODO major task - consider api check and update with published notion doc (with or without AI)
 @Data
 public class CreatePageParams {
 
-  @JsonProperty("template")
-  private TemplateParams template;
+  @JsonProperty("parent")
+  private Parent parent;
 
   @JsonProperty("properties")
-  private Map<String, PageProperty> properties = new HashMap<>();
-
-  // TODO
-  @JsonProperty("content")
-  private List<Block> content = new ArrayList<>();
-
-  // TODO
-  @JsonProperty("children")
-  private List<Block> children = new ArrayList<>();
+  private Map<String, PageProperty> properties;
 
   @JsonProperty("icon")
   private Icon icon;
@@ -35,6 +27,20 @@ public class CreatePageParams {
   @JsonProperty("cover")
   private CoverParams cover;
 
-  @JsonProperty("parent")
-  private Parent parent;
+  // TODO
+  @JsonProperty("content")
+  private List<Block> content;
+
+  // TODO
+  @JsonProperty("children")
+  private List<Block> children;
+
+  @JsonProperty("markdown")
+  private String markdown;
+
+  @JsonProperty("template")
+  private TemplateParams template;
+
+  @JsonProperty("position")
+  private Position position;
 }

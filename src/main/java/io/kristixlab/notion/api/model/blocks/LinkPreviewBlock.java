@@ -12,6 +12,11 @@ public class LinkPreviewBlock extends Block {
   @JsonProperty("link_preview")
   private LinkPreview linkPreview;
 
+  public LinkPreviewBlock() {
+    setType("link_preview");
+    linkPreview = new LinkPreview();
+  }
+
   @Data
   public static class LinkPreview {
     @JsonProperty("url")

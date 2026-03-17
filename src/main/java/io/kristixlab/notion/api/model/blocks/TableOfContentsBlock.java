@@ -10,7 +10,12 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class TableOfContentsBlock extends Block {
   @JsonProperty("table_of_contents")
-  private TableOfContents tableOfContents = new TableOfContents();
+  private TableOfContents tableOfContents;
+
+  public TableOfContentsBlock() {
+    setType("table_of_contents");
+    tableOfContents = new TableOfContents();
+  }
 
   @Data
   public static class TableOfContents {

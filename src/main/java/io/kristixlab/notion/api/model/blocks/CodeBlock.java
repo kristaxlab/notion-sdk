@@ -14,6 +14,11 @@ public class CodeBlock extends Block {
   @JsonProperty("code")
   private Code code;
 
+  public CodeBlock() {
+    setType("code");
+    code = new Code();
+  }
+
   @Data
   public static class Code {
     @JsonProperty("rich_text")

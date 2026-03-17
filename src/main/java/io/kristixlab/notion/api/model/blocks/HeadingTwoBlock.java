@@ -27,6 +27,11 @@ public class HeadingTwoBlock extends Block {
   @JsonProperty("heading_2")
   private Heading heading2;
 
+  public HeadingTwoBlock() {
+    setType("heading_2");
+    heading2 = new Heading();
+  }
+
   /**
    * Represents the configuration for a heading 2.
    *

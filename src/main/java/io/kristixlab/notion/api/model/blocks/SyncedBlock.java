@@ -14,6 +14,11 @@ public class SyncedBlock extends Block {
   @JsonProperty("synced_block")
   private Synced syncedBlock;
 
+  public SyncedBlock() {
+    setType("synced_block");
+    syncedBlock = new Synced();
+  }
+
   @Data
   public static class Synced {
 

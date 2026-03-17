@@ -13,33 +13,43 @@ package io.kristixlab.notion.api.model.common;
 public enum Color {
   /** Default color (no specific color applied) */
   DEFAULT("default"),
+  DEFAULT_BACKGROUND("default_background"),
 
   /** Gray color */
   GRAY("gray"),
+  GRAY_BACKGROUND("gray_background"),
 
   /** Brown color */
   BROWN("brown"),
+  BROWN_BACKGROUND("brown_background"),
 
   /** Orange color */
   ORANGE("orange"),
+  ORANGE_BACKGROUND("orange_background"),
 
   /** Yellow color */
   YELLOW("yellow"),
+  YELLOW_BACKGROUND("yellow_background"),
 
   /** Green color */
   GREEN("green"),
+  GREEN_BACKGROUND("green_background"),
 
   /** Blue color */
   BLUE("blue"),
+  BLUE_BACKGROUND("blue_background"),
 
   /** Purple color */
   PURPLE("purple"),
+  PURPLE_BACKGROUND("purple_background"),
 
   /** Pink color */
   PINK("pink"),
+  PINK_BACKGROUND("pink_background"),
 
   /** Red color */
-  RED("red");
+  RED("red"),
+  RED_BACKGROUND("red_background");
 
   /** The string value representing this color in the Notion API */
   private final String value;

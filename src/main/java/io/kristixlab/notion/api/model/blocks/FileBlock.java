@@ -13,4 +13,9 @@ public class FileBlock extends Block {
 
   @JsonProperty("file")
   private FileData file;
+
+  public FileBlock() {
+    setType("file");
+    file = new FileData();
+  }
 }

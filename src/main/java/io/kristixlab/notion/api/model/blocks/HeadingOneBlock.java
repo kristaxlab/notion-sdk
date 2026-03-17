@@ -15,6 +15,11 @@ public class HeadingOneBlock extends Block {
   @JsonProperty("heading_1")
   private Heading heading1;
 
+  public HeadingOneBlock() {
+    setType("heading_1");
+    heading1 = new Heading();
+  }
+
   @Data
   public static class Heading {
     @JsonProperty("rich_text")

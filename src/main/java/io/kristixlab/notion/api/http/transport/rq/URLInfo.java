@@ -6,7 +6,6 @@ import lombok.Data;
 @Data
 public class URLInfo {
 
-  private String baseUrl;
   private String url;
   private Map<String, List<String>> queryParams = new HashMap<>();
   private Map<String, String> pathParams = new HashMap<>();
@@ -17,6 +16,17 @@ public class URLInfo {
 
   public static URLInfo.Builder builder(String url) {
     return new URLInfo.Builder().url(url);
+  }
+
+  public static URLInfo.Builder builder(String url, String startCursor, Integer pageSize) {
+    URLInfo.Builder urlInfo = new URLInfo.Builder().url(url);
+    if (startCursor != null) {
+      urlInfo.queryParam("start_cursor", startCursor);
+    }
+    if (pageSize != null) {
+      urlInfo.queryParam("page_size", pageSize);
+    }
+    return urlInfo;
   }
 
   public static URLInfo from(String url) {
@@ -50,7 +60,7 @@ public class URLInfo {
       if (urlInfo.getQueryParams().containsKey(key)) {
         urlInfo.getQueryParams().get(key).addAll(values);
       } else {
-        urlInfo.getQueryParams().put(key, values);
+        urlInfo.getQueryParams().put(key, new ArrayList<>(values));
       }
       return this;
     }

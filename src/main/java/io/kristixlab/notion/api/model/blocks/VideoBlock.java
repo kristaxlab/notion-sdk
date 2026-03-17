@@ -13,4 +13,9 @@ public class VideoBlock extends Block {
 
   @JsonProperty("video")
   private FileData video;
+
+  public VideoBlock() {
+    setType("video");
+    video = new FileData();
+  }
 }

@@ -1,7 +1,7 @@
 package io.kristixlab.notion.api.model.pages.properties.list;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.kristixlab.notion.api.model.common.PageReference;
+import io.kristixlab.notion.api.model.common.BlockReference;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -10,5 +10,5 @@ import lombok.EqualsAndHashCode;
 public class ListedRelationProperty extends ListedPageProperty {
 
   @JsonProperty("relation")
-  private PageReference relation;
+  private BlockReference relation;
 }

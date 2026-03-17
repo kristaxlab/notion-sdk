@@ -12,6 +12,11 @@ public class ColumnBlock extends Block {
   @JsonProperty("column")
   private Column column;
 
+  public ColumnBlock() {
+    setType("column");
+    column = new Column();
+  }
+
   @Data
   public static class Column {
     // No properties, just an empty object

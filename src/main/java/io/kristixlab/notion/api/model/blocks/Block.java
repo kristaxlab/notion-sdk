@@ -75,7 +75,7 @@ public class Block extends NotionObjectType {
   /** Indicates whether this block has child blocks */
   @Accessors(fluent = true)
   @JsonProperty("has_children")
-  private boolean hasChildren;
+  private Boolean hasChildren;
 
   /**
    * Casts this block to a ParagraphBlock.

@@ -12,6 +12,11 @@ public class ChildDatabaseBlock extends Block {
   @JsonProperty("child_database")
   private ChildDatabase childDatabase;
 
+  public ChildDatabaseBlock() {
+    setType("child_database");
+    childDatabase = new ChildDatabase();
+  }
+
   @Data
   public static class ChildDatabase {
     @JsonProperty("title")

@@ -3,7 +3,6 @@ package io.kristixlab.notion.api.model.pages.properties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.kristixlab.notion.api.model.common.RichText;
 import io.kristixlab.notion.api.util.PagePropertyType;
-import java.util.ArrayList;
 import java.util.List;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -11,6 +10,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class TitleProperty extends PageProperty {
+  public static final String NAME = "title";
   private final String type = PagePropertyType.TITLE.type();
 
   @JsonProperty("title")
@@ -24,8 +24,8 @@ public class TitleProperty extends PageProperty {
 
   public static TitleProperty of(String text) {
     TitleProperty property = new TitleProperty();
-    property.setTitle(new ArrayList<>());
-    property.getTitle().add(RichText.of(text));
+    List<RichText> richTexts = RichText.builder().fromText(text).buildAsList();
+    property.setTitle(richTexts);
     return property;
   }
 }

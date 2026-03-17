@@ -27,6 +27,17 @@ public class NumberedListItemBlock extends Block {
   @JsonProperty("numbered_list_item")
   private NumberedListItem numberedListItem;
 
+  public NumberedListItemBlock() {
+    setType("numbered_list_item");
+    numberedListItem = new NumberedListItem();
+  }
+
+  public static NumberedListItemBlock of(String text) {
+    NumberedListItemBlock block = new NumberedListItemBlock();
+    block.getNumberedListItem().setRichText(RichText.builder().fromText(text).buildAsList());
+    return block;
+  }
+
   /**
    * Represents the configuration for a numbered list item.
    *

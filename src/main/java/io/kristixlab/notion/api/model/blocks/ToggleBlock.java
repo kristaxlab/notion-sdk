@@ -27,6 +27,18 @@ public class ToggleBlock extends Block {
   @JsonProperty("toggle")
   private Toggle toggle;
 
+  public ToggleBlock() {
+    setType("toggle");
+    toggle = new Toggle();
+  }
+
+  public static ToggleBlock of(String text) {
+    ToggleBlock block = new ToggleBlock();
+    List<RichText> richTexts = RichText.builder().fromText(text).buildAsList();
+    block.getToggle().setRichText(richTexts);
+    return block;
+  }
+
   /**
    * Represents the configuration for a toggle block.
    *

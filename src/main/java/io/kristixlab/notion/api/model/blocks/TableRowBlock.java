@@ -14,6 +14,11 @@ public class TableRowBlock extends Block {
   @JsonProperty("table_row")
   private TableRow tableRow;
 
+  public TableRowBlock() {
+    setType("table_row");
+    tableRow = new TableRow();
+  }
+
   @Data
   public static class TableRow {
     @JsonProperty("cells")

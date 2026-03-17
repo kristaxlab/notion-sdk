@@ -13,6 +13,11 @@ public class LinkToPageBlock extends Block {
   @JsonProperty("link_to_page")
   private LinkToPage linkToPage;
 
+  public LinkToPageBlock() {
+    setType("link_to_page");
+    linkToPage = new LinkToPage();
+  }
+
   @Data
   public static class LinkToPage {
     @JsonProperty("type")

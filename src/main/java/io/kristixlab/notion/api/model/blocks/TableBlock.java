@@ -15,6 +15,11 @@ public class TableBlock extends Block {
   @JsonProperty("table")
   private Table table;
 
+  public TableBlock() {
+    setType("table");
+    table = new Table();
+  }
+
   @Data
   public static class Table {
 

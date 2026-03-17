@@ -10,5 +10,10 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class DividerBlock extends Block {
   @JsonProperty("divider")
-  private Object divider = new Object();
+  private Object divider;
+
+  public DividerBlock() {
+    setType("divider");
+    divider = new Object();
+  }
 }

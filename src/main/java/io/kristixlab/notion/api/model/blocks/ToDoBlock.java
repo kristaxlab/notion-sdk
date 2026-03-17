@@ -27,6 +27,18 @@ public class ToDoBlock extends Block {
   @JsonProperty("to_do")
   private ToDo toDo;
 
+  public ToDoBlock() {
+    setType("to_do");
+    toDo = new ToDo();
+  }
+
+  public static ToDoBlock of(String text) {
+    ToDoBlock block = new ToDoBlock();
+    List<RichText> richTexts = RichText.builder().fromText(text).buildAsList();
+    block.getToDo().setRichText(richTexts);
+    return block;
+  }
+
   /**
    * Represents the configuration for a to-do item.
    *
