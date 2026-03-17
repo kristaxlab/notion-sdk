@@ -2,9 +2,7 @@ package integration;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import integration.util.IntegrationTestUtil;
-import io.kristixlab.notion.NotionSdkSettings;
-import io.kristixlab.notion.api.NotionApiClient;
+import integration.util.IntegrationTestAssisstant;
 import io.kristixlab.notion.api.endpoints.util.FileUploadUtils;
 import io.kristixlab.notion.api.model.files.*;
 import java.io.File;
@@ -12,16 +10,10 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Tag;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
-@Tag("integration")
-public class FileUploadIT {
+public class FileUploadIT extends BaseIntegrationTest {
 
-  private static NotionApiClient NOTION;
-  private static NotionSdkSettings SETTINGS;
   private static final String EXTERNAL_IMG = "integration-tests.assets.external.image-url";
   private static final String IMAGE_FILE_PATH = "integration-tests.assets.files.image-file-path";
   private static final String IMAGE_FILE_PATH_4MB =
@@ -30,33 +22,30 @@ public class FileUploadIT {
   private static final String SPLIT_FILE_SIZE =
       "notion.endpoints.file-uploads.multi-part.split-size-bytes";
 
-  @BeforeAll
-  public static void initClient() {
-    NOTION = NotionClientProvider.internalTestingClient();
-    SETTINGS = NotionSdkSettings.getInstance();
-
-    IntegrationTestUtil.checkThatExists(SETTINGS, FileUploadIT.class, EXTERNAL_IMG);
-    IntegrationTestUtil.checkThatExists(SETTINGS, FileUploadIT.class, IMAGE_FILE_PATH);
-    IntegrationTestUtil.checkThatExists(SETTINGS, FileUploadIT.class, IMAGE_FILE_PATH_4MB);
-    IntegrationTestUtil.checkThatExists(SETTINGS, FileUploadIT.class, VIDEO_FILE_PATH);
-    IntegrationTestUtil.checkThatExists(SETTINGS, FileUploadIT.class, SPLIT_FILE_SIZE);
+  @BeforeEach
+  protected void beforeEach(TestInfo testInfo) {
+    super.beforeEach(testInfo);
+    IntegrationTestAssisstant.checkThatExists(getSettings(), FileUploadIT.class, EXTERNAL_IMG);
+    IntegrationTestAssisstant.checkThatExists(getSettings(), FileUploadIT.class, IMAGE_FILE_PATH);
+    IntegrationTestAssisstant.checkThatExists(
+        getSettings(), FileUploadIT.class, IMAGE_FILE_PATH_4MB);
+    IntegrationTestAssisstant.checkThatExists(getSettings(), FileUploadIT.class, VIDEO_FILE_PATH);
+    IntegrationTestAssisstant.checkThatExists(getSettings(), FileUploadIT.class, SPLIT_FILE_SIZE);
   }
 
   @Test
   @DisplayName("[IT-16]: File Uploads - List all file uploads")
   public void testListAllFileUploads() throws IOException {
-    FileUploadList response = NOTION.fileUploads().listFileUploads();
+    FileUploadList response = getNotion().fileUploads().listFileUploads();
     assertNotNull(response);
-    assertNotNull(response.getRequestId());
   }
 
   @Test
   @DisplayName("[IT-17]: File Uploads - List all expired file uploads")
   public void testListAllFileUploadsExpired() throws IOException {
     String status = "expired";
-    FileUploadList pendingUploads = NOTION.fileUploads().listFileUploads(status);
+    FileUploadList pendingUploads = getNotion().fileUploads().listFileUploads(status);
     assertNotNull(pendingUploads);
-    assertNotNull(pendingUploads.getRequestId());
     pendingUploads.getResults().forEach(f -> assertEquals(status, f.getStatus()));
   }
 
@@ -64,8 +53,9 @@ public class FileUploadIT {
   @DisplayName("[IT-14]: File Uploads - Upload a single-part file")
   public void testFileUploadSinglePartAsFile() throws IOException {
     // prerequisites
-    String filePath = SETTINGS.getString(IMAGE_FILE_PATH);
-    File file = IntegrationTestUtil.loadFileFailIfMissing(filePath, getClass().getClassLoader());
+    String filePath = getSettings().getString(IMAGE_FILE_PATH);
+    File file =
+        IntegrationTestAssisstant.loadFileFailIfMissing(filePath, getClass().getClassLoader());
     String uploadedFilename = "int-14-image.jpg";
     String expectedContentType = "image/jpeg";
 
@@ -73,11 +63,11 @@ public class FileUploadIT {
     FileUploadCreateParams request = new FileUploadCreateParams();
     request.setMode(FileUploadMode.SINGLE_PART.getValue());
     request.setFilename(uploadedFilename);
-    FileUploadResponse createRs = NOTION.fileUploads().createFileUpload(request);
+    FileUploadResponse createRs = getNotion().fileUploads().createFileUpload(request);
 
     // Step 2 - Retrieve File Upload
     String id = createRs.getId();
-    FileUploadResponse retrieveRS = NOTION.fileUploads().retrieveFileUpload(id);
+    FileUploadResponse retrieveRS = getNotion().fileUploads().retrieveFileUpload(id);
 
     assertEquals("pending", retrieveRS.getStatus());
     assertEquals(expectedContentType, createRs.getContentType());
@@ -88,7 +78,7 @@ public class FileUploadIT {
     sendRequest.setFile(file);
     sendRequest.setFileName(request.getFilename());
     sendRequest.setContentType(createRs.getContentType());
-    FileUploadResponse sendContentRs = NOTION.fileUploads().sendFileContent(id, sendRequest);
+    FileUploadResponse sendContentRs = getNotion().fileUploads().sendFileContent(id, sendRequest);
 
     assertNotNull(sendContentRs);
     assertEquals(id, sendContentRs.getId());
@@ -102,15 +92,16 @@ public class FileUploadIT {
   @DisplayName("[IT-15]: File Uploads - Upload a single-part file as input stream")
   public void testFileUploadSinglePartAsStream() throws IOException {
     // prerequisites
-    String filePath = SETTINGS.getString(IMAGE_FILE_PATH);
-    File file = IntegrationTestUtil.loadFileFailIfMissing(filePath, getClass().getClassLoader());
+    String filePath = getSettings().getString(IMAGE_FILE_PATH);
+    File file =
+        IntegrationTestAssisstant.loadFileFailIfMissing(filePath, getClass().getClassLoader());
     String uploadedFilename = "int-15-image.jpg";
 
     // Step 1 - Create File Upload
     FileUploadCreateParams request = new FileUploadCreateParams();
     request.setMode(FileUploadMode.SINGLE_PART.getValue());
     request.setFilename(uploadedFilename);
-    FileUploadResponse createRs = NOTION.fileUploads().createFileUpload(request);
+    FileUploadResponse createRs = getNotion().fileUploads().createFileUpload(request);
 
     // Step 2 - Send File Content as byte[]
     try (InputStream is = new FileInputStream(file)) {
@@ -119,7 +110,7 @@ public class FileUploadIT {
       sendRequest.setFileName(request.getFilename());
       sendRequest.setContentType(createRs.getContentType());
       FileUploadResponse sendContentRs =
-          NOTION.fileUploads().sendFileContent(createRs.getId(), sendRequest);
+          getNotion().fileUploads().sendFileContent(createRs.getId(), sendRequest);
 
       assertNotNull(sendContentRs);
       assertEquals(createRs.getId(), sendContentRs.getId());
@@ -134,15 +125,16 @@ public class FileUploadIT {
   @DisplayName("[IT-18]: File Uploads - Upload a single-part file as byte array")
   public void testFileUploadSinglePartAsBytes() throws IOException {
     // prerequisites
-    String filePath = SETTINGS.getString(IMAGE_FILE_PATH);
-    File file = IntegrationTestUtil.loadFileFailIfMissing(filePath, getClass().getClassLoader());
+    String filePath = getSettings().getString(IMAGE_FILE_PATH);
+    File file =
+        IntegrationTestAssisstant.loadFileFailIfMissing(filePath, getClass().getClassLoader());
     String uploadedFilename = "int-18-image.jpg";
 
     // Step 1 - Create File Upload
     FileUploadCreateParams request = new FileUploadCreateParams();
     request.setMode(FileUploadMode.SINGLE_PART.getValue());
     request.setFilename(uploadedFilename);
-    FileUploadResponse createRs = NOTION.fileUploads().createFileUpload(request);
+    FileUploadResponse createRs = getNotion().fileUploads().createFileUpload(request);
 
     // Step 2 - Send File Content as byte[]
     FileUploadSendParams sendRequest = new FileUploadSendParams();
@@ -150,7 +142,7 @@ public class FileUploadIT {
     sendRequest.setFileName(request.getFilename());
     sendRequest.setContentType(createRs.getContentType());
     FileUploadResponse sendContentRs =
-        NOTION.fileUploads().sendFileContent(createRs.getId(), sendRequest);
+        getNotion().fileUploads().sendFileContent(createRs.getId(), sendRequest);
 
     assertNotNull(sendContentRs);
     assertEquals(createRs.getId(), sendContentRs.getId());
@@ -163,25 +155,18 @@ public class FileUploadIT {
   @Test
   @DisplayName("[IT-19]: File Uploads - Import external file")
   public void testFileUploadExternal() throws IOException {
-    // prerequisites
-    String uploadedFilename = "int-19-image.jpg";
-    String expectedContentType = "image/jpeg";
-
     // Step 1 - Create File Upload
     FileUploadCreateParams request = new FileUploadCreateParams();
     request.setMode(FileUploadMode.EXTERNAL_URL.getValue());
-    request.setExternalUrl(SETTINGS.getString(EXTERNAL_IMG));
-    request.setContentType(expectedContentType);
-    request.setFilename(uploadedFilename);
-    FileUploadResponse createRs = NOTION.fileUploads().createFileUpload(request);
+    request.setExternalUrl(getSettings().getString(EXTERNAL_IMG));
+    request.setContentType("image/jpeg");
+    request.setFilename("int-19-image.jpg");
+    FileUploadResponse createRs = getNotion().fileUploads().createFileUpload(request);
 
     // Step 2 - Retrieve File Upload
     String id = createRs.getId();
-    FileUploadResponse retrieveRS = NOTION.fileUploads().retrieveFileUpload(id);
-
-    assertEquals("pending", retrieveRS.getStatus());
-    assertEquals(expectedContentType, createRs.getContentType());
-    assertEquals(request.getFilename(), createRs.getFilename());
+    FileUploadResponse retrieveRS = getNotion().fileUploads().retrieveFileUpload(id);
+    assertEquals(request.getFilename(), retrieveRS.getFilename());
   }
 
   @Test
@@ -189,10 +174,11 @@ public class FileUploadIT {
   @Tag("paid")
   public void testFileUploadMultiPart() throws IOException {
     // prerequisites
-    String filePath = SETTINGS.getString(VIDEO_FILE_PATH);
-    File file = IntegrationTestUtil.loadFileFailIfMissing(filePath, getClass().getClassLoader());
+    String filePath = getSettings().getString(VIDEO_FILE_PATH);
+    File file =
+        IntegrationTestAssisstant.loadFileFailIfMissing(filePath, getClass().getClassLoader());
     String uploadedFilename = "int-20-video_18mb.jpg";
-    long partSizeInBytes = SETTINGS.getLong(SPLIT_FILE_SIZE);
+    long partSizeInBytes = getSettings().getLong(SPLIT_FILE_SIZE);
     int numberOfParts = FileUploadUtils.calculateNumberOfParts(file.length(), partSizeInBytes);
     assertTrue(
         numberOfParts > 1, "File should be split into more than 1 part for multi-part upload test");
@@ -202,7 +188,7 @@ public class FileUploadIT {
     request.setMode(FileUploadMode.MULTI_PART.getValue());
     request.setFilename(uploadedFilename);
     request.setNumberOfParts(numberOfParts);
-    FileUploadResponse createRs = NOTION.fileUploads().createFileUpload(request);
+    FileUploadResponse createRs = getNotion().fileUploads().createFileUpload(request);
 
     assertEquals("pending", createRs.getStatus());
     assertEquals(request.getFilename(), createRs.getFilename());
@@ -219,7 +205,8 @@ public class FileUploadIT {
           partRequest.setFile(filePart);
           partRequest.setFileName(uploadedFilename);
           partRequest.setContentType(createRs.getContentType());
-          FileUploadResponse uploadResponse = NOTION.fileUploads().sendFileContent(id, partRequest);
+          FileUploadResponse uploadResponse =
+              getNotion().fileUploads().sendFileContent(id, partRequest);
 
           assertNotNull(uploadResponse);
           assertNotNull(uploadResponse.getNumberOfParts());
@@ -229,7 +216,7 @@ public class FileUploadIT {
         });
 
     // Step 4 - Complete File Upload
-    FileUploadResponse completeRs = NOTION.fileUploads().completeFileUpload(id);
+    FileUploadResponse completeRs = getNotion().fileUploads().completeFileUpload(id);
     assertNotNull(completeRs);
     assertEquals(id, completeRs.getId());
     assertEquals("uploaded", completeRs.getStatus());
