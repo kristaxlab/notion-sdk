@@ -3,7 +3,9 @@ package io.kristixlab.notion.api.endpoints.impl;
 import io.kristixlab.notion.api.endpoints.PagesEndpoint;
 import io.kristixlab.notion.api.http.transport.HttpTransport;
 import io.kristixlab.notion.api.http.transport.rq.URLInfo;
+import io.kristixlab.notion.api.model.common.Parent;
 import io.kristixlab.notion.api.model.pages.CreatePageParams;
+import io.kristixlab.notion.api.model.pages.MovePageParams;
 import io.kristixlab.notion.api.model.pages.Page;
 import io.kristixlab.notion.api.model.pages.UpdatePageParams;
 import io.kristixlab.notion.api.model.pages.properties.PageProperty;
@@ -96,6 +98,17 @@ public class PagesEndpointImpl implements PagesEndpoint {
     URLInfo urlInfo = URLInfo.builder("/pages/{page_id}").pathParam(PAGE_ID, pageId).build();
 
     return transport.call("PATCH", urlInfo, request, Page.class);
+  }
+
+  public Page move(String pageId, Parent newParent) {
+    validatePageId(pageId);
+    validateRequest(newParent);
+
+    MovePageParams request = new MovePageParams();
+    request.setParent(newParent);
+    URLInfo urlInfo = URLInfo.builder("/pages/{page_id}/move").pathParam(PAGE_ID, pageId).build();
+
+    return transport.call("POST", urlInfo, request, Page.class);
   }
 
   /**

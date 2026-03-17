@@ -1,15 +1,18 @@
 package io.kristixlab.notion.api.model.comments;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.kristixlab.notion.api.model.common.File;
 import lombok.Data;
 
 @Data
 public class CommentAttachment {
 
-  @JsonProperty("category")
-  private String category;
+  @JsonProperty("type")
+  private String type;
 
-  @JsonProperty("file")
-  private File file;
+  @JsonProperty("file_upload_id")
+  private String fileUploadId;
+
+  public CommentAttachment() {
+    setType("file_upload");
+  }
 }

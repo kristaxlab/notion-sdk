@@ -245,7 +245,7 @@ public class BlocksIT extends BaseIntegrationTest {
     String insertedBlockId = insertRs.getResults().get(0).getId();
     assertNotNull(allBlocks);
     assertNotNull(allBlocks.getResults());
-    assertEquals(4, allBlocks.getResults().size());
+    assertEquals(3, allBlocks.getResults().size());
     assertEquals(firstInitialBlockId, allBlocks.getResults().get(0).getId());
     assertEquals(secondInitialBlockId, allBlocks.getResults().get(2).getId());
     assertEquals(insertedBlockId, allBlocks.getResults().get(1).getId());

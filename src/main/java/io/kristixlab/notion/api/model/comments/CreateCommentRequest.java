@@ -1,6 +1,7 @@
 package io.kristixlab.notion.api.model.comments;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.kristixlab.notion.api.model.common.Parent;
 import io.kristixlab.notion.api.model.common.RichText;
 import java.util.List;
 import lombok.Data;
@@ -11,7 +12,7 @@ public class CreateCommentRequest {
 
   /* a page parent or block parent */
   @JsonProperty("parent")
-  private String parent;
+  private Parent parent;
 
   /* either parent or a discussion id should be presented */
   @JsonProperty("discussion_id")

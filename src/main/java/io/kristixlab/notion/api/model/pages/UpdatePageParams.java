@@ -30,6 +30,9 @@ public class UpdatePageParams {
   @JsonProperty("in_trash")
   private Boolean inTrash;
 
+  @JsonProperty("is_locked")
+  private Boolean isLocked;
+
   @JsonProperty("template")
   private TemplateParams template;
 

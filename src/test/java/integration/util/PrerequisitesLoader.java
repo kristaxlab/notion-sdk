@@ -3,6 +3,9 @@ package integration.util;
 import io.kristixlab.notion.api.NotionApiClient;
 import io.kristixlab.notion.api.model.blocks.Block;
 import io.kristixlab.notion.api.model.blocks.BlockList;
+import io.kristixlab.notion.api.model.files.FileUploadCreateParams;
+import io.kristixlab.notion.api.model.files.FileUploadList;
+import io.kristixlab.notion.api.model.files.FileUploadResponse;
 
 public class PrerequisitesLoader {
 
@@ -17,11 +20,41 @@ public class PrerequisitesLoader {
         prerequisites.setEmojiIcon(getIcon(pagaContent, i + 1));
       }
     }
+
+    loadFileUploadId(
+        client,
+        prerequisites,
+        prerequisitesPageId,
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/PNG_transparency_demonstration_1.png/640px-PNG_transparency_demonstration_1.png");
+
     if (prerequisites.getEmojiIcon() == null || prerequisites.getCoverUrl() == null) {
       throw new IllegalStateException(
           "Prerequisites page should contain both cover and icon blocks with the right titles");
     }
     return prerequisites;
+  }
+
+  private static void loadFileUploadId(
+      NotionApiClient client,
+      Prerequisites prerequisites,
+      String prerequisitesPageId,
+      String backupImageUrl) {
+    FileUploadList rs = client.fileUploads().listFileUploads("uploaded");
+    if (rs.getResults().isEmpty()) {
+      // TODO check if it works and update the url
+      FileUploadCreateParams request = new FileUploadCreateParams();
+      request.setMode("external");
+      request.setExternalUrl(backupImageUrl);
+      FileUploadResponse response = client.fileUploads().createFileUpload(request);
+      prerequisites.setImageFileUploadId(response.getId());
+    } else {
+      for (FileUploadResponse fileUpload : rs.getResults()) {
+        if (fileUpload.getContentType().contains("image")) {
+          prerequisites.setImageFileUploadId(fileUpload.getId());
+          break;
+        }
+      }
+    }
   }
 
   private static boolean matchTitle(Block block, String title) {
