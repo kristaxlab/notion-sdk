@@ -1,6 +1,6 @@
 package io.kristixlab.notion.api.endpoints;
 
-import io.kristixlab.notion.api.model.databases.CreateDatabaseRequest;
+import io.kristixlab.notion.api.model.databases.CreateDatabaseParams;
 import io.kristixlab.notion.api.model.databases.Database;
 import io.kristixlab.notion.api.model.databases.UpdateDatabaseRequest;
 
@@ -10,7 +10,7 @@ import io.kristixlab.notion.api.model.databases.UpdateDatabaseRequest;
  * @see <a href="https://developers.notion.com/reference/databases">Notion Databases API</a>
  */
 public interface DatabasesEndpoint {
-  Database create(CreateDatabaseRequest request);
+  Database create(CreateDatabaseParams request);
 
   Database update(UpdateDatabaseRequest request);
 
