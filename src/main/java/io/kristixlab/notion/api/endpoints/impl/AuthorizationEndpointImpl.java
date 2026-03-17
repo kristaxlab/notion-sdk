@@ -2,7 +2,7 @@ package io.kristixlab.notion.api.endpoints.impl;
 
 import io.kristixlab.notion.api.NotionAuthSettings;
 import io.kristixlab.notion.api.endpoints.AuthorizationEndpoint;
-import io.kristixlab.notion.api.http.NotionHttpTransport;
+import io.kristixlab.notion.api.http.transport.HttpTransport;
 import io.kristixlab.notion.api.http.transport.rq.URLInfo;
 import io.kristixlab.notion.api.model.authorization.*;
 import io.kristixlab.notion.api.util.NotionAuthUtil;
@@ -15,10 +15,10 @@ import java.util.Map;
  */
 public class AuthorizationEndpointImpl implements AuthorizationEndpoint {
 
-  private final NotionHttpTransport transport;
+  private final HttpTransport transport;
   private final NotionAuthSettings authSettings;
 
-  public AuthorizationEndpointImpl(NotionAuthSettings authSettings, NotionHttpTransport transport) {
+  public AuthorizationEndpointImpl(NotionAuthSettings authSettings, HttpTransport transport) {
     this.authSettings = authSettings;
     this.transport = transport;
   }
@@ -291,13 +291,6 @@ public class AuthorizationEndpointImpl implements AuthorizationEndpoint {
   private void validateIntrospectTokenRequest(IntrospectTokenRequest request) {
     if (request == null) {
       throw new IllegalArgumentException("Introspect token request cannot be null");
-    }
-    validateToken(request.getToken());
-  }
-
-  private void validateRevokeTokenRequest(RevokeTokenRequest request) {
-    if (request == null) {
-      throw new IllegalArgumentException("Revoke token request cannot be null");
     }
     validateToken(request.getToken());
   }

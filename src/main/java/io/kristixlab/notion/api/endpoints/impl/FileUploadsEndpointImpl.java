@@ -1,11 +1,10 @@
 package io.kristixlab.notion.api.endpoints.impl;
 
 import io.kristixlab.notion.api.endpoints.FileUploadsEndpoint;
-import io.kristixlab.notion.api.http.NotionHttpTransport;
+import io.kristixlab.notion.api.http.transport.HttpTransport;
 import io.kristixlab.notion.api.http.transport.rq.MultipartFormDataRequest;
 import io.kristixlab.notion.api.http.transport.rq.URLInfo;
 import io.kristixlab.notion.api.model.files.*;
-import io.kristixlab.notion.api.util.Pagination;
 
 /**
  * API for file upload operations in Notion.
@@ -19,9 +18,9 @@ public class FileUploadsEndpointImpl implements FileUploadsEndpoint {
   private static final String STATUS = "status";
   private static final String FILE_UPLOAD_ID = "file_upload_id";
 
-  private final NotionHttpTransport transport;
+  private final HttpTransport transport;
 
-  public FileUploadsEndpointImpl(NotionHttpTransport transport) {
+  public FileUploadsEndpointImpl(HttpTransport transport) {
     this.transport = transport;
   }
 
@@ -145,17 +144,9 @@ public class FileUploadsEndpointImpl implements FileUploadsEndpoint {
    * @return FileUploadListResponse containing the paginated list of file uploads
    */
   public FileUploadList listFileUploads(String status, String startCursor, Integer pageSize) {
-    URLInfo.Builder urlInfo = URLInfo.builder("/file_uploads");
+    URLInfo.Builder urlInfo = URLInfo.builder("/file_uploads", startCursor, pageSize);
     if (status != null && !status.trim().isEmpty()) {
       urlInfo.queryParam(STATUS, status);
-    }
-
-    if (startCursor != null) {
-      urlInfo.queryParam(Pagination.START_CURSOR, startCursor);
-    }
-
-    if (pageSize != null) {
-      urlInfo.queryParam(Pagination.PAGE_SIZE, pageSize);
     }
 
     return transport.call("GET", urlInfo.build(), FileUploadList.class);
@@ -190,11 +181,6 @@ public class FileUploadsEndpointImpl implements FileUploadsEndpoint {
       }
     }
 
-    // Validate content type
-    //    if (request.getContentType() == null || request.getContentType().trim().isEmpty()) {
-    //      throw new IllegalArgumentException("Content type cannot be null or empty");
-    //    }
-
     // Validate number of parts for multi_part mode
     if ("multi_part".equals(mode)) {
       Integer numberOfParts = request.getNumberOfParts();
@@ -209,10 +195,6 @@ public class FileUploadsEndpointImpl implements FileUploadsEndpoint {
       String externalUrl = request.getExternalUrl();
       if (externalUrl == null || externalUrl.trim().isEmpty()) {
         throw new IllegalArgumentException("External URL is required when mode is external_url");
-      }
-
-      if (!externalUrl.toLowerCase().startsWith("https://")) {
-        throw new IllegalArgumentException("External URL must be an HTTPS URL");
       }
     }
   }
@@ -236,12 +218,6 @@ public class FileUploadsEndpointImpl implements FileUploadsEndpoint {
 
     if (request.getContentType() == null) {
       throw new IllegalArgumentException("Content type cannot be null");
-    }
-  }
-
-  private void validateFileContentType(String contentType) {
-    if (contentType == null || contentType.trim().isEmpty()) {
-      throw new IllegalArgumentException("File content type cannot be null or empty");
     }
   }
 }

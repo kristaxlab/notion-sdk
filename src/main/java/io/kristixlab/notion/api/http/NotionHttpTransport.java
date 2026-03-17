@@ -5,6 +5,8 @@ import io.kristixlab.notion.api.NotionAuthSettings;
 import io.kristixlab.notion.api.http.exception.*;
 import io.kristixlab.notion.api.http.transport.HttpTransportImpl;
 import io.kristixlab.notion.api.http.transport.exception.HttpResponseException;
+import io.kristixlab.notion.api.http.transport.log.ExchangeLogger;
+import io.kristixlab.notion.api.http.transport.log.SequentialExchangeLogger;
 import io.kristixlab.notion.api.http.transport.rq.URLInfo;
 import io.kristixlab.notion.api.http.transport.rs.ApiResponse;
 import io.kristixlab.notion.api.http.transport.util.HttpTransportConfig;
@@ -14,7 +16,10 @@ import java.util.HashMap;
 import java.util.Map;
 import okhttp3.Response;
 
-/** Custom transport implementation for Notion API that adds authentication headers. */
+/**
+ * Custom transport implementation for Notion API that adds authentication headers and handles
+ * Notion API exceptions
+ */
 public class NotionHttpTransport extends HttpTransportImpl {
 
   private static final String DEFAULT_VERSION = "2025-09-03"; /*"2022-06-28";*/
@@ -26,25 +31,46 @@ public class NotionHttpTransport extends HttpTransportImpl {
   public NotionHttpTransport() {}
 
   public NotionHttpTransport(NotionAuthSettings notionAuthSettings) {
-    this(notionAuthSettings, DEFAULT_BASE_URL, DEFAULT_VERSION);
+    this(DEFAULT_BASE_URL, DEFAULT_VERSION, notionAuthSettings, null);
+  }
+
+  public NotionHttpTransport(NotionAuthSettings notionAuthSettings, ExchangeLogger logger) {
+    this(DEFAULT_BASE_URL, DEFAULT_VERSION, notionAuthSettings, logger);
   }
 
   public NotionHttpTransport(
-      NotionAuthSettings notionAuthSettings, String baseUrl, String version) {
-    super(
-        HttpTransportConfig.builder()
-            .baseUrl(baseUrl)
-            .apiName("NotionAPIv" + version)
-            .jsonFailOnUnknownProperties(
-                NotionSdkSettings.getInstance()
-                    .getBoolean("notion.api.json.fail-on-unknown-properties", false))
-            .streamFileAfterBytes(
-                NotionSdkSettings.getInstance()
-                    .getLong(
-                        "notion.endpoints.file-uploads.stream-file-after-bytes", 1 * 1024 * 1024))
-            .build());
+      String baseUrl,
+      String version,
+      NotionAuthSettings notionAuthSettings,
+      ExchangeLogger logger) {
+    super(baseUrl, "NotionAPIv" + version, transportConfig(), prepareExchangeLogger(logger));
     this.version = version;
     this.notionAuthSettings = notionAuthSettings;
+  }
+
+  protected static HttpTransportConfig transportConfig() {
+    return HttpTransportConfig.builder()
+        .jsonFailOnUnknownProperties(
+            NotionSdkSettings.getInstance()
+                .getBoolean("notion.api.json.fail-on-unknown-properties", false))
+        .streamFileAfterBytes(
+            NotionSdkSettings.getInstance()
+                .getLong("notion.endpoints.file-uploads.stream-file-after-bytes", 1 * 1024 * 1024))
+        .build();
+  }
+
+  protected static ExchangeLogger prepareExchangeLogger(ExchangeLogger logger) {
+    if (logger != null) {
+      return logger;
+    }
+    boolean enabled =
+        NotionSdkSettings.getInstance().getBoolean("notion.api.save-exchanges.enabled", false);
+    return enabled
+        ? new SequentialExchangeLogger(
+            NotionSdkSettings.getInstance().getString("notion.api.save-exchanges.base-dir", ""),
+            NotionSdkSettings.getInstance()
+                .getBoolean("notion.api.save-exchanges.body-only", false))
+        : null;
   }
 
   /**
@@ -99,34 +125,28 @@ public class NotionHttpTransport extends HttpTransportImpl {
    *
    * @param response The HTTP response
    * @param responseType The expected response type
-   * @param logBlueprint The log blueprint for logging
+   * @param exchangeId The log blueprint for logging
    * @param <RS> The type of the response
    * @return The ApiResponse object
    * @throws HttpResponseException If an error occurs during the API exchange
    */
   @Override
   protected <RS> ApiResponse<RS> handleResponse(
-      Response response, Class<RS> responseType, String logBlueprint) throws HttpResponseException {
+      Response response, Class<RS> responseType, String exchangeId) throws HttpResponseException {
     try {
-      return super.handleResponse(response, responseType, logBlueprint);
+      return super.handleResponse(response, responseType, exchangeId);
     } catch (HttpResponseException e) {
       String message = null;
       String code = null;
       String requestId = null;
 
       try {
-
-        NotionError error =
-            JsonConverter.getInstance()
-                .toObject(
-                    e.getBody(),
-                    NotionError.class,
-                    this.getConfig().isJsonFailOnUnknownProperties());
+        NotionError error = (NotionError) e.getBody();
         message = error.getMessage();
         code = error.getCode() != null ? error.getCode() : error.getError();
         requestId = error.getRequestId();
       } catch (Exception ex) {
-        message = e.getBody();
+        message = e.getBody() != null ? e.getBody().toString() : "failed to get error message";
       }
 
       switch (e.getStatus()) {
@@ -154,5 +174,10 @@ public class NotionHttpTransport extends HttpTransportImpl {
           throw e;
       }
     }
+  }
+
+  @Override
+  protected Class<?> getErrorType(String serviceId) {
+    return NotionError.class;
   }
 }

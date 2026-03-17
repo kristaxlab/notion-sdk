@@ -1,12 +1,10 @@
 package io.kristixlab.notion.api.endpoints.impl;
 
 import io.kristixlab.notion.api.endpoints.UsersEndpoint;
-import io.kristixlab.notion.api.http.NotionHttpTransport;
-import io.kristixlab.notion.api.http.transport.HttpTransportImpl;
+import io.kristixlab.notion.api.http.transport.HttpTransport;
 import io.kristixlab.notion.api.http.transport.rq.URLInfo;
 import io.kristixlab.notion.api.model.users.User;
 import io.kristixlab.notion.api.model.users.UserList;
-import io.kristixlab.notion.api.util.Pagination;
 
 /**
  * API for interacting with Notion Users endpoints. Provides methods to retrieve users and list all
@@ -16,9 +14,9 @@ public class UsersEndpointImpl implements UsersEndpoint {
 
   private static final String USER_ID = "user_id";
 
-  private final HttpTransportImpl transport;
+  private final HttpTransport transport;
 
-  public UsersEndpointImpl(NotionHttpTransport transport) {
+  public UsersEndpointImpl(HttpTransport transport) {
     this.transport = transport;
   }
 
@@ -53,16 +51,7 @@ public class UsersEndpointImpl implements UsersEndpoint {
    * @return UsersList containing users in the workspace
    */
   public UserList listUsers(String startCursor, Integer pageSize) {
-    URLInfo.Builder urlInfo = URLInfo.builder("/users");
-
-    if (startCursor != null) {
-      urlInfo.queryParam(Pagination.START_CURSOR, startCursor);
-    }
-
-    if (pageSize != null) {
-      urlInfo.queryParam(Pagination.PAGE_SIZE, pageSize).build();
-    }
-
+    URLInfo.Builder urlInfo = URLInfo.builder("/users", startCursor, pageSize);
     return transport.call("GET", urlInfo.build(), UserList.class);
   }
 

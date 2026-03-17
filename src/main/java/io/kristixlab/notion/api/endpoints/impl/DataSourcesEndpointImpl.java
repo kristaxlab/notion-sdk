@@ -1,8 +1,7 @@
 package io.kristixlab.notion.api.endpoints.impl;
 
 import io.kristixlab.notion.api.endpoints.DataSourcesEndpoint;
-import io.kristixlab.notion.api.http.NotionHttpTransport;
-import io.kristixlab.notion.api.http.transport.HttpTransportImpl;
+import io.kristixlab.notion.api.http.transport.HttpTransport;
 import io.kristixlab.notion.api.http.transport.rq.URLInfo;
 import io.kristixlab.notion.api.model.datasources.CreateDataSourceRequest;
 import io.kristixlab.notion.api.model.datasources.DataSource;
@@ -18,9 +17,9 @@ public class DataSourcesEndpointImpl implements DataSourcesEndpoint {
 
   private static final String DATA_SOURCE_ID = "data_source_id";
 
-  private final HttpTransportImpl transport;
+  private final HttpTransport transport;
 
-  public DataSourcesEndpointImpl(NotionHttpTransport transport) {
+  public DataSourcesEndpointImpl(HttpTransport transport) {
     this.transport = transport;
   }
 

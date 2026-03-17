@@ -1,10 +1,9 @@
 package io.kristixlab.notion.api.endpoints.impl;
 
 import io.kristixlab.notion.api.endpoints.DatabasesEndpoint;
-import io.kristixlab.notion.api.http.NotionHttpTransport;
-import io.kristixlab.notion.api.http.transport.HttpTransportImpl;
+import io.kristixlab.notion.api.http.transport.HttpTransport;
 import io.kristixlab.notion.api.http.transport.rq.URLInfo;
-import io.kristixlab.notion.api.model.databases.CreateDatabaseRequest;
+import io.kristixlab.notion.api.model.databases.CreateDatabaseParams;
 import io.kristixlab.notion.api.model.databases.Database;
 import io.kristixlab.notion.api.model.databases.UpdateDatabaseRequest;
 
@@ -15,9 +14,9 @@ import io.kristixlab.notion.api.model.databases.UpdateDatabaseRequest;
 public class DatabasesEndpointImpl implements DatabasesEndpoint {
 
   private static final String DATABASE_ID = "database_id";
-  private final HttpTransportImpl transport;
+  private final HttpTransport transport;
 
-  public DatabasesEndpointImpl(NotionHttpTransport transport) {
+  public DatabasesEndpointImpl(HttpTransport transport) {
     this.transport = transport;
   }
 
@@ -40,7 +39,7 @@ public class DatabasesEndpointImpl implements DatabasesEndpoint {
    * @param request The request containing database data
    * @return The created database
    */
-  public Database create(CreateDatabaseRequest request) {
+  public Database create(CreateDatabaseParams request) {
     validateRequest(request);
     URLInfo urlInfo = URLInfo.from("/databases");
     return transport.call("POST", urlInfo, request, Database.class);
@@ -106,7 +105,14 @@ public class DatabasesEndpointImpl implements DatabasesEndpoint {
   }
 
   /** Validates the request object. */
-  private void validateRequest(Object request) {
+  private void validateRequest(CreateDatabaseParams request) {
+    if (request == null) {
+      throw new IllegalArgumentException("Request cannot be null");
+    }
+  }
+
+  /** Validates the request object. */
+  private void validateRequest(UpdateDatabaseRequest request) {
     if (request == null) {
       throw new IllegalArgumentException("Request cannot be null");
     }

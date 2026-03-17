@@ -1,13 +1,11 @@
 package io.kristixlab.notion.api.endpoints.impl;
 
 import io.kristixlab.notion.api.endpoints.CommentsEndpoint;
-import io.kristixlab.notion.api.http.NotionHttpTransport;
-import io.kristixlab.notion.api.http.transport.HttpTransportImpl;
+import io.kristixlab.notion.api.http.transport.HttpTransport;
 import io.kristixlab.notion.api.http.transport.rq.URLInfo;
 import io.kristixlab.notion.api.model.comments.Comment;
 import io.kristixlab.notion.api.model.comments.CommentList;
 import io.kristixlab.notion.api.model.comments.CreateCommentRequest;
-import io.kristixlab.notion.api.util.Pagination;
 
 /**
  * API for interacting with Notion Comments endpoints. Provides methods to create and retrieve
@@ -18,9 +16,9 @@ public class CommentsEndpointImpl implements CommentsEndpoint {
   private static final String BLOCK_ID = "block_id";
   private static final String COMMENT_ID = "comment_id";
 
-  private final HttpTransportImpl transport;
+  private final HttpTransport transport;
 
-  public CommentsEndpointImpl(NotionHttpTransport transport) {
+  public CommentsEndpointImpl(HttpTransport transport) {
     this.transport = transport;
   }
 
@@ -70,15 +68,8 @@ public class CommentsEndpointImpl implements CommentsEndpoint {
     validateBlockId(blockId);
 
     URLInfo.Builder urlInfo =
-        URLInfo.builder("/comments").queryParam(BLOCK_ID, new String[] {blockId});
-
-    if (startCursor != null) {
-      urlInfo.queryParam(Pagination.START_CURSOR, startCursor);
-    }
-
-    if (pageSize != null) {
-      urlInfo.queryParam(Pagination.PAGE_SIZE, pageSize);
-    }
+        URLInfo.builder("/comments", startCursor, pageSize)
+            .queryParam(BLOCK_ID, new String[] {blockId});
 
     return transport.call("GET", urlInfo.build(), CommentList.class);
   }

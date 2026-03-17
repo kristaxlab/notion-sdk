@@ -1,14 +1,12 @@
 package io.kristixlab.notion.api.endpoints.impl;
 
 import io.kristixlab.notion.api.endpoints.PagesEndpoint;
-import io.kristixlab.notion.api.http.NotionHttpTransport;
-import io.kristixlab.notion.api.http.transport.HttpTransportImpl;
+import io.kristixlab.notion.api.http.transport.HttpTransport;
 import io.kristixlab.notion.api.http.transport.rq.URLInfo;
 import io.kristixlab.notion.api.model.pages.CreatePageParams;
 import io.kristixlab.notion.api.model.pages.Page;
 import io.kristixlab.notion.api.model.pages.UpdatePageParams;
 import io.kristixlab.notion.api.model.pages.properties.PageProperty;
-import io.kristixlab.notion.api.util.Pagination;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 
@@ -21,9 +19,9 @@ public class PagesEndpointImpl implements PagesEndpoint {
   private static final String PAGE_ID = "page_id";
   private static final String PROPERTY_ID = "property_id";
 
-  private final HttpTransportImpl transport;
+  private final HttpTransport transport;
 
-  public PagesEndpointImpl(NotionHttpTransport transport) {
+  public PagesEndpointImpl(HttpTransport transport) {
     this.transport = transport;
   }
 
@@ -77,17 +75,9 @@ public class PagesEndpointImpl implements PagesEndpoint {
     validatePropertyId(propertyId);
 
     URLInfo.Builder urlInfo =
-        URLInfo.builder("/pages/{page_id}/properties/{property_id}")
+        URLInfo.builder("/pages/{page_id}/properties/{property_id}", startCursor, pageSize)
             .pathParam(PAGE_ID, pageId)
             .pathParam(PROPERTY_ID, URLDecoder.decode(propertyId, StandardCharsets.UTF_8));
-
-    if (startCursor != null) {
-      urlInfo.queryParam(Pagination.START_CURSOR, startCursor);
-    }
-
-    if (pageSize != null) {
-      urlInfo.queryParam(Pagination.PAGE_SIZE, pageSize).build();
-    }
 
     return transport.call("GET", urlInfo.build(), PageProperty.class);
   }

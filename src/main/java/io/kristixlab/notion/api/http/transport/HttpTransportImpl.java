@@ -2,6 +2,8 @@ package io.kristixlab.notion.api.http.transport;
 
 import io.kristixlab.notion.api.http.transport.exception.HttpResponseException;
 import io.kristixlab.notion.api.http.transport.exception.HttpTransportException;
+import io.kristixlab.notion.api.http.transport.log.ExchangeContext;
+import io.kristixlab.notion.api.http.transport.log.ExchangeLogger;
 import io.kristixlab.notion.api.http.transport.rq.MultipartFormDataRequest;
 import io.kristixlab.notion.api.http.transport.rq.URLInfo;
 import io.kristixlab.notion.api.http.transport.rs.ApiResponse;
@@ -24,32 +26,28 @@ public class HttpTransportImpl implements HttpTransport {
   private static final Logger LOGGER = LoggerFactory.getLogger(HttpTransportImpl.class);
   private static final MediaType JSON_MEDIA_TYPE = MediaType.parse("application/json");
   private final OkHttpClient httpClient;
-  @Getter private final String apiName;
+  @Getter private String apiName;
   @Getter private String baseUrl = "https://api.example.com"; // Default base URL, can be overridden
   private HttpTransportConfig config = new HttpTransportConfig();
+  private ExchangeLogger exchangeLogger;
 
   public HttpTransportImpl() {
-    this.httpClient = createHttpClient();
-    if (baseUrl == null) {
-      baseUrl = "";
-    }
-    this.apiName = "API Transport";
+    this("", "API Transport");
   }
 
   public HttpTransportImpl(String baseUrl, String apiName) {
-    this.httpClient = createHttpClient();
-    if (baseUrl == null) {
-      baseUrl = "";
-    } else if (baseUrl.endsWith("/") && !baseUrl.equals("https://") && !baseUrl.equals("http://")) {
-      baseUrl = baseUrl.substring(0, baseUrl.length() - 1);
-    }
-    this.baseUrl = baseUrl;
-    this.apiName = apiName == null ? "API Transport" : apiName;
+    // TODO possibility to pass regular logger as exchange logger??
+    this(baseUrl, apiName, defaultConfig(), null);
   }
 
-  public HttpTransportImpl(HttpTransportConfig config) {
-    this(config.getBaseUrl(), config.getApiName());
-    this.config = config;
+  public HttpTransportImpl(
+      String baseUrl, String apiName, HttpTransportConfig config, ExchangeLogger exchangeLogger) {
+    this.httpClient = createHttpClient();
+    this.exchangeLogger = exchangeLogger;
+
+    setBaseUrl(baseUrl);
+    setApiName(apiName);
+    setConfig(config);
   }
 
   private OkHttpClient createHttpClient() {
@@ -58,6 +56,29 @@ public class HttpTransportImpl implements HttpTransport {
         .readTimeout(30, TimeUnit.SECONDS)
         .writeTimeout(30, TimeUnit.SECONDS)
         .build();
+  }
+
+  private void setBaseUrl(String baseUrl) {
+    if (baseUrl == null) {
+      baseUrl = "";
+    } else if (baseUrl.endsWith("/") && !baseUrl.equals("https://") && !baseUrl.equals("http://")) {
+      baseUrl = baseUrl.substring(0, baseUrl.length() - 1);
+    }
+    this.baseUrl = baseUrl;
+  }
+
+  private void setApiName(String apiName) {
+    this.apiName = apiName == null ? "API Transport" : apiName;
+  }
+
+  private void setConfig(HttpTransportConfig config) {
+    this.config = config == null ? defaultConfig() : config;
+  }
+
+  private static HttpTransportConfig defaultConfig() {
+    HttpTransportConfig config = new HttpTransportConfig();
+    config.setJsonFailOnUnknownProperties(false);
+    return config;
   }
 
   @Override
@@ -76,30 +97,48 @@ public class HttpTransportImpl implements HttpTransport {
       Map<String, String> headerParams,
       Object body,
       Class<T> responseType) {
-    String logBlueprint = UUID.randomUUID().toString();
+    String exchangeId =
+        ExchangeContext.getCurrent()
+            .computeStringIfAbsent("exchangeId", s -> UUID.randomUUID().toString());
 
     if (LOGGER.isDebugEnabled()) {
-      LOGGER.debug("[{}] Calling {}", logBlueprint, getApiName());
-      LOGGER.debug("[{}] Building request...", logBlueprint);
+      LOGGER.debug("[{}] Calling {}", exchangeId, getApiName());
+      LOGGER.debug("[{}] Building request...", exchangeId);
     }
-    Request request = buildRequest(method, urlInfo, headerParams, body, logBlueprint);
 
+    Request request = buildRequest(method, urlInfo, headerParams, body, exchangeId);
+    logRequest(request, body, exchangeId);
+
+    Response rs = executeRequest(request, exchangeId);
+    return handleResponse(rs, responseType, exchangeId);
+  }
+
+  protected void logRequest(Request request, Object body, String exchangeId) {
     if (LOGGER.isDebugEnabled()) {
       LOGGER.debug(
           "[{}] Request method: {}, url: {}, content-type: {}",
-          logBlueprint,
-          method,
+          exchangeId,
+          request.method(),
           request.url(),
           request.header("Content-Type"));
-      if (request.body() != null) {
+      if (body != null) {
         // TODO adjust for MultipartFormDataRequest
         LOGGER.debug(
-            "[{}] Request body: \n{}", logBlueprint, JsonConverter.getInstance().toJson(body));
+            "[{}] Request body: \n{}", exchangeId, JsonConverter.getInstance().toJson(body));
       }
     }
 
-    Response rs = executeRequest(request, logBlueprint);
-    return handleResponse(rs, responseType, logBlueprint);
+    if (exchangeLogger != null) {
+      // TODO serviceName pass from the endpoint implementation?
+      ExchangeContext.getCurrent().put("serviceName", getApiName());
+      ExchangeContext.getCurrent().put("method", request.method());
+      ExchangeContext.getCurrent().put("path", request.url().toString());
+      ExchangeContext.getCurrent().put("requestHeaders", request.headers().toMultimap());
+      if (body != null) {
+        ExchangeContext.getCurrent().put("requestBody", body);
+      }
+      exchangeLogger.logRequest(ExchangeContext.getCurrent());
+    }
   }
 
   @Override
@@ -124,38 +163,53 @@ public class HttpTransportImpl implements HttpTransport {
   }
 
   protected <T> ApiResponse<T> handleResponse(
-      Response response, Class<T> responseType, String logBlueprint) throws HttpResponseException {
+      Response response, Class<T> responseType, String exchangeId) throws HttpResponseException {
+
+    ApiResponse apiResponse = null;
+    // TODO getApiName replace with some kind of service id passed from the endpoint implementation? or maybe from the request context?
+    Class convertTo = response.isSuccessful() ? responseType : getErrorType(getApiName());
+
+    apiResponse = toApiReponse(response, convertTo, exchangeId);
+    logResponse(apiResponse, apiResponse.getStatus(), exchangeId);
+
     if (!response.isSuccessful()) {
-      return handleErrorResponse(response, logBlueprint);
+      throw new HttpResponseException(
+          getApiName(), response.code(), apiResponse.getBody());
     }
-    return handleSuccessfulResponse(response, responseType, logBlueprint);
+    return apiResponse;
   }
 
-  protected <T> ApiResponse<T> handleErrorResponse(Response response, String logBlueprint) {
-    String rsBodyString = readBodyString(response, logBlueprint);
-
-    LOGGER.error(
-        "[{}] Response from {} with error: {}", logBlueprint, getApiName(), response.code());
+  protected void logResponse(ApiResponse response, int status, String exchangeId) {
+    LOGGER.error("[{}] Response from {} with error: {}", exchangeId, getApiName(), status);
     if (LOGGER.isDebugEnabled()) {
-      LOGGER.debug("[{}] Error response body: \n{}", logBlueprint, rsBodyString);
+      LOGGER.debug("[{}] Error response body: \n{}", exchangeId, response.getBody());
     }
 
-    throw new HttpResponseException(getApiName(), response.code(), rsBodyString);
+    if (exchangeLogger != null) {
+      ExchangeContext.getCurrent().put("serviceName", getApiName());
+
+      ExchangeContext.getCurrent().put("responseStatus", status);
+      ExchangeContext.getCurrent().put("responseHeaders", response.getHeaders());
+      if (response.getBody() != null) {
+        ExchangeContext.getCurrent().put("responseBody", response.getBody());
+      }
+      exchangeLogger.logResponse(ExchangeContext.getCurrent());
+    }
   }
 
-  protected <T> ApiResponse<T> handleSuccessfulResponse(
-      Response response, Class<T> responseType, String logBlueprint) throws HttpResponseException {
+  protected <T> ApiResponse<T> toApiReponse(
+      Response response, Class<T> responseType, String exchangeId) throws HttpResponseException {
 
     ApiResponse<T> rs = new ApiResponse<>();
     rs.setStatus(response.code());
     response.headers().forEach(h -> rs.getHeaders().put(h.getFirst(), h.getSecond()));
 
-    String rsBodyString = readBodyString(response, logBlueprint);
+    String rsBodyString = readBodyString(response, exchangeId);
     if (LOGGER.isDebugEnabled()) {
       LOGGER.debug(
-          "[{}] Response from {} with code: {}", logBlueprint, getApiName(), response.code());
+          "[{}] Response from {} with code: {}", exchangeId, getApiName(), response.code());
       if (LOGGER.isDebugEnabled()) {
-        LOGGER.debug("[{}] Response body: \n{}", logBlueprint, rsBodyString);
+        LOGGER.debug("[{}] Response body: \n{}", exchangeId, rsBodyString);
       }
     }
 
@@ -246,12 +300,16 @@ public class HttpTransportImpl implements HttpTransport {
   }
 
   // TODO customizable logger
-  protected Logger getLogger() {
+  protected Logger getLoggechr() {
     return LOGGER;
   }
 
   protected HttpTransportConfig getConfig() {
     return config;
+  }
+
+  protected Class<?> getErrorType(String serviceId) {
+    return (Class<?>) String.class;
   }
 
   // TODO do I need this?

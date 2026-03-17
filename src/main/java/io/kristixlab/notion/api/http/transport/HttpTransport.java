@@ -27,4 +27,7 @@ public interface HttpTransport {
   String getBaseUrl();
 
   String getApiName();
+
+  /** Releases resources held by the transport (e.g. connection pools, thread pools). */
+  default void shutdown() {}
 }

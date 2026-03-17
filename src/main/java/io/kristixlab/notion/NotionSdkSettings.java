@@ -65,6 +65,18 @@ public final class NotionSdkSettings {
   }
 
   /**
+   * Gets a string value from the settings using a dot-separated key path.
+   *
+   * @param key the dot-separated key path (e.g., "workspace.id")
+   * @param defaultValue the default value to return if not found
+   * @return the string value, or defaultValue if not found
+   */
+  public String getString(String key, String defaultValue) {
+    String value = getString(key);
+    return value != null ? value : defaultValue;
+  }
+
+  /**
    * Gets an integer value from the settings using a dot-separated key path.
    *
    * @param key the dot-separated key path
@@ -88,6 +100,18 @@ public final class NotionSdkSettings {
     }
 
     return Integer.parseInt(value.toString());
+  }
+
+  /**
+   * Gets an integer value from the settings using a dot-separated key path.
+   *
+   * @param key the dot-separated key path
+   * @param defaultValue the default value to return if not found
+   * @return the integer value, or defaultValue if not found or not a valid integer
+   */
+  public int getInteger(String key, int defaultValue) {
+    Integer value = getInteger(key);
+    return value != null ? value : defaultValue;
   }
 
   /**
@@ -153,6 +177,18 @@ public final class NotionSdkSettings {
       return null;
     }
     return Double.parseDouble(value.toString());
+  }
+
+  /**
+   * Gets a double value from the settings using a dot-separated key path.
+   *
+   * @param key the dot-separated key path
+   * @param defaultValue the default value to return if not found
+   * @return the double value, or defaultValue if not found or not a valid double
+   */
+  public double getDouble(String key, double defaultValue) {
+    Double value = getDouble(key);
+    return value != null ? value : defaultValue;
   }
 
   /**
