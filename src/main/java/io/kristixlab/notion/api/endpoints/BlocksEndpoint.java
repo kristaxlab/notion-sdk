@@ -1,6 +1,6 @@
 package io.kristixlab.notion.api.endpoints;
 
-import io.kristixlab.notion.api.model.blocks.AppendBlockChildrenRequest;
+import io.kristixlab.notion.api.model.blocks.AppendBlockChildrenParams;
 import io.kristixlab.notion.api.model.blocks.Block;
 import io.kristixlab.notion.api.model.blocks.BlockList;
 
@@ -12,7 +12,7 @@ import io.kristixlab.notion.api.model.blocks.BlockList;
 public interface BlocksEndpoint {
   BlockList appendChildren(String parentBlockId, Block child);
 
-  BlockList appendChildren(String parentBlockId, AppendBlockChildrenRequest request);
+  BlockList appendChildren(String parentBlockId, AppendBlockChildrenParams request);
 
   Block retrieve(String blockId);
 

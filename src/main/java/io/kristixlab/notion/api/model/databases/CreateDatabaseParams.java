@@ -8,9 +8,9 @@ import io.kristixlab.notion.api.model.common.RichText;
 import java.util.List;
 import lombok.Data;
 
-/** Request object for creating a database with initial data source (API version 2025-09-03+). */
+/** Request object for creating a database with initial data source. */
 @Data
-public class CreateDatabaseRequest {
+public class CreateDatabaseParams {
 
   @JsonProperty("title")
   private List<RichText> title;
