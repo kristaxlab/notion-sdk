@@ -2,7 +2,7 @@ package io.kristixlab.notion.api.endpoints;
 
 import io.kristixlab.notion.api.model.databases.CreateDatabaseParams;
 import io.kristixlab.notion.api.model.databases.Database;
-import io.kristixlab.notion.api.model.databases.UpdateDatabaseRequest;
+import io.kristixlab.notion.api.model.databases.UpdateDatabaseParams;
 
 /**
  * Interface defining operations for Notion Databases.
@@ -12,9 +12,7 @@ import io.kristixlab.notion.api.model.databases.UpdateDatabaseRequest;
 public interface DatabasesEndpoint {
   Database create(CreateDatabaseParams request);
 
-  Database update(UpdateDatabaseRequest request);
-
-  Database update(String databaseId, UpdateDatabaseRequest request);
+  Database update(String databaseId, UpdateDatabaseParams request);
 
   Database retrieve(String databaseId);
 

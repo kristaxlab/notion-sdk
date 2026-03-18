@@ -29,12 +29,12 @@ public class FileUploadsEndpointImpl implements FileUploadsEndpoint {
    * https://api.notion.com/v1/file_uploads
    *
    * @param request The file upload request containing file name, content type, and parent
-   * @return FileUploadResponse containing the pre-signed URL and file metadata
+   * @return FileUpload containing the pre-signed URL and file metadata
    * @throws IllegalArgumentException if request or required fields are null/empty
    */
-  public FileUploadResponse createFileUpload(FileUploadCreateParams request) {
+  public FileUpload createFileUpload(FileUploadCreateParams request) {
     validateRequest(request);
-    return transport.call("POST", URLInfo.from("/file_uploads"), request, FileUploadResponse.class);
+    return transport.call("POST", URLInfo.from("/file_uploads"), request, FileUpload.class);
   }
 
   /**
@@ -46,7 +46,7 @@ public class FileUploadsEndpointImpl implements FileUploadsEndpoint {
    * @param request request
    * @return Response from the file upload service
    */
-  public FileUploadResponse sendFileContent(String fileUploadId, FileUploadSendParams request) {
+  public FileUpload sendFileContent(String fileUploadId, FileUploadSendParams request) {
     validateRequest(request);
     URLInfo urlInfo =
         URLInfo.builder("/file_uploads/{file_upload_id}/send")
@@ -67,7 +67,7 @@ public class FileUploadsEndpointImpl implements FileUploadsEndpoint {
     if (request.getPartNumber() != null) {
       multipartRq.addPart("part_number", request.getPartNumber().toString());
     }
-    return transport.call("POST", urlInfo, multipartRq, FileUploadResponse.class);
+    return transport.call("POST", urlInfo, multipartRq, FileUpload.class);
   }
 
   /**
@@ -75,16 +75,16 @@ public class FileUploadsEndpointImpl implements FileUploadsEndpoint {
    * successfully.
    *
    * @param fileUploadId The ID of the file upload to complete
-   * @return Updated FileUploadResponse with completion status
+   * @return Updated FileUpload with completion status
    */
-  public FileUploadResponse completeFileUpload(String fileUploadId) {
+  public FileUpload completeFileUpload(String fileUploadId) {
     validateFileUploadId(fileUploadId);
 
     URLInfo urlInfo =
         URLInfo.builder("/file_uploads/{file_upload_id}/complete")
             .pathParam(FILE_UPLOAD_ID, fileUploadId)
             .build();
-    return transport.call("POST", urlInfo, new Object(), FileUploadResponse.class);
+    return transport.call("POST", urlInfo, new Object(), FileUpload.class);
   }
 
   /**
@@ -92,15 +92,15 @@ public class FileUploadsEndpointImpl implements FileUploadsEndpoint {
    * https://api.notion.com/v1/file_uploads/{file_upload_id}
    *
    * @param fileUploadId The ID of the file upload to retrieve
-   * @return FileUploadResponse containing the file upload details
+   * @return FileUpload containing the file upload details
    */
-  public FileUploadResponse retrieveFileUpload(String fileUploadId) {
+  public FileUpload retrieveFileUpload(String fileUploadId) {
     validateFileUploadId(fileUploadId);
     URLInfo urlInfo =
         URLInfo.builder("/file_uploads/{file_upload_id}")
             .pathParam(FILE_UPLOAD_ID, fileUploadId)
             .build();
-    return transport.call("GET", urlInfo, FileUploadResponse.class);
+    return transport.call("GET", urlInfo, FileUpload.class);
   }
 
   /**

@@ -33,7 +33,7 @@ public class CommentsEndpointImplIntegrationExample extends IntegrationTest {
   /** Test creating a comment on a page. This will create a new comment and save the response. */
   @Test
   void testCreateComment() throws IOException {
-    CreateCommentRequest comment = createCommentRequest("reply from user", "purple");
+    CreateCommentParams comment = createCommentRequest("reply from user", "purple");
     saveToFile(comment, "comment-create-rq.json");
 
     Comment createdComment = commentsApi.create(comment);
@@ -122,8 +122,8 @@ public class CommentsEndpointImplIntegrationExample extends IntegrationTest {
   }
 
   /** Creates a comment request object for testing. */
-  private CreateCommentRequest createCommentRequest(String text, String color) {
-    CreateCommentRequest comment = new CreateCommentRequest();
+  private CreateCommentParams createCommentRequest(String text, String color) {
+    CreateCommentParams comment = new CreateCommentParams();
     comment.setDiscussionId("254c5b96-8ec4-809e-b971-001c658e6652");
     // Set parent to the specified page
     Parent parent = new Parent();

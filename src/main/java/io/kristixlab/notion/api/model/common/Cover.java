@@ -17,7 +17,7 @@ public class Cover {
   private ExternalFile external;
 
   @JsonProperty("file_upload")
-  private FileUpload fileUpload;
+  private FileUploadRef fileUpload;
 
   public static Cover fromExternalUrl(String url) {
     Cover fileData = new Cover();
@@ -31,7 +31,7 @@ public class Cover {
   public static Cover fromFileUpload(String fileUploadId) {
     Cover fileData = new Cover();
     fileData.setType("file_upload");
-    FileUpload fileUpload = new FileUpload();
+    FileUploadRef fileUpload = new FileUploadRef();
     fileUpload.setId(fileUploadId);
     fileData.setFileUpload(fileUpload);
     return fileData;

@@ -7,20 +7,14 @@ import io.kristixlab.notion.api.endpoints.impl.PagesEndpointImpl;
 import io.kristixlab.notion.api.http.NotionHttpTransport;
 import io.kristixlab.notion.api.json.JsonConverter;
 import io.kristixlab.notion.api.model.common.Parent;
-import io.kristixlab.notion.api.model.common.RichText;
 import io.kristixlab.notion.api.model.pages.CreatePageParams;
 import io.kristixlab.notion.api.model.pages.Page;
-import io.kristixlab.notion.api.model.pages.UpdatePageParams;
 import io.kristixlab.notion.api.model.pages.properties.NumberProperty;
-import io.kristixlab.notion.api.model.pages.properties.PageProperty;
-import io.kristixlab.notion.api.model.pages.properties.RichTextProperty;
-import io.kristixlab.notion.api.model.pages.properties.TitleProperty;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.HashMap;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -31,7 +25,6 @@ import org.junit.jupiter.api.Test;
  */
 public class PagesEndpointImplIntegrationExample {
 
-  private static final String PAGE_ID = "24cc5b96-8ec4-809c-9809-caa1d493ca04";
   private static final String TEST_OUTPUT_DIR = "src/test/resources/notion-api-responses/";
 
   private PagesEndpointImpl pagesApi;
@@ -64,77 +57,6 @@ public class PagesEndpointImplIntegrationExample {
 
     Page pageRs = pagesApi.create(page);
     saveToFile(pageRs, "page-create-response.json");
-  }
-
-  @Test
-  void updatePage() throws IOException {
-    CreatePageParams page = new CreatePageParams();
-    NumberProperty number = new NumberProperty();
-    number.setNumber(7.77);
-    TitleProperty title = new TitleProperty();
-    title.setTitle(new ArrayList<>());
-    title.getTitle().add(new RichText());
-    title.getTitle().get(0).setPlainText("New page " + System.currentTimeMillis());
-    title.getTitle().get(0).setText(new RichText.Text());
-    title.getTitle().get(0).getText().setContent(title.getTitle().get(0).getPlainText());
-    page.setProperties(new HashMap<>());
-    page.getProperties().put("Number", number);
-    page.setParent(new Parent());
-    page.getParent().setDatabaseId("24cc5b96-8ec4-800a-a809-c7f6508f45f2");
-    page.getProperties().put("title", title);
-    saveToFile(page, "page-create-before-update-request.json");
-
-    Page pageRs = pagesApi.create(page);
-
-    String id = pageRs.getId();
-
-    UpdatePageParams updatedPage = new UpdatePageParams();
-    NumberProperty updatedNumber = new NumberProperty();
-    updatedNumber.setNumber(4.456);
-    updatedPage.setProperties(new HashMap<>());
-    updatedPage.getProperties().put("Number", updatedNumber);
-    updatedPage.setParent(new Parent());
-    updatedPage.getParent().setDatabaseId("24cc5b96-8ec4-800a-a809-c7f6508f45f2");
-
-    RichTextProperty text = new RichTextProperty();
-    text.setRichText(new ArrayList<>());
-    text.getRichText().add(new RichText());
-    text.getRichText().get(0).setPlainText("yay, updated!");
-    text.getRichText().get(0).setText(new RichText.Text());
-    text.getRichText().get(0).getText().setContent("yay, updated!");
-    updatedPage.getProperties().put("Text", text);
-    saveToFile(page, "page--update-request.json");
-    Page updated = pagesApi.update(id, updatedPage);
-
-    saveToFile(updated, "page-update-response.json");
-  }
-
-  @Test
-  void retrievePage() throws IOException {
-    Page page = pagesApi.retrieve(PAGE_ID);
-    saveToFile(page, "page-retrieve-response.json");
-  }
-
-  @Test
-  void retrieveDatabasePage() throws IOException {
-    Page page = pagesApi.retrieve("24cc5b96-8ec4-800a-a809-c7f6508f45f2");
-    saveToFile(page, "pages-db-retrieve-response.json");
-  }
-
-  @Test
-  void testRetrievePageProperty() throws IOException {
-    String propertyId = "%3AylC";
-    PageProperty retrievedProperty = pagesApi.retrieveProperty(PAGE_ID, "%3AylC");
-    saveToFile(retrievedProperty, "page-retrieve-property-rs.json");
-  }
-
-  @Test
-  void testArchiveAndRestorePage() throws IOException {
-    Page archivedPage = pagesApi.delete(PAGE_ID);
-    saveToFile(archivedPage, "page-archive-response.json");
-
-    Page unarchivedPage = pagesApi.restore(PAGE_ID);
-    saveToFile(unarchivedPage, "page-unarchive-response.json");
   }
 
   /** Helper method to save API responses to JSON files. */

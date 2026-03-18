@@ -8,7 +8,7 @@ import lombok.Data;
 
 /** Represents a Notion comment object. Comments are attached to pages or discussion threads. */
 @Data
-public class CreateCommentRequest {
+public class CreateCommentParams {
 
   /* a page parent or block parent */
   @JsonProperty("parent")

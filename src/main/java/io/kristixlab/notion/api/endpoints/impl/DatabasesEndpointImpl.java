@@ -5,7 +5,7 @@ import io.kristixlab.notion.api.http.transport.HttpTransport;
 import io.kristixlab.notion.api.http.transport.rq.URLInfo;
 import io.kristixlab.notion.api.model.databases.CreateDatabaseParams;
 import io.kristixlab.notion.api.model.databases.Database;
-import io.kristixlab.notion.api.model.databases.UpdateDatabaseRequest;
+import io.kristixlab.notion.api.model.databases.UpdateDatabaseParams;
 
 /**
  * API for interacting with Notion Databases endpoints. Provides methods to retrieve, create,
@@ -48,21 +48,11 @@ public class DatabasesEndpointImpl implements DatabasesEndpoint {
   /**
    * Update an existing database.
    *
-   * @param request The request containing updated database data
-   * @return The updated database
-   */
-  public Database update(UpdateDatabaseRequest request) {
-    return update(request.getId(), request);
-  }
-
-  /**
-   * Update an existing database.
-   *
    * @param databaseId The ID of the database to update
    * @param request The request containing updated database data
    * @return The updated database
    */
-  public Database update(String databaseId, UpdateDatabaseRequest request) {
+  public Database update(String databaseId, UpdateDatabaseParams request) {
     validateDatabaseId(databaseId);
     validateRequest(request);
 
@@ -80,7 +70,7 @@ public class DatabasesEndpointImpl implements DatabasesEndpoint {
    * @return The updated database with inTrash set to true
    */
   public Database delete(String databaseId) {
-    UpdateDatabaseRequest deleteRequest = new UpdateDatabaseRequest();
+    UpdateDatabaseParams deleteRequest = new UpdateDatabaseParams();
     deleteRequest.setInTrash(true);
     return update(databaseId, deleteRequest);
   }
@@ -92,7 +82,7 @@ public class DatabasesEndpointImpl implements DatabasesEndpoint {
    * @return The updated database with inTrash set to false
    */
   public Database restore(String databaseId) {
-    UpdateDatabaseRequest restoreRequest = new UpdateDatabaseRequest();
+    UpdateDatabaseParams restoreRequest = new UpdateDatabaseParams();
     restoreRequest.setInTrash(false);
     return update(databaseId, restoreRequest);
   }
@@ -112,7 +102,7 @@ public class DatabasesEndpointImpl implements DatabasesEndpoint {
   }
 
   /** Validates the request object. */
-  private void validateRequest(UpdateDatabaseRequest request) {
+  private void validateRequest(UpdateDatabaseParams request) {
     if (request == null) {
       throw new IllegalArgumentException("Request cannot be null");
     }

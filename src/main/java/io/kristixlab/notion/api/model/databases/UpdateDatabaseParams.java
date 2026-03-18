@@ -8,12 +8,11 @@ import io.kristixlab.notion.api.model.common.RichText;
 import java.util.List;
 import lombok.Data;
 
-/** Request object for creating a database with initial data source (API version 2025-09-03+). */
 @Data
-public class UpdateDatabaseRequest {
+public class UpdateDatabaseParams {
 
-  @JsonProperty("id")
-  private String id;
+  @JsonProperty("parent")
+  private Parent parent;
 
   @JsonProperty("title")
   private List<RichText> title;
@@ -21,18 +20,18 @@ public class UpdateDatabaseRequest {
   @JsonProperty("description")
   private List<RichText> description;
 
+  @JsonProperty("is_inline")
+  private Boolean isInline;
+
   @JsonProperty("icon")
   private Icon icon;
 
   @JsonProperty("cover")
   private FileData cover;
 
-  @JsonProperty("parent")
-  private Parent parent;
-
-  @JsonProperty("is_inline")
-  private Boolean isInline;
-
   @JsonProperty("in_trash")
   private Boolean inTrash;
+
+  @JsonProperty("in_locked")
+  private Boolean isLocked;
 }

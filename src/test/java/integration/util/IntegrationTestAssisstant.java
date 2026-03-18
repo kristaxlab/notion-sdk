@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.fail;
 import integration.NotionClientProvider;
 import io.kristixlab.notion.NotionSdkSettings;
 import io.kristixlab.notion.api.NotionApiClient;
-import io.kristixlab.notion.api.model.common.PageParent;
 import io.kristixlab.notion.api.model.common.Parent;
 import io.kristixlab.notion.api.model.common.Position;
 import io.kristixlab.notion.api.model.common.PositionType;
@@ -54,22 +53,22 @@ public class IntegrationTestAssisstant {
   private static void createTestPage() {
     String parentPageId = NotionSdkSettings.getInstance().getString(ROOT_PAGE_FOR_TEST_ID);
     String name = "Integration tests run " + LocalDateTime.now();
-    testPageId = createTestsPage(name, parentPageId);
+    testPageId = createPageForTests(name, parentPageId);
   }
 
   public static String getRootPageForTestId() {
     return getInstance().getTestPageId();
   }
 
-  public static String createTestsPage(String name) {
-    return createTestsPage(name, getInstance().getTestPageId());
+  public static String createPageForTests(String name) {
+    return createPageForTests(name, getInstance().getTestPageId());
   }
 
   public static Prerequisites getPrerequisites() {
     return getInstance().prerequisites;
   }
 
-  public static String createTestsPage(String name, String parentPageId) {
+  public static String createPageForTests(String name, String parentPageId) {
     CreatePageParams createPageParams = new CreatePageParams();
     createPageParams.setParent(Parent.pageParent(parentPageId));
     createPageParams.setProperties(new HashMap<>());

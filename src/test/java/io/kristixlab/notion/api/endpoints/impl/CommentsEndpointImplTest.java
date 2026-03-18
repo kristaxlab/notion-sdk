@@ -3,7 +3,7 @@ package io.kristixlab.notion.api.endpoints.impl;
 import static org.junit.jupiter.api.Assertions.*;
 
 import io.kristixlab.notion.api.http.TransportStub;
-import io.kristixlab.notion.api.model.comments.CreateCommentRequest;
+import io.kristixlab.notion.api.model.comments.CreateCommentParams;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,7 +24,7 @@ class CommentsEndpointImplTest {
 
   @Test
   void create() {
-    CreateCommentRequest request = new CreateCommentRequest();
+    CreateCommentParams request = new CreateCommentParams();
 
     endpoint.create(request);
 

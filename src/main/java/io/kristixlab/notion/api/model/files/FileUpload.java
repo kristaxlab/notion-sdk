@@ -11,9 +11,10 @@ import lombok.EqualsAndHashCode;
  *
  * <p>Contains the file upload information including pre-signed URL and metadata.
  */
+// TODO comparing to NotionObject: parent, lastEditedBy are missing
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class FileUploadResponse extends BaseNotionObject {
+public class FileUpload extends BaseNotionObject {
 
   /** The unique identifier for the file upload. */
   @JsonProperty("id")
@@ -32,8 +33,8 @@ public class FileUploadResponse extends BaseNotionObject {
   private String lastEditedTime;
 
   /** Whether the file upload is archived. */
-  @JsonProperty("archived")
-  private Boolean archived;
+  @JsonProperty("in_trash")
+  private Boolean inTrash;
 
   /** The expiration time for the upload URL. */
   @JsonProperty("expiry_time")

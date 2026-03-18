@@ -32,21 +32,24 @@ public class NotionObjectType extends BaseNotionObject {
   @JsonProperty("id")
   private String id;
 
+  @JsonProperty("parent")
+  private Parent parent;
+
   @JsonProperty("created_time")
   private String createdTime;
 
   @JsonProperty("last_edited_time")
   private String lastEditedTime;
 
+  /* TODO missing for Databases */
   @JsonProperty("created_by")
   private User createdBy;
 
+  /* TODO missing for Comments, Databases */
   @JsonProperty("last_edited_by")
   private User lastEditedBy;
 
-  @JsonProperty("parent")
-  private Parent parent;
-
+  /* TODO missing for Comments */
   @JsonProperty("in_trash")
   private Boolean inTrash;
 }

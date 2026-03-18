@@ -6,7 +6,7 @@ import io.kristixlab.notion.api.model.common.RichText;
 import io.kristixlab.notion.api.model.databases.CreateDatabaseParams;
 import io.kristixlab.notion.api.model.databases.Database;
 import io.kristixlab.notion.api.model.databases.InitialDatasource;
-import io.kristixlab.notion.api.model.databases.UpdateDatabaseRequest;
+import io.kristixlab.notion.api.model.databases.UpdateDatabaseParams;
 import io.kristixlab.notion.api.model.datasources.properties.*;
 import java.io.IOException;
 import java.util.HashMap;
@@ -49,7 +49,7 @@ public class DatabasesEndpointImplIntegrationExample extends IntegrationTest {
 
     saveToFile(createdDatabase, "database-create-rs.json");
 
-    UpdateDatabaseRequest updateRq = new UpdateDatabaseRequest();
+    UpdateDatabaseParams updateRq = new UpdateDatabaseParams();
     updateRq.setId(createdDatabase.getId());
     updateRq.setIsInline(false);
 

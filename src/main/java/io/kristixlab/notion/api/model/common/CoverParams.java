@@ -1,20 +1,24 @@
 package io.kristixlab.notion.api.model.common;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 @Data
 public class CoverParams {
 
+  @JsonProperty("type")
   private String type;
 
-  private FileUpload file_upload;
+  @JsonProperty("file_upload")
+  private FileUploadRef fileUpload;
 
+  @JsonProperty("external")
   private ExternalFile external;
 
-  public static CoverParams fromFileUpload(FileUpload fileUpload) {
+  public static CoverParams fromFileUpload(FileUploadRef fileUpload) {
     CoverParams coverParams = new CoverParams();
-    coverParams.setType("file");
-    coverParams.setFile_upload(fileUpload);
+    coverParams.setType("file_upload");
+    coverParams.setFileUpload(fileUpload);
     return coverParams;
   }
 

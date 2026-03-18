@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 import lombok.Data;
 
+// TODO check if I should do a separation for blocks the way it is done for pages (icon/iconparams)
 @Data
 public class FileData {
 
@@ -18,10 +19,8 @@ public class FileData {
   private File file;
 
   @JsonProperty("file_upload")
-  private FileUpload fileUpload;
+  private FileUploadRef fileUpload;
 
-  // TODO no caption for covers and emojis, do I have to divide this class to two?
-  // check if captionas are for page props.
   @JsonProperty("caption")
   private List<RichText> caption;
 
@@ -40,7 +39,7 @@ public class FileData {
   public static FileData fromFileUpload(String fileUploadId) {
     FileData fileData = new FileData();
     fileData.setType("file_upload");
-    FileUpload fileUpload = new FileUpload();
+    FileUploadRef fileUpload = new FileUploadRef();
     fileUpload.setId(fileUploadId);
     fileData.setFileUpload(fileUpload);
     return fileData;

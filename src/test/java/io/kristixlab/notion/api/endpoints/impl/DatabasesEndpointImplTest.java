@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import io.kristixlab.notion.api.http.TransportStub;
 import io.kristixlab.notion.api.model.databases.CreateDatabaseParams;
-import io.kristixlab.notion.api.model.databases.UpdateDatabaseRequest;
+import io.kristixlab.notion.api.model.databases.UpdateDatabaseParams;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -56,7 +56,7 @@ class DatabasesEndpointImplTest {
 
   @Test
   void update() {
-    UpdateDatabaseRequest request = new UpdateDatabaseRequest();
+    UpdateDatabaseParams request = new UpdateDatabaseParams();
 
     endpoint.update("db-id-1", request);
 
@@ -68,7 +68,7 @@ class DatabasesEndpointImplTest {
 
   @Test
   void update_fromRequest() {
-    UpdateDatabaseRequest request = new UpdateDatabaseRequest();
+    UpdateDatabaseParams request = new UpdateDatabaseParams();
     request.setId("db-id-1");
 
     endpoint.update(request);
@@ -89,7 +89,7 @@ class DatabasesEndpointImplTest {
   @ValueSource(strings = {"   "})
   void update_rejectsBlankOrNullDatabaseId(String id) {
     assertThrows(
-        IllegalArgumentException.class, () -> endpoint.update(id, new UpdateDatabaseRequest()));
+        IllegalArgumentException.class, () -> endpoint.update(id, new UpdateDatabaseParams()));
   }
 
   @Test
@@ -99,7 +99,7 @@ class DatabasesEndpointImplTest {
     assertEquals("PATCH", transport.getLastMethod());
     assertEquals("/databases/{database_id}", transport.getLastUrlInfo().getUrl());
     assertEquals("db-id-1", transport.getLastUrlInfo().getPathParams().get("database_id"));
-    assertTrue(((UpdateDatabaseRequest) transport.getLastBody()).getInTrash());
+    assertTrue(((UpdateDatabaseParams) transport.getLastBody()).getInTrash());
   }
 
   @Test
@@ -109,6 +109,6 @@ class DatabasesEndpointImplTest {
     assertEquals("PATCH", transport.getLastMethod());
     assertEquals("/databases/{database_id}", transport.getLastUrlInfo().getUrl());
     assertEquals("db-id-1", transport.getLastUrlInfo().getPathParams().get("database_id"));
-    assertFalse(((UpdateDatabaseRequest) transport.getLastBody()).getInTrash());
+    assertFalse(((UpdateDatabaseParams) transport.getLastBody()).getInTrash());
   }
 }

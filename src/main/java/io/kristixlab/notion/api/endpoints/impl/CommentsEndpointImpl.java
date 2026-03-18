@@ -5,7 +5,7 @@ import io.kristixlab.notion.api.http.transport.HttpTransport;
 import io.kristixlab.notion.api.http.transport.rq.URLInfo;
 import io.kristixlab.notion.api.model.comments.Comment;
 import io.kristixlab.notion.api.model.comments.CommentList;
-import io.kristixlab.notion.api.model.comments.CreateCommentRequest;
+import io.kristixlab.notion.api.model.comments.CreateCommentParams;
 
 /**
  * API for interacting with Notion Comments endpoints. Provides methods to create and retrieve
@@ -28,7 +28,7 @@ public class CommentsEndpointImpl implements CommentsEndpoint {
    * @param request The comment to create
    * @return The created comment
    */
-  public Comment create(CreateCommentRequest request) {
+  public Comment create(CreateCommentParams request) {
     validateRequest(request);
     return transport.call("POST", URLInfo.from("/comments"), request, Comment.class);
   }

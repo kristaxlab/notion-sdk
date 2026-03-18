@@ -19,7 +19,7 @@ public class IconParams {
   private ExternalFile external;
 
   @JsonProperty("file_upload")
-  private FileUpload fileUpload;
+  private FileUploadRef fileUpload;
 
   public static IconParams fromExternalUrl(String url) {
     IconParams icon = new IconParams();
@@ -40,7 +40,7 @@ public class IconParams {
   public static IconParams fromFileUpload(String fileUploadId) {
     IconParams icon = new IconParams();
     icon.setType("file_upload");
-    FileUpload fu = new FileUpload();
+    FileUploadRef fu = new FileUploadRef();
     fu.setId(fileUploadId);
     icon.setFileUpload(fu);
     return icon;

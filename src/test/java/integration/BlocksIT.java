@@ -17,14 +17,14 @@ public class BlocksIT extends BaseIntegrationTest {
 
   @BeforeAll
   public static void setup() {
-    blockTestsPageId = IntegrationTestAssisstant.createTestsPage("Blocks");
+    blockTestsPageId = IntegrationTestAssisstant.createPageForTests("Blocks");
   }
 
   @BeforeEach
   public void beforeEachTest(TestInfo info) {
     super.beforeEach(info);
     currTestPageId =
-        IntegrationTestAssisstant.createTestsPage(info.getDisplayName(), blockTestsPageId);
+        IntegrationTestAssisstant.createPageForTests(info.getDisplayName(), blockTestsPageId);
   }
 
   //  @Test
@@ -251,8 +251,28 @@ public class BlocksIT extends BaseIntegrationTest {
     assertEquals(insertedBlockId, allBlocks.getResults().get(1).getId());
   }
 
+
   @Test
-  @DisplayName("[IT-]: Blocks - Append different block types")
+  @DisplayName("[IT-23]: Blocks & File Uploads - Insert an uploaded file as an image")
+  public void insertUploadedFileAsImage() {
+    String fileUploadId = IntegrationTestAssisstant.getPrerequisites().getImageFileUploadId();
+
+    ImageBlock imageBlock = new ImageBlock();
+    imageBlock.setImage(FileData.fromFileUpload(fileUploadId));
+    imageBlock
+            .getImage()
+            .setCaption(
+                    List.of(RichText.builder().fromText("[IT-23]: An image from uploaded file").build()));
+
+    BlockList result = getNotion().blocks().appendChildren(currTestPageId, imageBlock);
+
+    assertNotNull(result);
+    assertEquals(1, result.getResults().size());
+    assertEquals("image", result.getResults().get(0).getType());
+  }
+
+  @Test
+  @DisplayName("[IT-42]: Blocks - Append different block types")
   public void testAppendDifferentBlocks() {
     AppendBlockChildrenParams initialRq = new AppendBlockChildrenParams();
     List<Block> blocks = new ArrayList<>();

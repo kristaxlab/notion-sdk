@@ -3,9 +3,9 @@ package integration.util;
 import io.kristixlab.notion.api.NotionApiClient;
 import io.kristixlab.notion.api.model.blocks.Block;
 import io.kristixlab.notion.api.model.blocks.BlockList;
+import io.kristixlab.notion.api.model.files.FileUpload;
 import io.kristixlab.notion.api.model.files.FileUploadCreateParams;
 import io.kristixlab.notion.api.model.files.FileUploadList;
-import io.kristixlab.notion.api.model.files.FileUploadResponse;
 
 public class PrerequisitesLoader {
 
@@ -45,10 +45,10 @@ public class PrerequisitesLoader {
       FileUploadCreateParams request = new FileUploadCreateParams();
       request.setMode("external");
       request.setExternalUrl(backupImageUrl);
-      FileUploadResponse response = client.fileUploads().createFileUpload(request);
+      FileUpload response = client.fileUploads().createFileUpload(request);
       prerequisites.setImageFileUploadId(response.getId());
     } else {
-      for (FileUploadResponse fileUpload : rs.getResults()) {
+      for (FileUpload fileUpload : rs.getResults()) {
         if (fileUpload.getContentType().contains("image")) {
           prerequisites.setImageFileUploadId(fileUpload.getId());
           break;
