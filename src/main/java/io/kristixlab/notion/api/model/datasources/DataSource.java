@@ -22,24 +22,24 @@ public class DataSource extends NotionObjectType {
   @JsonProperty("description")
   private List<RichText> description;
 
+  @JsonProperty("database_parent")
+  private Parent databaseParent;
+
   @JsonProperty("icon")
   private Icon icon;
 
   @JsonProperty("cover")
-  private FileData cover;
+  private Cover cover;
 
   @JsonProperty("properties")
   private Map<String, DataSourcePropertySchema> properties;
 
-  @JsonProperty("database_parent")
-  private Parent databaseParent;
+  @JsonProperty("is_inline")
+  private Boolean isInline;
 
   @JsonProperty("url")
   private String url;
 
   @JsonProperty("public_url")
   private String publicUrl;
-
-  @JsonProperty("is_inline")
-  private Boolean isInline;
 }

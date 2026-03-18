@@ -3,7 +3,8 @@ package io.kristixlab.notion.api.endpoints.impl;
 import static org.junit.jupiter.api.Assertions.*;
 
 import io.kristixlab.notion.api.http.TransportStub;
-import io.kristixlab.notion.api.model.datasources.CreateDataSourceRequest;
+import io.kristixlab.notion.api.model.databases.UpdateDatabaseParams;
+import io.kristixlab.notion.api.model.datasources.CreateDataSourceParams;
 import io.kristixlab.notion.api.model.datasources.DataSource;
 import io.kristixlab.notion.api.model.datasources.DataSourceQuery;
 import org.junit.jupiter.api.BeforeEach;
@@ -41,7 +42,7 @@ class DataSourcesEndpointImplTest {
 
   @Test
   void create() {
-    CreateDataSourceRequest request = new CreateDataSourceRequest();
+    CreateDataSourceParams request = new CreateDataSourceParams();
 
     endpoint.create(request);
 
@@ -57,7 +58,7 @@ class DataSourcesEndpointImplTest {
 
   @Test
   void update() {
-    DataSource request = new DataSource();
+    UpdateDatabaseParams request = new UpdateDatabaseParams();
 
     endpoint.update("ds-id-1", request);
 
@@ -76,7 +77,7 @@ class DataSourcesEndpointImplTest {
   @NullAndEmptySource
   @ValueSource(strings = {"   "})
   void update_rejectsBlankOrNullDataSourceId(String id) {
-    assertThrows(IllegalArgumentException.class, () -> endpoint.update(id, new DataSource()));
+    assertThrows(IllegalArgumentException.class, () -> endpoint.update(id, new UpdateDatabaseParams()));
   }
 
   @Test

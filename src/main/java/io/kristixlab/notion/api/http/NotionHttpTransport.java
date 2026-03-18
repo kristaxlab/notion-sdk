@@ -22,7 +22,7 @@ import okhttp3.Response;
  */
 public class NotionHttpTransport extends HttpTransportImpl {
 
-  private static final String DEFAULT_VERSION = "2025-09-03"; /*"2022-06-28";*/
+  private static final String DEFAULT_VERSION = "2026-03-11";
   private static final String DEFAULT_BASE_URL = "https://api.notion.com/v1/";
   private String version;
 

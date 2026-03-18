@@ -69,9 +69,7 @@ class DatabasesEndpointImplTest {
   @Test
   void update_fromRequest() {
     UpdateDatabaseParams request = new UpdateDatabaseParams();
-    request.setId("db-id-1");
-
-    endpoint.update(request);
+    endpoint.update("db-id-1", request);
 
     assertEquals("PATCH", transport.getLastMethod());
     assertEquals("/databases/{database_id}", transport.getLastUrlInfo().getUrl());

@@ -1,10 +1,8 @@
 package io.kristixlab.notion.api.model.databases;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.kristixlab.notion.api.model.common.FileData;
-import io.kristixlab.notion.api.model.common.Icon;
-import io.kristixlab.notion.api.model.common.Parent;
-import io.kristixlab.notion.api.model.common.RichText;
+import io.kristixlab.notion.api.model.common.*;
+
 import java.util.List;
 import lombok.Data;
 
@@ -24,14 +22,14 @@ public class UpdateDatabaseParams {
   private Boolean isInline;
 
   @JsonProperty("icon")
-  private Icon icon;
+  private IconParams icon;
 
   @JsonProperty("cover")
-  private FileData cover;
+  private CoverParams cover;
 
   @JsonProperty("in_trash")
   private Boolean inTrash;
 
-  @JsonProperty("in_locked")
+  @JsonProperty("is_locked")
   private Boolean isLocked;
 }

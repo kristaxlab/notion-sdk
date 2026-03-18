@@ -59,6 +59,12 @@ public abstract class DataSourcePropertySchema {
   @JsonProperty("description")
   private String description;
 
+  public DataSourcePropertySchema() {}
+
+  public DataSourcePropertySchema(String name) {
+    this.name = name;
+  }
+
   // Type conversion methods similar to PageProperty
   public CheckboxDataSourcePropertySchema asCheckbox() {
     return (CheckboxDataSourcePropertySchema) this;

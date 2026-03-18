@@ -3,7 +3,8 @@ package io.kristixlab.notion.api.endpoints.impl;
 import io.kristixlab.notion.api.endpoints.DataSourcesEndpoint;
 import io.kristixlab.notion.api.http.transport.HttpTransport;
 import io.kristixlab.notion.api.http.transport.rq.URLInfo;
-import io.kristixlab.notion.api.model.datasources.CreateDataSourceRequest;
+import io.kristixlab.notion.api.model.databases.UpdateDatabaseParams;
+import io.kristixlab.notion.api.model.datasources.CreateDataSourceParams;
 import io.kristixlab.notion.api.model.datasources.DataSource;
 import io.kristixlab.notion.api.model.datasources.DataSourcePageList;
 import io.kristixlab.notion.api.model.datasources.DataSourceQuery;
@@ -44,7 +45,7 @@ public class DataSourcesEndpointImpl implements DataSourcesEndpoint {
    * @param request The request containing data source data
    * @return The created data source
    */
-  public DataSource create(CreateDataSourceRequest request) {
+  public DataSource create(CreateDataSourceParams request) {
     validateRequest(request);
     return transport.call("POST", URLInfo.from("/data_sources"), request, DataSource.class);
   }
@@ -56,9 +57,7 @@ public class DataSourcesEndpointImpl implements DataSourcesEndpoint {
    * @param request The request containing updated data source data
    * @return The updated data source
    */
-  // TODO replace with UpdateDatasourceRequest to only support fields that are actually possible to
-  // change via the API
-  public DataSource update(String dataSourceId, DataSource request) {
+  public DataSource update(String dataSourceId, UpdateDatabaseParams request) {
     validateDataSourceId(dataSourceId);
     validateRequest(request);
 
@@ -78,7 +77,7 @@ public class DataSourcesEndpointImpl implements DataSourcesEndpoint {
    * @return The updated data source with inTrash set to true
    */
   public DataSource delete(String dataSourceId) {
-    DataSource deleteRequest = new DataSource();
+    UpdateDatabaseParams deleteRequest = new UpdateDatabaseParams();
     deleteRequest.setInTrash(true);
     return update(dataSourceId, deleteRequest);
   }
@@ -91,7 +90,7 @@ public class DataSourcesEndpointImpl implements DataSourcesEndpoint {
    * @return The updated data source with inTrash set to false
    */
   public DataSource restore(String dataSourceId) {
-    DataSource restoreRequest = new DataSource();
+    UpdateDatabaseParams restoreRequest = new UpdateDatabaseParams();
     restoreRequest.setInTrash(false);
     return update(dataSourceId, restoreRequest);
   }

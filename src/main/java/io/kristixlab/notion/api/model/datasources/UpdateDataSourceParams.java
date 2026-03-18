@@ -1,10 +1,7 @@
 package io.kristixlab.notion.api.model.datasources;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.kristixlab.notion.api.model.common.FileData;
-import io.kristixlab.notion.api.model.common.Icon;
-import io.kristixlab.notion.api.model.common.Parent;
-import io.kristixlab.notion.api.model.common.RichText;
+import io.kristixlab.notion.api.model.common.*;
 import io.kristixlab.notion.api.model.datasources.properties.DataSourcePropertySchema;
 import java.util.List;
 import java.util.Map;
@@ -15,26 +12,20 @@ import lombok.Data;
  * metadata.
  */
 @Data
-public class UpdateDataSourceRequest {
-
-  @JsonProperty("title")
-  private List<RichText> title;
-
-  @JsonProperty("icon")
-  private Icon icon;
-
-  @JsonProperty("cover")
-  private FileData cover;
-
-  @JsonProperty("properties")
-  private Map<String, DataSourcePropertySchema> properties;
+public class UpdateDataSourceParams {
 
   @JsonProperty("parent")
   private Parent parent;
 
-  @JsonProperty("database_parent")
-  private Parent databaseParent;
+  @JsonProperty("title")
+  private List<RichText> title;
 
-  @JsonProperty("is_inline")
-  private Boolean isInline;
+  @JsonProperty("properties")
+  private Map<String, DataSourcePropertySchema> properties;
+
+  @JsonProperty("icon")
+  private IconParams icon;
+
+  @JsonProperty("in_trash")
+  private Boolean isInTrash;
 }

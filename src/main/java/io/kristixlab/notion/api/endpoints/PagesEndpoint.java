@@ -1,9 +1,7 @@
 package io.kristixlab.notion.api.endpoints;
 
 import io.kristixlab.notion.api.model.common.Parent;
-import io.kristixlab.notion.api.model.pages.CreatePageParams;
-import io.kristixlab.notion.api.model.pages.Page;
-import io.kristixlab.notion.api.model.pages.UpdatePageParams;
+import io.kristixlab.notion.api.model.pages.*;
 import io.kristixlab.notion.api.model.pages.properties.PageProperty;
 
 /*
@@ -16,12 +14,18 @@ public interface PagesEndpoint {
 
   Page retrieve(String pageId);
 
+  PageAsMarkdown retrieveAsMarkdown(String pageId);
+
+  PageAsMarkdown retrieveAsMarkdown(String pageId, boolean includeTranscript);
+
   PageProperty retrieveProperty(String pageId, String propertyId);
 
   PageProperty retrieveProperty(
       String pageId, String propertyId, String startCursor, Integer pageSize);
 
   Page update(String pageId, UpdatePageParams request);
+
+  PageAsMarkdown updateAsMarkdown(String pageId, UpdatePageAsMarkdownParams request);
 
   Page move(String pageId, Parent parent);
 

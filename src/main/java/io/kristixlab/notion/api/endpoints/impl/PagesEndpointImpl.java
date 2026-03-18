@@ -4,10 +4,7 @@ import io.kristixlab.notion.api.endpoints.PagesEndpoint;
 import io.kristixlab.notion.api.http.transport.HttpTransport;
 import io.kristixlab.notion.api.http.transport.rq.URLInfo;
 import io.kristixlab.notion.api.model.common.Parent;
-import io.kristixlab.notion.api.model.pages.CreatePageParams;
-import io.kristixlab.notion.api.model.pages.MovePageParams;
-import io.kristixlab.notion.api.model.pages.Page;
-import io.kristixlab.notion.api.model.pages.UpdatePageParams;
+import io.kristixlab.notion.api.model.pages.*;
 import io.kristixlab.notion.api.model.pages.properties.PageProperty;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
@@ -49,6 +46,28 @@ public class PagesEndpointImpl implements PagesEndpoint {
     validatePageId(pageId);
     URLInfo urlInfo = URLInfo.builder("/pages/{page_id}").pathParam(PAGE_ID, pageId).build();
     return transport.call("GET", urlInfo, Page.class);
+  }
+
+  public PageAsMarkdown retrieveAsMarkdown(String pageId) {
+    return retrieveAsMarkdown(pageId, false);
+  }
+
+  public PageAsMarkdown retrieveAsMarkdown(String pageId, boolean includeTranscript) {
+    validatePageId(pageId);
+    URLInfo urlInfo =
+        URLInfo.builder("/pages/{page_id}/markdown")
+            .pathParam(PAGE_ID, pageId)
+            .queryParam("include_transcript", includeTranscript)
+            .build();
+    return transport.call("GET", urlInfo, PageAsMarkdown.class);
+  }
+
+  public PageAsMarkdown updateAsMarkdown(String pageId, UpdatePageAsMarkdownParams request) {
+    validatePageId(pageId);
+    validateRequest(request);
+    URLInfo urlInfo =
+        URLInfo.builder("/pages/{page_id}/markdown").pathParam(PAGE_ID, pageId).build();
+    return transport.call("PATCH", urlInfo, request, PageAsMarkdown.class);
   }
 
   /**
