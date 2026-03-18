@@ -1,8 +1,8 @@
 package io.kristixlab.notion.api.model.pages;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.kristixlab.notion.api.model.common.FileData;
-import io.kristixlab.notion.api.model.common.Icon;
+import io.kristixlab.notion.api.model.common.CoverParams;
+import io.kristixlab.notion.api.model.common.IconParams;
 import io.kristixlab.notion.api.model.common.Parent;
 import io.kristixlab.notion.api.model.pages.properties.PageProperty;
 import io.kristixlab.notion.api.model.pages.templates.TemplateParams;
@@ -19,10 +19,10 @@ public class UpdatePageParams {
   private Map<String, PageProperty> properties;
 
   @JsonProperty("icon")
-  private Icon icon;
+  private IconParams icon;
 
   @JsonProperty("cover")
-  private FileData cover;
+  private CoverParams cover;
 
   @JsonProperty("parent")
   private Parent parent;
@@ -36,7 +36,6 @@ public class UpdatePageParams {
   @JsonProperty("template")
   private TemplateParams template;
 
-  // TODO check how it works (isnt iit a part of templateParams?)
   @JsonProperty("erase_content")
   private Boolean eraseContent;
 }

@@ -3,7 +3,10 @@ package io.kristixlab.notion.api.model.common;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
-/* TODO handle the mess of types insside */
+/*
+ * The Icon object represents the icon in responses with pages, some blocks (ex.callout) or database.
+ * For requests see IconParams.
+ */
 @Data
 public class Icon {
 
@@ -16,46 +19,9 @@ public class Icon {
   @JsonProperty("custom_emoji")
   private CustomEmoji customEmoji;
 
-  @JsonProperty("file")
-  private File file;
-
   @JsonProperty("external")
   private ExternalFile external;
 
-  @Data
-  public static class CustomEmoji {
-    @JsonProperty("id")
-    private String id;
-
-    @JsonProperty("name")
-    private String name;
-
-    @JsonProperty("url")
-    private String url;
-  }
-
-  public static Icon fromExternalUrl(String url) {
-    Icon icon = new Icon();
-    icon.setType("external");
-    ExternalFile external = new ExternalFile();
-    external.setUrl(url);
-    icon.setExternal(external);
-    return icon;
-  }
-
-  public static Icon fromEmoji(String emoji) {
-    Icon icon = new Icon();
-    icon.setType("emoji");
-    icon.setEmoji(emoji);
-    return icon;
-  }
-
-  public static Icon fromFileUrl(String url) {
-    Icon icon = new Icon();
-    icon.setType("file");
-    File file = new File();
-    file.setUrl(url);
-    icon.setFile(file);
-    return icon;
-  }
+  @JsonProperty("file")
+  private File file;
 }

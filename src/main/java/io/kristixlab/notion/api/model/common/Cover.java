@@ -1,11 +1,14 @@
 package io.kristixlab.notion.api.model.common;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import java.util.List;
 import lombok.Data;
 
+/*
+ * The Cover object represents the cover in responses with a page or a database.
+ * For requests see CoverParams.
+ */
 @Data
-public class FileData {
+public class Cover {
 
   @JsonProperty("type")
   private String type;
@@ -13,23 +16,11 @@ public class FileData {
   @JsonProperty("external")
   private ExternalFile external;
 
-  /** TODO check if file and file_upload are mutually exclusive */
-  @JsonProperty("file")
-  private File file;
-
   @JsonProperty("file_upload")
   private FileUpload fileUpload;
 
-  // TODO no caption for covers and emojis, do I have to divide this class to two?
-  // check if captionas are for page props.
-  @JsonProperty("caption")
-  private List<RichText> caption;
-
-  @JsonProperty("name")
-  private String name;
-
-  public static FileData fromExternalUrl(String url) {
-    FileData fileData = new FileData();
+  public static Cover fromExternalUrl(String url) {
+    Cover fileData = new Cover();
     fileData.setType("external");
     ExternalFile external = new ExternalFile();
     external.setUrl(url);
@@ -37,8 +28,8 @@ public class FileData {
     return fileData;
   }
 
-  public static FileData fromFileUpload(String fileUploadId) {
-    FileData fileData = new FileData();
+  public static Cover fromFileUpload(String fileUploadId) {
+    Cover fileData = new Cover();
     fileData.setType("file_upload");
     FileUpload fileUpload = new FileUpload();
     fileUpload.setId(fileUploadId);

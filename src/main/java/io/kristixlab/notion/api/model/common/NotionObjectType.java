@@ -47,9 +47,6 @@ public class NotionObjectType extends BaseNotionObject {
   @JsonProperty("parent")
   private Parent parent;
 
-  @JsonProperty("archived")
-  private Boolean archived;
-
   @JsonProperty("in_trash")
   private Boolean inTrash;
 }

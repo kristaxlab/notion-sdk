@@ -1,5 +1,6 @@
 package io.kristixlab.notion.api.endpoints;
 
+import io.kristixlab.notion.api.model.common.Parent;
 import io.kristixlab.notion.api.model.pages.CreatePageParams;
 import io.kristixlab.notion.api.model.pages.Page;
 import io.kristixlab.notion.api.model.pages.UpdatePageParams;
@@ -21,6 +22,8 @@ public interface PagesEndpoint {
       String pageId, String propertyId, String startCursor, Integer pageSize);
 
   Page update(String pageId, UpdatePageParams request);
+
+  Page move(String pageId, Parent parent);
 
   Page delete(String pageId);
 

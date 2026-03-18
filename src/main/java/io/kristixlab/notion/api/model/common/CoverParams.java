@@ -1,7 +1,5 @@
-package io.kristixlab.notion.api.model.pages;
+package io.kristixlab.notion.api.model.common;
 
-import io.kristixlab.notion.api.model.common.ExternalFile;
-import io.kristixlab.notion.api.model.common.FileUpload;
 import lombok.Data;
 
 @Data
@@ -9,14 +7,14 @@ public class CoverParams {
 
   private String type;
 
-  private FileUpload file;
+  private FileUpload file_upload;
 
   private ExternalFile external;
 
   public static CoverParams fromFileUpload(FileUpload fileUpload) {
     CoverParams coverParams = new CoverParams();
     coverParams.setType("file");
-    coverParams.setFile(fileUpload);
+    coverParams.setFile_upload(fileUpload);
     return coverParams;
   }
 

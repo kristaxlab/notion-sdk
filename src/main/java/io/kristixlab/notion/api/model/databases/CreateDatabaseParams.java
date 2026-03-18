@@ -1,10 +1,7 @@
 package io.kristixlab.notion.api.model.databases;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.kristixlab.notion.api.model.common.FileData;
-import io.kristixlab.notion.api.model.common.Icon;
-import io.kristixlab.notion.api.model.common.Parent;
-import io.kristixlab.notion.api.model.common.RichText;
+import io.kristixlab.notion.api.model.common.*;
 import java.util.List;
 import lombok.Data;
 
@@ -19,10 +16,10 @@ public class CreateDatabaseParams {
   private List<RichText> description;
 
   @JsonProperty("icon")
-  private Icon icon;
+  private IconParams icon;
 
   @JsonProperty("cover")
-  private FileData cover;
+  private CoverParams cover;
 
   @JsonProperty("parent")
   private Parent parent;

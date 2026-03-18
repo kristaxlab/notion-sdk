@@ -4,11 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import integration.util.IntegrationTestAssisstant;
 import io.kristixlab.notion.api.model.blocks.*;
-import io.kristixlab.notion.api.model.comments.Comment;
-import io.kristixlab.notion.api.model.comments.CommentAttachment;
-import io.kristixlab.notion.api.model.comments.CommentDisplayName;
-import io.kristixlab.notion.api.model.comments.CreateCommentRequest;
-import io.kristixlab.notion.api.model.comments.CustomDisplayName;
+import io.kristixlab.notion.api.model.comments.*;
 import io.kristixlab.notion.api.model.common.*;
 import io.kristixlab.notion.api.model.pages.CreatePageParams;
 import io.kristixlab.notion.api.model.pages.Page;
@@ -35,7 +31,7 @@ public class CommentsIT extends BaseIntegrationTest {
   }
 
   @Test
-  @DisplayName("[IT-34]: Pages - Add comments to a page")
+  @DisplayName("[IT-34]: Comments - Add 3 comments to a page and retrieve them")
   public void addCommentsToPage() {
     // Step 1: Create a new page
     Page page =
@@ -80,6 +76,10 @@ public class CommentsIT extends BaseIntegrationTest {
     assertNotNull(reply);
     assertNotNull(reply.getId());
     assertEquals(attachmentComment.getDiscussionId(), reply.getDiscussionId());
+
+    CommentList commentsList = getNotion().comments().listComments(pageId);
+    assertNotNull(commentsList);
+    assertEquals(3, commentsList.getResults().size());
   }
 
   // --- helpers ---

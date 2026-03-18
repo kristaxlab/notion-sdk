@@ -69,7 +69,7 @@ public class CommentsEndpointImpl implements CommentsEndpoint {
 
     URLInfo.Builder urlInfo =
         URLInfo.builder("/comments", startCursor, pageSize)
-            .queryParam(BLOCK_ID, new String[] {blockId});
+            .queryParam(BLOCK_ID, blockId);
 
     return transport.call("GET", urlInfo.build(), CommentList.class);
   }

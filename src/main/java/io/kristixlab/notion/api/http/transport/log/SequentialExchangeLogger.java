@@ -63,7 +63,7 @@ public class SequentialExchangeLogger implements ExchangeLogger {
     log.setMethod((String) context.getOrDefault("method", "{method}"));
     log.setPath((String) context.getOrDefault("path", "{path}"));
     log.setHeaders((Map) context.getOrDefault("responseHeaders", "{}"));
-    log.setRequestBody(context.getOrDefault("responseBody", new Object()));
+    log.setResponseBody(context.getOrDefault("responseBody", new Object()));
 
     return JsonConverter.getInstance().toJson(log, true);
   }
