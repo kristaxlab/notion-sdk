@@ -1,6 +1,5 @@
 package integration;
 
-
 import io.kristixlab.notion.NotionSdkSettings;
 import io.kristixlab.notion.api.NotionApiClient;
 import io.kristixlab.notion.api.http.transport.log.ExchangeContext;
@@ -63,14 +62,14 @@ public abstract class BaseIntegrationTest {
    */
   private void attachExchangeLogsToReport() {
     // TODO finalize report attchments solution
-//    if (ExchangeContext.getCurrent().get("testLogsPath") == null) {
-//      return;
-//    }
-//    Path logDir = (Path) ExchangeContext.getCurrent().get("testLogsPath");
-//    String testMethod = ExchangeContext.getCurrent().getString("testMethod");
-//    String attachmentName =
-//        (testMethod != null && !testMethod.isEmpty()) ? testMethod : "exchange-logs";
-//    AllureLogAttachUtil.attachDirectoryAsZip(logDir, attachmentName);
+    //    if (ExchangeContext.getCurrent().get("testLogsPath") == null) {
+    //      return;
+    //    }
+    //    Path logDir = (Path) ExchangeContext.getCurrent().get("testLogsPath");
+    //    String testMethod = ExchangeContext.getCurrent().getString("testMethod");
+    //    String attachmentName =
+    //        (testMethod != null && !testMethod.isEmpty()) ? testMethod : "exchange-logs";
+    //    AllureLogAttachUtil.attachDirectoryAsZip(logDir, attachmentName);
   }
 
   public NotionApiClient getNotion() {
