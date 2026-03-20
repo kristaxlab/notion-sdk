@@ -4,6 +4,7 @@ import io.kristixlab.notion.api.util.NotionAuthUtil;
 import lombok.Data;
 import lombok.Setter;
 
+// TODO make immutable and use builder pattern
 @Data
 public class NotionAuthSettings {
 

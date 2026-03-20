@@ -1,7 +1,6 @@
 package io.kristixlab.notion.api.model.pages.properties;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.kristixlab.notion.api.model.common.Color;
 import io.kristixlab.notion.api.util.PagePropertyType;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,11 +37,11 @@ public class MultiSelectProperty extends PageProperty {
     return this;
   }
 
-  public MultiSelectProperty add(String name, Color color) {
-    return add(SelectValue.of(null, name, color));
+  public MultiSelectProperty add(String name) {
+    return add(SelectValue.of(null, name));
   }
 
-  public MultiSelectProperty add(String id, String name, Color color) {
-    return add(SelectValue.of(id, name, color));
+  public MultiSelectProperty add(String id, String name) {
+    return add(SelectValue.of(id, name));
   }
 }

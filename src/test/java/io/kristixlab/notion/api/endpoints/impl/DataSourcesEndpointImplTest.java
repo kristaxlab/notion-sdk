@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import io.kristixlab.notion.api.http.TransportStub;
 import io.kristixlab.notion.api.model.datasources.CreateDataSourceParams;
-import io.kristixlab.notion.api.model.datasources.DataSource;
 import io.kristixlab.notion.api.model.datasources.DataSourceQuery;
 import io.kristixlab.notion.api.model.datasources.UpdateDataSourceParams;
 import org.junit.jupiter.api.BeforeEach;
@@ -88,7 +87,7 @@ class DataSourcesEndpointImplTest {
     assertEquals("PATCH", transport.getLastMethod());
     assertEquals("/data_sources/{data_source_id}", transport.getLastUrlInfo().getUrl());
     assertEquals("ds-id-1", transport.getLastUrlInfo().getPathParams().get("data_source_id"));
-    assertTrue(((DataSource) transport.getLastBody()).getInTrash());
+    assertTrue(((UpdateDataSourceParams) transport.getLastBody()).getInTrash());
   }
 
   @Test
@@ -98,7 +97,7 @@ class DataSourcesEndpointImplTest {
     assertEquals("PATCH", transport.getLastMethod());
     assertEquals("/data_sources/{data_source_id}", transport.getLastUrlInfo().getUrl());
     assertEquals("ds-id-1", transport.getLastUrlInfo().getPathParams().get("data_source_id"));
-    assertFalse(((DataSource) transport.getLastBody()).getInTrash());
+    assertFalse(((UpdateDataSourceParams) transport.getLastBody()).getInTrash());
   }
 
   @Test

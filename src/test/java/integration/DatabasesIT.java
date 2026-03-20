@@ -36,7 +36,7 @@ public class DatabasesIT extends BaseIntegrationTest {
   @Test
   @DisplayName("[IT-33]: Databases - Create a new database with icon and cover")
   public void createDatabaseWithIconAndCover() {
-    String coverUrl = IntegrationTestAssisstant.getPrerequisites().getCoverUrl();
+    String coverUrl = IntegrationTestAssisstant.getPrerequisites().getExternalImageUrl();
     String emoji = IntegrationTestAssisstant.getPrerequisites().getEmojiIcon();
 
     CreateDatabaseParams params = new CreateDatabaseParams();
@@ -71,7 +71,7 @@ public class DatabasesIT extends BaseIntegrationTest {
         IntegrationTestAssisstant.createPageForTests("New parent page", currTestPageId);
 
     // Step 3: Update title, icon, cover and parent
-    String coverUrl = IntegrationTestAssisstant.getPrerequisites().getCoverUrl();
+    String coverUrl = IntegrationTestAssisstant.getPrerequisites().getExternalImageUrl();
     String emoji = IntegrationTestAssisstant.getPrerequisites().getEmojiIcon();
 
     UpdateDatabaseParams updateParams = new UpdateDatabaseParams();

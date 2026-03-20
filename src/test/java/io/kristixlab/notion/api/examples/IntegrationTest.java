@@ -11,7 +11,7 @@ import java.nio.file.Paths;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 
-@Tag("integration")
+@Tag("examples")
 public class IntegrationTest extends BaseTest {
 
   private static final String TEST_OUTPUT_DIR = "src/test/resources/notion-api-integration-tests/";

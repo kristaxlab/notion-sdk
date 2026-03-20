@@ -48,7 +48,7 @@ public class CreateDatabaseParams {
     private Boolean isInline;
     private InitialDatasource initialDataSource;
 
-    public Builder parentPage(String pageId) {
+    public Builder inPage(String pageId) {
       return parent(Parent.pageParent(pageId));
     }
 

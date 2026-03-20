@@ -17,12 +17,14 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 /**
  * Integration test for PagesApi that calls actual Notion API endpoints. Stores all responses to
  * files for inspection.
  */
+@Tag("examples")
 public class PagesEndpointImplIntegrationExample {
 
   private static final String TEST_OUTPUT_DIR = "src/test/resources/notion-api-responses/";

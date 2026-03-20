@@ -27,13 +27,18 @@ public class FileData {
   @JsonProperty("name")
   private String name;
 
-  public static FileData fromExternalUrl(String url) {
+  public static FileData fromExternalUrl(String fileName, String url) {
     FileData fileData = new FileData();
+    fileData.setName(fileName);
     fileData.setType("external");
     ExternalFile external = new ExternalFile();
     external.setUrl(url);
     fileData.setExternal(external);
     return fileData;
+  }
+
+  public static FileData fromExternalUrl(String url) {
+    return fromExternalUrl("file", url);
   }
 
   public static FileData fromFileUpload(String fileUploadId) {

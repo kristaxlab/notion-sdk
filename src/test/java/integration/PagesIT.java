@@ -77,7 +77,7 @@ public class PagesIT extends BaseIntegrationTest {
     CreatePageParams newPage =
         createPageParams("Page with icon and cover and content", currTestPageId);
 
-    String cover = IntegrationTestAssisstant.getPrerequisites().getCoverUrl();
+    String cover = IntegrationTestAssisstant.getPrerequisites().getExternalImageUrl();
     newPage.setCover(CoverParams.fromExternalUrl(cover));
 
     String icon = IntegrationTestAssisstant.getPrerequisites().getEmojiIcon();
@@ -142,7 +142,7 @@ public class PagesIT extends BaseIntegrationTest {
     // Step 2: Update title, icon, and cover
     String updatedTitle = "Updated title";
     String emojiIcon = IntegrationTestAssisstant.getPrerequisites().getEmojiIcon();
-    String coverUrl = IntegrationTestAssisstant.getPrerequisites().getCoverUrl();
+    String coverUrl = IntegrationTestAssisstant.getPrerequisites().getExternalImageUrl();
 
     UpdatePageParams updateParams = new UpdatePageParams();
     updateParams.setProperties(java.util.Map.of("title", TitleProperty.of(updatedTitle)));
@@ -274,7 +274,7 @@ public class PagesIT extends BaseIntegrationTest {
 
     // Give Notion some time to apply the template and update the content of the page before
     // retrieving it
-    Thread.sleep(1000);
+    Thread.sleep(2000);
     BlockList content = getNotion().blocks().retrieveChildren(updated.getId());
     assertNotNull(content);
     assertEquals(2, content.getResults().size());

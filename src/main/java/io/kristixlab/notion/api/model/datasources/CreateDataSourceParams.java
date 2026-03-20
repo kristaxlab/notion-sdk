@@ -40,7 +40,7 @@ public class CreateDataSourceParams {
     private Map<String, DataSourcePropertySchemaParams> properties;
     private IconParams icon;
 
-    public Builder parentDatabase(String parendDatabaseId) {
+    public Builder inDatabase(String parendDatabaseId) {
       return parent(Parent.databaseParent(parendDatabaseId));
     }
 
@@ -62,10 +62,27 @@ public class CreateDataSourceParams {
      * Sets the data source property schema via a pre-built map.
      *
      * <p>Prefer {@link #propertiesBuilder()} or {@link #properties(Consumer)} to avoid the explicit
-     * {@code DataSourceSchemaBuilder.builder()} / {@code .build()} wrapping.
+     * {@code DataSourceSchemaBuilder.builder()} / {@code .build()} wrapping. /** Sets the property
+     * schema via a pre-built map.
      */
     public Builder properties(Map<String, DataSourcePropertySchemaParams> properties) {
       this.properties = properties;
+      return this;
+    }
+
+    /**
+     * Sets a single property schema entry. Use as an escape hatch when only one property needs to
+     * be added or updated without configuring the full schema map.
+     *
+     * @param name the property name or ID
+     * @param property the schema params, or {@code null} to delete the property
+     * @return this builder
+     */
+    public Builder property(String name, DataSourcePropertySchemaParams property) {
+      if (this.properties == null) {
+        this.properties = new java.util.LinkedHashMap<>();
+      }
+      this.properties.put(name, property);
       return this;
     }
 

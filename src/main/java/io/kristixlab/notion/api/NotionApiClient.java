@@ -17,9 +17,6 @@ import lombok.Getter;
 
 public class NotionApiClient {
 
-  private static final String VERSION = "2026-03-11";
-  private static final String BASE_URL = "https://api.notion.com/v1/";
-
   @Getter private final NotionAuthSettings authSettings = new NotionAuthSettings();
 
   /** Transport layer for making API calls */
@@ -37,19 +34,6 @@ public class NotionApiClient {
   private SearchEndpointImpl searchApi;
   private UsersEndpointImpl usersApi;
 
-  /**
-   * Default constructor. Initializes the client using environment variables.
-   *
-   * <ul>
-   *   <li>NOTION_AUTH_TOKEN - for private integration token
-   *   <li>NOTION_CLIENT_ID - for public integration client id
-   *   <li>NOTION_CLIENT_TOKEN - for public integration client token
-   *   <li>NOTION_REDIRECT_URI - optional, for public integration redirect uri
-   * </ul>
-   *
-   * If NOTION_AUTH_TOKEN is set, it takes precedence over client id and token. If neither is set,
-   * an IllegalArgumentException is thrown.
-   */
   public NotionApiClient() {}
 
   /**
@@ -140,40 +124,10 @@ public class NotionApiClient {
     return usersApi;
   }
 
-  public String getVersion() {
-    return VERSION;
-  }
-
-  public String getBaseUrl() {
-    return BASE_URL;
-  }
-
   private HttpTransport getTransport() {
     return transport;
   }
 
-  /**
-   * Returns a new {@link Builder} for creating a {@link NotionApiClient} with custom settings.
-   *
-   * <p>Usage examples:
-   *
-   * <pre>{@code
-   * // Private integration
-   * NotionApiClient client = NotionApiClient.builder()
-   *     .authToken("secret_xxx")
-   *     .create();
-   *
-   * // Public integration with custom HTTP transport
-   * NotionApiClient client = NotionApiClient.builder()
-   *     .clientId("id")
-   *     .clientToken("token")
-   *     .redirectUri("https://myapp.com/callback")
-   *     .httpClient(myTransport)
-   *     .create();
-   * }</pre>
-   *
-   * @return a new {@link Builder} instance
-   */
   public static Builder builder() {
     return new Builder();
   }

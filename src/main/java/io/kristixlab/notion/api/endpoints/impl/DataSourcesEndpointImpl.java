@@ -136,7 +136,6 @@ public class DataSourcesEndpointImpl implements DataSourcesEndpoint {
   public DataSourcePageList query(
       String dataSourceId, DataSourceQuery request, String startCursor, Integer pageSize) {
     validateDataSourceId(dataSourceId);
-    validateRequest(request);
 
     if (startCursor != null) {
       request.setStartCursor(startCursor);
