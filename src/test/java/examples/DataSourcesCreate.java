@@ -105,11 +105,6 @@ public class DataSourcesCreate {
             .isInline(true)
             .properties(CatalogSchemaFactory::defaultSchema)
             .build();
-
-    getNotion().databases().create(dbParamsA);
-    getNotion().databases().create(dbParamsB);
-    getNotion().databases().create(dbParamsC);
-    getNotion().databases().create(dbParamsD);
   }
 
   /** Example of a client-supplied schema factory used in Pattern D above. */
