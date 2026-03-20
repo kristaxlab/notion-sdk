@@ -142,7 +142,7 @@ public class DataSourcesPropertiesIT extends BaseIntegrationTest {
                     .children(
                         ParagraphBlock.of("First paragraph"), ParagraphBlock.of("Second paragraph"))
                     .build());
-    
+
     assertNotNull(fullPage.getId());
 
     // Step 3: Update selected properties

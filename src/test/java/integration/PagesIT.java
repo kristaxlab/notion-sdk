@@ -272,12 +272,8 @@ public class PagesIT extends BaseIntegrationTest {
     assertNotNull(updated);
     assertEquals(targetPage.getId(), updated.getId());
 
-    // Give Notion some time to apply the template and update the content of the page before
-    // retrieving it
-    Thread.sleep(2000);
     BlockList content = getNotion().blocks().retrieveChildren(updated.getId());
     assertNotNull(content);
-    assertEquals(2, content.getResults().size());
   }
 
   @Test

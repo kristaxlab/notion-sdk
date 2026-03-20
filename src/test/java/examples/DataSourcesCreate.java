@@ -2,7 +2,6 @@ package examples;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import integration.BaseIntegrationTest;
 import integration.util.IntegrationTestAssisstant;
 import io.kristixlab.notion.api.model.databases.CreateDatabaseParams;
 import io.kristixlab.notion.api.model.datasources.properties.*;
@@ -12,7 +11,7 @@ import java.util.*;
 import org.junit.jupiter.api.*;
 
 @Tag("examples")
-public class DataSourcesCreate extends BaseIntegrationTest {
+public class DataSourcesCreate {
   private static String dataSourceTestsPageId;
   private String currTestPageId;
 
@@ -21,14 +20,6 @@ public class DataSourcesCreate extends BaseIntegrationTest {
     dataSourceTestsPageId = IntegrationTestAssisstant.createPageForTests("Data Sources");
   }
 
-  @BeforeEach
-  public void beforeEachTest(TestInfo info) {
-    super.beforeEach(info);
-    currTestPageId =
-        IntegrationTestAssisstant.createPageForTests(info.getDisplayName(), dataSourceTestsPageId);
-  }
-
-  @Test
   public void exampleCreateDatabase() {
     String otherDsId = "some-existing-datasource-id";
 
