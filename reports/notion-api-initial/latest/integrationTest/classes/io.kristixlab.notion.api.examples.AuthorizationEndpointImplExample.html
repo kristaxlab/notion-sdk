@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=edge"/>
+<title>Test results - AuthorizationEndpointImplExample</title>
+<link href="../css/base-style.css" rel="stylesheet" type="text/css"/>
+<link href="../css/style.css" rel="stylesheet" type="text/css"/>
+<script src="../js/report.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="content">
+<h1>AuthorizationEndpointImplExample</h1>
+<div class="breadcrumbs">
+<a href="../index.html">all</a> &gt; 
+<a href="../packages/io.kristixlab.notion.api.examples.html">io.kristixlab.notion.api.examples</a> &gt; AuthorizationEndpointImplExample</div>
+<div id="summary">
+<table>
+<tr>
+<td>
+<div class="summaryGroup">
+<table>
+<tr>
+<td>
+<div class="infoBox" id="tests">
+<div class="counter">4</div>
+<p>tests</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="failures">
+<div class="counter">4</div>
+<p>failures</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="ignored">
+<div class="counter">0</div>
+<p>ignored</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="duration">
+<div class="counter">0.010s</div>
+<p>duration</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</td>
+<td>
+<div class="infoBox failures" id="successRate">
+<div class="percent">0%</div>
+<p>successful</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="tab-container">
+<ul class="tabLinks">
+<li>
+<a href="#">Failed tests</a>
+</li>
+<li>
+<a href="#">Tests</a>
+</li>
+</ul>
+<div class="tab">
+<h2>Failed tests</h2>
+<div class="test">
+<a name="exchangeAuthCode()"></a>
+<h3 class="failures">exchangeAuthCode()</h3>
+<span class="code">
+<pre>java.lang.NullPointerException: Cannot invoke &quot;io.kristixlab.notion.api.http.transport.HttpTransport.call(String, io.kristixlab.notion.api.http.transport.rq.URLInfo, Object, java.lang.Class)&quot; because &quot;this.transport&quot; is null
+	at io.kristixlab.notion.api.endpoints.impl.AuthorizationEndpointImpl.createToken(AuthorizationEndpointImpl.java:61)
+	at io.kristixlab.notion.api.endpoints.impl.AuthorizationEndpointImpl.createToken(AuthorizationEndpointImpl.java:48)
+	at io.kristixlab.notion.api.examples.AuthorizationEndpointImplExample.exchangeAuthCode(AuthorizationEndpointImplExample.java:24)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+</pre>
+</span>
+</div>
+<div class="test">
+<a name="introspectToken()"></a>
+<h3 class="failures">introspectToken()</h3>
+<span class="code">
+<pre>java.lang.NullPointerException: Cannot invoke &quot;io.kristixlab.notion.api.http.transport.HttpTransport.call(String, io.kristixlab.notion.api.http.transport.rq.URLInfo, Object, java.lang.Class)&quot; because &quot;this.transport&quot; is null
+	at io.kristixlab.notion.api.endpoints.impl.AuthorizationEndpointImpl.introspectToken(AuthorizationEndpointImpl.java:189)
+	at io.kristixlab.notion.api.endpoints.impl.AuthorizationEndpointImpl.introspectToken(AuthorizationEndpointImpl.java:177)
+	at io.kristixlab.notion.api.examples.AuthorizationEndpointImplExample.introspectToken(AuthorizationEndpointImplExample.java:41)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+</pre>
+</span>
+</div>
+<div class="test">
+<a name="refreshToken()"></a>
+<h3 class="failures">refreshToken()</h3>
+<span class="code">
+<pre>java.lang.NullPointerException: Cannot invoke &quot;io.kristixlab.notion.api.http.transport.HttpTransport.call(String, io.kristixlab.notion.api.http.transport.rq.URLInfo, Object, java.lang.Class)&quot; because &quot;this.transport&quot; is null
+	at io.kristixlab.notion.api.endpoints.impl.AuthorizationEndpointImpl.refreshToken(AuthorizationEndpointImpl.java:116)
+	at io.kristixlab.notion.api.endpoints.impl.AuthorizationEndpointImpl.refreshToken(AuthorizationEndpointImpl.java:104)
+	at io.kristixlab.notion.api.examples.AuthorizationEndpointImplExample.refreshToken(AuthorizationEndpointImplExample.java:33)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+</pre>
+</span>
+</div>
+<div class="test">
+<a name="revokeToken()"></a>
+<h3 class="failures">revokeToken()</h3>
+<span class="code">
+<pre>java.lang.NullPointerException: Cannot invoke &quot;io.kristixlab.notion.api.http.transport.HttpTransport.call(String, io.kristixlab.notion.api.http.transport.rq.URLInfo, Object, java.lang.Class)&quot; because &quot;this.transport&quot; is null
+	at io.kristixlab.notion.api.endpoints.impl.AuthorizationEndpointImpl.revokeToken(AuthorizationEndpointImpl.java:242)
+	at io.kristixlab.notion.api.examples.AuthorizationEndpointImplExample.revokeToken(AuthorizationEndpointImplExample.java:49)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+</pre>
+</span>
+</div>
+</div>
+<div class="tab">
+<h2>Tests</h2>
+<table>
+<thead>
+<tr>
+<th>Test</th>
+<th>Duration</th>
+<th>Result</th>
+</tr>
+</thead>
+<tr>
+<td class="failures">exchangeAuthCode()</td>
+<td class="failures">0.001s</td>
+<td class="failures">failed</td>
+</tr>
+<tr>
+<td class="failures">introspectToken()</td>
+<td class="failures">0.004s</td>
+<td class="failures">failed</td>
+</tr>
+<tr>
+<td class="failures">refreshToken()</td>
+<td class="failures">0.003s</td>
+<td class="failures">failed</td>
+</tr>
+<tr>
+<td class="failures">revokeToken()</td>
+<td class="failures">0.002s</td>
+<td class="failures">failed</td>
+</tr>
+</table>
+</div>
+</div>
+<div id="footer">
+<p>
+<div>
+<label class="hidden" id="label-for-line-wrapping-toggle" for="line-wrapping-toggle">Wrap lines
+<input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
+</label>
+</div>Generated by 
+<a href="https://www.gradle.org">Gradle 8.14.4</a> at Mar 20, 2026, 5:11:32 PM</p>
+</div>
+</div>
+</body>
+</html>

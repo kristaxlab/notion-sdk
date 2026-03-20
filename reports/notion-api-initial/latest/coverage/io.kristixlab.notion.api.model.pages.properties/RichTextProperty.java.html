@@ -18,14 +18,15 @@ public class RichTextProperty extends PageProperty {
 
   public static RichTextProperty of(String text) {
 <span class="nc" id="L20">    RichTextProperty property = new RichTextProperty();</span>
-<span class="nc" id="L21">    property.getRichText().add(RichText.of(text));</span>
-<span class="nc" id="L22">    return property;</span>
+<span class="nc" id="L21">    List&lt;RichText&gt; richTexts = RichText.builder().fromText(text).buildAsList();</span>
+<span class="nc" id="L22">    property.setRichText(richTexts);</span>
+<span class="nc" id="L23">    return property;</span>
   }
 
   public static RichTextProperty of(List&lt;RichText&gt; richText) {
-<span class="nc" id="L26">    RichTextProperty property = new RichTextProperty();</span>
-<span class="nc" id="L27">    property.getRichText().addAll(richText);</span>
-<span class="nc" id="L28">    return property;</span>
+<span class="nc" id="L27">    RichTextProperty property = new RichTextProperty();</span>
+<span class="nc" id="L28">    property.getRichText().addAll(richText);</span>
+<span class="nc" id="L29">    return property;</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

@@ -16,16 +16,20 @@ public class SelectValue {
   @JsonProperty(&quot;color&quot;)
   private String color;
 
+  public static SelectValue of(String name) {
+<span class="nc" id="L20">    return of(null, name, null);</span>
+  }
+
   public static SelectValue of(String name, Color color) {
-<span class="nc" id="L20">    return of(null, name, color);</span>
+<span class="nc" id="L24">    return of(null, name, color);</span>
   }
 
   public static SelectValue of(String id, String name, Color color) {
-<span class="nc" id="L24">    SelectValue selectValue = new SelectValue();</span>
-<span class="nc" id="L25">    selectValue.setId(id);</span>
-<span class="nc" id="L26">    selectValue.setName(name);</span>
-<span class="nc" id="L27">    selectValue.setColor(color.getValue());</span>
-<span class="nc" id="L28">    return selectValue;</span>
+<span class="nc" id="L28">    SelectValue selectValue = new SelectValue();</span>
+<span class="nc" id="L29">    selectValue.setId(id);</span>
+<span class="nc" id="L30">    selectValue.setName(name);</span>
+<span class="nc bnc" id="L31" title="All 2 branches missed.">    selectValue.setColor(color != null ? color.getValue() : null);</span>
+<span class="nc" id="L32">    return selectValue;</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

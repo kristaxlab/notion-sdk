@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DataSourceSchemaBuilder.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">notion-sdk</a> &gt; <a href="index.source.html" class="el_package">io.kristixlab.notion.api.model.datasources.properties.helper</a> &gt; <span class="el_source">DataSourceSchemaBuilder.java</span></div><h1>DataSourceSchemaBuilder.java</h1><pre class="source lang-java linenums">package io.kristixlab.notion.api.model.datasources.properties.helper;
+
+import io.kristixlab.notion.api.model.datasources.properties.*;
+
+/**
+ * A fluent builder for constructing a Notion data source (database) property schema.
+ *
+ * &lt;p&gt;Use {@link #builder()} to obtain an instance, chain the desired property methods, and call
+ * {@link #build()} to produce the property map for the Notion API.
+ *
+ * &lt;p&gt;All property methods are defined in {@link AbstractDataSourceSchemaBuilder}; this class is the
+ * concrete, standalone entry point. For embedding inside a request builder (avoiding the explicit
+ * {@code DataSourceSchemaBuilder.builder()} / {@code .build()} wrapping) use the {@code
+ * propertiesBuilder()} method provided by {@code CreateDatabaseParams.Builder} or {@code
+ * CreateDataSourceParams.Builder}.
+ *
+ * &lt;p&gt;Example — standalone:
+ *
+ * &lt;pre&gt;{@code
+ * Map&lt;String, DataSourcePropertySchemaParams&gt; schema = DataSourceSchemaBuilder.builder()
+ *     .title(&quot;Name&quot;)
+ *     .number(&quot;Price&quot;, NumberFormatType.DOLLAR)
+ *     .select(&quot;Status&quot;, &quot;Active&quot;, &quot;Archived&quot;)
+ *     .build();
+ * }&lt;/pre&gt;
+ *
+ * &lt;p&gt;Example — embedded (step-builder):
+ *
+ * &lt;pre&gt;{@code
+ * CreateDatabaseParams params = CreateDatabaseParams.builder()
+ *     .parentPage(pageId)
+ *     .title(&quot;My DB&quot;)
+ *     .propertiesBuilder()
+ *         .title(&quot;Name&quot;)
+ *         .number(&quot;Price&quot;, NumberFormatType.DOLLAR)
+ *         .select(&quot;Status&quot;, &quot;Active&quot;, &quot;Archived&quot;)
+ *     .buildProperties()
+ *     .build();
+ * }&lt;/pre&gt;
+ *
+ * &lt;p&gt;Example — consumer (lambda):
+ *
+ * &lt;pre&gt;{@code
+ * CreateDatabaseParams params = CreateDatabaseParams.builder()
+ *     .parentPage(pageId)
+ *     .title(&quot;My DB&quot;)
+ *     .properties(s -&gt; s
+ *         .title(&quot;Name&quot;)
+ *         .number(&quot;Price&quot;, NumberFormatType.DOLLAR)
+ *         .select(&quot;Status&quot;, &quot;Active&quot;, &quot;Archived&quot;))
+ *     .build();
+ * }&lt;/pre&gt;
+ *
+ * @see AbstractDataSourceSchemaBuilder
+ * @see PropertiesStep
+ */
+public final class DataSourceSchemaBuilder
+    extends AbstractDataSourceSchemaBuilder&lt;DataSourceSchemaBuilder&gt; {
+
+  private DataSourceSchemaBuilder() {}
+
+  /**
+   * Creates and returns a new {@code DataSourceSchemaBuilder} instance.
+   *
+   * @return a fresh builder
+   */
+  public static DataSourceSchemaBuilder builder() {
+<span class="nc" id="L68">    return new DataSourceSchemaBuilder();</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

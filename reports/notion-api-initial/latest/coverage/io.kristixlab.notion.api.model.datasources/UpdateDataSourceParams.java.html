@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UpdateDataSourceParams.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">notion-sdk</a> &gt; <a href="index.source.html" class="el_package">io.kristixlab.notion.api.model.datasources</a> &gt; <span class="el_source">UpdateDataSourceParams.java</span></div><h1>UpdateDataSourceParams.java</h1><pre class="source lang-java linenums">package io.kristixlab.notion.api.model.datasources;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import io.kristixlab.notion.api.model.common.*;
+import io.kristixlab.notion.api.model.datasources.properties.DataSourcePropertySchemaParams;
+import io.kristixlab.notion.api.model.datasources.properties.helper.DataSourceSchemaBuilder;
+import io.kristixlab.notion.api.model.datasources.properties.helper.PropertiesStep;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
+import lombok.Data;
+
+/**
+ * Represents a Notion data source object. Contains the data source schema, properties, and
+ * metadata.
+ */
+@Data
+public class UpdateDataSourceParams {
+
+  @JsonProperty(&quot;parent&quot;)
+  private Parent parent;
+
+  @JsonProperty(&quot;title&quot;)
+  private List&lt;RichText&gt; title;
+
+  @JsonProperty(&quot;properties&quot;)
+  @JsonInclude(value = JsonInclude.Include.NON_NULL, content = JsonInclude.Include.ALWAYS)
+  private Map&lt;String, DataSourcePropertySchemaParams&gt; properties;
+
+  @JsonProperty(&quot;icon&quot;)
+  private IconParams icon;
+
+  @JsonProperty(&quot;in_trash&quot;)
+  private Boolean inTrash;
+
+  public static Builder builder() {
+<span class="nc" id="L39">    return new Builder();</span>
+  }
+
+<span class="nc" id="L42">  public static class Builder {</span>
+    private List&lt;RichText&gt; title;
+    private Map&lt;String, DataSourcePropertySchemaParams&gt; properties;
+    private IconParams icon;
+    private Boolean inTrash;
+
+    public Builder title(String title) {
+<span class="nc" id="L49">      return title(RichText.builder().fromText(title).buildAsList());</span>
+    }
+
+    public Builder title(List&lt;RichText&gt; title) {
+<span class="nc" id="L53">      this.title = title;</span>
+<span class="nc" id="L54">      return this;</span>
+    }
+
+    public Builder icon(IconParams icon) {
+<span class="nc" id="L58">      this.icon = icon;</span>
+<span class="nc" id="L59">      return this;</span>
+    }
+
+    public Builder inTrash(Boolean inTrash) {
+<span class="nc" id="L63">      this.inTrash = inTrash;</span>
+<span class="nc" id="L64">      return this;</span>
+    }
+
+    /** Sets the property schema via a pre-built map. */
+    public Builder properties(Map&lt;String, DataSourcePropertySchemaParams&gt; properties) {
+<span class="nc" id="L69">      this.properties = properties;</span>
+<span class="nc" id="L70">      return this;</span>
+    }
+
+    /**
+     * Opens an embedded schema step-builder. Call {@link PropertiesStep#buildProperties()} to
+     * return to this builder.
+     */
+    public PropertiesStep&lt;Builder&gt; propertiesBuilder() {
+<span class="nc" id="L78">      return new PropertiesStep&lt;&gt;(this, this::properties);</span>
+    }
+
+    /** Sets the property schema via a consumer lambda. */
+    public Builder properties(Consumer&lt;DataSourceSchemaBuilder&gt; configurator) {
+<span class="nc" id="L83">      DataSourceSchemaBuilder schema = DataSourceSchemaBuilder.builder();</span>
+<span class="nc" id="L84">      configurator.accept(schema);</span>
+<span class="nc" id="L85">      return properties(schema.build());</span>
+    }
+
+    /** Sets the property schema via an external producer. */
+    public Builder properties(Supplier&lt;Map&lt;String, DataSourcePropertySchemaParams&gt;&gt; producer) {
+<span class="nc" id="L90">      return properties(producer.get());</span>
+    }
+
+    public UpdateDataSourceParams build() {
+<span class="nc" id="L94">      UpdateDataSourceParams params = new UpdateDataSourceParams();</span>
+<span class="nc" id="L95">      params.setTitle(title);</span>
+<span class="nc" id="L96">      params.setProperties(properties);</span>
+<span class="nc" id="L97">      params.setIcon(icon);</span>
+<span class="nc" id="L98">      params.setInTrash(inTrash);</span>
+<span class="nc" id="L99">      return params;</span>
+    }
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

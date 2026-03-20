@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DataSourcesEndpointImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">notion-sdk</a> &gt; <a href="index.source.html" class="el_package">io.kristixlab.notion.api.endpoints.impl</a> &gt; <span class="el_source">DataSourcesEndpointImpl.java</span></div><h1>DataSourcesEndpointImpl.java</h1><pre class="source lang-java linenums">package io.kristixlab.notion.api.endpoints.impl;
 
 import io.kristixlab.notion.api.endpoints.DataSourcesEndpoint;
-import io.kristixlab.notion.api.http.NotionHttpTransport;
-import io.kristixlab.notion.api.http.transport.HttpTransportImpl;
+import io.kristixlab.notion.api.http.transport.HttpTransport;
 import io.kristixlab.notion.api.http.transport.rq.URLInfo;
-import io.kristixlab.notion.api.model.datasources.CreateDataSourceRequest;
-import io.kristixlab.notion.api.model.datasources.DataSource;
-import io.kristixlab.notion.api.model.datasources.DataSourcePageList;
-import io.kristixlab.notion.api.model.datasources.DataSourceQuery;
+import io.kristixlab.notion.api.model.datasources.*;
 import io.kristixlab.notion.api.model.pages.templates.Templates;
 
 /**
@@ -18,11 +14,11 @@ public class DataSourcesEndpointImpl implements DataSourcesEndpoint {
 
   private static final String DATA_SOURCE_ID = &quot;data_source_id&quot;;
 
-  private final HttpTransportImpl transport;
+  private final HttpTransport transport;
 
-<span class="nc" id="L23">  public DataSourcesEndpointImpl(NotionHttpTransport transport) {</span>
-<span class="nc" id="L24">    this.transport = transport;</span>
-<span class="nc" id="L25">  }</span>
+<span class="fc" id="L19">  public DataSourcesEndpointImpl(HttpTransport transport) {</span>
+<span class="fc" id="L20">    this.transport = transport;</span>
+<span class="fc" id="L21">  }</span>
 
   /**
    * Retrieve a data source by its ID.
@@ -31,12 +27,12 @@ public class DataSourcesEndpointImpl implements DataSourcesEndpoint {
    * @return The data source object
    */
   public DataSource retrieve(String dataSourceId) {
-<span class="nc" id="L34">    validateDataSourceId(dataSourceId);</span>
-<span class="nc" id="L35">    URLInfo urlInfo =</span>
-<span class="nc" id="L36">        URLInfo.builder(&quot;/data_sources/{data_source_id}&quot;)</span>
-<span class="nc" id="L37">            .pathParam(DATA_SOURCE_ID, dataSourceId)</span>
-<span class="nc" id="L38">            .build();</span>
-<span class="nc" id="L39">    return transport.call(&quot;GET&quot;, urlInfo, DataSource.class);</span>
+<span class="fc" id="L30">    validateDataSourceId(dataSourceId);</span>
+<span class="fc" id="L31">    URLInfo urlInfo =</span>
+<span class="fc" id="L32">        URLInfo.builder(&quot;/data_sources/{data_source_id}&quot;)</span>
+<span class="fc" id="L33">            .pathParam(DATA_SOURCE_ID, dataSourceId)</span>
+<span class="fc" id="L34">            .build();</span>
+<span class="fc" id="L35">    return transport.call(&quot;GET&quot;, urlInfo, DataSource.class);</span>
   }
 
   /**
@@ -45,9 +41,9 @@ public class DataSourcesEndpointImpl implements DataSourcesEndpoint {
    * @param request The request containing data source data
    * @return The created data source
    */
-  public DataSource create(CreateDataSourceRequest request) {
-<span class="nc" id="L49">    validateRequest(request);</span>
-<span class="nc" id="L50">    return transport.call(&quot;POST&quot;, URLInfo.from(&quot;/data_sources&quot;), request, DataSource.class);</span>
+  public DataSource create(CreateDataSourceParams request) {
+<span class="fc" id="L45">    validateRequest(request);</span>
+<span class="fc" id="L46">    return transport.call(&quot;POST&quot;, URLInfo.from(&quot;/data_sources&quot;), request, DataSource.class);</span>
   }
 
   /**
@@ -57,18 +53,16 @@ public class DataSourcesEndpointImpl implements DataSourcesEndpoint {
    * @param request The request containing updated data source data
    * @return The updated data source
    */
-  // TODO replace with UpdateDatasourceRequest to only support fields that are actually possible to
-  // change via the API
-  public DataSource update(String dataSourceId, DataSource request) {
-<span class="nc" id="L63">    validateDataSourceId(dataSourceId);</span>
-<span class="nc" id="L64">    validateRequest(request);</span>
+  public DataSource update(String dataSourceId, UpdateDataSourceParams request) {
+<span class="fc" id="L57">    validateDataSourceId(dataSourceId);</span>
+<span class="fc" id="L58">    validateRequest(request);</span>
 
-<span class="nc" id="L66">    URLInfo urlInfo =</span>
-<span class="nc" id="L67">        URLInfo.builder(&quot;/data_sources/{data_source_id}&quot;)</span>
-<span class="nc" id="L68">            .pathParam(DATA_SOURCE_ID, dataSourceId)</span>
-<span class="nc" id="L69">            .build();</span>
+<span class="fc" id="L60">    URLInfo urlInfo =</span>
+<span class="fc" id="L61">        URLInfo.builder(&quot;/data_sources/{data_source_id}&quot;)</span>
+<span class="fc" id="L62">            .pathParam(DATA_SOURCE_ID, dataSourceId)</span>
+<span class="fc" id="L63">            .build();</span>
 
-<span class="nc" id="L71">    return transport.call(&quot;PATCH&quot;, urlInfo, request, DataSource.class);</span>
+<span class="fc" id="L65">    return transport.call(&quot;PATCH&quot;, urlInfo, request, DataSource.class);</span>
   }
 
   /**
@@ -79,9 +73,9 @@ public class DataSourcesEndpointImpl implements DataSourcesEndpoint {
    * @return The updated data source with inTrash set to true
    */
   public DataSource delete(String dataSourceId) {
-<span class="nc" id="L82">    DataSource deleteRequest = new DataSource();</span>
-<span class="nc" id="L83">    deleteRequest.setInTrash(true);</span>
-<span class="nc" id="L84">    return update(dataSourceId, deleteRequest);</span>
+<span class="fc" id="L76">    UpdateDataSourceParams deleteRequest = new UpdateDataSourceParams();</span>
+<span class="fc" id="L77">    deleteRequest.setInTrash(true);</span>
+<span class="fc" id="L78">    return update(dataSourceId, deleteRequest);</span>
   }
 
   /**
@@ -92,9 +86,9 @@ public class DataSourcesEndpointImpl implements DataSourcesEndpoint {
    * @return The updated data source with inTrash set to false
    */
   public DataSource restore(String dataSourceId) {
-<span class="nc" id="L95">    DataSource restoreRequest = new DataSource();</span>
-<span class="nc" id="L96">    restoreRequest.setInTrash(false);</span>
-<span class="nc" id="L97">    return update(dataSourceId, restoreRequest);</span>
+<span class="fc" id="L89">    UpdateDataSourceParams restoreRequest = new UpdateDataSourceParams();</span>
+<span class="fc" id="L90">    restoreRequest.setInTrash(false);</span>
+<span class="fc" id="L91">    return update(dataSourceId, restoreRequest);</span>
   }
 
   /**
@@ -104,7 +98,7 @@ public class DataSourcesEndpointImpl implements DataSourcesEndpoint {
    * @return Response containing matching pages
    */
   public DataSourcePageList query(String dataSourceId) {
-<span class="nc" id="L107">    return query(dataSourceId, null, null, null);</span>
+<span class="nc" id="L101">    return query(dataSourceId, null, null, null);</span>
   }
 
   /**
@@ -115,7 +109,7 @@ public class DataSourcesEndpointImpl implements DataSourcesEndpoint {
    * @return Response containing matching pages
    */
   public DataSourcePageList query(String dataSourceId, DataSourceQuery request) {
-<span class="nc" id="L118">    return query(dataSourceId, request, null, null);</span>
+<span class="fc" id="L112">    return query(dataSourceId, request, null, null);</span>
   }
 
   /**
@@ -127,7 +121,7 @@ public class DataSourcesEndpointImpl implements DataSourcesEndpoint {
    * @return Response containing matching pages
    */
   public DataSourcePageList query(String dataSourceId, String startCursor, Integer pageSize) {
-<span class="nc" id="L130">    return query(dataSourceId, new DataSourceQuery(), startCursor, pageSize);</span>
+<span class="fc" id="L124">    return query(dataSourceId, new DataSourceQuery(), startCursor, pageSize);</span>
   }
 
   /**
@@ -141,23 +135,23 @@ public class DataSourcesEndpointImpl implements DataSourcesEndpoint {
    */
   public DataSourcePageList query(
       String dataSourceId, DataSourceQuery request, String startCursor, Integer pageSize) {
-<span class="nc" id="L144">    validateDataSourceId(dataSourceId);</span>
-<span class="nc" id="L145">    validateRequest(request);</span>
+<span class="fc" id="L138">    validateDataSourceId(dataSourceId);</span>
+<span class="fc" id="L139">    validateRequest(request);</span>
 
-<span class="nc bnc" id="L147" title="All 2 branches missed.">    if (startCursor != null) {</span>
-<span class="nc" id="L148">      request.setStartCursor(startCursor);</span>
+<span class="fc bfc" id="L141" title="All 2 branches covered.">    if (startCursor != null) {</span>
+<span class="fc" id="L142">      request.setStartCursor(startCursor);</span>
     }
 
-<span class="nc bnc" id="L151" title="All 2 branches missed.">    if (pageSize != null) {</span>
-<span class="nc" id="L152">      request.setPageSize(pageSize);</span>
+<span class="fc bfc" id="L145" title="All 2 branches covered.">    if (pageSize != null) {</span>
+<span class="fc" id="L146">      request.setPageSize(pageSize);</span>
     }
 
-<span class="nc" id="L155">    URLInfo urlInfo =</span>
-<span class="nc" id="L156">        URLInfo.builder(&quot;/data_sources/{data_source_id}/query&quot;)</span>
-<span class="nc" id="L157">            .pathParam(DATA_SOURCE_ID, dataSourceId)</span>
-<span class="nc" id="L158">            .build();</span>
+<span class="fc" id="L149">    URLInfo urlInfo =</span>
+<span class="fc" id="L150">        URLInfo.builder(&quot;/data_sources/{data_source_id}/query&quot;)</span>
+<span class="fc" id="L151">            .pathParam(DATA_SOURCE_ID, dataSourceId)</span>
+<span class="fc" id="L152">            .build();</span>
 
-<span class="nc" id="L160">    return transport.call(&quot;POST&quot;, urlInfo, request, DataSourcePageList.class);</span>
+<span class="fc" id="L154">    return transport.call(&quot;POST&quot;, urlInfo, request, DataSourcePageList.class);</span>
   }
 
   /**
@@ -167,24 +161,24 @@ public class DataSourcesEndpointImpl implements DataSourcesEndpoint {
    * @return Templates
    */
   public Templates retrieveTemplates(String dataSourceId) {
-<span class="nc" id="L170">    validateDataSourceId(dataSourceId);</span>
-<span class="nc" id="L171">    URLInfo urlInfo =</span>
-<span class="nc" id="L172">        URLInfo.builder(&quot;/data_sources/{data_source_id}/templates&quot;)</span>
-<span class="nc" id="L173">            .pathParam(DATA_SOURCE_ID, dataSourceId)</span>
-<span class="nc" id="L174">            .build();</span>
-<span class="nc" id="L175">    return transport.call(&quot;GET&quot;, urlInfo, Templates.class);</span>
+<span class="fc" id="L164">    validateDataSourceId(dataSourceId);</span>
+<span class="fc" id="L165">    URLInfo urlInfo =</span>
+<span class="fc" id="L166">        URLInfo.builder(&quot;/data_sources/{data_source_id}/templates&quot;)</span>
+<span class="fc" id="L167">            .pathParam(DATA_SOURCE_ID, dataSourceId)</span>
+<span class="fc" id="L168">            .build();</span>
+<span class="fc" id="L169">    return transport.call(&quot;GET&quot;, urlInfo, Templates.class);</span>
   }
 
   private void validateDataSourceId(String dataSourceId) {
-<span class="nc bnc" id="L179" title="All 4 branches missed.">    if (dataSourceId == null || dataSourceId.trim().isEmpty()) {</span>
-<span class="nc" id="L180">      throw new IllegalArgumentException(&quot;Data source ID cannot be null or empty&quot;);</span>
+<span class="fc bfc" id="L173" title="All 4 branches covered.">    if (dataSourceId == null || dataSourceId.trim().isEmpty()) {</span>
+<span class="fc" id="L174">      throw new IllegalArgumentException(&quot;Data source ID cannot be null or empty&quot;);</span>
     }
-<span class="nc" id="L182">  }</span>
+<span class="fc" id="L176">  }</span>
 
   private void validateRequest(Object request) {
-<span class="nc bnc" id="L185" title="All 2 branches missed.">    if (request == null) {</span>
-<span class="nc" id="L186">      throw new IllegalArgumentException(&quot;Request cannot be null&quot;);</span>
+<span class="fc bfc" id="L179" title="All 2 branches covered.">    if (request == null) {</span>
+<span class="fc" id="L180">      throw new IllegalArgumentException(&quot;Request cannot be null&quot;);</span>
     }
-<span class="nc" id="L188">  }</span>
+<span class="fc" id="L182">  }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

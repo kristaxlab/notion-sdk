@@ -1,0 +1,480 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>StatusSchemaParams.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">notion-sdk</a> &gt; <a href="index.source.html" class="el_package">io.kristixlab.notion.api.model.datasources.properties</a> &gt; <span class="el_source">StatusSchemaParams.java</span></div><h1>StatusSchemaParams.java</h1><pre class="source lang-java linenums">package io.kristixlab.notion.api.model.datasources.properties;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import io.kristixlab.notion.api.model.common.Color;
+import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+/**
+ * Schema params for a Notion {@code status} database property.
+ *
+ * &lt;p&gt;Because the Notion API handles status schema differently on creation vs. update, this class
+ * exposes two distinct entry points:
+ *
+ * &lt;ul&gt;
+ *   &lt;li&gt;{@link #builder()} — for &lt;strong&gt;creating&lt;/strong&gt; a new status property. Notion silently
+ *       ignores group configuration during creation and places every option in the built-in &quot;To-do&quot;
+ *       group automatically. Only option names and colors are needed here.
+ *   &lt;li&gt;{@link #editor(StatusSchema)} — for &lt;strong&gt;reorganising groups&lt;/strong&gt; after the property
+ *       has been created. Accepts the live {@link StatusSchema} (retrieved from Notion) so that
+ *       real Notion-assigned IDs are resolved internally by name, mirroring the drag-and-drop
+ *       experience in the Notion UI.
+ * &lt;/ul&gt;
+ *
+ * &lt;p&gt;Typical usage:
+ *
+ * &lt;pre&gt;{@code
+ * // ── Step 1: create with options ────────────────────────────────────────
+ * DataSourceSchemaBuilder.builder()
+ *     .status(&quot;Status&quot;, StatusSchemaParams.builder()
+ *         .option(&quot;Idea&quot;,        Color.DEFAULT)
+ *         .option(&quot;In Progress&quot;, Color.YELLOW)
+ *         .option(&quot;Completed&quot;,   Color.GREEN)
+ *         .option(&quot;Cancelled&quot;,   Color.RED)
+ *         .build())
+ *     .build();
+ *
+ * // ── Step 2: retrieve live schema to get real Notion IDs ─────────────────
+ * DataSource ds = notion.dataSources().retrieve(dsId);
+ * StatusSchema existing = (StatusSchema) ds.getProperties().get(&quot;Status&quot;);
+ *
+ * // ── Step 3: reorganise options into groups ──────────────────────────────
+ * StatusSchemaParams reorganised = StatusSchemaParams.editor(existing)
+ *     .toDo()
+ *         .option(&quot;Idea&quot;)
+ *     .inProgress()
+ *         .option(&quot;In Progress&quot;)
+ *     .completed()
+ *         .option(&quot;Completed&quot;)
+ *         .option(&quot;Cancelled&quot;)
+ *     .build();
+ * }&lt;/pre&gt;
+ */
+@Data
+@EqualsAndHashCode(callSuper = true)
+public class StatusSchemaParams extends DataSourcePropertySchemaParams {
+
+  @JsonProperty(&quot;status&quot;)
+  private StatusConfig status = new StatusConfig();
+
+  @Data
+  public static class StatusConfig {
+
+    @JsonProperty(&quot;options&quot;)
+    private List&lt;StatusOption&gt; options;
+
+    @JsonProperty(&quot;groups&quot;)
+    private List&lt;StatusGroup&gt; groups;
+  }
+
+  // ── Static factories ────────────────────────────────────────────────────
+
+  /**
+   * Returns a builder for &lt;em&gt;creating&lt;/em&gt; a new status property.
+   *
+   * &lt;p&gt;Notion ignores group configuration on creation; all options are placed in the built-in
+   * &quot;To-do&quot; group automatically. Use {@link #editor(StatusSchema)} to reorganise options across
+   * groups once the property has been created and Notion has assigned real IDs.
+   *
+   * @return a new {@link Builder}
+   */
+  public static Builder builder() {
+<span class="nc" id="L85">    return new Builder();</span>
+  }
+
+  /**
+   * Returns an editor for &lt;em&gt;reorganising the group membership&lt;/em&gt; of an existing status
+   * property.
+   *
+   * &lt;p&gt;The {@code existing} schema — typically obtained by retrieving the data source and casting
+   * the property value to {@link StatusSchema} — carries the real Notion-assigned IDs for every
+   * option and group. The {@link Editor} lets you work by &lt;em&gt;name&lt;/em&gt; (exactly as in the Notion
+   * UI) and resolves those names to the correct IDs internally before sending the update.
+   *
+   * &lt;pre&gt;{@code
+   * DataSource ds = notion.dataSources().retrieve(dsId);
+   * StatusSchema existing = (StatusSchema) ds.getProperties().get(&quot;Status&quot;);
+   *
+   * StatusSchemaParams updated = StatusSchemaParams.editor(existing)
+   *     .toDo()
+   *         .option(&quot;Idea&quot;)
+   *     .inProgress()
+   *         .option(&quot;In Progress&quot;)
+   *     .completed()
+   *         .option(&quot;Completed&quot;)
+   *         .option(&quot;Cancelled&quot;)
+   *     .build();
+   * }&lt;/pre&gt;
+   *
+   * @param existing the live {@link StatusSchema} retrieved from Notion
+   * @return a new {@link Editor}
+   */
+  public static Editor editor(StatusSchema existing) {
+<span class="nc" id="L116">    return new Editor(existing);</span>
+  }
+
+  // ── Creation Builder ────────────────────────────────────────────────────
+
+  /**
+   * Fluent builder for &lt;em&gt;creating&lt;/em&gt; a status property schema.
+   *
+   * &lt;p&gt;Notion ignores group configuration on creation and places all options in the built-in
+   * &quot;To-do&quot; group by default. After creation, use {@link StatusSchemaParams#editor(StatusSchema)}
+   * to reorganise options across groups.
+   */
+<span class="nc" id="L128">  public static class Builder {</span>
+
+<span class="nc" id="L130">    private final List&lt;StatusOption&gt; options = new ArrayList&lt;&gt;();</span>
+
+    /**
+     * Adds a status option with the default color.
+     *
+     * @param name the option name as it will appear in Notion
+     * @return this builder
+     */
+    public Builder option(String name) {
+<span class="nc" id="L139">      return option(name, (Color) null);</span>
+    }
+
+    /**
+     * Adds a status option with the given {@link Color}.
+     *
+     * @param name the option name
+     * @param color the option color, or {@code null} for the Notion default
+     * @return this builder
+     */
+    public Builder option(String name, Color color) {
+<span class="nc bnc" id="L150" title="All 2 branches missed.">      return option(name, color == null ? null : color.getValue());</span>
+    }
+
+    /**
+     * Adds a status option with the given raw color string (e.g. {@code &quot;blue&quot;}).
+     *
+     * &lt;p&gt;Prefer the {@link #option(String, Color)} overload where possible.
+     *
+     * @param name the option name
+     * @param color the raw color string accepted by the Notion API
+     * @return this builder
+     */
+    public Builder option(String name, String color) {
+<span class="nc" id="L163">      StatusOption opt = new StatusOption();</span>
+<span class="nc" id="L164">      opt.setName(name);</span>
+<span class="nc bnc" id="L165" title="All 2 branches missed.">      if (color != null) {</span>
+<span class="nc" id="L166">        opt.setColor(color);</span>
+      }
+<span class="nc" id="L168">      options.add(opt);</span>
+<span class="nc" id="L169">      return this;</span>
+    }
+
+    /**
+     * Builds and returns the {@link StatusSchemaParams}.
+     *
+     * @return the configured params, ready to pass to the create-data-source request
+     */
+    public StatusSchemaParams build() {
+<span class="nc" id="L178">      StatusSchemaParams params = new StatusSchemaParams();</span>
+<span class="nc" id="L179">      StatusConfig config = new StatusConfig();</span>
+<span class="nc bnc" id="L180" title="All 2 branches missed.">      config.setOptions(options.isEmpty() ? null : new ArrayList&lt;&gt;(options));</span>
+<span class="nc" id="L181">      params.setStatus(config);</span>
+<span class="nc" id="L182">      return params;</span>
+    }
+  }
+
+  // ── Update Editor ────────────────────────────────────────────────────────
+
+  /**
+   * Fluent editor for &lt;em&gt;reorganising the group membership&lt;/em&gt; of an existing status property.
+   *
+   * &lt;p&gt;The editor mirrors the Notion UI experience: call {@link #group(String)} to select a target
+   * group by name, then call {@link #option(String)} one or more times to move options into that
+   * group. All lookups are performed by name (case-sensitive) against the live schema supplied to
+   * {@link StatusSchemaParams#editor(StatusSchema)}, with ID-based fallback.
+   *
+   * &lt;p&gt;Each option belongs to exactly one group. When an option is moved to a group via {@link
+   * #option(String)}, it is automatically removed from whichever group currently holds it.
+   *
+   * &lt;p&gt;Groups that are not explicitly referenced by {@link #group(String)} retain their existing
+   * option membership unchanged.
+   */
+  public static class Editor {
+
+    /** The fixed name Notion always assigns to the first default group. */
+    public static final String GROUP_TODO = &quot;To-do&quot;;
+
+    /** The fixed name Notion always assigns to the second default group. */
+    public static final String GROUP_IN_PROGRESS = &quot;In progress&quot;;
+
+    /** The fixed name Notion always assigns to the third default group. */
+    public static final String GROUP_COMPLETED = &quot;Completed&quot;;
+
+    private final List&lt;StatusOption&gt; options;
+    private final List&lt;StatusGroup&gt; groups;
+
+    /** Fast name-based lookup — the primary way SDK users reference options. */
+    private final Map&lt;String, StatusOption&gt; optionsByName;
+
+    /** Fast name-based lookup — the primary way SDK users reference groups. */
+    private final Map&lt;String, StatusGroup&gt; groupsByName;
+
+    private StatusGroup activeGroup;
+
+<span class="nc" id="L224">    private Editor(StatusSchema existing) {</span>
+      StatusSchema.StatusConfig cfg =
+<span class="nc bnc" id="L226" title="All 2 branches missed.">          (existing.getStatus() != null) ? existing.getStatus() : new StatusSchema.StatusConfig();</span>
+
+      // Deep-copy options (preserve Notion-assigned IDs; no groups needed here)
+      List&lt;StatusOption&gt; srcOptions =
+<span class="nc bnc" id="L230" title="All 2 branches missed.">          cfg.getOptions() != null ? cfg.getOptions() : Collections.emptyList();</span>
+<span class="nc" id="L231">      this.options =</span>
+<span class="nc" id="L232">          srcOptions.stream()</span>
+<span class="nc" id="L233">              .map(</span>
+                  o -&gt; {
+<span class="nc" id="L235">                    StatusOption copy = new StatusOption();</span>
+<span class="nc" id="L236">                    copy.setId(o.getId());</span>
+<span class="nc" id="L237">                    copy.setName(o.getName());</span>
+<span class="nc" id="L238">                    copy.setColor(o.getColor());</span>
+<span class="nc" id="L239">                    return copy;</span>
+                  })
+<span class="nc" id="L241">              .collect(Collectors.toCollection(ArrayList::new));</span>
+
+      // Deep-copy groups (preserve Notion-assigned IDs; option_ids rebuilt per group() call)
+      List&lt;StatusGroup&gt; srcGroups =
+<span class="nc bnc" id="L245" title="All 2 branches missed.">          cfg.getGroups() != null ? cfg.getGroups() : Collections.emptyList();</span>
+<span class="nc" id="L246">      this.groups =</span>
+<span class="nc" id="L247">          srcGroups.stream()</span>
+<span class="nc" id="L248">              .map(</span>
+                  g -&gt; {
+<span class="nc" id="L250">                    StatusGroup copy = new StatusGroup();</span>
+<span class="nc" id="L251">                    copy.setId(g.getId());</span>
+<span class="nc" id="L252">                    copy.setName(g.getName());</span>
+<span class="nc" id="L253">                    copy.setColor(g.getColor());</span>
+<span class="nc" id="L254">                    copy.setOptionIds(</span>
+<span class="nc bnc" id="L255" title="All 2 branches missed.">                        g.getOptionIds() != null</span>
+<span class="nc" id="L256">                            ? new ArrayList&lt;&gt;(g.getOptionIds())</span>
+<span class="nc" id="L257">                            : new ArrayList&lt;&gt;());</span>
+<span class="nc" id="L258">                    return copy;</span>
+                  })
+<span class="nc" id="L260">              .collect(Collectors.toCollection(ArrayList::new));</span>
+
+<span class="nc" id="L262">      this.optionsByName =</span>
+<span class="nc" id="L263">          this.options.stream()</span>
+<span class="nc bnc" id="L264" title="All 2 branches missed.">              .filter(o -&gt; o.getName() != null)</span>
+<span class="nc" id="L265">              .collect(</span>
+<span class="nc" id="L266">                  Collectors.toMap(</span>
+<span class="nc" id="L267">                      StatusOption::getName, Function.identity(), (a, b) -&gt; a, LinkedHashMap::new));</span>
+
+<span class="nc" id="L269">      this.groupsByName =</span>
+<span class="nc" id="L270">          this.groups.stream()</span>
+<span class="nc bnc" id="L271" title="All 2 branches missed.">              .filter(g -&gt; g.getName() != null)</span>
+<span class="nc" id="L272">              .collect(</span>
+<span class="nc" id="L273">                  Collectors.toMap(</span>
+<span class="nc" id="L274">                      StatusGroup::getName, Function.identity(), (a, b) -&gt; a, LinkedHashMap::new));</span>
+<span class="nc" id="L275">    }</span>
+
+    /**
+     * Selects an existing group as the active target for subsequent {@link #option(String)} calls.
+     *
+     * &lt;p&gt;Because Notion always creates exactly three groups with fixed names — {@value
+     * #GROUP_TODO}, {@value #GROUP_IN_PROGRESS}, and {@value #GROUP_COMPLETED} — prefer the named
+     * convenience methods {@link #toDo()}, {@link #inProgress()}, and {@link #completed()} over
+     * this method. Use {@code group(nameOrId)} only as an escape hatch when a group ID must be used
+     * instead of a name.
+     *
+     * &lt;p&gt;Selecting a group &lt;strong&gt;resets&lt;/strong&gt; its current option membership — only options
+     * explicitly assigned via {@link #option(String)} after this call will belong to the group in
+     * the resulting schema. Groups that are never selected keep their current membership intact.
+     *
+     * @param nameOrId the group name (preferred) or Notion-assigned group ID
+     * @return this editor
+     * @throws IllegalArgumentException if no group with the given name or ID exists in the
+     *     underlying schema
+     */
+    public Editor group(String nameOrId) {
+<span class="nc" id="L296">      StatusGroup g = groupsByName.get(nameOrId);</span>
+<span class="nc bnc" id="L297" title="All 2 branches missed.">      if (g == null) {</span>
+<span class="nc" id="L298">        g =</span>
+<span class="nc" id="L299">            groups.stream()</span>
+<span class="nc" id="L300">                .filter(gr -&gt; nameOrId.equals(gr.getId()))</span>
+<span class="nc" id="L301">                .findFirst()</span>
+<span class="nc" id="L302">                .orElseThrow(</span>
+                    () -&gt;
+<span class="nc" id="L304">                        new IllegalArgumentException(</span>
+                            &quot;No status group found with name or ID: \&quot;&quot;
+                                + nameOrId
+                                + &quot;\&quot;.&quot;
+                                + &quot; Available groups: &quot;
+<span class="nc" id="L309">                                + groupsByName.keySet()));</span>
+      }
+<span class="nc" id="L311">      g.setOptionIds(new ArrayList&lt;&gt;()); // reset; rebuilt by subsequent option() calls</span>
+<span class="nc" id="L312">      activeGroup = g;</span>
+<span class="nc" id="L313">      return this;</span>
+    }
+
+    /**
+     * Selects the &lt;strong&gt;&quot;To-do&quot;&lt;/strong&gt; group as the active target for subsequent {@link
+     * #option(String)} calls.
+     *
+     * &lt;p&gt;Equivalent to {@code group(}{@value #GROUP_TODO}{@code )}.
+     *
+     * @return this editor
+     * @throws IllegalArgumentException if the &quot;To-do&quot; group is not present in the underlying schema
+     */
+    public Editor toDo() {
+<span class="nc" id="L326">      return group(GROUP_TODO);</span>
+    }
+
+    /**
+     * Selects the &lt;strong&gt;&quot;In progress&quot;&lt;/strong&gt; group as the active target for subsequent {@link
+     * #option(String)} calls.
+     *
+     * &lt;p&gt;Equivalent to {@code group(}{@value #GROUP_IN_PROGRESS}{@code )}.
+     *
+     * @return this editor
+     * @throws IllegalArgumentException if the &quot;In progress&quot; group is not present in the underlying
+     *     schema
+     */
+    public Editor inProgress() {
+<span class="nc" id="L340">      return group(GROUP_IN_PROGRESS);</span>
+    }
+
+    /**
+     * Selects the &lt;strong&gt;&quot;Completed&quot;&lt;/strong&gt; group as the active target for subsequent {@link
+     * #option(String)} calls.
+     *
+     * &lt;p&gt;Equivalent to {@code group(}{@value #GROUP_COMPLETED}{@code )}.
+     *
+     * @return this editor
+     * @throws IllegalArgumentException if the &quot;Completed&quot; group is not present in the underlying
+     *     schema
+     */
+    public Editor completed() {
+<span class="nc" id="L354">      return group(GROUP_COMPLETED);</span>
+    }
+
+    /**
+     * Sets the color of the currently active group.
+     *
+     * &lt;p&gt;Must be called after {@link #toDo()}, {@link #inProgress()}, {@link #completed()}, or
+     * {@link #group(String)} has been used to select a group.
+     *
+     * @param color the new group color
+     * @return this editor
+     * @throws IllegalStateException if no group has been selected yet
+     */
+    public Editor color(Color color) {
+<span class="nc bnc" id="L368" title="All 2 branches missed.">      return color(color == null ? null : color.getValue());</span>
+    }
+
+    /**
+     * Sets the color of the currently active group using a raw color string (e.g. {@code &quot;blue&quot;}).
+     *
+     * &lt;p&gt;Prefer the {@link #color(Color)} overload where possible.
+     *
+     * @param color the raw color string accepted by the Notion API, or {@code null} to clear
+     * @return this editor
+     * @throws IllegalStateException if no group has been selected yet
+     */
+    public Editor color(String color) {
+<span class="nc bnc" id="L381" title="All 2 branches missed.">      if (activeGroup == null) {</span>
+<span class="nc" id="L382">        throw new IllegalStateException(</span>
+            &quot;Call toDo(), inProgress(), completed(), or group() before color().&quot;);
+      }
+<span class="nc" id="L385">      activeGroup.setColor(color);</span>
+<span class="nc" id="L386">      return this;</span>
+    }
+
+    /**
+     * Moves an existing option into the currently active group.
+     *
+     * &lt;p&gt;The option is looked up by name (case-sensitive) first, then by Notion-assigned ID,
+     * against the live schema supplied to {@link StatusSchemaParams#editor(StatusSchema)}. If the
+     * option currently belongs to another group it is removed from that group automatically,
+     * enforcing the Notion constraint that each option belongs to exactly one group.
+     *
+     * @param nameOrId the option name (preferred) or Notion-assigned option ID
+     * @return this editor
+     * @throws IllegalStateException if {@link #group(String)} has not been called yet
+     * @throws IllegalArgumentException if no option with the given name or ID exists in the
+     *     underlying schema
+     */
+    public Editor option(String nameOrId) {
+<span class="nc bnc" id="L404" title="All 2 branches missed.">      if (activeGroup == null) {</span>
+<span class="nc" id="L405">        throw new IllegalStateException(</span>
+            &quot;Call group() before option() to specify the target group.&quot;);
+      }
+<span class="nc" id="L408">      StatusOption opt = optionsByName.get(nameOrId);</span>
+<span class="nc bnc" id="L409" title="All 2 branches missed.">      if (opt == null) {</span>
+<span class="nc" id="L410">        opt =</span>
+<span class="nc" id="L411">            options.stream()</span>
+<span class="nc" id="L412">                .filter(o -&gt; nameOrId.equals(o.getId()))</span>
+<span class="nc" id="L413">                .findFirst()</span>
+<span class="nc" id="L414">                .orElseThrow(</span>
+                    () -&gt;
+<span class="nc" id="L416">                        new IllegalArgumentException(</span>
+                            &quot;No status option found with name or ID: \&quot;&quot;
+                                + nameOrId
+                                + &quot;\&quot;.&quot;
+                                + &quot; Available options: &quot;
+<span class="nc" id="L421">                                + optionsByName.keySet()));</span>
+      }
+<span class="nc" id="L423">      final String optionId = opt.getId();</span>
+      // Enforce uniqueness: remove from every other group first
+<span class="nc" id="L425">      groups.stream()</span>
+<span class="nc bnc" id="L426" title="All 4 branches missed.">          .filter(g -&gt; g != activeGroup &amp;&amp; g.getOptionIds() != null)</span>
+<span class="nc" id="L427">          .forEach(g -&gt; g.getOptionIds().remove(optionId));</span>
+      // Add to the active group (guard against duplicates)
+<span class="nc bnc" id="L429" title="All 2 branches missed.">      if (!activeGroup.getOptionIds().contains(optionId)) {</span>
+<span class="nc" id="L430">        activeGroup.getOptionIds().add(optionId);</span>
+      }
+<span class="nc" id="L432">      return this;</span>
+    }
+
+    /**
+     * Adds a brand-new option to the currently active group.
+     *
+     * &lt;p&gt;Use this when you want to introduce an option that does not yet exist in Notion. A
+     * provisional ID is generated locally; Notion replaces it with a canonical ID after the update
+     * round-trip.
+     *
+     * @param name the new option name
+     * @param color the option color, or {@code null} for the Notion default
+     * @return this editor
+     * @throws IllegalStateException if {@link #group(String)} has not been called yet
+     */
+    public Editor addOption(String name, Color color) {
+<span class="nc bnc" id="L448" title="All 2 branches missed.">      if (activeGroup == null) {</span>
+<span class="nc" id="L449">        throw new IllegalStateException(</span>
+            &quot;Call group() before addOption() to specify the target group.&quot;);
+      }
+<span class="nc" id="L452">      StatusOption opt = new StatusOption();</span>
+<span class="nc" id="L453">      opt.setName(name);</span>
+<span class="nc" id="L454">      opt.setId(UUID.randomUUID().toString()); // provisional; Notion replaces on response</span>
+<span class="nc bnc" id="L455" title="All 2 branches missed.">      if (color != null) {</span>
+<span class="nc" id="L456">        opt.setColor(color.getValue());</span>
+      }
+<span class="nc" id="L458">      options.add(opt);</span>
+<span class="nc" id="L459">      optionsByName.put(name, opt);</span>
+<span class="nc" id="L460">      activeGroup.getOptionIds().add(opt.getId());</span>
+<span class="nc" id="L461">      return this;</span>
+    }
+
+    /**
+     * Builds and returns the {@link StatusSchemaParams} representing the reorganised status schema,
+     * ready to be sent to the Notion update-data-source endpoint.
+     *
+     * @return the configured params
+     */
+    public StatusSchemaParams build() {
+<span class="nc" id="L471">      StatusSchemaParams params = new StatusSchemaParams();</span>
+<span class="nc" id="L472">      StatusConfig config = new StatusConfig();</span>
+<span class="nc bnc" id="L473" title="All 2 branches missed.">      config.setOptions(options.isEmpty() ? null : new ArrayList&lt;&gt;(options));</span>
+<span class="nc bnc" id="L474" title="All 2 branches missed.">      config.setGroups(groups.isEmpty() ? null : new ArrayList&lt;&gt;(groups));</span>
+<span class="nc" id="L475">      params.setStatus(config);</span>
+<span class="nc" id="L476">      return params;</span>
+    }
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

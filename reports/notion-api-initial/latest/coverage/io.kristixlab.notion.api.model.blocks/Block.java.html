@@ -75,7 +75,7 @@ public class Block extends NotionObjectType {
   /** Indicates whether this block has child blocks */
   @Accessors(fluent = true)
   @JsonProperty(&quot;has_children&quot;)
-  private boolean hasChildren;
+  private Boolean hasChildren;
 
   /**
    * Casts this block to a ParagraphBlock.
@@ -84,7 +84,7 @@ public class Block extends NotionObjectType {
    * @throws ClassCastException if this block is not a ParagraphBlock
    */
   public ParagraphBlock asParagraph() {
-<span class="fc" id="L87">    return (ParagraphBlock) this;</span>
+<span class="nc" id="L87">    return (ParagraphBlock) this;</span>
   }
 
   /**
@@ -94,7 +94,7 @@ public class Block extends NotionObjectType {
    * @throws ClassCastException if this block is not a BreadcrumbBlock
    */
   public BreadcrumbBlock asBreadcrumb() {
-<span class="fc" id="L97">    return (BreadcrumbBlock) this;</span>
+<span class="nc" id="L97">    return (BreadcrumbBlock) this;</span>
   }
 
   /**
@@ -104,7 +104,7 @@ public class Block extends NotionObjectType {
    * @throws ClassCastException if this block is not a HeadingOneBlock
    */
   public HeadingOneBlock asHeadingOne() {
-<span class="fc" id="L107">    return (HeadingOneBlock) this;</span>
+<span class="nc" id="L107">    return (HeadingOneBlock) this;</span>
   }
 
   /**
@@ -114,7 +114,7 @@ public class Block extends NotionObjectType {
    * @throws ClassCastException if this block is not a HeadingTwoBlock
    */
   public HeadingTwoBlock asHeadingTwo() {
-<span class="fc" id="L117">    return (HeadingTwoBlock) this;</span>
+<span class="nc" id="L117">    return (HeadingTwoBlock) this;</span>
   }
 
   /**
@@ -124,7 +124,7 @@ public class Block extends NotionObjectType {
    * @throws ClassCastException if this block is not a HeadingThreeBlock
    */
   public HeadingThreeBlock asHeadingThree() {
-<span class="fc" id="L127">    return (HeadingThreeBlock) this;</span>
+<span class="nc" id="L127">    return (HeadingThreeBlock) this;</span>
   }
 
   /**
@@ -134,7 +134,7 @@ public class Block extends NotionObjectType {
    * @throws ClassCastException if this block is not a ToDoBlock
    */
   public ToDoBlock asToDo() {
-<span class="fc" id="L137">    return (ToDoBlock) this;</span>
+<span class="nc" id="L137">    return (ToDoBlock) this;</span>
   }
 
   /**
@@ -144,7 +144,7 @@ public class Block extends NotionObjectType {
    * @throws ClassCastException if this block is not a BulletedListItemBlock
    */
   public BulletedListItemBlock asBulletedListItem() {
-<span class="fc" id="L147">    return (BulletedListItemBlock) this;</span>
+<span class="nc" id="L147">    return (BulletedListItemBlock) this;</span>
   }
 
   /**
@@ -154,7 +154,7 @@ public class Block extends NotionObjectType {
    * @throws ClassCastException if this block is not a NumberedListItemBlock
    */
   public NumberedListItemBlock asNumberedListItem() {
-<span class="fc" id="L157">    return (NumberedListItemBlock) this;</span>
+<span class="nc" id="L157">    return (NumberedListItemBlock) this;</span>
   }
 
   /**
@@ -164,7 +164,7 @@ public class Block extends NotionObjectType {
    * @throws ClassCastException if this block is not a QuoteBlock
    */
   public QuoteBlock asQuote() {
-<span class="fc" id="L167">    return (QuoteBlock) this;</span>
+<span class="nc" id="L167">    return (QuoteBlock) this;</span>
   }
 
   /**
@@ -174,7 +174,7 @@ public class Block extends NotionObjectType {
    * @throws ClassCastException if this block is not a CalloutBlock
    */
   public CalloutBlock asCallout() {
-<span class="fc" id="L177">    return (CalloutBlock) this;</span>
+<span class="nc" id="L177">    return (CalloutBlock) this;</span>
   }
 
   /**
@@ -184,7 +184,7 @@ public class Block extends NotionObjectType {
    * @throws ClassCastException if this block is not a CodeBlock
    */
   public CodeBlock asCode() {
-<span class="fc" id="L187">    return (CodeBlock) this;</span>
+<span class="nc" id="L187">    return (CodeBlock) this;</span>
   }
 
   /**
@@ -194,7 +194,7 @@ public class Block extends NotionObjectType {
    * @throws ClassCastException if this block is not a ToggleBlock
    */
   public ToggleBlock asToggle() {
-<span class="fc" id="L197">    return (ToggleBlock) this;</span>
+<span class="nc" id="L197">    return (ToggleBlock) this;</span>
   }
 
   /**
@@ -204,7 +204,7 @@ public class Block extends NotionObjectType {
    * @throws ClassCastException if this block is not a DividerBlock
    */
   public DividerBlock asDivider() {
-<span class="fc" id="L207">    return (DividerBlock) this;</span>
+<span class="nc" id="L207">    return (DividerBlock) this;</span>
   }
 
   /**
@@ -214,7 +214,7 @@ public class Block extends NotionObjectType {
    * @throws ClassCastException if this block is not a ColumnListBlock
    */
   public ColumnListBlock asColumnList() {
-<span class="fc" id="L217">    return (ColumnListBlock) this;</span>
+<span class="nc" id="L217">    return (ColumnListBlock) this;</span>
   }
 
   /**
@@ -224,7 +224,7 @@ public class Block extends NotionObjectType {
    * @throws ClassCastException if this block is not a BookmarkBlock
    */
   public BookmarkBlock asBookmark() {
-<span class="fc" id="L227">    return (BookmarkBlock) this;</span>
+<span class="nc" id="L227">    return (BookmarkBlock) this;</span>
   }
 
   /**
@@ -234,7 +234,7 @@ public class Block extends NotionObjectType {
    * @throws ClassCastException if this block is not a ChildPageBlock
    */
   public ChildPageBlock asChildPage() {
-<span class="fc" id="L237">    return (ChildPageBlock) this;</span>
+<span class="nc" id="L237">    return (ChildPageBlock) this;</span>
   }
 
   /**
@@ -244,7 +244,7 @@ public class Block extends NotionObjectType {
    * @throws ClassCastException if this block is not a ChildDatabaseBlock
    */
   public ChildDatabaseBlock asChildDatabase() {
-<span class="fc" id="L247">    return (ChildDatabaseBlock) this;</span>
+<span class="nc" id="L247">    return (ChildDatabaseBlock) this;</span>
   }
 
   /**
@@ -254,7 +254,7 @@ public class Block extends NotionObjectType {
    * @throws ClassCastException if this block is not an EmbedBlock
    */
   public EmbedBlock asEmbed() {
-<span class="fc" id="L257">    return (EmbedBlock) this;</span>
+<span class="nc" id="L257">    return (EmbedBlock) this;</span>
   }
 
   /**
@@ -264,7 +264,7 @@ public class Block extends NotionObjectType {
    * @throws ClassCastException if this block is not an ImageBlock
    */
   public ImageBlock asImage() {
-<span class="fc" id="L267">    return (ImageBlock) this;</span>
+<span class="nc" id="L267">    return (ImageBlock) this;</span>
   }
 
   /**
@@ -274,7 +274,7 @@ public class Block extends NotionObjectType {
    * @throws ClassCastException if this block is not a PdfBlock
    */
   public PdfBlock asPdf() {
-<span class="fc" id="L277">    return (PdfBlock) this;</span>
+<span class="nc" id="L277">    return (PdfBlock) this;</span>
   }
 
   /**
@@ -284,7 +284,7 @@ public class Block extends NotionObjectType {
    * @throws ClassCastException if this block is not a FileBlock
    */
   public FileBlock asFile() {
-<span class="fc" id="L287">    return (FileBlock) this;</span>
+<span class="nc" id="L287">    return (FileBlock) this;</span>
   }
 
   /**
@@ -294,7 +294,7 @@ public class Block extends NotionObjectType {
    * @throws ClassCastException if this block is not a VideoBlock
    */
   public VideoBlock asVideo() {
-<span class="fc" id="L297">    return (VideoBlock) this;</span>
+<span class="nc" id="L297">    return (VideoBlock) this;</span>
   }
 
   /**
@@ -304,7 +304,7 @@ public class Block extends NotionObjectType {
    * @throws ClassCastException if this block is not an AudioBlock
    */
   public AudioBlock asAudio() {
-<span class="fc" id="L307">    return (AudioBlock) this;</span>
+<span class="nc" id="L307">    return (AudioBlock) this;</span>
   }
 
   /**
@@ -314,7 +314,7 @@ public class Block extends NotionObjectType {
    * @throws ClassCastException if this block is not a TableBlock
    */
   public TableBlock asTable() {
-<span class="fc" id="L317">    return (TableBlock) this;</span>
+<span class="nc" id="L317">    return (TableBlock) this;</span>
   }
 
   /**
@@ -334,7 +334,7 @@ public class Block extends NotionObjectType {
    * @throws ClassCastException if this block is not a TableOfContentsBlock
    */
   public TableOfContentsBlock asTableOfContents() {
-<span class="fc" id="L337">    return (TableOfContentsBlock) this;</span>
+<span class="nc" id="L337">    return (TableOfContentsBlock) this;</span>
   }
 
   /**
@@ -344,7 +344,7 @@ public class Block extends NotionObjectType {
    * @throws ClassCastException if this block is not a LinkToPageBlock
    */
   public LinkToPageBlock asLinkToPage() {
-<span class="fc" id="L347">    return (LinkToPageBlock) this;</span>
+<span class="nc" id="L347">    return (LinkToPageBlock) this;</span>
   }
 
   /**
@@ -354,7 +354,7 @@ public class Block extends NotionObjectType {
    * @throws ClassCastException if this block is not a LinkPreviewBlock
    */
   public LinkPreviewBlock asLinkPreview() {
-<span class="fc" id="L357">    return (LinkPreviewBlock) this;</span>
+<span class="nc" id="L357">    return (LinkPreviewBlock) this;</span>
   }
 
   /**
@@ -364,7 +364,7 @@ public class Block extends NotionObjectType {
    * @throws ClassCastException if this block is not a SyncedBlock
    */
   public SyncedBlock asSynced() {
-<span class="fc" id="L367">    return (SyncedBlock) this;</span>
+<span class="nc" id="L367">    return (SyncedBlock) this;</span>
   }
 
   /**
@@ -394,7 +394,7 @@ public class Block extends NotionObjectType {
    * @throws ClassCastException if this block is not an UnsupportedBlock
    */
   public UnsupportedBlock asUnsupported() {
-<span class="fc" id="L397">    return (UnsupportedBlock) this;</span>
+<span class="nc" id="L397">    return (UnsupportedBlock) this;</span>
   }
 
   /**
@@ -404,7 +404,7 @@ public class Block extends NotionObjectType {
    * @throws ClassCastException if this block is not an UnknownBlock
    */
   public UnknownBlock asUnknown() {
-<span class="fc" id="L407">    return (UnknownBlock) this;</span>
+<span class="nc" id="L407">    return (UnknownBlock) this;</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

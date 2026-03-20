@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RichText.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">notion-sdk</a> &gt; <a href="index.source.html" class="el_package">io.kristixlab.notion.api.model.common</a> &gt; <span class="el_source">RichText.java</span></div><h1>RichText.java</h1><pre class="source lang-java linenums">package io.kristixlab.notion.api.model.common;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.kristixlab.notion.api.model.users.User;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.Data;
@@ -8,6 +9,7 @@ import lombok.Data;
 @Data
 public class RichText {
 
+  /* text | mention | equation */
   @JsonProperty(&quot;type&quot;)
   private String type;
 
@@ -29,51 +31,31 @@ public class RichText {
   @JsonProperty(&quot;equation&quot;)
   private Equation equation;
 
-  public static RichText of(String plainText) {
-<span class="nc" id="L33">    return of(plainText, Color.DEFAULT);</span>
-  }
+<span class="nc" id="L34">  public RichText() {</span>
+<span class="nc" id="L35">    annotations = new Annotations();</span>
+<span class="nc" id="L36">  }</span>
 
-  public static RichText of(String plainText, Color color) {
-<span class="nc" id="L37">    RichText richText = new RichText();</span>
-<span class="nc" id="L38">    richText.setType(&quot;text&quot;);</span>
-<span class="nc" id="L39">    richText.setPlainText(plainText);</span>
-<span class="nc" id="L40">    Text text = new Text();</span>
-<span class="nc" id="L41">    text.setContent(plainText);</span>
-<span class="nc" id="L42">    richText.setText(text);</span>
-<span class="nc" id="L43">    Annotations annotations = new Annotations();</span>
-<span class="nc" id="L44">    annotations.setBold(false);</span>
-<span class="nc" id="L45">    annotations.setItalic(false);</span>
-<span class="nc" id="L46">    annotations.setStrikethrough(false);</span>
-<span class="nc" id="L47">    annotations.setUnderline(false);</span>
-<span class="nc" id="L48">    annotations.setCode(false);</span>
-<span class="nc" id="L49">    annotations.setColor(color.getValue());</span>
-<span class="nc" id="L50">    richText.setAnnotations(annotations);</span>
-<span class="nc" id="L51">    return richText;</span>
-  }
-
-  public static List&lt;RichText&gt; asList(String plainText) {
-<span class="nc" id="L55">    List&lt;RichText&gt; list = new ArrayList&lt;&gt;();</span>
-<span class="nc" id="L56">    list.add(of(plainText));</span>
-<span class="nc" id="L57">    return list;</span>
+  public static RichTextBuilder builder() {
+<span class="nc" id="L39">    return new RichTextBuilder();</span>
   }
 
   @Data
   public static class Annotations {
 
     @JsonProperty(&quot;bold&quot;)
-    private boolean bold;
+    private Boolean bold;
 
     @JsonProperty(&quot;italic&quot;)
-    private boolean italic;
+    private Boolean italic;
 
     @JsonProperty(&quot;strikethrough&quot;)
-    private boolean strikethrough;
+    private Boolean strikethrough;
 
     @JsonProperty(&quot;underline&quot;)
-    private boolean underline;
+    private Boolean underline;
 
     @JsonProperty(&quot;code&quot;)
-    private boolean code;
+    private Boolean code;
 
     @JsonProperty(&quot;color&quot;)
     private String color;
@@ -96,11 +78,197 @@ public class RichText {
     private String url;
   }
 
-  @Data
-  public static class Equation {
+  public static class RichTextBuilder {
+<span class="nc" id="L82">    private List&lt;RichText&gt; richTexts = new ArrayList&lt;&gt;();</span>
+    private RichText currentRichText;
 
-    @JsonProperty(&quot;expression&quot;)
-    private String expression;
+<span class="nc" id="L85">    public RichTextBuilder() {</span>
+<span class="nc" id="L86">      currentRichText = new RichText();</span>
+<span class="nc" id="L87">    }</span>
+
+    private void ensureCurrentRichText() {
+<span class="nc bnc" id="L90" title="All 4 branches missed.">      if (richTexts == null || currentRichText == null) {</span>
+<span class="nc" id="L91">        throw new IllegalStateException(</span>
+            &quot;Builder is already done, create a new builder for another rich text&quot;);
+      }
+<span class="nc" id="L94">    }</span>
+
+    public List&lt;RichText&gt; buildAsList() {
+<span class="nc" id="L97">      ensureCurrentRichText();</span>
+<span class="nc" id="L98">      List&lt;RichText&gt; readyRichTexts = new ArrayList&lt;&gt;(richTexts);</span>
+<span class="nc" id="L99">      readyRichTexts.add(currentRichText);</span>
+<span class="nc" id="L100">      richTexts = null;</span>
+<span class="nc" id="L101">      return readyRichTexts;</span>
+    }
+
+    public RichText build() {
+<span class="nc" id="L105">      ensureCurrentRichText();</span>
+<span class="nc" id="L106">      RichText readyRichText = currentRichText;</span>
+<span class="nc" id="L107">      currentRichText = null;</span>
+<span class="nc" id="L108">      return readyRichText;</span>
+    }
+
+    public RichTextBuilder addAnother() {
+<span class="nc" id="L112">      ensureCurrentRichText();</span>
+<span class="nc" id="L113">      richTexts.add(currentRichText);</span>
+<span class="nc" id="L114">      currentRichText = new RichText();</span>
+<span class="nc" id="L115">      return this;</span>
+    }
+
+    public RichTextBuilder fromText(String plainText) {
+<span class="nc" id="L119">      currentRichText.setPlainText(plainText);</span>
+<span class="nc" id="L120">      currentRichText.setType(RichTextType.TEXT.getValue());</span>
+<span class="nc" id="L121">      Text text = new Text();</span>
+<span class="nc" id="L122">      text.setContent(plainText);</span>
+<span class="nc" id="L123">      currentRichText.setText(text);</span>
+<span class="nc" id="L124">      return this;</span>
+    }
+
+    public RichTextBuilder fromExpression(String expression) {
+<span class="nc" id="L128">      currentRichText.setPlainText(expression);</span>
+<span class="nc" id="L129">      currentRichText.setType(RichTextType.EQUATION.getValue());</span>
+<span class="nc" id="L130">      currentRichText.setEquation(Equation.fromExpression(expression));</span>
+<span class="nc" id="L131">      return this;</span>
+    }
+
+    public RichTextBuilder fromUrl(String url) {
+<span class="nc" id="L135">      currentRichText.setPlainText(url);</span>
+<span class="nc" id="L136">      currentRichText.setHref(url);</span>
+<span class="nc" id="L137">      currentRichText.setType(RichTextType.TEXT.getValue());</span>
+<span class="nc" id="L138">      Text text = new Text();</span>
+<span class="nc" id="L139">      text.setContent(url);</span>
+<span class="nc" id="L140">      text.setLink(new Link());</span>
+<span class="nc" id="L141">      text.getLink().setUrl(url);</span>
+<span class="nc" id="L142">      currentRichText.setText(text);</span>
+<span class="nc" id="L143">      return this;</span>
+    }
+
+    public RichTextBuilder fromDateMention(String dateFrom) {
+<span class="nc" id="L147">      fromDateMention(dateFrom, null, null);</span>
+<span class="nc" id="L148">      return this;</span>
+    }
+
+    public RichTextBuilder fromDateMention(String dateFrom, String dateTo) {
+<span class="nc" id="L152">      fromDateMention(dateFrom, dateTo, null);</span>
+<span class="nc" id="L153">      return this;</span>
+    }
+
+    public RichTextBuilder fromDateMention(String dateFrom, String dateTo, String timeZone) {
+<span class="nc" id="L157">      currentRichText.setType(RichTextType.MENTION.getValue());</span>
+
+<span class="nc" id="L159">      Mention mentionObj = new Mention();</span>
+<span class="nc" id="L160">      mentionObj.setType(MentionType.DATE.getValue());</span>
+<span class="nc" id="L161">      currentRichText.setMention(mentionObj);</span>
+
+<span class="nc" id="L163">      mentionObj.setDate(new DateData());</span>
+<span class="nc" id="L164">      mentionObj.getDate().setStart(dateFrom);</span>
+<span class="nc bnc" id="L165" title="All 2 branches missed.">      if (dateTo != null) {</span>
+<span class="nc" id="L166">        mentionObj.getDate().setEnd(dateTo);</span>
+      }
+<span class="nc bnc" id="L168" title="All 2 branches missed.">      if (timeZone != null) {</span>
+<span class="nc" id="L169">        mentionObj.getDate().setTimeZone(timeZone);</span>
+      }
+<span class="nc" id="L171">      return this;</span>
+    }
+
+    public RichTextBuilder fromUserMention(String userId) {
+<span class="nc" id="L175">      currentRichText.setType(RichTextType.MENTION.getValue());</span>
+
+<span class="nc" id="L177">      Mention mentionObj = new Mention();</span>
+<span class="nc" id="L178">      mentionObj.setType(MentionType.USER.getValue());</span>
+<span class="nc" id="L179">      currentRichText.setMention(mentionObj);</span>
+
+<span class="nc" id="L181">      mentionObj.setUser(new User());</span>
+<span class="nc" id="L182">      mentionObj.getUser().setObject(ObjectType.USER.getValue());</span>
+<span class="nc" id="L183">      mentionObj.getUser().setId(userId);</span>
+<span class="nc" id="L184">      return this;</span>
+    }
+
+    public RichTextBuilder fromBlockMention(String id) {
+<span class="nc" id="L188">      currentRichText.setType(RichTextType.MENTION.getValue());</span>
+<span class="nc" id="L189">      Mention mentionObj = new Mention();</span>
+<span class="nc" id="L190">      currentRichText.setMention(mentionObj);</span>
+
+      // works for block id, page id and database id, mind that for database ids Notion API
+      // will replace page with database in the response
+<span class="nc" id="L194">      mentionObj.setPage(new BlockReference());</span>
+<span class="nc" id="L195">      mentionObj.getPage().setId(id);</span>
+
+<span class="nc" id="L197">      return this;</span>
+    }
+
+    public RichTextBuilder fromLinkMention(String url) {
+<span class="nc" id="L201">      currentRichText.setType(RichTextType.MENTION.getValue());</span>
+<span class="nc" id="L202">      Mention mentionObj = new Mention();</span>
+<span class="nc" id="L203">      mentionObj.setType(MentionType.LINK_PREVIEW.getValue());</span>
+<span class="nc" id="L204">      currentRichText.setMention(mentionObj);</span>
+
+<span class="nc" id="L206">      mentionObj.setLinkPreview(new Mention.LinkPreview());</span>
+
+<span class="nc" id="L208">      return this;</span>
+    }
+
+    public RichTextBuilder fromCustomEmoji(String id) {
+<span class="nc" id="L212">      currentRichText.setType(RichTextType.MENTION.getValue());</span>
+<span class="nc" id="L213">      Mention mentionObj = new Mention();</span>
+<span class="nc" id="L214">      mentionObj.setType(MentionType.CUSTOM_EMOJI.getValue());</span>
+<span class="nc" id="L215">      currentRichText.setMention(mentionObj);</span>
+
+<span class="nc" id="L217">      mentionObj.setCustomEmoji(new Mention.CustomEmoji());</span>
+<span class="nc" id="L218">      mentionObj.getCustomEmoji().setId(id);</span>
+
+<span class="nc" id="L220">      return this;</span>
+    }
+
+    // TODO template mention and link preview
+
+    public RichTextBuilder withBold(boolean bold) {
+<span class="nc bnc" id="L226" title="All 2 branches missed.">      if (currentRichText.getAnnotations() == null) {</span>
+<span class="nc" id="L227">        currentRichText.setAnnotations(new Annotations());</span>
+      }
+<span class="nc" id="L229">      currentRichText.getAnnotations().setBold(bold);</span>
+<span class="nc" id="L230">      return this;</span>
+    }
+
+    public RichTextBuilder withItalic(boolean italic) {
+<span class="nc bnc" id="L234" title="All 2 branches missed.">      if (currentRichText.getAnnotations() == null) {</span>
+<span class="nc" id="L235">        currentRichText.setAnnotations(new Annotations());</span>
+      }
+<span class="nc" id="L237">      currentRichText.getAnnotations().setItalic(italic);</span>
+<span class="nc" id="L238">      return this;</span>
+    }
+
+    public RichTextBuilder withStrikethrough(boolean strikethrough) {
+<span class="nc bnc" id="L242" title="All 2 branches missed.">      if (currentRichText.getAnnotations() == null) {</span>
+<span class="nc" id="L243">        currentRichText.setAnnotations(new Annotations());</span>
+      }
+<span class="nc" id="L245">      currentRichText.getAnnotations().setStrikethrough(strikethrough);</span>
+<span class="nc" id="L246">      return this;</span>
+    }
+
+    public RichTextBuilder withUnderline(boolean underline) {
+<span class="nc bnc" id="L250" title="All 2 branches missed.">      if (currentRichText.getAnnotations() == null) {</span>
+<span class="nc" id="L251">        currentRichText.setAnnotations(new Annotations());</span>
+      }
+<span class="nc" id="L253">      currentRichText.getAnnotations().setUnderline(underline);</span>
+<span class="nc" id="L254">      return this;</span>
+    }
+
+    public RichTextBuilder withCode(boolean code) {
+<span class="nc bnc" id="L258" title="All 2 branches missed.">      if (currentRichText.getAnnotations() == null) {</span>
+<span class="nc" id="L259">        currentRichText.setAnnotations(new Annotations());</span>
+      }
+<span class="nc" id="L261">      currentRichText.getAnnotations().setCode(code);</span>
+<span class="nc" id="L262">      return this;</span>
+    }
+
+    public RichTextBuilder withColor(Color color) {
+<span class="nc bnc" id="L266" title="All 2 branches missed.">      if (currentRichText.getAnnotations() == null) {</span>
+<span class="nc" id="L267">        currentRichText.setAnnotations(new Annotations());</span>
+      }
+<span class="nc" id="L269">      currentRichText.getAnnotations().setColor(color.getValue());</span>
+<span class="nc" id="L270">      return this;</span>
+    }
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

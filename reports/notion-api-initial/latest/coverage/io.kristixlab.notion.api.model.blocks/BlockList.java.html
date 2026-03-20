@@ -3,9 +3,27 @@
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.kristixlab.notion.api.model.common.NotionListType;
 
-<span class="fc" id="L6">public class BlockList extends NotionListType&lt;Block&gt; {</span>
+public class BlockList extends NotionListType&lt;Block&gt; {
 
   @JsonProperty(&quot;block&quot;)
   private Object block;
+
+<span class="nc" id="L11">  public BlockList() {</span>
+<span class="nc" id="L12">    setType(&quot;block&quot;);</span>
+<span class="nc" id="L13">    block = new Object();</span>
+<span class="nc" id="L14">  }</span>
+
+  public Blocks wrap() {
+<span class="nc" id="L17">    return new Blocks(this);</span>
+  }
+
+  // * a wrapper model class to make it easier to work with this model
+  public static class Blocks {
+    private BlockList dto;
+
+<span class="nc" id="L24">    public Blocks(BlockList dto) {</span>
+<span class="nc" id="L25">      this.dto = dto;</span>
+<span class="nc" id="L26">    }</span>
+  }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

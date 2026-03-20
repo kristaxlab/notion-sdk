@@ -20,12 +20,16 @@ public class SelectProperty extends PageProperty {
 <span class="nc" id="L20">    return property;</span>
   }
 
+  public static SelectProperty of(String name) {
+<span class="nc" id="L24">    return of(null, name, null);</span>
+  }
+
   public static SelectProperty of(String id, String name, Color color) {
-<span class="nc" id="L24">    return of(SelectValue.of(id, name, color));</span>
+<span class="nc" id="L28">    return of(SelectValue.of(id, name, color));</span>
   }
 
   public static SelectProperty of(String name, Color color) {
-<span class="nc" id="L28">    return of(null, name, color);</span>
+<span class="nc" id="L32">    return of(null, name, color);</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

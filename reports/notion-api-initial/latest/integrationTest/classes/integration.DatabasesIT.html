@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=edge"/>
+<title>Test results - DatabasesIT</title>
+<link href="../css/base-style.css" rel="stylesheet" type="text/css"/>
+<link href="../css/style.css" rel="stylesheet" type="text/css"/>
+<script src="../js/report.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="content">
+<h1>DatabasesIT</h1>
+<div class="breadcrumbs">
+<a href="../index.html">all</a> &gt; 
+<a href="../packages/integration.html">integration</a> &gt; DatabasesIT</div>
+<div id="summary">
+<table>
+<tr>
+<td>
+<div class="summaryGroup">
+<table>
+<tr>
+<td>
+<div class="infoBox" id="tests">
+<div class="counter">7</div>
+<p>tests</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="failures">
+<div class="counter">0</div>
+<p>failures</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="ignored">
+<div class="counter">0</div>
+<p>ignored</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="duration">
+<div class="counter">12.859s</div>
+<p>duration</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</td>
+<td>
+<div class="infoBox success" id="successRate">
+<div class="percent">100%</div>
+<p>successful</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="tab-container">
+<ul class="tabLinks">
+<li>
+<a href="#">Tests</a>
+</li>
+<li>
+<a href="#">Standard output</a>
+</li>
+</ul>
+<div class="tab">
+<h2>Tests</h2>
+<table>
+<thead>
+<tr>
+<th>Test</th>
+<th>Method name</th>
+<th>Duration</th>
+<th>Result</th>
+</tr>
+</thead>
+<tr>
+<td class="success">[IT-46]: Databases - Create a database, then update its title, icon, cover and set parent to another page</td>
+<td class="success">createAndUpdateDatabase()</td>
+<td class="success">1.659s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">[IT-47]: Databases &amp; Data Sources - Create a database, then add a second data source to it</td>
+<td class="success">createDatabaseAndAddSecondDataSource()</td>
+<td class="success">1.555s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">[IT-50]: Databases - Create a database. Then remove it, then restore it.</td>
+<td class="success">createDatabaseThenDeleteAndRestore()</td>
+<td class="success">1.608s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">[IT-49]: Databases - Create a database. Then lock it, then unlock it.</td>
+<td class="success">createDatabaseThenLockAndUnlock()</td>
+<td class="success">1.356s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">[IT-51]: Data sources,Databases - Create a database with 2 datasources, then move those data sources to another database</td>
+<td class="success">createDatabaseWith2DataSourcesThenMoveToAnotherDatabase()</td>
+<td class="success">3.438s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">[IT-33]: Databases - Create a new database with icon and cover</td>
+<td class="success">createDatabaseWithIconAndCover()</td>
+<td class="success">1.250s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">[IT-48]: Databases - Create an inline database, then change it to be not inline.</td>
+<td class="success">createInlineDatabaseThenChangeInlineLockUnlock()</td>
+<td class="success">1.993s</td>
+<td class="success">passed</td>
+</tr>
+</table>
+</div>
+<div class="tab">
+<h2>Standard output</h2>
+<span class="code">
+<pre>2026-03-20 17:10:47.492 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Calling NotionAPIv2026-03-11
+2026-03-20 17:10:47.492 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Building request...
+2026-03-20 17:10:47.493 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request method: POST, url: https://api.notion.com/v1/pages, content-type: application/json
+2026-03-20 17:10:47.493 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request body: 
+{
+  &quot;parent&quot; : {
+    &quot;type&quot; : &quot;page_id&quot;,
+    &quot;page_id&quot; : &quot;329cd6cf-1406-8174-b65f-fc3aec14b883&quot;
+  },
+  &quot;properties&quot; : {
+    &quot;title&quot; : {
+      &quot;type&quot; : &quot;title&quot;,
+      &quot;title&quot; : [ {
+        &quot;type&quot; : &quot;text&quot;,
+        &quot;plain_text&quot; : &quot;Databases&quot;,
+        &quot;annotations&quot; : { },
+        &quot;text&quot; : {
+          &quot;content&quot; : &quot;Databases&quot;
+        }
+      } ]
+    }
+  },
+  &quot;position&quot; : {
+    &quot;type&quot; : &quot;page_start&quot;
+  }
+}
+2026-03-20 17:10:48.430 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with code: 200
+2026-03-20 17:10:48.430 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response body: 
+{&quot;object&quot;:&quot;page&quot;,&quot;id&quot;:&quot;329cd6cf-1406-81a4-9663-ef5f2254ea02&quot;,&quot;created_time&quot;:&quot;2026-03-20T17:10:00.000Z&quot;,&quot;last_edited_time&quot;:&quot;2026-03-20T17:10:00.000Z&quot;,&quot;created_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;last_edited_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;cover&quot;:null,&quot;icon&quot;:null,&quot;parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;329cd6cf-1406-8174-b65f-fc3aec14b883&quot;},&quot;in_trash&quot;:false,&quot;is_archived&quot;:false,&quot;is_locked&quot;:false,&quot;properties&quot;:{&quot;title&quot;:{&quot;id&quot;:&quot;title&quot;,&quot;type&quot;:&quot;title&quot;,&quot;title&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;Databases&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;Databases&quot;,&quot;href&quot;:null}]}},&quot;url&quot;:&quot;https://www.notion.so/Databases-329cd6cf140681a49663ef5f2254ea02&quot;,&quot;public_url&quot;:null,&quot;request_id&quot;:&quot;2ec23183-4086-41f4-8605-2a21ae67868e&quot;}
+2026-03-20 17:10:48.430 [Test worker] ERROR io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with error: 200
+2026-03-20 17:10:48.431 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Error response body: 
+Page(properties={title=TitleProperty(type=title, title=[RichText(type=text, plainText=Databases, href=null, annotations=RichText.Annotations(bold=false, italic=false, strikethrough=false, underline=false, code=false, color=default), text=RichText.Text(content=Databases, link=null), mention=null, equation=null)])}, url=https://www.notion.so/Databases-329cd6cf140681a49663ef5f2254ea02, publicUrl=null, icon=null, cover=null, isLocked=false)
+2026-03-20 17:10:48.435 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Calling NotionAPIv2026-03-11
+2026-03-20 17:10:48.435 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Building request...
+2026-03-20 17:10:48.436 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request method: POST, url: https://api.notion.com/v1/pages, content-type: application/json
+2026-03-20 17:10:48.436 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request body: 
+{
+  &quot;parent&quot; : {
+    &quot;type&quot; : &quot;page_id&quot;,
+    &quot;page_id&quot; : &quot;329cd6cf-1406-81a4-9663-ef5f2254ea02&quot;
+  },
+  &quot;properties&quot; : {
+    &quot;title&quot; : {
+      &quot;type&quot; : &quot;title&quot;,
+      &quot;title&quot; : [ {
+        &quot;type&quot; : &quot;text&quot;,
+        &quot;plain_text&quot; : &quot;[IT-47]: Databases &amp; Data Sources - Create a database, then add a second data source to it&quot;,
+        &quot;annotations&quot; : { },
+        &quot;text&quot; : {
+          &quot;content&quot; : &quot;[IT-47]: Databases &amp; Data Sources - Create a database, then add a second data source to it&quot;
+        }
+      } ]
+    }
+  },
+  &quot;position&quot; : {
+    &quot;type&quot; : &quot;page_start&quot;
+  }
+}
+2026-03-20 17:10:48.746 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with code: 200
+2026-03-20 17:10:48.747 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response body: 
+{&quot;object&quot;:&quot;page&quot;,&quot;id&quot;:&quot;329cd6cf-1406-81e2-a4e2-e29985f474f6&quot;,&quot;created_time&quot;:&quot;2026-03-20T17:10:00.000Z&quot;,&quot;last_edited_time&quot;:&quot;2026-03-20T17:10:00.000Z&quot;,&quot;created_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;last_edited_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;cover&quot;:null,&quot;icon&quot;:null,&quot;parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;329cd6cf-1406-81a4-9663-ef5f2254ea02&quot;},&quot;in_trash&quot;:false,&quot;is_archived&quot;:false,&quot;is_locked&quot;:false,&quot;properties&quot;:{&quot;title&quot;:{&quot;id&quot;:&quot;title&quot;,&quot;type&quot;:&quot;title&quot;,&quot;title&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;[IT-47]: Databases &amp; Data Sources - Create a database, then add a second data source to it&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;[IT-47]: Databases &amp; Data Sources - Create a database, then add a second data source to it&quot;,&quot;href&quot;:null}]}},&quot;url&quot;:&quot;https://www.notion.so/IT-47-Databases-Data-Sources-Create-a-database-then-add-a-second-data-source-to-it-329cd6cf140681e2a4e2e29985f474f6&quot;,&quot;public_url&quot;:null,&quot;request_id&quot;:&quot;00aca269-551d-4a4e-97a6-96ea5f0babd5&quot;}
+2026-03-20 17:10:48.747 [Test worker] ERROR io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with error: 200
+2026-03-20 17:10:48.747 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Error response body: 
+Page(properties={title=TitleProperty(type=title, title=[RichText(type=text, plainText=[IT-47]: Databases &amp; Data Sources - Create a database, then add a second data source to it, href=null, annotations=RichText.Annotations(bold=false, italic=false, strikethrough=false, underline=false, code=false, color=default), text=RichText.Text(content=[IT-47]: Databases &amp; Data Sources - Create a database, then add a second data source to it, link=null), mention=null, equation=null)])}, url=https://www.notion.so/IT-47-Databases-Data-Sources-Create-a-database-then-add-a-second-data-source-to-it-329cd6cf140681e2a4e2e29985f474f6, publicUrl=null, icon=null, cover=null, isLocked=false)
+2026-03-20 17:10:48.748 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Calling NotionAPIv2026-03-11
+2026-03-20 17:10:48.748 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Building request...
+2026-03-20 17:10:48.749 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request method: POST, url: https://api.notion.com/v1/databases, content-type: application/json
+2026-03-20 17:10:48.749 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request body: 
+{
+  &quot;parent&quot; : {
+    &quot;type&quot; : &quot;page_id&quot;,
+    &quot;page_id&quot; : &quot;329cd6cf-1406-81e2-a4e2-e29985f474f6&quot;
+  },
+  &quot;title&quot; : [ {
+    &quot;type&quot; : &quot;text&quot;,
+    &quot;plain_text&quot; : &quot;Database with multiple data sources&quot;,
+    &quot;annotations&quot; : { },
+    &quot;text&quot; : {
+      &quot;content&quot; : &quot;Database with multiple data sources&quot;
+    }
+  } ],
+  &quot;is_inline&quot; : true
+}
+2026-03-20 17:10:49.533 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with code: 200
+2026-03-20 17:10:49.534 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response body: 
+{&quot;object&quot;:&quot;database&quot;,&quot;id&quot;:&quot;a6b10e58-6a31-4d72-a492-2c52c9ce860a&quot;,&quot;title&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;Database with multiple data sources&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;Database with multiple data sources&quot;,&quot;href&quot;:null}],&quot;description&quot;:[],&quot;parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;329cd6cf-1406-81e2-a4e2-e29985f474f6&quot;},&quot;is_inline&quot;:true,&quot;in_trash&quot;:false,&quot;is_locked&quot;:false,&quot;created_time&quot;:&quot;2026-03-20T17:10:48.974+00:00&quot;,&quot;last_edited_time&quot;:&quot;2026-03-20T17:10:48.974+00:00&quot;,&quot;data_sources&quot;:[{&quot;id&quot;:&quot;47e9f0c8-8523-4348-87c2-b32a46cf0fff&quot;,&quot;name&quot;:&quot;Database with multiple data sources&quot;}],&quot;icon&quot;:null,&quot;cover&quot;:null,&quot;url&quot;:&quot;https://www.notion.so/a6b10e586a314d72a4922c52c9ce860a&quot;,&quot;public_url&quot;:null,&quot;request_id&quot;:&quot;f539c0d8-53ca-4810-8a04-a8454bc72742&quot;}
+2026-03-20 17:10:49.534 [Test worker] ERROR io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with error: 200
+2026-03-20 17:10:49.534 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Error response body: 
+Database(title=[RichText(type=text, plainText=Database with multiple data sources, href=null, annotations=RichText.Annotations(bold=false, italic=false, strikethrough=false, underline=false, code=false, color=default), text=RichText.Text(content=Database with multiple data sources, link=null), mention=null, equation=null)], description=[], icon=null, cover=null, url=https://www.notion.so/a6b10e586a314d72a4922c52c9ce860a, publicUrl=null, isInline=true, isLocked=false, dataSources=[DataSourceRef(id=47e9f0c8-8523-4348-87c2-b32a46cf0fff, name=Database with multiple data sources)])
+2026-03-20 17:10:49.535 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Calling NotionAPIv2026-03-11
+2026-03-20 17:10:49.535 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Building request...
+2026-03-20 17:10:49.536 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request method: POST, url: https://api.notion.com/v1/data_sources, content-type: application/json
+2026-03-20 17:10:49.536 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request body: 
+{
+  &quot;parent&quot; : {
+    &quot;type&quot; : &quot;database_id&quot;,
+    &quot;database_id&quot; : &quot;a6b10e58-6a31-4d72-a492-2c52c9ce860a&quot;
+  },
+  &quot;title&quot; : [ {
+    &quot;type&quot; : &quot;text&quot;,
+    &quot;plain_text&quot; : &quot;Second data source&quot;,
+    &quot;annotations&quot; : { },
+    &quot;text&quot; : {
+      &quot;content&quot; : &quot;Second data source&quot;
+    }
+  } ],
+  &quot;properties&quot; : {
+    &quot;Number&quot; : {
+      &quot;number&quot; : { }
+    },
+    &quot;Name&quot; : {
+      &quot;type&quot; : &quot;title&quot;,
+      &quot;title&quot; : { }
+    }
+  }
+}
+2026-03-20 17:10:49.860 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with code: 200
+2026-03-20 17:10:49.860 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response body: 
+{&quot;object&quot;:&quot;data_source&quot;,&quot;id&quot;:&quot;329cd6cf-1406-81fd-8a3f-000b8572f136&quot;,&quot;cover&quot;:null,&quot;icon&quot;:null,&quot;created_time&quot;:&quot;2026-03-20T17:10:00.000Z&quot;,&quot;created_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;last_edited_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;last_edited_time&quot;:&quot;2026-03-20T17:10:00.000Z&quot;,&quot;title&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;Second data source&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;Second data source&quot;,&quot;href&quot;:null}],&quot;description&quot;:[],&quot;is_inline&quot;:true,&quot;properties&quot;:{&quot;Number&quot;:{&quot;id&quot;:&quot;X%60c_&quot;,&quot;name&quot;:&quot;Number&quot;,&quot;description&quot;:null,&quot;type&quot;:&quot;number&quot;,&quot;number&quot;:{&quot;format&quot;:&quot;number&quot;}},&quot;Name&quot;:{&quot;id&quot;:&quot;title&quot;,&quot;name&quot;:&quot;Name&quot;,&quot;description&quot;:null,&quot;type&quot;:&quot;title&quot;,&quot;title&quot;:{}}},&quot;parent&quot;:{&quot;type&quot;:&quot;database_id&quot;,&quot;database_id&quot;:&quot;a6b10e58-6a31-4d72-a492-2c52c9ce860a&quot;},&quot;database_parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;329cd6cf-1406-81e2-a4e2-e29985f474f6&quot;},&quot;url&quot;:&quot;https://www.notion.so/a6b10e586a314d72a4922c52c9ce860a&quot;,&quot;public_url&quot;:null,&quot;in_trash&quot;:false,&quot;request_id&quot;:&quot;2cc02f5a-24c8-410e-a3ee-8625172d8866&quot;}
+2026-03-20 17:10:49.860 [Test worker] ERROR io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with error: 200
+2026-03-20 17:10:49.860 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Error response body: 
+DataSource(title=[RichText(type=text, plainText=Second data source, href=null, annotations=RichText.Annotations(bold=false, italic=false, strikethrough=false, underline=false, code=false, color=default), text=RichText.Text(content=Second data source, link=null), mention=null, equation=null)], description=[], databaseParent=Parent(type=page_id, blockId=null, pageId=329cd6cf-1406-81e2-a4e2-e29985f474f6, databaseId=null, datasourceId=null, workspace=null), icon=null, cover=null, properties={Number=NumberSchema(number=NumberSchema.NumberFormat(format=number)), Name=TitleSchema(title={})}, isInline=true, url=https://www.notion.so/a6b10e586a314d72a4922c52c9ce860a, publicUrl=null)
+2026-03-20 17:10:49.861 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Calling NotionAPIv2026-03-11
+2026-03-20 17:10:49.861 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Building request...
+2026-03-20 17:10:49.861 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request method: GET, url: https://api.notion.com/v1/databases/a6b10e58-6a31-4d72-a492-2c52c9ce860a, content-type: null
+2026-03-20 17:10:49.987 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with code: 200
+2026-03-20 17:10:49.987 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response body: 
+{&quot;object&quot;:&quot;database&quot;,&quot;id&quot;:&quot;a6b10e58-6a31-4d72-a492-2c52c9ce860a&quot;,&quot;title&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;Database with multiple data sources and Second data source&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;Database with multiple data sources and Second data source&quot;,&quot;href&quot;:null}],&quot;description&quot;:[],&quot;parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;329cd6cf-1406-81e2-a4e2-e29985f474f6&quot;},&quot;is_inline&quot;:true,&quot;in_trash&quot;:false,&quot;is_locked&quot;:false,&quot;created_time&quot;:&quot;2026-03-20T17:10:48.974+00:00&quot;,&quot;last_edited_time&quot;:&quot;2026-03-20T17:10:48.974+00:00&quot;,&quot;data_sources&quot;:[{&quot;id&quot;:&quot;47e9f0c8-8523-4348-87c2-b32a46cf0fff&quot;,&quot;name&quot;:&quot;Database with multiple data sources&quot;},{&quot;id&quot;:&quot;329cd6cf-1406-81fd-8a3f-000b8572f136&quot;,&quot;name&quot;:&quot;Second data source&quot;}],&quot;icon&quot;:null,&quot;cover&quot;:null,&quot;url&quot;:&quot;https://www.notion.so/a6b10e586a314d72a4922c52c9ce860a&quot;,&quot;public_url&quot;:null,&quot;request_id&quot;:&quot;faaae441-6e8b-4929-a251-f904b2d46e2b&quot;}
+2026-03-20 17:10:49.987 [Test worker] ERROR io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with error: 200
+2026-03-20 17:10:49.987 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Error response body: 
+Database(title=[RichText(type=text, plainText=Database with multiple data sources and Second data source, href=null, annotations=RichText.Annotations(bold=false, italic=false, strikethrough=false, underline=false, code=false, color=default), text=RichText.Text(content=Database with multiple data sources and Second data source, link=null), mention=null, equation=null)], description=[], icon=null, cover=null, url=https://www.notion.so/a6b10e586a314d72a4922c52c9ce860a, publicUrl=null, isInline=true, isLocked=false, dataSources=[DataSourceRef(id=47e9f0c8-8523-4348-87c2-b32a46cf0fff, name=Database with multiple data sources), DataSourceRef(id=329cd6cf-1406-81fd-8a3f-000b8572f136, name=Second data source)])
+2026-03-20 17:10:49.994 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Calling NotionAPIv2026-03-11
+2026-03-20 17:10:49.994 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Building request...
+2026-03-20 17:10:49.994 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request method: POST, url: https://api.notion.com/v1/pages, content-type: application/json
+2026-03-20 17:10:49.994 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request body: 
+{
+  &quot;parent&quot; : {
+    &quot;type&quot; : &quot;page_id&quot;,
+    &quot;page_id&quot; : &quot;329cd6cf-1406-81a4-9663-ef5f2254ea02&quot;
+  },
+  &quot;properties&quot; : {
+    &quot;title&quot; : {
+      &quot;type&quot; : &quot;title&quot;,
+      &quot;title&quot; : [ {
+        &quot;type&quot; : &quot;text&quot;,
+        &quot;plain_text&quot; : &quot;[IT-33]: Databases - Create a new database with icon and cover&quot;,
+        &quot;annotations&quot; : { },
+        &quot;text&quot; : {
+          &quot;content&quot; : &quot;[IT-33]: Databases - Create a new database with icon and cover&quot;
+        }
+      } ]
+    }
+  },
+  &quot;position&quot; : {
+    &quot;type&quot; : &quot;page_start&quot;
+  }
+}
+2026-03-20 17:10:50.355 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with code: 200
+2026-03-20 17:10:50.355 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response body: 
+{&quot;object&quot;:&quot;page&quot;,&quot;id&quot;:&quot;329cd6cf-1406-8198-bc6f-fff2c04b67f8&quot;,&quot;created_time&quot;:&quot;2026-03-20T17:10:00.000Z&quot;,&quot;last_edited_time&quot;:&quot;2026-03-20T17:10:00.000Z&quot;,&quot;created_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;last_edited_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;cover&quot;:null,&quot;icon&quot;:null,&quot;parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;329cd6cf-1406-81a4-9663-ef5f2254ea02&quot;},&quot;in_trash&quot;:false,&quot;is_archived&quot;:false,&quot;is_locked&quot;:false,&quot;properties&quot;:{&quot;title&quot;:{&quot;id&quot;:&quot;title&quot;,&quot;type&quot;:&quot;title&quot;,&quot;title&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;[IT-33]: Databases - Create a new database with icon and cover&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;[IT-33]: Databases - Create a new database with icon and cover&quot;,&quot;href&quot;:null}]}},&quot;url&quot;:&quot;https://www.notion.so/IT-33-Databases-Create-a-new-database-with-icon-and-cover-329cd6cf14068198bc6ffff2c04b67f8&quot;,&quot;public_url&quot;:null,&quot;request_id&quot;:&quot;354d7acf-475e-474a-8d37-ad2f0183eeb1&quot;}
+2026-03-20 17:10:50.355 [Test worker] ERROR io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with error: 200
+2026-03-20 17:10:50.355 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Error response body: 
+Page(properties={title=TitleProperty(type=title, title=[RichText(type=text, plainText=[IT-33]: Databases - Create a new database with icon and cover, href=null, annotations=RichText.Annotations(bold=false, italic=false, strikethrough=false, underline=false, code=false, color=default), text=RichText.Text(content=[IT-33]: Databases - Create a new database with icon and cover, link=null), mention=null, equation=null)])}, url=https://www.notion.so/IT-33-Databases-Create-a-new-database-with-icon-and-cover-329cd6cf14068198bc6ffff2c04b67f8, publicUrl=null, icon=null, cover=null, isLocked=false)
+2026-03-20 17:10:50.356 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Calling NotionAPIv2026-03-11
+2026-03-20 17:10:50.356 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Building request...
+2026-03-20 17:10:50.358 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request method: POST, url: https://api.notion.com/v1/databases, content-type: application/json
+2026-03-20 17:10:50.358 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request body: 
+{
+  &quot;parent&quot; : {
+    &quot;type&quot; : &quot;page_id&quot;,
+    &quot;page_id&quot; : &quot;329cd6cf-1406-8198-bc6f-fff2c04b67f8&quot;
+  },
+  &quot;title&quot; : [ {
+    &quot;type&quot; : &quot;text&quot;,
+    &quot;plain_text&quot; : &quot;Database with icon and cover&quot;,
+    &quot;annotations&quot; : { },
+    &quot;text&quot; : {
+      &quot;content&quot; : &quot;Database with icon and cover&quot;
+    }
+  } ],
+  &quot;icon&quot; : {
+    &quot;type&quot; : &quot;emoji&quot;,
+    &quot;emoji&quot; : &quot;&#x1f698;&quot;
+  },
+  &quot;cover&quot; : {
+    &quot;type&quot; : &quot;external&quot;,
+    &quot;external&quot; : {
+      &quot;url&quot; : &quot;https://images.unsplash.com/photo-1543906965-f9520aa2ed8a?ixlib=rb-4.1.0&amp;q=85&amp;fm=jpg&amp;crop=entropy&amp;cs=srgb&quot;
+    }
+  }
+}
+2026-03-20 17:10:51.103 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with code: 200
+2026-03-20 17:10:51.103 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response body: 
+{&quot;object&quot;:&quot;database&quot;,&quot;id&quot;:&quot;0bdf1579-96fe-4e6f-9503-1e891c20c5de&quot;,&quot;title&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;Database with icon and cover&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;Database with icon and cover&quot;,&quot;href&quot;:null}],&quot;description&quot;:[],&quot;parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;329cd6cf-1406-8198-bc6f-fff2c04b67f8&quot;},&quot;is_inline&quot;:false,&quot;in_trash&quot;:false,&quot;is_locked&quot;:false,&quot;created_time&quot;:&quot;2026-03-20T17:10:50.617+00:00&quot;,&quot;last_edited_time&quot;:&quot;2026-03-20T17:10:50.617+00:00&quot;,&quot;data_sources&quot;:[{&quot;id&quot;:&quot;d47c6254-6afe-4ab7-917d-4b745e44d591&quot;,&quot;name&quot;:&quot;Database with icon and cover&quot;}],&quot;icon&quot;:{&quot;type&quot;:&quot;emoji&quot;,&quot;emoji&quot;:&quot;&#x1f698;&quot;},&quot;cover&quot;:{&quot;type&quot;:&quot;external&quot;,&quot;external&quot;:{&quot;url&quot;:&quot;https://images.unsplash.com/photo-1543906965-f9520aa2ed8a?ixlib=rb-4.1.0&amp;q=85&amp;fm=jpg&amp;crop=entropy&amp;cs=srgb&quot;}},&quot;url&quot;:&quot;https://www.notion.so/0bdf157996fe4e6f95031e891c20c5de&quot;,&quot;public_url&quot;:null,&quot;request_id&quot;:&quot;48daa58d-c323-4535-a6e8-28d41dbe93ed&quot;}
+2026-03-20 17:10:51.103 [Test worker] ERROR io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with error: 200
+2026-03-20 17:10:51.104 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Error response body: 
+Database(title=[RichText(type=text, plainText=Database with icon and cover, href=null, annotations=RichText.Annotations(bold=false, italic=false, strikethrough=false, underline=false, code=false, color=default), text=RichText.Text(content=Database with icon and cover, link=null), mention=null, equation=null)], description=[], icon=Icon(type=emoji, emoji=&#x1f698;, customEmoji=null, external=null, file=null), cover=Cover(type=external, external=ExternalFile(url=https://images.unsplash.com/photo-1543906965-f9520aa2ed8a?ixlib=rb-4.1.0&amp;q=85&amp;fm=jpg&amp;crop=entropy&amp;cs=srgb), fileUpload=null), url=https://www.notion.so/0bdf157996fe4e6f95031e891c20c5de, publicUrl=null, isInline=false, isLocked=false, dataSources=[DataSourceRef(id=d47c6254-6afe-4ab7-917d-4b745e44d591, name=Database with icon and cover)])
+2026-03-20 17:10:51.105 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Calling NotionAPIv2026-03-11
+2026-03-20 17:10:51.105 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Building request...
+2026-03-20 17:10:51.105 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request method: GET, url: https://api.notion.com/v1/databases/0bdf1579-96fe-4e6f-9503-1e891c20c5de, content-type: null
+2026-03-20 17:10:51.240 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with code: 200
+2026-03-20 17:10:51.240 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response body: 
+{&quot;object&quot;:&quot;database&quot;,&quot;id&quot;:&quot;0bdf1579-96fe-4e6f-9503-1e891c20c5de&quot;,&quot;title&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;Database with icon and cover&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;Database with icon and cover&quot;,&quot;href&quot;:null}],&quot;description&quot;:[],&quot;parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;329cd6cf-1406-8198-bc6f-fff2c04b67f8&quot;},&quot;is_inline&quot;:false,&quot;in_trash&quot;:false,&quot;is_locked&quot;:false,&quot;created_time&quot;:&quot;2026-03-20T17:10:50.617+00:00&quot;,&quot;last_edited_time&quot;:&quot;2026-03-20T17:10:50.617+00:00&quot;,&quot;data_sources&quot;:[{&quot;id&quot;:&quot;d47c6254-6afe-4ab7-917d-4b745e44d591&quot;,&quot;name&quot;:&quot;Database with icon and cover&quot;}],&quot;icon&quot;:{&quot;type&quot;:&quot;emoji&quot;,&quot;emoji&quot;:&quot;&#x1f698;&quot;},&quot;cover&quot;:{&quot;type&quot;:&quot;external&quot;,&quot;external&quot;:{&quot;url&quot;:&quot;https://images.unsplash.com/photo-1543906965-f9520aa2ed8a?ixlib=rb-4.1.0&amp;q=85&amp;fm=jpg&amp;crop=entropy&amp;cs=srgb&quot;}},&quot;url&quot;:&quot;https://www.notion.so/0bdf157996fe4e6f95031e891c20c5de&quot;,&quot;public_url&quot;:null,&quot;request_id&quot;:&quot;4ae95ebe-5aa0-419e-b5fb-040eaec45fc0&quot;}
+2026-03-20 17:10:51.240 [Test worker] ERROR io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with error: 200
+2026-03-20 17:10:51.240 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Error response body: 
+Database(title=[RichText(type=text, plainText=Database with icon and cover, href=null, annotations=RichText.Annotations(bold=false, italic=false, strikethrough=false, underline=false, code=false, color=default), text=RichText.Text(content=Database with icon and cover, link=null), mention=null, equation=null)], description=[], icon=Icon(type=emoji, emoji=&#x1f698;, customEmoji=null, external=null, file=null), cover=Cover(type=external, external=ExternalFile(url=https://images.unsplash.com/photo-1543906965-f9520aa2ed8a?ixlib=rb-4.1.0&amp;q=85&amp;fm=jpg&amp;crop=entropy&amp;cs=srgb), fileUpload=null), url=https://www.notion.so/0bdf157996fe4e6f95031e891c20c5de, publicUrl=null, isInline=false, isLocked=false, dataSources=[DataSourceRef(id=d47c6254-6afe-4ab7-917d-4b745e44d591, name=Database with icon and cover)])
+2026-03-20 17:10:51.246 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Calling NotionAPIv2026-03-11
+2026-03-20 17:10:51.246 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Building request...
+2026-03-20 17:10:51.247 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request method: POST, url: https://api.notion.com/v1/pages, content-type: application/json
+2026-03-20 17:10:51.247 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request body: 
+{
+  &quot;parent&quot; : {
+    &quot;type&quot; : &quot;page_id&quot;,
+    &quot;page_id&quot; : &quot;329cd6cf-1406-81a4-9663-ef5f2254ea02&quot;
+  },
+  &quot;properties&quot; : {
+    &quot;title&quot; : {
+      &quot;type&quot; : &quot;title&quot;,
+      &quot;title&quot; : [ {
+        &quot;type&quot; : &quot;text&quot;,
+        &quot;plain_text&quot; : &quot;[IT-46]: Databases - Create a database, then update its title, icon, cover and set parent to another page&quot;,
+        &quot;annotations&quot; : { },
+        &quot;text&quot; : {
+          &quot;content&quot; : &quot;[IT-46]: Databases - Create a database, then update its title, icon, cover and set parent to another page&quot;
+        }
+      } ]
+    }
+  },
+  &quot;position&quot; : {
+    &quot;type&quot; : &quot;page_start&quot;
+  }
+}
+2026-03-20 17:10:51.548 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with code: 200
+2026-03-20 17:10:51.548 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response body: 
+{&quot;object&quot;:&quot;page&quot;,&quot;id&quot;:&quot;329cd6cf-1406-8199-9845-c94cab0aeb4b&quot;,&quot;created_time&quot;:&quot;2026-03-20T17:10:00.000Z&quot;,&quot;last_edited_time&quot;:&quot;2026-03-20T17:10:00.000Z&quot;,&quot;created_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;last_edited_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;cover&quot;:null,&quot;icon&quot;:null,&quot;parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;329cd6cf-1406-81a4-9663-ef5f2254ea02&quot;},&quot;in_trash&quot;:false,&quot;is_archived&quot;:false,&quot;is_locked&quot;:false,&quot;properties&quot;:{&quot;title&quot;:{&quot;id&quot;:&quot;title&quot;,&quot;type&quot;:&quot;title&quot;,&quot;title&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;[IT-46]: Databases - Create a database, then update its title, icon, cover and set parent to another page&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;[IT-46]: Databases - Create a database, then update its title, icon, cover and set parent to another page&quot;,&quot;href&quot;:null}]}},&quot;url&quot;:&quot;https://www.notion.so/IT-46-Databases-Create-a-database-then-update-its-title-icon-cover-and-set-parent-to-another--329cd6cf140681999845c94cab0aeb4b&quot;,&quot;public_url&quot;:null,&quot;request_id&quot;:&quot;85bc8b2a-6348-488b-b2d0-b1be5cd45007&quot;}
+2026-03-20 17:10:51.548 [Test worker] ERROR io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with error: 200
+2026-03-20 17:10:51.548 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Error response body: 
+Page(properties={title=TitleProperty(type=title, title=[RichText(type=text, plainText=[IT-46]: Databases - Create a database, then update its title, icon, cover and set parent to another page, href=null, annotations=RichText.Annotations(bold=false, italic=false, strikethrough=false, underline=false, code=false, color=default), text=RichText.Text(content=[IT-46]: Databases - Create a database, then update its title, icon, cover and set parent to another page, link=null), mention=null, equation=null)])}, url=https://www.notion.so/IT-46-Databases-Create-a-database-then-update-its-title-icon-cover-and-set-parent-to-another--329cd6cf140681999845c94cab0aeb4b, publicUrl=null, icon=null, cover=null, isLocked=false)
+2026-03-20 17:10:51.550 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Calling NotionAPIv2026-03-11
+2026-03-20 17:10:51.550 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Building request...
+2026-03-20 17:10:51.550 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request method: POST, url: https://api.notion.com/v1/databases, content-type: application/json
+2026-03-20 17:10:51.550 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request body: 
+{
+  &quot;parent&quot; : {
+    &quot;type&quot; : &quot;page_id&quot;,
+    &quot;page_id&quot; : &quot;329cd6cf-1406-8199-9845-c94cab0aeb4b&quot;
+  },
+  &quot;title&quot; : [ {
+    &quot;type&quot; : &quot;text&quot;,
+    &quot;plain_text&quot; : &quot;Database to be updated&quot;,
+    &quot;annotations&quot; : { },
+    &quot;text&quot; : {
+      &quot;content&quot; : &quot;Database to be updated&quot;
+    }
+  } ]
+}
+2026-03-20 17:10:52.151 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with code: 200
+2026-03-20 17:10:52.151 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response body: 
+{&quot;object&quot;:&quot;database&quot;,&quot;id&quot;:&quot;b4bd716a-4dec-48fb-ac1e-352a149f3a31&quot;,&quot;title&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;Database to be updated&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;Database to be updated&quot;,&quot;href&quot;:null}],&quot;description&quot;:[],&quot;parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;329cd6cf-1406-8199-9845-c94cab0aeb4b&quot;},&quot;is_inline&quot;:false,&quot;in_trash&quot;:false,&quot;is_locked&quot;:false,&quot;created_time&quot;:&quot;2026-03-20T17:10:51.779+00:00&quot;,&quot;last_edited_time&quot;:&quot;2026-03-20T17:10:51.779+00:00&quot;,&quot;data_sources&quot;:[{&quot;id&quot;:&quot;2354c161-bbaa-4f05-8199-3270c215663f&quot;,&quot;name&quot;:&quot;Database to be updated&quot;}],&quot;icon&quot;:null,&quot;cover&quot;:null,&quot;url&quot;:&quot;https://www.notion.so/b4bd716a4dec48fbac1e352a149f3a31&quot;,&quot;public_url&quot;:null,&quot;request_id&quot;:&quot;cea0f77c-38ce-43a0-a571-6e698d79c18a&quot;}
+2026-03-20 17:10:52.151 [Test worker] ERROR io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with error: 200
+2026-03-20 17:10:52.152 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Error response body: 
+Database(title=[RichText(type=text, plainText=Database to be updated, href=null, annotations=RichText.Annotations(bold=false, italic=false, strikethrough=false, underline=false, code=false, color=default), text=RichText.Text(content=Database to be updated, link=null), mention=null, equation=null)], description=[], icon=null, cover=null, url=https://www.notion.so/b4bd716a4dec48fbac1e352a149f3a31, publicUrl=null, isInline=false, isLocked=false, dataSources=[DataSourceRef(id=2354c161-bbaa-4f05-8199-3270c215663f, name=Database to be updated)])
+2026-03-20 17:10:52.153 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Calling NotionAPIv2026-03-11
+2026-03-20 17:10:52.153 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Building request...
+2026-03-20 17:10:52.153 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request method: POST, url: https://api.notion.com/v1/pages, content-type: application/json
+2026-03-20 17:10:52.153 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request body: 
+{
+  &quot;parent&quot; : {
+    &quot;type&quot; : &quot;page_id&quot;,
+    &quot;page_id&quot; : &quot;329cd6cf-1406-8199-9845-c94cab0aeb4b&quot;
+  },
+  &quot;properties&quot; : {
+    &quot;title&quot; : {
+      &quot;type&quot; : &quot;title&quot;,
+      &quot;title&quot; : [ {
+        &quot;type&quot; : &quot;text&quot;,
+        &quot;plain_text&quot; : &quot;New parent page&quot;,
+        &quot;annotations&quot; : { },
+        &quot;text&quot; : {
+          &quot;content&quot; : &quot;New parent page&quot;
+        }
+      } ]
+    }
+  },
+  &quot;position&quot; : {
+    &quot;type&quot; : &quot;page_start&quot;
+  }
+}
+2026-03-20 17:10:52.456 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with code: 200
+2026-03-20 17:10:52.457 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response body: 
+{&quot;object&quot;:&quot;page&quot;,&quot;id&quot;:&quot;329cd6cf-1406-8152-b77e-d7a52b05ce83&quot;,&quot;created_time&quot;:&quot;2026-03-20T17:10:00.000Z&quot;,&quot;last_edited_time&quot;:&quot;2026-03-20T17:10:00.000Z&quot;,&quot;created_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;last_edited_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;cover&quot;:null,&quot;icon&quot;:null,&quot;parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;329cd6cf-1406-8199-9845-c94cab0aeb4b&quot;},&quot;in_trash&quot;:false,&quot;is_archived&quot;:false,&quot;is_locked&quot;:false,&quot;properties&quot;:{&quot;title&quot;:{&quot;id&quot;:&quot;title&quot;,&quot;type&quot;:&quot;title&quot;,&quot;title&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;New parent page&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;New parent page&quot;,&quot;href&quot;:null}]}},&quot;url&quot;:&quot;https://www.notion.so/New-parent-page-329cd6cf14068152b77ed7a52b05ce83&quot;,&quot;public_url&quot;:null,&quot;request_id&quot;:&quot;a296d45d-bfc8-40e4-a978-358a01a5866d&quot;}
+2026-03-20 17:10:52.457 [Test worker] ERROR io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with error: 200
+2026-03-20 17:10:52.457 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Error response body: 
+Page(properties={title=TitleProperty(type=title, title=[RichText(type=text, plainText=New parent page, href=null, annotations=RichText.Annotations(bold=false, italic=false, strikethrough=false, underline=false, code=false, color=default), text=RichText.Text(content=New parent page, link=null), mention=null, equation=null)])}, url=https://www.notion.so/New-parent-page-329cd6cf14068152b77ed7a52b05ce83, publicUrl=null, icon=null, cover=null, isLocked=false)
+2026-03-20 17:10:52.459 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Calling NotionAPIv2026-03-11
+2026-03-20 17:10:52.459 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Building request...
+2026-03-20 17:10:52.461 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request method: PATCH, url: https://api.notion.com/v1/databases/b4bd716a-4dec-48fb-ac1e-352a149f3a31, content-type: application/json
+2026-03-20 17:10:52.461 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request body: 
+{
+  &quot;parent&quot; : {
+    &quot;type&quot; : &quot;page_id&quot;,
+    &quot;page_id&quot; : &quot;329cd6cf-1406-8152-b77e-d7a52b05ce83&quot;
+  },
+  &quot;title&quot; : [ {
+    &quot;type&quot; : &quot;text&quot;,
+    &quot;plain_text&quot; : &quot;Updated database title&quot;,
+    &quot;annotations&quot; : { },
+    &quot;text&quot; : {
+      &quot;content&quot; : &quot;Updated database title&quot;
+    }
+  } ],
+  &quot;icon&quot; : {
+    &quot;type&quot; : &quot;emoji&quot;,
+    &quot;emoji&quot; : &quot;&#x1f698;&quot;
+  },
+  &quot;cover&quot; : {
+    &quot;type&quot; : &quot;external&quot;,
+    &quot;external&quot; : {
+      &quot;url&quot; : &quot;https://images.unsplash.com/photo-1543906965-f9520aa2ed8a?ixlib=rb-4.1.0&amp;q=85&amp;fm=jpg&amp;crop=entropy&amp;cs=srgb&quot;
+    }
+  }
+}
+2026-03-20 17:10:52.901 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with code: 200
+2026-03-20 17:10:52.901 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response body: 
+{&quot;object&quot;:&quot;database&quot;,&quot;id&quot;:&quot;b4bd716a-4dec-48fb-ac1e-352a149f3a31&quot;,&quot;title&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;Updated database title&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;Updated database title&quot;,&quot;href&quot;:null}],&quot;description&quot;:[],&quot;parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;329cd6cf-1406-8152-b77e-d7a52b05ce83&quot;},&quot;is_inline&quot;:false,&quot;in_trash&quot;:false,&quot;is_locked&quot;:false,&quot;created_time&quot;:&quot;2026-03-20T17:10:51.779+00:00&quot;,&quot;last_edited_time&quot;:&quot;2026-03-20T17:10:51.779+00:00&quot;,&quot;data_sources&quot;:[{&quot;id&quot;:&quot;2354c161-bbaa-4f05-8199-3270c215663f&quot;,&quot;name&quot;:&quot;Updated database title&quot;}],&quot;icon&quot;:{&quot;type&quot;:&quot;emoji&quot;,&quot;emoji&quot;:&quot;&#x1f698;&quot;},&quot;cover&quot;:{&quot;type&quot;:&quot;external&quot;,&quot;external&quot;:{&quot;url&quot;:&quot;https://images.unsplash.com/photo-1543906965-f9520aa2ed8a?ixlib=rb-4.1.0&amp;q=85&amp;fm=jpg&amp;crop=entropy&amp;cs=srgb&quot;}},&quot;url&quot;:&quot;https://www.notion.so/b4bd716a4dec48fbac1e352a149f3a31&quot;,&quot;public_url&quot;:null,&quot;request_id&quot;:&quot;1ccb3f83-9876-4db8-a9ab-656880498636&quot;}
+2026-03-20 17:10:52.902 [Test worker] ERROR io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with error: 200
+2026-03-20 17:10:52.902 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Error response body: 
+Database(title=[RichText(type=text, plainText=Updated database title, href=null, annotations=RichText.Annotations(bold=false, italic=false, strikethrough=false, underline=false, code=false, color=default), text=RichText.Text(content=Updated database title, link=null), mention=null, equation=null)], description=[], icon=Icon(type=emoji, emoji=&#x1f698;, customEmoji=null, external=null, file=null), cover=Cover(type=external, external=ExternalFile(url=https://images.unsplash.com/photo-1543906965-f9520aa2ed8a?ixlib=rb-4.1.0&amp;q=85&amp;fm=jpg&amp;crop=entropy&amp;cs=srgb), fileUpload=null), url=https://www.notion.so/b4bd716a4dec48fbac1e352a149f3a31, publicUrl=null, isInline=false, isLocked=false, dataSources=[DataSourceRef(id=2354c161-bbaa-4f05-8199-3270c215663f, name=Updated database title)])
+2026-03-20 17:10:52.908 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Calling NotionAPIv2026-03-11
+2026-03-20 17:10:52.908 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Building request...
+2026-03-20 17:10:52.909 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request method: POST, url: https://api.notion.com/v1/pages, content-type: application/json
+2026-03-20 17:10:52.909 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request body: 
+{
+  &quot;parent&quot; : {
+    &quot;type&quot; : &quot;page_id&quot;,
+    &quot;page_id&quot; : &quot;329cd6cf-1406-81a4-9663-ef5f2254ea02&quot;
+  },
+  &quot;properties&quot; : {
+    &quot;title&quot; : {
+      &quot;type&quot; : &quot;title&quot;,
+      &quot;title&quot; : [ {
+        &quot;type&quot; : &quot;text&quot;,
+        &quot;plain_text&quot; : &quot;[IT-48]: Databases - Create an inline database, then change it to be not inline.&quot;,
+        &quot;annotations&quot; : { },
+        &quot;text&quot; : {
+          &quot;content&quot; : &quot;[IT-48]: Databases - Create an inline database, then change it to be not inline.&quot;
+        }
+      } ]
+    }
+  },
+  &quot;position&quot; : {
+    &quot;type&quot; : &quot;page_start&quot;
+  }
+}
+2026-03-20 17:10:53.459 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with code: 200
+2026-03-20 17:10:53.459 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response body: 
+{&quot;object&quot;:&quot;page&quot;,&quot;id&quot;:&quot;329cd6cf-1406-81cf-947e-d0a5dccd08ae&quot;,&quot;created_time&quot;:&quot;2026-03-20T17:10:00.000Z&quot;,&quot;last_edited_time&quot;:&quot;2026-03-20T17:10:00.000Z&quot;,&quot;created_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;last_edited_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;cover&quot;:null,&quot;icon&quot;:null,&quot;parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;329cd6cf-1406-81a4-9663-ef5f2254ea02&quot;},&quot;in_trash&quot;:false,&quot;is_archived&quot;:false,&quot;is_locked&quot;:false,&quot;properties&quot;:{&quot;title&quot;:{&quot;id&quot;:&quot;title&quot;,&quot;type&quot;:&quot;title&quot;,&quot;title&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;[IT-48]: Databases - Create an inline database, then change it to be not inline.&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;[IT-48]: Databases - Create an inline database, then change it to be not inline.&quot;,&quot;href&quot;:null}]}},&quot;url&quot;:&quot;https://www.notion.so/IT-48-Databases-Create-an-inline-database-then-change-it-to-be-not-inline-329cd6cf140681cf947ed0a5dccd08ae&quot;,&quot;public_url&quot;:null,&quot;request_id&quot;:&quot;03126b14-aa80-4eb2-ad9b-2d267c2e795e&quot;}
+2026-03-20 17:10:53.459 [Test worker] ERROR io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with error: 200
+2026-03-20 17:10:53.460 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Error response body: 
+Page(properties={title=TitleProperty(type=title, title=[RichText(type=text, plainText=[IT-48]: Databases - Create an inline database, then change it to be not inline., href=null, annotations=RichText.Annotations(bold=false, italic=false, strikethrough=false, underline=false, code=false, color=default), text=RichText.Text(content=[IT-48]: Databases - Create an inline database, then change it to be not inline., link=null), mention=null, equation=null)])}, url=https://www.notion.so/IT-48-Databases-Create-an-inline-database-then-change-it-to-be-not-inline-329cd6cf140681cf947ed0a5dccd08ae, publicUrl=null, icon=null, cover=null, isLocked=false)
+2026-03-20 17:10:53.461 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Calling NotionAPIv2026-03-11
+2026-03-20 17:10:53.461 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Building request...
+2026-03-20 17:10:53.461 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request method: POST, url: https://api.notion.com/v1/databases, content-type: application/json
+2026-03-20 17:10:53.461 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request body: 
+{
+  &quot;parent&quot; : {
+    &quot;type&quot; : &quot;page_id&quot;,
+    &quot;page_id&quot; : &quot;329cd6cf-1406-81cf-947e-d0a5dccd08ae&quot;
+  },
+  &quot;title&quot; : [ {
+    &quot;type&quot; : &quot;text&quot;,
+    &quot;plain_text&quot; : &quot;Inline database&quot;,
+    &quot;annotations&quot; : { },
+    &quot;text&quot; : {
+      &quot;content&quot; : &quot;Inline database&quot;
+    }
+  } ],
+  &quot;is_inline&quot; : true
+}
+2026-03-20 17:10:54.201 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with code: 200
+2026-03-20 17:10:54.201 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response body: 
+{&quot;object&quot;:&quot;database&quot;,&quot;id&quot;:&quot;d87a4189-087f-44c2-8332-36a2c2354608&quot;,&quot;title&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;Inline database&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;Inline database&quot;,&quot;href&quot;:null}],&quot;description&quot;:[],&quot;parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;329cd6cf-1406-81cf-947e-d0a5dccd08ae&quot;},&quot;is_inline&quot;:true,&quot;in_trash&quot;:false,&quot;is_locked&quot;:false,&quot;created_time&quot;:&quot;2026-03-20T17:10:53.624+00:00&quot;,&quot;last_edited_time&quot;:&quot;2026-03-20T17:10:53.624+00:00&quot;,&quot;data_sources&quot;:[{&quot;id&quot;:&quot;710caae5-8b62-4257-aa8e-afeeeeb31e08&quot;,&quot;name&quot;:&quot;Inline database&quot;}],&quot;icon&quot;:null,&quot;cover&quot;:null,&quot;url&quot;:&quot;https://www.notion.so/d87a4189087f44c2833236a2c2354608&quot;,&quot;public_url&quot;:null,&quot;request_id&quot;:&quot;f524197c-ac91-4379-be8d-8b0e037eb15c&quot;}
+2026-03-20 17:10:54.202 [Test worker] ERROR io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with error: 200
+2026-03-20 17:10:54.202 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Error response body: 
+Database(title=[RichText(type=text, plainText=Inline database, href=null, annotations=RichText.Annotations(bold=false, italic=false, strikethrough=false, underline=false, code=false, color=default), text=RichText.Text(content=Inline database, link=null), mention=null, equation=null)], description=[], icon=null, cover=null, url=https://www.notion.so/d87a4189087f44c2833236a2c2354608, publicUrl=null, isInline=true, isLocked=false, dataSources=[DataSourceRef(id=710caae5-8b62-4257-aa8e-afeeeeb31e08, name=Inline database)])
+2026-03-20 17:10:54.202 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Calling NotionAPIv2026-03-11
+2026-03-20 17:10:54.202 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Building request...
+2026-03-20 17:10:54.203 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request method: PATCH, url: https://api.notion.com/v1/databases/d87a4189-087f-44c2-8332-36a2c2354608, content-type: application/json
+2026-03-20 17:10:54.203 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request body: 
+{
+  &quot;is_inline&quot; : false
+}
+2026-03-20 17:10:54.898 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with code: 200
+2026-03-20 17:10:54.898 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response body: 
+{&quot;object&quot;:&quot;database&quot;,&quot;id&quot;:&quot;d87a4189-087f-44c2-8332-36a2c2354608&quot;,&quot;title&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;Inline database&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;Inline database&quot;,&quot;href&quot;:null}],&quot;description&quot;:[],&quot;parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;329cd6cf-1406-81cf-947e-d0a5dccd08ae&quot;},&quot;is_inline&quot;:false,&quot;in_trash&quot;:false,&quot;is_locked&quot;:false,&quot;created_time&quot;:&quot;2026-03-20T17:10:53.624+00:00&quot;,&quot;last_edited_time&quot;:&quot;2026-03-20T17:10:53.624+00:00&quot;,&quot;data_sources&quot;:[{&quot;id&quot;:&quot;710caae5-8b62-4257-aa8e-afeeeeb31e08&quot;,&quot;name&quot;:&quot;Inline database&quot;}],&quot;icon&quot;:null,&quot;cover&quot;:null,&quot;url&quot;:&quot;https://www.notion.so/d87a4189087f44c2833236a2c2354608&quot;,&quot;public_url&quot;:null,&quot;request_id&quot;:&quot;60762130-f32f-4bc1-bf51-0d67f0fd820f&quot;}
+2026-03-20 17:10:54.898 [Test worker] ERROR io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with error: 200
+2026-03-20 17:10:54.898 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Error response body: 
+Database(title=[RichText(type=text, plainText=Inline database, href=null, annotations=RichText.Annotations(bold=false, italic=false, strikethrough=false, underline=false, code=false, color=default), text=RichText.Text(content=Inline database, link=null), mention=null, equation=null)], description=[], icon=null, cover=null, url=https://www.notion.so/d87a4189087f44c2833236a2c2354608, publicUrl=null, isInline=false, isLocked=false, dataSources=[DataSourceRef(id=710caae5-8b62-4257-aa8e-afeeeeb31e08, name=Inline database)])
+2026-03-20 17:10:54.904 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Calling NotionAPIv2026-03-11
+2026-03-20 17:10:54.904 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Building request...
+2026-03-20 17:10:54.904 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request method: POST, url: https://api.notion.com/v1/pages, content-type: application/json
+2026-03-20 17:10:54.904 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request body: 
+{
+  &quot;parent&quot; : {
+    &quot;type&quot; : &quot;page_id&quot;,
+    &quot;page_id&quot; : &quot;329cd6cf-1406-81a4-9663-ef5f2254ea02&quot;
+  },
+  &quot;properties&quot; : {
+    &quot;title&quot; : {
+      &quot;type&quot; : &quot;title&quot;,
+      &quot;title&quot; : [ {
+        &quot;type&quot; : &quot;text&quot;,
+        &quot;plain_text&quot; : &quot;[IT-50]: Databases - Create a database. Then remove it, then restore it.&quot;,
+        &quot;annotations&quot; : { },
+        &quot;text&quot; : {
+          &quot;content&quot; : &quot;[IT-50]: Databases - Create a database. Then remove it, then restore it.&quot;
+        }
+      } ]
+    }
+  },
+  &quot;position&quot; : {
+    &quot;type&quot; : &quot;page_start&quot;
+  }
+}
+2026-03-20 17:10:55.230 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with code: 200
+2026-03-20 17:10:55.230 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response body: 
+{&quot;object&quot;:&quot;page&quot;,&quot;id&quot;:&quot;329cd6cf-1406-81a8-93db-ed812924eee9&quot;,&quot;created_time&quot;:&quot;2026-03-20T17:10:00.000Z&quot;,&quot;last_edited_time&quot;:&quot;2026-03-20T17:10:00.000Z&quot;,&quot;created_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;last_edited_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;cover&quot;:null,&quot;icon&quot;:null,&quot;parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;329cd6cf-1406-81a4-9663-ef5f2254ea02&quot;},&quot;in_trash&quot;:false,&quot;is_archived&quot;:false,&quot;is_locked&quot;:false,&quot;properties&quot;:{&quot;title&quot;:{&quot;id&quot;:&quot;title&quot;,&quot;type&quot;:&quot;title&quot;,&quot;title&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;[IT-50]: Databases - Create a database. Then remove it, then restore it.&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;[IT-50]: Databases - Create a database. Then remove it, then restore it.&quot;,&quot;href&quot;:null}]}},&quot;url&quot;:&quot;https://www.notion.so/IT-50-Databases-Create-a-database-Then-remove-it-then-restore-it-329cd6cf140681a893dbed812924eee9&quot;,&quot;public_url&quot;:null,&quot;request_id&quot;:&quot;8d1e60ba-cff1-4ae6-a3be-e01f6c62c57e&quot;}
+2026-03-20 17:10:55.230 [Test worker] ERROR io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with error: 200
+2026-03-20 17:10:55.230 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Error response body: 
+Page(properties={title=TitleProperty(type=title, title=[RichText(type=text, plainText=[IT-50]: Databases - Create a database. Then remove it, then restore it., href=null, annotations=RichText.Annotations(bold=false, italic=false, strikethrough=false, underline=false, code=false, color=default), text=RichText.Text(content=[IT-50]: Databases - Create a database. Then remove it, then restore it., link=null), mention=null, equation=null)])}, url=https://www.notion.so/IT-50-Databases-Create-a-database-Then-remove-it-then-restore-it-329cd6cf140681a893dbed812924eee9, publicUrl=null, icon=null, cover=null, isLocked=false)
+2026-03-20 17:10:55.231 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Calling NotionAPIv2026-03-11
+2026-03-20 17:10:55.231 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Building request...
+2026-03-20 17:10:55.231 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request method: POST, url: https://api.notion.com/v1/databases, content-type: application/json
+2026-03-20 17:10:55.232 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request body: 
+{
+  &quot;parent&quot; : {
+    &quot;type&quot; : &quot;page_id&quot;,
+    &quot;page_id&quot; : &quot;329cd6cf-1406-81a8-93db-ed812924eee9&quot;
+  },
+  &quot;title&quot; : [ {
+    &quot;type&quot; : &quot;text&quot;,
+    &quot;plain_text&quot; : &quot;Database to delete and restore&quot;,
+    &quot;annotations&quot; : { },
+    &quot;text&quot; : {
+      &quot;content&quot; : &quot;Database to delete and restore&quot;
+    }
+  } ]
+}
+2026-03-20 17:10:55.707 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with code: 200
+2026-03-20 17:10:55.707 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response body: 
+{&quot;object&quot;:&quot;database&quot;,&quot;id&quot;:&quot;48023688-e942-4a7b-94c8-1a4d40c282c6&quot;,&quot;title&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;Database to delete and restore&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;Database to delete and restore&quot;,&quot;href&quot;:null}],&quot;description&quot;:[],&quot;parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;329cd6cf-1406-81a8-93db-ed812924eee9&quot;},&quot;is_inline&quot;:false,&quot;in_trash&quot;:false,&quot;is_locked&quot;:false,&quot;created_time&quot;:&quot;2026-03-20T17:10:55.412+00:00&quot;,&quot;last_edited_time&quot;:&quot;2026-03-20T17:10:55.412+00:00&quot;,&quot;data_sources&quot;:[{&quot;id&quot;:&quot;ae9c1527-e03b-45bb-bebd-4011fdbd45bf&quot;,&quot;name&quot;:&quot;Database to delete and restore&quot;}],&quot;icon&quot;:null,&quot;cover&quot;:null,&quot;url&quot;:&quot;https://www.notion.so/48023688e9424a7b94c81a4d40c282c6&quot;,&quot;public_url&quot;:null,&quot;request_id&quot;:&quot;baed4452-e23e-419f-be14-d19bbec5139c&quot;}
+2026-03-20 17:10:55.707 [Test worker] ERROR io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with error: 200
+2026-03-20 17:10:55.707 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Error response body: 
+Database(title=[RichText(type=text, plainText=Database to delete and restore, href=null, annotations=RichText.Annotations(bold=false, italic=false, strikethrough=false, underline=false, code=false, color=default), text=RichText.Text(content=Database to delete and restore, link=null), mention=null, equation=null)], description=[], icon=null, cover=null, url=https://www.notion.so/48023688e9424a7b94c81a4d40c282c6, publicUrl=null, isInline=false, isLocked=false, dataSources=[DataSourceRef(id=ae9c1527-e03b-45bb-bebd-4011fdbd45bf, name=Database to delete and restore)])
+2026-03-20 17:10:55.708 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Calling NotionAPIv2026-03-11
+2026-03-20 17:10:55.708 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Building request...
+2026-03-20 17:10:55.708 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request method: PATCH, url: https://api.notion.com/v1/databases/48023688-e942-4a7b-94c8-1a4d40c282c6, content-type: application/json
+2026-03-20 17:10:55.708 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request body: 
+{
+  &quot;in_trash&quot; : true
+}
+2026-03-20 17:10:56.122 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with code: 200
+2026-03-20 17:10:56.122 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response body: 
+{&quot;object&quot;:&quot;database&quot;,&quot;id&quot;:&quot;48023688-e942-4a7b-94c8-1a4d40c282c6&quot;,&quot;title&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;Database to delete and restore&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;Database to delete and restore&quot;,&quot;href&quot;:null}],&quot;description&quot;:[],&quot;parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;329cd6cf-1406-81a8-93db-ed812924eee9&quot;},&quot;is_inline&quot;:false,&quot;in_trash&quot;:true,&quot;is_locked&quot;:false,&quot;created_time&quot;:&quot;2026-03-20T17:10:55.412+00:00&quot;,&quot;last_edited_time&quot;:&quot;2026-03-20T17:10:55.412+00:00&quot;,&quot;data_sources&quot;:[{&quot;id&quot;:&quot;ae9c1527-e03b-45bb-bebd-4011fdbd45bf&quot;,&quot;name&quot;:&quot;Database to delete and restore&quot;}],&quot;icon&quot;:null,&quot;cover&quot;:null,&quot;url&quot;:&quot;https://www.notion.so/48023688e9424a7b94c81a4d40c282c6&quot;,&quot;public_url&quot;:null,&quot;request_id&quot;:&quot;0865c79e-69f4-4fe0-afd6-5deb56942362&quot;}
+2026-03-20 17:10:56.123 [Test worker] ERROR io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with error: 200
+2026-03-20 17:10:56.123 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Error response body: 
+Database(title=[RichText(type=text, plainText=Database to delete and restore, href=null, annotations=RichText.Annotations(bold=false, italic=false, strikethrough=false, underline=false, code=false, color=default), text=RichText.Text(content=Database to delete and restore, link=null), mention=null, equation=null)], description=[], icon=null, cover=null, url=https://www.notion.so/48023688e9424a7b94c81a4d40c282c6, publicUrl=null, isInline=false, isLocked=false, dataSources=[DataSourceRef(id=ae9c1527-e03b-45bb-bebd-4011fdbd45bf, name=Database to delete and restore)])
+2026-03-20 17:10:56.123 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Calling NotionAPIv2026-03-11
+2026-03-20 17:10:56.123 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Building request...
+2026-03-20 17:10:56.124 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request method: PATCH, url: https://api.notion.com/v1/databases/48023688-e942-4a7b-94c8-1a4d40c282c6, content-type: application/json
+2026-03-20 17:10:56.124 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request body: 
+{
+  &quot;in_trash&quot; : false
+}
+2026-03-20 17:10:56.507 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with code: 200
+2026-03-20 17:10:56.508 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response body: 
+{&quot;object&quot;:&quot;database&quot;,&quot;id&quot;:&quot;48023688-e942-4a7b-94c8-1a4d40c282c6&quot;,&quot;title&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;Database to delete and restore&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;Database to delete and restore&quot;,&quot;href&quot;:null}],&quot;description&quot;:[],&quot;parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;329cd6cf-1406-81a8-93db-ed812924eee9&quot;},&quot;is_inline&quot;:false,&quot;in_trash&quot;:false,&quot;is_locked&quot;:false,&quot;created_time&quot;:&quot;2026-03-20T17:10:55.412+00:00&quot;,&quot;last_edited_time&quot;:&quot;2026-03-20T17:10:55.412+00:00&quot;,&quot;data_sources&quot;:[{&quot;id&quot;:&quot;ae9c1527-e03b-45bb-bebd-4011fdbd45bf&quot;,&quot;name&quot;:&quot;Database to delete and restore&quot;}],&quot;icon&quot;:null,&quot;cover&quot;:null,&quot;url&quot;:&quot;https://www.notion.so/48023688e9424a7b94c81a4d40c282c6&quot;,&quot;public_url&quot;:null,&quot;request_id&quot;:&quot;0e9cc23c-9786-4286-aa76-cf940ad5fb37&quot;}
+2026-03-20 17:10:56.509 [Test worker] ERROR io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with error: 200
+2026-03-20 17:10:56.509 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Error response body: 
+Database(title=[RichText(type=text, plainText=Database to delete and restore, href=null, annotations=RichText.Annotations(bold=false, italic=false, strikethrough=false, underline=false, code=false, color=default), text=RichText.Text(content=Database to delete and restore, link=null), mention=null, equation=null)], description=[], icon=null, cover=null, url=https://www.notion.so/48023688e9424a7b94c81a4d40c282c6, publicUrl=null, isInline=false, isLocked=false, dataSources=[DataSourceRef(id=ae9c1527-e03b-45bb-bebd-4011fdbd45bf, name=Database to delete and restore)])
+2026-03-20 17:10:56.513 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Calling NotionAPIv2026-03-11
+2026-03-20 17:10:56.513 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Building request...
+2026-03-20 17:10:56.514 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request method: POST, url: https://api.notion.com/v1/pages, content-type: application/json
+2026-03-20 17:10:56.514 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request body: 
+{
+  &quot;parent&quot; : {
+    &quot;type&quot; : &quot;page_id&quot;,
+    &quot;page_id&quot; : &quot;329cd6cf-1406-81a4-9663-ef5f2254ea02&quot;
+  },
+  &quot;properties&quot; : {
+    &quot;title&quot; : {
+      &quot;type&quot; : &quot;title&quot;,
+      &quot;title&quot; : [ {
+        &quot;type&quot; : &quot;text&quot;,
+        &quot;plain_text&quot; : &quot;[IT-49]: Databases - Create a database. Then lock it, then unlock it.&quot;,
+        &quot;annotations&quot; : { },
+        &quot;text&quot; : {
+          &quot;content&quot; : &quot;[IT-49]: Databases - Create a database. Then lock it, then unlock it.&quot;
+        }
+      } ]
+    }
+  },
+  &quot;position&quot; : {
+    &quot;type&quot; : &quot;page_start&quot;
+  }
+}
+2026-03-20 17:10:56.840 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with code: 200
+2026-03-20 17:10:56.840 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response body: 
+{&quot;object&quot;:&quot;page&quot;,&quot;id&quot;:&quot;329cd6cf-1406-8186-8123-fd9342f0537d&quot;,&quot;created_time&quot;:&quot;2026-03-20T17:10:00.000Z&quot;,&quot;last_edited_time&quot;:&quot;2026-03-20T17:10:00.000Z&quot;,&quot;created_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;last_edited_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;cover&quot;:null,&quot;icon&quot;:null,&quot;parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;329cd6cf-1406-81a4-9663-ef5f2254ea02&quot;},&quot;in_trash&quot;:false,&quot;is_archived&quot;:false,&quot;is_locked&quot;:false,&quot;properties&quot;:{&quot;title&quot;:{&quot;id&quot;:&quot;title&quot;,&quot;type&quot;:&quot;title&quot;,&quot;title&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;[IT-49]: Databases - Create a database. Then lock it, then unlock it.&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;[IT-49]: Databases - Create a database. Then lock it, then unlock it.&quot;,&quot;href&quot;:null}]}},&quot;url&quot;:&quot;https://www.notion.so/IT-49-Databases-Create-a-database-Then-lock-it-then-unlock-it-329cd6cf140681868123fd9342f0537d&quot;,&quot;public_url&quot;:null,&quot;request_id&quot;:&quot;2fb4accd-57b9-4431-a39d-94c58803f8ed&quot;}
+2026-03-20 17:10:56.841 [Test worker] ERROR io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with error: 200
+2026-03-20 17:10:56.841 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Error response body: 
+Page(properties={title=TitleProperty(type=title, title=[RichText(type=text, plainText=[IT-49]: Databases - Create a database. Then lock it, then unlock it., href=null, annotations=RichText.Annotations(bold=false, italic=false, strikethrough=false, underline=false, code=false, color=default), text=RichText.Text(content=[IT-49]: Databases - Create a database. Then lock it, then unlock it., link=null), mention=null, equation=null)])}, url=https://www.notion.so/IT-49-Databases-Create-a-database-Then-lock-it-then-unlock-it-329cd6cf140681868123fd9342f0537d, publicUrl=null, icon=null, cover=null, isLocked=false)
+2026-03-20 17:10:56.842 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Calling NotionAPIv2026-03-11
+2026-03-20 17:10:56.842 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Building request...
+2026-03-20 17:10:56.842 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request method: POST, url: https://api.notion.com/v1/databases, content-type: application/json
+2026-03-20 17:10:56.842 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request body: 
+{
+  &quot;parent&quot; : {
+    &quot;type&quot; : &quot;page_id&quot;,
+    &quot;page_id&quot; : &quot;329cd6cf-1406-8186-8123-fd9342f0537d&quot;
+  },
+  &quot;title&quot; : [ {
+    &quot;type&quot; : &quot;text&quot;,
+    &quot;plain_text&quot; : &quot;Database to lock and unlock&quot;,
+    &quot;annotations&quot; : { },
+    &quot;text&quot; : {
+      &quot;content&quot; : &quot;Database to lock and unlock&quot;
+    }
+  } ]
+}
+2026-03-20 17:10:57.311 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with code: 200
+2026-03-20 17:10:57.311 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response body: 
+{&quot;object&quot;:&quot;database&quot;,&quot;id&quot;:&quot;56b7f325-8342-436c-bcc2-9c34c00c90dd&quot;,&quot;title&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;Database to lock and unlock&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;Database to lock and unlock&quot;,&quot;href&quot;:null}],&quot;description&quot;:[],&quot;parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;329cd6cf-1406-8186-8123-fd9342f0537d&quot;},&quot;is_inline&quot;:false,&quot;in_trash&quot;:false,&quot;is_locked&quot;:false,&quot;created_time&quot;:&quot;2026-03-20T17:10:56.991+00:00&quot;,&quot;last_edited_time&quot;:&quot;2026-03-20T17:10:56.991+00:00&quot;,&quot;data_sources&quot;:[{&quot;id&quot;:&quot;43f0ffc3-3e0a-4116-acd2-44c322454af1&quot;,&quot;name&quot;:&quot;Database to lock and unlock&quot;}],&quot;icon&quot;:null,&quot;cover&quot;:null,&quot;url&quot;:&quot;https://www.notion.so/56b7f3258342436cbcc29c34c00c90dd&quot;,&quot;public_url&quot;:null,&quot;request_id&quot;:&quot;b858df49-fc1a-4963-a39d-90110c0d0a55&quot;}
+2026-03-20 17:10:57.313 [Test worker] ERROR io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with error: 200
+2026-03-20 17:10:57.313 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Error response body: 
+Database(title=[RichText(type=text, plainText=Database to lock and unlock, href=null, annotations=RichText.Annotations(bold=false, italic=false, strikethrough=false, underline=false, code=false, color=default), text=RichText.Text(content=Database to lock and unlock, link=null), mention=null, equation=null)], description=[], icon=null, cover=null, url=https://www.notion.so/56b7f3258342436cbcc29c34c00c90dd, publicUrl=null, isInline=false, isLocked=false, dataSources=[DataSourceRef(id=43f0ffc3-3e0a-4116-acd2-44c322454af1, name=Database to lock and unlock)])
+2026-03-20 17:10:57.315 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Calling NotionAPIv2026-03-11
+2026-03-20 17:10:57.315 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Building request...
+2026-03-20 17:10:57.315 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request method: PATCH, url: https://api.notion.com/v1/databases/56b7f325-8342-436c-bcc2-9c34c00c90dd, content-type: application/json
+2026-03-20 17:10:57.315 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request body: 
+{
+  &quot;is_locked&quot; : true
+}
+2026-03-20 17:10:57.546 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with code: 200
+2026-03-20 17:10:57.546 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response body: 
+{&quot;object&quot;:&quot;database&quot;,&quot;id&quot;:&quot;56b7f325-8342-436c-bcc2-9c34c00c90dd&quot;,&quot;title&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;Database to lock and unlock&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;Database to lock and unlock&quot;,&quot;href&quot;:null}],&quot;description&quot;:[],&quot;parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;329cd6cf-1406-8186-8123-fd9342f0537d&quot;},&quot;is_inline&quot;:false,&quot;in_trash&quot;:false,&quot;is_locked&quot;:true,&quot;created_time&quot;:&quot;2026-03-20T17:10:56.991+00:00&quot;,&quot;last_edited_time&quot;:&quot;2026-03-20T17:10:56.991+00:00&quot;,&quot;data_sources&quot;:[{&quot;id&quot;:&quot;43f0ffc3-3e0a-4116-acd2-44c322454af1&quot;,&quot;name&quot;:&quot;Database to lock and unlock&quot;}],&quot;icon&quot;:null,&quot;cover&quot;:null,&quot;url&quot;:&quot;https://www.notion.so/56b7f3258342436cbcc29c34c00c90dd&quot;,&quot;public_url&quot;:null,&quot;request_id&quot;:&quot;06348788-877b-4a92-a23d-bb9ad3810cf0&quot;}
+2026-03-20 17:10:57.546 [Test worker] ERROR io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with error: 200
+2026-03-20 17:10:57.546 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Error response body: 
+Database(title=[RichText(type=text, plainText=Database to lock and unlock, href=null, annotations=RichText.Annotations(bold=false, italic=false, strikethrough=false, underline=false, code=false, color=default), text=RichText.Text(content=Database to lock and unlock, link=null), mention=null, equation=null)], description=[], icon=null, cover=null, url=https://www.notion.so/56b7f3258342436cbcc29c34c00c90dd, publicUrl=null, isInline=false, isLocked=true, dataSources=[DataSourceRef(id=43f0ffc3-3e0a-4116-acd2-44c322454af1, name=Database to lock and unlock)])
+2026-03-20 17:10:57.547 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Calling NotionAPIv2026-03-11
+2026-03-20 17:10:57.547 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Building request...
+2026-03-20 17:10:57.548 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request method: PATCH, url: https://api.notion.com/v1/databases/56b7f325-8342-436c-bcc2-9c34c00c90dd, content-type: application/json
+2026-03-20 17:10:57.548 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request body: 
+{
+  &quot;is_locked&quot; : false
+}
+2026-03-20 17:10:57.866 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with code: 200
+2026-03-20 17:10:57.867 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response body: 
+{&quot;object&quot;:&quot;database&quot;,&quot;id&quot;:&quot;56b7f325-8342-436c-bcc2-9c34c00c90dd&quot;,&quot;title&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;Database to lock and unlock&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;Database to lock and unlock&quot;,&quot;href&quot;:null}],&quot;description&quot;:[],&quot;parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;329cd6cf-1406-8186-8123-fd9342f0537d&quot;},&quot;is_inline&quot;:false,&quot;in_trash&quot;:false,&quot;is_locked&quot;:false,&quot;created_time&quot;:&quot;2026-03-20T17:10:56.991+00:00&quot;,&quot;last_edited_time&quot;:&quot;2026-03-20T17:10:56.991+00:00&quot;,&quot;data_sources&quot;:[{&quot;id&quot;:&quot;43f0ffc3-3e0a-4116-acd2-44c322454af1&quot;,&quot;name&quot;:&quot;Database to lock and unlock&quot;}],&quot;icon&quot;:null,&quot;cover&quot;:null,&quot;url&quot;:&quot;https://www.notion.so/56b7f3258342436cbcc29c34c00c90dd&quot;,&quot;public_url&quot;:null,&quot;request_id&quot;:&quot;444a1bca-7219-4341-9e16-75de8ef5c953&quot;}
+2026-03-20 17:10:57.867 [Test worker] ERROR io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with error: 200
+2026-03-20 17:10:57.867 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Error response body: 
+Database(title=[RichText(type=text, plainText=Database to lock and unlock, href=null, annotations=RichText.Annotations(bold=false, italic=false, strikethrough=false, underline=false, code=false, color=default), text=RichText.Text(content=Database to lock and unlock, link=null), mention=null, equation=null)], description=[], icon=null, cover=null, url=https://www.notion.so/56b7f3258342436cbcc29c34c00c90dd, publicUrl=null, isInline=false, isLocked=false, dataSources=[DataSourceRef(id=43f0ffc3-3e0a-4116-acd2-44c322454af1, name=Database to lock and unlock)])
+2026-03-20 17:10:57.872 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Calling NotionAPIv2026-03-11
+2026-03-20 17:10:57.873 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Building request...
+2026-03-20 17:10:57.873 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request method: POST, url: https://api.notion.com/v1/pages, content-type: application/json
+2026-03-20 17:10:57.873 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request body: 
+{
+  &quot;parent&quot; : {
+    &quot;type&quot; : &quot;page_id&quot;,
+    &quot;page_id&quot; : &quot;329cd6cf-1406-81a4-9663-ef5f2254ea02&quot;
+  },
+  &quot;properties&quot; : {
+    &quot;title&quot; : {
+      &quot;type&quot; : &quot;title&quot;,
+      &quot;title&quot; : [ {
+        &quot;type&quot; : &quot;text&quot;,
+        &quot;plain_text&quot; : &quot;[IT-51]: Data sources,Databases - Create a database with 2 datasources, then move those data sources to another database&quot;,
+        &quot;annotations&quot; : { },
+        &quot;text&quot; : {
+          &quot;content&quot; : &quot;[IT-51]: Data sources,Databases - Create a database with 2 datasources, then move those data sources to another database&quot;
+        }
+      } ]
+    }
+  },
+  &quot;position&quot; : {
+    &quot;type&quot; : &quot;page_start&quot;
+  }
+}
+2026-03-20 17:10:58.191 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with code: 200
+2026-03-20 17:10:58.191 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response body: 
+{&quot;object&quot;:&quot;page&quot;,&quot;id&quot;:&quot;329cd6cf-1406-8113-bf0f-fc2db6956d73&quot;,&quot;created_time&quot;:&quot;2026-03-20T17:10:00.000Z&quot;,&quot;last_edited_time&quot;:&quot;2026-03-20T17:10:00.000Z&quot;,&quot;created_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;last_edited_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;cover&quot;:null,&quot;icon&quot;:null,&quot;parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;329cd6cf-1406-81a4-9663-ef5f2254ea02&quot;},&quot;in_trash&quot;:false,&quot;is_archived&quot;:false,&quot;is_locked&quot;:false,&quot;properties&quot;:{&quot;title&quot;:{&quot;id&quot;:&quot;title&quot;,&quot;type&quot;:&quot;title&quot;,&quot;title&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;[IT-51]: Data sources,Databases - Create a database with 2 datasources, then move those data sources to another database&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;[IT-51]: Data sources,Databases - Create a database with 2 datasources, then move those data sources to another database&quot;,&quot;href&quot;:null}]}},&quot;url&quot;:&quot;https://www.notion.so/IT-51-Data-sources-Databases-Create-a-database-with-2-datasources-then-move-those-data-sources--329cd6cf14068113bf0ffc2db6956d73&quot;,&quot;public_url&quot;:null,&quot;request_id&quot;:&quot;6f8e4c5f-bc7a-486c-a0ef-545f75e5619c&quot;}
+2026-03-20 17:10:58.191 [Test worker] ERROR io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with error: 200
+2026-03-20 17:10:58.192 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Error response body: 
+Page(properties={title=TitleProperty(type=title, title=[RichText(type=text, plainText=[IT-51]: Data sources,Databases - Create a database with 2 datasources, then move those data sources to another database, href=null, annotations=RichText.Annotations(bold=false, italic=false, strikethrough=false, underline=false, code=false, color=default), text=RichText.Text(content=[IT-51]: Data sources,Databases - Create a database with 2 datasources, then move those data sources to another database, link=null), mention=null, equation=null)])}, url=https://www.notion.so/IT-51-Data-sources-Databases-Create-a-database-with-2-datasources-then-move-those-data-sources--329cd6cf14068113bf0ffc2db6956d73, publicUrl=null, icon=null, cover=null, isLocked=false)
+2026-03-20 17:10:58.192 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Calling NotionAPIv2026-03-11
+2026-03-20 17:10:58.192 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Building request...
+2026-03-20 17:10:58.193 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request method: POST, url: https://api.notion.com/v1/databases, content-type: application/json
+2026-03-20 17:10:58.193 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request body: 
+{
+  &quot;parent&quot; : {
+    &quot;type&quot; : &quot;page_id&quot;,
+    &quot;page_id&quot; : &quot;329cd6cf-1406-8113-bf0f-fc2db6956d73&quot;
+  },
+  &quot;title&quot; : [ {
+    &quot;type&quot; : &quot;text&quot;,
+    &quot;plain_text&quot; : &quot;Source database&quot;,
+    &quot;annotations&quot; : { },
+    &quot;text&quot; : {
+      &quot;content&quot; : &quot;Source database&quot;
+    }
+  } ],
+  &quot;is_inline&quot; : true,
+  &quot;initial_data_source&quot; : {
+    &quot;properties&quot; : {
+      &quot;Title property&quot; : {
+        &quot;type&quot; : &quot;title&quot;,
+        &quot;title&quot; : { }
+      }
+    }
+  }
+}
+2026-03-20 17:10:58.698 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with code: 200
+2026-03-20 17:10:58.698 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response body: 
+{&quot;object&quot;:&quot;database&quot;,&quot;id&quot;:&quot;77590216-3ab9-4dc2-ba72-c0dc07171ac8&quot;,&quot;title&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;Source database&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;Source database&quot;,&quot;href&quot;:null}],&quot;description&quot;:[],&quot;parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;329cd6cf-1406-8113-bf0f-fc2db6956d73&quot;},&quot;is_inline&quot;:true,&quot;in_trash&quot;:false,&quot;is_locked&quot;:false,&quot;created_time&quot;:&quot;2026-03-20T17:10:58.362+00:00&quot;,&quot;last_edited_time&quot;:&quot;2026-03-20T17:10:58.362+00:00&quot;,&quot;data_sources&quot;:[{&quot;id&quot;:&quot;f0e29cd4-2ca2-49b6-9709-0ad998a1566f&quot;,&quot;name&quot;:&quot;Source database&quot;}],&quot;icon&quot;:null,&quot;cover&quot;:null,&quot;url&quot;:&quot;https://www.notion.so/775902163ab94dc2ba72c0dc07171ac8&quot;,&quot;public_url&quot;:null,&quot;request_id&quot;:&quot;02da36c4-0726-4f1b-8048-585dd01bf129&quot;}
+2026-03-20 17:10:58.698 [Test worker] ERROR io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with error: 200
+2026-03-20 17:10:58.698 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Error response body: 
+Database(title=[RichText(type=text, plainText=Source database, href=null, annotations=RichText.Annotations(bold=false, italic=false, strikethrough=false, underline=false, code=false, color=default), text=RichText.Text(content=Source database, link=null), mention=null, equation=null)], description=[], icon=null, cover=null, url=https://www.notion.so/775902163ab94dc2ba72c0dc07171ac8, publicUrl=null, isInline=true, isLocked=false, dataSources=[DataSourceRef(id=f0e29cd4-2ca2-49b6-9709-0ad998a1566f, name=Source database)])
+2026-03-20 17:10:58.699 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Calling NotionAPIv2026-03-11
+2026-03-20 17:10:58.699 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Building request...
+2026-03-20 17:10:58.699 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request method: POST, url: https://api.notion.com/v1/data_sources, content-type: application/json
+2026-03-20 17:10:58.699 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request body: 
+{
+  &quot;parent&quot; : {
+    &quot;type&quot; : &quot;database_id&quot;,
+    &quot;database_id&quot; : &quot;77590216-3ab9-4dc2-ba72-c0dc07171ac8&quot;
+  },
+  &quot;title&quot; : [ {
+    &quot;type&quot; : &quot;text&quot;,
+    &quot;plain_text&quot; : &quot;Second data source&quot;,
+    &quot;annotations&quot; : { },
+    &quot;text&quot; : {
+      &quot;content&quot; : &quot;Second data source&quot;
+    }
+  } ],
+  &quot;properties&quot; : {
+    &quot;Name&quot; : {
+      &quot;type&quot; : &quot;title&quot;,
+      &quot;title&quot; : { }
+    }
+  }
+}
+2026-03-20 17:10:58.955 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with code: 200
+2026-03-20 17:10:58.956 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response body: 
+{&quot;object&quot;:&quot;data_source&quot;,&quot;id&quot;:&quot;329cd6cf-1406-81f5-ad52-000b7ec38459&quot;,&quot;cover&quot;:null,&quot;icon&quot;:null,&quot;created_time&quot;:&quot;2026-03-20T17:10:00.000Z&quot;,&quot;created_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;last_edited_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;last_edited_time&quot;:&quot;2026-03-20T17:10:00.000Z&quot;,&quot;title&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;Second data source&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;Second data source&quot;,&quot;href&quot;:null}],&quot;description&quot;:[],&quot;is_inline&quot;:true,&quot;properties&quot;:{&quot;Name&quot;:{&quot;id&quot;:&quot;title&quot;,&quot;name&quot;:&quot;Name&quot;,&quot;description&quot;:null,&quot;type&quot;:&quot;title&quot;,&quot;title&quot;:{}}},&quot;parent&quot;:{&quot;type&quot;:&quot;database_id&quot;,&quot;database_id&quot;:&quot;77590216-3ab9-4dc2-ba72-c0dc07171ac8&quot;},&quot;database_parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;329cd6cf-1406-8113-bf0f-fc2db6956d73&quot;},&quot;url&quot;:&quot;https://www.notion.so/775902163ab94dc2ba72c0dc07171ac8&quot;,&quot;public_url&quot;:null,&quot;in_trash&quot;:false,&quot;request_id&quot;:&quot;da8b5160-076a-4976-8ce6-60b5f28174a9&quot;}
+2026-03-20 17:10:58.956 [Test worker] ERROR io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with error: 200
+2026-03-20 17:10:58.956 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Error response body: 
+DataSource(title=[RichText(type=text, plainText=Second data source, href=null, annotations=RichText.Annotations(bold=false, italic=false, strikethrough=false, underline=false, code=false, color=default), text=RichText.Text(content=Second data source, link=null), mention=null, equation=null)], description=[], databaseParent=Parent(type=page_id, blockId=null, pageId=329cd6cf-1406-8113-bf0f-fc2db6956d73, databaseId=null, datasourceId=null, workspace=null), icon=null, cover=null, properties={Name=TitleSchema(title={})}, isInline=true, url=https://www.notion.so/775902163ab94dc2ba72c0dc07171ac8, publicUrl=null)
+2026-03-20 17:10:58.957 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Calling NotionAPIv2026-03-11
+2026-03-20 17:10:58.957 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Building request...
+2026-03-20 17:10:58.957 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request method: GET, url: https://api.notion.com/v1/databases/77590216-3ab9-4dc2-ba72-c0dc07171ac8, content-type: null
+2026-03-20 17:10:59.113 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with code: 200
+2026-03-20 17:10:59.114 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response body: 
+{&quot;object&quot;:&quot;database&quot;,&quot;id&quot;:&quot;77590216-3ab9-4dc2-ba72-c0dc07171ac8&quot;,&quot;title&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;Source database and Second data source&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;Source database and Second data source&quot;,&quot;href&quot;:null}],&quot;description&quot;:[],&quot;parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;329cd6cf-1406-8113-bf0f-fc2db6956d73&quot;},&quot;is_inline&quot;:true,&quot;in_trash&quot;:false,&quot;is_locked&quot;:false,&quot;created_time&quot;:&quot;2026-03-20T17:10:58.362+00:00&quot;,&quot;last_edited_time&quot;:&quot;2026-03-20T17:10:58.362+00:00&quot;,&quot;data_sources&quot;:[{&quot;id&quot;:&quot;f0e29cd4-2ca2-49b6-9709-0ad998a1566f&quot;,&quot;name&quot;:&quot;Source database&quot;},{&quot;id&quot;:&quot;329cd6cf-1406-81f5-ad52-000b7ec38459&quot;,&quot;name&quot;:&quot;Second data source&quot;}],&quot;icon&quot;:null,&quot;cover&quot;:null,&quot;url&quot;:&quot;https://www.notion.so/775902163ab94dc2ba72c0dc07171ac8&quot;,&quot;public_url&quot;:null,&quot;request_id&quot;:&quot;ec1e6f05-c840-4264-b902-eae7ef4d4c28&quot;}
+2026-03-20 17:10:59.114 [Test worker] ERROR io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with error: 200
+2026-03-20 17:10:59.114 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Error response body: 
+Database(title=[RichText(type=text, plainText=Source database and Second data source, href=null, annotations=RichText.Annotations(bold=false, italic=false, strikethrough=false, underline=false, code=false, color=default), text=RichText.Text(content=Source database and Second data source, link=null), mention=null, equation=null)], description=[], icon=null, cover=null, url=https://www.notion.so/775902163ab94dc2ba72c0dc07171ac8, publicUrl=null, isInline=true, isLocked=false, dataSources=[DataSourceRef(id=f0e29cd4-2ca2-49b6-9709-0ad998a1566f, name=Source database), DataSourceRef(id=329cd6cf-1406-81f5-ad52-000b7ec38459, name=Second data source)])
+2026-03-20 17:10:59.115 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Calling NotionAPIv2026-03-11
+2026-03-20 17:10:59.115 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Building request...
+2026-03-20 17:10:59.115 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request method: POST, url: https://api.notion.com/v1/databases, content-type: application/json
+2026-03-20 17:10:59.115 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request body: 
+{
+  &quot;parent&quot; : {
+    &quot;type&quot; : &quot;page_id&quot;,
+    &quot;page_id&quot; : &quot;329cd6cf-1406-8113-bf0f-fc2db6956d73&quot;
+  },
+  &quot;title&quot; : [ {
+    &quot;type&quot; : &quot;text&quot;,
+    &quot;plain_text&quot; : &quot;Target database&quot;,
+    &quot;annotations&quot; : { },
+    &quot;text&quot; : {
+      &quot;content&quot; : &quot;Target database&quot;
+    }
+  } ],
+  &quot;is_inline&quot; : true
+}
+2026-03-20 17:10:59.882 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with code: 200
+2026-03-20 17:10:59.882 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response body: 
+{&quot;object&quot;:&quot;database&quot;,&quot;id&quot;:&quot;ef322e84-d005-4393-81c2-bb23144bb9df&quot;,&quot;title&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;Target database&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;Target database&quot;,&quot;href&quot;:null}],&quot;description&quot;:[],&quot;parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;329cd6cf-1406-8113-bf0f-fc2db6956d73&quot;},&quot;is_inline&quot;:true,&quot;in_trash&quot;:false,&quot;is_locked&quot;:false,&quot;created_time&quot;:&quot;2026-03-20T17:10:59.221+00:00&quot;,&quot;last_edited_time&quot;:&quot;2026-03-20T17:10:59.221+00:00&quot;,&quot;data_sources&quot;:[{&quot;id&quot;:&quot;7b972095-3428-4bbe-8113-a056e1a480fb&quot;,&quot;name&quot;:&quot;Target database&quot;}],&quot;icon&quot;:null,&quot;cover&quot;:null,&quot;url&quot;:&quot;https://www.notion.so/ef322e84d005439381c2bb23144bb9df&quot;,&quot;public_url&quot;:null,&quot;request_id&quot;:&quot;da1be4c3-4798-437d-89fb-ffd781648997&quot;}
+2026-03-20 17:10:59.883 [Test worker] ERROR io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with error: 200
+2026-03-20 17:10:59.883 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Error response body: 
+Database(title=[RichText(type=text, plainText=Target database, href=null, annotations=RichText.Annotations(bold=false, italic=false, strikethrough=false, underline=false, code=false, color=default), text=RichText.Text(content=Target database, link=null), mention=null, equation=null)], description=[], icon=null, cover=null, url=https://www.notion.so/ef322e84d005439381c2bb23144bb9df, publicUrl=null, isInline=true, isLocked=false, dataSources=[DataSourceRef(id=7b972095-3428-4bbe-8113-a056e1a480fb, name=Target database)])
+2026-03-20 17:10:59.883 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Calling NotionAPIv2026-03-11
+2026-03-20 17:10:59.883 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Building request...
+2026-03-20 17:10:59.884 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request method: PATCH, url: https://api.notion.com/v1/data_sources/f0e29cd4-2ca2-49b6-9709-0ad998a1566f, content-type: application/json
+2026-03-20 17:10:59.884 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request body: 
+{
+  &quot;parent&quot; : {
+    &quot;type&quot; : &quot;database_id&quot;,
+    &quot;database_id&quot; : &quot;ef322e84-d005-4393-81c2-bb23144bb9df&quot;
+  }
+}
+2026-03-20 17:11:00.279 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with code: 200
+2026-03-20 17:11:00.279 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response body: 
+{&quot;object&quot;:&quot;data_source&quot;,&quot;id&quot;:&quot;f0e29cd4-2ca2-49b6-9709-0ad998a1566f&quot;,&quot;cover&quot;:null,&quot;icon&quot;:null,&quot;created_time&quot;:&quot;2026-03-20T17:10:00.000Z&quot;,&quot;created_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;last_edited_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;last_edited_time&quot;:&quot;2026-03-20T17:10:00.000Z&quot;,&quot;title&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;Source database&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;Source database&quot;,&quot;href&quot;:null}],&quot;description&quot;:[],&quot;is_inline&quot;:true,&quot;properties&quot;:{&quot;Title property&quot;:{&quot;id&quot;:&quot;title&quot;,&quot;name&quot;:&quot;Title property&quot;,&quot;description&quot;:null,&quot;type&quot;:&quot;title&quot;,&quot;title&quot;:{}}},&quot;parent&quot;:{&quot;type&quot;:&quot;database_id&quot;,&quot;database_id&quot;:&quot;ef322e84-d005-4393-81c2-bb23144bb9df&quot;},&quot;database_parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;329cd6cf-1406-8113-bf0f-fc2db6956d73&quot;},&quot;url&quot;:&quot;https://www.notion.so/ef322e84d005439381c2bb23144bb9df&quot;,&quot;public_url&quot;:null,&quot;in_trash&quot;:false,&quot;request_id&quot;:&quot;6bf8e934-0d25-480e-9872-3fdacca91405&quot;}
+2026-03-20 17:11:00.279 [Test worker] ERROR io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with error: 200
+2026-03-20 17:11:00.279 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Error response body: 
+DataSource(title=[RichText(type=text, plainText=Source database, href=null, annotations=RichText.Annotations(bold=false, italic=false, strikethrough=false, underline=false, code=false, color=default), text=RichText.Text(content=Source database, link=null), mention=null, equation=null)], description=[], databaseParent=Parent(type=page_id, blockId=null, pageId=329cd6cf-1406-8113-bf0f-fc2db6956d73, databaseId=null, datasourceId=null, workspace=null), icon=null, cover=null, properties={Title property=TitleSchema(title={})}, isInline=true, url=https://www.notion.so/ef322e84d005439381c2bb23144bb9df, publicUrl=null)
+2026-03-20 17:11:00.280 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Calling NotionAPIv2026-03-11
+2026-03-20 17:11:00.280 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Building request...
+2026-03-20 17:11:00.280 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request method: PATCH, url: https://api.notion.com/v1/data_sources/329cd6cf-1406-81f5-ad52-000b7ec38459, content-type: application/json
+2026-03-20 17:11:00.281 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request body: 
+{
+  &quot;parent&quot; : {
+    &quot;type&quot; : &quot;database_id&quot;,
+    &quot;database_id&quot; : &quot;ef322e84-d005-4393-81c2-bb23144bb9df&quot;
+  }
+}
+2026-03-20 17:11:00.915 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with code: 200
+2026-03-20 17:11:00.915 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response body: 
+{&quot;object&quot;:&quot;data_source&quot;,&quot;id&quot;:&quot;329cd6cf-1406-81f5-ad52-000b7ec38459&quot;,&quot;cover&quot;:null,&quot;icon&quot;:null,&quot;created_time&quot;:&quot;2026-03-20T17:10:00.000Z&quot;,&quot;created_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;last_edited_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;last_edited_time&quot;:&quot;2026-03-20T17:10:00.000Z&quot;,&quot;title&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;Second data source&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;Second data source&quot;,&quot;href&quot;:null}],&quot;description&quot;:[],&quot;is_inline&quot;:true,&quot;properties&quot;:{&quot;Name&quot;:{&quot;id&quot;:&quot;title&quot;,&quot;name&quot;:&quot;Name&quot;,&quot;description&quot;:null,&quot;type&quot;:&quot;title&quot;,&quot;title&quot;:{}}},&quot;parent&quot;:{&quot;type&quot;:&quot;database_id&quot;,&quot;database_id&quot;:&quot;ef322e84-d005-4393-81c2-bb23144bb9df&quot;},&quot;database_parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;329cd6cf-1406-8113-bf0f-fc2db6956d73&quot;},&quot;url&quot;:&quot;https://www.notion.so/ef322e84d005439381c2bb23144bb9df&quot;,&quot;public_url&quot;:null,&quot;in_trash&quot;:false,&quot;request_id&quot;:&quot;7ba4386e-b790-4339-bba1-4727fa42437a&quot;}
+2026-03-20 17:11:00.915 [Test worker] ERROR io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with error: 200
+2026-03-20 17:11:00.916 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Error response body: 
+DataSource(title=[RichText(type=text, plainText=Second data source, href=null, annotations=RichText.Annotations(bold=false, italic=false, strikethrough=false, underline=false, code=false, color=default), text=RichText.Text(content=Second data source, link=null), mention=null, equation=null)], description=[], databaseParent=Parent(type=page_id, blockId=null, pageId=329cd6cf-1406-8113-bf0f-fc2db6956d73, databaseId=null, datasourceId=null, workspace=null), icon=null, cover=null, properties={Name=TitleSchema(title={})}, isInline=true, url=https://www.notion.so/ef322e84d005439381c2bb23144bb9df, publicUrl=null)
+2026-03-20 17:11:00.916 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Calling NotionAPIv2026-03-11
+2026-03-20 17:11:00.916 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Building request...
+2026-03-20 17:11:00.917 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request method: GET, url: https://api.notion.com/v1/databases/77590216-3ab9-4dc2-ba72-c0dc07171ac8, content-type: null
+2026-03-20 17:11:01.010 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with code: 200
+2026-03-20 17:11:01.010 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response body: 
+{&quot;object&quot;:&quot;database&quot;,&quot;id&quot;:&quot;77590216-3ab9-4dc2-ba72-c0dc07171ac8&quot;,&quot;title&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;Untitled&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;Untitled&quot;,&quot;href&quot;:null}],&quot;description&quot;:[],&quot;parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;329cd6cf-1406-8113-bf0f-fc2db6956d73&quot;},&quot;is_inline&quot;:true,&quot;in_trash&quot;:false,&quot;is_locked&quot;:false,&quot;created_time&quot;:&quot;2026-03-20T17:10:58.362+00:00&quot;,&quot;last_edited_time&quot;:&quot;2026-03-20T17:11:00.430+00:00&quot;,&quot;data_sources&quot;:[],&quot;icon&quot;:null,&quot;cover&quot;:null,&quot;url&quot;:&quot;https://www.notion.so/775902163ab94dc2ba72c0dc07171ac8&quot;,&quot;public_url&quot;:null,&quot;request_id&quot;:&quot;cb3ab4fd-052a-408c-991b-4800db0e8381&quot;}
+2026-03-20 17:11:01.010 [Test worker] ERROR io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with error: 200
+2026-03-20 17:11:01.010 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Error response body: 
+Database(title=[RichText(type=text, plainText=Untitled, href=null, annotations=RichText.Annotations(bold=false, italic=false, strikethrough=false, underline=false, code=false, color=default), text=RichText.Text(content=Untitled, link=null), mention=null, equation=null)], description=[], icon=null, cover=null, url=https://www.notion.so/775902163ab94dc2ba72c0dc07171ac8, publicUrl=null, isInline=true, isLocked=false, dataSources=[])
+2026-03-20 17:11:01.011 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Calling NotionAPIv2026-03-11
+2026-03-20 17:11:01.011 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Building request...
+2026-03-20 17:11:01.011 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request method: GET, url: https://api.notion.com/v1/databases/ef322e84-d005-4393-81c2-bb23144bb9df, content-type: null
+2026-03-20 17:11:01.306 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with code: 200
+2026-03-20 17:11:01.306 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response body: 
+{&quot;object&quot;:&quot;database&quot;,&quot;id&quot;:&quot;ef322e84-d005-4393-81c2-bb23144bb9df&quot;,&quot;title&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;Target database, Source database, and Second data source&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;Target database, Source database, and Second data source&quot;,&quot;href&quot;:null}],&quot;description&quot;:[],&quot;parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;329cd6cf-1406-8113-bf0f-fc2db6956d73&quot;},&quot;is_inline&quot;:true,&quot;in_trash&quot;:false,&quot;is_locked&quot;:false,&quot;created_time&quot;:&quot;2026-03-20T17:10:59.221+00:00&quot;,&quot;last_edited_time&quot;:&quot;2026-03-20T17:10:59.221+00:00&quot;,&quot;data_sources&quot;:[{&quot;id&quot;:&quot;7b972095-3428-4bbe-8113-a056e1a480fb&quot;,&quot;name&quot;:&quot;Target database&quot;},{&quot;id&quot;:&quot;f0e29cd4-2ca2-49b6-9709-0ad998a1566f&quot;,&quot;name&quot;:&quot;Source database&quot;},{&quot;id&quot;:&quot;329cd6cf-1406-81f5-ad52-000b7ec38459&quot;,&quot;name&quot;:&quot;Second data source&quot;}],&quot;icon&quot;:null,&quot;cover&quot;:null,&quot;url&quot;:&quot;https://www.notion.so/ef322e84d005439381c2bb23144bb9df&quot;,&quot;public_url&quot;:null,&quot;request_id&quot;:&quot;abb9e7e6-7c0b-4851-ba6c-8cb91db07d1c&quot;}
+2026-03-20 17:11:01.306 [Test worker] ERROR io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with error: 200
+2026-03-20 17:11:01.306 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Error response body: 
+Database(title=[RichText(type=text, plainText=Target database, Source database, and Second data source, href=null, annotations=RichText.Annotations(bold=false, italic=false, strikethrough=false, underline=false, code=false, color=default), text=RichText.Text(content=Target database, Source database, and Second data source, link=null), mention=null, equation=null)], description=[], icon=null, cover=null, url=https://www.notion.so/ef322e84d005439381c2bb23144bb9df, publicUrl=null, isInline=true, isLocked=false, dataSources=[DataSourceRef(id=7b972095-3428-4bbe-8113-a056e1a480fb, name=Target database), DataSourceRef(id=f0e29cd4-2ca2-49b6-9709-0ad998a1566f, name=Source database), DataSourceRef(id=329cd6cf-1406-81f5-ad52-000b7ec38459, name=Second data source)])
+</pre>
+</span>
+</div>
+</div>
+<div id="footer">
+<p>
+<div>
+<label class="hidden" id="label-for-line-wrapping-toggle" for="line-wrapping-toggle">Wrap lines
+<input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
+</label>
+</div>Generated by 
+<a href="https://www.gradle.org">Gradle 8.14.4</a> at Mar 20, 2026, 5:11:32 PM</p>
+</div>
+</div>
+</body>
+</html>

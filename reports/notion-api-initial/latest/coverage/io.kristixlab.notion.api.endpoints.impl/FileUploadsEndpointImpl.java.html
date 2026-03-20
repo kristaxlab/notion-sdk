@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FileUploadsEndpointImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">notion-sdk</a> &gt; <a href="index.source.html" class="el_package">io.kristixlab.notion.api.endpoints.impl</a> &gt; <span class="el_source">FileUploadsEndpointImpl.java</span></div><h1>FileUploadsEndpointImpl.java</h1><pre class="source lang-java linenums">package io.kristixlab.notion.api.endpoints.impl;
 
 import io.kristixlab.notion.api.endpoints.FileUploadsEndpoint;
-import io.kristixlab.notion.api.http.NotionHttpTransport;
+import io.kristixlab.notion.api.http.transport.HttpTransport;
 import io.kristixlab.notion.api.http.transport.rq.MultipartFormDataRequest;
 import io.kristixlab.notion.api.http.transport.rq.URLInfo;
 import io.kristixlab.notion.api.model.files.*;
-import io.kristixlab.notion.api.util.Pagination;
 
 /**
  * API for file upload operations in Notion.
@@ -19,23 +18,23 @@ public class FileUploadsEndpointImpl implements FileUploadsEndpoint {
   private static final String STATUS = &quot;status&quot;;
   private static final String FILE_UPLOAD_ID = &quot;file_upload_id&quot;;
 
-  private final NotionHttpTransport transport;
+  private final HttpTransport transport;
 
-<span class="nc" id="L24">  public FileUploadsEndpointImpl(NotionHttpTransport transport) {</span>
-<span class="nc" id="L25">    this.transport = transport;</span>
-<span class="nc" id="L26">  }</span>
+<span class="fc" id="L23">  public FileUploadsEndpointImpl(HttpTransport transport) {</span>
+<span class="fc" id="L24">    this.transport = transport;</span>
+<span class="fc" id="L25">  }</span>
 
   /**
    * Creates a new file upload and returns a pre-signed URL for uploading the file content. POST
    * https://api.notion.com/v1/file_uploads
    *
    * @param request The file upload request containing file name, content type, and parent
-   * @return FileUploadResponse containing the pre-signed URL and file metadata
+   * @return FileUpload containing the pre-signed URL and file metadata
    * @throws IllegalArgumentException if request or required fields are null/empty
    */
-  public FileUploadResponse createFileUpload(FileUploadCreateParams request) {
-<span class="nc" id="L37">    validateRequest(request);</span>
-<span class="nc" id="L38">    return transport.call(&quot;POST&quot;, URLInfo.from(&quot;/file_uploads&quot;), request, FileUploadResponse.class);</span>
+  public FileUpload createFileUpload(FileUploadCreateParams request) {
+<span class="fc" id="L36">    validateRequest(request);</span>
+<span class="fc" id="L37">    return transport.call(&quot;POST&quot;, URLInfo.from(&quot;/file_uploads&quot;), request, FileUpload.class);</span>
   }
 
   /**
@@ -47,28 +46,28 @@ public class FileUploadsEndpointImpl implements FileUploadsEndpoint {
    * @param request request
    * @return Response from the file upload service
    */
-  public FileUploadResponse sendFileContent(String fileUploadId, FileUploadSendParams request) {
-<span class="nc" id="L51">    validateRequest(request);</span>
-<span class="nc" id="L52">    URLInfo urlInfo =</span>
-<span class="nc" id="L53">        URLInfo.builder(&quot;/file_uploads/{file_upload_id}/send&quot;)</span>
-<span class="nc" id="L54">            .pathParam(FILE_UPLOAD_ID, fileUploadId)</span>
-<span class="nc" id="L55">            .build();</span>
+  public FileUpload sendFileContent(String fileUploadId, FileUploadSendParams request) {
+<span class="fc" id="L50">    validateRequest(request);</span>
+<span class="fc" id="L51">    URLInfo urlInfo =</span>
+<span class="fc" id="L52">        URLInfo.builder(&quot;/file_uploads/{file_upload_id}/send&quot;)</span>
+<span class="fc" id="L53">            .pathParam(FILE_UPLOAD_ID, fileUploadId)</span>
+<span class="fc" id="L54">            .build();</span>
 
-<span class="nc" id="L57">    MultipartFormDataRequest multipartRq = new MultipartFormDataRequest();</span>
-<span class="nc bnc" id="L58" title="All 2 branches missed.">    if (request.getFile() != null) {</span>
-<span class="nc" id="L59">      multipartRq.addFilePart(</span>
-<span class="nc" id="L60">          &quot;file&quot;, request.getFile(), request.getFileName(), request.getContentType());</span>
-<span class="nc bnc" id="L61" title="All 2 branches missed.">    } else if (request.getBytes() != null) {</span>
-<span class="nc" id="L62">      multipartRq.addByteArrayPart(</span>
-<span class="nc" id="L63">          &quot;file&quot;, request.getBytes(), request.getFileName(), request.getContentType());</span>
-<span class="nc bnc" id="L64" title="All 2 branches missed.">    } else if (request.getInputStream() != null) {</span>
-<span class="nc" id="L65">      multipartRq.addInputStreamPart(</span>
-<span class="nc" id="L66">          &quot;file&quot;, request.getInputStream(), request.getFileName(), request.getContentType());</span>
+<span class="fc" id="L56">    MultipartFormDataRequest multipartRq = new MultipartFormDataRequest();</span>
+<span class="fc bfc" id="L57" title="All 2 branches covered.">    if (request.getFile() != null) {</span>
+<span class="fc" id="L58">      multipartRq.addFilePart(</span>
+<span class="fc" id="L59">          &quot;file&quot;, request.getFile(), request.getFileName(), request.getContentType());</span>
+<span class="fc bfc" id="L60" title="All 2 branches covered.">    } else if (request.getBytes() != null) {</span>
+<span class="fc" id="L61">      multipartRq.addByteArrayPart(</span>
+<span class="fc" id="L62">          &quot;file&quot;, request.getBytes(), request.getFileName(), request.getContentType());</span>
+<span class="pc bpc" id="L63" title="1 of 2 branches missed.">    } else if (request.getInputStream() != null) {</span>
+<span class="fc" id="L64">      multipartRq.addInputStreamPart(</span>
+<span class="fc" id="L65">          &quot;file&quot;, request.getInputStream(), request.getFileName(), request.getContentType());</span>
     }
-<span class="nc bnc" id="L68" title="All 2 branches missed.">    if (request.getPartNumber() != null) {</span>
-<span class="nc" id="L69">      multipartRq.addPart(&quot;part_number&quot;, request.getPartNumber().toString());</span>
+<span class="pc bpc" id="L67" title="1 of 2 branches missed.">    if (request.getPartNumber() != null) {</span>
+<span class="nc" id="L68">      multipartRq.addPart(&quot;part_number&quot;, request.getPartNumber().toString());</span>
     }
-<span class="nc" id="L71">    return transport.call(&quot;POST&quot;, urlInfo, multipartRq, FileUploadResponse.class);</span>
+<span class="fc" id="L70">    return transport.call(&quot;POST&quot;, urlInfo, multipartRq, FileUpload.class);</span>
   }
 
   /**
@@ -76,16 +75,16 @@ public class FileUploadsEndpointImpl implements FileUploadsEndpoint {
    * successfully.
    *
    * @param fileUploadId The ID of the file upload to complete
-   * @return Updated FileUploadResponse with completion status
+   * @return Updated FileUpload with completion status
    */
-  public FileUploadResponse completeFileUpload(String fileUploadId) {
-<span class="nc" id="L82">    validateFileUploadId(fileUploadId);</span>
+  public FileUpload completeFileUpload(String fileUploadId) {
+<span class="fc" id="L81">    validateFileUploadId(fileUploadId);</span>
 
-<span class="nc" id="L84">    URLInfo urlInfo =</span>
-<span class="nc" id="L85">        URLInfo.builder(&quot;/file_uploads/{file_upload_id}/complete&quot;)</span>
-<span class="nc" id="L86">            .pathParam(FILE_UPLOAD_ID, fileUploadId)</span>
-<span class="nc" id="L87">            .build();</span>
-<span class="nc" id="L88">    return transport.call(&quot;POST&quot;, urlInfo, new Object(), FileUploadResponse.class);</span>
+<span class="fc" id="L83">    URLInfo urlInfo =</span>
+<span class="fc" id="L84">        URLInfo.builder(&quot;/file_uploads/{file_upload_id}/complete&quot;)</span>
+<span class="fc" id="L85">            .pathParam(FILE_UPLOAD_ID, fileUploadId)</span>
+<span class="fc" id="L86">            .build();</span>
+<span class="fc" id="L87">    return transport.call(&quot;POST&quot;, urlInfo, new Object(), FileUpload.class);</span>
   }
 
   /**
@@ -93,15 +92,15 @@ public class FileUploadsEndpointImpl implements FileUploadsEndpoint {
    * https://api.notion.com/v1/file_uploads/{file_upload_id}
    *
    * @param fileUploadId The ID of the file upload to retrieve
-   * @return FileUploadResponse containing the file upload details
+   * @return FileUpload containing the file upload details
    */
-  public FileUploadResponse retrieveFileUpload(String fileUploadId) {
-<span class="nc" id="L99">    validateFileUploadId(fileUploadId);</span>
-<span class="nc" id="L100">    URLInfo urlInfo =</span>
-<span class="nc" id="L101">        URLInfo.builder(&quot;/file_uploads/{file_upload_id}&quot;)</span>
-<span class="nc" id="L102">            .pathParam(FILE_UPLOAD_ID, fileUploadId)</span>
-<span class="nc" id="L103">            .build();</span>
-<span class="nc" id="L104">    return transport.call(&quot;GET&quot;, urlInfo, FileUploadResponse.class);</span>
+  public FileUpload retrieveFileUpload(String fileUploadId) {
+<span class="fc" id="L98">    validateFileUploadId(fileUploadId);</span>
+<span class="fc" id="L99">    URLInfo urlInfo =</span>
+<span class="fc" id="L100">        URLInfo.builder(&quot;/file_uploads/{file_upload_id}&quot;)</span>
+<span class="fc" id="L101">            .pathParam(FILE_UPLOAD_ID, fileUploadId)</span>
+<span class="fc" id="L102">            .build();</span>
+<span class="fc" id="L103">    return transport.call(&quot;GET&quot;, urlInfo, FileUpload.class);</span>
   }
 
   /**
@@ -110,7 +109,7 @@ public class FileUploadsEndpointImpl implements FileUploadsEndpoint {
    * @return FileUploadListResponse containing the list of file uploads
    */
   public FileUploadList listFileUploads() {
-<span class="nc" id="L113">    return listFileUploads(null);</span>
+<span class="fc" id="L112">    return listFileUploads(null);</span>
   }
 
   /**
@@ -119,7 +118,7 @@ public class FileUploadsEndpointImpl implements FileUploadsEndpoint {
    * @return FileUploadListResponse containing the list of file uploads
    */
   public FileUploadList listFileUploads(String status) {
-<span class="nc" id="L122">    return listFileUploads(status, null, null);</span>
+<span class="fc" id="L121">    return listFileUploads(status, null, null);</span>
   }
 
   /**
@@ -131,7 +130,7 @@ public class FileUploadsEndpointImpl implements FileUploadsEndpoint {
    * @return FileUploadListResponse containing the paginated list of file uploads
    */
   public FileUploadList listFileUploads(String startCursor, Integer pageSize) {
-<span class="nc" id="L134">    return listFileUploads(null, startCursor, pageSize);</span>
+<span class="fc" id="L133">    return listFileUploads(null, startCursor, pageSize);</span>
   }
 
   /**
@@ -145,20 +144,12 @@ public class FileUploadsEndpointImpl implements FileUploadsEndpoint {
    * @return FileUploadListResponse containing the paginated list of file uploads
    */
   public FileUploadList listFileUploads(String status, String startCursor, Integer pageSize) {
-<span class="nc" id="L148">    URLInfo.Builder urlInfo = URLInfo.builder(&quot;/file_uploads&quot;);</span>
-<span class="nc bnc" id="L149" title="All 4 branches missed.">    if (status != null &amp;&amp; !status.trim().isEmpty()) {</span>
-<span class="nc" id="L150">      urlInfo.queryParam(STATUS, status);</span>
+<span class="fc" id="L147">    URLInfo.Builder urlInfo = URLInfo.builder(&quot;/file_uploads&quot;, startCursor, pageSize);</span>
+<span class="fc bfc" id="L148" title="All 4 branches covered.">    if (status != null &amp;&amp; !status.trim().isEmpty()) {</span>
+<span class="fc" id="L149">      urlInfo.queryParam(STATUS, status);</span>
     }
 
-<span class="nc bnc" id="L153" title="All 2 branches missed.">    if (startCursor != null) {</span>
-<span class="nc" id="L154">      urlInfo.queryParam(Pagination.START_CURSOR, startCursor);</span>
-    }
-
-<span class="nc bnc" id="L157" title="All 2 branches missed.">    if (pageSize != null) {</span>
-<span class="nc" id="L158">      urlInfo.queryParam(Pagination.PAGE_SIZE, pageSize);</span>
-    }
-
-<span class="nc" id="L161">    return transport.call(&quot;GET&quot;, urlInfo.build(), FileUploadList.class);</span>
+<span class="fc" id="L152">    return transport.call(&quot;GET&quot;, urlInfo.build(), FileUploadList.class);</span>
   }
 
   /**
@@ -168,81 +159,66 @@ public class FileUploadsEndpointImpl implements FileUploadsEndpoint {
    * @throws IllegalArgumentException if request or required fields are invalid
    */
   private void validateRequest(FileUploadCreateParams request) {
-<span class="nc bnc" id="L171" title="All 2 branches missed.">    if (request == null) {</span>
-<span class="nc" id="L172">      throw new IllegalArgumentException(&quot;FileUploadRequest cannot be null&quot;);</span>
+<span class="fc bfc" id="L162" title="All 2 branches covered.">    if (request == null) {</span>
+<span class="fc" id="L163">      throw new IllegalArgumentException(&quot;FileUploadRequest cannot be null&quot;);</span>
     }
 
     // Validate mode
-<span class="nc" id="L176">    String mode = request.getMode();</span>
-<span class="nc bnc" id="L177" title="All 4 branches missed.">    if (mode == null || mode.trim().isEmpty()) {</span>
-<span class="nc" id="L178">      throw new IllegalArgumentException(&quot;Mode cannot be null or empty&quot;);</span>
+<span class="fc" id="L167">    String mode = request.getMode();</span>
+<span class="fc bfc" id="L168" title="All 4 branches covered.">    if (mode == null || mode.trim().isEmpty()) {</span>
+<span class="fc" id="L169">      throw new IllegalArgumentException(&quot;Mode cannot be null or empty&quot;);</span>
     }
 
-<span class="nc bnc" id="L181" title="All 6 branches missed.">    if (!(&quot;multi_part&quot;.equals(mode) || &quot;external_url&quot;.equals(mode) || &quot;single_part&quot;.equals(mode))) {</span>
-<span class="nc" id="L182">      throw new IllegalArgumentException(</span>
+<span class="fc bfc" id="L172" title="All 6 branches covered.">    if (!(&quot;multi_part&quot;.equals(mode) || &quot;external_url&quot;.equals(mode) || &quot;single_part&quot;.equals(mode))) {</span>
+<span class="fc" id="L173">      throw new IllegalArgumentException(</span>
           &quot;Mode must be one of: multi_part, external_url, single_part&quot;);
     }
 
     // Validate filename for multi_part and external_url modes
-<span class="nc bnc" id="L187" title="All 4 branches missed.">    if ((&quot;multi_part&quot;.equals(mode) || &quot;external_url&quot;.equals(mode))) {</span>
-<span class="nc bnc" id="L188" title="All 4 branches missed.">      if (request.getFilename() == null || request.getFilename().trim().isEmpty()) {</span>
-<span class="nc" id="L189">        throw new IllegalArgumentException(&quot;Filename is required when mode is &quot; + mode);</span>
+<span class="fc bfc" id="L178" title="All 4 branches covered.">    if ((&quot;multi_part&quot;.equals(mode) || &quot;external_url&quot;.equals(mode))) {</span>
+<span class="pc bpc" id="L179" title="1 of 4 branches missed.">      if (request.getFilename() == null || request.getFilename().trim().isEmpty()) {</span>
+<span class="fc" id="L180">        throw new IllegalArgumentException(&quot;Filename is required when mode is &quot; + mode);</span>
       }
     }
 
-    // Validate content type
-    //    if (request.getContentType() == null || request.getContentType().trim().isEmpty()) {
-    //      throw new IllegalArgumentException(&quot;Content type cannot be null or empty&quot;);
-    //    }
-
     // Validate number of parts for multi_part mode
-<span class="nc bnc" id="L199" title="All 2 branches missed.">    if (&quot;multi_part&quot;.equals(mode)) {</span>
-<span class="nc" id="L200">      Integer numberOfParts = request.getNumberOfParts();</span>
-<span class="nc bnc" id="L201" title="All 6 branches missed.">      if (numberOfParts != null &amp;&amp; (numberOfParts &lt; 1 || numberOfParts &gt; 1000)) {</span>
-<span class="nc" id="L202">        throw new IllegalArgumentException(</span>
+<span class="fc bfc" id="L185" title="All 2 branches covered.">    if (&quot;multi_part&quot;.equals(mode)) {</span>
+<span class="fc" id="L186">      Integer numberOfParts = request.getNumberOfParts();</span>
+<span class="pc bpc" id="L187" title="2 of 6 branches missed.">      if (numberOfParts != null &amp;&amp; (numberOfParts &lt; 1 || numberOfParts &gt; 1000)) {</span>
+<span class="fc" id="L188">        throw new IllegalArgumentException(</span>
             &quot;Number of parts must be between 1 and 1,000 for multi_part mode&quot;);
       }
     }
 
     // Validate external URL for external_url mode
-<span class="nc bnc" id="L208" title="All 2 branches missed.">    if (&quot;external_url&quot;.equals(mode)) {</span>
-<span class="nc" id="L209">      String externalUrl = request.getExternalUrl();</span>
-<span class="nc bnc" id="L210" title="All 4 branches missed.">      if (externalUrl == null || externalUrl.trim().isEmpty()) {</span>
-<span class="nc" id="L211">        throw new IllegalArgumentException(&quot;External URL is required when mode is external_url&quot;);</span>
-      }
-
-<span class="nc bnc" id="L214" title="All 2 branches missed.">      if (!externalUrl.toLowerCase().startsWith(&quot;https://&quot;)) {</span>
-<span class="nc" id="L215">        throw new IllegalArgumentException(&quot;External URL must be an HTTPS URL&quot;);</span>
+<span class="fc bfc" id="L194" title="All 2 branches covered.">    if (&quot;external_url&quot;.equals(mode)) {</span>
+<span class="fc" id="L195">      String externalUrl = request.getExternalUrl();</span>
+<span class="pc bpc" id="L196" title="3 of 4 branches missed.">      if (externalUrl == null || externalUrl.trim().isEmpty()) {</span>
+<span class="fc" id="L197">        throw new IllegalArgumentException(&quot;External URL is required when mode is external_url&quot;);</span>
       }
     }
-<span class="nc" id="L218">  }</span>
+<span class="fc" id="L200">  }</span>
 
   private void validateFileUploadId(String fileUploadId) {
-<span class="nc bnc" id="L221" title="All 4 branches missed.">    if (fileUploadId == null || fileUploadId.trim().isEmpty()) {</span>
-<span class="nc" id="L222">      throw new IllegalArgumentException(&quot;File upload ID cannot be null or empty&quot;);</span>
+<span class="fc bfc" id="L203" title="All 4 branches covered.">    if (fileUploadId == null || fileUploadId.trim().isEmpty()) {</span>
+<span class="fc" id="L204">      throw new IllegalArgumentException(&quot;File upload ID cannot be null or empty&quot;);</span>
     }
-<span class="nc" id="L224">  }</span>
+<span class="fc" id="L206">  }</span>
 
   private void validateRequest(FileUploadSendParams request) {
-<span class="nc bnc" id="L227" title="All 2 branches missed.">    if (request.getFile() == null</span>
-<span class="nc bnc" id="L228" title="All 2 branches missed.">        &amp;&amp; request.getBytes() == null</span>
-<span class="nc bnc" id="L229" title="All 2 branches missed.">        &amp;&amp; request.getInputStream() == null) {</span>
-<span class="nc" id="L230">      throw new IllegalArgumentException(&quot;One of file, bytes, or inputStream must be provided&quot;);</span>
+<span class="fc bfc" id="L209" title="All 2 branches covered.">    if (request.getFile() == null</span>
+<span class="fc bfc" id="L210" title="All 2 branches covered.">        &amp;&amp; request.getBytes() == null</span>
+<span class="fc bfc" id="L211" title="All 2 branches covered.">        &amp;&amp; request.getInputStream() == null) {</span>
+<span class="fc" id="L212">      throw new IllegalArgumentException(&quot;One of file, bytes, or inputStream must be provided&quot;);</span>
     }
 
-<span class="nc bnc" id="L233" title="All 4 branches missed.">    if (request.getFileName() == null || request.getFileName().trim().isEmpty()) {</span>
-<span class="nc" id="L234">      throw new IllegalArgumentException(&quot;Filename cannot be null or empty&quot;);</span>
+<span class="pc bpc" id="L215" title="1 of 4 branches missed.">    if (request.getFileName() == null || request.getFileName().trim().isEmpty()) {</span>
+<span class="fc" id="L216">      throw new IllegalArgumentException(&quot;Filename cannot be null or empty&quot;);</span>
     }
 
-<span class="nc bnc" id="L237" title="All 2 branches missed.">    if (request.getContentType() == null) {</span>
-<span class="nc" id="L238">      throw new IllegalArgumentException(&quot;Content type cannot be null&quot;);</span>
+<span class="fc bfc" id="L219" title="All 2 branches covered.">    if (request.getContentType() == null) {</span>
+<span class="fc" id="L220">      throw new IllegalArgumentException(&quot;Content type cannot be null&quot;);</span>
     }
-<span class="nc" id="L240">  }</span>
-
-  private void validateFileContentType(String contentType) {
-<span class="nc bnc" id="L243" title="All 4 branches missed.">    if (contentType == null || contentType.trim().isEmpty()) {</span>
-<span class="nc" id="L244">      throw new IllegalArgumentException(&quot;File content type cannot be null or empty&quot;);</span>
-    }
-<span class="nc" id="L246">  }</span>
+<span class="fc" id="L222">  }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

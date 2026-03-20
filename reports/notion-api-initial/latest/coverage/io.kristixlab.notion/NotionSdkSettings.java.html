@@ -65,6 +65,18 @@ public final class NotionSdkSettings {
   }
 
   /**
+   * Gets a string value from the settings using a dot-separated key path.
+   *
+   * @param key the dot-separated key path (e.g., &quot;workspace.id&quot;)
+   * @param defaultValue the default value to return if not found
+   * @return the string value, or defaultValue if not found
+   */
+  public String getString(String key, String defaultValue) {
+<span class="nc" id="L75">    String value = getString(key);</span>
+<span class="nc bnc" id="L76" title="All 2 branches missed.">    return value != null ? value : defaultValue;</span>
+  }
+
+  /**
    * Gets an integer value from the settings using a dot-separated key path.
    *
    * @param key the dot-separated key path
@@ -72,22 +84,34 @@ public final class NotionSdkSettings {
    */
   public Integer getInteger(String key) {
     // First try environment variable
-<span class="fc" id="L75">    String envValue = getFromEnvironment(key);</span>
-<span class="pc bpc" id="L76" title="1 of 2 branches missed.">    if (envValue != null) {</span>
+<span class="fc" id="L87">    String envValue = getFromEnvironment(key);</span>
+<span class="pc bpc" id="L88" title="1 of 2 branches missed.">    if (envValue != null) {</span>
       try {
-<span class="nc" id="L78">        return Integer.parseInt(envValue);</span>
-<span class="nc" id="L79">      } catch (NumberFormatException e) {</span>
-<span class="nc" id="L80">        log.warn(&quot;Environment variable {} is not a valid integer: {}&quot;, key, envValue);</span>
+<span class="nc" id="L90">        return Integer.parseInt(envValue);</span>
+<span class="nc" id="L91">      } catch (NumberFormatException e) {</span>
+<span class="nc" id="L92">        log.warn(&quot;Environment variable {} is not a valid integer: {}&quot;, key, envValue);</span>
       }
     }
 
     // Then try YAML file
-<span class="fc" id="L85">    Object value = getValue(key);</span>
-<span class="fc bfc" id="L86" title="All 2 branches covered.">    if (value == null) {</span>
-<span class="fc" id="L87">      return null;</span>
+<span class="fc" id="L97">    Object value = getValue(key);</span>
+<span class="fc bfc" id="L98" title="All 2 branches covered.">    if (value == null) {</span>
+<span class="fc" id="L99">      return null;</span>
     }
 
-<span class="fc" id="L90">    return Integer.parseInt(value.toString());</span>
+<span class="fc" id="L102">    return Integer.parseInt(value.toString());</span>
+  }
+
+  /**
+   * Gets an integer value from the settings using a dot-separated key path.
+   *
+   * @param key the dot-separated key path
+   * @param defaultValue the default value to return if not found
+   * @return the integer value, or defaultValue if not found or not a valid integer
+   */
+  public int getInteger(String key, int defaultValue) {
+<span class="nc" id="L113">    Integer value = getInteger(key);</span>
+<span class="nc bnc" id="L114" title="All 2 branches missed.">    return value != null ? value : defaultValue;</span>
   }
 
   /**
@@ -97,11 +121,11 @@ public final class NotionSdkSettings {
    * @return the long value, or null if not found or not a valid long
    */
   public Long getLong(String key, long defaultValue) {
-<span class="nc" id="L100">    Long value = getLong(key);</span>
-<span class="nc bnc" id="L101" title="All 2 branches missed.">    if (value != null) {</span>
-<span class="nc" id="L102">      return value;</span>
+<span class="nc" id="L124">    Long value = getLong(key);</span>
+<span class="nc bnc" id="L125" title="All 2 branches missed.">    if (value != null) {</span>
+<span class="nc" id="L126">      return value;</span>
     }
-<span class="nc" id="L104">    return defaultValue;</span>
+<span class="nc" id="L128">    return defaultValue;</span>
   }
 
   /**
@@ -112,22 +136,22 @@ public final class NotionSdkSettings {
    */
   public Long getLong(String key) {
     // First try environment variable
-<span class="fc" id="L115">    String envValue = getFromEnvironment(key);</span>
-<span class="pc bpc" id="L116" title="1 of 2 branches missed.">    if (envValue != null) {</span>
+<span class="fc" id="L139">    String envValue = getFromEnvironment(key);</span>
+<span class="pc bpc" id="L140" title="1 of 2 branches missed.">    if (envValue != null) {</span>
       try {
-<span class="nc" id="L118">        return Long.parseLong(envValue);</span>
-<span class="nc" id="L119">      } catch (NumberFormatException e) {</span>
-<span class="nc" id="L120">        log.warn(&quot;Environment variable {} is not a valid long: {}&quot;, key, envValue);</span>
+<span class="nc" id="L142">        return Long.parseLong(envValue);</span>
+<span class="nc" id="L143">      } catch (NumberFormatException e) {</span>
+<span class="nc" id="L144">        log.warn(&quot;Environment variable {} is not a valid long: {}&quot;, key, envValue);</span>
       }
     }
 
     // Then try YAML file
-<span class="fc" id="L125">    Object value = getValue(key);</span>
-<span class="fc bfc" id="L126" title="All 2 branches covered.">    if (value == null) {</span>
-<span class="fc" id="L127">      return null;</span>
+<span class="fc" id="L149">    Object value = getValue(key);</span>
+<span class="fc bfc" id="L150" title="All 2 branches covered.">    if (value == null) {</span>
+<span class="fc" id="L151">      return null;</span>
     }
 
-<span class="fc" id="L130">    return Long.parseLong(value.toString());</span>
+<span class="fc" id="L154">    return Long.parseLong(value.toString());</span>
   }
 
   /**
@@ -138,21 +162,33 @@ public final class NotionSdkSettings {
    */
   public Double getDouble(String key) {
     // First try environment variable
-<span class="fc" id="L141">    String envValue = getFromEnvironment(key);</span>
-<span class="pc bpc" id="L142" title="1 of 2 branches missed.">    if (envValue != null) {</span>
+<span class="fc" id="L165">    String envValue = getFromEnvironment(key);</span>
+<span class="pc bpc" id="L166" title="1 of 2 branches missed.">    if (envValue != null) {</span>
       try {
-<span class="nc" id="L144">        return Double.parseDouble(envValue);</span>
-<span class="nc" id="L145">      } catch (NumberFormatException e) {</span>
-<span class="nc" id="L146">        log.warn(&quot;Environment variable {} is not a valid double: {}&quot;, key, envValue);</span>
+<span class="nc" id="L168">        return Double.parseDouble(envValue);</span>
+<span class="nc" id="L169">      } catch (NumberFormatException e) {</span>
+<span class="nc" id="L170">        log.warn(&quot;Environment variable {} is not a valid double: {}&quot;, key, envValue);</span>
       }
     }
 
     // Then try YAML file
-<span class="fc" id="L151">    Object value = getValue(key);</span>
-<span class="fc bfc" id="L152" title="All 2 branches covered.">    if (value == null) {</span>
-<span class="fc" id="L153">      return null;</span>
+<span class="fc" id="L175">    Object value = getValue(key);</span>
+<span class="fc bfc" id="L176" title="All 2 branches covered.">    if (value == null) {</span>
+<span class="fc" id="L177">      return null;</span>
     }
-<span class="fc" id="L155">    return Double.parseDouble(value.toString());</span>
+<span class="fc" id="L179">    return Double.parseDouble(value.toString());</span>
+  }
+
+  /**
+   * Gets a double value from the settings using a dot-separated key path.
+   *
+   * @param key the dot-separated key path
+   * @param defaultValue the default value to return if not found
+   * @return the double value, or defaultValue if not found or not a valid double
+   */
+  public double getDouble(String key, double defaultValue) {
+<span class="nc" id="L190">    Double value = getDouble(key);</span>
+<span class="nc bnc" id="L191" title="All 2 branches missed.">    return value != null ? value : defaultValue;</span>
   }
 
   /**
@@ -162,11 +198,11 @@ public final class NotionSdkSettings {
    * @return the boolean value, or null if not found or not a valid boolean
    */
   public boolean getBoolean(String key, boolean defaultValue) {
-<span class="nc" id="L165">    Boolean value = getBoolean(key);</span>
-<span class="nc bnc" id="L166" title="All 2 branches missed.">    if (value != null) {</span>
-<span class="nc" id="L167">      return value;</span>
+<span class="nc" id="L201">    Boolean value = getBoolean(key);</span>
+<span class="nc bnc" id="L202" title="All 2 branches missed.">    if (value != null) {</span>
+<span class="nc" id="L203">      return value;</span>
     }
-<span class="nc" id="L169">    return defaultValue;</span>
+<span class="nc" id="L205">    return defaultValue;</span>
   }
 
   /**
@@ -177,17 +213,17 @@ public final class NotionSdkSettings {
    */
   public Boolean getBoolean(String key) {
     // First try environment variable
-<span class="fc" id="L180">    String envValue = getFromEnvironment(key);</span>
-<span class="pc bpc" id="L181" title="1 of 2 branches missed.">    if (envValue != null) {</span>
-<span class="nc" id="L182">      return Boolean.parseBoolean(envValue);</span>
+<span class="fc" id="L216">    String envValue = getFromEnvironment(key);</span>
+<span class="pc bpc" id="L217" title="1 of 2 branches missed.">    if (envValue != null) {</span>
+<span class="nc" id="L218">      return Boolean.parseBoolean(envValue);</span>
     }
 
     // Then try YAML file
-<span class="fc" id="L186">    Object value = getValue(key);</span>
-<span class="fc bfc" id="L187" title="All 2 branches covered.">    if (value == null) {</span>
-<span class="fc" id="L188">      return null;</span>
+<span class="fc" id="L222">    Object value = getValue(key);</span>
+<span class="fc bfc" id="L223" title="All 2 branches covered.">    if (value == null) {</span>
+<span class="fc" id="L224">      return null;</span>
     }
-<span class="fc" id="L190">    return Boolean.parseBoolean(value.toString());</span>
+<span class="fc" id="L226">    return Boolean.parseBoolean(value.toString());</span>
   }
 
   /**
@@ -201,7 +237,7 @@ public final class NotionSdkSettings {
     // Environment variables don't support lists directly
 
     // Try YAML file
-<span class="fc" id="L204">    return (List&lt;String&gt;) getValue(key);</span>
+<span class="fc" id="L240">    return (List&lt;String&gt;) getValue(key);</span>
   }
 
   /**
@@ -216,7 +252,7 @@ public final class NotionSdkSettings {
     // Environment variables don't support maps directly
 
     // Try YAML file
-<span class="fc" id="L219">    return (Map&lt;String, String&gt;) getValue(key);</span>
+<span class="fc" id="L255">    return (Map&lt;String, String&gt;) getValue(key);</span>
   }
 
   /**
@@ -226,70 +262,70 @@ public final class NotionSdkSettings {
    * @return true if the setting exists, false otherwise
    */
   public boolean exists(String key) {
-<span class="pc bpc" id="L229" title="1 of 4 branches missed.">    return getFromEnvironment(key) != null || getValue(key) != null;</span>
+<span class="pc bpc" id="L265" title="1 of 4 branches missed.">    return getFromEnvironment(key) != null || getValue(key) != null;</span>
   }
 
   private String getFromEnvironment(String key) {
     // Convert dot notation to environment variable format
-<span class="fc" id="L234">    String envKey = key.toUpperCase().replace('.', '_');</span>
-<span class="fc" id="L235">    return System.getenv(envKey);</span>
+<span class="fc" id="L270">    String envKey = key.toUpperCase().replace('.', '_');</span>
+<span class="fc" id="L271">    return System.getenv(envKey);</span>
   }
 
   public Object getValue(String key) {
-<span class="pc bpc" id="L239" title="3 of 4 branches missed.">    if (settings == null &amp;&amp; defaultSettings == null) {</span>
-<span class="nc" id="L240">      return null;</span>
+<span class="pc bpc" id="L275" title="3 of 4 branches missed.">    if (settings == null &amp;&amp; defaultSettings == null) {</span>
+<span class="nc" id="L276">      return null;</span>
     }
-<span class="fc" id="L242">    Object value = getValue(settings, new ArrayList&lt;&gt;(List.of(key.split(&quot;\\.&quot;))), 0);</span>
-<span class="fc bfc" id="L243" title="All 2 branches covered.">    if (value == null) {</span>
-<span class="fc" id="L244">      value = getValue(defaultSettings, new ArrayList&lt;&gt;(List.of(key.split(&quot;\\.&quot;))), 0);</span>
+<span class="fc" id="L278">    Object value = getValue(settings, new ArrayList&lt;&gt;(List.of(key.split(&quot;\\.&quot;))), 0);</span>
+<span class="fc bfc" id="L279" title="All 2 branches covered.">    if (value == null) {</span>
+<span class="fc" id="L280">      value = getValue(defaultSettings, new ArrayList&lt;&gt;(List.of(key.split(&quot;\\.&quot;))), 0);</span>
     }
-<span class="fc" id="L246">    return value;</span>
+<span class="fc" id="L282">    return value;</span>
   }
 
   @SuppressWarnings(&quot;unchecked&quot;)
   private Object getValue(Map&lt;String, Object&gt; settingsMap, List&lt;String&gt; segments, int startFrom) {
-<span class="pc bpc" id="L251" title="2 of 4 branches missed.">    if (startFrom == segments.size() || settings == null) {</span>
-<span class="nc" id="L252">      return null;</span>
+<span class="pc bpc" id="L287" title="2 of 4 branches missed.">    if (startFrom == segments.size() || settings == null) {</span>
+<span class="nc" id="L288">      return null;</span>
     }
 
-<span class="fc" id="L255">    Object nested = null;</span>
-<span class="fc" id="L256">    String key = &quot;&quot;;</span>
-<span class="fc bfc" id="L257" title="All 2 branches covered.">    while (startFrom &lt; segments.size()) {</span>
-<span class="fc bfc" id="L258" title="All 2 branches covered.">      key += (!key.isEmpty() ? &quot;.&quot; : &quot;&quot;) + segments.get(startFrom);</span>
-<span class="fc" id="L259">      nested = settingsMap.get(key);</span>
-<span class="fc bfc" id="L260" title="All 2 branches covered.">      if (nested != null) {</span>
-<span class="fc bfc" id="L261" title="All 2 branches covered.">        if (startFrom != segments.size() - 1) {</span>
-<span class="fc bfc" id="L262" title="All 2 branches covered.">          if (nested instanceof Map) {</span>
-<span class="fc" id="L263">            return getValue((Map&lt;String, Object&gt;) nested, segments, startFrom + 1);</span>
+<span class="fc" id="L291">    Object nested = null;</span>
+<span class="fc" id="L292">    String key = &quot;&quot;;</span>
+<span class="fc bfc" id="L293" title="All 2 branches covered.">    while (startFrom &lt; segments.size()) {</span>
+<span class="fc bfc" id="L294" title="All 2 branches covered.">      key += (!key.isEmpty() ? &quot;.&quot; : &quot;&quot;) + segments.get(startFrom);</span>
+<span class="fc" id="L295">      nested = settingsMap.get(key);</span>
+<span class="fc bfc" id="L296" title="All 2 branches covered.">      if (nested != null) {</span>
+<span class="fc bfc" id="L297" title="All 2 branches covered.">        if (startFrom != segments.size() - 1) {</span>
+<span class="fc bfc" id="L298" title="All 2 branches covered.">          if (nested instanceof Map) {</span>
+<span class="fc" id="L299">            return getValue((Map&lt;String, Object&gt;) nested, segments, startFrom + 1);</span>
           } else {
-<span class="fc" id="L265">            return null;</span>
+<span class="fc" id="L301">            return null;</span>
           }
         } else {
-<span class="fc" id="L268">          return nested;</span>
+<span class="fc" id="L304">          return nested;</span>
         }
       }
-<span class="fc" id="L271">      startFrom++;</span>
+<span class="fc" id="L307">      startFrom++;</span>
     }
 
-<span class="fc" id="L274">    return nested;</span>
+<span class="fc" id="L310">    return nested;</span>
   }
 
   private Map&lt;String, Object&gt; loadSettings(String resourceName) {
-<span class="fc" id="L278">    Yaml yaml = new Yaml();</span>
+<span class="fc" id="L314">    Yaml yaml = new Yaml();</span>
 
     // First try to load from classpath
-<span class="fc" id="L281">    try (InputStream resourceStream =</span>
-<span class="fc" id="L282">        getClass().getClassLoader().getResourceAsStream(resourceName)) {</span>
-<span class="pc bpc" id="L283" title="1 of 2 branches missed.">      if (resourceStream != null) {</span>
-<span class="fc" id="L284">        log.info(&quot;Loading integration test settings from classpath: {}&quot;, resourceName);</span>
-<span class="fc" id="L285">        return yaml.load(resourceStream);</span>
+<span class="fc" id="L317">    try (InputStream resourceStream =</span>
+<span class="fc" id="L318">        getClass().getClassLoader().getResourceAsStream(resourceName)) {</span>
+<span class="pc bpc" id="L319" title="1 of 2 branches missed.">      if (resourceStream != null) {</span>
+<span class="fc" id="L320">        log.info(&quot;Loading integration test settings from classpath: {}&quot;, resourceName);</span>
+<span class="fc" id="L321">        return yaml.load(resourceStream);</span>
       }
-<span class="pc bpc" id="L287" title="1 of 2 branches missed.">    } catch (IOException e) {</span>
-<span class="nc" id="L288">      log.error(&quot;Failed to load integration test settings from classpath&quot;, e);</span>
-<span class="nc" id="L289">    }</span>
+<span class="pc bpc" id="L323" title="1 of 2 branches missed.">    } catch (IOException e) {</span>
+<span class="nc" id="L324">      log.error(&quot;Failed to load integration test settings from classpath&quot;, e);</span>
+<span class="nc" id="L325">    }</span>
 
-<span class="nc" id="L291">    log.warn(&quot;Integration test settings file not found. Using empty settings.&quot;);</span>
-<span class="nc" id="L292">    return new HashMap&lt;&gt;();</span>
+<span class="nc" id="L327">    log.warn(&quot;Integration test settings file not found. Using empty settings.&quot;);</span>
+<span class="nc" id="L328">    return new HashMap&lt;&gt;();</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

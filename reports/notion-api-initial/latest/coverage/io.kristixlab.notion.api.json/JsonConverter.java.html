@@ -28,77 +28,76 @@ public class JsonConverter {
 <span class="nc" id="L28">    ObjectMapper mapper = new ObjectMapper();</span>
 <span class="nc" id="L29">    mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, failOnUnknown);</span>
 <span class="nc" id="L30">    mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);</span>
-<span class="nc" id="L31">    mapper.configure(SerializationFeature.WRITE_NULL_MAP_VALUES, false);</span>
-<span class="nc" id="L32">    mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);</span>
-<span class="nc" id="L33">    mapper.enable(SerializationFeature.INDENT_OUTPUT);</span>
-<span class="nc" id="L34">    mapper.registerModule(new JavaTimeModule());</span>
-<span class="nc" id="L35">    return mapper;</span>
+<span class="nc" id="L31">    mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);</span>
+<span class="nc" id="L32">    mapper.enable(SerializationFeature.INDENT_OUTPUT);</span>
+<span class="nc" id="L33">    mapper.registerModule(new JavaTimeModule());</span>
+<span class="nc" id="L34">    return mapper;</span>
   }
 
   public static JsonConverter getInstance() {
-<span class="nc" id="L39">    return CONVERTER;</span>
+<span class="nc" id="L38">    return CONVERTER;</span>
   }
 
   // TODO log unrecognized fields
   public &lt;T&gt; T toObject(String json, Class&lt;T&gt; type) {
-<span class="nc" id="L44">    return toObject(json, type, true);</span>
+<span class="nc" id="L43">    return toObject(json, type, true);</span>
   }
 
   public &lt;T&gt; T toObject(String json, Class&lt;T&gt; type, boolean strict) {
-<span class="nc bnc" id="L48" title="All 2 branches missed.">    ObjectMapper mapper = strict ? strictMappe : regularMapper;</span>
+<span class="nc bnc" id="L47" title="All 2 branches missed.">    ObjectMapper mapper = strict ? strictMappe : regularMapper;</span>
     try {
-<span class="nc" id="L50">      return mapper.readValue(json, type);</span>
-<span class="nc" id="L51">    } catch (Exception e) {</span>
-<span class="nc" id="L52">      LOGGER.error(&quot;Error converting JSON to {}: {}&quot;, type.toString(), e.getMessage());</span>
-<span class="nc" id="L53">      throw new RuntimeException(e);</span>
+<span class="nc" id="L49">      return mapper.readValue(json, type);</span>
+<span class="nc" id="L50">    } catch (Exception e) {</span>
+<span class="nc" id="L51">      LOGGER.error(&quot;Error converting JSON to {}: {}&quot;, type.toString(), e.getMessage());</span>
+<span class="nc" id="L52">      throw new RuntimeException(e);</span>
     }
   }
 
   public String toJson(Object object) {
-<span class="nc" id="L58">    return toJson(object, false);</span>
+<span class="nc" id="L57">    return toJson(object, false);</span>
   }
 
   public String toJson(Object object, boolean pretty) {
     try {
-<span class="nc bnc" id="L63" title="All 2 branches missed.">      if (pretty) {</span>
-<span class="nc" id="L64">        return strictMappe.writerWithDefaultPrettyPrinter().writeValueAsString(object);</span>
+<span class="nc bnc" id="L62" title="All 2 branches missed.">      if (pretty) {</span>
+<span class="nc" id="L63">        return strictMappe.writerWithDefaultPrettyPrinter().writeValueAsString(object);</span>
       } else {
-<span class="nc" id="L66">        return strictMappe.writeValueAsString(object);</span>
+<span class="nc" id="L65">        return strictMappe.writeValueAsString(object);</span>
       }
-<span class="nc" id="L68">    } catch (JsonProcessingException e) {</span>
-<span class="nc" id="L69">      LOGGER.error(&quot;Error converting object to JSON: {}&quot;, e.getMessage());</span>
-<span class="nc" id="L70">      throw new RuntimeException(e);</span>
+<span class="nc" id="L67">    } catch (JsonProcessingException e) {</span>
+<span class="nc" id="L68">      LOGGER.error(&quot;Error converting object to JSON: {}&quot;, e.getMessage());</span>
+<span class="nc" id="L69">      throw new RuntimeException(e);</span>
     }
   }
 
   public void toFile(File file, Object object) {
     try {
-<span class="nc" id="L76">      strictMappe.writerWithDefaultPrettyPrinter().writeValue(file, object);</span>
-<span class="nc" id="L77">    } catch (IOException e) {</span>
-<span class="nc" id="L78">      LOGGER.error(&quot;Error saving object to file {}: {}&quot;, file.getAbsolutePath(), e.getMessage());</span>
-<span class="nc" id="L79">      throw new RuntimeException(e);</span>
-<span class="nc" id="L80">    }</span>
-<span class="nc" id="L81">  }</span>
+<span class="nc" id="L75">      strictMappe.writerWithDefaultPrettyPrinter().writeValue(file, object);</span>
+<span class="nc" id="L76">    } catch (IOException e) {</span>
+<span class="nc" id="L77">      LOGGER.error(&quot;Error saving object to file {}: {}&quot;, file.getAbsolutePath(), e.getMessage());</span>
+<span class="nc" id="L78">      throw new RuntimeException(e);</span>
+<span class="nc" id="L79">    }</span>
+<span class="nc" id="L80">  }</span>
 
   public void print(Object object) {
     try {
-<span class="nc" id="L85">      String json = toJson(object, true);</span>
-<span class="nc" id="L86">      System.out.println(json);</span>
-<span class="nc" id="L87">    } catch (RuntimeException e) {</span>
-<span class="nc" id="L88">      LOGGER.error(&quot;Error printing object as JSON: {}&quot;, e.getMessage());</span>
-<span class="nc" id="L89">      throw new RuntimeException(e);</span>
-<span class="nc" id="L90">    }</span>
-<span class="nc" id="L91">  }</span>
+<span class="nc" id="L84">      String json = toJson(object, true);</span>
+<span class="nc" id="L85">      System.out.println(json);</span>
+<span class="nc" id="L86">    } catch (RuntimeException e) {</span>
+<span class="nc" id="L87">      LOGGER.error(&quot;Error printing object as JSON: {}&quot;, e.getMessage());</span>
+<span class="nc" id="L88">      throw new RuntimeException(e);</span>
+<span class="nc" id="L89">    }</span>
+<span class="nc" id="L90">  }</span>
 
   public &lt;T&gt; T fromFile(String filePath, Class&lt;T&gt; targetClass) {
-<span class="nc" id="L94">    try (InputStream is = JsonConverter.class.getClassLoader().getResourceAsStream(filePath)) {</span>
-<span class="nc bnc" id="L95" title="All 2 branches missed.">      if (is == null) {</span>
-<span class="nc" id="L96">        throw new IllegalArgumentException(&quot;Resource not found: &quot; + filePath);</span>
+<span class="nc" id="L93">    try (InputStream is = JsonConverter.class.getClassLoader().getResourceAsStream(filePath)) {</span>
+<span class="nc bnc" id="L94" title="All 2 branches missed.">      if (is == null) {</span>
+<span class="nc" id="L95">        throw new IllegalArgumentException(&quot;Resource not found: &quot; + filePath);</span>
       }
-<span class="nc" id="L98">      return strictMappe.readValue(is, targetClass);</span>
-<span class="nc" id="L99">    } catch (IOException e) {</span>
-<span class="nc" id="L100">      LOGGER.error(&quot;Error loading object from file {}: {}&quot;, filePath, e.getMessage());</span>
-<span class="nc" id="L101">      throw new RuntimeException(e);</span>
+<span class="nc" id="L97">      return strictMappe.readValue(is, targetClass);</span>
+<span class="nc" id="L98">    } catch (IOException e) {</span>
+<span class="nc" id="L99">      LOGGER.error(&quot;Error loading object from file {}: {}&quot;, filePath, e.getMessage());</span>
+<span class="nc" id="L100">      throw new RuntimeException(e);</span>
     }
   }
 }

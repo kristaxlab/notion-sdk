@@ -2,6 +2,8 @@
 
 import io.kristixlab.notion.api.http.transport.exception.HttpResponseException;
 import io.kristixlab.notion.api.http.transport.exception.HttpTransportException;
+import io.kristixlab.notion.api.http.transport.log.ExchangeContext;
+import io.kristixlab.notion.api.http.transport.log.ExchangeLogger;
 import io.kristixlab.notion.api.http.transport.rq.MultipartFormDataRequest;
 import io.kristixlab.notion.api.http.transport.rq.URLInfo;
 import io.kristixlab.notion.api.http.transport.rs.ApiResponse;
@@ -21,53 +23,72 @@ import org.slf4j.LoggerFactory;
 
 public class HttpTransportImpl implements HttpTransport {
 
-<span class="nc" id="L24">  private static final Logger LOGGER = LoggerFactory.getLogger(HttpTransportImpl.class);</span>
-<span class="nc" id="L25">  private static final MediaType JSON_MEDIA_TYPE = MediaType.parse(&quot;application/json&quot;);</span>
+<span class="nc" id="L26">  private static final Logger LOGGER = LoggerFactory.getLogger(HttpTransportImpl.class);</span>
+<span class="nc" id="L27">  private static final MediaType JSON_MEDIA_TYPE = MediaType.parse(&quot;application/json&quot;);</span>
   private final OkHttpClient httpClient;
-  @Getter private final String apiName;
-<span class="nc" id="L28">  @Getter private String baseUrl = &quot;https://api.example.com&quot;; // Default base URL, can be overridden</span>
-<span class="nc" id="L29">  private HttpTransportConfig config = new HttpTransportConfig();</span>
+  @Getter private String apiName;
+<span class="nc" id="L30">  @Getter private String baseUrl = &quot;https://api.example.com&quot;; // Default base URL, can be overridden</span>
+<span class="nc" id="L31">  private HttpTransportConfig config = new HttpTransportConfig();</span>
+  private ExchangeLogger exchangeLogger;
 
-<span class="nc" id="L31">  public HttpTransportImpl() {</span>
-<span class="nc" id="L32">    this.httpClient = createHttpClient();</span>
-<span class="nc bnc" id="L33" title="All 2 branches missed.">    if (baseUrl == null) {</span>
-<span class="nc" id="L34">      baseUrl = &quot;&quot;;</span>
-    }
-<span class="nc" id="L36">    this.apiName = &quot;API Transport&quot;;</span>
-<span class="nc" id="L37">  }</span>
+  public HttpTransportImpl() {
+<span class="nc" id="L35">    this(&quot;&quot;, &quot;API Transport&quot;);</span>
+<span class="nc" id="L36">  }</span>
 
-<span class="nc" id="L39">  public HttpTransportImpl(String baseUrl, String apiName) {</span>
-<span class="nc" id="L40">    this.httpClient = createHttpClient();</span>
-<span class="nc bnc" id="L41" title="All 2 branches missed.">    if (baseUrl == null) {</span>
-<span class="nc" id="L42">      baseUrl = &quot;&quot;;</span>
-<span class="nc bnc" id="L43" title="All 6 branches missed.">    } else if (baseUrl.endsWith(&quot;/&quot;) &amp;&amp; !baseUrl.equals(&quot;https://&quot;) &amp;&amp; !baseUrl.equals(&quot;http://&quot;)) {</span>
-<span class="nc" id="L44">      baseUrl = baseUrl.substring(0, baseUrl.length() - 1);</span>
-    }
-<span class="nc" id="L46">    this.baseUrl = baseUrl;</span>
-<span class="nc bnc" id="L47" title="All 2 branches missed.">    this.apiName = apiName == null ? &quot;API Transport&quot; : apiName;</span>
-<span class="nc" id="L48">  }</span>
+  public HttpTransportImpl(String baseUrl, String apiName) {
+    // TODO possibility to pass regular logger as exchange logger??
+<span class="nc" id="L40">    this(baseUrl, apiName, defaultConfig(), null);</span>
+<span class="nc" id="L41">  }</span>
 
-  public HttpTransportImpl(HttpTransportConfig config) {
-<span class="nc" id="L51">    this(config.getBaseUrl(), config.getApiName());</span>
-<span class="nc" id="L52">    this.config = config;</span>
-<span class="nc" id="L53">  }</span>
+  public HttpTransportImpl(
+<span class="nc" id="L44">      String baseUrl, String apiName, HttpTransportConfig config, ExchangeLogger exchangeLogger) {</span>
+<span class="nc" id="L45">    this.httpClient = createHttpClient();</span>
+<span class="nc" id="L46">    this.exchangeLogger = exchangeLogger;</span>
+
+<span class="nc" id="L48">    setBaseUrl(baseUrl);</span>
+<span class="nc" id="L49">    setApiName(apiName);</span>
+<span class="nc" id="L50">    setConfig(config);</span>
+<span class="nc" id="L51">  }</span>
 
   private OkHttpClient createHttpClient() {
-<span class="nc" id="L56">    return new OkHttpClient.Builder()</span>
-<span class="nc" id="L57">        .connectTimeout(30, TimeUnit.SECONDS)</span>
-<span class="nc" id="L58">        .readTimeout(30, TimeUnit.SECONDS)</span>
-<span class="nc" id="L59">        .writeTimeout(30, TimeUnit.SECONDS)</span>
-<span class="nc" id="L60">        .build();</span>
+<span class="nc" id="L54">    return new OkHttpClient.Builder()</span>
+<span class="nc" id="L55">        .connectTimeout(30, TimeUnit.SECONDS)</span>
+<span class="nc" id="L56">        .readTimeout(30, TimeUnit.SECONDS)</span>
+<span class="nc" id="L57">        .writeTimeout(30, TimeUnit.SECONDS)</span>
+<span class="nc" id="L58">        .build();</span>
+  }
+
+  private void setBaseUrl(String baseUrl) {
+<span class="nc bnc" id="L62" title="All 2 branches missed.">    if (baseUrl == null) {</span>
+<span class="nc" id="L63">      baseUrl = &quot;&quot;;</span>
+<span class="nc bnc" id="L64" title="All 6 branches missed.">    } else if (baseUrl.endsWith(&quot;/&quot;) &amp;&amp; !baseUrl.equals(&quot;https://&quot;) &amp;&amp; !baseUrl.equals(&quot;http://&quot;)) {</span>
+<span class="nc" id="L65">      baseUrl = baseUrl.substring(0, baseUrl.length() - 1);</span>
+    }
+<span class="nc" id="L67">    this.baseUrl = baseUrl;</span>
+<span class="nc" id="L68">  }</span>
+
+  private void setApiName(String apiName) {
+<span class="nc bnc" id="L71" title="All 2 branches missed.">    this.apiName = apiName == null ? &quot;API Transport&quot; : apiName;</span>
+<span class="nc" id="L72">  }</span>
+
+  private void setConfig(HttpTransportConfig config) {
+<span class="nc bnc" id="L75" title="All 2 branches missed.">    this.config = config == null ? defaultConfig() : config;</span>
+<span class="nc" id="L76">  }</span>
+
+  private static HttpTransportConfig defaultConfig() {
+<span class="nc" id="L79">    HttpTransportConfig config = new HttpTransportConfig();</span>
+<span class="nc" id="L80">    config.setJsonFailOnUnknownProperties(false);</span>
+<span class="nc" id="L81">    return config;</span>
   }
 
   @Override
   public &lt;T&gt; T call(String method, URLInfo urlInfo, Class&lt;T&gt; responseType) {
-<span class="nc" id="L65">    return call(method, urlInfo, null, responseType);</span>
+<span class="nc" id="L86">    return call(method, urlInfo, null, responseType);</span>
   }
 
   @Override
   public &lt;T&gt; T call(String method, URLInfo urlInfo, Object body, Class&lt;T&gt; responseType) {
-<span class="nc" id="L70">    return call(method, urlInfo, null, body, responseType);</span>
+<span class="nc" id="L91">    return call(method, urlInfo, null, body, responseType);</span>
   }
 
   public &lt;T&gt; ApiResponse&lt;T&gt; execute(
@@ -76,31 +97,49 @@ public class HttpTransportImpl implements HttpTransport {
       Map&lt;String, String&gt; headerParams,
       Object body,
       Class&lt;T&gt; responseType) {
-<span class="nc" id="L79">    String logBlueprint = UUID.randomUUID().toString();</span>
+    String exchangeId =
+<span class="nc" id="L101">        ExchangeContext.getCurrent()</span>
+<span class="nc" id="L102">            .computeStringIfAbsent(&quot;exchangeId&quot;, s -&gt; UUID.randomUUID().toString());</span>
 
-<span class="nc bnc" id="L81" title="All 2 branches missed.">    if (LOGGER.isDebugEnabled()) {</span>
-<span class="nc" id="L82">      LOGGER.debug(&quot;[{}] Calling {}&quot;, logBlueprint, getApiName());</span>
-<span class="nc" id="L83">      LOGGER.debug(&quot;[{}] Building request...&quot;, logBlueprint);</span>
+<span class="nc bnc" id="L104" title="All 2 branches missed.">    if (LOGGER.isDebugEnabled()) {</span>
+<span class="nc" id="L105">      LOGGER.debug(&quot;[{}] Calling {}&quot;, exchangeId, getApiName());</span>
+<span class="nc" id="L106">      LOGGER.debug(&quot;[{}] Building request...&quot;, exchangeId);</span>
     }
-<span class="nc" id="L85">    Request request = buildRequest(method, urlInfo, headerParams, body, logBlueprint);</span>
 
-<span class="nc bnc" id="L87" title="All 2 branches missed.">    if (LOGGER.isDebugEnabled()) {</span>
-<span class="nc" id="L88">      LOGGER.debug(</span>
+<span class="nc" id="L109">    Request request = buildRequest(method, urlInfo, headerParams, body, exchangeId);</span>
+<span class="nc" id="L110">    logRequest(request, body, exchangeId);</span>
+
+<span class="nc" id="L112">    Response rs = executeRequest(request, exchangeId);</span>
+<span class="nc" id="L113">    return handleResponse(rs, responseType, exchangeId);</span>
+  }
+
+  protected void logRequest(Request request, Object body, String exchangeId) {
+<span class="nc bnc" id="L117" title="All 2 branches missed.">    if (LOGGER.isDebugEnabled()) {</span>
+<span class="nc" id="L118">      LOGGER.debug(</span>
           &quot;[{}] Request method: {}, url: {}, content-type: {}&quot;,
-          logBlueprint,
-          method,
-<span class="nc" id="L92">          request.url(),</span>
-<span class="nc" id="L93">          request.header(&quot;Content-Type&quot;));</span>
-<span class="nc bnc" id="L94" title="All 2 branches missed.">      if (request.body() != null) {</span>
+          exchangeId,
+<span class="nc" id="L121">          request.method(),</span>
+<span class="nc" id="L122">          request.url(),</span>
+<span class="nc" id="L123">          request.header(&quot;Content-Type&quot;));</span>
+<span class="nc bnc" id="L124" title="All 2 branches missed.">      if (body != null) {</span>
         // TODO adjust for MultipartFormDataRequest
-<span class="nc" id="L96">        LOGGER.debug(</span>
-<span class="nc" id="L97">            &quot;[{}] Request body: \n{}&quot;, logBlueprint, JsonConverter.getInstance().toJson(body));</span>
+<span class="nc" id="L126">        LOGGER.debug(</span>
+<span class="nc" id="L127">            &quot;[{}] Request body: \n{}&quot;, exchangeId, JsonConverter.getInstance().toJson(body));</span>
       }
     }
 
-<span class="nc" id="L101">    Response rs = executeRequest(request, logBlueprint);</span>
-<span class="nc" id="L102">    return handleResponse(rs, responseType, logBlueprint);</span>
-  }
+<span class="nc bnc" id="L131" title="All 2 branches missed.">    if (exchangeLogger != null) {</span>
+      // TODO serviceName pass from the endpoint implementation?
+      // ExchangeContext.getCurrent().put(&quot;serviceName&quot;, getApiName());
+<span class="nc" id="L134">      ExchangeContext.getCurrent().put(&quot;method&quot;, request.method());</span>
+<span class="nc" id="L135">      ExchangeContext.getCurrent().put(&quot;path&quot;, request.url().toString());</span>
+<span class="nc" id="L136">      ExchangeContext.getCurrent().put(&quot;requestHeaders&quot;, request.headers().toMultimap());</span>
+<span class="nc bnc" id="L137" title="All 2 branches missed.">      if (body != null) {</span>
+<span class="nc" id="L138">        ExchangeContext.getCurrent().put(&quot;requestBody&quot;, body);</span>
+      }
+<span class="nc" id="L140">      exchangeLogger.logRequest(ExchangeContext.getCurrent());</span>
+    }
+<span class="nc" id="L142">  }</span>
 
   @Override
   public &lt;T&gt; T call(
@@ -109,72 +148,85 @@ public class HttpTransportImpl implements HttpTransport {
       Map&lt;String, String&gt; headerParams,
       Object body,
       Class&lt;T&gt; responseType) {
-<span class="nc" id="L112">    ApiResponse&lt;T&gt; apiRs = execute(method, urlInfo, headerParams, body, responseType);</span>
-<span class="nc" id="L113">    return apiRs.getBody();</span>
+<span class="nc" id="L151">    ApiResponse&lt;T&gt; apiRs = execute(method, urlInfo, headerParams, body, responseType);</span>
+<span class="nc" id="L152">    return apiRs.getBody();</span>
   }
 
   private Response executeRequest(Request request, String logBlueprint) {
-<span class="nc" id="L117">    Call call = httpClient.newCall(request);</span>
+<span class="nc" id="L156">    Call call = httpClient.newCall(request);</span>
     try {
-<span class="nc" id="L119">      return call.execute();</span>
-<span class="nc" id="L120">    } catch (IOException e) {</span>
-<span class="nc" id="L121">      LOGGER.error(&quot;[{}] Network error calling {} API&quot;, logBlueprint, getApiName(), e);</span>
-<span class="nc" id="L122">      throw new HttpTransportException(&quot;Network error: &quot; + e.getMessage(), e);</span>
+<span class="nc" id="L158">      return call.execute();</span>
+<span class="nc" id="L159">    } catch (IOException e) {</span>
+<span class="nc" id="L160">      LOGGER.error(&quot;[{}] Network error calling {} API&quot;, logBlueprint, getApiName(), e);</span>
+<span class="nc" id="L161">      throw new HttpTransportException(&quot;Network error: &quot; + e.getMessage(), e);</span>
     }
   }
 
   protected &lt;T&gt; ApiResponse&lt;T&gt; handleResponse(
-      Response response, Class&lt;T&gt; responseType, String logBlueprint) throws HttpResponseException {
-<span class="nc bnc" id="L128" title="All 2 branches missed.">    if (!response.isSuccessful()) {</span>
-<span class="nc" id="L129">      return handleErrorResponse(response, logBlueprint);</span>
+      Response response, Class&lt;T&gt; responseType, String exchangeId) throws HttpResponseException {
+
+<span class="nc" id="L168">    ApiResponse apiResponse = null;</span>
+    // TODO getApiName replace with some kind of service id passed from the endpoint implementation?
+    // or maybe from the request context?
+<span class="nc bnc" id="L171" title="All 2 branches missed.">    Class convertTo = response.isSuccessful() ? responseType : getErrorType(getApiName());</span>
+
+<span class="nc" id="L173">    apiResponse = toApiReponse(response, convertTo, exchangeId);</span>
+<span class="nc" id="L174">    logResponse(apiResponse, apiResponse.getStatus(), exchangeId);</span>
+
+<span class="nc bnc" id="L176" title="All 2 branches missed.">    if (!response.isSuccessful()) {</span>
+<span class="nc" id="L177">      throw new HttpResponseException(getApiName(), response.code(), apiResponse.getBody());</span>
     }
-<span class="nc" id="L131">    return handleSuccessfulResponse(response, responseType, logBlueprint);</span>
+<span class="nc" id="L179">    return apiResponse;</span>
   }
 
-  protected &lt;T&gt; ApiResponse&lt;T&gt; handleErrorResponse(Response response, String logBlueprint) {
-<span class="nc" id="L135">    String rsBodyString = readBodyString(response, logBlueprint);</span>
-
-<span class="nc" id="L137">    LOGGER.error(</span>
-<span class="nc" id="L138">        &quot;[{}] Response from {} with error: {}&quot;, logBlueprint, getApiName(), response.code());</span>
-<span class="nc bnc" id="L139" title="All 2 branches missed.">    if (LOGGER.isDebugEnabled()) {</span>
-<span class="nc" id="L140">      LOGGER.debug(&quot;[{}] Error response body: \n{}&quot;, logBlueprint, rsBodyString);</span>
+  protected void logResponse(ApiResponse response, int status, String exchangeId) {
+<span class="nc" id="L183">    LOGGER.error(&quot;[{}] Response from {} with error: {}&quot;, exchangeId, getApiName(), status);</span>
+<span class="nc bnc" id="L184" title="All 2 branches missed.">    if (LOGGER.isDebugEnabled()) {</span>
+<span class="nc" id="L185">      LOGGER.debug(&quot;[{}] Error response body: \n{}&quot;, exchangeId, response.getBody());</span>
     }
 
-<span class="nc" id="L143">    throw new HttpResponseException(getApiName(), response.code(), rsBodyString);</span>
-  }
+<span class="nc bnc" id="L188" title="All 2 branches missed.">    if (exchangeLogger != null) {</span>
+<span class="nc" id="L189">      ExchangeContext.getCurrent().put(&quot;responseStatus&quot;, status);</span>
+<span class="nc" id="L190">      ExchangeContext.getCurrent().put(&quot;responseHeaders&quot;, response.getHeaders());</span>
+<span class="nc bnc" id="L191" title="All 2 branches missed.">      if (response.getBody() != null) {</span>
+<span class="nc" id="L192">        ExchangeContext.getCurrent().put(&quot;responseBody&quot;, response.getBody());</span>
+      }
+<span class="nc" id="L194">      exchangeLogger.logResponse(ExchangeContext.getCurrent());</span>
+    }
+<span class="nc" id="L196">  }</span>
 
-  protected &lt;T&gt; ApiResponse&lt;T&gt; handleSuccessfulResponse(
-      Response response, Class&lt;T&gt; responseType, String logBlueprint) throws HttpResponseException {
+  protected &lt;T&gt; ApiResponse&lt;T&gt; toApiReponse(
+      Response response, Class&lt;T&gt; responseType, String exchangeId) throws HttpResponseException {
 
-<span class="nc" id="L149">    ApiResponse&lt;T&gt; rs = new ApiResponse&lt;&gt;();</span>
-<span class="nc" id="L150">    rs.setStatus(response.code());</span>
-<span class="nc" id="L151">    response.headers().forEach(h -&gt; rs.getHeaders().put(h.getFirst(), h.getSecond()));</span>
+<span class="nc" id="L201">    ApiResponse&lt;T&gt; rs = new ApiResponse&lt;&gt;();</span>
+<span class="nc" id="L202">    rs.setStatus(response.code());</span>
+<span class="nc" id="L203">    response.headers().forEach(h -&gt; rs.getHeaders().put(h.getFirst(), h.getSecond()));</span>
 
-<span class="nc" id="L153">    String rsBodyString = readBodyString(response, logBlueprint);</span>
-<span class="nc bnc" id="L154" title="All 2 branches missed.">    if (LOGGER.isDebugEnabled()) {</span>
-<span class="nc" id="L155">      LOGGER.debug(</span>
-<span class="nc" id="L156">          &quot;[{}] Response from {} with code: {}&quot;, logBlueprint, getApiName(), response.code());</span>
-<span class="nc bnc" id="L157" title="All 2 branches missed.">      if (LOGGER.isDebugEnabled()) {</span>
-<span class="nc" id="L158">        LOGGER.debug(&quot;[{}] Response body: \n{}&quot;, logBlueprint, rsBodyString);</span>
+<span class="nc" id="L205">    String rsBodyString = readBodyString(response, exchangeId);</span>
+<span class="nc bnc" id="L206" title="All 2 branches missed.">    if (LOGGER.isDebugEnabled()) {</span>
+<span class="nc" id="L207">      LOGGER.debug(</span>
+<span class="nc" id="L208">          &quot;[{}] Response from {} with code: {}&quot;, exchangeId, getApiName(), response.code());</span>
+<span class="nc bnc" id="L209" title="All 2 branches missed.">      if (LOGGER.isDebugEnabled()) {</span>
+<span class="nc" id="L210">        LOGGER.debug(&quot;[{}] Response body: \n{}&quot;, exchangeId, rsBodyString);</span>
       }
     }
 
-<span class="nc bnc" id="L162" title="All 2 branches missed.">    if (responseType != String.class) {</span>
-<span class="nc" id="L163">      rs.setBody(</span>
-<span class="nc" id="L164">          JsonConverter.getInstance()</span>
-<span class="nc" id="L165">              .toObject(rsBodyString, responseType, getConfig().isJsonFailOnUnknownProperties()));</span>
+<span class="nc bnc" id="L214" title="All 2 branches missed.">    if (responseType != String.class) {</span>
+<span class="nc" id="L215">      rs.setBody(</span>
+<span class="nc" id="L216">          JsonConverter.getInstance()</span>
+<span class="nc" id="L217">              .toObject(rsBodyString, responseType, getConfig().isJsonFailOnUnknownProperties()));</span>
     } else {
-<span class="nc" id="L167">      rs.setBody((T) rsBodyString);</span>
+<span class="nc" id="L219">      rs.setBody((T) rsBodyString);</span>
     }
-<span class="nc" id="L169">    return rs;</span>
+<span class="nc" id="L221">    return rs;</span>
   }
 
   private String readBodyString(Response response, String logBlueprint) {
-<span class="nc" id="L173">    try (ResponseBody body = response.body()) {</span>
-<span class="nc" id="L174">      return body.string();</span>
-<span class="nc" id="L175">    } catch (Exception e) {</span>
-<span class="nc" id="L176">      LOGGER.error(&quot;[{}] Failed to read response body &quot;, logBlueprint, e);</span>
-<span class="nc" id="L177">      throw new HttpTransportException(&quot;[&quot; + logBlueprint + &quot;] Failed to read response body&quot;, e);</span>
+<span class="nc" id="L225">    try (ResponseBody body = response.body()) {</span>
+<span class="nc" id="L226">      return body.string();</span>
+<span class="nc" id="L227">    } catch (Exception e) {</span>
+<span class="nc" id="L228">      LOGGER.error(&quot;[{}] Failed to read response body &quot;, logBlueprint, e);</span>
+<span class="nc" id="L229">      throw new HttpTransportException(&quot;[&quot; + logBlueprint + &quot;] Failed to read response body&quot;, e);</span>
     }
   }
 
@@ -185,81 +237,85 @@ public class HttpTransportImpl implements HttpTransport {
       Object body,
       String logBlueprint) {
     // url
-<span class="nc" id="L188">    String url = UrlUtil.toUrlString(getBaseUrl(), urlInfo);</span>
-<span class="nc" id="L189">    Request.Builder requestBuilder = new Request.Builder().url(url);</span>
+<span class="nc" id="L240">    String url = UrlUtil.toUrlString(getBaseUrl(), urlInfo);</span>
+<span class="nc" id="L241">    Request.Builder requestBuilder = new Request.Builder().url(url);</span>
 
     // headers
-<span class="nc bnc" id="L192" title="All 2 branches missed.">    if (headers != null) {</span>
-<span class="nc" id="L193">      headers.forEach(requestBuilder::addHeader);</span>
+<span class="nc bnc" id="L244" title="All 2 branches missed.">    if (headers != null) {</span>
+<span class="nc" id="L245">      headers.forEach(requestBuilder::addHeader);</span>
     }
 
     // body
-<span class="nc" id="L197">    RequestBody requestBody = null;</span>
-<span class="nc bnc" id="L198" title="All 2 branches missed.">    if (body != null) {</span>
-<span class="nc bnc" id="L199" title="All 2 branches missed.">      if (body instanceof MultipartFormDataRequest) {</span>
+<span class="nc" id="L249">    RequestBody requestBody = null;</span>
+<span class="nc bnc" id="L250" title="All 2 branches missed.">    if (body != null) {</span>
+<span class="nc bnc" id="L251" title="All 2 branches missed.">      if (body instanceof MultipartFormDataRequest) {</span>
         // TODO impl test to check that streaming configuration is working
-<span class="nc" id="L201">        Long thresholdBytes = getConfig().getStreamFileAfterBytes();</span>
-<span class="nc" id="L202">        boolean asStream = shouldBeStreamed((MultipartFormDataRequest) body, thresholdBytes);</span>
-<span class="nc" id="L203">        requestBody =</span>
-<span class="nc" id="L204">            MultipartFormDataUtil.toRequestBody(((MultipartFormDataRequest) body), asStream);</span>
-<span class="nc" id="L205">      } else {</span>
-<span class="nc" id="L206">        String jsonContent = JsonConverter.getInstance().toJson(body);</span>
-<span class="nc" id="L207">        requestBody = RequestBody.create(jsonContent, JSON_MEDIA_TYPE);</span>
-<span class="nc" id="L208">        requestBuilder.addHeader(&quot;Content-Type&quot;, &quot;application/json&quot;);</span>
-<span class="nc" id="L209">      }</span>
+<span class="nc" id="L253">        Long thresholdBytes = getConfig().getStreamFileAfterBytes();</span>
+<span class="nc" id="L254">        boolean asStream = shouldBeStreamed((MultipartFormDataRequest) body, thresholdBytes);</span>
+<span class="nc" id="L255">        requestBody =</span>
+<span class="nc" id="L256">            MultipartFormDataUtil.toRequestBody(((MultipartFormDataRequest) body), asStream);</span>
+<span class="nc" id="L257">      } else {</span>
+<span class="nc" id="L258">        String jsonContent = JsonConverter.getInstance().toJson(body);</span>
+<span class="nc" id="L259">        requestBody = RequestBody.create(jsonContent, JSON_MEDIA_TYPE);</span>
+<span class="nc" id="L260">        requestBuilder.addHeader(&quot;Content-Type&quot;, &quot;application/json&quot;);</span>
+<span class="nc" id="L261">      }</span>
     } else {
       // Handle methods that don't allow body (GET, HEAD) vs those that do
-<span class="nc bnc" id="L212" title="All 4 branches missed.">      if (&quot;GET&quot;.equalsIgnoreCase(method) || &quot;HEAD&quot;.equalsIgnoreCase(method)) {</span>
-<span class="nc" id="L213">        requestBuilder.method(method, null);</span>
+<span class="nc bnc" id="L264" title="All 4 branches missed.">      if (&quot;GET&quot;.equalsIgnoreCase(method) || &quot;HEAD&quot;.equalsIgnoreCase(method)) {</span>
+<span class="nc" id="L265">        requestBuilder.method(method, null);</span>
       } else {
         // TODO do I need it?
         // For POST, PUT, PATCH without body, use empty body
-<span class="nc" id="L217">        RequestBody emptyBody = RequestBody.create(&quot;&quot;, JSON_MEDIA_TYPE);</span>
-<span class="nc" id="L218">        requestBuilder.method(method, emptyBody);</span>
+<span class="nc" id="L269">        RequestBody emptyBody = RequestBody.create(&quot;&quot;, JSON_MEDIA_TYPE);</span>
+<span class="nc" id="L270">        requestBuilder.method(method, emptyBody);</span>
       }
     }
-<span class="nc" id="L221">    requestBuilder.method(method, requestBody);</span>
+<span class="nc" id="L273">    requestBuilder.method(method, requestBody);</span>
 
-<span class="nc" id="L223">    return afterBuildRequest(url, requestBuilder, logBlueprint).build();</span>
+<span class="nc" id="L275">    return afterBuildRequest(url, requestBuilder, logBlueprint).build();</span>
   }
 
   private boolean shouldBeStreamed(MultipartFormDataRequest body, Long thresholdBytes) {
-<span class="nc bnc" id="L227" title="All 2 branches missed.">    if (thresholdBytes == null) {</span>
-<span class="nc" id="L228">      return false;</span>
+<span class="nc bnc" id="L279" title="All 2 branches missed.">    if (thresholdBytes == null) {</span>
+<span class="nc" id="L280">      return false;</span>
     }
-<span class="nc" id="L230">    MultipartFormDataRequest.FilePart filePart =</span>
-<span class="nc" id="L231">        body.getParts().stream()</span>
-<span class="nc" id="L232">            .filter(part -&gt; part instanceof MultipartFormDataRequest.FilePart)</span>
-<span class="nc" id="L233">            .map(part -&gt; (MultipartFormDataRequest.FilePart) part)</span>
-<span class="nc" id="L234">            .findFirst()</span>
-<span class="nc" id="L235">            .orElse(null);</span>
-<span class="nc bnc" id="L236" title="All 2 branches missed.">    if (filePart != null) {</span>
-<span class="nc" id="L237">      File file = filePart.getContent();</span>
-<span class="nc bnc" id="L238" title="All 4 branches missed.">      return file != null &amp;&amp; file.length() &gt;= thresholdBytes;</span>
+<span class="nc" id="L282">    MultipartFormDataRequest.FilePart filePart =</span>
+<span class="nc" id="L283">        body.getParts().stream()</span>
+<span class="nc" id="L284">            .filter(part -&gt; part instanceof MultipartFormDataRequest.FilePart)</span>
+<span class="nc" id="L285">            .map(part -&gt; (MultipartFormDataRequest.FilePart) part)</span>
+<span class="nc" id="L286">            .findFirst()</span>
+<span class="nc" id="L287">            .orElse(null);</span>
+<span class="nc bnc" id="L288" title="All 2 branches missed.">    if (filePart != null) {</span>
+<span class="nc" id="L289">      File file = filePart.getContent();</span>
+<span class="nc bnc" id="L290" title="All 4 branches missed.">      return file != null &amp;&amp; file.length() &gt;= thresholdBytes;</span>
     }
-<span class="nc" id="L240">    return false;</span>
+<span class="nc" id="L292">    return false;</span>
   }
 
   protected Request.Builder afterBuildRequest(
       String url, Request.Builder requestBuilder, String logBlueprint) {
-<span class="nc" id="L245">    return requestBuilder;</span>
+<span class="nc" id="L297">    return requestBuilder;</span>
   }
 
   // TODO customizable logger
-  protected Logger getLogger() {
-<span class="nc" id="L250">    return LOGGER;</span>
+  protected Logger getLoggechr() {
+<span class="nc" id="L302">    return LOGGER;</span>
   }
 
   protected HttpTransportConfig getConfig() {
-<span class="nc" id="L254">    return config;</span>
+<span class="nc" id="L306">    return config;</span>
+  }
+
+  protected Class&lt;?&gt; getErrorType(String serviceId) {
+<span class="nc" id="L310">    return (Class&lt;?&gt;) String.class;</span>
   }
 
   // TODO do I need this?
   public void shutdown() {
-<span class="nc bnc" id="L259" title="All 2 branches missed.">    if (httpClient != null) {</span>
-<span class="nc" id="L260">      httpClient.dispatcher().executorService().shutdown();</span>
-<span class="nc" id="L261">      httpClient.connectionPool().evictAll();</span>
+<span class="nc bnc" id="L315" title="All 2 branches missed.">    if (httpClient != null) {</span>
+<span class="nc" id="L316">      httpClient.dispatcher().executorService().shutdown();</span>
+<span class="nc" id="L317">      httpClient.connectionPool().evictAll();</span>
     }
-<span class="nc" id="L263">  }</span>
+<span class="nc" id="L319">  }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

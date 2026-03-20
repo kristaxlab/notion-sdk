@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PropertiesStep.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">notion-sdk</a> &gt; <a href="index.source.html" class="el_package">io.kristixlab.notion.api.model.datasources.properties.helper</a> &gt; <span class="el_source">PropertiesStep.java</span></div><h1>PropertiesStep.java</h1><pre class="source lang-java linenums">package io.kristixlab.notion.api.model.datasources.properties.helper;
+
+import io.kristixlab.notion.api.model.datasources.properties.DataSourcePropertySchemaParams;
+import java.util.Map;
+import java.util.function.Consumer;
+
+/**
+ * A step in a fluent request-builder chain that configures a data source property schema.
+ *
+ * &lt;p&gt;Instances are returned by {@code propertiesBuilder()} on request-builder classes such as
+ * {@code CreateDatabaseParams.Builder} and {@code CreateDataSourceParams.Builder}. Every property
+ * method (defined in {@link AbstractDataSourceSchemaBuilder}) returns {@code PropertiesStep&lt;P&gt;},
+ * keeping the chain unbroken. Call {@link #buildProperties()} to finalise the schema and return to
+ * the parent builder.
+ *
+ * &lt;pre&gt;{@code
+ * CreateDatabaseParams params = CreateDatabaseParams.builder()
+ *     .parentPage(pageId)
+ *     .title(&quot;My DB&quot;)
+ *     .propertiesBuilder()                        // → PropertiesStep&lt;Builder&gt;
+ *         .title(&quot;Name&quot;)                          // → PropertiesStep&lt;Builder&gt;
+ *         .number(&quot;Price&quot;, NumberFormatType.EURO) // → PropertiesStep&lt;Builder&gt;
+ *         .select(&quot;Status&quot;, &quot;Active&quot;, &quot;Archived&quot;) // → PropertiesStep&lt;Builder&gt;
+ *     .buildProperties()                          // → Builder
+ *     .build();                                   // → CreateDatabaseParams
+ * }&lt;/pre&gt;
+ *
+ * @param &lt;PARENT&gt; the type of the parent builder to return to after {@link #buildProperties()}
+ * @see DataSourceSchemaBuilder
+ * @see AbstractDataSourceSchemaBuilder
+ */
+public final class PropertiesStep&lt;PARENT&gt;
+    extends AbstractDataSourceSchemaBuilder&lt;PropertiesStep&lt;PARENT&gt;&gt; {
+
+  private final PARENT parent;
+  private final Consumer&lt;Map&lt;String, DataSourcePropertySchemaParams&gt;&gt; setter;
+
+  /**
+   * Creates a new step builder.
+   *
+   * @param parent the parent builder to return to via {@link #buildProperties()}
+   * @param setter a consumer that applies the finished schema map to the parent builder
+   */
+  public PropertiesStep(
+<span class="nc" id="L45">      PARENT parent, Consumer&lt;Map&lt;String, DataSourcePropertySchemaParams&gt;&gt; setter) {</span>
+<span class="nc" id="L46">    this.parent = parent;</span>
+<span class="nc" id="L47">    this.setter = setter;</span>
+<span class="nc" id="L48">  }</span>
+
+  /**
+   * Finalises the property schema and returns to the parent builder.
+   *
+   * &lt;p&gt;Equivalent to calling {@link AbstractDataSourceSchemaBuilder#build()} and passing the result
+   * to the parent's {@code properties(Map)} method, but without breaking the chain.
+   *
+   * @return the parent builder for continued configuration
+   */
+  public PARENT buildProperties() {
+<span class="nc" id="L59">    setter.accept(build());</span>
+<span class="nc" id="L60">    return parent;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

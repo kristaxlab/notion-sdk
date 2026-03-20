@@ -11,24 +11,27 @@ Visit https://notion.so/profile/integrations to create and manage public and pri
 import io.kristixlab.notion.api.endpoints.*;
 import io.kristixlab.notion.api.endpoints.impl.*;
 import io.kristixlab.notion.api.http.NotionHttpTransport;
+import io.kristixlab.notion.api.http.transport.HttpTransport;
+import io.kristixlab.notion.api.http.transport.log.ExchangeLogger;
 import lombok.Getter;
 
 public class NotionApiClient {
 
-  private static final String VERSION = &quot;2025-09-03&quot;;
+  private static final String VERSION = &quot;2026-03-11&quot;;
   private static final String BASE_URL = &quot;https://api.notion.com/v1/&quot;;
 
-<span class="nc" id="L21">  @Getter private final NotionAuthSettings authSettings = new NotionAuthSettings();</span>
+<span class="nc" id="L23">  @Getter private final NotionAuthSettings authSettings = new NotionAuthSettings();</span>
 
   /** Transport layer for making API calls */
-  private NotionHttpTransport transport;
+  private HttpTransport transport;
 
   /** Api classes */
   private AuthorizationEndpointImpl authorizationApi;
 
   private BlocksEndpointImpl blocksEndpointImpl;
   private PagesEndpointImpl pagesApi;
-  private DatabasesEndpointImpl databasesEndpointImpl;
+  private DatabasesEndpointImpl databasesApi;
+  private DataSourcesEndpointImpl dataSourcesApi;
   private CommentsEndpointImpl commentsApi;
   private FileUploadsEndpointImpl fileUploadsApi;
   private SearchEndpointImpl searchApi;
@@ -47,7 +50,7 @@ public class NotionApiClient {
    * If NOTION_AUTH_TOKEN is set, it takes precedence over client id and token. If neither is set,
    * an IllegalArgumentException is thrown.
    */
-<span class="nc" id="L50">  public NotionApiClient() {}</span>
+<span class="nc" id="L53">  public NotionApiClient() {}</span>
 
   /**
    * Constructor using a direct access token.
@@ -57,53 +60,18 @@ public class NotionApiClient {
    *     precedence over OAuth credentials.
    * @throws IllegalArgumentException if token is null or empty
    */
-<span class="nc" id="L60">  public NotionApiClient(String token) {</span>
-<span class="nc" id="L61">    initWithAuthToken(token);</span>
-<span class="nc" id="L62">  }</span>
-
-  /**
-   * Constructor using public integration credentials.
-   *
-   * @param clientId The client ID for the Notion public integration. Must not be null or empty.
-   * @param clientToken The client token for the Notion public integration. Must not be null or
-   *     empty.
-   * @param redirectUri The redirect URI for the Notion public integration. Can be null or empty if
-   *     not applicable.
-   * @throws IllegalArgumentException if clientId or clientToken is null or empty
-   */
-<span class="nc" id="L74">  public NotionApiClient(String clientId, String clientToken, String redirectUri) {</span>
-<span class="nc" id="L75">    initAsPublicIntegration(clientId, clientToken, redirectUri, null, null);</span>
-<span class="nc" id="L76">  }</span>
-
-  /**
-   * Constructor using public integration credentials.
-   *
-   * @param clientId The client ID for the Notion public integration. Must not be null or empty.
-   * @param clientToken The client token for the Notion public integration. Must not be null or
-   *     empty.
-   * @param redirectUri The redirect URI for the Notion public integration. Can be null or empty if
-   *     not applicable.
-   * @param accessToken The access token for the Notion API.
-   * @param refreshToken The refresh token for the Notion API.
-   * @throws IllegalArgumentException if clientId or clientToken is null or empty
-   */
-  public NotionApiClient(
-      String clientId,
-      String clientToken,
-      String redirectUri,
-      String accessToken,
-<span class="nc" id="L95">      String refreshToken) {</span>
-<span class="nc" id="L96">    initAsPublicIntegration(clientId, clientToken, redirectUri, accessToken, refreshToken);</span>
-<span class="nc" id="L97">  }</span>
+<span class="nc" id="L63">  public NotionApiClient(String token) {</span>
+<span class="nc" id="L64">    initWithAuthToken(token);</span>
+<span class="nc" id="L65">    transport = new NotionHttpTransport(this.getAuthSettings());</span>
+<span class="nc" id="L66">    initApis(transport);</span>
+<span class="nc" id="L67">  }</span>
 
   private void initWithAuthToken(String token) {
-<span class="nc bnc" id="L100" title="All 4 branches missed.">    if (token == null || token.isEmpty()) {</span>
-<span class="nc" id="L101">      throw new IllegalArgumentException(&quot;Token cannot be null or empty&quot;);</span>
+<span class="nc bnc" id="L70" title="All 4 branches missed.">    if (token == null || token.isEmpty()) {</span>
+<span class="nc" id="L71">      throw new IllegalArgumentException(&quot;Token cannot be null or empty&quot;);</span>
     }
-<span class="nc" id="L103">    authSettings.setAccessToken(token);</span>
-<span class="nc" id="L104">    transport = new NotionHttpTransport(this.getAuthSettings());</span>
-<span class="nc" id="L105">    initApis(transport);</span>
-<span class="nc" id="L106">  }</span>
+<span class="nc" id="L73">    authSettings.setAccessToken(token);</span>
+<span class="nc" id="L74">  }</span>
 
   private void initAsPublicIntegration(
       String clientId,
@@ -111,82 +79,250 @@ public class NotionApiClient {
       String redirectUri,
       String accessToken,
       String refreshToken) {
-<span class="nc bnc" id="L114" title="All 4 branches missed.">    if (clientId == null || clientId.isEmpty()) {</span>
-<span class="nc" id="L115">      throw new IllegalArgumentException(&quot;Client id cannot be null or empty&quot;);</span>
+<span class="nc bnc" id="L82" title="All 4 branches missed.">    if (clientId == null || clientId.isEmpty()) {</span>
+<span class="nc" id="L83">      throw new IllegalArgumentException(&quot;Client id cannot be null or empty&quot;);</span>
     }
-<span class="nc bnc" id="L117" title="All 4 branches missed.">    if (clientToken == null || clientToken.isEmpty()) {</span>
-<span class="nc" id="L118">      throw new IllegalArgumentException(&quot;Client token cannot be null or empty&quot;);</span>
+<span class="nc bnc" id="L85" title="All 4 branches missed.">    if (clientToken == null || clientToken.isEmpty()) {</span>
+<span class="nc" id="L86">      throw new IllegalArgumentException(&quot;Client token cannot be null or empty&quot;);</span>
     }
-<span class="nc" id="L120">    authSettings.setClientId(clientId);</span>
-<span class="nc" id="L121">    authSettings.setClientSecret(clientToken);</span>
-<span class="nc" id="L122">    authSettings.setRedirectUri(redirectUri);</span>
-<span class="nc" id="L123">    authSettings.setAccessToken(accessToken);</span>
-<span class="nc" id="L124">    authSettings.setRefreshToken(refreshToken);</span>
-<span class="nc" id="L125">    transport = new NotionHttpTransport(this.getAuthSettings());</span>
-<span class="nc" id="L126">    initApis(transport);</span>
-<span class="nc" id="L127">  }</span>
+<span class="nc" id="L88">    authSettings.setClientId(clientId);</span>
+<span class="nc" id="L89">    authSettings.setClientSecret(clientToken);</span>
+<span class="nc" id="L90">    authSettings.setRedirectUri(redirectUri);</span>
+<span class="nc" id="L91">    authSettings.setAccessToken(accessToken);</span>
+<span class="nc" id="L92">    authSettings.setRefreshToken(refreshToken);</span>
+<span class="nc" id="L93">  }</span>
 
-  private void initApis(NotionHttpTransport transport) {
-<span class="nc" id="L130">    this.authorizationApi = new AuthorizationEndpointImpl(this.getAuthSettings(), transport);</span>
-<span class="nc" id="L131">    this.blocksEndpointImpl = new BlocksEndpointImpl(transport);</span>
-<span class="nc" id="L132">    this.pagesApi = new PagesEndpointImpl(transport);</span>
-<span class="nc" id="L133">    this.databasesEndpointImpl = new DatabasesEndpointImpl(transport);</span>
-<span class="nc" id="L134">    this.commentsApi = new CommentsEndpointImpl(transport);</span>
-<span class="nc" id="L135">    this.fileUploadsApi = new FileUploadsEndpointImpl(transport);</span>
-<span class="nc" id="L136">    this.searchApi = new SearchEndpointImpl(transport);</span>
-<span class="nc" id="L137">    this.usersApi = new UsersEndpointImpl(transport);</span>
-<span class="nc" id="L138">  }</span>
+  private void initApis(HttpTransport transport) {
+<span class="nc" id="L96">    this.authorizationApi = new AuthorizationEndpointImpl(this.getAuthSettings(), transport);</span>
+<span class="nc" id="L97">    this.blocksEndpointImpl = new BlocksEndpointImpl(transport);</span>
+<span class="nc" id="L98">    this.pagesApi = new PagesEndpointImpl(transport);</span>
+<span class="nc" id="L99">    this.databasesApi = new DatabasesEndpointImpl(transport);</span>
+<span class="nc" id="L100">    this.dataSourcesApi = new DataSourcesEndpointImpl(transport);</span>
+<span class="nc" id="L101">    this.commentsApi = new CommentsEndpointImpl(transport);</span>
+<span class="nc" id="L102">    this.fileUploadsApi = new FileUploadsEndpointImpl(transport);</span>
+<span class="nc" id="L103">    this.searchApi = new SearchEndpointImpl(transport);</span>
+<span class="nc" id="L104">    this.usersApi = new UsersEndpointImpl(transport);</span>
+<span class="nc" id="L105">  }</span>
 
   public AuthorizationEndpoint authorization() {
-<span class="nc" id="L141">    return authorizationApi;</span>
+<span class="nc" id="L108">    return authorizationApi;</span>
   }
 
   public BlocksEndpoint blocks() {
-<span class="nc" id="L145">    return blocksEndpointImpl;</span>
+<span class="nc" id="L112">    return blocksEndpointImpl;</span>
   }
 
   public PagesEndpoint pages() {
-<span class="nc" id="L149">    return pagesApi;</span>
+<span class="nc" id="L116">    return pagesApi;</span>
   }
 
   public DatabasesEndpoint databases() {
-<span class="nc" id="L153">    return databasesEndpointImpl;</span>
+<span class="nc" id="L120">    return databasesApi;</span>
+  }
+
+  public DataSourcesEndpoint dataSources() {
+<span class="nc" id="L124">    return dataSourcesApi;</span>
   }
 
   public CommentsEndpoint comments() {
-<span class="nc" id="L157">    return commentsApi;</span>
+<span class="nc" id="L128">    return commentsApi;</span>
   }
 
   public FileUploadsEndpoint fileUploads() {
-<span class="nc" id="L161">    return fileUploadsApi;</span>
+<span class="nc" id="L132">    return fileUploadsApi;</span>
   }
 
   public SearchEndpoint search() {
-<span class="nc" id="L165">    return searchApi;</span>
+<span class="nc" id="L136">    return searchApi;</span>
   }
 
   public UsersEndpoint users() {
-<span class="nc" id="L169">    return usersApi;</span>
+<span class="nc" id="L140">    return usersApi;</span>
   }
 
   public String getVersion() {
-<span class="nc" id="L173">    return VERSION;</span>
+<span class="nc" id="L144">    return VERSION;</span>
   }
 
   public String getBaseUrl() {
-<span class="nc" id="L177">    return BASE_URL;</span>
+<span class="nc" id="L148">    return BASE_URL;</span>
   }
 
-  private NotionHttpTransport getTransport() {
-<span class="nc" id="L181">    return transport;</span>
+  private HttpTransport getTransport() {
+<span class="nc" id="L152">    return transport;</span>
   }
 
-  public void shutdown() {
-    try {
-<span class="nc" id="L186">      transport.shutdown();</span>
-<span class="nc" id="L187">    } catch (Exception e) {</span>
-      // calm shutdown
-<span class="nc" id="L189">    }</span>
-<span class="nc" id="L190">  }</span>
+  /**
+   * Returns a new {@link Builder} for creating a {@link NotionApiClient} with custom settings.
+   *
+   * &lt;p&gt;Usage examples:
+   *
+   * &lt;pre&gt;{@code
+   * // Private integration
+   * NotionApiClient client = NotionApiClient.builder()
+   *     .authToken(&quot;secret_xxx&quot;)
+   *     .create();
+   *
+   * // Public integration with custom HTTP transport
+   * NotionApiClient client = NotionApiClient.builder()
+   *     .clientId(&quot;id&quot;)
+   *     .clientToken(&quot;token&quot;)
+   *     .redirectUri(&quot;https://myapp.com/callback&quot;)
+   *     .httpClient(myTransport)
+   *     .create();
+   * }&lt;/pre&gt;
+   *
+   * @return a new {@link Builder} instance
+   */
+  public static Builder builder() {
+<span class="nc" id="L178">    return new Builder();</span>
+  }
+
+  /**
+   * Builder for {@link NotionApiClient}.
+   *
+   * &lt;p&gt;Supports both private token and public integration (OAuth) authentication, with optional
+   * injection of a custom {@link HttpTransport} for transport-level control (e.g. mocking in tests,
+   * custom interceptors). If no transport is provided, a default {@link NotionHttpTransport} is
+   * used.
+   *
+   * &lt;p&gt;Call {@link #build()} as the terminal method to produce the fully initialized client.
+   */
+  public static final class Builder {
+
+    private String authToken;
+    private String clientId;
+    private String clientToken;
+    private String redirectUri;
+    private String accessToken;
+    private String refreshToken;
+    private HttpTransport httpClient;
+
+    private ExchangeLogger customExchangeLogger;
+
+    private Builder() {}
+
+    /**
+     * Sets the private integration access token.
+     *
+     * @param authToken the Notion integration token; must not be null or empty when {@link
+     *     #build()} is called without OAuth credentials
+     */
+    public Builder authToken(String authToken) {
+<span class="nc" id="L212">      this.authToken = authToken;</span>
+<span class="nc" id="L213">      return this;</span>
+    }
+
+    /**
+     * Sets the OAuth client ID for a public integration.
+     *
+     * @param clientId the OAuth client ID; must not be null or empty
+     */
+    public Builder clientId(String clientId) {
+<span class="nc" id="L222">      this.clientId = clientId;</span>
+<span class="nc" id="L223">      return this;</span>
+    }
+
+    /**
+     * Sets the OAuth client token (secret) for a public integration.
+     *
+     * @param clientToken the OAuth client secret; must not be null or empty
+     */
+    public Builder clientToken(String clientToken) {
+<span class="nc" id="L232">      this.clientToken = clientToken;</span>
+<span class="nc" id="L233">      return this;</span>
+    }
+
+    /**
+     * Sets the redirect URI for a public integration.
+     *
+     * @param redirectUri the redirect URI; may be null
+     */
+    public Builder redirectUri(String redirectUri) {
+<span class="nc" id="L242">      this.redirectUri = redirectUri;</span>
+<span class="nc" id="L243">      return this;</span>
+    }
+
+    /**
+     * Sets a pre-obtained OAuth access token.
+     *
+     * @param accessToken the access token; may be null
+     */
+    public Builder accessToken(String accessToken) {
+<span class="nc" id="L252">      this.accessToken = accessToken;</span>
+<span class="nc" id="L253">      return this;</span>
+    }
+
+    /**
+     * Sets a pre-obtained OAuth refresh token.
+     *
+     * @param refreshToken the refresh token; may be null
+     */
+    public Builder refreshToken(String refreshToken) {
+<span class="nc" id="L262">      this.refreshToken = refreshToken;</span>
+<span class="nc" id="L263">      return this;</span>
+    }
+
+    /**
+     * Sets a custom {@link HttpTransport} to use as the underlying HTTP transport.
+     *
+     * &lt;p&gt;Use this to inject a mock transport in unit tests or a custom implementation with specific
+     * logging, retry, or proxy behavior. If not set, a default {@link NotionHttpTransport} is
+     * created automatically.
+     *
+     * @param httpClient the transport instance; if null, the default transport is used
+     */
+    public Builder httpClient(HttpTransport httpClient) {
+<span class="nc" id="L276">      this.httpClient = httpClient;</span>
+<span class="nc" id="L277">      return this;</span>
+    }
+
+    /**
+     * Sets a custom {@link ExchangeLogger} for logging API exchanges.
+     *
+     * &lt;p&gt;This logger will be used by the default {@link NotionHttpTransport} if no custom transport
+     * is provided. If a custom transport is set, it is the responsibility of that transport to use
+     * the provided logger.
+     *
+     * @param exchangeLogger the logger instance; may be null
+     */
+    public Builder exchangeLogger(ExchangeLogger exchangeLogger) {
+<span class="nc" id="L290">      this.customExchangeLogger = exchangeLogger;</span>
+<span class="nc" id="L291">      return this;</span>
+    }
+
+    /**
+     * Creates a fully initialized {@link NotionApiClient} based on the current configuration.
+     *
+     * &lt;p&gt;Either {@code authToken} or both {@code clientId} and {@code clientToken} must be set. If
+     * no {@code httpClient} is configured, a default {@link NotionHttpTransport} is created.
+     *
+     * @return a configured {@link NotionApiClient}
+     * @throws IllegalArgumentException if neither auth token nor OAuth credentials are provided
+     */
+    public NotionApiClient build() {
+<span class="nc" id="L304">      NotionApiClient client = new NotionApiClient();</span>
+<span class="nc bnc" id="L305" title="All 4 branches missed.">      if (authToken != null &amp;&amp; !authToken.isEmpty()) {</span>
+<span class="nc" id="L306">        client.initWithAuthToken(authToken);</span>
+<span class="nc bnc" id="L307" title="All 4 branches missed.">      } else if (clientId != null &amp;&amp; clientToken != null) {</span>
+<span class="nc" id="L308">        client.initAsPublicIntegration(</span>
+            clientId, clientToken, redirectUri, accessToken, refreshToken);
+      } else {
+<span class="nc" id="L311">        throw new IllegalArgumentException(</span>
+            &quot;Either authToken or clientId/clientToken must be provided&quot;);
+      }
+<span class="nc" id="L314">      client.transport = resolveTransport(client.getAuthSettings());</span>
+<span class="nc" id="L315">      client.initApis(client.transport);</span>
+<span class="nc" id="L316">      return client;</span>
+    }
+
+    private HttpTransport resolveTransport(NotionAuthSettings authSettings) {
+      // TODO should I force custom httpclient to include Notion specific AUth settings?
+<span class="nc bnc" id="L321" title="All 2 branches missed.">      if (httpClient != null) {</span>
+<span class="nc" id="L322">        return httpClient;</span>
+      }
+<span class="nc" id="L324">      return new NotionHttpTransport(authSettings, customExchangeLogger);</span>
+    }
+  }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

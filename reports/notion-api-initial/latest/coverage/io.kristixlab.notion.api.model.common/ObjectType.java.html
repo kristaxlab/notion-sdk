@@ -11,19 +11,19 @@
 <span class="nc" id="L11">  LIST(&quot;list&quot;),</span>
 <span class="nc" id="L12">  PROPERTY_ITEM(&quot;property_item&quot;);</span>
 
-  private final String type;
+  private final String value;
 
-<span class="nc" id="L16">  ObjectType(String type) {</span>
-<span class="nc" id="L17">    this.type = type;</span>
+<span class="nc" id="L16">  ObjectType(String value) {</span>
+<span class="nc" id="L17">    this.value = value;</span>
 <span class="nc" id="L18">  }</span>
 
-  public String getType() {
-<span class="nc" id="L21">    return type;</span>
+  public String getValue() {
+<span class="nc" id="L21">    return value;</span>
   }
 
-  public ObjectType fromType(String type) {
+  public ObjectType fromValue(String type) {
 <span class="nc bnc" id="L25" title="All 2 branches missed.">    for (ObjectType propertyType : ObjectType.values()) {</span>
-<span class="nc bnc" id="L26" title="All 2 branches missed.">      if (propertyType.type.equals(type)) {</span>
+<span class="nc bnc" id="L26" title="All 2 branches missed.">      if (propertyType.value.equals(type)) {</span>
 <span class="nc" id="L27">        return propertyType;</span>
       }
     }

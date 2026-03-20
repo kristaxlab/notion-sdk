@@ -20,13 +20,13 @@
 <tr>
 <td>
 <div class="infoBox" id="tests">
-<div class="counter">144</div>
+<div class="counter">240</div>
 <p>tests</p>
 </div>
 </td>
 <td>
 <div class="infoBox" id="failures">
-<div class="counter">0</div>
+<div class="counter">3</div>
 <p>failures</p>
 </div>
 </td>
@@ -38,7 +38,7 @@
 </td>
 <td>
 <div class="infoBox" id="duration">
-<div class="counter">0.703s</div>
+<div class="counter">0.679s</div>
 <p>duration</p>
 </div>
 </td>
@@ -47,8 +47,8 @@
 </div>
 </td>
 <td>
-<div class="infoBox success" id="successRate">
-<div class="percent">100%</div>
+<div class="infoBox failures" id="successRate">
+<div class="percent">98%</div>
 <p>successful</p>
 </div>
 </td>
@@ -58,12 +58,32 @@
 <div class="tab-container">
 <ul class="tabLinks">
 <li>
+<a href="#">Failed tests</a>
+</li>
+<li>
 <a href="#">Packages</a>
 </li>
 <li>
 <a href="#">Classes</a>
 </li>
 </ul>
+<div class="tab">
+<h2>Failed tests</h2>
+<ul class="linkList">
+<li>
+<a href="classes/io.kristixlab.notion.api.endpoints.impl.DataSourcesEndpointImplTest.html">DataSourcesEndpointImplTest</a>.
+<a href="classes/io.kristixlab.notion.api.endpoints.impl.DataSourcesEndpointImplTest.html#delete()">delete()</a>
+</li>
+<li>
+<a href="classes/io.kristixlab.notion.api.endpoints.impl.DataSourcesEndpointImplTest.html">DataSourcesEndpointImplTest</a>.
+<a href="classes/io.kristixlab.notion.api.endpoints.impl.DataSourcesEndpointImplTest.html#query_withoutFilters()">query_withoutFilters()</a>
+</li>
+<li>
+<a href="classes/io.kristixlab.notion.api.endpoints.impl.DataSourcesEndpointImplTest.html">DataSourcesEndpointImplTest</a>.
+<a href="classes/io.kristixlab.notion.api.endpoints.impl.DataSourcesEndpointImplTest.html#restore()">restore()</a>
+</li>
+</ul>
+</div>
 <div class="tab">
 <h2>Packages</h2>
 <table>
@@ -85,7 +105,27 @@
 <td>10</td>
 <td>0</td>
 <td>0</td>
-<td>0.282s</td>
+<td>0.221s</td>
+<td class="success">100%</td>
+</tr>
+<tr>
+<td class="failures">
+<a href="packages/io.kristixlab.notion.api.endpoints.impl.html">io.kristixlab.notion.api.endpoints.impl</a>
+</td>
+<td>210</td>
+<td>3</td>
+<td>0</td>
+<td>0.286s</td>
+<td class="failures">98%</td>
+</tr>
+<tr>
+<td class="success">
+<a href="packages/io.kristixlab.notion.api.http.transport.rq.html">io.kristixlab.notion.api.http.transport.rq</a>
+</td>
+<td>17</td>
+<td>0</td>
+<td>0</td>
+<td>0.005s</td>
 <td class="success">100%</td>
 </tr>
 <tr>
@@ -95,87 +135,7 @@
 <td>3</td>
 <td>0</td>
 <td>0</td>
-<td>0.203s</td>
-<td class="success">100%</td>
-</tr>
-<tr>
-<td class="success">
-<a href="packages/io.kristixlab.notion.api.model.blocks.html">io.kristixlab.notion.api.model.blocks</a>
-</td>
-<td>44</td>
-<td>0</td>
-<td>0</td>
-<td>0.032s</td>
-<td class="success">100%</td>
-</tr>
-<tr>
-<td class="success">
-<a href="packages/io.kristixlab.notion.api.model.comments.html">io.kristixlab.notion.api.model.comments</a>
-</td>
-<td>10</td>
-<td>0</td>
-<td>0</td>
-<td>0.039s</td>
-<td class="success">100%</td>
-</tr>
-<tr>
-<td class="success">
-<a href="packages/io.kristixlab.notion.api.model.databases.html">io.kristixlab.notion.api.model.databases</a>
-</td>
-<td>3</td>
-<td>0</td>
-<td>0</td>
-<td>0.054s</td>
-<td class="success">100%</td>
-</tr>
-<tr>
-<td class="success">
-<a href="packages/io.kristixlab.notion.api.model.datasources.html">io.kristixlab.notion.api.model.datasources</a>
-</td>
-<td>17</td>
-<td>0</td>
-<td>0</td>
-<td>0.009s</td>
-<td class="success">100%</td>
-</tr>
-<tr>
-<td class="success">
-<a href="packages/io.kristixlab.notion.api.model.files.html">io.kristixlab.notion.api.model.files</a>
-</td>
-<td>4</td>
-<td>0</td>
-<td>0</td>
-<td>0.013s</td>
-<td class="success">100%</td>
-</tr>
-<tr>
-<td class="success">
-<a href="packages/io.kristixlab.notion.api.model.pages.html">io.kristixlab.notion.api.model.pages</a>
-</td>
-<td>46</td>
-<td>0</td>
-<td>0</td>
-<td>0.054s</td>
-<td class="success">100%</td>
-</tr>
-<tr>
-<td class="success">
-<a href="packages/io.kristixlab.notion.api.model.search.html">io.kristixlab.notion.api.model.search</a>
-</td>
-<td>4</td>
-<td>0</td>
-<td>0</td>
-<td>0.012s</td>
-<td class="success">100%</td>
-</tr>
-<tr>
-<td class="success">
-<a href="packages/io.kristixlab.notion.api.model.users.html">io.kristixlab.notion.api.model.users</a>
-</td>
-<td>3</td>
-<td>0</td>
-<td>0</td>
-<td>0.005s</td>
+<td>0.167s</td>
 <td class="success">100%</td>
 </tr>
 </tbody>
@@ -202,7 +162,107 @@
 <td>10</td>
 <td>0</td>
 <td>0</td>
-<td>0.282s</td>
+<td>0.221s</td>
+<td class="success">100%</td>
+</tr>
+<tr>
+<td class="success">
+<a href="classes/io.kristixlab.notion.api.endpoints.impl.AuthorizationEndpointImplTest.html">io.kristixlab.notion.api.endpoints.impl.AuthorizationEndpointImplTest</a>
+</td>
+<td>33</td>
+<td>0</td>
+<td>0</td>
+<td>0.076s</td>
+<td class="success">100%</td>
+</tr>
+<tr>
+<td class="success">
+<a href="classes/io.kristixlab.notion.api.endpoints.impl.BlocksEndpointImplTest.html">io.kristixlab.notion.api.endpoints.impl.BlocksEndpointImplTest</a>
+</td>
+<td>30</td>
+<td>0</td>
+<td>0</td>
+<td>0.036s</td>
+<td class="success">100%</td>
+</tr>
+<tr>
+<td class="success">
+<a href="classes/io.kristixlab.notion.api.endpoints.impl.CommentsEndpointImplTest.html">io.kristixlab.notion.api.endpoints.impl.CommentsEndpointImplTest</a>
+</td>
+<td>13</td>
+<td>0</td>
+<td>0</td>
+<td>0.016s</td>
+<td class="success">100%</td>
+</tr>
+<tr>
+<td class="failures">
+<a href="classes/io.kristixlab.notion.api.endpoints.impl.DataSourcesEndpointImplTest.html">io.kristixlab.notion.api.endpoints.impl.DataSourcesEndpointImplTest</a>
+</td>
+<td>25</td>
+<td>3</td>
+<td>0</td>
+<td>0.040s</td>
+<td class="failures">88%</td>
+</tr>
+<tr>
+<td class="success">
+<a href="classes/io.kristixlab.notion.api.endpoints.impl.DatabasesEndpointImplTest.html">io.kristixlab.notion.api.endpoints.impl.DatabasesEndpointImplTest</a>
+</td>
+<td>14</td>
+<td>0</td>
+<td>0</td>
+<td>0.031s</td>
+<td class="success">100%</td>
+</tr>
+<tr>
+<td class="success">
+<a href="classes/io.kristixlab.notion.api.endpoints.impl.FileUploadsEndpointImplTest.html">io.kristixlab.notion.api.endpoints.impl.FileUploadsEndpointImplTest</a>
+</td>
+<td>35</td>
+<td>0</td>
+<td>0</td>
+<td>0.032s</td>
+<td class="success">100%</td>
+</tr>
+<tr>
+<td class="success">
+<a href="classes/io.kristixlab.notion.api.endpoints.impl.PagesEndpointImplTest.html">io.kristixlab.notion.api.endpoints.impl.PagesEndpointImplTest</a>
+</td>
+<td>38</td>
+<td>0</td>
+<td>0</td>
+<td>0.036s</td>
+<td class="success">100%</td>
+</tr>
+<tr>
+<td class="success">
+<a href="classes/io.kristixlab.notion.api.endpoints.impl.SearchEndpointImplTest.html">io.kristixlab.notion.api.endpoints.impl.SearchEndpointImplTest</a>
+</td>
+<td>13</td>
+<td>0</td>
+<td>0</td>
+<td>0.008s</td>
+<td class="success">100%</td>
+</tr>
+<tr>
+<td class="success">
+<a href="classes/io.kristixlab.notion.api.endpoints.impl.UsersEndpointImplTest.html">io.kristixlab.notion.api.endpoints.impl.UsersEndpointImplTest</a>
+</td>
+<td>9</td>
+<td>0</td>
+<td>0</td>
+<td>0.011s</td>
+<td class="success">100%</td>
+</tr>
+<tr>
+<td class="success">
+<a href="classes/io.kristixlab.notion.api.http.transport.rq.URLInfoTest.html">io.kristixlab.notion.api.http.transport.rq.URLInfoTest</a>
+</td>
+<td>17</td>
+<td>0</td>
+<td>0</td>
+<td>0.005s</td>
 <td class="success">100%</td>
 </tr>
 <tr>
@@ -212,167 +272,7 @@
 <td>3</td>
 <td>0</td>
 <td>0</td>
-<td>0.203s</td>
-<td class="success">100%</td>
-</tr>
-<tr>
-<td class="success">
-<a href="classes/io.kristixlab.notion.api.model.blocks.BlockRetrieveDeserializationTest.html">io.kristixlab.notion.api.model.blocks.BlockRetrieveDeserializationTest</a>
-</td>
-<td>1</td>
-<td>0</td>
-<td>0</td>
-<td>0.001s</td>
-<td class="success">100%</td>
-</tr>
-<tr>
-<td class="success">
-<a href="classes/io.kristixlab.notion.api.model.blocks.HeadingBlocksDeserializationTest.html">io.kristixlab.notion.api.model.blocks.HeadingBlocksDeserializationTest</a>
-</td>
-<td>6</td>
-<td>0</td>
-<td>0</td>
-<td>0.007s</td>
-<td class="success">100%</td>
-</tr>
-<tr>
-<td class="success">
-<a href="classes/io.kristixlab.notion.api.model.blocks.LIstBlocksDeserializationTest.html">io.kristixlab.notion.api.model.blocks.LIstBlocksDeserializationTest</a>
-</td>
-<td>5</td>
-<td>0</td>
-<td>0</td>
-<td>0.002s</td>
-<td class="success">100%</td>
-</tr>
-<tr>
-<td class="success">
-<a href="classes/io.kristixlab.notion.api.model.blocks.MediaBlocksDeserializationTest.html">io.kristixlab.notion.api.model.blocks.MediaBlocksDeserializationTest</a>
-</td>
-<td>7</td>
-<td>0</td>
-<td>0</td>
-<td>0.005s</td>
-<td class="success">100%</td>
-</tr>
-<tr>
-<td class="success">
-<a href="classes/io.kristixlab.notion.api.model.blocks.OtherBlocksDeserializationTest.html">io.kristixlab.notion.api.model.blocks.OtherBlocksDeserializationTest</a>
-</td>
-<td>17</td>
-<td>0</td>
-<td>0</td>
-<td>0.012s</td>
-<td class="success">100%</td>
-</tr>
-<tr>
-<td class="success">
-<a href="classes/io.kristixlab.notion.api.model.blocks.TextBlocksDeserializationTest.html">io.kristixlab.notion.api.model.blocks.TextBlocksDeserializationTest</a>
-</td>
-<td>8</td>
-<td>0</td>
-<td>0</td>
-<td>0.005s</td>
-<td class="success">100%</td>
-</tr>
-<tr>
-<td class="success">
-<a href="classes/io.kristixlab.notion.api.model.comments.CommentDeserializationTest.html">io.kristixlab.notion.api.model.comments.CommentDeserializationTest</a>
-</td>
-<td>10</td>
-<td>0</td>
-<td>0</td>
-<td>0.039s</td>
-<td class="success">100%</td>
-</tr>
-<tr>
-<td class="success">
-<a href="classes/io.kristixlab.notion.api.model.databases.DatabaseDeserializationTest.html">io.kristixlab.notion.api.model.databases.DatabaseDeserializationTest</a>
-</td>
-<td>3</td>
-<td>0</td>
-<td>0</td>
-<td>0.054s</td>
-<td class="success">100%</td>
-</tr>
-<tr>
-<td class="success">
-<a href="classes/io.kristixlab.notion.api.model.datasources.DataSourceDeserializationTest.html">io.kristixlab.notion.api.model.datasources.DataSourceDeserializationTest</a>
-</td>
-<td>17</td>
-<td>0</td>
-<td>0</td>
-<td>0.009s</td>
-<td class="success">100%</td>
-</tr>
-<tr>
-<td class="success">
-<a href="classes/io.kristixlab.notion.api.model.files.FileUploadDeserializationTest.html">io.kristixlab.notion.api.model.files.FileUploadDeserializationTest</a>
-</td>
-<td>4</td>
-<td>0</td>
-<td>0</td>
-<td>0.013s</td>
-<td class="success">100%</td>
-</tr>
-<tr>
-<td class="success">
-<a href="classes/io.kristixlab.notion.api.model.pages.CoverDeserializationTest.html">io.kristixlab.notion.api.model.pages.CoverDeserializationTest</a>
-</td>
-<td>4</td>
-<td>0</td>
-<td>0</td>
-<td>0.002s</td>
-<td class="success">100%</td>
-</tr>
-<tr>
-<td class="success">
-<a href="classes/io.kristixlab.notion.api.model.pages.IconDeserializationTest.html">io.kristixlab.notion.api.model.pages.IconDeserializationTest</a>
-</td>
-<td>4</td>
-<td>0</td>
-<td>0</td>
-<td>0.001s</td>
-<td class="success">100%</td>
-</tr>
-<tr>
-<td class="success">
-<a href="classes/io.kristixlab.notion.api.model.pages.PageDeserializationTest.html">io.kristixlab.notion.api.model.pages.PageDeserializationTest</a>
-</td>
-<td>33</td>
-<td>0</td>
-<td>0</td>
-<td>0.014s</td>
-<td class="success">100%</td>
-</tr>
-<tr>
-<td class="success">
-<a href="classes/io.kristixlab.notion.api.model.pages.PagePropertyRetrieveDeserializationTest.html">io.kristixlab.notion.api.model.pages.PagePropertyRetrieveDeserializationTest</a>
-</td>
-<td>5</td>
-<td>0</td>
-<td>0</td>
-<td>0.037s</td>
-<td class="success">100%</td>
-</tr>
-<tr>
-<td class="success">
-<a href="classes/io.kristixlab.notion.api.model.search.SearchDeserializationTest.html">io.kristixlab.notion.api.model.search.SearchDeserializationTest</a>
-</td>
-<td>4</td>
-<td>0</td>
-<td>0</td>
-<td>0.012s</td>
-<td class="success">100%</td>
-</tr>
-<tr>
-<td class="success">
-<a href="classes/io.kristixlab.notion.api.model.users.UserDeserializationTest.html">io.kristixlab.notion.api.model.users.UserDeserializationTest</a>
-</td>
-<td>3</td>
-<td>0</td>
-<td>0</td>
-<td>0.005s</td>
+<td>0.167s</td>
 <td class="success">100%</td>
 </tr>
 </tbody>
@@ -386,7 +286,7 @@
 <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
 </label>
 </div>Generated by 
-<a href="https://www.gradle.org">Gradle 8.14.4</a> at Mar 3, 2026, 8:53:33 PM</p>
+<a href="https://www.gradle.org">Gradle 8.14.4</a> at Mar 20, 2026, 5:09:59 PM</p>
 </div>
 </div>
 </body>

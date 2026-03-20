@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PagesEndpointImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">notion-sdk</a> &gt; <a href="index.source.html" class="el_package">io.kristixlab.notion.api.endpoints.impl</a> &gt; <span class="el_source">PagesEndpointImpl.java</span></div><h1>PagesEndpointImpl.java</h1><pre class="source lang-java linenums">package io.kristixlab.notion.api.endpoints.impl;
 
 import io.kristixlab.notion.api.endpoints.PagesEndpoint;
-import io.kristixlab.notion.api.http.NotionHttpTransport;
-import io.kristixlab.notion.api.http.transport.HttpTransportImpl;
+import io.kristixlab.notion.api.http.transport.HttpTransport;
 import io.kristixlab.notion.api.http.transport.rq.URLInfo;
-import io.kristixlab.notion.api.model.pages.CreatePageParams;
-import io.kristixlab.notion.api.model.pages.Page;
-import io.kristixlab.notion.api.model.pages.UpdatePageParams;
+import io.kristixlab.notion.api.model.common.Parent;
+import io.kristixlab.notion.api.model.pages.*;
 import io.kristixlab.notion.api.model.pages.properties.PageProperty;
-import io.kristixlab.notion.api.util.Pagination;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 
@@ -21,11 +18,11 @@ public class PagesEndpointImpl implements PagesEndpoint {
   private static final String PAGE_ID = &quot;page_id&quot;;
   private static final String PROPERTY_ID = &quot;property_id&quot;;
 
-  private final HttpTransportImpl transport;
+  private final HttpTransport transport;
 
-<span class="nc" id="L26">  public PagesEndpointImpl(NotionHttpTransport transport) {</span>
-<span class="nc" id="L27">    this.transport = transport;</span>
-<span class="nc" id="L28">  }</span>
+<span class="fc" id="L23">  public PagesEndpointImpl(HttpTransport transport) {</span>
+<span class="fc" id="L24">    this.transport = transport;</span>
+<span class="fc" id="L25">  }</span>
 
   /**
    * Create a new page.
@@ -34,9 +31,9 @@ public class PagesEndpointImpl implements PagesEndpoint {
    * @return The created page
    */
   public Page create(CreatePageParams request) {
-<span class="nc" id="L37">    validateRequest(request);</span>
-<span class="nc" id="L38">    URLInfo urlInfo = URLInfo.from(&quot;/pages&quot;);</span>
-<span class="nc" id="L39">    return transport.call(&quot;POST&quot;, urlInfo, request, Page.class);</span>
+<span class="fc" id="L34">    validateRequest(request);</span>
+<span class="fc" id="L35">    URLInfo urlInfo = URLInfo.from(&quot;/pages&quot;);</span>
+<span class="fc" id="L36">    return transport.call(&quot;POST&quot;, urlInfo, request, Page.class);</span>
   }
 
   /**
@@ -46,9 +43,31 @@ public class PagesEndpointImpl implements PagesEndpoint {
    * @return The page object
    */
   public Page retrieve(String pageId) {
-<span class="nc" id="L49">    validatePageId(pageId);</span>
-<span class="nc" id="L50">    URLInfo urlInfo = URLInfo.builder(&quot;/pages/{page_id}&quot;).pathParam(PAGE_ID, pageId).build();</span>
-<span class="nc" id="L51">    return transport.call(&quot;GET&quot;, urlInfo, Page.class);</span>
+<span class="fc" id="L46">    validatePageId(pageId);</span>
+<span class="fc" id="L47">    URLInfo urlInfo = URLInfo.builder(&quot;/pages/{page_id}&quot;).pathParam(PAGE_ID, pageId).build();</span>
+<span class="fc" id="L48">    return transport.call(&quot;GET&quot;, urlInfo, Page.class);</span>
+  }
+
+  public PageAsMarkdown retrieveAsMarkdown(String pageId) {
+<span class="fc" id="L52">    return retrieveAsMarkdown(pageId, false);</span>
+  }
+
+  public PageAsMarkdown retrieveAsMarkdown(String pageId, boolean includeTranscript) {
+<span class="fc" id="L56">    validatePageId(pageId);</span>
+<span class="fc" id="L57">    URLInfo urlInfo =</span>
+<span class="fc" id="L58">        URLInfo.builder(&quot;/pages/{page_id}/markdown&quot;)</span>
+<span class="fc" id="L59">            .pathParam(PAGE_ID, pageId)</span>
+<span class="fc" id="L60">            .queryParam(&quot;include_transcript&quot;, includeTranscript)</span>
+<span class="fc" id="L61">            .build();</span>
+<span class="fc" id="L62">    return transport.call(&quot;GET&quot;, urlInfo, PageAsMarkdown.class);</span>
+  }
+
+  public PageAsMarkdown updateAsMarkdown(String pageId, UpdatePageAsMarkdownParams request) {
+<span class="fc" id="L66">    validatePageId(pageId);</span>
+<span class="fc" id="L67">    validateRequest(request);</span>
+<span class="fc" id="L68">    URLInfo urlInfo =</span>
+<span class="fc" id="L69">        URLInfo.builder(&quot;/pages/{page_id}/markdown&quot;).pathParam(PAGE_ID, pageId).build();</span>
+<span class="fc" id="L70">    return transport.call(&quot;PATCH&quot;, urlInfo, request, PageAsMarkdown.class);</span>
   }
 
   /**
@@ -59,7 +78,7 @@ public class PagesEndpointImpl implements PagesEndpoint {
    * @return The property object
    */
   public PageProperty retrieveProperty(String pageId, String propertyId) {
-<span class="nc" id="L62">    return retrieveProperty(pageId, propertyId, null, null);</span>
+<span class="fc" id="L81">    return retrieveProperty(pageId, propertyId, null, null);</span>
   }
 
   /**
@@ -73,23 +92,15 @@ public class PagesEndpointImpl implements PagesEndpoint {
    */
   public PageProperty retrieveProperty(
       String pageId, String propertyId, String startCursor, Integer pageSize) {
-<span class="nc" id="L76">    validatePageId(pageId);</span>
-<span class="nc" id="L77">    validatePropertyId(propertyId);</span>
+<span class="fc" id="L95">    validatePageId(pageId);</span>
+<span class="fc" id="L96">    validatePropertyId(propertyId);</span>
 
-<span class="nc" id="L79">    URLInfo.Builder urlInfo =</span>
-<span class="nc" id="L80">        URLInfo.builder(&quot;/pages/{page_id}/properties/{property_id}&quot;)</span>
-<span class="nc" id="L81">            .pathParam(PAGE_ID, pageId)</span>
-<span class="nc" id="L82">            .pathParam(PROPERTY_ID, URLDecoder.decode(propertyId, StandardCharsets.UTF_8));</span>
+<span class="fc" id="L98">    URLInfo.Builder urlInfo =</span>
+<span class="fc" id="L99">        URLInfo.builder(&quot;/pages/{page_id}/properties/{property_id}&quot;, startCursor, pageSize)</span>
+<span class="fc" id="L100">            .pathParam(PAGE_ID, pageId)</span>
+<span class="fc" id="L101">            .pathParam(PROPERTY_ID, URLDecoder.decode(propertyId, StandardCharsets.UTF_8));</span>
 
-<span class="nc bnc" id="L84" title="All 2 branches missed.">    if (startCursor != null) {</span>
-<span class="nc" id="L85">      urlInfo.queryParam(Pagination.START_CURSOR, startCursor);</span>
-    }
-
-<span class="nc bnc" id="L88" title="All 2 branches missed.">    if (pageSize != null) {</span>
-<span class="nc" id="L89">      urlInfo.queryParam(Pagination.PAGE_SIZE, pageSize).build();</span>
-    }
-
-<span class="nc" id="L92">    return transport.call(&quot;GET&quot;, urlInfo.build(), PageProperty.class);</span>
+<span class="fc" id="L103">    return transport.call(&quot;GET&quot;, urlInfo.build(), PageProperty.class);</span>
   }
 
   /**
@@ -100,12 +111,23 @@ public class PagesEndpointImpl implements PagesEndpoint {
    * @return The updated page
    */
   public Page update(String pageId, UpdatePageParams request) {
-<span class="nc" id="L103">    validatePageId(pageId);</span>
-<span class="nc" id="L104">    validateRequest(request);</span>
+<span class="fc" id="L114">    validatePageId(pageId);</span>
+<span class="fc" id="L115">    validateRequest(request);</span>
 
-<span class="nc" id="L106">    URLInfo urlInfo = URLInfo.builder(&quot;/pages/{page_id}&quot;).pathParam(PAGE_ID, pageId).build();</span>
+<span class="fc" id="L117">    URLInfo urlInfo = URLInfo.builder(&quot;/pages/{page_id}&quot;).pathParam(PAGE_ID, pageId).build();</span>
 
-<span class="nc" id="L108">    return transport.call(&quot;PATCH&quot;, urlInfo, request, Page.class);</span>
+<span class="fc" id="L119">    return transport.call(&quot;PATCH&quot;, urlInfo, request, Page.class);</span>
+  }
+
+  public Page move(String pageId, Parent newParent) {
+<span class="fc" id="L123">    validatePageId(pageId);</span>
+<span class="fc" id="L124">    validateRequest(newParent);</span>
+
+<span class="fc" id="L126">    MovePageParams request = new MovePageParams();</span>
+<span class="fc" id="L127">    request.setParent(newParent);</span>
+<span class="fc" id="L128">    URLInfo urlInfo = URLInfo.builder(&quot;/pages/{page_id}/move&quot;).pathParam(PAGE_ID, pageId).build();</span>
+
+<span class="fc" id="L130">    return transport.call(&quot;POST&quot;, urlInfo, request, Page.class);</span>
   }
 
   /**
@@ -115,9 +137,9 @@ public class PagesEndpointImpl implements PagesEndpoint {
    * @return The archived page
    */
   public Page delete(String pageId) {
-<span class="nc" id="L118">    UpdatePageParams updatePageParams = new UpdatePageParams();</span>
-<span class="nc" id="L119">    updatePageParams.setInTrash(true);</span>
-<span class="nc" id="L120">    return update(pageId, updatePageParams);</span>
+<span class="fc" id="L140">    UpdatePageParams updatePageParams = new UpdatePageParams();</span>
+<span class="fc" id="L141">    updatePageParams.setInTrash(true);</span>
+<span class="fc" id="L142">    return update(pageId, updatePageParams);</span>
   }
 
   /**
@@ -127,9 +149,9 @@ public class PagesEndpointImpl implements PagesEndpoint {
    * @return The unarchived page
    */
   public Page restore(String pageId) {
-<span class="nc" id="L130">    UpdatePageParams updatePageParams = new UpdatePageParams();</span>
-<span class="nc" id="L131">    updatePageParams.setInTrash(false);</span>
-<span class="nc" id="L132">    return update(pageId, updatePageParams);</span>
+<span class="fc" id="L152">    UpdatePageParams updatePageParams = new UpdatePageParams();</span>
+<span class="fc" id="L153">    updatePageParams.setInTrash(false);</span>
+<span class="fc" id="L154">    return update(pageId, updatePageParams);</span>
   }
 
   /**
@@ -139,10 +161,10 @@ public class PagesEndpointImpl implements PagesEndpoint {
    * @throws IllegalArgumentException if the page ID is null or empty
    */
   private void validatePageId(String pageId) {
-<span class="nc bnc" id="L142" title="All 4 branches missed.">    if (pageId == null || pageId.trim().isEmpty()) {</span>
-<span class="nc" id="L143">      throw new IllegalArgumentException(&quot;Page ID cannot be null or empty&quot;);</span>
+<span class="fc bfc" id="L164" title="All 4 branches covered.">    if (pageId == null || pageId.trim().isEmpty()) {</span>
+<span class="fc" id="L165">      throw new IllegalArgumentException(&quot;Page ID cannot be null or empty&quot;);</span>
     }
-<span class="nc" id="L145">  }</span>
+<span class="fc" id="L167">  }</span>
 
   /**
    * Validates the request object.
@@ -151,10 +173,10 @@ public class PagesEndpointImpl implements PagesEndpoint {
    * @throws IllegalArgumentException if the request is null
    */
   private void validateRequest(Object request) {
-<span class="nc bnc" id="L154" title="All 2 branches missed.">    if (request == null) {</span>
-<span class="nc" id="L155">      throw new IllegalArgumentException(&quot;Request cannot be null&quot;);</span>
+<span class="fc bfc" id="L176" title="All 2 branches covered.">    if (request == null) {</span>
+<span class="fc" id="L177">      throw new IllegalArgumentException(&quot;Request cannot be null&quot;);</span>
     }
-<span class="nc" id="L157">  }</span>
+<span class="fc" id="L179">  }</span>
 
   /**
    * Validates the property ID.
@@ -163,9 +185,9 @@ public class PagesEndpointImpl implements PagesEndpoint {
    * @throws IllegalArgumentException if the property ID is null or empty
    */
   private void validatePropertyId(String propertyId) {
-<span class="nc bnc" id="L166" title="All 4 branches missed.">    if (propertyId == null || propertyId.trim().isEmpty()) {</span>
-<span class="nc" id="L167">      throw new IllegalArgumentException(&quot;Property ID cannot be null or empty&quot;);</span>
+<span class="fc bfc" id="L188" title="All 4 branches covered.">    if (propertyId == null || propertyId.trim().isEmpty()) {</span>
+<span class="fc" id="L189">      throw new IllegalArgumentException(&quot;Property ID cannot be null or empty&quot;);</span>
     }
-<span class="nc" id="L169">  }</span>
+<span class="fc" id="L191">  }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

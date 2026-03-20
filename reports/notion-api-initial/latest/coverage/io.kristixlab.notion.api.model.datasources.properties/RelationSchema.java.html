@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RelationSchema.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">notion-sdk</a> &gt; <a href="index.source.html" class="el_package">io.kristixlab.notion.api.model.datasources.properties</a> &gt; <span class="el_source">RelationSchema.java</span></div><h1>RelationSchema.java</h1><pre class="source lang-java linenums">package io.kristixlab.notion.api.model.datasources.properties;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+/** Database property for relation columns. Links to pages in another database/data source. */
+@Data
+@EqualsAndHashCode(callSuper = true)
+public class RelationSchema extends DataSourcePropertySchema {
+
+  @JsonProperty(&quot;relation&quot;)
+  private RelationConfig relation = new RelationConfig();
+
+  @Data
+  public static class RelationConfig {
+
+    // TODO only in reponse
+    @JsonProperty(&quot;database_id&quot;)
+    private String databaseId;
+
+    @JsonProperty(&quot;data_source_id&quot;)
+    private String dataSourceId;
+
+    @JsonProperty(&quot;type&quot;)
+    private String type; // &quot;single_property&quot; or &quot;dual_property&quot;
+
+    @JsonProperty(&quot;single_property&quot;)
+    private SinglePropertyConfig singleProperty;
+
+    @JsonProperty(&quot;dual_property&quot;)
+    private DualPropertyConfig dualProperty;
+  }
+
+  @Data
+  public static class SinglePropertyConfig {
+    // Empty object for single property relations
+  }
+
+  @Data
+  public static class DualPropertyConfig {
+    @JsonProperty(&quot;synced_property_name&quot;)
+    private String syncedPropertyName;
+
+    @JsonProperty(&quot;synced_property_id&quot;)
+    private String syncedPropertyId;
+  }
+
+<span class="nc" id="L49">  public static class Builder {</span>
+    private String name;
+    private String dataSourceId;
+    private String type; // &quot;single_property&quot; or &quot;dual_property&quot;
+    private String syncedPropertyName;
+    private String syncedPropertyId;
+
+    public Builder name(String name) {
+<span class="nc" id="L57">      this.name = name;</span>
+<span class="nc" id="L58">      return this;</span>
+    }
+
+    public Builder dataSourceId(String dataSourceId) {
+<span class="nc" id="L62">      this.dataSourceId = dataSourceId;</span>
+<span class="nc" id="L63">      return this;</span>
+    }
+
+    public Builder type(String type) {
+<span class="nc" id="L67">      this.type = type;</span>
+<span class="nc" id="L68">      return this;</span>
+    }
+
+    public Builder syncedPropertyName(String syncedPropertyName) {
+<span class="nc" id="L72">      this.syncedPropertyName = syncedPropertyName;</span>
+<span class="nc" id="L73">      return this;</span>
+    }
+
+    public Builder syncedPropertyId(String syncedPropertyId) {
+<span class="nc" id="L77">      this.syncedPropertyId = syncedPropertyId;</span>
+<span class="nc" id="L78">      return this;</span>
+    }
+
+    public RelationSchema build() {
+<span class="nc" id="L82">      RelationSchema prop = new RelationSchema();</span>
+<span class="nc" id="L83">      prop.setName(name);</span>
+<span class="nc" id="L84">      RelationConfig config = new RelationConfig();</span>
+<span class="nc" id="L85">      config.setDataSourceId(dataSourceId);</span>
+<span class="nc" id="L86">      config.setType(type);</span>
+<span class="nc bnc" id="L87" title="All 2 branches missed.">      if (&quot;dual_property&quot;.equals(type)) {</span>
+<span class="nc" id="L88">        DualPropertyConfig dualConfig = new DualPropertyConfig();</span>
+<span class="nc" id="L89">        dualConfig.setSyncedPropertyName(syncedPropertyName);</span>
+<span class="nc" id="L90">        dualConfig.setSyncedPropertyId(syncedPropertyId);</span>
+<span class="nc" id="L91">        config.setDualProperty(dualConfig);</span>
+<span class="nc" id="L92">      } else {</span>
+<span class="nc" id="L93">        config.setSingleProperty(new SinglePropertyConfig());</span>
+      }
+<span class="nc" id="L95">      prop.setRelation(config);</span>
+<span class="nc" id="L96">      return prop;</span>
+    }
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

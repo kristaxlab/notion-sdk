@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=edge"/>
+<title>Test results - BlocksIT</title>
+<link href="../css/base-style.css" rel="stylesheet" type="text/css"/>
+<link href="../css/style.css" rel="stylesheet" type="text/css"/>
+<script src="../js/report.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="content">
+<h1>BlocksIT</h1>
+<div class="breadcrumbs">
+<a href="../index.html">all</a> &gt; 
+<a href="../packages/integration.html">integration</a> &gt; BlocksIT</div>
+<div id="summary">
+<table>
+<tr>
+<td>
+<div class="summaryGroup">
+<table>
+<tr>
+<td>
+<div class="infoBox" id="tests">
+<div class="counter">8</div>
+<p>tests</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="failures">
+<div class="counter">0</div>
+<p>failures</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="ignored">
+<div class="counter">0</div>
+<p>ignored</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="duration">
+<div class="counter">18.868s</div>
+<p>duration</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</td>
+<td>
+<div class="infoBox success" id="successRate">
+<div class="percent">100%</div>
+<p>successful</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="tab-container">
+<ul class="tabLinks">
+<li>
+<a href="#">Tests</a>
+</li>
+<li>
+<a href="#">Standard output</a>
+</li>
+</ul>
+<div class="tab">
+<h2>Tests</h2>
+<table>
+<thead>
+<tr>
+<th>Test</th>
+<th>Method name</th>
+<th>Duration</th>
+<th>Result</th>
+</tr>
+</thead>
+<tr>
+<td class="success">[IT-23]: Blocks &amp; File Uploads - Insert an uploaded file as an image</td>
+<td class="success">insertUploadedFileAsImage()</td>
+<td class="success">1.227s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">[IT-42]: Blocks - Append different block types</td>
+<td class="success">testAppendDifferentBlocks()</td>
+<td class="success">0.382s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">[IT-22]: Blocks - Creation / update / retrieval for a paragraph block</td>
+<td class="success">testBlockCreationUpdateRetrieval()</td>
+<td class="success">4.951s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">[IT-24]: Blocks - Delete and restore a block</td>
+<td class="success">testBlockDeleteAndRestore()</td>
+<td class="success">3.338s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">[IT-29]: Blocks - Create empty Paragraph block with nested bullet list</td>
+<td class="success">testBlockWithChildren()</td>
+<td class="success">1.970s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">[IT-26]: Blocks - Create several blocks at once</td>
+<td class="success">testCreateSeveralBlocksAtOnce()</td>
+<td class="success">3.763s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">[IT-30]: Blocks - Change block type (should be validation error)</td>
+<td class="success">testExceptionOnTypeChange()</td>
+<td class="success">1.066s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">[IT-31]: Blocks - Insert blocks into a specific position</td>
+<td class="success">testInsertToPosition()</td>
+<td class="success">2.171s</td>
+<td class="success">passed</td>
+</tr>
+</table>
+</div>
+<div class="tab">
+<h2>Standard output</h2>
+<span class="code">
+<pre>2026-03-20 17:10:06.456 [Test worker] INFO  io.kristixlab.notion.NotionSdkSettings - Loading integration test settings from classpath: notion-sdk-settings-default.yml
+2026-03-20 17:10:06.512 [Test worker] INFO  io.kristixlab.notion.NotionSdkSettings - Loading integration test settings from classpath: notion-sdk-settings.yml
+2026-03-20 17:10:07.006 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Calling NotionAPIv2026-03-11
+2026-03-20 17:10:07.007 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Building request...
+2026-03-20 17:10:07.102 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request method: GET, url: https://api.notion.com/v1/blocks/31dcd6cf140680c28ecfe3b1334397df/children, content-type: null
+2026-03-20 17:10:07.746 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with code: 200
+2026-03-20 17:10:07.747 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response body: 
+{&quot;object&quot;:&quot;list&quot;,&quot;results&quot;:[{&quot;object&quot;:&quot;block&quot;,&quot;id&quot;:&quot;327cd6cf-1406-80b8-a04b-d8fccccfd081&quot;,&quot;parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;31dcd6cf-1406-80c2-8ecf-e3b1334397df&quot;},&quot;created_time&quot;:&quot;2026-03-18T18:46:00.000Z&quot;,&quot;last_edited_time&quot;:&quot;2026-03-18T18:46:00.000Z&quot;,&quot;created_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;2e8d872b-594c-8197-b19f-000245c7469f&quot;},&quot;last_edited_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;2e8d872b-594c-8197-b19f-000245c7469f&quot;},&quot;has_children&quot;:false,&quot;in_trash&quot;:false,&quot;type&quot;:&quot;heading_3&quot;,&quot;heading_3&quot;:{&quot;rich_text&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;Complex database&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;Complex database&quot;,&quot;href&quot;:null}],&quot;is_toggleable&quot;:false,&quot;color&quot;:&quot;default&quot;}},{&quot;object&quot;:&quot;block&quot;,&quot;id&quot;:&quot;327cd6cf-1406-804f-a636-db55b2651b52&quot;,&quot;parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;31dcd6cf-1406-80c2-8ecf-e3b1334397df&quot;},&quot;created_time&quot;:&quot;2026-03-18T18:46:00.000Z&quot;,&quot;last_edited_time&quot;:&quot;2026-03-18T18:56:00.000Z&quot;,&quot;created_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;2e8d872b-594c-8197-b19f-000245c7469f&quot;},&quot;last_edited_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;2e8d872b-594c-8197-b19f-000245c7469f&quot;},&quot;has_children&quot;:false,&quot;in_trash&quot;:false,&quot;type&quot;:&quot;child_database&quot;,&quot;child_database&quot;:{&quot;title&quot;:&quot;Complex Database &quot;}},{&quot;object&quot;:&quot;block&quot;,&quot;id&quot;:&quot;327cd6cf-1406-80c3-9ad1-e6e50fb54f52&quot;,&quot;parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;31dcd6cf-1406-80c2-8ecf-e3b1334397df&quot;},&quot;created_time&quot;:&quot;2026-03-18T19:44:00.000Z&quot;,&quot;last_edited_time&quot;:&quot;2026-03-18T19:44:00.000Z&quot;,&quot;created_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;2e8d872b-594c-8197-b19f-000245c7469f&quot;},&quot;last_edited_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;2e8d872b-594c-8197-b19f-000245c7469f&quot;},&quot;has_children&quot;:false,&quot;in_trash&quot;:false,&quot;type&quot;:&quot;heading_3&quot;,&quot;heading_3&quot;:{&quot;rich_text&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;Page with blocks&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;Page with blocks&quot;,&quot;href&quot;:null}],&quot;is_toggleable&quot;:false,&quot;color&quot;:&quot;default&quot;}},{&quot;object&quot;:&quot;block&quot;,&quot;id&quot;:&quot;31dcd6cf-1406-8067-8100-dcb28020592d&quot;,&quot;parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;31dcd6cf-1406-80c2-8ecf-e3b1334397df&quot;},&quot;created_time&quot;:&quot;2026-03-08T16:37:00.000Z&quot;,&quot;last_edited_time&quot;:&quot;2026-03-17T16:45:00.000Z&quot;,&quot;created_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;ab53e082-c08e-43ef-ae91-62c018852f04&quot;},&quot;last_edited_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;2e8d872b-594c-8197-b19f-000245c7469f&quot;},&quot;has_children&quot;:true,&quot;in_trash&quot;:false,&quot;type&quot;:&quot;child_page&quot;,&quot;child_page&quot;:{&quot;title&quot;:&quot;Page with lots of different blocks&quot;}},{&quot;object&quot;:&quot;block&quot;,&quot;id&quot;:&quot;326cd6cf-1406-80d1-b1a1-f6ea1a95c27b&quot;,&quot;parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;31dcd6cf-1406-80c2-8ecf-e3b1334397df&quot;},&quot;created_time&quot;:&quot;2026-03-17T16:44:00.000Z&quot;,&quot;last_edited_time&quot;:&quot;2026-03-17T17:05:00.000Z&quot;,&quot;created_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;2e8d872b-594c-8197-b19f-000245c7469f&quot;},&quot;last_edited_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;2e8d872b-594c-8197-b19f-000245c7469f&quot;},&quot;has_children&quot;:false,&quot;in_trash&quot;:false,&quot;type&quot;:&quot;heading_3&quot;,&quot;heading_3&quot;:{&quot;rich_text&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;Icon&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;Icon&quot;,&quot;href&quot;:null}],&quot;is_toggleable&quot;:false,&quot;color&quot;:&quot;default&quot;}},{&quot;object&quot;:&quot;block&quot;,&quot;id&quot;:&quot;326cd6cf-1406-8017-881b-f4ef06322730&quot;,&quot;parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;31dcd6cf-1406-80c2-8ecf-e3b1334397df&quot;},&quot;created_time&quot;:&quot;2026-03-17T16:44:00.000Z&quot;,&quot;last_edited_time&quot;:&quot;2026-03-17T17:05:00.000Z&quot;,&quot;created_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;2e8d872b-594c-8197-b19f-000245c7469f&quot;},&quot;last_edited_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;2e8d872b-594c-8197-b19f-000245c7469f&quot;},&quot;has_children&quot;:false,&quot;in_trash&quot;:false,&quot;type&quot;:&quot;paragraph&quot;,&quot;paragraph&quot;:{&quot;rich_text&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;&#x1f698;&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;&#x1f698;&quot;,&quot;href&quot;:null}],&quot;color&quot;:&quot;default&quot;}},{&quot;object&quot;:&quot;block&quot;,&quot;id&quot;:&quot;326cd6cf-1406-809a-91b8-fde0c3507cec&quot;,&quot;parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;31dcd6cf-1406-80c2-8ecf-e3b1334397df&quot;},&quot;created_time&quot;:&quot;2026-03-17T16:44:00.000Z&quot;,&quot;last_edited_time&quot;:&quot;2026-03-17T17:05:00.000Z&quot;,&quot;created_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;2e8d872b-594c-8197-b19f-000245c7469f&quot;},&quot;last_edited_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;2e8d872b-594c-8197-b19f-000245c7469f&quot;},&quot;has_children&quot;:false,&quot;in_trash&quot;:false,&quot;type&quot;:&quot;heading_3&quot;,&quot;heading_3&quot;:{&quot;rich_text&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;Cover&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;Cover&quot;,&quot;href&quot;:null}],&quot;is_toggleable&quot;:false,&quot;color&quot;:&quot;default&quot;}},{&quot;object&quot;:&quot;block&quot;,&quot;id&quot;:&quot;326cd6cf-1406-800c-a9c3-cd315b868278&quot;,&quot;parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;31dcd6cf-1406-80c2-8ecf-e3b1334397df&quot;},&quot;created_time&quot;:&quot;2026-03-17T16:45:00.000Z&quot;,&quot;last_edited_time&quot;:&quot;2026-03-17T17:05:00.000Z&quot;,&quot;created_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;2e8d872b-594c-8197-b19f-000245c7469f&quot;},&quot;last_edited_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;2e8d872b-594c-8197-b19f-000245c7469f&quot;},&quot;has_children&quot;:false,&quot;in_trash&quot;:false,&quot;type&quot;:&quot;image&quot;,&quot;image&quot;:{&quot;caption&quot;:[],&quot;type&quot;:&quot;external&quot;,&quot;external&quot;:{&quot;url&quot;:&quot;https://images.unsplash.com/photo-1543906965-f9520aa2ed8a?ixlib=rb-4.1.0&amp;q=85&amp;fm=jpg&amp;crop=entropy&amp;cs=srgb&quot;}}}],&quot;next_cursor&quot;:null,&quot;has_more&quot;:false,&quot;type&quot;:&quot;block&quot;,&quot;block&quot;:{},&quot;request_id&quot;:&quot;35b40b9f-4ad4-498c-b5be-7135f34934c5&quot;}
+2026-03-20 17:10:08.516 [Test worker] ERROR io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with error: 200
+2026-03-20 17:10:08.534 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Error response body: 
+NotionListType(results=[HeadingThreeBlock(heading3=HeadingThreeBlock.Heading(richText=[RichText(type=text, plainText=Complex database, href=null, annotations=RichText.Annotations(bold=false, italic=false, strikethrough=false, underline=false, code=false, color=default), text=RichText.Text(content=Complex database, link=null), mention=null, equation=null)], color=default, isToggleable=false, children=null)), ChildDatabaseBlock(childDatabase=ChildDatabaseBlock.ChildDatabase(title=Complex Database )), HeadingThreeBlock(heading3=HeadingThreeBlock.Heading(richText=[RichText(type=text, plainText=Page with blocks, href=null, annotations=RichText.Annotations(bold=false, italic=false, strikethrough=false, underline=false, code=false, color=default), text=RichText.Text(content=Page with blocks, link=null), mention=null, equation=null)], color=default, isToggleable=false, children=null)), ChildPageBlock(childPage=ChildPageBlock.ChildPage(title=Page with lots of different blocks)), HeadingThreeBlock(heading3=HeadingThreeBlock.Heading(richText=[RichText(type=text, plainText=Icon, href=null, annotations=RichText.Annotations(bold=false, italic=false, strikethrough=false, underline=false, code=false, color=default), text=RichText.Text(content=Icon, link=null), mention=null, equation=null)], color=default, isToggleable=false, children=null)), ParagraphBlock(paragraph=ParagraphBlock.Paragraph(richText=[RichText(type=text, plainText=&#x1f698;, href=null, annotations=RichText.Annotations(bold=false, italic=false, strikethrough=false, underline=false, code=false, color=default), text=RichText.Text(content=&#x1f698;, link=null), mention=null, equation=null)], color=default, children=null)), HeadingThreeBlock(heading3=HeadingThreeBlock.Heading(richText=[RichText(type=text, plainText=Cover, href=null, annotations=RichText.Annotations(bold=false, italic=false, strikethrough=false, underline=false, code=false, color=default), text=RichText.Text(content=Cover, link=null), mention=null, equation=null)], color=default, isToggleable=false, children=null)), ImageBlock(image=FileData(type=external, external=ExternalFile(url=https://images.unsplash.com/photo-1543906965-f9520aa2ed8a?ixlib=rb-4.1.0&amp;q=85&amp;fm=jpg&amp;crop=entropy&amp;cs=srgb), file=null, fileUpload=null, caption=[], name=null))], nextCursor=null, hasMore=false, type=block)
+2026-03-20 17:10:08.536 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Calling NotionAPIv2026-03-11
+2026-03-20 17:10:08.536 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Building request...
+2026-03-20 17:10:08.538 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request method: GET, url: https://api.notion.com/v1/file_uploads?status=uploaded, content-type: null
+2026-03-20 17:10:08.812 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with code: 200
+2026-03-20 17:10:08.813 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response body: 
+{&quot;object&quot;:&quot;list&quot;,&quot;results&quot;:[{&quot;object&quot;:&quot;file_upload&quot;,&quot;id&quot;:&quot;326cd6cf-1406-8175-963e-00b241d03bf9&quot;,&quot;created_time&quot;:&quot;2026-03-17T23:50:00.000Z&quot;,&quot;created_by&quot;:{&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;,&quot;type&quot;:&quot;bot&quot;},&quot;last_edited_time&quot;:&quot;2026-03-17T23:50:00.000Z&quot;,&quot;expiry_time&quot;:null,&quot;in_trash&quot;:false,&quot;status&quot;:&quot;uploaded&quot;,&quot;filename&quot;:&quot;int-14-image.jpg&quot;,&quot;content_type&quot;:&quot;image/jpeg&quot;,&quot;content_length&quot;:366112},{&quot;object&quot;:&quot;file_upload&quot;,&quot;id&quot;:&quot;326cd6cf-1406-8106-bf57-00b205f28fce&quot;,&quot;created_time&quot;:&quot;2026-03-17T23:39:00.000Z&quot;,&quot;created_by&quot;:{&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;,&quot;type&quot;:&quot;bot&quot;},&quot;last_edited_time&quot;:&quot;2026-03-17T23:39:00.000Z&quot;,&quot;expiry_time&quot;:null,&quot;in_trash&quot;:false,&quot;status&quot;:&quot;uploaded&quot;,&quot;filename&quot;:&quot;int-14-image.jpg&quot;,&quot;content_type&quot;:&quot;image/jpeg&quot;,&quot;content_length&quot;:366112}],&quot;next_cursor&quot;:null,&quot;has_more&quot;:false,&quot;type&quot;:&quot;file_upload&quot;,&quot;file_upload&quot;:{},&quot;request_id&quot;:&quot;7a57bca7-25fd-4ff4-b7d2-42a0f3033dc4&quot;}
+2026-03-20 17:10:08.828 [Test worker] ERROR io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with error: 200
+2026-03-20 17:10:08.829 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Error response body: 
+FileUploadList(fileUpload={})
+2026-03-20 17:10:08.841 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Calling NotionAPIv2026-03-11
+2026-03-20 17:10:08.842 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Building request...
+2026-03-20 17:10:08.932 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request method: POST, url: https://api.notion.com/v1/pages, content-type: application/json
+2026-03-20 17:10:08.935 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request body: 
+{
+  &quot;parent&quot; : {
+    &quot;type&quot; : &quot;page_id&quot;,
+    &quot;page_id&quot; : &quot;2f4cd6cf14068001ac57e261d1c18fda&quot;
+  },
+  &quot;properties&quot; : {
+    &quot;title&quot; : {
+      &quot;type&quot; : &quot;title&quot;,
+      &quot;title&quot; : [ {
+        &quot;type&quot; : &quot;text&quot;,
+        &quot;plain_text&quot; : &quot;Integration tests run 2026-03-20T17:10:08.829565118&quot;,
+        &quot;annotations&quot; : { },
+        &quot;text&quot; : {
+          &quot;content&quot; : &quot;Integration tests run 2026-03-20T17:10:08.829565118&quot;
+        }
+      } ]
+    }
+  },
+  &quot;position&quot; : {
+    &quot;type&quot; : &quot;page_start&quot;
+  }
+}
+2026-03-20 17:10:09.523 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with code: 200
+2026-03-20 17:10:09.524 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response body: 
+{&quot;object&quot;:&quot;page&quot;,&quot;id&quot;:&quot;329cd6cf-1406-8174-b65f-fc3aec14b883&quot;,&quot;created_time&quot;:&quot;2026-03-20T17:10:00.000Z&quot;,&quot;last_edited_time&quot;:&quot;2026-03-20T17:10:00.000Z&quot;,&quot;created_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;last_edited_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;cover&quot;:null,&quot;icon&quot;:null,&quot;parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;2f4cd6cf-1406-8001-ac57-e261d1c18fda&quot;},&quot;in_trash&quot;:false,&quot;is_archived&quot;:false,&quot;is_locked&quot;:false,&quot;properties&quot;:{&quot;title&quot;:{&quot;id&quot;:&quot;title&quot;,&quot;type&quot;:&quot;title&quot;,&quot;title&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;Integration tests run 2026-03-20T17:10:08.829565118&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;Integration tests run 2026-03-20T17:10:08.829565118&quot;,&quot;href&quot;:null}]}},&quot;url&quot;:&quot;https://www.notion.so/Integration-tests-run-2026-03-20T17-10-08-829565118-329cd6cf14068174b65ffc3aec14b883&quot;,&quot;public_url&quot;:null,&quot;request_id&quot;:&quot;a71582df-ce1d-49ea-8fa2-54acd748fc68&quot;}
+2026-03-20 17:10:09.544 [Test worker] ERROR io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with error: 200
+2026-03-20 17:10:09.545 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Error response body: 
+Page(properties={title=TitleProperty(type=title, title=[RichText(type=text, plainText=Integration tests run 2026-03-20T17:10:08.829565118, href=null, annotations=RichText.Annotations(bold=false, italic=false, strikethrough=false, underline=false, code=false, color=default), text=RichText.Text(content=Integration tests run 2026-03-20T17:10:08.829565118, link=null), mention=null, equation=null)])}, url=https://www.notion.so/Integration-tests-run-2026-03-20T17-10-08-829565118-329cd6cf14068174b65ffc3aec14b883, publicUrl=null, icon=null, cover=null, isLocked=false)
+2026-03-20 17:10:09.546 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Calling NotionAPIv2026-03-11
+2026-03-20 17:10:09.546 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Building request...
+2026-03-20 17:10:09.548 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request method: POST, url: https://api.notion.com/v1/pages, content-type: application/json
+2026-03-20 17:10:09.549 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request body: 
+{
+  &quot;parent&quot; : {
+    &quot;type&quot; : &quot;page_id&quot;,
+    &quot;page_id&quot; : &quot;329cd6cf-1406-8174-b65f-fc3aec14b883&quot;
+  },
+  &quot;properties&quot; : {
+    &quot;title&quot; : {
+      &quot;type&quot; : &quot;title&quot;,
+      &quot;title&quot; : [ {
+        &quot;type&quot; : &quot;text&quot;,
+        &quot;plain_text&quot; : &quot;Blocks&quot;,
+        &quot;annotations&quot; : { },
+        &quot;text&quot; : {
+          &quot;content&quot; : &quot;Blocks&quot;
+        }
+      } ]
+    }
+  },
+  &quot;position&quot; : {
+    &quot;type&quot; : &quot;page_start&quot;
+  }
+}
+2026-03-20 17:10:10.379 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with code: 200
+2026-03-20 17:10:10.379 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response body: 
+{&quot;object&quot;:&quot;page&quot;,&quot;id&quot;:&quot;329cd6cf-1406-814c-8c85-c9189319b07b&quot;,&quot;created_time&quot;:&quot;2026-03-20T17:10:00.000Z&quot;,&quot;last_edited_time&quot;:&quot;2026-03-20T17:10:00.000Z&quot;,&quot;created_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;last_edited_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;cover&quot;:null,&quot;icon&quot;:null,&quot;parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;329cd6cf-1406-8174-b65f-fc3aec14b883&quot;},&quot;in_trash&quot;:false,&quot;is_archived&quot;:false,&quot;is_locked&quot;:false,&quot;properties&quot;:{&quot;title&quot;:{&quot;id&quot;:&quot;title&quot;,&quot;type&quot;:&quot;title&quot;,&quot;title&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;Blocks&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;Blocks&quot;,&quot;href&quot;:null}]}},&quot;url&quot;:&quot;https://www.notion.so/Blocks-329cd6cf1406814c8c85c9189319b07b&quot;,&quot;public_url&quot;:null,&quot;request_id&quot;:&quot;0fae00e2-6aac-440f-bcf4-9a1cc09d3677&quot;}
+2026-03-20 17:10:10.381 [Test worker] ERROR io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with error: 200
+2026-03-20 17:10:10.381 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Error response body: 
+Page(properties={title=TitleProperty(type=title, title=[RichText(type=text, plainText=Blocks, href=null, annotations=RichText.Annotations(bold=false, italic=false, strikethrough=false, underline=false, code=false, color=default), text=RichText.Text(content=Blocks, link=null), mention=null, equation=null)])}, url=https://www.notion.so/Blocks-329cd6cf1406814c8c85c9189319b07b, publicUrl=null, icon=null, cover=null, isLocked=false)
+2026-03-20 17:10:10.427 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Calling NotionAPIv2026-03-11
+2026-03-20 17:10:10.427 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Building request...
+2026-03-20 17:10:10.429 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request method: POST, url: https://api.notion.com/v1/pages, content-type: application/json
+2026-03-20 17:10:10.429 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request body: 
+{
+  &quot;parent&quot; : {
+    &quot;type&quot; : &quot;page_id&quot;,
+    &quot;page_id&quot; : &quot;329cd6cf-1406-814c-8c85-c9189319b07b&quot;
+  },
+  &quot;properties&quot; : {
+    &quot;title&quot; : {
+      &quot;type&quot; : &quot;title&quot;,
+      &quot;title&quot; : [ {
+        &quot;type&quot; : &quot;text&quot;,
+        &quot;plain_text&quot; : &quot;[IT-29]: Blocks - Create empty Paragraph block with nested bullet list&quot;,
+        &quot;annotations&quot; : { },
+        &quot;text&quot; : {
+          &quot;content&quot; : &quot;[IT-29]: Blocks - Create empty Paragraph block with nested bullet list&quot;
+        }
+      } ]
+    }
+  },
+  &quot;position&quot; : {
+    &quot;type&quot; : &quot;page_start&quot;
+  }
+}
+2026-03-20 17:10:11.524 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with code: 200
+2026-03-20 17:10:11.525 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response body: 
+{&quot;object&quot;:&quot;page&quot;,&quot;id&quot;:&quot;329cd6cf-1406-8192-949a-ff8abe5de0d6&quot;,&quot;created_time&quot;:&quot;2026-03-20T17:10:00.000Z&quot;,&quot;last_edited_time&quot;:&quot;2026-03-20T17:10:00.000Z&quot;,&quot;created_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;last_edited_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;cover&quot;:null,&quot;icon&quot;:null,&quot;parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;329cd6cf-1406-814c-8c85-c9189319b07b&quot;},&quot;in_trash&quot;:false,&quot;is_archived&quot;:false,&quot;is_locked&quot;:false,&quot;properties&quot;:{&quot;title&quot;:{&quot;id&quot;:&quot;title&quot;,&quot;type&quot;:&quot;title&quot;,&quot;title&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;[IT-29]: Blocks - Create empty Paragraph block with nested bullet list&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;[IT-29]: Blocks - Create empty Paragraph block with nested bullet list&quot;,&quot;href&quot;:null}]}},&quot;url&quot;:&quot;https://www.notion.so/IT-29-Blocks-Create-empty-Paragraph-block-with-nested-bullet-list-329cd6cf14068192949aff8abe5de0d6&quot;,&quot;public_url&quot;:null,&quot;request_id&quot;:&quot;16611fbc-a808-4481-916a-244fd5ae8481&quot;}
+2026-03-20 17:10:11.526 [Test worker] ERROR io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with error: 200
+2026-03-20 17:10:11.526 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Error response body: 
+Page(properties={title=TitleProperty(type=title, title=[RichText(type=text, plainText=[IT-29]: Blocks - Create empty Paragraph block with nested bullet list, href=null, annotations=RichText.Annotations(bold=false, italic=false, strikethrough=false, underline=false, code=false, color=default), text=RichText.Text(content=[IT-29]: Blocks - Create empty Paragraph block with nested bullet list, link=null), mention=null, equation=null)])}, url=https://www.notion.so/IT-29-Blocks-Create-empty-Paragraph-block-with-nested-bullet-list-329cd6cf14068192949aff8abe5de0d6, publicUrl=null, icon=null, cover=null, isLocked=false)
+2026-03-20 17:10:11.537 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Calling NotionAPIv2026-03-11
+2026-03-20 17:10:11.538 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Building request...
+2026-03-20 17:10:11.547 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request method: PATCH, url: https://api.notion.com/v1/blocks/329cd6cf-1406-8192-949a-ff8abe5de0d6/children, content-type: application/json
+2026-03-20 17:10:11.548 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request body: 
+{
+  &quot;children&quot; : [ {
+    &quot;type&quot; : &quot;paragraph&quot;,
+    &quot;paragraph&quot; : {
+      &quot;rich_text&quot; : [ ],
+      &quot;children&quot; : [ {
+        &quot;type&quot; : &quot;bulleted_list_item&quot;,
+        &quot;bulleted_list_item&quot; : {
+          &quot;rich_text&quot; : [ {
+            &quot;type&quot; : &quot;text&quot;,
+            &quot;plain_text&quot; : &quot;item 1&quot;,
+            &quot;annotations&quot; : { },
+            &quot;text&quot; : {
+              &quot;content&quot; : &quot;item 1&quot;
+            }
+          } ]
+        }
+      }, {
+        &quot;type&quot; : &quot;bulleted_list_item&quot;,
+        &quot;bulleted_list_item&quot; : {
+          &quot;rich_text&quot; : [ {
+            &quot;type&quot; : &quot;text&quot;,
+            &quot;plain_text&quot; : &quot;item 2&quot;,
+            &quot;annotations&quot; : { },
+            &quot;text&quot; : {
+              &quot;content&quot; : &quot;item 2&quot;
+            }
+          } ]
+        }
+      }, {
+        &quot;type&quot; : &quot;bulleted_list_item&quot;,
+        &quot;bulleted_list_item&quot; : {
+          &quot;rich_text&quot; : [ {
+            &quot;type&quot; : &quot;text&quot;,
+            &quot;plain_text&quot; : &quot;item 3&quot;,
+            &quot;annotations&quot; : { },
+            &quot;text&quot; : {
+              &quot;content&quot; : &quot;item 3&quot;
+            }
+          } ]
+        }
+      } ]
+    }
+  } ]
+}
+2026-03-20 17:10:12.167 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with code: 200
+2026-03-20 17:10:12.167 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response body: 
+{&quot;object&quot;:&quot;list&quot;,&quot;results&quot;:[{&quot;object&quot;:&quot;block&quot;,&quot;id&quot;:&quot;329cd6cf-1406-81f3-b4c3-ea911d3e3116&quot;,&quot;parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;329cd6cf-1406-8192-949a-ff8abe5de0d6&quot;},&quot;created_time&quot;:&quot;2026-03-20T17:10:00.000Z&quot;,&quot;last_edited_time&quot;:&quot;2026-03-20T17:10:00.000Z&quot;,&quot;created_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;last_edited_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;has_children&quot;:true,&quot;in_trash&quot;:false,&quot;type&quot;:&quot;paragraph&quot;,&quot;paragraph&quot;:{&quot;rich_text&quot;:[],&quot;color&quot;:&quot;default&quot;}}],&quot;next_cursor&quot;:null,&quot;has_more&quot;:false,&quot;type&quot;:&quot;block&quot;,&quot;block&quot;:{},&quot;request_id&quot;:&quot;b7e6c0a4-0730-4deb-bf9d-d5e44e1e3cbc&quot;}
+2026-03-20 17:10:12.168 [Test worker] ERROR io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with error: 200
+2026-03-20 17:10:12.169 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Error response body: 
+NotionListType(results=[ParagraphBlock(paragraph=ParagraphBlock.Paragraph(richText=[], color=default, children=null))], nextCursor=null, hasMore=false, type=block)
+2026-03-20 17:10:12.188 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Calling NotionAPIv2026-03-11
+2026-03-20 17:10:12.188 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Building request...
+2026-03-20 17:10:12.189 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request method: GET, url: https://api.notion.com/v1/blocks/329cd6cf-1406-81f3-b4c3-ea911d3e3116/children, content-type: null
+2026-03-20 17:10:12.366 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with code: 200
+2026-03-20 17:10:12.366 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response body: 
+{&quot;object&quot;:&quot;list&quot;,&quot;results&quot;:[{&quot;object&quot;:&quot;block&quot;,&quot;id&quot;:&quot;329cd6cf-1406-81a4-baaf-fd4faad0478c&quot;,&quot;parent&quot;:{&quot;type&quot;:&quot;block_id&quot;,&quot;block_id&quot;:&quot;329cd6cf-1406-81f3-b4c3-ea911d3e3116&quot;},&quot;created_time&quot;:&quot;2026-03-20T17:10:00.000Z&quot;,&quot;last_edited_time&quot;:&quot;2026-03-20T17:10:00.000Z&quot;,&quot;created_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;last_edited_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;has_children&quot;:false,&quot;in_trash&quot;:false,&quot;type&quot;:&quot;bulleted_list_item&quot;,&quot;bulleted_list_item&quot;:{&quot;rich_text&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;item 1&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;item 1&quot;,&quot;href&quot;:null}],&quot;color&quot;:&quot;default&quot;}},{&quot;object&quot;:&quot;block&quot;,&quot;id&quot;:&quot;329cd6cf-1406-818c-8d8e-dfdad0e1587e&quot;,&quot;parent&quot;:{&quot;type&quot;:&quot;block_id&quot;,&quot;block_id&quot;:&quot;329cd6cf-1406-81f3-b4c3-ea911d3e3116&quot;},&quot;created_time&quot;:&quot;2026-03-20T17:10:00.000Z&quot;,&quot;last_edited_time&quot;:&quot;2026-03-20T17:10:00.000Z&quot;,&quot;created_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;last_edited_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;has_children&quot;:false,&quot;in_trash&quot;:false,&quot;type&quot;:&quot;bulleted_list_item&quot;,&quot;bulleted_list_item&quot;:{&quot;rich_text&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;item 2&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;item 2&quot;,&quot;href&quot;:null}],&quot;color&quot;:&quot;default&quot;}},{&quot;object&quot;:&quot;block&quot;,&quot;id&quot;:&quot;329cd6cf-1406-812c-93c9-e76a6f0d548b&quot;,&quot;parent&quot;:{&quot;type&quot;:&quot;block_id&quot;,&quot;block_id&quot;:&quot;329cd6cf-1406-81f3-b4c3-ea911d3e3116&quot;},&quot;created_time&quot;:&quot;2026-03-20T17:10:00.000Z&quot;,&quot;last_edited_time&quot;:&quot;2026-03-20T17:10:00.000Z&quot;,&quot;created_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;last_edited_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;has_children&quot;:false,&quot;in_trash&quot;:false,&quot;type&quot;:&quot;bulleted_list_item&quot;,&quot;bulleted_list_item&quot;:{&quot;rich_text&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;item 3&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;item 3&quot;,&quot;href&quot;:null}],&quot;color&quot;:&quot;default&quot;}}],&quot;next_cursor&quot;:null,&quot;has_more&quot;:false,&quot;type&quot;:&quot;block&quot;,&quot;block&quot;:{},&quot;request_id&quot;:&quot;7b2b068e-5126-414d-b3f9-d5a30518b7ef&quot;}
+2026-03-20 17:10:12.372 [Test worker] ERROR io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with error: 200
+2026-03-20 17:10:12.372 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Error response body: 
+NotionListType(results=[BulletedListItemBlock(bulletedListItem=BulletedListItemBlock.BulletedListItem(richText=[RichText(type=text, plainText=item 1, href=null, annotations=RichText.Annotations(bold=false, italic=false, strikethrough=false, underline=false, code=false, color=default), text=RichText.Text(content=item 1, link=null), mention=null, equation=null)], color=default, children=null)), BulletedListItemBlock(bulletedListItem=BulletedListItemBlock.BulletedListItem(richText=[RichText(type=text, plainText=item 2, href=null, annotations=RichText.Annotations(bold=false, italic=false, strikethrough=false, underline=false, code=false, color=default), text=RichText.Text(content=item 2, link=null), mention=null, equation=null)], color=default, children=null)), BulletedListItemBlock(bulletedListItem=BulletedListItemBlock.BulletedListItem(richText=[RichText(type=text, plainText=item 3, href=null, annotations=RichText.Annotations(bold=false, italic=false, strikethrough=false, underline=false, code=false, color=default), text=RichText.Text(content=item 3, link=null), mention=null, equation=null)], color=default, children=null))], nextCursor=null, hasMore=false, type=block)
+2026-03-20 17:10:12.552 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Calling NotionAPIv2026-03-11
+2026-03-20 17:10:12.553 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Building request...
+2026-03-20 17:10:12.554 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request method: POST, url: https://api.notion.com/v1/pages, content-type: application/json
+2026-03-20 17:10:12.555 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request body: 
+{
+  &quot;parent&quot; : {
+    &quot;type&quot; : &quot;page_id&quot;,
+    &quot;page_id&quot; : &quot;329cd6cf-1406-814c-8c85-c9189319b07b&quot;
+  },
+  &quot;properties&quot; : {
+    &quot;title&quot; : {
+      &quot;type&quot; : &quot;title&quot;,
+      &quot;title&quot; : [ {
+        &quot;type&quot; : &quot;text&quot;,
+        &quot;plain_text&quot; : &quot;[IT-23]: Blocks &amp; File Uploads - Insert an uploaded file as an image&quot;,
+        &quot;annotations&quot; : { },
+        &quot;text&quot; : {
+          &quot;content&quot; : &quot;[IT-23]: Blocks &amp; File Uploads - Insert an uploaded file as an image&quot;
+        }
+      } ]
+    }
+  },
+  &quot;position&quot; : {
+    &quot;type&quot; : &quot;page_start&quot;
+  }
+}
+2026-03-20 17:10:13.029 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with code: 200
+2026-03-20 17:10:13.029 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response body: 
+{&quot;object&quot;:&quot;page&quot;,&quot;id&quot;:&quot;329cd6cf-1406-8120-a5f3-e6ef030cd4a0&quot;,&quot;created_time&quot;:&quot;2026-03-20T17:10:00.000Z&quot;,&quot;last_edited_time&quot;:&quot;2026-03-20T17:10:00.000Z&quot;,&quot;created_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;last_edited_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;cover&quot;:null,&quot;icon&quot;:null,&quot;parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;329cd6cf-1406-814c-8c85-c9189319b07b&quot;},&quot;in_trash&quot;:false,&quot;is_archived&quot;:false,&quot;is_locked&quot;:false,&quot;properties&quot;:{&quot;title&quot;:{&quot;id&quot;:&quot;title&quot;,&quot;type&quot;:&quot;title&quot;,&quot;title&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;[IT-23]: Blocks &amp; File Uploads - Insert an uploaded file as an image&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;[IT-23]: Blocks &amp; File Uploads - Insert an uploaded file as an image&quot;,&quot;href&quot;:null}]}},&quot;url&quot;:&quot;https://www.notion.so/IT-23-Blocks-File-Uploads-Insert-an-uploaded-file-as-an-image-329cd6cf14068120a5f3e6ef030cd4a0&quot;,&quot;public_url&quot;:null,&quot;request_id&quot;:&quot;079a6e7f-e6f8-408c-86e8-8a78e77ed7b6&quot;}
+2026-03-20 17:10:13.033 [Test worker] ERROR io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with error: 200
+2026-03-20 17:10:13.033 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Error response body: 
+Page(properties={title=TitleProperty(type=title, title=[RichText(type=text, plainText=[IT-23]: Blocks &amp; File Uploads - Insert an uploaded file as an image, href=null, annotations=RichText.Annotations(bold=false, italic=false, strikethrough=false, underline=false, code=false, color=default), text=RichText.Text(content=[IT-23]: Blocks &amp; File Uploads - Insert an uploaded file as an image, link=null), mention=null, equation=null)])}, url=https://www.notion.so/IT-23-Blocks-File-Uploads-Insert-an-uploaded-file-as-an-image-329cd6cf14068120a5f3e6ef030cd4a0, publicUrl=null, icon=null, cover=null, isLocked=false)
+2026-03-20 17:10:13.036 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Calling NotionAPIv2026-03-11
+2026-03-20 17:10:13.036 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Building request...
+2026-03-20 17:10:13.045 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request method: PATCH, url: https://api.notion.com/v1/blocks/329cd6cf-1406-8120-a5f3-e6ef030cd4a0/children, content-type: application/json
+2026-03-20 17:10:13.046 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request body: 
+{
+  &quot;children&quot; : [ {
+    &quot;type&quot; : &quot;image&quot;,
+    &quot;image&quot; : {
+      &quot;type&quot; : &quot;file_upload&quot;,
+      &quot;file_upload&quot; : {
+        &quot;id&quot; : &quot;326cd6cf-1406-8175-963e-00b241d03bf9&quot;
+      },
+      &quot;caption&quot; : [ {
+        &quot;type&quot; : &quot;text&quot;,
+        &quot;plain_text&quot; : &quot;[IT-23]: An image from uploaded file&quot;,
+        &quot;annotations&quot; : { },
+        &quot;text&quot; : {
+          &quot;content&quot; : &quot;[IT-23]: An image from uploaded file&quot;
+        }
+      } ]
+    }
+  } ]
+}
+2026-03-20 17:10:13.766 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with code: 200
+2026-03-20 17:10:13.766 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response body: 
+{&quot;object&quot;:&quot;list&quot;,&quot;results&quot;:[{&quot;object&quot;:&quot;block&quot;,&quot;id&quot;:&quot;329cd6cf-1406-81d5-aacb-fe6d236fb64f&quot;,&quot;parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;329cd6cf-1406-8120-a5f3-e6ef030cd4a0&quot;},&quot;created_time&quot;:&quot;2026-03-20T17:10:00.000Z&quot;,&quot;last_edited_time&quot;:&quot;2026-03-20T17:10:00.000Z&quot;,&quot;created_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;last_edited_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;has_children&quot;:false,&quot;in_trash&quot;:false,&quot;type&quot;:&quot;image&quot;,&quot;image&quot;:{&quot;caption&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;[IT-23]: An image from uploaded file&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;[IT-23]: An image from uploaded file&quot;,&quot;href&quot;:null}],&quot;type&quot;:&quot;file&quot;,&quot;file&quot;:{&quot;url&quot;:&quot;https://prod-files-secure.s3.us-west-2.amazonaws.com/74ecd6cf-1406-8114-a47c-000305deb73b/c6cd4107-d224-4aeb-a039-c85ece6d2620/int-14-image.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&amp;X-Amz-Credential=ASIAZI2LB466WF6CQKK6%2F20260320%2Fus-west-2%2Fs3%2Faws4_request&amp;X-Amz-Date=20260320T171013Z&amp;X-Amz-Expires=3600&amp;X-Amz-Security-Token=IQoJb3JpZ2luX2VjEHEaCXVzLXdlc3QtMiJHMEUCIQDmQC1C3PyMC1252mcBpjVZ87AzwF5UuybcVYEWPewaewIgZoYfpJxq0ppsVFkp%2BuaKNK4HxIP6YuO6ZRwRGgn9KJIq%2FwMIOhAAGgw2Mzc0MjMxODM4MDUiDFJI2zp4RW0ZjDoJ6yrcA9wosATckAyJd6mCpRX5cE%2FxpFM1rMHlbX9eOq%2F9zpKjXHsRTseAjASYJuFiP5SDV4vC7BH75Ko206YWKsAWTBENZmXirBFTlhtOq579anjvDNesI9wY1pH7yqbuGqZiVZrkjjyZOqM2ef1b74CkmUGqRK0DavmbGfF2TyfLeNFX6e85ecLXhg9rbi%2FGa%2BpIBi8tDBY3Mk31E3BY46u7OxnbA5q7uXUFXR366ulTPGS7O%2FWV78lQgHr2Miz2cOgeJ8bTtZY%2F%2BYPzSauitBPsrTaU4%2FleMBTkYLsHhZ2Al6%2B1b58%2FK14IMCVgb%2FKXUV7dC19Ld30jg%2FHDkomYHQcmxU3GAJ9gbaFxiKCMjj%2FUrWVcJMD1cUhq%2FVNqsZKdh7Z8ogRtGhemt7e6ubJDpOCPiGIRDjgS%2BdpJQq5bO77AhGiSA%2BVLSs5mvno73XUsTRb2TP72E642cilz6OZD92hzE1c1rE9XpyZox6L6NYX3UZXFtwEv5oElxuOsfWo%2Fve5Epwsn3EgX2aO0ThI2JuUnhOxYHg8FMvdkb6MvfXsLB28zUfTg84gsbN222GsQTnM93A9Gihr4WOqD7yAzSsG378MFNZUHiHvTOYT3Z06sI9GRYeQqfJPMibLTkHDoMOzt9c0GOqUB5b63jle0FFMmw%2FLdkuwbxT8gM8Yl%2FrlfwR6RYPXXrNERiFwOczk2bw6t71XKUrg880zJEj9w3r9ksTimJiLWiFT3nOgbJbg7QQpQFSMb0IPnb3eRf6%2FrRrTbzVSQQ%2FOHtnoP0c7N3NaphTkHC0JRTiJhl8G47I02I4tf84Nfi01zK8koB%2BjY59aoGy4meoQ8j06KJrWA51UdrpJ%2FyAyhlrvfWSgM&amp;X-Amz-Signature=6183f2f3a480dbe93d9bda9a8d2560e325c04ee1141a4b90fd00d4a5c2c002f0&amp;X-Amz-SignedHeaders=host&amp;x-amz-checksum-mode=ENABLED&amp;x-id=GetObject&quot;,&quot;expiry_time&quot;:&quot;2026-03-20T18:10:13.736Z&quot;}}}],&quot;next_cursor&quot;:null,&quot;has_more&quot;:false,&quot;type&quot;:&quot;block&quot;,&quot;block&quot;:{},&quot;request_id&quot;:&quot;6aea1a4c-cf20-48b2-a823-29c0863fafdb&quot;}
+2026-03-20 17:10:13.768 [Test worker] ERROR io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with error: 200
+2026-03-20 17:10:13.768 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Error response body: 
+NotionListType(results=[ImageBlock(image=FileData(type=file, external=null, file=File(url=https://prod-files-secure.s3.us-west-2.amazonaws.com/74ecd6cf-1406-8114-a47c-000305deb73b/c6cd4107-d224-4aeb-a039-c85ece6d2620/int-14-image.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&amp;X-Amz-Credential=ASIAZI2LB466WF6CQKK6%2F20260320%2Fus-west-2%2Fs3%2Faws4_request&amp;X-Amz-Date=20260320T171013Z&amp;X-Amz-Expires=3600&amp;X-Amz-Security-Token=IQoJb3JpZ2luX2VjEHEaCXVzLXdlc3QtMiJHMEUCIQDmQC1C3PyMC1252mcBpjVZ87AzwF5UuybcVYEWPewaewIgZoYfpJxq0ppsVFkp%2BuaKNK4HxIP6YuO6ZRwRGgn9KJIq%2FwMIOhAAGgw2Mzc0MjMxODM4MDUiDFJI2zp4RW0ZjDoJ6yrcA9wosATckAyJd6mCpRX5cE%2FxpFM1rMHlbX9eOq%2F9zpKjXHsRTseAjASYJuFiP5SDV4vC7BH75Ko206YWKsAWTBENZmXirBFTlhtOq579anjvDNesI9wY1pH7yqbuGqZiVZrkjjyZOqM2ef1b74CkmUGqRK0DavmbGfF2TyfLeNFX6e85ecLXhg9rbi%2FGa%2BpIBi8tDBY3Mk31E3BY46u7OxnbA5q7uXUFXR366ulTPGS7O%2FWV78lQgHr2Miz2cOgeJ8bTtZY%2F%2BYPzSauitBPsrTaU4%2FleMBTkYLsHhZ2Al6%2B1b58%2FK14IMCVgb%2FKXUV7dC19Ld30jg%2FHDkomYHQcmxU3GAJ9gbaFxiKCMjj%2FUrWVcJMD1cUhq%2FVNqsZKdh7Z8ogRtGhemt7e6ubJDpOCPiGIRDjgS%2BdpJQq5bO77AhGiSA%2BVLSs5mvno73XUsTRb2TP72E642cilz6OZD92hzE1c1rE9XpyZox6L6NYX3UZXFtwEv5oElxuOsfWo%2Fve5Epwsn3EgX2aO0ThI2JuUnhOxYHg8FMvdkb6MvfXsLB28zUfTg84gsbN222GsQTnM93A9Gihr4WOqD7yAzSsG378MFNZUHiHvTOYT3Z06sI9GRYeQqfJPMibLTkHDoMOzt9c0GOqUB5b63jle0FFMmw%2FLdkuwbxT8gM8Yl%2FrlfwR6RYPXXrNERiFwOczk2bw6t71XKUrg880zJEj9w3r9ksTimJiLWiFT3nOgbJbg7QQpQFSMb0IPnb3eRf6%2FrRrTbzVSQQ%2FOHtnoP0c7N3NaphTkHC0JRTiJhl8G47I02I4tf84Nfi01zK8koB%2BjY59aoGy4meoQ8j06KJrWA51UdrpJ%2FyAyhlrvfWSgM&amp;X-Amz-Signature=6183f2f3a480dbe93d9bda9a8d2560e325c04ee1141a4b90fd00d4a5c2c002f0&amp;X-Amz-SignedHeaders=host&amp;x-amz-checksum-mode=ENABLED&amp;x-id=GetObject, expiryTime=2026-03-20T18:10:13.736Z), fileUpload=null, caption=[RichText(type=text, plainText=[IT-23]: An image from uploaded file, href=null, annotations=RichText.Annotations(bold=false, italic=false, strikethrough=false, underline=false, code=false, color=default), text=RichText.Text(content=[IT-23]: An image from uploaded file, link=null), mention=null, equation=null)], name=null))], nextCursor=null, hasMore=false, type=block)
+2026-03-20 17:10:13.780 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Calling NotionAPIv2026-03-11
+2026-03-20 17:10:13.781 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Building request...
+2026-03-20 17:10:13.782 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request method: POST, url: https://api.notion.com/v1/pages, content-type: application/json
+2026-03-20 17:10:13.783 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request body: 
+{
+  &quot;parent&quot; : {
+    &quot;type&quot; : &quot;page_id&quot;,
+    &quot;page_id&quot; : &quot;329cd6cf-1406-814c-8c85-c9189319b07b&quot;
+  },
+  &quot;properties&quot; : {
+    &quot;title&quot; : {
+      &quot;type&quot; : &quot;title&quot;,
+      &quot;title&quot; : [ {
+        &quot;type&quot; : &quot;text&quot;,
+        &quot;plain_text&quot; : &quot;[IT-26]: Blocks - Create several blocks at once&quot;,
+        &quot;annotations&quot; : { },
+        &quot;text&quot; : {
+          &quot;content&quot; : &quot;[IT-26]: Blocks - Create several blocks at once&quot;
+        }
+      } ]
+    }
+  },
+  &quot;position&quot; : {
+    &quot;type&quot; : &quot;page_start&quot;
+  }
+}
+2026-03-20 17:10:15.682 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with code: 200
+2026-03-20 17:10:15.682 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response body: 
+{&quot;object&quot;:&quot;page&quot;,&quot;id&quot;:&quot;329cd6cf-1406-81ee-bfc0-ef88eb10ffde&quot;,&quot;created_time&quot;:&quot;2026-03-20T17:10:00.000Z&quot;,&quot;last_edited_time&quot;:&quot;2026-03-20T17:10:00.000Z&quot;,&quot;created_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;last_edited_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;cover&quot;:null,&quot;icon&quot;:null,&quot;parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;329cd6cf-1406-814c-8c85-c9189319b07b&quot;},&quot;in_trash&quot;:false,&quot;is_archived&quot;:false,&quot;is_locked&quot;:false,&quot;properties&quot;:{&quot;title&quot;:{&quot;id&quot;:&quot;title&quot;,&quot;type&quot;:&quot;title&quot;,&quot;title&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;[IT-26]: Blocks - Create several blocks at once&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;[IT-26]: Blocks - Create several blocks at once&quot;,&quot;href&quot;:null}]}},&quot;url&quot;:&quot;https://www.notion.so/IT-26-Blocks-Create-several-blocks-at-once-329cd6cf140681eebfc0ef88eb10ffde&quot;,&quot;public_url&quot;:null,&quot;request_id&quot;:&quot;c6e3c682-c616-41a5-ac4c-1e1d659f4e9b&quot;}
+2026-03-20 17:10:15.683 [Test worker] ERROR io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with error: 200
+2026-03-20 17:10:15.683 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Error response body: 
+Page(properties={title=TitleProperty(type=title, title=[RichText(type=text, plainText=[IT-26]: Blocks - Create several blocks at once, href=null, annotations=RichText.Annotations(bold=false, italic=false, strikethrough=false, underline=false, code=false, color=default), text=RichText.Text(content=[IT-26]: Blocks - Create several blocks at once, link=null), mention=null, equation=null)])}, url=https://www.notion.so/IT-26-Blocks-Create-several-blocks-at-once-329cd6cf140681eebfc0ef88eb10ffde, publicUrl=null, icon=null, cover=null, isLocked=false)
+2026-03-20 17:10:15.688 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Calling NotionAPIv2026-03-11
+2026-03-20 17:10:15.688 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Building request...
+2026-03-20 17:10:15.693 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request method: PATCH, url: https://api.notion.com/v1/blocks/329cd6cf-1406-81ee-bfc0-ef88eb10ffde/children, content-type: application/json
+2026-03-20 17:10:15.694 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request body: 
+{
+  &quot;children&quot; : [ {
+    &quot;type&quot; : &quot;paragraph&quot;,
+    &quot;paragraph&quot; : {
+      &quot;rich_text&quot; : [ {
+        &quot;type&quot; : &quot;text&quot;,
+        &quot;plain_text&quot; : &quot;paragraph block&quot;,
+        &quot;annotations&quot; : { },
+        &quot;text&quot; : {
+          &quot;content&quot; : &quot;paragraph block&quot;
+        }
+      } ],
+      &quot;color&quot; : &quot;default&quot;
+    }
+  }, {
+    &quot;type&quot; : &quot;bulleted_list_item&quot;,
+    &quot;bulleted_list_item&quot; : {
+      &quot;rich_text&quot; : [ {
+        &quot;type&quot; : &quot;text&quot;,
+        &quot;plain_text&quot; : &quot;bulleted list block&quot;,
+        &quot;annotations&quot; : { },
+        &quot;text&quot; : {
+          &quot;content&quot; : &quot;bulleted list block&quot;
+        }
+      } ]
+    }
+  }, {
+    &quot;type&quot; : &quot;toggle&quot;,
+    &quot;toggle&quot; : {
+      &quot;rich_text&quot; : [ {
+        &quot;type&quot; : &quot;text&quot;,
+        &quot;plain_text&quot; : &quot;toggle block&quot;,
+        &quot;annotations&quot; : { },
+        &quot;text&quot; : {
+          &quot;content&quot; : &quot;toggle block&quot;
+        }
+      } ],
+      &quot;children&quot; : [ {
+        &quot;type&quot; : &quot;paragraph&quot;,
+        &quot;paragraph&quot; : {
+          &quot;rich_text&quot; : [ {
+            &quot;type&quot; : &quot;text&quot;,
+            &quot;plain_text&quot; : &quot;nested paragraph block&quot;,
+            &quot;annotations&quot; : { },
+            &quot;text&quot; : {
+              &quot;content&quot; : &quot;nested paragraph block&quot;
+            }
+          } ],
+          &quot;color&quot; : &quot;default&quot;
+        }
+      } ]
+    }
+  } ]
+}
+2026-03-20 17:10:17.527 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with code: 200
+2026-03-20 17:10:17.528 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response body: 
+{&quot;object&quot;:&quot;list&quot;,&quot;results&quot;:[{&quot;object&quot;:&quot;block&quot;,&quot;id&quot;:&quot;329cd6cf-1406-8164-8eef-fd6969c092e6&quot;,&quot;parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;329cd6cf-1406-81ee-bfc0-ef88eb10ffde&quot;},&quot;created_time&quot;:&quot;2026-03-20T17:10:00.000Z&quot;,&quot;last_edited_time&quot;:&quot;2026-03-20T17:10:00.000Z&quot;,&quot;created_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;last_edited_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;has_children&quot;:false,&quot;in_trash&quot;:false,&quot;type&quot;:&quot;paragraph&quot;,&quot;paragraph&quot;:{&quot;rich_text&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;paragraph block&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;paragraph block&quot;,&quot;href&quot;:null}],&quot;color&quot;:&quot;default&quot;}},{&quot;object&quot;:&quot;block&quot;,&quot;id&quot;:&quot;329cd6cf-1406-81ce-88da-c2fe5b8816be&quot;,&quot;parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;329cd6cf-1406-81ee-bfc0-ef88eb10ffde&quot;},&quot;created_time&quot;:&quot;2026-03-20T17:10:00.000Z&quot;,&quot;last_edited_time&quot;:&quot;2026-03-20T17:10:00.000Z&quot;,&quot;created_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;last_edited_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;has_children&quot;:false,&quot;in_trash&quot;:false,&quot;type&quot;:&quot;bulleted_list_item&quot;,&quot;bulleted_list_item&quot;:{&quot;rich_text&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;bulleted list block&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;bulleted list block&quot;,&quot;href&quot;:null}],&quot;color&quot;:&quot;default&quot;}},{&quot;object&quot;:&quot;block&quot;,&quot;id&quot;:&quot;329cd6cf-1406-8168-bb4d-cf5bb89ac684&quot;,&quot;parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;329cd6cf-1406-81ee-bfc0-ef88eb10ffde&quot;},&quot;created_time&quot;:&quot;2026-03-20T17:10:00.000Z&quot;,&quot;last_edited_time&quot;:&quot;2026-03-20T17:10:00.000Z&quot;,&quot;created_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;last_edited_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;has_children&quot;:true,&quot;in_trash&quot;:false,&quot;type&quot;:&quot;toggle&quot;,&quot;toggle&quot;:{&quot;rich_text&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;toggle block&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;toggle block&quot;,&quot;href&quot;:null}],&quot;color&quot;:&quot;default&quot;}}],&quot;next_cursor&quot;:null,&quot;has_more&quot;:false,&quot;type&quot;:&quot;block&quot;,&quot;block&quot;:{},&quot;request_id&quot;:&quot;8ccad745-f69d-46f8-84c0-ada3425ee230&quot;}
+2026-03-20 17:10:17.537 [Test worker] ERROR io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with error: 200
+2026-03-20 17:10:17.538 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Error response body: 
+NotionListType(results=[ParagraphBlock(paragraph=ParagraphBlock.Paragraph(richText=[RichText(type=text, plainText=paragraph block, href=null, annotations=RichText.Annotations(bold=false, italic=false, strikethrough=false, underline=false, code=false, color=default), text=RichText.Text(content=paragraph block, link=null), mention=null, equation=null)], color=default, children=null)), BulletedListItemBlock(bulletedListItem=BulletedListItemBlock.BulletedListItem(richText=[RichText(type=text, plainText=bulleted list block, href=null, annotations=RichText.Annotations(bold=false, italic=false, strikethrough=false, underline=false, code=false, color=default), text=RichText.Text(content=bulleted list block, link=null), mention=null, equation=null)], color=default, children=null)), ToggleBlock(toggle=ToggleBlock.Toggle(richText=[RichText(type=text, plainText=toggle block, href=null, annotations=RichText.Annotations(bold=false, italic=false, strikethrough=false, underline=false, code=false, color=default), text=RichText.Text(content=toggle block, link=null), mention=null, equation=null)], color=default, children=null))], nextCursor=null, hasMore=false, type=block)
+2026-03-20 17:10:17.547 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Calling NotionAPIv2026-03-11
+2026-03-20 17:10:17.547 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Building request...
+2026-03-20 17:10:17.548 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request method: POST, url: https://api.notion.com/v1/pages, content-type: application/json
+2026-03-20 17:10:17.548 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request body: 
+{
+  &quot;parent&quot; : {
+    &quot;type&quot; : &quot;page_id&quot;,
+    &quot;page_id&quot; : &quot;329cd6cf-1406-814c-8c85-c9189319b07b&quot;
+  },
+  &quot;properties&quot; : {
+    &quot;title&quot; : {
+      &quot;type&quot; : &quot;title&quot;,
+      &quot;title&quot; : [ {
+        &quot;type&quot; : &quot;text&quot;,
+        &quot;plain_text&quot; : &quot;[IT-30]: Blocks - Change block type (should be validation error)&quot;,
+        &quot;annotations&quot; : { },
+        &quot;text&quot; : {
+          &quot;content&quot; : &quot;[IT-30]: Blocks - Change block type (should be validation error)&quot;
+        }
+      } ]
+    }
+  },
+  &quot;position&quot; : {
+    &quot;type&quot; : &quot;page_start&quot;
+  }
+}
+2026-03-20 17:10:17.999 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with code: 200
+2026-03-20 17:10:18.000 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response body: 
+{&quot;object&quot;:&quot;page&quot;,&quot;id&quot;:&quot;329cd6cf-1406-81d7-9c57-d10a79b497c1&quot;,&quot;created_time&quot;:&quot;2026-03-20T17:10:00.000Z&quot;,&quot;last_edited_time&quot;:&quot;2026-03-20T17:10:00.000Z&quot;,&quot;created_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;last_edited_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;cover&quot;:null,&quot;icon&quot;:null,&quot;parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;329cd6cf-1406-814c-8c85-c9189319b07b&quot;},&quot;in_trash&quot;:false,&quot;is_archived&quot;:false,&quot;is_locked&quot;:false,&quot;properties&quot;:{&quot;title&quot;:{&quot;id&quot;:&quot;title&quot;,&quot;type&quot;:&quot;title&quot;,&quot;title&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;[IT-30]: Blocks - Change block type (should be validation error)&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;[IT-30]: Blocks - Change block type (should be validation error)&quot;,&quot;href&quot;:null}]}},&quot;url&quot;:&quot;https://www.notion.so/IT-30-Blocks-Change-block-type-should-be-validation-error-329cd6cf140681d79c57d10a79b497c1&quot;,&quot;public_url&quot;:null,&quot;request_id&quot;:&quot;3a9b0d8c-0bc6-4349-8b6d-e17c4a00f57d&quot;}
+2026-03-20 17:10:18.001 [Test worker] ERROR io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with error: 200
+2026-03-20 17:10:18.001 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Error response body: 
+Page(properties={title=TitleProperty(type=title, title=[RichText(type=text, plainText=[IT-30]: Blocks - Change block type (should be validation error), href=null, annotations=RichText.Annotations(bold=false, italic=false, strikethrough=false, underline=false, code=false, color=default), text=RichText.Text(content=[IT-30]: Blocks - Change block type (should be validation error), link=null), mention=null, equation=null)])}, url=https://www.notion.so/IT-30-Blocks-Change-block-type-should-be-validation-error-329cd6cf140681d79c57d10a79b497c1, publicUrl=null, icon=null, cover=null, isLocked=false)
+2026-03-20 17:10:18.004 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Calling NotionAPIv2026-03-11
+2026-03-20 17:10:18.004 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Building request...
+2026-03-20 17:10:18.005 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request method: PATCH, url: https://api.notion.com/v1/blocks/329cd6cf-1406-81d7-9c57-d10a79b497c1/children, content-type: application/json
+2026-03-20 17:10:18.006 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request body: 
+{
+  &quot;children&quot; : [ {
+    &quot;type&quot; : &quot;paragraph&quot;,
+    &quot;paragraph&quot; : {
+      &quot;rich_text&quot; : [ {
+        &quot;type&quot; : &quot;text&quot;,
+        &quot;plain_text&quot; : &quot;Text block&quot;,
+        &quot;annotations&quot; : { },
+        &quot;text&quot; : {
+          &quot;content&quot; : &quot;Text block&quot;
+        }
+      } ],
+      &quot;color&quot; : &quot;default&quot;
+    }
+  } ]
+}
+2026-03-20 17:10:18.514 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with code: 200
+2026-03-20 17:10:18.514 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response body: 
+{&quot;object&quot;:&quot;list&quot;,&quot;results&quot;:[{&quot;object&quot;:&quot;block&quot;,&quot;id&quot;:&quot;329cd6cf-1406-8106-80ac-d28bff9445b7&quot;,&quot;parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;329cd6cf-1406-81d7-9c57-d10a79b497c1&quot;},&quot;created_time&quot;:&quot;2026-03-20T17:10:00.000Z&quot;,&quot;last_edited_time&quot;:&quot;2026-03-20T17:10:00.000Z&quot;,&quot;created_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;last_edited_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;has_children&quot;:false,&quot;in_trash&quot;:false,&quot;type&quot;:&quot;paragraph&quot;,&quot;paragraph&quot;:{&quot;rich_text&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;Text block&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;Text block&quot;,&quot;href&quot;:null}],&quot;color&quot;:&quot;default&quot;}}],&quot;next_cursor&quot;:null,&quot;has_more&quot;:false,&quot;type&quot;:&quot;block&quot;,&quot;block&quot;:{},&quot;request_id&quot;:&quot;59f8e905-5df4-43fe-a492-16d18710ffee&quot;}
+2026-03-20 17:10:18.515 [Test worker] ERROR io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with error: 200
+2026-03-20 17:10:18.515 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Error response body: 
+NotionListType(results=[ParagraphBlock(paragraph=ParagraphBlock.Paragraph(richText=[RichText(type=text, plainText=Text block, href=null, annotations=RichText.Annotations(bold=false, italic=false, strikethrough=false, underline=false, code=false, color=default), text=RichText.Text(content=Text block, link=null), mention=null, equation=null)], color=default, children=null))], nextCursor=null, hasMore=false, type=block)
+2026-03-20 17:10:18.519 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Calling NotionAPIv2026-03-11
+2026-03-20 17:10:18.519 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Building request...
+2026-03-20 17:10:18.523 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request method: PATCH, url: https://api.notion.com/v1/blocks/329cd6cf-1406-8106-80ac-d28bff9445b7, content-type: application/json
+2026-03-20 17:10:18.524 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request body: 
+{
+  &quot;type&quot; : &quot;heading_3&quot;,
+  &quot;heading_3&quot; : {
+    &quot;rich_text&quot; : [ {
+      &quot;type&quot; : &quot;text&quot;,
+      &quot;plain_text&quot; : &quot;heading text&quot;,
+      &quot;annotations&quot; : { },
+      &quot;text&quot; : {
+        &quot;content&quot; : &quot;heading text&quot;
+      }
+    } ]
+  }
+}
+2026-03-20 17:10:18.598 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with code: 400
+2026-03-20 17:10:18.598 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response body: 
+{&quot;object&quot;:&quot;error&quot;,&quot;status&quot;:400,&quot;code&quot;:&quot;validation_error&quot;,&quot;message&quot;:&quot;Block type mismatch: this block is a `paragraph`, but your request includes fields for a `heading_3` block. Changing a block's type is not supported.&quot;,&quot;request_id&quot;:&quot;068feea9-4888-490f-8ac4-b3f70acdbf75&quot;}
+2026-03-20 17:10:18.602 [Test worker] ERROR io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with error: 400
+2026-03-20 17:10:18.605 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Error response body: 
+NotionError(error=null, status=400, code=validation_error, message=Block type mismatch: this block is a `paragraph`, but your request includes fields for a `heading_3` block. Changing a block's type is not supported., additionalData=null)
+2026-03-20 17:10:18.618 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Calling NotionAPIv2026-03-11
+2026-03-20 17:10:18.618 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Building request...
+2026-03-20 17:10:18.619 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request method: POST, url: https://api.notion.com/v1/pages, content-type: application/json
+2026-03-20 17:10:18.620 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request body: 
+{
+  &quot;parent&quot; : {
+    &quot;type&quot; : &quot;page_id&quot;,
+    &quot;page_id&quot; : &quot;329cd6cf-1406-814c-8c85-c9189319b07b&quot;
+  },
+  &quot;properties&quot; : {
+    &quot;title&quot; : {
+      &quot;type&quot; : &quot;title&quot;,
+      &quot;title&quot; : [ {
+        &quot;type&quot; : &quot;text&quot;,
+        &quot;plain_text&quot; : &quot;[IT-31]: Blocks - Insert blocks into a specific position&quot;,
+        &quot;annotations&quot; : { },
+        &quot;text&quot; : {
+          &quot;content&quot; : &quot;[IT-31]: Blocks - Insert blocks into a specific position&quot;
+        }
+      } ]
+    }
+  },
+  &quot;position&quot; : {
+    &quot;type&quot; : &quot;page_start&quot;
+  }
+}
+2026-03-20 17:10:19.295 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with code: 200
+2026-03-20 17:10:19.295 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response body: 
+{&quot;object&quot;:&quot;page&quot;,&quot;id&quot;:&quot;329cd6cf-1406-8110-918a-d06fabca0a19&quot;,&quot;created_time&quot;:&quot;2026-03-20T17:10:00.000Z&quot;,&quot;last_edited_time&quot;:&quot;2026-03-20T17:10:00.000Z&quot;,&quot;created_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;last_edited_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;cover&quot;:null,&quot;icon&quot;:null,&quot;parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;329cd6cf-1406-814c-8c85-c9189319b07b&quot;},&quot;in_trash&quot;:false,&quot;is_archived&quot;:false,&quot;is_locked&quot;:false,&quot;properties&quot;:{&quot;title&quot;:{&quot;id&quot;:&quot;title&quot;,&quot;type&quot;:&quot;title&quot;,&quot;title&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;[IT-31]: Blocks - Insert blocks into a specific position&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;[IT-31]: Blocks - Insert blocks into a specific position&quot;,&quot;href&quot;:null}]}},&quot;url&quot;:&quot;https://www.notion.so/IT-31-Blocks-Insert-blocks-into-a-specific-position-329cd6cf14068110918ad06fabca0a19&quot;,&quot;public_url&quot;:null,&quot;request_id&quot;:&quot;23e3275b-3430-4c0b-a90a-8567b6ee8c25&quot;}
+2026-03-20 17:10:19.296 [Test worker] ERROR io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with error: 200
+2026-03-20 17:10:19.296 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Error response body: 
+Page(properties={title=TitleProperty(type=title, title=[RichText(type=text, plainText=[IT-31]: Blocks - Insert blocks into a specific position, href=null, annotations=RichText.Annotations(bold=false, italic=false, strikethrough=false, underline=false, code=false, color=default), text=RichText.Text(content=[IT-31]: Blocks - Insert blocks into a specific position, link=null), mention=null, equation=null)])}, url=https://www.notion.so/IT-31-Blocks-Insert-blocks-into-a-specific-position-329cd6cf14068110918ad06fabca0a19, publicUrl=null, icon=null, cover=null, isLocked=false)
+2026-03-20 17:10:19.298 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Calling NotionAPIv2026-03-11
+2026-03-20 17:10:19.298 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Building request...
+2026-03-20 17:10:19.299 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request method: PATCH, url: https://api.notion.com/v1/blocks/329cd6cf-1406-8110-918a-d06fabca0a19/children, content-type: application/json
+2026-03-20 17:10:19.300 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request body: 
+{
+  &quot;children&quot; : [ {
+    &quot;type&quot; : &quot;paragraph&quot;,
+    &quot;paragraph&quot; : {
+      &quot;rich_text&quot; : [ {
+        &quot;type&quot; : &quot;text&quot;,
+        &quot;plain_text&quot; : &quot;initial block 1&quot;,
+        &quot;annotations&quot; : { },
+        &quot;text&quot; : {
+          &quot;content&quot; : &quot;initial block 1&quot;
+        }
+      } ],
+      &quot;color&quot; : &quot;default&quot;
+    }
+  }, {
+    &quot;type&quot; : &quot;paragraph&quot;,
+    &quot;paragraph&quot; : {
+      &quot;rich_text&quot; : [ {
+        &quot;type&quot; : &quot;text&quot;,
+        &quot;plain_text&quot; : &quot;initial block 2&quot;,
+        &quot;annotations&quot; : { },
+        &quot;text&quot; : {
+          &quot;content&quot; : &quot;initial block 2&quot;
+        }
+      } ],
+      &quot;color&quot; : &quot;default&quot;
+    }
+  } ]
+}
+2026-03-20 17:10:19.901 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with code: 200
+2026-03-20 17:10:19.901 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response body: 
+{&quot;object&quot;:&quot;list&quot;,&quot;results&quot;:[{&quot;object&quot;:&quot;block&quot;,&quot;id&quot;:&quot;329cd6cf-1406-8187-bc45-d5c37bf2afe9&quot;,&quot;parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;329cd6cf-1406-8110-918a-d06fabca0a19&quot;},&quot;created_time&quot;:&quot;2026-03-20T17:10:00.000Z&quot;,&quot;last_edited_time&quot;:&quot;2026-03-20T17:10:00.000Z&quot;,&quot;created_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;last_edited_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;has_children&quot;:false,&quot;in_trash&quot;:false,&quot;type&quot;:&quot;paragraph&quot;,&quot;paragraph&quot;:{&quot;rich_text&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;initial block 1&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;initial block 1&quot;,&quot;href&quot;:null}],&quot;color&quot;:&quot;default&quot;}},{&quot;object&quot;:&quot;block&quot;,&quot;id&quot;:&quot;329cd6cf-1406-8104-afe8-e5923c22181a&quot;,&quot;parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;329cd6cf-1406-8110-918a-d06fabca0a19&quot;},&quot;created_time&quot;:&quot;2026-03-20T17:10:00.000Z&quot;,&quot;last_edited_time&quot;:&quot;2026-03-20T17:10:00.000Z&quot;,&quot;created_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;last_edited_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;has_children&quot;:false,&quot;in_trash&quot;:false,&quot;type&quot;:&quot;paragraph&quot;,&quot;paragraph&quot;:{&quot;rich_text&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;initial block 2&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;initial block 2&quot;,&quot;href&quot;:null}],&quot;color&quot;:&quot;default&quot;}}],&quot;next_cursor&quot;:null,&quot;has_more&quot;:false,&quot;type&quot;:&quot;block&quot;,&quot;block&quot;:{},&quot;request_id&quot;:&quot;6e0620d5-5257-456a-9564-2089c8091ad2&quot;}
+2026-03-20 17:10:19.902 [Test worker] ERROR io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with error: 200
+2026-03-20 17:10:19.902 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Error response body: 
+NotionListType(results=[ParagraphBlock(paragraph=ParagraphBlock.Paragraph(richText=[RichText(type=text, plainText=initial block 1, href=null, annotations=RichText.Annotations(bold=false, italic=false, strikethrough=false, underline=false, code=false, color=default), text=RichText.Text(content=initial block 1, link=null), mention=null, equation=null)], color=default, children=null)), ParagraphBlock(paragraph=ParagraphBlock.Paragraph(richText=[RichText(type=text, plainText=initial block 2, href=null, annotations=RichText.Annotations(bold=false, italic=false, strikethrough=false, underline=false, code=false, color=default), text=RichText.Text(content=initial block 2, link=null), mention=null, equation=null)], color=default, children=null))], nextCursor=null, hasMore=false, type=block)
+2026-03-20 17:10:19.903 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Calling NotionAPIv2026-03-11
+2026-03-20 17:10:19.904 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Building request...
+2026-03-20 17:10:19.905 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request method: PATCH, url: https://api.notion.com/v1/blocks/329cd6cf-1406-8110-918a-d06fabca0a19/children, content-type: application/json
+2026-03-20 17:10:19.905 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request body: 
+{
+  &quot;children&quot; : [ {
+    &quot;type&quot; : &quot;paragraph&quot;,
+    &quot;paragraph&quot; : {
+      &quot;rich_text&quot; : [ {
+        &quot;type&quot; : &quot;text&quot;,
+        &quot;plain_text&quot; : &quot;inserted block&quot;,
+        &quot;annotations&quot; : { },
+        &quot;text&quot; : {
+          &quot;content&quot; : &quot;inserted block&quot;
+        }
+      } ],
+      &quot;color&quot; : &quot;default&quot;
+    }
+  } ],
+  &quot;position&quot; : {
+    &quot;type&quot; : &quot;after_block&quot;,
+    &quot;after_block&quot; : {
+      &quot;id&quot; : &quot;329cd6cf-1406-8187-bc45-d5c37bf2afe9&quot;
+    }
+  }
+}
+2026-03-20 17:10:20.310 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with code: 200
+2026-03-20 17:10:20.311 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response body: 
+{&quot;object&quot;:&quot;list&quot;,&quot;results&quot;:[{&quot;object&quot;:&quot;block&quot;,&quot;id&quot;:&quot;329cd6cf-1406-815d-ab37-f929a3900d44&quot;,&quot;parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;329cd6cf-1406-8110-918a-d06fabca0a19&quot;},&quot;created_time&quot;:&quot;2026-03-20T17:10:00.000Z&quot;,&quot;last_edited_time&quot;:&quot;2026-03-20T17:10:00.000Z&quot;,&quot;created_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;last_edited_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;has_children&quot;:false,&quot;in_trash&quot;:false,&quot;type&quot;:&quot;paragraph&quot;,&quot;paragraph&quot;:{&quot;rich_text&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;inserted block&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;inserted block&quot;,&quot;href&quot;:null}],&quot;color&quot;:&quot;default&quot;}},{&quot;object&quot;:&quot;block&quot;,&quot;id&quot;:&quot;329cd6cf-1406-8104-afe8-e5923c22181a&quot;,&quot;parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;329cd6cf-1406-8110-918a-d06fabca0a19&quot;},&quot;created_time&quot;:&quot;2026-03-20T17:10:00.000Z&quot;,&quot;last_edited_time&quot;:&quot;2026-03-20T17:10:00.000Z&quot;,&quot;created_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;last_edited_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;has_children&quot;:false,&quot;in_trash&quot;:false,&quot;type&quot;:&quot;paragraph&quot;,&quot;paragraph&quot;:{&quot;rich_text&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;initial block 2&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;initial block 2&quot;,&quot;href&quot;:null}],&quot;color&quot;:&quot;default&quot;}}],&quot;next_cursor&quot;:null,&quot;has_more&quot;:false,&quot;type&quot;:&quot;block&quot;,&quot;block&quot;:{},&quot;request_id&quot;:&quot;6191f363-bc7e-41ef-b937-e9f60df8944c&quot;}
+2026-03-20 17:10:20.312 [Test worker] ERROR io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with error: 200
+2026-03-20 17:10:20.312 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Error response body: 
+NotionListType(results=[ParagraphBlock(paragraph=ParagraphBlock.Paragraph(richText=[RichText(type=text, plainText=inserted block, href=null, annotations=RichText.Annotations(bold=false, italic=false, strikethrough=false, underline=false, code=false, color=default), text=RichText.Text(content=inserted block, link=null), mention=null, equation=null)], color=default, children=null)), ParagraphBlock(paragraph=ParagraphBlock.Paragraph(richText=[RichText(type=text, plainText=initial block 2, href=null, annotations=RichText.Annotations(bold=false, italic=false, strikethrough=false, underline=false, code=false, color=default), text=RichText.Text(content=initial block 2, link=null), mention=null, equation=null)], color=default, children=null))], nextCursor=null, hasMore=false, type=block)
+2026-03-20 17:10:20.313 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Calling NotionAPIv2026-03-11
+2026-03-20 17:10:20.313 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Building request...
+2026-03-20 17:10:20.314 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request method: GET, url: https://api.notion.com/v1/blocks/329cd6cf-1406-8110-918a-d06fabca0a19/children, content-type: null
+2026-03-20 17:10:20.782 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with code: 200
+2026-03-20 17:10:20.782 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response body: 
+{&quot;object&quot;:&quot;list&quot;,&quot;results&quot;:[{&quot;object&quot;:&quot;block&quot;,&quot;id&quot;:&quot;329cd6cf-1406-8187-bc45-d5c37bf2afe9&quot;,&quot;parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;329cd6cf-1406-8110-918a-d06fabca0a19&quot;},&quot;created_time&quot;:&quot;2026-03-20T17:10:00.000Z&quot;,&quot;last_edited_time&quot;:&quot;2026-03-20T17:10:00.000Z&quot;,&quot;created_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;last_edited_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;has_children&quot;:false,&quot;in_trash&quot;:false,&quot;type&quot;:&quot;paragraph&quot;,&quot;paragraph&quot;:{&quot;rich_text&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;initial block 1&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;initial block 1&quot;,&quot;href&quot;:null}],&quot;color&quot;:&quot;default&quot;}},{&quot;object&quot;:&quot;block&quot;,&quot;id&quot;:&quot;329cd6cf-1406-815d-ab37-f929a3900d44&quot;,&quot;parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;329cd6cf-1406-8110-918a-d06fabca0a19&quot;},&quot;created_time&quot;:&quot;2026-03-20T17:10:00.000Z&quot;,&quot;last_edited_time&quot;:&quot;2026-03-20T17:10:00.000Z&quot;,&quot;created_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;last_edited_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;has_children&quot;:false,&quot;in_trash&quot;:false,&quot;type&quot;:&quot;paragraph&quot;,&quot;paragraph&quot;:{&quot;rich_text&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;inserted block&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;inserted block&quot;,&quot;href&quot;:null}],&quot;color&quot;:&quot;default&quot;}},{&quot;object&quot;:&quot;block&quot;,&quot;id&quot;:&quot;329cd6cf-1406-8104-afe8-e5923c22181a&quot;,&quot;parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;329cd6cf-1406-8110-918a-d06fabca0a19&quot;},&quot;created_time&quot;:&quot;2026-03-20T17:10:00.000Z&quot;,&quot;last_edited_time&quot;:&quot;2026-03-20T17:10:00.000Z&quot;,&quot;created_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;last_edited_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;has_children&quot;:false,&quot;in_trash&quot;:false,&quot;type&quot;:&quot;paragraph&quot;,&quot;paragraph&quot;:{&quot;rich_text&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;initial block 2&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;initial block 2&quot;,&quot;href&quot;:null}],&quot;color&quot;:&quot;default&quot;}}],&quot;next_cursor&quot;:null,&quot;has_more&quot;:false,&quot;type&quot;:&quot;block&quot;,&quot;block&quot;:{},&quot;request_id&quot;:&quot;fd72db47-494e-4621-b61a-fd8c75d5132a&quot;}
+2026-03-20 17:10:20.783 [Test worker] ERROR io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with error: 200
+2026-03-20 17:10:20.784 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Error response body: 
+NotionListType(results=[ParagraphBlock(paragraph=ParagraphBlock.Paragraph(richText=[RichText(type=text, plainText=initial block 1, href=null, annotations=RichText.Annotations(bold=false, italic=false, strikethrough=false, underline=false, code=false, color=default), text=RichText.Text(content=initial block 1, link=null), mention=null, equation=null)], color=default, children=null)), ParagraphBlock(paragraph=ParagraphBlock.Paragraph(richText=[RichText(type=text, plainText=inserted block, href=null, annotations=RichText.Annotations(bold=false, italic=false, strikethrough=false, underline=false, code=false, color=default), text=RichText.Text(content=inserted block, link=null), mention=null, equation=null)], color=default, children=null)), ParagraphBlock(paragraph=ParagraphBlock.Paragraph(richText=[RichText(type=text, plainText=initial block 2, href=null, annotations=RichText.Annotations(bold=false, italic=false, strikethrough=false, underline=false, code=false, color=default), text=RichText.Text(content=initial block 2, link=null), mention=null, equation=null)], color=default, children=null))], nextCursor=null, hasMore=false, type=block)
+2026-03-20 17:10:20.790 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Calling NotionAPIv2026-03-11
+2026-03-20 17:10:20.790 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Building request...
+2026-03-20 17:10:20.790 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request method: POST, url: https://api.notion.com/v1/pages, content-type: application/json
+2026-03-20 17:10:20.791 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request body: 
+{
+  &quot;parent&quot; : {
+    &quot;type&quot; : &quot;page_id&quot;,
+    &quot;page_id&quot; : &quot;329cd6cf-1406-814c-8c85-c9189319b07b&quot;
+  },
+  &quot;properties&quot; : {
+    &quot;title&quot; : {
+      &quot;type&quot; : &quot;title&quot;,
+      &quot;title&quot; : [ {
+        &quot;type&quot; : &quot;text&quot;,
+        &quot;plain_text&quot; : &quot;[IT-22]: Blocks - Creation / update / retrieval for a paragraph block&quot;,
+        &quot;annotations&quot; : { },
+        &quot;text&quot; : {
+          &quot;content&quot; : &quot;[IT-22]: Blocks - Creation / update / retrieval for a paragraph block&quot;
+        }
+      } ]
+    }
+  },
+  &quot;position&quot; : {
+    &quot;type&quot; : &quot;page_start&quot;
+  }
+}
+2026-03-20 17:10:21.394 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with code: 200
+2026-03-20 17:10:21.394 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response body: 
+{&quot;object&quot;:&quot;page&quot;,&quot;id&quot;:&quot;329cd6cf-1406-81e9-ac45-dc96b04b4a58&quot;,&quot;created_time&quot;:&quot;2026-03-20T17:10:00.000Z&quot;,&quot;last_edited_time&quot;:&quot;2026-03-20T17:10:00.000Z&quot;,&quot;created_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;last_edited_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;cover&quot;:null,&quot;icon&quot;:null,&quot;parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;329cd6cf-1406-814c-8c85-c9189319b07b&quot;},&quot;in_trash&quot;:false,&quot;is_archived&quot;:false,&quot;is_locked&quot;:false,&quot;properties&quot;:{&quot;title&quot;:{&quot;id&quot;:&quot;title&quot;,&quot;type&quot;:&quot;title&quot;,&quot;title&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;[IT-22]: Blocks - Creation / update / retrieval for a paragraph block&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;[IT-22]: Blocks - Creation / update / retrieval for a paragraph block&quot;,&quot;href&quot;:null}]}},&quot;url&quot;:&quot;https://www.notion.so/IT-22-Blocks-Creation-update-retrieval-for-a-paragraph-block-329cd6cf140681e9ac45dc96b04b4a58&quot;,&quot;public_url&quot;:null,&quot;request_id&quot;:&quot;d16195a2-6936-4962-9c13-16ce2f4f49f4&quot;}
+2026-03-20 17:10:21.395 [Test worker] ERROR io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with error: 200
+2026-03-20 17:10:21.395 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Error response body: 
+Page(properties={title=TitleProperty(type=title, title=[RichText(type=text, plainText=[IT-22]: Blocks - Creation / update / retrieval for a paragraph block, href=null, annotations=RichText.Annotations(bold=false, italic=false, strikethrough=false, underline=false, code=false, color=default), text=RichText.Text(content=[IT-22]: Blocks - Creation / update / retrieval for a paragraph block, link=null), mention=null, equation=null)])}, url=https://www.notion.so/IT-22-Blocks-Creation-update-retrieval-for-a-paragraph-block-329cd6cf140681e9ac45dc96b04b4a58, publicUrl=null, icon=null, cover=null, isLocked=false)
+2026-03-20 17:10:21.397 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Calling NotionAPIv2026-03-11
+2026-03-20 17:10:21.397 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Building request...
+2026-03-20 17:10:21.398 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request method: PATCH, url: https://api.notion.com/v1/blocks/329cd6cf-1406-81e9-ac45-dc96b04b4a58/children, content-type: application/json
+2026-03-20 17:10:21.398 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request body: 
+{
+  &quot;children&quot; : [ {
+    &quot;type&quot; : &quot;paragraph&quot;,
+    &quot;paragraph&quot; : {
+      &quot;rich_text&quot; : [ {
+        &quot;type&quot; : &quot;text&quot;,
+        &quot;plain_text&quot; : &quot;testing text block&quot;,
+        &quot;annotations&quot; : { },
+        &quot;text&quot; : {
+          &quot;content&quot; : &quot;testing text block&quot;
+        }
+      } ],
+      &quot;color&quot; : &quot;default&quot;
+    }
+  } ]
+}
+2026-03-20 17:10:21.967 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with code: 200
+2026-03-20 17:10:21.968 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response body: 
+{&quot;object&quot;:&quot;list&quot;,&quot;results&quot;:[{&quot;object&quot;:&quot;block&quot;,&quot;id&quot;:&quot;329cd6cf-1406-81ef-be43-cb2c2e2a24bf&quot;,&quot;parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;329cd6cf-1406-81e9-ac45-dc96b04b4a58&quot;},&quot;created_time&quot;:&quot;2026-03-20T17:10:00.000Z&quot;,&quot;last_edited_time&quot;:&quot;2026-03-20T17:10:00.000Z&quot;,&quot;created_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;last_edited_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;has_children&quot;:false,&quot;in_trash&quot;:false,&quot;type&quot;:&quot;paragraph&quot;,&quot;paragraph&quot;:{&quot;rich_text&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;testing text block&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;testing text block&quot;,&quot;href&quot;:null}],&quot;color&quot;:&quot;default&quot;}}],&quot;next_cursor&quot;:null,&quot;has_more&quot;:false,&quot;type&quot;:&quot;block&quot;,&quot;block&quot;:{},&quot;request_id&quot;:&quot;b3bc3df0-4080-4746-96e1-1b71666cb47e&quot;}
+2026-03-20 17:10:21.968 [Test worker] ERROR io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with error: 200
+2026-03-20 17:10:21.969 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Error response body: 
+NotionListType(results=[ParagraphBlock(paragraph=ParagraphBlock.Paragraph(richText=[RichText(type=text, plainText=testing text block, href=null, annotations=RichText.Annotations(bold=false, italic=false, strikethrough=false, underline=false, code=false, color=default), text=RichText.Text(content=testing text block, link=null), mention=null, equation=null)], color=default, children=null))], nextCursor=null, hasMore=false, type=block)
+2026-03-20 17:10:21.969 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Calling NotionAPIv2026-03-11
+2026-03-20 17:10:21.970 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Building request...
+2026-03-20 17:10:21.971 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request method: PATCH, url: https://api.notion.com/v1/blocks/329cd6cf-1406-81ef-be43-cb2c2e2a24bf, content-type: application/json
+2026-03-20 17:10:21.971 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request body: 
+{
+  &quot;type&quot; : &quot;paragraph&quot;,
+  &quot;paragraph&quot; : {
+    &quot;rich_text&quot; : [ {
+      &quot;type&quot; : &quot;text&quot;,
+      &quot;plain_text&quot; : &quot;updated text block&quot;,
+      &quot;annotations&quot; : {
+        &quot;bold&quot; : true
+      },
+      &quot;text&quot; : {
+        &quot;content&quot; : &quot;updated text block&quot;
+      }
+    } ],
+    &quot;color&quot; : &quot;blue&quot;
+  }
+}
+2026-03-20 17:10:22.247 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with code: 200
+2026-03-20 17:10:22.247 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response body: 
+{&quot;object&quot;:&quot;block&quot;,&quot;id&quot;:&quot;329cd6cf-1406-81ef-be43-cb2c2e2a24bf&quot;,&quot;parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;329cd6cf-1406-81e9-ac45-dc96b04b4a58&quot;},&quot;created_time&quot;:&quot;2026-03-20T17:10:00.000Z&quot;,&quot;last_edited_time&quot;:&quot;2026-03-20T17:10:00.000Z&quot;,&quot;created_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;last_edited_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;has_children&quot;:false,&quot;in_trash&quot;:false,&quot;type&quot;:&quot;paragraph&quot;,&quot;paragraph&quot;:{&quot;rich_text&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;updated text block&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:true,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;updated text block&quot;,&quot;href&quot;:null}],&quot;color&quot;:&quot;blue&quot;},&quot;request_id&quot;:&quot;99ac2e6c-9da8-4735-8232-af53539a1044&quot;}
+2026-03-20 17:10:22.248 [Test worker] ERROR io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with error: 200
+2026-03-20 17:10:22.249 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Error response body: 
+ParagraphBlock(paragraph=ParagraphBlock.Paragraph(richText=[RichText(type=text, plainText=updated text block, href=null, annotations=RichText.Annotations(bold=true, italic=false, strikethrough=false, underline=false, code=false, color=default), text=RichText.Text(content=updated text block, link=null), mention=null, equation=null)], color=blue, children=null))
+2026-03-20 17:10:22.249 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Calling NotionAPIv2026-03-11
+2026-03-20 17:10:22.250 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Building request...
+2026-03-20 17:10:22.250 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request method: PATCH, url: https://api.notion.com/v1/blocks/329cd6cf-1406-81ef-be43-cb2c2e2a24bf, content-type: application/json
+2026-03-20 17:10:22.251 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request body: 
+{
+  &quot;type&quot; : &quot;paragraph&quot;,
+  &quot;paragraph&quot; : {
+    &quot;rich_text&quot; : [ {
+      &quot;type&quot; : &quot;text&quot;,
+      &quot;plain_text&quot; : &quot;Text - &quot;,
+      &quot;annotations&quot; : {
+        &quot;color&quot; : &quot;blue&quot;
+      },
+      &quot;text&quot; : {
+        &quot;content&quot; : &quot;Text - &quot;
+      }
+    }, {
+      &quot;type&quot; : &quot;text&quot;,
+      &quot;plain_text&quot; : &quot;updated&quot;,
+      &quot;annotations&quot; : {
+        &quot;color&quot; : &quot;yellow&quot;
+      },
+      &quot;text&quot; : {
+        &quot;content&quot; : &quot;updated&quot;
+      }
+    } ]
+  }
+}
+2026-03-20 17:10:22.863 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with code: 200
+2026-03-20 17:10:22.863 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response body: 
+{&quot;object&quot;:&quot;block&quot;,&quot;id&quot;:&quot;329cd6cf-1406-81ef-be43-cb2c2e2a24bf&quot;,&quot;parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;329cd6cf-1406-81e9-ac45-dc96b04b4a58&quot;},&quot;created_time&quot;:&quot;2026-03-20T17:10:00.000Z&quot;,&quot;last_edited_time&quot;:&quot;2026-03-20T17:10:00.000Z&quot;,&quot;created_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;last_edited_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;has_children&quot;:false,&quot;in_trash&quot;:false,&quot;type&quot;:&quot;paragraph&quot;,&quot;paragraph&quot;:{&quot;rich_text&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;Text - &quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;blue&quot;},&quot;plain_text&quot;:&quot;Text - &quot;,&quot;href&quot;:null},{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;updated&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;yellow&quot;},&quot;plain_text&quot;:&quot;updated&quot;,&quot;href&quot;:null}],&quot;color&quot;:&quot;blue&quot;},&quot;request_id&quot;:&quot;db024e8d-b30f-4026-9938-acb5cbfb3d9b&quot;}
+2026-03-20 17:10:22.864 [Test worker] ERROR io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with error: 200
+2026-03-20 17:10:22.864 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Error response body: 
+ParagraphBlock(paragraph=ParagraphBlock.Paragraph(richText=[RichText(type=text, plainText=Text - , href=null, annotations=RichText.Annotations(bold=false, italic=false, strikethrough=false, underline=false, code=false, color=blue), text=RichText.Text(content=Text - , link=null), mention=null, equation=null), RichText(type=text, plainText=updated, href=null, annotations=RichText.Annotations(bold=false, italic=false, strikethrough=false, underline=false, code=false, color=yellow), text=RichText.Text(content=updated, link=null), mention=null, equation=null)], color=blue, children=null))
+2026-03-20 17:10:22.864 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Calling NotionAPIv2026-03-11
+2026-03-20 17:10:22.865 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Building request...
+2026-03-20 17:10:22.865 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request method: GET, url: https://api.notion.com/v1/blocks/329cd6cf-1406-81ef-be43-cb2c2e2a24bf, content-type: null
+2026-03-20 17:10:25.736 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with code: 200
+2026-03-20 17:10:25.736 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response body: 
+{&quot;object&quot;:&quot;block&quot;,&quot;id&quot;:&quot;329cd6cf-1406-81ef-be43-cb2c2e2a24bf&quot;,&quot;parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;329cd6cf-1406-81e9-ac45-dc96b04b4a58&quot;},&quot;created_time&quot;:&quot;2026-03-20T17:10:00.000Z&quot;,&quot;last_edited_time&quot;:&quot;2026-03-20T17:10:00.000Z&quot;,&quot;created_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;last_edited_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;has_children&quot;:false,&quot;in_trash&quot;:false,&quot;type&quot;:&quot;paragraph&quot;,&quot;paragraph&quot;:{&quot;rich_text&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;Text - &quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;blue&quot;},&quot;plain_text&quot;:&quot;Text - &quot;,&quot;href&quot;:null},{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;updated&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;yellow&quot;},&quot;plain_text&quot;:&quot;updated&quot;,&quot;href&quot;:null}],&quot;color&quot;:&quot;blue&quot;},&quot;request_id&quot;:&quot;66cf1731-c251-4e70-a62e-8edd3043bad8&quot;}
+2026-03-20 17:10:25.737 [Test worker] ERROR io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with error: 200
+2026-03-20 17:10:25.737 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Error response body: 
+ParagraphBlock(paragraph=ParagraphBlock.Paragraph(richText=[RichText(type=text, plainText=Text - , href=null, annotations=RichText.Annotations(bold=false, italic=false, strikethrough=false, underline=false, code=false, color=blue), text=RichText.Text(content=Text - , link=null), mention=null, equation=null), RichText(type=text, plainText=updated, href=null, annotations=RichText.Annotations(bold=false, italic=false, strikethrough=false, underline=false, code=false, color=yellow), text=RichText.Text(content=updated, link=null), mention=null, equation=null)], color=blue, children=null))
+2026-03-20 17:10:25.746 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Calling NotionAPIv2026-03-11
+2026-03-20 17:10:25.746 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Building request...
+2026-03-20 17:10:25.746 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request method: POST, url: https://api.notion.com/v1/pages, content-type: application/json
+2026-03-20 17:10:25.747 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request body: 
+{
+  &quot;parent&quot; : {
+    &quot;type&quot; : &quot;page_id&quot;,
+    &quot;page_id&quot; : &quot;329cd6cf-1406-814c-8c85-c9189319b07b&quot;
+  },
+  &quot;properties&quot; : {
+    &quot;title&quot; : {
+      &quot;type&quot; : &quot;title&quot;,
+      &quot;title&quot; : [ {
+        &quot;type&quot; : &quot;text&quot;,
+        &quot;plain_text&quot; : &quot;[IT-42]: Blocks - Append different block types&quot;,
+        &quot;annotations&quot; : { },
+        &quot;text&quot; : {
+          &quot;content&quot; : &quot;[IT-42]: Blocks - Append different block types&quot;
+        }
+      } ]
+    }
+  },
+  &quot;position&quot; : {
+    &quot;type&quot; : &quot;page_start&quot;
+  }
+}
+2026-03-20 17:10:26.123 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with code: 200
+2026-03-20 17:10:26.123 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response body: 
+{&quot;object&quot;:&quot;page&quot;,&quot;id&quot;:&quot;329cd6cf-1406-8176-b251-e040f3c2e0cb&quot;,&quot;created_time&quot;:&quot;2026-03-20T17:10:00.000Z&quot;,&quot;last_edited_time&quot;:&quot;2026-03-20T17:10:00.000Z&quot;,&quot;created_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;last_edited_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;cover&quot;:null,&quot;icon&quot;:null,&quot;parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;329cd6cf-1406-814c-8c85-c9189319b07b&quot;},&quot;in_trash&quot;:false,&quot;is_archived&quot;:false,&quot;is_locked&quot;:false,&quot;properties&quot;:{&quot;title&quot;:{&quot;id&quot;:&quot;title&quot;,&quot;type&quot;:&quot;title&quot;,&quot;title&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;[IT-42]: Blocks - Append different block types&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;[IT-42]: Blocks - Append different block types&quot;,&quot;href&quot;:null}]}},&quot;url&quot;:&quot;https://www.notion.so/IT-42-Blocks-Append-different-block-types-329cd6cf14068176b251e040f3c2e0cb&quot;,&quot;public_url&quot;:null,&quot;request_id&quot;:&quot;aa7b4d31-b87c-4980-bb43-6ffd54a1e88e&quot;}
+2026-03-20 17:10:26.124 [Test worker] ERROR io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with error: 200
+2026-03-20 17:10:26.124 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Error response body: 
+Page(properties={title=TitleProperty(type=title, title=[RichText(type=text, plainText=[IT-42]: Blocks - Append different block types, href=null, annotations=RichText.Annotations(bold=false, italic=false, strikethrough=false, underline=false, code=false, color=default), text=RichText.Text(content=[IT-42]: Blocks - Append different block types, link=null), mention=null, equation=null)])}, url=https://www.notion.so/IT-42-Blocks-Append-different-block-types-329cd6cf14068176b251e040f3c2e0cb, publicUrl=null, icon=null, cover=null, isLocked=false)
+2026-03-20 17:10:26.130 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Calling NotionAPIv2026-03-11
+2026-03-20 17:10:26.131 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Building request...
+2026-03-20 17:10:26.131 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request method: POST, url: https://api.notion.com/v1/pages, content-type: application/json
+2026-03-20 17:10:26.132 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request body: 
+{
+  &quot;parent&quot; : {
+    &quot;type&quot; : &quot;page_id&quot;,
+    &quot;page_id&quot; : &quot;329cd6cf-1406-814c-8c85-c9189319b07b&quot;
+  },
+  &quot;properties&quot; : {
+    &quot;title&quot; : {
+      &quot;type&quot; : &quot;title&quot;,
+      &quot;title&quot; : [ {
+        &quot;type&quot; : &quot;text&quot;,
+        &quot;plain_text&quot; : &quot;[IT-24]: Blocks - Delete and restore a block&quot;,
+        &quot;annotations&quot; : { },
+        &quot;text&quot; : {
+          &quot;content&quot; : &quot;[IT-24]: Blocks - Delete and restore a block&quot;
+        }
+      } ]
+    }
+  },
+  &quot;position&quot; : {
+    &quot;type&quot; : &quot;page_start&quot;
+  }
+}
+2026-03-20 17:10:26.569 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with code: 200
+2026-03-20 17:10:26.569 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response body: 
+{&quot;object&quot;:&quot;page&quot;,&quot;id&quot;:&quot;329cd6cf-1406-81d0-a033-c1a4adad6867&quot;,&quot;created_time&quot;:&quot;2026-03-20T17:10:00.000Z&quot;,&quot;last_edited_time&quot;:&quot;2026-03-20T17:10:00.000Z&quot;,&quot;created_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;last_edited_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;cover&quot;:null,&quot;icon&quot;:null,&quot;parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;329cd6cf-1406-814c-8c85-c9189319b07b&quot;},&quot;in_trash&quot;:false,&quot;is_archived&quot;:false,&quot;is_locked&quot;:false,&quot;properties&quot;:{&quot;title&quot;:{&quot;id&quot;:&quot;title&quot;,&quot;type&quot;:&quot;title&quot;,&quot;title&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;[IT-24]: Blocks - Delete and restore a block&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;[IT-24]: Blocks - Delete and restore a block&quot;,&quot;href&quot;:null}]}},&quot;url&quot;:&quot;https://www.notion.so/IT-24-Blocks-Delete-and-restore-a-block-329cd6cf140681d0a033c1a4adad6867&quot;,&quot;public_url&quot;:null,&quot;request_id&quot;:&quot;6af7e1b6-6609-410c-ba08-d18aeea542e7&quot;}
+2026-03-20 17:10:26.569 [Test worker] ERROR io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with error: 200
+2026-03-20 17:10:26.570 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Error response body: 
+Page(properties={title=TitleProperty(type=title, title=[RichText(type=text, plainText=[IT-24]: Blocks - Delete and restore a block, href=null, annotations=RichText.Annotations(bold=false, italic=false, strikethrough=false, underline=false, code=false, color=default), text=RichText.Text(content=[IT-24]: Blocks - Delete and restore a block, link=null), mention=null, equation=null)])}, url=https://www.notion.so/IT-24-Blocks-Delete-and-restore-a-block-329cd6cf140681d0a033c1a4adad6867, publicUrl=null, icon=null, cover=null, isLocked=false)
+2026-03-20 17:10:26.571 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Calling NotionAPIv2026-03-11
+2026-03-20 17:10:26.571 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Building request...
+2026-03-20 17:10:26.572 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request method: PATCH, url: https://api.notion.com/v1/blocks/329cd6cf-1406-81d0-a033-c1a4adad6867/children, content-type: application/json
+2026-03-20 17:10:26.572 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request body: 
+{
+  &quot;children&quot; : [ {
+    &quot;type&quot; : &quot;bulleted_list_item&quot;,
+    &quot;bulleted_list_item&quot; : {
+      &quot;rich_text&quot; : [ {
+        &quot;type&quot; : &quot;text&quot;,
+        &quot;plain_text&quot; : &quot;bulleted list item&quot;,
+        &quot;annotations&quot; : { },
+        &quot;text&quot; : {
+          &quot;content&quot; : &quot;bulleted list item&quot;
+        }
+      } ]
+    }
+  } ]
+}
+2026-03-20 17:10:27.591 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with code: 200
+2026-03-20 17:10:27.591 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response body: 
+{&quot;object&quot;:&quot;list&quot;,&quot;results&quot;:[{&quot;object&quot;:&quot;block&quot;,&quot;id&quot;:&quot;329cd6cf-1406-8111-8e21-f32063d7da5e&quot;,&quot;parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;329cd6cf-1406-81d0-a033-c1a4adad6867&quot;},&quot;created_time&quot;:&quot;2026-03-20T17:10:00.000Z&quot;,&quot;last_edited_time&quot;:&quot;2026-03-20T17:10:00.000Z&quot;,&quot;created_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;last_edited_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;has_children&quot;:false,&quot;in_trash&quot;:false,&quot;type&quot;:&quot;bulleted_list_item&quot;,&quot;bulleted_list_item&quot;:{&quot;rich_text&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;bulleted list item&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;bulleted list item&quot;,&quot;href&quot;:null}],&quot;color&quot;:&quot;default&quot;}}],&quot;next_cursor&quot;:null,&quot;has_more&quot;:false,&quot;type&quot;:&quot;block&quot;,&quot;block&quot;:{},&quot;request_id&quot;:&quot;9021c35f-6646-4179-b4be-b6ab88195d99&quot;}
+2026-03-20 17:10:27.592 [Test worker] ERROR io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with error: 200
+2026-03-20 17:10:27.592 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Error response body: 
+NotionListType(results=[BulletedListItemBlock(bulletedListItem=BulletedListItemBlock.BulletedListItem(richText=[RichText(type=text, plainText=bulleted list item, href=null, annotations=RichText.Annotations(bold=false, italic=false, strikethrough=false, underline=false, code=false, color=default), text=RichText.Text(content=bulleted list item, link=null), mention=null, equation=null)], color=default, children=null))], nextCursor=null, hasMore=false, type=block)
+2026-03-20 17:10:27.593 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Calling NotionAPIv2026-03-11
+2026-03-20 17:10:27.593 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Building request...
+2026-03-20 17:10:27.594 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request method: DELETE, url: https://api.notion.com/v1/blocks/329cd6cf-1406-8111-8e21-f32063d7da5e, content-type: null
+2026-03-20 17:10:27.846 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with code: 200
+2026-03-20 17:10:27.846 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response body: 
+{&quot;object&quot;:&quot;block&quot;,&quot;id&quot;:&quot;329cd6cf-1406-8111-8e21-f32063d7da5e&quot;,&quot;parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;329cd6cf-1406-81d0-a033-c1a4adad6867&quot;},&quot;created_time&quot;:&quot;2026-03-20T17:10:00.000Z&quot;,&quot;last_edited_time&quot;:&quot;2026-03-20T17:10:00.000Z&quot;,&quot;created_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;last_edited_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;has_children&quot;:false,&quot;in_trash&quot;:true,&quot;type&quot;:&quot;bulleted_list_item&quot;,&quot;bulleted_list_item&quot;:{&quot;rich_text&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;bulleted list item&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;bulleted list item&quot;,&quot;href&quot;:null}],&quot;color&quot;:&quot;default&quot;},&quot;request_id&quot;:&quot;4070965c-313e-42c1-aa65-5099e04e00e6&quot;}
+2026-03-20 17:10:27.847 [Test worker] ERROR io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with error: 200
+2026-03-20 17:10:27.847 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Error response body: 
+BulletedListItemBlock(bulletedListItem=BulletedListItemBlock.BulletedListItem(richText=[RichText(type=text, plainText=bulleted list item, href=null, annotations=RichText.Annotations(bold=false, italic=false, strikethrough=false, underline=false, code=false, color=default), text=RichText.Text(content=bulleted list item, link=null), mention=null, equation=null)], color=default, children=null))
+2026-03-20 17:10:27.847 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Calling NotionAPIv2026-03-11
+2026-03-20 17:10:27.848 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Building request...
+2026-03-20 17:10:27.848 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request method: GET, url: https://api.notion.com/v1/blocks/329cd6cf-1406-8111-8e21-f32063d7da5e, content-type: null
+2026-03-20 17:10:27.937 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with code: 200
+2026-03-20 17:10:27.937 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response body: 
+{&quot;object&quot;:&quot;block&quot;,&quot;id&quot;:&quot;329cd6cf-1406-8111-8e21-f32063d7da5e&quot;,&quot;parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;329cd6cf-1406-81d0-a033-c1a4adad6867&quot;},&quot;created_time&quot;:&quot;2026-03-20T17:10:00.000Z&quot;,&quot;last_edited_time&quot;:&quot;2026-03-20T17:10:00.000Z&quot;,&quot;created_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;last_edited_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;has_children&quot;:false,&quot;in_trash&quot;:true,&quot;type&quot;:&quot;bulleted_list_item&quot;,&quot;bulleted_list_item&quot;:{&quot;rich_text&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;bulleted list item&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;bulleted list item&quot;,&quot;href&quot;:null}],&quot;color&quot;:&quot;default&quot;},&quot;request_id&quot;:&quot;2f56f2d9-8db4-44a3-aecd-87b8c78b4155&quot;}
+2026-03-20 17:10:27.938 [Test worker] ERROR io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with error: 200
+2026-03-20 17:10:27.938 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Error response body: 
+BulletedListItemBlock(bulletedListItem=BulletedListItemBlock.BulletedListItem(richText=[RichText(type=text, plainText=bulleted list item, href=null, annotations=RichText.Annotations(bold=false, italic=false, strikethrough=false, underline=false, code=false, color=default), text=RichText.Text(content=bulleted list item, link=null), mention=null, equation=null)], color=default, children=null))
+2026-03-20 17:10:27.939 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Calling NotionAPIv2026-03-11
+2026-03-20 17:10:27.939 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Building request...
+2026-03-20 17:10:27.941 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request method: PATCH, url: https://api.notion.com/v1/blocks/329cd6cf-1406-8111-8e21-f32063d7da5e, content-type: application/json
+2026-03-20 17:10:27.941 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request body: 
+{
+  &quot;in_trash&quot; : false
+}
+2026-03-20 17:10:29.335 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with code: 200
+2026-03-20 17:10:29.335 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response body: 
+{&quot;object&quot;:&quot;block&quot;,&quot;id&quot;:&quot;329cd6cf-1406-8111-8e21-f32063d7da5e&quot;,&quot;parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;329cd6cf-1406-81d0-a033-c1a4adad6867&quot;},&quot;created_time&quot;:&quot;2026-03-20T17:10:00.000Z&quot;,&quot;last_edited_time&quot;:&quot;2026-03-20T17:10:00.000Z&quot;,&quot;created_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;last_edited_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;has_children&quot;:false,&quot;in_trash&quot;:false,&quot;type&quot;:&quot;bulleted_list_item&quot;,&quot;bulleted_list_item&quot;:{&quot;rich_text&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;bulleted list item&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;bulleted list item&quot;,&quot;href&quot;:null}],&quot;color&quot;:&quot;default&quot;},&quot;request_id&quot;:&quot;247685d1-0226-4dd8-89dd-4e62912d5453&quot;}
+2026-03-20 17:10:29.335 [Test worker] ERROR io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with error: 200
+2026-03-20 17:10:29.335 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Error response body: 
+BulletedListItemBlock(bulletedListItem=BulletedListItemBlock.BulletedListItem(richText=[RichText(type=text, plainText=bulleted list item, href=null, annotations=RichText.Annotations(bold=false, italic=false, strikethrough=false, underline=false, code=false, color=default), text=RichText.Text(content=bulleted list item, link=null), mention=null, equation=null)], color=default, children=null))
+2026-03-20 17:10:29.337 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Calling NotionAPIv2026-03-11
+2026-03-20 17:10:29.337 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Building request...
+2026-03-20 17:10:29.338 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request method: GET, url: https://api.notion.com/v1/blocks/329cd6cf-1406-8111-8e21-f32063d7da5e, content-type: null
+2026-03-20 17:10:29.463 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with code: 200
+2026-03-20 17:10:29.463 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response body: 
+{&quot;object&quot;:&quot;block&quot;,&quot;id&quot;:&quot;329cd6cf-1406-8111-8e21-f32063d7da5e&quot;,&quot;parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;329cd6cf-1406-81d0-a033-c1a4adad6867&quot;},&quot;created_time&quot;:&quot;2026-03-20T17:10:00.000Z&quot;,&quot;last_edited_time&quot;:&quot;2026-03-20T17:10:00.000Z&quot;,&quot;created_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;last_edited_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;has_children&quot;:false,&quot;in_trash&quot;:false,&quot;type&quot;:&quot;bulleted_list_item&quot;,&quot;bulleted_list_item&quot;:{&quot;rich_text&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;bulleted list item&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;bulleted list item&quot;,&quot;href&quot;:null}],&quot;color&quot;:&quot;default&quot;},&quot;request_id&quot;:&quot;481fde96-7eba-42ba-9b61-0f7db7de3e53&quot;}
+2026-03-20 17:10:29.464 [Test worker] ERROR io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with error: 200
+2026-03-20 17:10:29.464 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Error response body: 
+BulletedListItemBlock(bulletedListItem=BulletedListItemBlock.BulletedListItem(richText=[RichText(type=text, plainText=bulleted list item, href=null, annotations=RichText.Annotations(bold=false, italic=false, strikethrough=false, underline=false, code=false, color=default), text=RichText.Text(content=bulleted list item, link=null), mention=null, equation=null)], color=default, children=null))
+</pre>
+</span>
+</div>
+</div>
+<div id="footer">
+<p>
+<div>
+<label class="hidden" id="label-for-line-wrapping-toggle" for="line-wrapping-toggle">Wrap lines
+<input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
+</label>
+</div>Generated by 
+<a href="https://www.gradle.org">Gradle 8.14.4</a> at Mar 20, 2026, 5:11:32 PM</p>
+</div>
+</div>
+</body>
+</html>

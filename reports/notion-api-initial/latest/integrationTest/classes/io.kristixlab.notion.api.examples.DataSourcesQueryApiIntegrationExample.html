@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=edge"/>
+<title>Test results - DataSourcesQueryApiIntegrationExample</title>
+<link href="../css/base-style.css" rel="stylesheet" type="text/css"/>
+<link href="../css/style.css" rel="stylesheet" type="text/css"/>
+<script src="../js/report.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="content">
+<h1>DataSourcesQueryApiIntegrationExample</h1>
+<div class="breadcrumbs">
+<a href="../index.html">all</a> &gt; 
+<a href="../packages/io.kristixlab.notion.api.examples.html">io.kristixlab.notion.api.examples</a> &gt; DataSourcesQueryApiIntegrationExample</div>
+<div id="summary">
+<table>
+<tr>
+<td>
+<div class="summaryGroup">
+<table>
+<tr>
+<td>
+<div class="infoBox" id="tests">
+<div class="counter">4</div>
+<p>tests</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="failures">
+<div class="counter">4</div>
+<p>failures</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="ignored">
+<div class="counter">0</div>
+<p>ignored</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="duration">
+<div class="counter">0.025s</div>
+<p>duration</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</td>
+<td>
+<div class="infoBox failures" id="successRate">
+<div class="percent">0%</div>
+<p>successful</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="tab-container">
+<ul class="tabLinks">
+<li>
+<a href="#">Failed tests</a>
+</li>
+<li>
+<a href="#">Tests</a>
+</li>
+</ul>
+<div class="tab">
+<h2>Failed tests</h2>
+<div class="test">
+<a name="testNumberFilterQuery()"></a>
+<h3 class="failures">testNumberFilterQuery()</h3>
+<span class="code">
+<pre>java.lang.NullPointerException: Cannot invoke &quot;io.kristixlab.notion.api.http.transport.HttpTransport.call(String, io.kristixlab.notion.api.http.transport.rq.URLInfo, Object, java.lang.Class)&quot; because &quot;this.transport&quot; is null
+	at io.kristixlab.notion.api.endpoints.impl.DataSourcesEndpointImpl.query(DataSourcesEndpointImpl.java:154)
+	at io.kristixlab.notion.api.examples.DataSourcesQueryApiIntegrationExample.testNumberFilterQuery(DataSourcesQueryApiIntegrationExample.java:74)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+</pre>
+</span>
+</div>
+<div class="test">
+<a name="testQueryDatabase()"></a>
+<h3 class="failures">testQueryDatabase()</h3>
+<span class="code">
+<pre>java.lang.IllegalArgumentException: Request cannot be null
+	at io.kristixlab.notion.api.endpoints.impl.DataSourcesEndpointImpl.validateRequest(DataSourcesEndpointImpl.java:180)
+	at io.kristixlab.notion.api.endpoints.impl.DataSourcesEndpointImpl.query(DataSourcesEndpointImpl.java:139)
+	at io.kristixlab.notion.api.endpoints.impl.DataSourcesEndpointImpl.query(DataSourcesEndpointImpl.java:101)
+	at io.kristixlab.notion.api.examples.DataSourcesQueryApiIntegrationExample.testQueryDatabase(DataSourcesQueryApiIntegrationExample.java:35)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+</pre>
+</span>
+</div>
+<div class="test">
+<a name="testQueryDatabaseWithPagination()"></a>
+<h3 class="failures">testQueryDatabaseWithPagination()</h3>
+<span class="code">
+<pre>java.lang.NullPointerException: Cannot invoke &quot;io.kristixlab.notion.api.http.transport.HttpTransport.call(String, io.kristixlab.notion.api.http.transport.rq.URLInfo, Object, java.lang.Class)&quot; because &quot;this.transport&quot; is null
+	at io.kristixlab.notion.api.endpoints.impl.DataSourcesEndpointImpl.query(DataSourcesEndpointImpl.java:154)
+	at io.kristixlab.notion.api.endpoints.impl.DataSourcesEndpointImpl.query(DataSourcesEndpointImpl.java:124)
+	at io.kristixlab.notion.api.examples.DataSourcesQueryApiIntegrationExample.testQueryDatabaseWithPagination(DataSourcesQueryApiIntegrationExample.java:45)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+</pre>
+</span>
+</div>
+<div class="test">
+<a name="testQueryDatabaseWithSortRequest()"></a>
+<h3 class="failures">testQueryDatabaseWithSortRequest()</h3>
+<span class="code">
+<pre>java.lang.NullPointerException: Cannot invoke &quot;io.kristixlab.notion.api.http.transport.HttpTransport.call(String, io.kristixlab.notion.api.http.transport.rq.URLInfo, Object, java.lang.Class)&quot; because &quot;this.transport&quot; is null
+	at io.kristixlab.notion.api.endpoints.impl.DataSourcesEndpointImpl.query(DataSourcesEndpointImpl.java:154)
+	at io.kristixlab.notion.api.endpoints.impl.DataSourcesEndpointImpl.query(DataSourcesEndpointImpl.java:112)
+	at io.kristixlab.notion.api.examples.DataSourcesQueryApiIntegrationExample.testQueryDatabaseWithSortRequest(DataSourcesQueryApiIntegrationExample.java:59)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+</pre>
+</span>
+</div>
+</div>
+<div class="tab">
+<h2>Tests</h2>
+<table>
+<thead>
+<tr>
+<th>Test</th>
+<th>Duration</th>
+<th>Result</th>
+</tr>
+</thead>
+<tr>
+<td class="failures">testNumberFilterQuery()</td>
+<td class="failures">0.022s</td>
+<td class="failures">failed</td>
+</tr>
+<tr>
+<td class="failures">testQueryDatabase()</td>
+<td class="failures">0.001s</td>
+<td class="failures">failed</td>
+</tr>
+<tr>
+<td class="failures">testQueryDatabaseWithPagination()</td>
+<td class="failures">0.001s</td>
+<td class="failures">failed</td>
+</tr>
+<tr>
+<td class="failures">testQueryDatabaseWithSortRequest()</td>
+<td class="failures">0.001s</td>
+<td class="failures">failed</td>
+</tr>
+</table>
+</div>
+</div>
+<div id="footer">
+<p>
+<div>
+<label class="hidden" id="label-for-line-wrapping-toggle" for="line-wrapping-toggle">Wrap lines
+<input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
+</label>
+</div>Generated by 
+<a href="https://www.gradle.org">Gradle 8.14.4</a> at Mar 20, 2026, 5:11:32 PM</p>
+</div>
+</div>
+</body>
+</html>

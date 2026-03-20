@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AppendBlockChildrenParams.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">notion-sdk</a> &gt; <a href="index.source.html" class="el_package">io.kristixlab.notion.api.model.blocks</a> &gt; <span class="el_source">AppendBlockChildrenParams.java</span></div><h1>AppendBlockChildrenParams.java</h1><pre class="source lang-java linenums">package io.kristixlab.notion.api.model.blocks;
+
+import io.kristixlab.notion.api.model.common.Position;
+import java.util.ArrayList;
+import java.util.List;
+import lombok.Data;
+
+/** Request object for appending block children. */
+@Data
+public class AppendBlockChildrenParams {
+<span class="pc" id="L11">  private List&lt;Block&gt; children = new ArrayList&lt;&gt;();</span>
+  private Position position;
+
+<span class="fc" id="L14">  public AppendBlockChildrenParams() {}</span>
+
+<span class="nc" id="L16">  public AppendBlockChildrenParams(List&lt;Block&gt; children) {</span>
+<span class="nc" id="L17">    this.children = children;</span>
+<span class="nc" id="L18">  }</span>
+
+  public static AppendBlockChildrenParams of(List&lt;Block&gt; children) {
+<span class="nc" id="L21">    AppendBlockChildrenParams params = new AppendBlockChildrenParams();</span>
+<span class="nc" id="L22">    params.setChildren(children);</span>
+<span class="nc" id="L23">    return params;</span>
+  }
+
+  public static AppendBlockChildrenParams of(Block childBlock) {
+<span class="nc" id="L27">    AppendBlockChildrenParams params = new AppendBlockChildrenParams();</span>
+<span class="nc" id="L28">    params.setChildren(new ArrayList&lt;&gt;());</span>
+<span class="nc" id="L29">    params.getChildren().add(childBlock);</span>
+<span class="nc" id="L30">    return params;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

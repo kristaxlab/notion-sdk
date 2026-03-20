@@ -9,14 +9,14 @@ public class HttpResponseException extends RuntimeException {
 
   private String apiName;
   private int status;
-  private String body;
+  private Object body;
   private String message;
 
-  public HttpResponseException(String apiName, int status, String body) {
+  public HttpResponseException(String apiName, int status, Object body) {
 <span class="nc" id="L16">    this(apiName, status, body, null);</span>
 <span class="nc" id="L17">  }</span>
 
-  public HttpResponseException(String apiName, int status, String body, String message) {
+  public HttpResponseException(String apiName, int status, Object body, String message) {
 <span class="nc" id="L20">    super(</span>
 <span class="nc" id="L21">        String.format(</span>
             &quot;Error in API %s: Status code %d, Message: %s, Body: %s&quot;,

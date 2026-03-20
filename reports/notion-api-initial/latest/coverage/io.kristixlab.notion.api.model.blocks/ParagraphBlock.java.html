@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.kristixlab.notion.api.model.common.Color;
 import io.kristixlab.notion.api.model.common.RichText;
+import java.util.ArrayList;
 import java.util.List;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -16,38 +17,180 @@ public class ParagraphBlock extends Block {
   @JsonProperty(&quot;paragraph&quot;)
   private Paragraph paragraph;
 
+<span class="nc" id="L20">  public ParagraphBlock() {</span>
+<span class="nc" id="L21">    setType(&quot;paragraph&quot;);</span>
+<span class="nc" id="L22">    paragraph = new Paragraph();</span>
+<span class="nc" id="L23">  }</span>
+
+  public static ParagraphBlockBuilder builder() {
+<span class="nc" id="L26">    return new ParagraphBlockBuilder();</span>
+  }
+
   public static ParagraphBlock of(String text) {
-<span class="nc" id="L20">    return of(text, Color.DEFAULT);</span>
+<span class="nc" id="L30">    return of(text, Color.DEFAULT);</span>
   }
 
   public static ParagraphBlock of(String text, Color color) {
-<span class="nc" id="L24">    ParagraphBlock paragraphBlock = new ParagraphBlock();</span>
-<span class="nc" id="L25">    paragraphBlock.setType(&quot;paragraph&quot;);</span>
-<span class="nc" id="L26">    Paragraph paragraph = new Paragraph();</span>
-<span class="nc" id="L27">    RichText richText = new RichText();</span>
-<span class="nc" id="L28">    RichText.Text textObj = new RichText.Text();</span>
-<span class="nc" id="L29">    textObj.setContent(text);</span>
-<span class="nc" id="L30">    richText.setType(&quot;text&quot;);</span>
-<span class="nc" id="L31">    richText.setText(textObj);</span>
-<span class="nc" id="L32">    richText.setPlainText(text);</span>
-<span class="nc" id="L33">    paragraph.setRichText(List.of(richText));</span>
-<span class="nc bnc" id="L34" title="All 2 branches missed.">    if (color != null) {</span>
-<span class="nc" id="L35">      paragraph.setColor(color.getValue());</span>
+<span class="nc" id="L34">    ParagraphBlock paragraphBlock = new ParagraphBlock();</span>
+<span class="nc" id="L35">    Paragraph paragraph = paragraphBlock.getParagraph();</span>
+<span class="nc" id="L36">    RichText richText = new RichText();</span>
+<span class="nc" id="L37">    RichText.Text textObj = new RichText.Text();</span>
+<span class="nc" id="L38">    textObj.setContent(text);</span>
+<span class="nc" id="L39">    richText.setType(&quot;text&quot;);</span>
+<span class="nc" id="L40">    richText.setText(textObj);</span>
+<span class="nc" id="L41">    richText.setPlainText(text);</span>
+<span class="nc" id="L42">    paragraph.setRichText(List.of(richText));</span>
+<span class="nc bnc" id="L43" title="All 2 branches missed.">    if (color != null) {</span>
+<span class="nc" id="L44">      paragraph.setColor(color.getValue());</span>
     }
-<span class="nc" id="L37">    paragraphBlock.setParagraph(paragraph);</span>
-<span class="nc" id="L38">    return paragraphBlock;</span>
+<span class="nc" id="L46">    return paragraphBlock;</span>
   }
 
   @Data
   public static class Paragraph {
     @JsonProperty(&quot;rich_text&quot;)
-    private List&lt;RichText&gt; richText;
+    private List&lt;RichText&gt; richText = new ArrayList&lt;&gt;();
 
     @JsonProperty(&quot;color&quot;)
     private String color;
 
     @JsonProperty(&quot;children&quot;)
     private List&lt;Block&gt; children;
+  }
+
+<span class="nc" id="L61">  public static class ParagraphBlockBuilder {</span>
+<span class="nc" id="L62">    private ParagraphBlock block = new ParagraphBlock();</span>
+<span class="nc" id="L63">    private RichText.RichTextBuilder richTextBuilder = RichText.builder();</span>
+<span class="nc" id="L64">    private boolean built = false;</span>
+
+    public ParagraphBlock build() {
+<span class="nc bnc" id="L67" title="All 2 branches missed.">      if (built) {</span>
+<span class="nc" id="L68">        throw new IllegalStateException(</span>
+            &quot;Builder is already done, create a new builder for another paragraph block&quot;);
+      }
+<span class="nc bnc" id="L71" title="All 2 branches missed.">      if (getBlock().getParagraph() == null) {</span>
+<span class="nc" id="L72">        getBlock().setParagraph(new Paragraph());</span>
+      }
+<span class="nc bnc" id="L74" title="All 2 branches missed.">      if (getBlock().getParagraph().getRichText() == null) {</span>
+<span class="nc" id="L75">        getBlock().getParagraph().setRichText(new ArrayList&lt;&gt;());</span>
+      }
+<span class="nc" id="L77">      getBlock().getParagraph().getRichText().add(getRichTextBuilder().build());</span>
+<span class="nc" id="L78">      ParagraphBlock readyBlock = getBlock();</span>
+<span class="nc" id="L79">      built = true;</span>
+
+<span class="nc" id="L81">      return readyBlock;</span>
+    }
+
+    public ParagraphBlockBuilder addAnother() {
+<span class="nc bnc" id="L85" title="All 2 branches missed.">      if (getBlock().getParagraph() == null) {</span>
+<span class="nc" id="L86">        getBlock().setParagraph(new Paragraph());</span>
+      }
+<span class="nc bnc" id="L88" title="All 2 branches missed.">      if (getBlock().getParagraph().getRichText() == null) {</span>
+<span class="nc" id="L89">        getBlock().getParagraph().setRichText(new ArrayList&lt;&gt;());</span>
+      }
+<span class="nc" id="L91">      getBlock().getParagraph().getRichText().add(getRichTextBuilder().build());</span>
+<span class="nc" id="L92">      richTextBuilder = RichText.builder();</span>
+<span class="nc" id="L93">      return this;</span>
+    }
+
+    private ParagraphBlock getBlock() {
+<span class="nc bnc" id="L97" title="All 2 branches missed.">      if (built) {</span>
+<span class="nc" id="L98">        throw new IllegalStateException(</span>
+            &quot;Builder is already done, create a new builder for another paragraph block&quot;);
+      }
+<span class="nc" id="L101">      return block;</span>
+    }
+
+    private RichText.RichTextBuilder getRichTextBuilder() {
+<span class="nc bnc" id="L105" title="All 2 branches missed.">      if (built) {</span>
+<span class="nc" id="L106">        throw new IllegalStateException(</span>
+            &quot;Builder is already done, create a new builder for another paragraph block&quot;);
+      }
+<span class="nc" id="L109">      return richTextBuilder;</span>
+    }
+
+    public ParagraphBlockBuilder fromText(String text) {
+<span class="nc" id="L113">      getRichTextBuilder().fromText(text);</span>
+<span class="nc" id="L114">      return this;</span>
+    }
+
+    public ParagraphBlockBuilder fromBlockMention(String id) {
+<span class="nc" id="L118">      getRichTextBuilder().fromBlockMention(id);</span>
+<span class="nc" id="L119">      return this;</span>
+    }
+
+    public ParagraphBlockBuilder fromUserMention(String userId) {
+<span class="nc" id="L123">      getRichTextBuilder().fromUserMention(userId);</span>
+<span class="nc" id="L124">      return this;</span>
+    }
+
+    public ParagraphBlockBuilder fromUrl(String url) {
+<span class="nc" id="L128">      getRichTextBuilder().fromUrl(url);</span>
+<span class="nc" id="L129">      return this;</span>
+    }
+
+    public ParagraphBlockBuilder fromDateMention(String dateFrom) {
+<span class="nc" id="L133">      getRichTextBuilder().fromDateMention(dateFrom, null, null);</span>
+<span class="nc" id="L134">      return this;</span>
+    }
+
+    public ParagraphBlockBuilder fromDateMention(String dateFrom, String dateTo) {
+<span class="nc" id="L138">      getRichTextBuilder().fromDateMention(dateFrom, dateTo, null);</span>
+<span class="nc" id="L139">      return this;</span>
+    }
+
+    public ParagraphBlockBuilder fromDateMention(String dateFrom, String dateTo, String timeZone) {
+<span class="nc" id="L143">      getRichTextBuilder().fromDateMention(dateFrom, dateTo, timeZone);</span>
+<span class="nc" id="L144">      return this;</span>
+    }
+
+    public ParagraphBlockBuilder fromExpression(String expression) {
+<span class="nc" id="L148">      getRichTextBuilder().fromExpression(expression);</span>
+<span class="nc" id="L149">      return this;</span>
+    }
+
+    public ParagraphBlockBuilder fromCustomEmoji(String id) {
+<span class="nc" id="L153">      getRichTextBuilder().fromCustomEmoji(id);</span>
+<span class="nc" id="L154">      return this;</span>
+    }
+
+    /*
+     * @notionapinotes TODO check with Notion team if it is a bug that linkMention in request is not supported
+     */
+    public ParagraphBlockBuilder fromLinkMention(String url) {
+<span class="nc" id="L161">      getRichTextBuilder().fromLinkMention(url);</span>
+<span class="nc" id="L162">      return this;</span>
+    }
+
+    public ParagraphBlockBuilder withColor(Color color) {
+<span class="nc" id="L166">      getRichTextBuilder().withColor(color);</span>
+<span class="nc" id="L167">      return this;</span>
+    }
+
+    public ParagraphBlockBuilder withBold(boolean bold) {
+<span class="nc" id="L171">      getRichTextBuilder().withBold(bold);</span>
+<span class="nc" id="L172">      return this;</span>
+    }
+
+    public ParagraphBlockBuilder withItalic(boolean italic) {
+<span class="nc" id="L176">      getRichTextBuilder().withItalic(italic);</span>
+<span class="nc" id="L177">      return this;</span>
+    }
+
+    public ParagraphBlockBuilder withUnderline(boolean underline) {
+<span class="nc" id="L181">      getRichTextBuilder().withUnderline(underline);</span>
+<span class="nc" id="L182">      return this;</span>
+    }
+
+    public ParagraphBlockBuilder withStrikethrough(boolean strikethrough) {
+<span class="nc" id="L186">      getRichTextBuilder().withStrikethrough(strikethrough);</span>
+<span class="nc" id="L187">      return this;</span>
+    }
+
+    public ParagraphBlockBuilder withCode(boolean code) {
+<span class="nc" id="L191">      getRichTextBuilder().withCode(code);</span>
+<span class="nc" id="L192">      return this;</span>
+    }
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=edge"/>
+<title>Test results - SearchIntegrationExample</title>
+<link href="../css/base-style.css" rel="stylesheet" type="text/css"/>
+<link href="../css/style.css" rel="stylesheet" type="text/css"/>
+<script src="../js/report.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="content">
+<h1>SearchIntegrationExample</h1>
+<div class="breadcrumbs">
+<a href="../index.html">all</a> &gt; 
+<a href="../packages/io.kristixlab.notion.api.examples.html">io.kristixlab.notion.api.examples</a> &gt; SearchIntegrationExample</div>
+<div id="summary">
+<table>
+<tr>
+<td>
+<div class="summaryGroup">
+<table>
+<tr>
+<td>
+<div class="infoBox" id="tests">
+<div class="counter">6</div>
+<p>tests</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="failures">
+<div class="counter">6</div>
+<p>failures</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="ignored">
+<div class="counter">0</div>
+<p>ignored</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="duration">
+<div class="counter">0.009s</div>
+<p>duration</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</td>
+<td>
+<div class="infoBox failures" id="successRate">
+<div class="percent">0%</div>
+<p>successful</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="tab-container">
+<ul class="tabLinks">
+<li>
+<a href="#">Failed tests</a>
+</li>
+<li>
+<a href="#">Tests</a>
+</li>
+</ul>
+<div class="tab">
+<h2>Failed tests</h2>
+<div class="test">
+<a name="searchAll()"></a>
+<h3 class="failures">searchAll()</h3>
+<span class="code">
+<pre>java.lang.NullPointerException: Cannot invoke &quot;io.kristixlab.notion.api.http.transport.HttpTransport.call(String, io.kristixlab.notion.api.http.transport.rq.URLInfo, Object, java.lang.Class)&quot; because &quot;this.transport&quot; is null
+	at io.kristixlab.notion.api.endpoints.impl.SearchEndpointImpl.search(SearchEndpointImpl.java:31)
+	at io.kristixlab.notion.api.endpoints.impl.SearchEndpointImpl.getAll(SearchEndpointImpl.java:119)
+	at io.kristixlab.notion.api.examples.SearchIntegrationExample.searchAll(SearchIntegrationExample.java:22)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+</pre>
+</span>
+</div>
+<div class="test">
+<a name="searchDataSourcesOnly()"></a>
+<h3 class="failures">searchDataSourcesOnly()</h3>
+<span class="code">
+<pre>java.lang.NullPointerException: Cannot invoke &quot;io.kristixlab.notion.api.http.transport.HttpTransport.call(String, io.kristixlab.notion.api.http.transport.rq.URLInfo, Object, java.lang.Class)&quot; because &quot;this.transport&quot; is null
+	at io.kristixlab.notion.api.endpoints.impl.SearchEndpointImpl.search(SearchEndpointImpl.java:31)
+	at io.kristixlab.notion.api.endpoints.impl.SearchEndpointImpl.search(SearchEndpointImpl.java:57)
+	at io.kristixlab.notion.api.endpoints.impl.SearchEndpointImpl.searchDataSources(SearchEndpointImpl.java:109)
+	at io.kristixlab.notion.api.examples.SearchIntegrationExample.searchDataSourcesOnly(SearchIntegrationExample.java:40)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+</pre>
+</span>
+</div>
+<div class="test">
+<a name="searchPagesOnly()"></a>
+<h3 class="failures">searchPagesOnly()</h3>
+<span class="code">
+<pre>java.lang.NullPointerException: Cannot invoke &quot;io.kristixlab.notion.api.http.transport.HttpTransport.call(String, io.kristixlab.notion.api.http.transport.rq.URLInfo, Object, java.lang.Class)&quot; because &quot;this.transport&quot; is null
+	at io.kristixlab.notion.api.endpoints.impl.SearchEndpointImpl.search(SearchEndpointImpl.java:31)
+	at io.kristixlab.notion.api.endpoints.impl.SearchEndpointImpl.search(SearchEndpointImpl.java:57)
+	at io.kristixlab.notion.api.endpoints.impl.SearchEndpointImpl.searchPages(SearchEndpointImpl.java:99)
+	at io.kristixlab.notion.api.examples.SearchIntegrationExample.searchPagesOnly(SearchIntegrationExample.java:34)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+</pre>
+</span>
+</div>
+<div class="test">
+<a name="searchWithCompleteRequest()"></a>
+<h3 class="failures">searchWithCompleteRequest()</h3>
+<span class="code">
+<pre>java.lang.NullPointerException: Cannot invoke &quot;io.kristixlab.notion.api.http.transport.HttpTransport.call(String, io.kristixlab.notion.api.http.transport.rq.URLInfo, Object, java.lang.Class)&quot; because &quot;this.transport&quot; is null
+	at io.kristixlab.notion.api.endpoints.impl.SearchEndpointImpl.search(SearchEndpointImpl.java:31)
+	at io.kristixlab.notion.api.examples.SearchIntegrationExample.searchWithCompleteRequest(SearchIntegrationExample.java:60)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+</pre>
+</span>
+</div>
+<div class="test">
+<a name="searchWithQuery()"></a>
+<h3 class="failures">searchWithQuery()</h3>
+<span class="code">
+<pre>java.lang.NullPointerException: Cannot invoke &quot;io.kristixlab.notion.api.http.transport.HttpTransport.call(String, io.kristixlab.notion.api.http.transport.rq.URLInfo, Object, java.lang.Class)&quot; because &quot;this.transport&quot; is null
+	at io.kristixlab.notion.api.endpoints.impl.SearchEndpointImpl.search(SearchEndpointImpl.java:31)
+	at io.kristixlab.notion.api.endpoints.impl.SearchEndpointImpl.search(SearchEndpointImpl.java:43)
+	at io.kristixlab.notion.api.examples.SearchIntegrationExample.searchWithQuery(SearchIntegrationExample.java:28)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+</pre>
+</span>
+</div>
+<div class="test">
+<a name="searchWithSorting()"></a>
+<h3 class="failures">searchWithSorting()</h3>
+<span class="code">
+<pre>java.lang.NullPointerException: Cannot invoke &quot;io.kristixlab.notion.api.http.transport.HttpTransport.call(String, io.kristixlab.notion.api.http.transport.rq.URLInfo, Object, java.lang.Class)&quot; because &quot;this.transport&quot; is null
+	at io.kristixlab.notion.api.endpoints.impl.SearchEndpointImpl.search(SearchEndpointImpl.java:31)
+	at io.kristixlab.notion.api.endpoints.impl.SearchEndpointImpl.search(SearchEndpointImpl.java:73)
+	at io.kristixlab.notion.api.examples.SearchIntegrationExample.searchWithSorting(SearchIntegrationExample.java:47)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+</pre>
+</span>
+</div>
+</div>
+<div class="tab">
+<h2>Tests</h2>
+<table>
+<thead>
+<tr>
+<th>Test</th>
+<th>Duration</th>
+<th>Result</th>
+</tr>
+</thead>
+<tr>
+<td class="failures">searchAll()</td>
+<td class="failures">0.001s</td>
+<td class="failures">failed</td>
+</tr>
+<tr>
+<td class="failures">searchDataSourcesOnly()</td>
+<td class="failures">0.001s</td>
+<td class="failures">failed</td>
+</tr>
+<tr>
+<td class="failures">searchPagesOnly()</td>
+<td class="failures">0.002s</td>
+<td class="failures">failed</td>
+</tr>
+<tr>
+<td class="failures">searchWithCompleteRequest()</td>
+<td class="failures">0.003s</td>
+<td class="failures">failed</td>
+</tr>
+<tr>
+<td class="failures">searchWithQuery()</td>
+<td class="failures">0.001s</td>
+<td class="failures">failed</td>
+</tr>
+<tr>
+<td class="failures">searchWithSorting()</td>
+<td class="failures">0.001s</td>
+<td class="failures">failed</td>
+</tr>
+</table>
+</div>
+</div>
+<div id="footer">
+<p>
+<div>
+<label class="hidden" id="label-for-line-wrapping-toggle" for="line-wrapping-toggle">Wrap lines
+<input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
+</label>
+</div>Generated by 
+<a href="https://www.gradle.org">Gradle 8.14.4</a> at Mar 20, 2026, 5:11:32 PM</p>
+</div>
+</div>
+</body>
+</html>

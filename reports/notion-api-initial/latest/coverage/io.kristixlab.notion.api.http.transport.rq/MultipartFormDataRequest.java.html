@@ -14,13 +14,13 @@ public class MultipartFormDataRequest {
   private List&lt;Part&gt; parts = new ArrayList&lt;&gt;();
 
   public void addFilePart(String name, File file, String fileName, String contentType) {
-<span class="nc" id="L17">    FilePart part = new FilePart();</span>
-<span class="nc" id="L18">    part.setName(name);</span>
-<span class="nc" id="L19">    part.setFileName(fileName);</span>
-<span class="nc" id="L20">    part.setContent(file);</span>
-<span class="nc" id="L21">    part.getHeaders().put(&quot;Content-Type&quot;, contentType);</span>
-<span class="nc" id="L22">    parts.add(part);</span>
-<span class="nc" id="L23">  }</span>
+<span class="fc" id="L17">    FilePart part = new FilePart();</span>
+<span class="fc" id="L18">    part.setName(name);</span>
+<span class="fc" id="L19">    part.setFileName(fileName);</span>
+<span class="fc" id="L20">    part.setContent(file);</span>
+<span class="fc" id="L21">    part.getHeaders().put(&quot;Content-Type&quot;, contentType);</span>
+<span class="fc" id="L22">    parts.add(part);</span>
+<span class="fc" id="L23">  }</span>
 
   public void addFilePart(String name, File file) {
 <span class="nc" id="L26">    FilePart part = new FilePart();</span>
@@ -31,22 +31,22 @@ public class MultipartFormDataRequest {
 
   public void addInputStreamPart(
       String name, InputStream inputStream, String fileName, String contentType) {
-<span class="nc" id="L34">    InputStreamPart part = new InputStreamPart();</span>
-<span class="nc" id="L35">    part.setName(name);</span>
-<span class="nc" id="L36">    part.setFileName(fileName);</span>
-<span class="nc" id="L37">    part.setContent(inputStream);</span>
-<span class="nc" id="L38">    part.getHeaders().put(&quot;Content-Type&quot;, contentType);</span>
-<span class="nc" id="L39">    parts.add(part);</span>
-<span class="nc" id="L40">  }</span>
+<span class="fc" id="L34">    InputStreamPart part = new InputStreamPart();</span>
+<span class="fc" id="L35">    part.setName(name);</span>
+<span class="fc" id="L36">    part.setFileName(fileName);</span>
+<span class="fc" id="L37">    part.setContent(inputStream);</span>
+<span class="fc" id="L38">    part.getHeaders().put(&quot;Content-Type&quot;, contentType);</span>
+<span class="fc" id="L39">    parts.add(part);</span>
+<span class="fc" id="L40">  }</span>
 
   public void addByteArrayPart(String name, byte[] array, String fileName, String contentType) {
-<span class="nc" id="L43">    ByteArrayPart part = new ByteArrayPart();</span>
-<span class="nc" id="L44">    part.setName(name);</span>
-<span class="nc" id="L45">    part.setContent(array);</span>
-<span class="nc" id="L46">    part.setFileName(fileName);</span>
-<span class="nc" id="L47">    part.getHeaders().put(&quot;Content-Type&quot;, contentType);</span>
-<span class="nc" id="L48">    parts.add(part);</span>
-<span class="nc" id="L49">  }</span>
+<span class="fc" id="L43">    ByteArrayPart part = new ByteArrayPart();</span>
+<span class="fc" id="L44">    part.setName(name);</span>
+<span class="fc" id="L45">    part.setContent(array);</span>
+<span class="fc" id="L46">    part.setFileName(fileName);</span>
+<span class="fc" id="L47">    part.getHeaders().put(&quot;Content-Type&quot;, contentType);</span>
+<span class="fc" id="L48">    parts.add(part);</span>
+<span class="fc" id="L49">  }</span>
 
   public void addPart(String name, Object value) {
 <span class="nc" id="L52">    Part part = new Part();</span>

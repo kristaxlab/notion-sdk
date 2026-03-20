@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>HeadingTwoBlock.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">notion-sdk</a> &gt; <a href="index.source.html" class="el_package">io.kristixlab.notion.api.model.blocks</a> &gt; <span class="el_source">HeadingTwoBlock.java</span></div><h1>HeadingTwoBlock.java</h1><pre class="source lang-java linenums">package io.kristixlab.notion.api.model.blocks;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import io.kristixlab.notion.api.model.common.RichText;
+import java.util.List;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.experimental.Accessors;
+
+/**
+ * Represents a heading 2 block in Notion.
+ *
+ * &lt;p&gt;A heading 2 block displays content as a second-level heading with larger text and formatting.
+ * It can optionally be toggleable to show/hide child content and supports rich text formatting.
+ *
+ * @author KristaxLab
+ * @see Block
+ * @see RichText
+ * @since 1.0
+ */
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@Data
+@EqualsAndHashCode(callSuper = true)
+public class HeadingTwoBlock extends Block {
+  /** The heading 2 configuration */
+  @JsonProperty(&quot;heading_2&quot;)
+  private Heading heading2;
+
+<span class="nc" id="L30">  public HeadingTwoBlock() {</span>
+<span class="nc" id="L31">    setType(&quot;heading_2&quot;);</span>
+<span class="nc" id="L32">    heading2 = new Heading();</span>
+<span class="nc" id="L33">  }</span>
+
+  /**
+   * Represents the configuration for a heading 2.
+   *
+   * &lt;p&gt;Contains the text content, color styling, toggleable state, and any nested child blocks that
+   * belong to this heading.
+   */
+  @Data
+  public static class Heading {
+    /** The rich text content of the heading */
+    @JsonProperty(&quot;rich_text&quot;)
+    private List&lt;RichText&gt; richText;
+
+    /** The color of the heading text */
+    @JsonProperty(&quot;color&quot;)
+    private String color;
+
+    /** Whether the heading can be toggled to show/hide children */
+    @Accessors(fluent = true)
+    @JsonProperty(&quot;is_toggleable&quot;)
+    private Boolean isToggleable;
+
+    /** Child blocks nested under this heading */
+    @JsonProperty(&quot;children&quot;)
+    private List&lt;Block&gt; children;
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
