@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=edge"/>
+<title>Test results - DataSourcesPropertiesIT</title>
+<link href="../css/base-style.css" rel="stylesheet" type="text/css"/>
+<link href="../css/style.css" rel="stylesheet" type="text/css"/>
+<script src="../js/report.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="content">
+<h1>DataSourcesPropertiesIT</h1>
+<div class="breadcrumbs">
+<a href="../index.html">all</a> &gt; 
+<a href="../packages/integration.datasources.html">integration.datasources</a> &gt; DataSourcesPropertiesIT</div>
+<div id="summary">
+<table>
+<tr>
+<td>
+<div class="summaryGroup">
+<table>
+<tr>
+<td>
+<div class="infoBox" id="tests">
+<div class="counter">3</div>
+<p>tests</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="failures">
+<div class="counter">0</div>
+<p>failures</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="ignored">
+<div class="counter">0</div>
+<p>ignored</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="duration">
+<div class="counter">21.194s</div>
+<p>duration</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</td>
+<td>
+<div class="infoBox success" id="successRate">
+<div class="percent">100%</div>
+<p>successful</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="tab-container">
+<ul class="tabLinks">
+<li>
+<a href="#">Tests</a>
+</li>
+<li>
+<a href="#">Standard output</a>
+</li>
+</ul>
+<div class="tab">
+<h2>Tests</h2>
+<table>
+<thead>
+<tr>
+<th>Test</th>
+<th>Method name</th>
+<th>Duration</th>
+<th>Result</th>
+</tr>
+</thead>
+<tr>
+<td class="success">[IT-54]: Data sources - Check multiselect property consistency for existing pages</td>
+<td class="success">checkMultiselectConsistencyForExistingPages()</td>
+<td class="success">9.411s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">[IT-55]: Data sources - Check status option add/remove via update</td>
+<td class="success">checkStatusUpdateCapabilities()</td>
+<td class="success">7.600s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">[IT-53]: Data sources - Create a data source with all the supported properties and add pages to it</td>
+<td class="success">createDataSourceWithAllPropertiesAndAddPages()</td>
+<td class="success">4.183s</td>
+<td class="success">passed</td>
+</tr>
+</table>
+</div>
+<div class="tab">
+<h2>Standard output</h2>
+<span class="code">
+<pre>2026-03-20 21:17:40.011 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Calling NotionAPIv2026-03-11
+2026-03-20 21:17:40.011 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Building request...
+2026-03-20 21:17:40.012 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Request method: POST, url: https://api.notion.com/v1/pages, content-type: application/json
+2026-03-20 21:17:40.012 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Request body: 
+{
+  &quot;parent&quot; : {
+    &quot;type&quot; : &quot;page_id&quot;,
+    &quot;page_id&quot; : &quot;329cd6cf-1406-818e-9cc6-f1885a26f80e&quot;
+  },
+  &quot;properties&quot; : {
+    &quot;title&quot; : {
+      &quot;type&quot; : &quot;title&quot;,
+      &quot;title&quot; : [ {
+        &quot;type&quot; : &quot;text&quot;,
+        &quot;plain_text&quot; : &quot;Data Source Properties&quot;,
+        &quot;annotations&quot; : { },
+        &quot;text&quot; : {
+          &quot;content&quot; : &quot;Data Source Properties&quot;
+        }
+      } ]
+    }
+  },
+  &quot;position&quot; : {
+    &quot;type&quot; : &quot;page_start&quot;
+  }
+}
+2026-03-20 21:17:40.317 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Response from NotionAPIv2026-03-11 with code: 200
+2026-03-20 21:17:40.317 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Response body: 
+{&quot;object&quot;:&quot;page&quot;,&quot;id&quot;:&quot;329cd6cf-1406-81c0-bbcf-c3e879b73182&quot;,&quot;created_time&quot;:&quot;2026-03-20T21:17:00.000Z&quot;,&quot;last_edited_time&quot;:&quot;2026-03-20T21:17:00.000Z&quot;,&quot;created_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;last_edited_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;cover&quot;:null,&quot;icon&quot;:null,&quot;parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;329cd6cf-1406-818e-9cc6-f1885a26f80e&quot;},&quot;in_trash&quot;:false,&quot;is_archived&quot;:false,&quot;is_locked&quot;:false,&quot;properties&quot;:{&quot;title&quot;:{&quot;id&quot;:&quot;title&quot;,&quot;type&quot;:&quot;title&quot;,&quot;title&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;Data Source Properties&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;Data Source Properties&quot;,&quot;href&quot;:null}]}},&quot;url&quot;:&quot;https://www.notion.so/Data-Source-Properties-329cd6cf140681c0bbcfc3e879b73182&quot;,&quot;public_url&quot;:null,&quot;request_id&quot;:&quot;a7739d50-20d1-422f-a33a-7c38dbf29545&quot;}
+2026-03-20 21:17:40.318 [Test worker] ERROR io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Response from NotionAPIv2026-03-11 with error: 200
+2026-03-20 21:17:40.318 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Error response body: 
+Page(properties={title=TitleProperty(type=title, title=[RichText(type=text, plainText=Data Source Properties, href=null, annotations=RichText.Annotations(bold=false, italic=false, strikethrough=false, underline=false, code=false, color=default), text=RichText.Text(content=Data Source Properties, link=null), mention=null, equation=null)])}, url=https://www.notion.so/Data-Source-Properties-329cd6cf140681c0bbcfc3e879b73182, publicUrl=null, icon=null, cover=null, isLocked=false)
+2026-03-20 21:17:40.321 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Calling NotionAPIv2026-03-11
+2026-03-20 21:17:40.321 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Building request...
+2026-03-20 21:17:40.322 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Request method: POST, url: https://api.notion.com/v1/pages, content-type: application/json
+2026-03-20 21:17:40.322 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Request body: 
+{
+  &quot;parent&quot; : {
+    &quot;type&quot; : &quot;page_id&quot;,
+    &quot;page_id&quot; : &quot;329cd6cf-1406-81c0-bbcf-c3e879b73182&quot;
+  },
+  &quot;properties&quot; : {
+    &quot;title&quot; : {
+      &quot;type&quot; : &quot;title&quot;,
+      &quot;title&quot; : [ {
+        &quot;type&quot; : &quot;text&quot;,
+        &quot;plain_text&quot; : &quot;[IT-53]: Data sources - Create a data source with all the supported properties and add pages to it&quot;,
+        &quot;annotations&quot; : { },
+        &quot;text&quot; : {
+          &quot;content&quot; : &quot;[IT-53]: Data sources - Create a data source with all the supported properties and add pages to it&quot;
+        }
+      } ]
+    }
+  },
+  &quot;position&quot; : {
+    &quot;type&quot; : &quot;page_start&quot;
+  }
+}
+2026-03-20 21:17:40.657 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Response from NotionAPIv2026-03-11 with code: 200
+2026-03-20 21:17:40.657 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Response body: 
+{&quot;object&quot;:&quot;page&quot;,&quot;id&quot;:&quot;329cd6cf-1406-819b-94ee-d7b1462721cc&quot;,&quot;created_time&quot;:&quot;2026-03-20T21:17:00.000Z&quot;,&quot;last_edited_time&quot;:&quot;2026-03-20T21:17:00.000Z&quot;,&quot;created_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;last_edited_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;cover&quot;:null,&quot;icon&quot;:null,&quot;parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;329cd6cf-1406-81c0-bbcf-c3e879b73182&quot;},&quot;in_trash&quot;:false,&quot;is_archived&quot;:false,&quot;is_locked&quot;:false,&quot;properties&quot;:{&quot;title&quot;:{&quot;id&quot;:&quot;title&quot;,&quot;type&quot;:&quot;title&quot;,&quot;title&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;[IT-53]: Data sources - Create a data source with all the supported properties and add pages to it&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;[IT-53]: Data sources - Create a data source with all the supported properties and add pages to it&quot;,&quot;href&quot;:null}]}},&quot;url&quot;:&quot;https://www.notion.so/IT-53-Data-sources-Create-a-data-source-with-all-the-supported-properties-and-add-pages-to-it-329cd6cf1406819b94eed7b1462721cc&quot;,&quot;public_url&quot;:null,&quot;request_id&quot;:&quot;9f98c21a-6331-4210-8fd7-29747e2ca880&quot;}
+2026-03-20 21:17:40.657 [Test worker] ERROR io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Response from NotionAPIv2026-03-11 with error: 200
+2026-03-20 21:17:40.657 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Error response body: 
+Page(properties={title=TitleProperty(type=title, title=[RichText(type=text, plainText=[IT-53]: Data sources - Create a data source with all the supported properties and add pages to it, href=null, annotations=RichText.Annotations(bold=false, italic=false, strikethrough=false, underline=false, code=false, color=default), text=RichText.Text(content=[IT-53]: Data sources - Create a data source with all the supported properties and add pages to it, link=null), mention=null, equation=null)])}, url=https://www.notion.so/IT-53-Data-sources-Create-a-data-source-with-all-the-supported-properties-and-add-pages-to-it-329cd6cf1406819b94eed7b1462721cc, publicUrl=null, icon=null, cover=null, isLocked=false)
+2026-03-20 21:17:40.658 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Calling NotionAPIv2026-03-11
+2026-03-20 21:17:40.658 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Building request...
+2026-03-20 21:17:40.659 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Request method: POST, url: https://api.notion.com/v1/databases, content-type: application/json
+2026-03-20 21:17:40.659 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Request body: 
+{
+  &quot;parent&quot; : {
+    &quot;type&quot; : &quot;page_id&quot;,
+    &quot;page_id&quot; : &quot;329cd6cf-1406-819b-94ee-d7b1462721cc&quot;
+  },
+  &quot;title&quot; : [ {
+    &quot;type&quot; : &quot;text&quot;,
+    &quot;plain_text&quot; : &quot;Full property DB&quot;,
+    &quot;annotations&quot; : { },
+    &quot;text&quot; : {
+      &quot;content&quot; : &quot;Full property DB&quot;
+    }
+  } ],
+  &quot;description&quot; : [ {
+    &quot;type&quot; : &quot;text&quot;,
+    &quot;plain_text&quot; : &quot;Database to test all data source properties&quot;,
+    &quot;annotations&quot; : { },
+    &quot;text&quot; : {
+      &quot;content&quot; : &quot;Database to test all data source properties&quot;
+    }
+  } ],
+  &quot;is_inline&quot; : true
+}
+2026-03-20 21:17:41.730 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Response from NotionAPIv2026-03-11 with code: 200
+2026-03-20 21:17:41.730 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Response body: 
+{&quot;object&quot;:&quot;database&quot;,&quot;id&quot;:&quot;e194b2ab-da40-4ca6-b235-1d87d16dafb2&quot;,&quot;title&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;Full property DB&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;Full property DB&quot;,&quot;href&quot;:null}],&quot;description&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;Database to test all data source properties&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;Database to test all data source properties&quot;,&quot;href&quot;:null}],&quot;parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;329cd6cf-1406-819b-94ee-d7b1462721cc&quot;},&quot;is_inline&quot;:true,&quot;in_trash&quot;:false,&quot;is_locked&quot;:false,&quot;created_time&quot;:&quot;2026-03-20T21:17:40.914+00:00&quot;,&quot;last_edited_time&quot;:&quot;2026-03-20T21:17:40.914+00:00&quot;,&quot;data_sources&quot;:[{&quot;id&quot;:&quot;9582d9e4-604f-4093-aa44-4c58ed24bd98&quot;,&quot;name&quot;:&quot;Full property DB&quot;}],&quot;icon&quot;:null,&quot;cover&quot;:null,&quot;url&quot;:&quot;https://www.notion.so/e194b2abda404ca6b2351d87d16dafb2&quot;,&quot;public_url&quot;:null,&quot;request_id&quot;:&quot;1d9d81ad-80b6-4794-bdb2-2a5db40cd602&quot;}
+2026-03-20 21:17:41.730 [Test worker] ERROR io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Response from NotionAPIv2026-03-11 with error: 200
+2026-03-20 21:17:41.730 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Error response body: 
+Database(title=[RichText(type=text, plainText=Full property DB, href=null, annotations=RichText.Annotations(bold=false, italic=false, strikethrough=false, underline=false, code=false, color=default), text=RichText.Text(content=Full property DB, link=null), mention=null, equation=null)], description=[RichText(type=text, plainText=Database to test all data source properties, href=null, annotations=RichText.Annotations(bold=false, italic=false, strikethrough=false, underline=false, code=false, color=default), text=RichText.Text(content=Database to test all data source properties, link=null), mention=null, equation=null)], icon=null, cover=null, url=https://www.notion.so/e194b2abda404ca6b2351d87d16dafb2, publicUrl=null, isInline=true, isLocked=false, dataSources=[DataSourceRef(id=9582d9e4-604f-4093-aa44-4c58ed24bd98, name=Full property DB)])
+2026-03-20 21:17:41.732 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Calling NotionAPIv2026-03-11
+2026-03-20 21:17:41.732 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Building request...
+2026-03-20 21:17:41.733 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Request method: POST, url: https://api.notion.com/v1/data_sources, content-type: application/json
+2026-03-20 21:17:41.733 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Request body: 
+{
+  &quot;parent&quot; : {
+    &quot;type&quot; : &quot;database_id&quot;,
+    &quot;database_id&quot; : &quot;e194b2ab-da40-4ca6-b235-1d87d16dafb2&quot;
+  },
+  &quot;title&quot; : [ {
+    &quot;type&quot; : &quot;text&quot;,
+    &quot;plain_text&quot; : &quot;Product catalog&quot;,
+    &quot;annotations&quot; : { },
+    &quot;text&quot; : {
+      &quot;content&quot; : &quot;Product catalog&quot;
+    }
+  } ],
+  &quot;properties&quot; : {
+    &quot;Name&quot; : {
+      &quot;type&quot; : &quot;title&quot;,
+      &quot;title&quot; : { }
+    },
+    &quot;Description&quot; : {
+      &quot;rich_text&quot; : { }
+    },
+    &quot;Number&quot; : {
+      &quot;number&quot; : {
+        &quot;format&quot; : &quot;zloty&quot;
+      }
+    },
+    &quot;Checkbox&quot; : {
+      &quot;type&quot; : &quot;checkbox&quot;,
+      &quot;checkbox&quot; : { }
+    },
+    &quot;Due Date&quot; : {
+      &quot;date&quot; : { }
+    },
+    &quot;Category&quot; : {
+      &quot;select&quot; : {
+        &quot;options&quot; : [ {
+          &quot;name&quot; : &quot;Electronics&quot;
+        }, {
+          &quot;name&quot; : &quot;Books&quot;
+        }, {
+          &quot;name&quot; : &quot;Clothing&quot;
+        } ]
+      }
+    },
+    &quot;Tags&quot; : {
+      &quot;multi_select&quot; : {
+        &quot;options&quot; : [ {
+          &quot;name&quot; : &quot;Sale&quot;
+        }, {
+          &quot;name&quot; : &quot;New&quot;
+        }, {
+          &quot;name&quot; : &quot;Popular&quot;
+        } ]
+      }
+    },
+    &quot;Website&quot; : {
+      &quot;url&quot; : { }
+    },
+    &quot;Contact Email&quot; : {
+      &quot;email&quot; : { }
+    },
+    &quot;Contact Phone&quot; : {
+      &quot;phone_number&quot; : { }
+    },
+    &quot;People&quot; : {
+      &quot;people&quot; : { }
+    },
+    &quot;UniqueId&quot; : {
+      &quot;unique_id&quot; : { }
+    },
+    &quot;Created By&quot; : {
+      &quot;created_by&quot; : { }
+    },
+    &quot;Last Edited By&quot; : {
+      &quot;last_edited_by&quot; : { }
+    },
+    &quot;Created Time&quot; : {
+      &quot;created_time&quot; : { }
+    },
+    &quot;Last Edited Time&quot; : {
+      &quot;last_edited_time&quot; : { }
+    },
+    &quot;Files&quot; : {
+      &quot;files&quot; : { }
+    },
+    &quot;Formula&quot; : {
+      &quot;formula&quot; : {
+        &quot;expression&quot; : &quot;\&quot;Title: \&quot; + prop(\&quot;Name\&quot;)&quot;
+      }
+    },
+    &quot;Place&quot; : {
+      &quot;place&quot; : { }
+    },
+    &quot;Status&quot; : {
+      &quot;status&quot; : { }
+    },
+    &quot;One-sided to First DS&quot; : {
+      &quot;relation&quot; : {
+        &quot;data_source_id&quot; : &quot;9582d9e4-604f-4093-aa44-4c58ed24bd98&quot;,
+        &quot;single_property&quot; : { }
+      }
+    },
+    &quot;Dual to First DS&quot; : {
+      &quot;relation&quot; : {
+        &quot;data_source_id&quot; : &quot;9582d9e4-604f-4093-aa44-4c58ed24bd98&quot;,
+        &quot;type&quot; : &quot;dual_property&quot;,
+        &quot;dual_property&quot; : {
+          &quot;synced_property_id&quot; : &quot;Link to Second DS&quot;
+        }
+      }
+    },
+    &quot;Rollup&quot; : {
+      &quot;rollup&quot; : {
+        &quot;relation_property_id&quot; : &quot;Dual to First DS&quot;,
+        &quot;rollup_property_id&quot; : &quot;Name&quot;,
+        &quot;function&quot; : &quot;count&quot;
+      }
+    }
+  }
+}
+2026-03-20 21:17:42.197 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Response from NotionAPIv2026-03-11 with code: 200
+2026-03-20 21:17:42.197 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Response body: 
+{&quot;object&quot;:&quot;data_source&quot;,&quot;id&quot;:&quot;329cd6cf-1406-81d1-84f6-000bf04cd727&quot;,&quot;cover&quot;:null,&quot;icon&quot;:null,&quot;created_time&quot;:&quot;2026-03-20T21:17:00.000Z&quot;,&quot;created_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;last_edited_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;last_edited_time&quot;:&quot;2026-03-20T21:17:00.000Z&quot;,&quot;title&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;Product catalog&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;Product catalog&quot;,&quot;href&quot;:null}],&quot;description&quot;:[],&quot;is_inline&quot;:true,&quot;properties&quot;:{&quot;People&quot;:{&quot;id&quot;:&quot;%3A%5Dny&quot;,&quot;name&quot;:&quot;People&quot;,&quot;description&quot;:null,&quot;type&quot;:&quot;people&quot;,&quot;people&quot;:{}},&quot;Last Edited By&quot;:{&quot;id&quot;:&quot;%3ArSS&quot;,&quot;name&quot;:&quot;Last Edited By&quot;,&quot;description&quot;:null,&quot;type&quot;:&quot;last_edited_by&quot;,&quot;last_edited_by&quot;:{}},&quot;Contact Email&quot;:{&quot;id&quot;:&quot;%3A%7Dg~&quot;,&quot;name&quot;:&quot;Contact Email&quot;,&quot;description&quot;:null,&quot;type&quot;:&quot;email&quot;,&quot;email&quot;:{}},&quot;Created By&quot;:{&quot;id&quot;:&quot;%3BkeM&quot;,&quot;name&quot;:&quot;Created By&quot;,&quot;description&quot;:null,&quot;type&quot;:&quot;created_by&quot;,&quot;created_by&quot;:{}},&quot;Status&quot;:{&quot;id&quot;:&quot;%3DBv%5E&quot;,&quot;name&quot;:&quot;Status&quot;,&quot;description&quot;:null,&quot;type&quot;:&quot;status&quot;,&quot;status&quot;:{&quot;options&quot;:[{&quot;id&quot;:&quot;b44ec10d-89a6-4658-821e-c759435be583&quot;,&quot;name&quot;:&quot;Not started&quot;,&quot;color&quot;:&quot;default&quot;,&quot;description&quot;:null},{&quot;id&quot;:&quot;a1c70f1c-96ea-4af7-93fa-acb97064980e&quot;,&quot;name&quot;:&quot;In progress&quot;,&quot;color&quot;:&quot;blue&quot;,&quot;description&quot;:null},{&quot;id&quot;:&quot;1676bcd5-25be-483c-9e8e-958a1d1cdd9d&quot;,&quot;name&quot;:&quot;Done&quot;,&quot;color&quot;:&quot;green&quot;,&quot;description&quot;:null}],&quot;groups&quot;:[{&quot;id&quot;:&quot;79984918-2e01-4f6e-a363-a4a52e4bff0e&quot;,&quot;name&quot;:&quot;To-do&quot;,&quot;color&quot;:&quot;gray&quot;,&quot;option_ids&quot;:[&quot;b44ec10d-89a6-4658-821e-c759435be583&quot;]},{&quot;id&quot;:&quot;7e871d4b-93d3-4577-a2c1-e129313ba780&quot;,&quot;name&quot;:&quot;In progress&quot;,&quot;color&quot;:&quot;blue&quot;,&quot;option_ids&quot;:[&quot;a1c70f1c-96ea-4af7-93fa-acb97064980e&quot;]},{&quot;id&quot;:&quot;748ab33f-0784-4eaa-8388-e53593130ae8&quot;,&quot;name&quot;:&quot;Complete&quot;,&quot;color&quot;:&quot;green&quot;,&quot;option_ids&quot;:[&quot;1676bcd5-25be-483c-9e8e-958a1d1cdd9d&quot;]}]}},&quot;Place&quot;:{&quot;id&quot;:&quot;%3D%5D%5BF&quot;,&quot;name&quot;:&quot;Place&quot;,&quot;description&quot;:null,&quot;type&quot;:&quot;place&quot;,&quot;place&quot;:{}},&quot;Due Date&quot;:{&quot;id&quot;:&quot;CVd%5D&quot;,&quot;name&quot;:&quot;Due Date&quot;,&quot;description&quot;:null,&quot;type&quot;:&quot;date&quot;,&quot;date&quot;:{}},&quot;Website&quot;:{&quot;id&quot;:&quot;L%3Ad%3C&quot;,&quot;name&quot;:&quot;Website&quot;,&quot;description&quot;:null,&quot;type&quot;:&quot;url&quot;,&quot;url&quot;:{}},&quot;Formula&quot;:{&quot;id&quot;:&quot;RZEL&quot;,&quot;name&quot;:&quot;Formula&quot;,&quot;description&quot;:null,&quot;type&quot;:&quot;formula&quot;,&quot;formula&quot;:{&quot;expression&quot;:&quot;\&quot;Title: \&quot; + {{notion:block_property:title:329cd6cf-1406-81d1-84f6-000bf04cd727:74ecd6cf-1406-8114-a47c-000305deb73b}}&quot;}},&quot;Dual to First DS&quot;:{&quot;id&quot;:&quot;RlyQ&quot;,&quot;name&quot;:&quot;Dual to First DS&quot;,&quot;description&quot;:null,&quot;type&quot;:&quot;relation&quot;,&quot;relation&quot;:{&quot;database_id&quot;:&quot;e194b2ab-da40-4ca6-b235-1d87d16dafb2&quot;,&quot;data_source_id&quot;:&quot;9582d9e4-604f-4093-aa44-4c58ed24bd98&quot;,&quot;type&quot;:&quot;dual_property&quot;,&quot;dual_property&quot;:{&quot;synced_property_name&quot;:&quot;Related to Product catalog (Dual to First DS)&quot;,&quot;synced_property_id&quot;:&quot;VFL%3C&quot;}}},&quot;Tags&quot;:{&quot;id&quot;:&quot;Xvmo&quot;,&quot;name&quot;:&quot;Tags&quot;,&quot;description&quot;:null,&quot;type&quot;:&quot;multi_select&quot;,&quot;multi_select&quot;:{&quot;options&quot;:[{&quot;id&quot;:&quot;0a72c41d-6dde-4d34-93d3-1b118a88315c&quot;,&quot;name&quot;:&quot;Sale&quot;,&quot;color&quot;:&quot;default&quot;,&quot;description&quot;:null},{&quot;id&quot;:&quot;9d7babc0-d070-4410-b5b9-5ec0516ff0c9&quot;,&quot;name&quot;:&quot;New&quot;,&quot;color&quot;:&quot;default&quot;,&quot;description&quot;:null},{&quot;id&quot;:&quot;a74bf9e9-a1ef-4aca-b52f-78be2729c08c&quot;,&quot;name&quot;:&quot;Popular&quot;,&quot;color&quot;:&quot;default&quot;,&quot;description&quot;:null}]}},&quot;Created Time&quot;:{&quot;id&quot;:&quot;Y%5EV%7D&quot;,&quot;name&quot;:&quot;Created Time&quot;,&quot;description&quot;:null,&quot;type&quot;:&quot;created_time&quot;,&quot;created_time&quot;:{}},&quot;Contact Phone&quot;:{&quot;id&quot;:&quot;%5C%3A%5EZ&quot;,&quot;name&quot;:&quot;Contact Phone&quot;,&quot;description&quot;:null,&quot;type&quot;:&quot;phone_number&quot;,&quot;phone_number&quot;:{}},&quot;Number&quot;:{&quot;id&quot;:&quot;%5D%40hq&quot;,&quot;name&quot;:&quot;Number&quot;,&quot;description&quot;:null,&quot;type&quot;:&quot;number&quot;,&quot;number&quot;:{&quot;format&quot;:&quot;zloty&quot;}},&quot;Last Edited Time&quot;:{&quot;id&quot;:&quot;_oe%5E&quot;,&quot;name&quot;:&quot;Last Edited Time&quot;,&quot;description&quot;:null,&quot;type&quot;:&quot;last_edited_time&quot;,&quot;last_edited_time&quot;:{}},&quot;UniqueId&quot;:{&quot;id&quot;:&quot;aVWA&quot;,&quot;name&quot;:&quot;UniqueId&quot;,&quot;description&quot;:null,&quot;type&quot;:&quot;unique_id&quot;,&quot;unique_id&quot;:{&quot;prefix&quot;:null}},&quot;Files&quot;:{&quot;id&quot;:&quot;jarq&quot;,&quot;name&quot;:&quot;Files&quot;,&quot;description&quot;:null,&quot;type&quot;:&quot;files&quot;,&quot;files&quot;:{}},&quot;Description&quot;:{&quot;id&quot;:&quot;muSO&quot;,&quot;name&quot;:&quot;Description&quot;,&quot;description&quot;:null,&quot;type&quot;:&quot;rich_text&quot;,&quot;rich_text&quot;:{}},&quot;One-sided to First DS&quot;:{&quot;id&quot;:&quot;pX~T&quot;,&quot;name&quot;:&quot;One-sided to First DS&quot;,&quot;description&quot;:null,&quot;type&quot;:&quot;relation&quot;,&quot;relation&quot;:{&quot;database_id&quot;:&quot;e194b2ab-da40-4ca6-b235-1d87d16dafb2&quot;,&quot;data_source_id&quot;:&quot;9582d9e4-604f-4093-aa44-4c58ed24bd98&quot;,&quot;type&quot;:&quot;single_property&quot;,&quot;single_property&quot;:{}}},&quot;Category&quot;:{&quot;id&quot;:&quot;xdiQ&quot;,&quot;name&quot;:&quot;Category&quot;,&quot;description&quot;:null,&quot;type&quot;:&quot;select&quot;,&quot;select&quot;:{&quot;options&quot;:[{&quot;id&quot;:&quot;1d333524-960c-4288-9fdd-2c7e6f4c12c3&quot;,&quot;name&quot;:&quot;Electronics&quot;,&quot;color&quot;:&quot;default&quot;,&quot;description&quot;:null},{&quot;id&quot;:&quot;219fddc0-dee0-40e1-b7c9-04f7b4f9541d&quot;,&quot;name&quot;:&quot;Books&quot;,&quot;color&quot;:&quot;default&quot;,&quot;description&quot;:null},{&quot;id&quot;:&quot;7c6f0445-3f9a-4126-8244-0adcd3f5e754&quot;,&quot;name&quot;:&quot;Clothing&quot;,&quot;color&quot;:&quot;default&quot;,&quot;description&quot;:null}]}},&quot;Rollup&quot;:{&quot;id&quot;:&quot;xmYs&quot;,&quot;name&quot;:&quot;Rollup&quot;,&quot;description&quot;:null,&quot;type&quot;:&quot;rollup&quot;,&quot;rollup&quot;:{&quot;rollup_property_name&quot;:&quot;Name&quot;,&quot;relation_property_name&quot;:&quot;Dual to First DS&quot;,&quot;rollup_property_id&quot;:&quot;title&quot;,&quot;relation_property_id&quot;:&quot;RlyQ&quot;,&quot;function&quot;:&quot;count&quot;}},&quot;Checkbox&quot;:{&quot;id&quot;:&quot;%7DHw%3B&quot;,&quot;name&quot;:&quot;Checkbox&quot;,&quot;description&quot;:null,&quot;type&quot;:&quot;checkbox&quot;,&quot;checkbox&quot;:{}},&quot;Name&quot;:{&quot;id&quot;:&quot;title&quot;,&quot;name&quot;:&quot;Name&quot;,&quot;description&quot;:null,&quot;type&quot;:&quot;title&quot;,&quot;title&quot;:{}}},&quot;parent&quot;:{&quot;type&quot;:&quot;database_id&quot;,&quot;database_id&quot;:&quot;e194b2ab-da40-4ca6-b235-1d87d16dafb2&quot;},&quot;database_parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;329cd6cf-1406-819b-94ee-d7b1462721cc&quot;},&quot;url&quot;:&quot;https://www.notion.so/e194b2abda404ca6b2351d87d16dafb2&quot;,&quot;public_url&quot;:null,&quot;in_trash&quot;:false,&quot;request_id&quot;:&quot;03fd6a31-bafe-4b86-bdfe-653580fb8315&quot;}
+2026-03-20 21:17:42.223 [Test worker] ERROR io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Response from NotionAPIv2026-03-11 with error: 200
+2026-03-20 21:17:42.226 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Error response body: 
+DataSource(title=[RichText(type=text, plainText=Product catalog, href=null, annotations=RichText.Annotations(bold=false, italic=false, strikethrough=false, underline=false, code=false, color=default), text=RichText.Text(content=Product catalog, link=null), mention=null, equation=null)], description=[], databaseParent=Parent(type=page_id, blockId=null, pageId=329cd6cf-1406-819b-94ee-d7b1462721cc, databaseId=null, datasourceId=null, workspace=null), icon=null, cover=null, properties={People=PeopleSchema(people={}), Last Edited By=LastEditedBySchema(lastEditedBy={}), Contact Email=EmailSchema(email={}), Created By=CreatedBySchema(createdBy={}), Status=StatusSchema(status=StatusSchema.StatusConfig(options=[StatusOption(id=b44ec10d-89a6-4658-821e-c759435be583, name=Not started, color=default, description=null), StatusOption(id=a1c70f1c-96ea-4af7-93fa-acb97064980e, name=In progress, color=blue, description=null), StatusOption(id=1676bcd5-25be-483c-9e8e-958a1d1cdd9d, name=Done, color=green, description=null)], groups=[StatusGroup(id=79984918-2e01-4f6e-a363-a4a52e4bff0e, name=To-do, color=gray, optionIds=[b44ec10d-89a6-4658-821e-c759435be583]), StatusGroup(id=7e871d4b-93d3-4577-a2c1-e129313ba780, name=In progress, color=blue, optionIds=[a1c70f1c-96ea-4af7-93fa-acb97064980e]), StatusGroup(id=748ab33f-0784-4eaa-8388-e53593130ae8, name=Complete, color=green, optionIds=[1676bcd5-25be-483c-9e8e-958a1d1cdd9d])])), Place=PlaceSchema(place={}), Due Date=DateSchema(date={}), Website=UrlSchema(url={}), Formula=FormulaSchema(formula=FormulaSchema.FormulaConfig(expression=&quot;Title: &quot; + {{notion:block_property:title:329cd6cf-1406-81d1-84f6-000bf04cd727:74ecd6cf-1406-8114-a47c-000305deb73b}})), Dual to First DS=RelationSchema(relation=RelationSchema.RelationConfig(databaseId=e194b2ab-da40-4ca6-b235-1d87d16dafb2, dataSourceId=9582d9e4-604f-4093-aa44-4c58ed24bd98, type=dual_property, singleProperty=null, dualProperty=RelationSchema.DualPropertyConfig(syncedPropertyName=Related to Product catalog (Dual to First DS), syncedPropertyId=VFL%3C))), Tags=MultiSelectSchema(multiSelect=MultiSelectSchema.MultiSelectConfig(options=[SelectOption(id=0a72c41d-6dde-4d34-93d3-1b118a88315c, name=Sale, color=default), SelectOption(id=9d7babc0-d070-4410-b5b9-5ec0516ff0c9, name=New, color=default), SelectOption(id=a74bf9e9-a1ef-4aca-b52f-78be2729c08c, name=Popular, color=default)])), Created Time=CreatedTimeSchema(createdTime={}), Contact Phone=PhoneSchema(phoneNumber={}), Number=NumberSchema(number=NumberSchema.NumberFormat(format=zloty)), Last Edited Time=LastEditedTimeSchema(lastEditedTime={}), UniqueId=UniqueIdSchema(uniqueId=UniqueIdSchema.UniqueIdConfig(prefix=null)), Files=FilesSchema(files={}), Description=RichTextSchema(richText={}), One-sided to First DS=RelationSchema(relation=RelationSchema.RelationConfig(databaseId=e194b2ab-da40-4ca6-b235-1d87d16dafb2, dataSourceId=9582d9e4-604f-4093-aa44-4c58ed24bd98, type=single_property, singleProperty=RelationSchema.SinglePropertyConfig(), dualProperty=null)), Category=SelectSchema(select=SelectSchema.SelectConfig(options=[SelectOption(id=1d333524-960c-4288-9fdd-2c7e6f4c12c3, name=Electronics, color=default), SelectOption(id=219fddc0-dee0-40e1-b7c9-04f7b4f9541d, name=Books, color=default), SelectOption(id=7c6f0445-3f9a-4126-8244-0adcd3f5e754, name=Clothing, color=default)])), Rollup=RollupSchema(rollup=RollupSchema.RollupConfig(relationPropertyName=Dual to First DS, relationPropertyId=RlyQ, rollupPropertyName=Name, rollupPropertyId=title, function=count)), Checkbox=CheckboxSchema(checkbox={}), Name=TitleSchema(title={})}, isInline=true, url=https://www.notion.so/e194b2abda404ca6b2351d87d16dafb2, publicUrl=null)
+2026-03-20 21:17:42.240 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Calling NotionAPIv2026-03-11
+2026-03-20 21:17:42.240 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Building request...
+2026-03-20 21:17:42.240 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Request method: POST, url: https://api.notion.com/v1/pages, content-type: application/json
+2026-03-20 21:17:42.241 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Request body: 
+{
+  &quot;parent&quot; : {
+    &quot;type&quot; : &quot;data_source_id&quot;,
+    &quot;data_source_id&quot; : &quot;9582d9e4-604f-4093-aa44-4c58ed24bd98&quot;
+  },
+  &quot;properties&quot; : {
+    &quot;title&quot; : {
+      &quot;type&quot; : &quot;title&quot;,
+      &quot;title&quot; : [ {
+        &quot;type&quot; : &quot;text&quot;,
+        &quot;plain_text&quot; : &quot;Minimal entry&quot;,
+        &quot;annotations&quot; : { },
+        &quot;text&quot; : {
+          &quot;content&quot; : &quot;Minimal entry&quot;
+        }
+      } ]
+    }
+  }
+}
+2026-03-20 21:17:42.526 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Response from NotionAPIv2026-03-11 with code: 200
+2026-03-20 21:17:42.526 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Response body: 
+{&quot;object&quot;:&quot;page&quot;,&quot;id&quot;:&quot;329cd6cf-1406-816d-ab5f-d73277e1b67a&quot;,&quot;created_time&quot;:&quot;2026-03-20T21:17:00.000Z&quot;,&quot;last_edited_time&quot;:&quot;2026-03-20T21:17:00.000Z&quot;,&quot;created_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;last_edited_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;cover&quot;:null,&quot;icon&quot;:null,&quot;parent&quot;:{&quot;type&quot;:&quot;data_source_id&quot;,&quot;data_source_id&quot;:&quot;9582d9e4-604f-4093-aa44-4c58ed24bd98&quot;,&quot;database_id&quot;:&quot;e194b2ab-da40-4ca6-b235-1d87d16dafb2&quot;},&quot;in_trash&quot;:false,&quot;is_archived&quot;:false,&quot;is_locked&quot;:false,&quot;properties&quot;:{&quot;Related to Product catalog (Dual to First DS)&quot;:{&quot;id&quot;:&quot;VFL%3C&quot;,&quot;type&quot;:&quot;relation&quot;,&quot;relation&quot;:[],&quot;has_more&quot;:false},&quot;Name&quot;:{&quot;id&quot;:&quot;title&quot;,&quot;type&quot;:&quot;title&quot;,&quot;title&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;Minimal entry&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;Minimal entry&quot;,&quot;href&quot;:null}]}},&quot;url&quot;:&quot;https://www.notion.so/Minimal-entry-329cd6cf1406816dab5fd73277e1b67a&quot;,&quot;public_url&quot;:null,&quot;request_id&quot;:&quot;36e5bc7a-afaf-464a-b6ab-8f97e912c89f&quot;}
+2026-03-20 21:17:42.530 [Test worker] ERROR io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Response from NotionAPIv2026-03-11 with error: 200
+2026-03-20 21:17:42.531 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Error response body: 
+Page(properties={Related to Product catalog (Dual to First DS)=RelationProperty(type=relation, hasMore=false, relation=[]), Name=TitleProperty(type=title, title=[RichText(type=text, plainText=Minimal entry, href=null, annotations=RichText.Annotations(bold=false, italic=false, strikethrough=false, underline=false, code=false, color=default), text=RichText.Text(content=Minimal entry, link=null), mention=null, equation=null)])}, url=https://www.notion.so/Minimal-entry-329cd6cf1406816dab5fd73277e1b67a, publicUrl=null, icon=null, cover=null, isLocked=false)
+2026-03-20 21:17:42.536 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Calling NotionAPIv2026-03-11
+2026-03-20 21:17:42.536 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Building request...
+2026-03-20 21:17:42.552 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Request method: POST, url: https://api.notion.com/v1/pages, content-type: application/json
+2026-03-20 21:17:42.553 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Request body: 
+{
+  &quot;parent&quot; : {
+    &quot;type&quot; : &quot;data_source_id&quot;,
+    &quot;data_source_id&quot; : &quot;329cd6cf-1406-81d1-84f6-000bf04cd727&quot;
+  },
+  &quot;properties&quot; : {
+    &quot;title&quot; : {
+      &quot;type&quot; : &quot;title&quot;,
+      &quot;title&quot; : [ {
+        &quot;type&quot; : &quot;text&quot;,
+        &quot;plain_text&quot; : &quot;Full entry&quot;,
+        &quot;annotations&quot; : { },
+        &quot;text&quot; : {
+          &quot;content&quot; : &quot;Full entry&quot;
+        }
+      } ]
+    },
+    &quot;Description&quot; : {
+      &quot;type&quot; : &quot;rich_text&quot;,
+      &quot;rich_text&quot; : [ {
+        &quot;type&quot; : &quot;text&quot;,
+        &quot;plain_text&quot; : &quot;A detailed description&quot;,
+        &quot;annotations&quot; : { },
+        &quot;text&quot; : {
+          &quot;content&quot; : &quot;A detailed description&quot;
+        }
+      } ]
+    },
+    &quot;Number&quot; : {
+      &quot;type&quot; : &quot;number&quot;,
+      &quot;number&quot; : 49.99
+    },
+    &quot;Checkbox&quot; : {
+      &quot;type&quot; : &quot;checkbox&quot;,
+      &quot;checkbox&quot; : true
+    },
+    &quot;Due Date&quot; : {
+      &quot;type&quot; : &quot;date&quot;,
+      &quot;date&quot; : {
+        &quot;start&quot; : &quot;2026-04-01&quot;
+      }
+    },
+    &quot;Category&quot; : {
+      &quot;type&quot; : &quot;select&quot;,
+      &quot;select&quot; : {
+        &quot;name&quot; : &quot;Electronics&quot;
+      }
+    },
+    &quot;Tags&quot; : {
+      &quot;type&quot; : &quot;multi_select&quot;,
+      &quot;multi_select&quot; : [ {
+        &quot;name&quot; : &quot;Sale&quot;
+      }, {
+        &quot;name&quot; : &quot;New&quot;
+      } ]
+    },
+    &quot;Website&quot; : {
+      &quot;type&quot; : &quot;url&quot;,
+      &quot;url&quot; : &quot;https://example.com&quot;
+    },
+    &quot;Contact Email&quot; : {
+      &quot;type&quot; : &quot;email&quot;,
+      &quot;email&quot; : &quot;contact@example.com&quot;
+    },
+    &quot;Contact Phone&quot; : {
+      &quot;type&quot; : &quot;phone_number&quot;,
+      &quot;phone_number&quot; : &quot;+1234567890&quot;
+    },
+    &quot;People&quot; : {
+      &quot;type&quot; : &quot;people&quot;,
+      &quot;people&quot; : [ {
+        &quot;id&quot; : &quot;2e8d872b-594c-8197-b19f-000245c7469f&quot;
+      } ]
+    },
+    &quot;Status&quot; : {
+      &quot;type&quot; : &quot;status&quot;,
+      &quot;status&quot; : {
+        &quot;name&quot; : &quot;In progress&quot;
+      }
+    },
+    &quot;Dual to First DS&quot; : {
+      &quot;type&quot; : &quot;relation&quot;,
+      &quot;relation&quot; : [ {
+        &quot;id&quot; : &quot;329cd6cf-1406-816d-ab5f-d73277e1b67a&quot;
+      } ]
+    },
+    &quot;Files&quot; : {
+      &quot;type&quot; : &quot;files&quot;,
+      &quot;files&quot; : [ {
+        &quot;type&quot; : &quot;external&quot;,
+        &quot;external&quot; : {
+          &quot;url&quot; : &quot;https://images.unsplash.com/photo-1543906965-f9520aa2ed8a?ixlib=rb-4.1.0&amp;q=85&amp;fm=jpg&amp;crop=entropy&amp;cs=srgb&quot;
+        },
+        &quot;name&quot; : &quot;external-file&quot;
+      }, {
+        &quot;type&quot; : &quot;file_upload&quot;,
+        &quot;file_upload&quot; : {
+          &quot;id&quot; : &quot;329cd6cf-1406-81d2-8d30-00b2b8306a8f&quot;
+        }
+      } ]
+    }
+  },
+  &quot;children&quot; : [ {
+    &quot;type&quot; : &quot;paragraph&quot;,
+    &quot;paragraph&quot; : {
+      &quot;rich_text&quot; : [ {
+        &quot;type&quot; : &quot;text&quot;,
+        &quot;plain_text&quot; : &quot;First paragraph&quot;,
+        &quot;annotations&quot; : { },
+        &quot;text&quot; : {
+          &quot;content&quot; : &quot;First paragraph&quot;
+        }
+      } ],
+      &quot;color&quot; : &quot;default&quot;
+    }
+  }, {
+    &quot;type&quot; : &quot;paragraph&quot;,
+    &quot;paragraph&quot; : {
+      &quot;rich_text&quot; : [ {
+        &quot;type&quot; : &quot;text&quot;,
+        &quot;plain_text&quot; : &quot;Second paragraph&quot;,
+        &quot;annotations&quot; : { },
+        &quot;text&quot; : {
+          &quot;content&quot; : &quot;Second paragraph&quot;
+        }
+      } ],
+      &quot;color&quot; : &quot;default&quot;
+    }
+  } ]
+}
+2026-03-20 21:17:43.178 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Response from NotionAPIv2026-03-11 with code: 200
+2026-03-20 21:17:43.178 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Response body: 
+{&quot;object&quot;:&quot;page&quot;,&quot;id&quot;:&quot;329cd6cf-1406-8113-b0a6-c20d748beea6&quot;,&quot;created_time&quot;:&quot;2026-03-20T21:17:00.000Z&quot;,&quot;last_edited_time&quot;:&quot;2026-03-20T21:17:00.000Z&quot;,&quot;created_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;last_edited_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;cover&quot;:null,&quot;icon&quot;:null,&quot;parent&quot;:{&quot;type&quot;:&quot;data_source_id&quot;,&quot;data_source_id&quot;:&quot;329cd6cf-1406-81d1-84f6-000bf04cd727&quot;,&quot;database_id&quot;:&quot;e194b2ab-da40-4ca6-b235-1d87d16dafb2&quot;},&quot;in_trash&quot;:false,&quot;is_archived&quot;:false,&quot;is_locked&quot;:false,&quot;properties&quot;:{&quot;People&quot;:{&quot;id&quot;:&quot;%3A%5Dny&quot;,&quot;type&quot;:&quot;people&quot;,&quot;people&quot;:[{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;2e8d872b-594c-8197-b19f-000245c7469f&quot;,&quot;name&quot;:&quot;Notion SDK&quot;,&quot;avatar_url&quot;:&quot;https://lh3.googleusercontent.com/a/ACg8ocLI92G3npuAxEcx50qz8lw8csWU5Oz2hBrF4oDIQEYPnW3TMg=s100&quot;,&quot;type&quot;:&quot;person&quot;,&quot;person&quot;:{}}]},&quot;Last Edited By&quot;:{&quot;id&quot;:&quot;%3ArSS&quot;,&quot;type&quot;:&quot;last_edited_by&quot;,&quot;last_edited_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;,&quot;name&quot;:&quot;SDK Project - Internal Bot&quot;,&quot;avatar_url&quot;:&quot;https://s3-us-west-2.amazonaws.com/public.notion-static.com/4b1f8b01-ed6b-41c3-a845-eb795c0ef4e3/35f8a833-8f3b-40ea-bfef-a303db38340apng.png&quot;,&quot;type&quot;:&quot;bot&quot;,&quot;bot&quot;:{}}},&quot;Contact Email&quot;:{&quot;id&quot;:&quot;%3A%7Dg~&quot;,&quot;type&quot;:&quot;email&quot;,&quot;email&quot;:&quot;contact@example.com&quot;},&quot;Created By&quot;:{&quot;id&quot;:&quot;%3BkeM&quot;,&quot;type&quot;:&quot;created_by&quot;,&quot;created_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;,&quot;name&quot;:&quot;SDK Project - Internal Bot&quot;,&quot;avatar_url&quot;:&quot;https://s3-us-west-2.amazonaws.com/public.notion-static.com/4b1f8b01-ed6b-41c3-a845-eb795c0ef4e3/35f8a833-8f3b-40ea-bfef-a303db38340apng.png&quot;,&quot;type&quot;:&quot;bot&quot;,&quot;bot&quot;:{}}},&quot;Status&quot;:{&quot;id&quot;:&quot;%3DBv%5E&quot;,&quot;type&quot;:&quot;status&quot;,&quot;status&quot;:{&quot;id&quot;:&quot;a1c70f1c-96ea-4af7-93fa-acb97064980e&quot;,&quot;name&quot;:&quot;In progress&quot;,&quot;color&quot;:&quot;blue&quot;}},&quot;Place&quot;:{&quot;id&quot;:&quot;%3D%5D%5BF&quot;,&quot;type&quot;:&quot;place&quot;,&quot;place&quot;:null},&quot;Due Date&quot;:{&quot;id&quot;:&quot;CVd%5D&quot;,&quot;type&quot;:&quot;date&quot;,&quot;date&quot;:{&quot;start&quot;:&quot;2026-04-01&quot;,&quot;end&quot;:null,&quot;time_zone&quot;:null}},&quot;Website&quot;:{&quot;id&quot;:&quot;L%3Ad%3C&quot;,&quot;type&quot;:&quot;url&quot;,&quot;url&quot;:&quot;https://example.com&quot;},&quot;Formula&quot;:{&quot;id&quot;:&quot;RZEL&quot;,&quot;type&quot;:&quot;formula&quot;,&quot;formula&quot;:{&quot;type&quot;:&quot;string&quot;,&quot;string&quot;:&quot;Title: Full entry&quot;}},&quot;Dual to First DS&quot;:{&quot;id&quot;:&quot;RlyQ&quot;,&quot;type&quot;:&quot;relation&quot;,&quot;relation&quot;:[{&quot;id&quot;:&quot;329cd6cf-1406-816d-ab5f-d73277e1b67a&quot;}],&quot;has_more&quot;:false},&quot;Tags&quot;:{&quot;id&quot;:&quot;Xvmo&quot;,&quot;type&quot;:&quot;multi_select&quot;,&quot;multi_select&quot;:[{&quot;id&quot;:&quot;0a72c41d-6dde-4d34-93d3-1b118a88315c&quot;,&quot;name&quot;:&quot;Sale&quot;,&quot;color&quot;:&quot;default&quot;},{&quot;id&quot;:&quot;9d7babc0-d070-4410-b5b9-5ec0516ff0c9&quot;,&quot;name&quot;:&quot;New&quot;,&quot;color&quot;:&quot;default&quot;}]},&quot;Created Time&quot;:{&quot;id&quot;:&quot;Y%5EV%7D&quot;,&quot;type&quot;:&quot;created_time&quot;,&quot;created_time&quot;:&quot;2026-03-20T21:17:00.000Z&quot;},&quot;Contact Phone&quot;:{&quot;id&quot;:&quot;%5C%3A%5EZ&quot;,&quot;type&quot;:&quot;phone_number&quot;,&quot;phone_number&quot;:&quot;+1234567890&quot;},&quot;Number&quot;:{&quot;id&quot;:&quot;%5D%40hq&quot;,&quot;type&quot;:&quot;number&quot;,&quot;number&quot;:49.99},&quot;Last Edited Time&quot;:{&quot;id&quot;:&quot;_oe%5E&quot;,&quot;type&quot;:&quot;last_edited_time&quot;,&quot;last_edited_time&quot;:&quot;2026-03-20T21:17:00.000Z&quot;},&quot;UniqueId&quot;:{&quot;id&quot;:&quot;aVWA&quot;,&quot;type&quot;:&quot;unique_id&quot;,&quot;unique_id&quot;:{&quot;prefix&quot;:null,&quot;number&quot;:1}},&quot;Files&quot;:{&quot;id&quot;:&quot;jarq&quot;,&quot;type&quot;:&quot;files&quot;,&quot;files&quot;:[{&quot;name&quot;:&quot;external-file&quot;,&quot;type&quot;:&quot;external&quot;,&quot;external&quot;:{&quot;url&quot;:&quot;https://images.unsplash.com/photo-1543906965-f9520aa2ed8a?ixlib=rb-4.1.0&amp;q=85&amp;fm=jpg&amp;crop=entropy&amp;cs=srgb&quot;}},{&quot;name&quot;:&quot;int-14-image.jpg&quot;,&quot;type&quot;:&quot;file&quot;,&quot;file&quot;:{&quot;url&quot;:&quot;https://prod-files-secure.s3.us-west-2.amazonaws.com/74ecd6cf-1406-8114-a47c-000305deb73b/c3228fe1-2107-417c-a48d-a963ef34a785/int-14-image.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&amp;X-Amz-Credential=ASIAZI2LB466XJ4523EK%2F20260320%2Fus-west-2%2Fs3%2Faws4_request&amp;X-Amz-Date=20260320T211743Z&amp;X-Amz-Expires=3600&amp;X-Amz-Security-Token=IQoJb3JpZ2luX2VjEHUaCXVzLXdlc3QtMiJHMEUCIGEkFZ1AUNO52SFFLR%2Fu1IFY3F2K5OlSqVPMU5sNNFJyAiEAqp35BO1eAFFSfimCf7Ll4RGRjuGd4XraH2NYpBpumpUq%2FwMIPhAAGgw2Mzc0MjMxODM4MDUiDLimckYjaPOrH78zhyrcA381EzHxEc87YCOGAdRV1mzQvfGrz%2FC05Qw1RILmxj%2F21JUsHifJ1lj%2BCgCfkZ7EcDvZttNZ7tqohNjwRKodWfgjiJLlYM0zYzV12TNFA%2BjTI6U4iAbjI4IcwS1sHP2kJKvjGUMDNA7FY2eYvumzkf5F88TtkOdzohPYqEpoFl8VgTpbmZ1bnT1%2F8Hr8D5GBf8JYDh%2FuUigFt5k%2Fp3AXiWgsHWOvX%2FPqEP%2BkjjqdMLoVf0OgXpFkRICuVYPSW5ab%2BJD%2BQnWr6K73p%2Fs8s9OsZoNqmlZBNp9imD3eFH53p1BtBd8vc4C7Hvmfw3oOrD6q8C9Y%2Fl6Uavl%2FWjdmMEX6dFtc0H65i8oH5KhPEWCIfk1z1Tw4bGlju%2BdyHFZEe49iTC3PQS25M30zxSV%2BzM%2B4H13xCZEuMvU044l6Yzoe7VKISujtgozxdbzqbxANIdWaVqc5%2BziUgB6xoOwkfIQoH5Aym%2FbcauDtTN1%2BS6dSqMkLAvMYBD5G77AkXmZymt5Y2AZuzPB28zRrLMNGhh1%2BXE7cUE19IPy5ed5qH64ZDUOrFpPKfe%2BfzlSUK6tNi7p04gN00NO2tT%2BDpz8gcKqrRBzMjymkMxCfXLcloHxmptU4rfwvIObVX8sipdVmMMTd9s0GOqUBpSGlt7qzVTYTNrpNmBz8UFR2nTggTSwih1NF4LecDno1uoqqQ03Qec1CHpJq9j5CA19VOgeXkd1Jbo3wDKu8ObsqVYlSs50IDdDKp6WlSZUMLtj57z2zfO2GGXCS0RWYOdpkcAHWxLBJ1RgDX7pgpkBmILPOSJOHIr2BrdH7N52JrSYWi77wduu2IilK%2BKR7dkNIvpFDthJx1e3ms4yP%2BaJZX4%2FV&amp;X-Amz-Signature=9cd9d72bd79db1c05a80e643426b886b774c38a56fc8cba49117a496d550d6e4&amp;X-Amz-SignedHeaders=host&amp;x-amz-checksum-mode=ENABLED&amp;x-id=GetObject&quot;,&quot;expiry_time&quot;:&quot;2026-03-20T22:17:43.046Z&quot;}}]},&quot;Description&quot;:{&quot;id&quot;:&quot;muSO&quot;,&quot;type&quot;:&quot;rich_text&quot;,&quot;rich_text&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;A detailed description&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;A detailed description&quot;,&quot;href&quot;:null}]},&quot;One-sided to First DS&quot;:{&quot;id&quot;:&quot;pX~T&quot;,&quot;type&quot;:&quot;relation&quot;,&quot;relation&quot;:[],&quot;has_more&quot;:false},&quot;Category&quot;:{&quot;id&quot;:&quot;xdiQ&quot;,&quot;type&quot;:&quot;select&quot;,&quot;select&quot;:{&quot;id&quot;:&quot;1d333524-960c-4288-9fdd-2c7e6f4c12c3&quot;,&quot;name&quot;:&quot;Electronics&quot;,&quot;color&quot;:&quot;default&quot;}},&quot;Rollup&quot;:{&quot;id&quot;:&quot;xmYs&quot;,&quot;type&quot;:&quot;rollup&quot;,&quot;rollup&quot;:{&quot;type&quot;:&quot;number&quot;,&quot;number&quot;:1,&quot;function&quot;:&quot;count&quot;}},&quot;Checkbox&quot;:{&quot;id&quot;:&quot;%7DHw%3B&quot;,&quot;type&quot;:&quot;checkbox&quot;,&quot;checkbox&quot;:true},&quot;Name&quot;:{&quot;id&quot;:&quot;title&quot;,&quot;type&quot;:&quot;title&quot;,&quot;title&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;Full entry&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;Full entry&quot;,&quot;href&quot;:null}]}},&quot;url&quot;:&quot;https://www.notion.so/Full-entry-329cd6cf14068113b0a6c20d748beea6&quot;,&quot;public_url&quot;:null,&quot;request_id&quot;:&quot;6b74c253-88b0-47b5-9410-38ff8ed6d170&quot;}
+2026-03-20 21:17:43.207 [Test worker] ERROR io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Response from NotionAPIv2026-03-11 with error: 200
+2026-03-20 21:17:43.211 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Error response body: 
+Page(properties={People=PeopleProperty(type=people, people=[User(id=2e8d872b-594c-8197-b19f-000245c7469f, name=Notion SDK, avatarUrl=https://lh3.googleusercontent.com/a/ACg8ocLI92G3npuAxEcx50qz8lw8csWU5Oz2hBrF4oDIQEYPnW3TMg=s100, type=person, person=Person(email=null), bot=null)]), Last Edited By=LastEditedByProperty(type=last_edited_by, lastEditedBy=User(id=be59a966-190e-46f8-9864-9eefe5276dcc, name=SDK Project - Internal Bot, avatarUrl=https://s3-us-west-2.amazonaws.com/public.notion-static.com/4b1f8b01-ed6b-41c3-a845-eb795c0ef4e3/35f8a833-8f3b-40ea-bfef-a303db38340apng.png, type=bot, person=null, bot=Bot(owner=null, workspaceName=null, workspaceId=null, workspaceLimits=null))), Contact Email=EmailProperty(type=email, email=contact@example.com), Created By=CreatedByProperty(type=created_by, createdBy=User(id=be59a966-190e-46f8-9864-9eefe5276dcc, name=SDK Project - Internal Bot, avatarUrl=https://s3-us-west-2.amazonaws.com/public.notion-static.com/4b1f8b01-ed6b-41c3-a845-eb795c0ef4e3/35f8a833-8f3b-40ea-bfef-a303db38340apng.png, type=bot, person=null, bot=Bot(owner=null, workspaceName=null, workspaceId=null, workspaceLimits=null))), Status=StatusProperty(type=status, status=StatusProperty.StatusValue(id=a1c70f1c-96ea-4af7-93fa-acb97064980e, name=In progress, color=blue)), Place=PlaceProperty(type=place, place=null), Due Date=DateProperty(type=date, date=DateData(start=2026-04-01, end=null, timeZone=null)), Website=UrlProperty(type=url, url=https://example.com), Formula=FormulaProperty(type=formula, formula=FormulaProperty.FormulaValue(type=string, string=Title: Full entry, number=null, booleanValue=null, date=null)), Dual to First DS=RelationProperty(type=relation, hasMore=false, relation=[RelationProperty.RelationValue(id=329cd6cf-1406-816d-ab5f-d73277e1b67a)]), Tags=MultiSelectProperty(type=multi_select, multiSelect=[SelectValue(id=0a72c41d-6dde-4d34-93d3-1b118a88315c, name=Sale, color=default), SelectValue(id=9d7babc0-d070-4410-b5b9-5ec0516ff0c9, name=New, color=default)]), Created Time=CreatedTimeProperty(type=created_time, createdTime=2026-03-20T21:17:00.000Z), Contact Phone=PhoneNumberProperty(type=phone_number, phoneNumber=+1234567890), Number=NumberProperty(type=number, number=49.99), Last Edited Time=LastEditedTimeProperty(type=last_edited_time, lastEditedTime=2026-03-20T21:17:00.000Z), UniqueId=UniqueIdProperty(type=unique_id, uniqueId=UniqueIdProperty.UniqueIdValue(number=1, prefix=null)), Files=FilesProperty(type=files, files=[FileData(type=external, external=ExternalFile(url=https://images.unsplash.com/photo-1543906965-f9520aa2ed8a?ixlib=rb-4.1.0&amp;q=85&amp;fm=jpg&amp;crop=entropy&amp;cs=srgb), file=null, fileUpload=null, caption=null, name=external-file), FileData(type=file, external=null, file=File(url=https://prod-files-secure.s3.us-west-2.amazonaws.com/74ecd6cf-1406-8114-a47c-000305deb73b/c3228fe1-2107-417c-a48d-a963ef34a785/int-14-image.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&amp;X-Amz-Credential=ASIAZI2LB466XJ4523EK%2F20260320%2Fus-west-2%2Fs3%2Faws4_request&amp;X-Amz-Date=20260320T211743Z&amp;X-Amz-Expires=3600&amp;X-Amz-Security-Token=IQoJb3JpZ2luX2VjEHUaCXVzLXdlc3QtMiJHMEUCIGEkFZ1AUNO52SFFLR%2Fu1IFY3F2K5OlSqVPMU5sNNFJyAiEAqp35BO1eAFFSfimCf7Ll4RGRjuGd4XraH2NYpBpumpUq%2FwMIPhAAGgw2Mzc0MjMxODM4MDUiDLimckYjaPOrH78zhyrcA381EzHxEc87YCOGAdRV1mzQvfGrz%2FC05Qw1RILmxj%2F21JUsHifJ1lj%2BCgCfkZ7EcDvZttNZ7tqohNjwRKodWfgjiJLlYM0zYzV12TNFA%2BjTI6U4iAbjI4IcwS1sHP2kJKvjGUMDNA7FY2eYvumzkf5F88TtkOdzohPYqEpoFl8VgTpbmZ1bnT1%2F8Hr8D5GBf8JYDh%2FuUigFt5k%2Fp3AXiWgsHWOvX%2FPqEP%2BkjjqdMLoVf0OgXpFkRICuVYPSW5ab%2BJD%2BQnWr6K73p%2Fs8s9OsZoNqmlZBNp9imD3eFH53p1BtBd8vc4C7Hvmfw3oOrD6q8C9Y%2Fl6Uavl%2FWjdmMEX6dFtc0H65i8oH5KhPEWCIfk1z1Tw4bGlju%2BdyHFZEe49iTC3PQS25M30zxSV%2BzM%2B4H13xCZEuMvU044l6Yzoe7VKISujtgozxdbzqbxANIdWaVqc5%2BziUgB6xoOwkfIQoH5Aym%2FbcauDtTN1%2BS6dSqMkLAvMYBD5G77AkXmZymt5Y2AZuzPB28zRrLMNGhh1%2BXE7cUE19IPy5ed5qH64ZDUOrFpPKfe%2BfzlSUK6tNi7p04gN00NO2tT%2BDpz8gcKqrRBzMjymkMxCfXLcloHxmptU4rfwvIObVX8sipdVmMMTd9s0GOqUBpSGlt7qzVTYTNrpNmBz8UFR2nTggTSwih1NF4LecDno1uoqqQ03Qec1CHpJq9j5CA19VOgeXkd1Jbo3wDKu8ObsqVYlSs50IDdDKp6WlSZUMLtj57z2zfO2GGXCS0RWYOdpkcAHWxLBJ1RgDX7pgpkBmILPOSJOHIr2BrdH7N52JrSYWi77wduu2IilK%2BKR7dkNIvpFDthJx1e3ms4yP%2BaJZX4%2FV&amp;X-Amz-Signature=9cd9d72bd79db1c05a80e643426b886b774c38a56fc8cba49117a496d550d6e4&amp;X-Amz-SignedHeaders=host&amp;x-amz-checksum-mode=ENABLED&amp;x-id=GetObject, expiryTime=2026-03-20T22:17:43.046Z), fileUpload=null, caption=null, name=int-14-image.jpg)]), Description=RichTextProperty(type=rich_text, richText=[RichText(type=text, plainText=A detailed description, href=null, annotations=RichText.Annotations(bold=false, italic=false, strikethrough=false, underline=false, code=false, color=default), text=RichText.Text(content=A detailed description, link=null), mention=null, equation=null)]), One-sided to First DS=RelationProperty(type=relation, hasMore=false, relation=[]), Category=SelectProperty(type=select, select=SelectValue(id=1d333524-960c-4288-9fdd-2c7e6f4c12c3, name=Electronics, color=default)), Rollup=RollupProperty(type=rollup, rollup=RollupProperty.RollupValue(type=number, array=null, number=1.0, date=null, function=count)), Checkbox=CheckboxProperty(type=checkbox, checkbox=true), Name=TitleProperty(type=title, title=[RichText(type=text, plainText=Full entry, href=null, annotations=RichText.Annotations(bold=false, italic=false, strikethrough=false, underline=false, code=false, color=default), text=RichText.Text(content=Full entry, link=null), mention=null, equation=null)])}, url=https://www.notion.so/Full-entry-329cd6cf14068113b0a6c20d748beea6, publicUrl=null, icon=null, cover=null, isLocked=false)
+2026-03-20 21:17:43.218 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Calling NotionAPIv2026-03-11
+2026-03-20 21:17:43.218 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Building request...
+2026-03-20 21:17:43.219 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Request method: PATCH, url: https://api.notion.com/v1/pages/329cd6cf-1406-8113-b0a6-c20d748beea6, content-type: application/json
+2026-03-20 21:17:43.219 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Request body: 
+{
+  &quot;properties&quot; : {
+    &quot;title&quot; : {
+      &quot;type&quot; : &quot;title&quot;,
+      &quot;title&quot; : [ {
+        &quot;type&quot; : &quot;text&quot;,
+        &quot;plain_text&quot; : &quot;Updated entry&quot;,
+        &quot;annotations&quot; : { },
+        &quot;text&quot; : {
+          &quot;content&quot; : &quot;Updated entry&quot;
+        }
+      } ]
+    },
+    &quot;Number&quot; : {
+      &quot;type&quot; : &quot;number&quot;,
+      &quot;number&quot; : 59.99
+    },
+    &quot;Category&quot; : {
+      &quot;type&quot; : &quot;select&quot;,
+      &quot;select&quot; : {
+        &quot;name&quot; : &quot;Books&quot;
+      }
+    },
+    &quot;Checkbox&quot; : {
+      &quot;type&quot; : &quot;checkbox&quot;,
+      &quot;checkbox&quot; : false
+    },
+    &quot;Contact Email&quot; : {
+      &quot;type&quot; : &quot;email&quot;,
+      &quot;email&quot; : &quot;updated@example.com&quot;
+    },
+    &quot;Website&quot; : {
+      &quot;type&quot; : &quot;url&quot;,
+      &quot;url&quot; : &quot;https://updated.example.com&quot;
+    }
+  }
+}
+2026-03-20 21:17:44.113 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Response from NotionAPIv2026-03-11 with code: 200
+2026-03-20 21:17:44.113 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Response body: 
+{&quot;object&quot;:&quot;page&quot;,&quot;id&quot;:&quot;329cd6cf-1406-8113-b0a6-c20d748beea6&quot;,&quot;created_time&quot;:&quot;2026-03-20T21:17:00.000Z&quot;,&quot;last_edited_time&quot;:&quot;2026-03-20T21:17:00.000Z&quot;,&quot;created_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;last_edited_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;cover&quot;:null,&quot;icon&quot;:null,&quot;parent&quot;:{&quot;type&quot;:&quot;data_source_id&quot;,&quot;data_source_id&quot;:&quot;329cd6cf-1406-81d1-84f6-000bf04cd727&quot;,&quot;database_id&quot;:&quot;e194b2ab-da40-4ca6-b235-1d87d16dafb2&quot;},&quot;in_trash&quot;:false,&quot;is_archived&quot;:false,&quot;is_locked&quot;:false,&quot;properties&quot;:{&quot;People&quot;:{&quot;id&quot;:&quot;%3A%5Dny&quot;,&quot;type&quot;:&quot;people&quot;,&quot;people&quot;:[{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;2e8d872b-594c-8197-b19f-000245c7469f&quot;,&quot;name&quot;:&quot;Notion SDK&quot;,&quot;avatar_url&quot;:&quot;https://lh3.googleusercontent.com/a/ACg8ocLI92G3npuAxEcx50qz8lw8csWU5Oz2hBrF4oDIQEYPnW3TMg=s100&quot;,&quot;type&quot;:&quot;person&quot;,&quot;person&quot;:{}}]},&quot;Last Edited By&quot;:{&quot;id&quot;:&quot;%3ArSS&quot;,&quot;type&quot;:&quot;last_edited_by&quot;,&quot;last_edited_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;,&quot;name&quot;:&quot;SDK Project - Internal Bot&quot;,&quot;avatar_url&quot;:&quot;https://s3-us-west-2.amazonaws.com/public.notion-static.com/4b1f8b01-ed6b-41c3-a845-eb795c0ef4e3/35f8a833-8f3b-40ea-bfef-a303db38340apng.png&quot;,&quot;type&quot;:&quot;bot&quot;,&quot;bot&quot;:{}}},&quot;Contact Email&quot;:{&quot;id&quot;:&quot;%3A%7Dg~&quot;,&quot;type&quot;:&quot;email&quot;,&quot;email&quot;:&quot;updated@example.com&quot;},&quot;Created By&quot;:{&quot;id&quot;:&quot;%3BkeM&quot;,&quot;type&quot;:&quot;created_by&quot;,&quot;created_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;,&quot;name&quot;:&quot;SDK Project - Internal Bot&quot;,&quot;avatar_url&quot;:&quot;https://s3-us-west-2.amazonaws.com/public.notion-static.com/4b1f8b01-ed6b-41c3-a845-eb795c0ef4e3/35f8a833-8f3b-40ea-bfef-a303db38340apng.png&quot;,&quot;type&quot;:&quot;bot&quot;,&quot;bot&quot;:{}}},&quot;Status&quot;:{&quot;id&quot;:&quot;%3DBv%5E&quot;,&quot;type&quot;:&quot;status&quot;,&quot;status&quot;:{&quot;id&quot;:&quot;a1c70f1c-96ea-4af7-93fa-acb97064980e&quot;,&quot;name&quot;:&quot;In progress&quot;,&quot;color&quot;:&quot;blue&quot;}},&quot;Place&quot;:{&quot;id&quot;:&quot;%3D%5D%5BF&quot;,&quot;type&quot;:&quot;place&quot;,&quot;place&quot;:null},&quot;Due Date&quot;:{&quot;id&quot;:&quot;CVd%5D&quot;,&quot;type&quot;:&quot;date&quot;,&quot;date&quot;:{&quot;start&quot;:&quot;2026-04-01&quot;,&quot;end&quot;:null,&quot;time_zone&quot;:null}},&quot;Website&quot;:{&quot;id&quot;:&quot;L%3Ad%3C&quot;,&quot;type&quot;:&quot;url&quot;,&quot;url&quot;:&quot;https://updated.example.com&quot;},&quot;Formula&quot;:{&quot;id&quot;:&quot;RZEL&quot;,&quot;type&quot;:&quot;formula&quot;,&quot;formula&quot;:{&quot;type&quot;:&quot;string&quot;,&quot;string&quot;:&quot;Title: Updated entry&quot;}},&quot;Dual to First DS&quot;:{&quot;id&quot;:&quot;RlyQ&quot;,&quot;type&quot;:&quot;relation&quot;,&quot;relation&quot;:[{&quot;id&quot;:&quot;329cd6cf-1406-816d-ab5f-d73277e1b67a&quot;}],&quot;has_more&quot;:false},&quot;Tags&quot;:{&quot;id&quot;:&quot;Xvmo&quot;,&quot;type&quot;:&quot;multi_select&quot;,&quot;multi_select&quot;:[{&quot;id&quot;:&quot;0a72c41d-6dde-4d34-93d3-1b118a88315c&quot;,&quot;name&quot;:&quot;Sale&quot;,&quot;color&quot;:&quot;default&quot;},{&quot;id&quot;:&quot;9d7babc0-d070-4410-b5b9-5ec0516ff0c9&quot;,&quot;name&quot;:&quot;New&quot;,&quot;color&quot;:&quot;default&quot;}]},&quot;Created Time&quot;:{&quot;id&quot;:&quot;Y%5EV%7D&quot;,&quot;type&quot;:&quot;created_time&quot;,&quot;created_time&quot;:&quot;2026-03-20T21:17:00.000Z&quot;},&quot;Contact Phone&quot;:{&quot;id&quot;:&quot;%5C%3A%5EZ&quot;,&quot;type&quot;:&quot;phone_number&quot;,&quot;phone_number&quot;:&quot;+1234567890&quot;},&quot;Number&quot;:{&quot;id&quot;:&quot;%5D%40hq&quot;,&quot;type&quot;:&quot;number&quot;,&quot;number&quot;:59.99},&quot;Last Edited Time&quot;:{&quot;id&quot;:&quot;_oe%5E&quot;,&quot;type&quot;:&quot;last_edited_time&quot;,&quot;last_edited_time&quot;:&quot;2026-03-20T21:17:00.000Z&quot;},&quot;UniqueId&quot;:{&quot;id&quot;:&quot;aVWA&quot;,&quot;type&quot;:&quot;unique_id&quot;,&quot;unique_id&quot;:{&quot;prefix&quot;:null,&quot;number&quot;:1}},&quot;Files&quot;:{&quot;id&quot;:&quot;jarq&quot;,&quot;type&quot;:&quot;files&quot;,&quot;files&quot;:[{&quot;name&quot;:&quot;external-file&quot;,&quot;type&quot;:&quot;external&quot;,&quot;external&quot;:{&quot;url&quot;:&quot;https://images.unsplash.com/photo-1543906965-f9520aa2ed8a?ixlib=rb-4.1.0&amp;q=85&amp;fm=jpg&amp;crop=entropy&amp;cs=srgb&quot;}},{&quot;name&quot;:&quot;int-14-image.jpg&quot;,&quot;type&quot;:&quot;file&quot;,&quot;file&quot;:{&quot;url&quot;:&quot;https://prod-files-secure.s3.us-west-2.amazonaws.com/74ecd6cf-1406-8114-a47c-000305deb73b/c3228fe1-2107-417c-a48d-a963ef34a785/int-14-image.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&amp;X-Amz-Credential=ASIAZI2LB4666DOYH4MD%2F20260320%2Fus-west-2%2Fs3%2Faws4_request&amp;X-Amz-Date=20260320T211744Z&amp;X-Amz-Expires=3600&amp;X-Amz-Security-Token=IQoJb3JpZ2luX2VjEHUaCXVzLXdlc3QtMiJHMEUCIGKVH8kqZM9j%2Bh%2Fyzp9K3XjpT%2FtnTvwcWyAiY8lbjAKJAiEAl%2FBffp7jm%2BySm2Zp3Fttg%2BVL%2FZBXC91uFa4KtlFx0AQq%2FwMIPhAAGgw2Mzc0MjMxODM4MDUiDNOWT9xpQQ5hRx4WhircA2yVU%2FYms%2FnPHQBzq1P6WAxwANsDxQkTvHcJaHLw5daw3BgkxHtj%2FUgzpHfDMeGsWwFuVg%2F7WG8tej%2F%2F9uXaPQrVfqH5GaKuX9wsQh73iLfQN%2Fg3nY6D6aosCjTph9Y5LyaF58Vemh3H2%2BlQf50KRsgXrPFAeHEUev%2BFn7PWnlmk4Jnhjd0elWkRczslkZVNA8UL6sOXNlLuHKaKWSYqgAWpFKmHBhkaNsRn66m9lUnSti9t4mSE3Lhm8hnPXDSCADLl81WzPGj3jUPHbgzu5orwqZ9PHTmeBAL9T23%2Bi4Kf1JnbrfL5SKD0mpd4H6FmpL41wMQO0YcoA8xmN3vemTACuropIbVYFXOyufdkmIscgh%2BC31gDX7BRQ7GhOAw6BGXvc1JKaciOz%2FudS4gRG557kpDGojZgzBiwSkDe%2FNp0o%2Bfh5ykjfMv9Lh21gh%2Bvi2Ti83Xgv0q09fZ0mTyUQw6yKsKrAleBWAun0yGaqJ%2FuSdqHoWPq%2B6VIJlQ9if%2BnWgTp%2BcDe7kebn5qWLQOSBSfJ5ww6OlLexWnUg45DitqSyrQn03q1KfBeFQOSSB6hX%2BrC1CnKyug54syUSWpaqoKS6c7mKB4SPCLQp0NcYMS%2Fx0dsyCurSzIhP29rMMXd9s0GOqUBitRTdbpTWYCDUUwYmbCcm6bdmLtAMKkCCNm28%2BJTo8rxAVnxWzdXyVGxgmU6d9GtmevH12kUeYWQgBofRZI2bgcjBWXnPEKoZdXfi%2Bmte8NkxkfNI26vZ1UVBm3wFuR%2F5J1GN6W264EiHR1uz7%2BRilzB4vP8ff65w72SU4i2l%2FmvWJd6jgoI1uhZZsJLr8o7In3FoIhz%2ByZJssuX16QcZrHgwfUI&amp;X-Amz-Signature=5af3d4340bd25d338bb991d4de22b9e8e41206da64bf84bec8b04a8c65594131&amp;X-Amz-SignedHeaders=host&amp;x-amz-checksum-mode=ENABLED&amp;x-id=GetObject&quot;,&quot;expiry_time&quot;:&quot;2026-03-20T22:17:44.070Z&quot;}}]},&quot;Description&quot;:{&quot;id&quot;:&quot;muSO&quot;,&quot;type&quot;:&quot;rich_text&quot;,&quot;rich_text&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;A detailed description&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;A detailed description&quot;,&quot;href&quot;:null}]},&quot;One-sided to First DS&quot;:{&quot;id&quot;:&quot;pX~T&quot;,&quot;type&quot;:&quot;relation&quot;,&quot;relation&quot;:[],&quot;has_more&quot;:false},&quot;Category&quot;:{&quot;id&quot;:&quot;xdiQ&quot;,&quot;type&quot;:&quot;select&quot;,&quot;select&quot;:{&quot;id&quot;:&quot;219fddc0-dee0-40e1-b7c9-04f7b4f9541d&quot;,&quot;name&quot;:&quot;Books&quot;,&quot;color&quot;:&quot;default&quot;}},&quot;Rollup&quot;:{&quot;id&quot;:&quot;xmYs&quot;,&quot;type&quot;:&quot;rollup&quot;,&quot;rollup&quot;:{&quot;type&quot;:&quot;number&quot;,&quot;number&quot;:1,&quot;function&quot;:&quot;count&quot;}},&quot;Checkbox&quot;:{&quot;id&quot;:&quot;%7DHw%3B&quot;,&quot;type&quot;:&quot;checkbox&quot;,&quot;checkbox&quot;:false},&quot;Name&quot;:{&quot;id&quot;:&quot;title&quot;,&quot;type&quot;:&quot;title&quot;,&quot;title&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;Updated entry&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;Updated entry&quot;,&quot;href&quot;:null}]}},&quot;url&quot;:&quot;https://www.notion.so/Updated-entry-329cd6cf14068113b0a6c20d748beea6&quot;,&quot;public_url&quot;:null,&quot;request_id&quot;:&quot;7698ddc7-9046-4e0f-acd2-228d174ed3a1&quot;}
+2026-03-20 21:17:44.114 [Test worker] ERROR io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Response from NotionAPIv2026-03-11 with error: 200
+2026-03-20 21:17:44.115 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Error response body: 
+Page(properties={People=PeopleProperty(type=people, people=[User(id=2e8d872b-594c-8197-b19f-000245c7469f, name=Notion SDK, avatarUrl=https://lh3.googleusercontent.com/a/ACg8ocLI92G3npuAxEcx50qz8lw8csWU5Oz2hBrF4oDIQEYPnW3TMg=s100, type=person, person=Person(email=null), bot=null)]), Last Edited By=LastEditedByProperty(type=last_edited_by, lastEditedBy=User(id=be59a966-190e-46f8-9864-9eefe5276dcc, name=SDK Project - Internal Bot, avatarUrl=https://s3-us-west-2.amazonaws.com/public.notion-static.com/4b1f8b01-ed6b-41c3-a845-eb795c0ef4e3/35f8a833-8f3b-40ea-bfef-a303db38340apng.png, type=bot, person=null, bot=Bot(owner=null, workspaceName=null, workspaceId=null, workspaceLimits=null))), Contact Email=EmailProperty(type=email, email=updated@example.com), Created By=CreatedByProperty(type=created_by, createdBy=User(id=be59a966-190e-46f8-9864-9eefe5276dcc, name=SDK Project - Internal Bot, avatarUrl=https://s3-us-west-2.amazonaws.com/public.notion-static.com/4b1f8b01-ed6b-41c3-a845-eb795c0ef4e3/35f8a833-8f3b-40ea-bfef-a303db38340apng.png, type=bot, person=null, bot=Bot(owner=null, workspaceName=null, workspaceId=null, workspaceLimits=null))), Status=StatusProperty(type=status, status=StatusProperty.StatusValue(id=a1c70f1c-96ea-4af7-93fa-acb97064980e, name=In progress, color=blue)), Place=PlaceProperty(type=place, place=null), Due Date=DateProperty(type=date, date=DateData(start=2026-04-01, end=null, timeZone=null)), Website=UrlProperty(type=url, url=https://updated.example.com), Formula=FormulaProperty(type=formula, formula=FormulaProperty.FormulaValue(type=string, string=Title: Updated entry, number=null, booleanValue=null, date=null)), Dual to First DS=RelationProperty(type=relation, hasMore=false, relation=[RelationProperty.RelationValue(id=329cd6cf-1406-816d-ab5f-d73277e1b67a)]), Tags=MultiSelectProperty(type=multi_select, multiSelect=[SelectValue(id=0a72c41d-6dde-4d34-93d3-1b118a88315c, name=Sale, color=default), SelectValue(id=9d7babc0-d070-4410-b5b9-5ec0516ff0c9, name=New, color=default)]), Created Time=CreatedTimeProperty(type=created_time, createdTime=2026-03-20T21:17:00.000Z), Contact Phone=PhoneNumberProperty(type=phone_number, phoneNumber=+1234567890), Number=NumberProperty(type=number, number=59.99), Last Edited Time=LastEditedTimeProperty(type=last_edited_time, lastEditedTime=2026-03-20T21:17:00.000Z), UniqueId=UniqueIdProperty(type=unique_id, uniqueId=UniqueIdProperty.UniqueIdValue(number=1, prefix=null)), Files=FilesProperty(type=files, files=[FileData(type=external, external=ExternalFile(url=https://images.unsplash.com/photo-1543906965-f9520aa2ed8a?ixlib=rb-4.1.0&amp;q=85&amp;fm=jpg&amp;crop=entropy&amp;cs=srgb), file=null, fileUpload=null, caption=null, name=external-file), FileData(type=file, external=null, file=File(url=https://prod-files-secure.s3.us-west-2.amazonaws.com/74ecd6cf-1406-8114-a47c-000305deb73b/c3228fe1-2107-417c-a48d-a963ef34a785/int-14-image.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&amp;X-Amz-Credential=ASIAZI2LB4666DOYH4MD%2F20260320%2Fus-west-2%2Fs3%2Faws4_request&amp;X-Amz-Date=20260320T211744Z&amp;X-Amz-Expires=3600&amp;X-Amz-Security-Token=IQoJb3JpZ2luX2VjEHUaCXVzLXdlc3QtMiJHMEUCIGKVH8kqZM9j%2Bh%2Fyzp9K3XjpT%2FtnTvwcWyAiY8lbjAKJAiEAl%2FBffp7jm%2BySm2Zp3Fttg%2BVL%2FZBXC91uFa4KtlFx0AQq%2FwMIPhAAGgw2Mzc0MjMxODM4MDUiDNOWT9xpQQ5hRx4WhircA2yVU%2FYms%2FnPHQBzq1P6WAxwANsDxQkTvHcJaHLw5daw3BgkxHtj%2FUgzpHfDMeGsWwFuVg%2F7WG8tej%2F%2F9uXaPQrVfqH5GaKuX9wsQh73iLfQN%2Fg3nY6D6aosCjTph9Y5LyaF58Vemh3H2%2BlQf50KRsgXrPFAeHEUev%2BFn7PWnlmk4Jnhjd0elWkRczslkZVNA8UL6sOXNlLuHKaKWSYqgAWpFKmHBhkaNsRn66m9lUnSti9t4mSE3Lhm8hnPXDSCADLl81WzPGj3jUPHbgzu5orwqZ9PHTmeBAL9T23%2Bi4Kf1JnbrfL5SKD0mpd4H6FmpL41wMQO0YcoA8xmN3vemTACuropIbVYFXOyufdkmIscgh%2BC31gDX7BRQ7GhOAw6BGXvc1JKaciOz%2FudS4gRG557kpDGojZgzBiwSkDe%2FNp0o%2Bfh5ykjfMv9Lh21gh%2Bvi2Ti83Xgv0q09fZ0mTyUQw6yKsKrAleBWAun0yGaqJ%2FuSdqHoWPq%2B6VIJlQ9if%2BnWgTp%2BcDe7kebn5qWLQOSBSfJ5ww6OlLexWnUg45DitqSyrQn03q1KfBeFQOSSB6hX%2BrC1CnKyug54syUSWpaqoKS6c7mKB4SPCLQp0NcYMS%2Fx0dsyCurSzIhP29rMMXd9s0GOqUBitRTdbpTWYCDUUwYmbCcm6bdmLtAMKkCCNm28%2BJTo8rxAVnxWzdXyVGxgmU6d9GtmevH12kUeYWQgBofRZI2bgcjBWXnPEKoZdXfi%2Bmte8NkxkfNI26vZ1UVBm3wFuR%2F5J1GN6W264EiHR1uz7%2BRilzB4vP8ff65w72SU4i2l%2FmvWJd6jgoI1uhZZsJLr8o7In3FoIhz%2ByZJssuX16QcZrHgwfUI&amp;X-Amz-Signature=5af3d4340bd25d338bb991d4de22b9e8e41206da64bf84bec8b04a8c65594131&amp;X-Amz-SignedHeaders=host&amp;x-amz-checksum-mode=ENABLED&amp;x-id=GetObject, expiryTime=2026-03-20T22:17:44.070Z), fileUpload=null, caption=null, name=int-14-image.jpg)]), Description=RichTextProperty(type=rich_text, richText=[RichText(type=text, plainText=A detailed description, href=null, annotations=RichText.Annotations(bold=false, italic=false, strikethrough=false, underline=false, code=false, color=default), text=RichText.Text(content=A detailed description, link=null), mention=null, equation=null)]), One-sided to First DS=RelationProperty(type=relation, hasMore=false, relation=[]), Category=SelectProperty(type=select, select=SelectValue(id=219fddc0-dee0-40e1-b7c9-04f7b4f9541d, name=Books, color=default)), Rollup=RollupProperty(type=rollup, rollup=RollupProperty.RollupValue(type=number, array=null, number=1.0, date=null, function=count)), Checkbox=CheckboxProperty(type=checkbox, checkbox=false), Name=TitleProperty(type=title, title=[RichText(type=text, plainText=Updated entry, href=null, annotations=RichText.Annotations(bold=false, italic=false, strikethrough=false, underline=false, code=false, color=default), text=RichText.Text(content=Updated entry, link=null), mention=null, equation=null)])}, url=https://www.notion.so/Updated-entry-329cd6cf14068113b0a6c20d748beea6, publicUrl=null, icon=null, cover=null, isLocked=false)
+2026-03-20 21:17:44.117 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Calling NotionAPIv2026-03-11
+2026-03-20 21:17:44.117 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Building request...
+2026-03-20 21:17:44.117 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Request method: PATCH, url: https://api.notion.com/v1/blocks/329cd6cf-1406-8113-b0a6-c20d748beea6/children, content-type: application/json
+2026-03-20 21:17:44.117 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Request body: 
+{
+  &quot;children&quot; : [ {
+    &quot;type&quot; : &quot;paragraph&quot;,
+    &quot;paragraph&quot; : {
+      &quot;rich_text&quot; : [ {
+        &quot;type&quot; : &quot;text&quot;,
+        &quot;plain_text&quot; : &quot;New paragraph added&quot;,
+        &quot;annotations&quot; : { },
+        &quot;text&quot; : {
+          &quot;content&quot; : &quot;New paragraph added&quot;
+        }
+      } ],
+      &quot;color&quot; : &quot;default&quot;
+    }
+  } ]
+}
+2026-03-20 21:17:44.500 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Response from NotionAPIv2026-03-11 with code: 200
+2026-03-20 21:17:44.500 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Response body: 
+{&quot;object&quot;:&quot;list&quot;,&quot;results&quot;:[{&quot;object&quot;:&quot;block&quot;,&quot;id&quot;:&quot;329cd6cf-1406-8163-9c12-f4d87101c492&quot;,&quot;parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;329cd6cf-1406-8113-b0a6-c20d748beea6&quot;},&quot;created_time&quot;:&quot;2026-03-20T21:17:00.000Z&quot;,&quot;last_edited_time&quot;:&quot;2026-03-20T21:17:00.000Z&quot;,&quot;created_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;last_edited_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;has_children&quot;:false,&quot;in_trash&quot;:false,&quot;type&quot;:&quot;paragraph&quot;,&quot;paragraph&quot;:{&quot;rich_text&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;New paragraph added&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;New paragraph added&quot;,&quot;href&quot;:null}],&quot;color&quot;:&quot;default&quot;}}],&quot;next_cursor&quot;:null,&quot;has_more&quot;:false,&quot;type&quot;:&quot;block&quot;,&quot;block&quot;:{},&quot;request_id&quot;:&quot;9901f9c0-7391-4159-ad80-793d5cb27676&quot;}
+2026-03-20 21:17:44.501 [Test worker] ERROR io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Response from NotionAPIv2026-03-11 with error: 200
+2026-03-20 21:17:44.501 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Error response body: 
+NotionListType(results=[ParagraphBlock(paragraph=ParagraphBlock.Paragraph(richText=[RichText(type=text, plainText=New paragraph added, href=null, annotations=RichText.Annotations(bold=false, italic=false, strikethrough=false, underline=false, code=false, color=default), text=RichText.Text(content=New paragraph added, link=null), mention=null, equation=null)], color=default, children=null))], nextCursor=null, hasMore=false, type=block)
+2026-03-20 21:17:44.506 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Calling NotionAPIv2026-03-11
+2026-03-20 21:17:44.506 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Building request...
+2026-03-20 21:17:44.507 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Request method: POST, url: https://api.notion.com/v1/pages, content-type: application/json
+2026-03-20 21:17:44.507 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Request body: 
+{
+  &quot;parent&quot; : {
+    &quot;type&quot; : &quot;page_id&quot;,
+    &quot;page_id&quot; : &quot;329cd6cf-1406-81c0-bbcf-c3e879b73182&quot;
+  },
+  &quot;properties&quot; : {
+    &quot;title&quot; : {
+      &quot;type&quot; : &quot;title&quot;,
+      &quot;title&quot; : [ {
+        &quot;type&quot; : &quot;text&quot;,
+        &quot;plain_text&quot; : &quot;[IT-54]: Data sources - Check multiselect property consistency for existing pages&quot;,
+        &quot;annotations&quot; : { },
+        &quot;text&quot; : {
+          &quot;content&quot; : &quot;[IT-54]: Data sources - Check multiselect property consistency for existing pages&quot;
+        }
+      } ]
+    }
+  },
+  &quot;position&quot; : {
+    &quot;type&quot; : &quot;page_start&quot;
+  }
+}
+2026-03-20 21:17:44.921 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Response from NotionAPIv2026-03-11 with code: 200
+2026-03-20 21:17:44.921 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Response body: 
+{&quot;object&quot;:&quot;page&quot;,&quot;id&quot;:&quot;329cd6cf-1406-8168-b5ea-f6198b4d300b&quot;,&quot;created_time&quot;:&quot;2026-03-20T21:17:00.000Z&quot;,&quot;last_edited_time&quot;:&quot;2026-03-20T21:17:00.000Z&quot;,&quot;created_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;last_edited_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;cover&quot;:null,&quot;icon&quot;:null,&quot;parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;329cd6cf-1406-81c0-bbcf-c3e879b73182&quot;},&quot;in_trash&quot;:false,&quot;is_archived&quot;:false,&quot;is_locked&quot;:false,&quot;properties&quot;:{&quot;title&quot;:{&quot;id&quot;:&quot;title&quot;,&quot;type&quot;:&quot;title&quot;,&quot;title&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;[IT-54]: Data sources - Check multiselect property consistency for existing pages&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;[IT-54]: Data sources - Check multiselect property consistency for existing pages&quot;,&quot;href&quot;:null}]}},&quot;url&quot;:&quot;https://www.notion.so/IT-54-Data-sources-Check-multiselect-property-consistency-for-existing-pages-329cd6cf14068168b5eaf6198b4d300b&quot;,&quot;public_url&quot;:null,&quot;request_id&quot;:&quot;d1250097-14b5-4c19-8862-8e9a500fdb3a&quot;}
+2026-03-20 21:17:44.921 [Test worker] ERROR io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Response from NotionAPIv2026-03-11 with error: 200
+2026-03-20 21:17:44.921 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Error response body: 
+Page(properties={title=TitleProperty(type=title, title=[RichText(type=text, plainText=[IT-54]: Data sources - Check multiselect property consistency for existing pages, href=null, annotations=RichText.Annotations(bold=false, italic=false, strikethrough=false, underline=false, code=false, color=default), text=RichText.Text(content=[IT-54]: Data sources - Check multiselect property consistency for existing pages, link=null), mention=null, equation=null)])}, url=https://www.notion.so/IT-54-Data-sources-Check-multiselect-property-consistency-for-existing-pages-329cd6cf14068168b5eaf6198b4d300b, publicUrl=null, icon=null, cover=null, isLocked=false)
+2026-03-20 21:17:44.923 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Calling NotionAPIv2026-03-11
+2026-03-20 21:17:44.923 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Building request...
+2026-03-20 21:17:44.923 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Request method: POST, url: https://api.notion.com/v1/databases, content-type: application/json
+2026-03-20 21:17:44.923 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Request body: 
+{
+  &quot;parent&quot; : {
+    &quot;type&quot; : &quot;page_id&quot;,
+    &quot;page_id&quot; : &quot;329cd6cf-1406-8168-b5ea-f6198b4d300b&quot;
+  },
+  &quot;title&quot; : [ {
+    &quot;type&quot; : &quot;text&quot;,
+    &quot;plain_text&quot; : &quot;Tag Consistency DB&quot;,
+    &quot;annotations&quot; : { },
+    &quot;text&quot; : {
+      &quot;content&quot; : &quot;Tag Consistency DB&quot;
+    }
+  } ],
+  &quot;is_inline&quot; : true,
+  &quot;initial_data_source&quot; : {
+    &quot;properties&quot; : {
+      &quot;Name&quot; : {
+        &quot;type&quot; : &quot;title&quot;,
+        &quot;title&quot; : { }
+      },
+      &quot;Tags&quot; : {
+        &quot;multi_select&quot; : {
+          &quot;options&quot; : [ {
+            &quot;name&quot; : &quot;Sale&quot;
+          }, {
+            &quot;name&quot; : &quot;New&quot;
+          } ]
+        }
+      }
+    }
+  }
+}
+2026-03-20 21:17:45.702 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Response from NotionAPIv2026-03-11 with code: 200
+2026-03-20 21:17:45.702 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Response body: 
+{&quot;object&quot;:&quot;database&quot;,&quot;id&quot;:&quot;c7c0a431-18f6-4794-8aa6-28c4c884f131&quot;,&quot;title&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;Tag Consistency DB&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;Tag Consistency DB&quot;,&quot;href&quot;:null}],&quot;description&quot;:[],&quot;parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;329cd6cf-1406-8168-b5ea-f6198b4d300b&quot;},&quot;is_inline&quot;:true,&quot;in_trash&quot;:false,&quot;is_locked&quot;:false,&quot;created_time&quot;:&quot;2026-03-20T21:17:45.199+00:00&quot;,&quot;last_edited_time&quot;:&quot;2026-03-20T21:17:45.199+00:00&quot;,&quot;data_sources&quot;:[{&quot;id&quot;:&quot;6b28cfa8-b849-4228-b2da-545b1e05528a&quot;,&quot;name&quot;:&quot;Tag Consistency DB&quot;}],&quot;icon&quot;:null,&quot;cover&quot;:null,&quot;url&quot;:&quot;https://www.notion.so/c7c0a43118f647948aa628c4c884f131&quot;,&quot;public_url&quot;:null,&quot;request_id&quot;:&quot;8a2c7d5f-ba23-4655-a7e7-6ec9879f0ba0&quot;}
+2026-03-20 21:17:45.702 [Test worker] ERROR io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Response from NotionAPIv2026-03-11 with error: 200
+2026-03-20 21:17:45.702 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Error response body: 
+Database(title=[RichText(type=text, plainText=Tag Consistency DB, href=null, annotations=RichText.Annotations(bold=false, italic=false, strikethrough=false, underline=false, code=false, color=default), text=RichText.Text(content=Tag Consistency DB, link=null), mention=null, equation=null)], description=[], icon=null, cover=null, url=https://www.notion.so/c7c0a43118f647948aa628c4c884f131, publicUrl=null, isInline=true, isLocked=false, dataSources=[DataSourceRef(id=6b28cfa8-b849-4228-b2da-545b1e05528a, name=Tag Consistency DB)])
+2026-03-20 21:17:45.703 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Calling NotionAPIv2026-03-11
+2026-03-20 21:17:45.703 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Building request...
+2026-03-20 21:17:45.703 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Request method: GET, url: https://api.notion.com/v1/data_sources/6b28cfa8-b849-4228-b2da-545b1e05528a, content-type: null
+2026-03-20 21:17:45.845 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Response from NotionAPIv2026-03-11 with code: 200
+2026-03-20 21:17:45.845 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Response body: 
+{&quot;object&quot;:&quot;data_source&quot;,&quot;id&quot;:&quot;6b28cfa8-b849-4228-b2da-545b1e05528a&quot;,&quot;cover&quot;:null,&quot;icon&quot;:null,&quot;created_time&quot;:&quot;2026-03-20T21:17:00.000Z&quot;,&quot;created_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;last_edited_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;last_edited_time&quot;:&quot;2026-03-20T21:17:00.000Z&quot;,&quot;title&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;Tag Consistency DB&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;Tag Consistency DB&quot;,&quot;href&quot;:null}],&quot;description&quot;:[],&quot;is_inline&quot;:true,&quot;properties&quot;:{&quot;Tags&quot;:{&quot;id&quot;:&quot;erI%5D&quot;,&quot;name&quot;:&quot;Tags&quot;,&quot;description&quot;:null,&quot;type&quot;:&quot;multi_select&quot;,&quot;multi_select&quot;:{&quot;options&quot;:[{&quot;id&quot;:&quot;5a965397-2ea1-4247-9f64-20db8576ab0b&quot;,&quot;name&quot;:&quot;Sale&quot;,&quot;color&quot;:&quot;default&quot;,&quot;description&quot;:null},{&quot;id&quot;:&quot;d3bc1c78-c637-43af-bb5e-627a1d5002e6&quot;,&quot;name&quot;:&quot;New&quot;,&quot;color&quot;:&quot;default&quot;,&quot;description&quot;:null}]}},&quot;Name&quot;:{&quot;id&quot;:&quot;title&quot;,&quot;name&quot;:&quot;Name&quot;,&quot;description&quot;:null,&quot;type&quot;:&quot;title&quot;,&quot;title&quot;:{}}},&quot;parent&quot;:{&quot;type&quot;:&quot;database_id&quot;,&quot;database_id&quot;:&quot;c7c0a431-18f6-4794-8aa6-28c4c884f131&quot;},&quot;database_parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;329cd6cf-1406-8168-b5ea-f6198b4d300b&quot;},&quot;url&quot;:&quot;https://www.notion.so/c7c0a43118f647948aa628c4c884f131&quot;,&quot;public_url&quot;:null,&quot;in_trash&quot;:false,&quot;request_id&quot;:&quot;81067849-fe2d-4f76-92d9-b8a106c915df&quot;}
+2026-03-20 21:17:45.845 [Test worker] ERROR io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Response from NotionAPIv2026-03-11 with error: 200
+2026-03-20 21:17:45.845 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Error response body: 
+DataSource(title=[RichText(type=text, plainText=Tag Consistency DB, href=null, annotations=RichText.Annotations(bold=false, italic=false, strikethrough=false, underline=false, code=false, color=default), text=RichText.Text(content=Tag Consistency DB, link=null), mention=null, equation=null)], description=[], databaseParent=Parent(type=page_id, blockId=null, pageId=329cd6cf-1406-8168-b5ea-f6198b4d300b, databaseId=null, datasourceId=null, workspace=null), icon=null, cover=null, properties={Tags=MultiSelectSchema(multiSelect=MultiSelectSchema.MultiSelectConfig(options=[SelectOption(id=5a965397-2ea1-4247-9f64-20db8576ab0b, name=Sale, color=default), SelectOption(id=d3bc1c78-c637-43af-bb5e-627a1d5002e6, name=New, color=default)])), Name=TitleSchema(title={})}, isInline=true, url=https://www.notion.so/c7c0a43118f647948aa628c4c884f131, publicUrl=null)
+2026-03-20 21:17:45.846 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Calling NotionAPIv2026-03-11
+2026-03-20 21:17:45.846 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Building request...
+2026-03-20 21:17:45.847 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Request method: POST, url: https://api.notion.com/v1/pages, content-type: application/json
+2026-03-20 21:17:45.847 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Request body: 
+{
+  &quot;parent&quot; : {
+    &quot;type&quot; : &quot;data_source_id&quot;,
+    &quot;data_source_id&quot; : &quot;6b28cfa8-b849-4228-b2da-545b1e05528a&quot;
+  },
+  &quot;properties&quot; : {
+    &quot;title&quot; : {
+      &quot;type&quot; : &quot;title&quot;,
+      &quot;title&quot; : [ {
+        &quot;type&quot; : &quot;text&quot;,
+        &quot;plain_text&quot; : &quot;Test entry&quot;,
+        &quot;annotations&quot; : { },
+        &quot;text&quot; : {
+          &quot;content&quot; : &quot;Test entry&quot;
+        }
+      } ]
+    },
+    &quot;Tags&quot; : {
+      &quot;type&quot; : &quot;multi_select&quot;,
+      &quot;multi_select&quot; : [ {
+        &quot;name&quot; : &quot;Sale&quot;
+      } ]
+    }
+  }
+}
+2026-03-20 21:17:51.253 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Response from NotionAPIv2026-03-11 with code: 200
+2026-03-20 21:17:51.253 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Response body: 
+{&quot;object&quot;:&quot;page&quot;,&quot;id&quot;:&quot;329cd6cf-1406-815e-a00f-d9ab2ceadac7&quot;,&quot;created_time&quot;:&quot;2026-03-20T21:17:00.000Z&quot;,&quot;last_edited_time&quot;:&quot;2026-03-20T21:17:00.000Z&quot;,&quot;created_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;last_edited_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;cover&quot;:null,&quot;icon&quot;:null,&quot;parent&quot;:{&quot;type&quot;:&quot;data_source_id&quot;,&quot;data_source_id&quot;:&quot;6b28cfa8-b849-4228-b2da-545b1e05528a&quot;,&quot;database_id&quot;:&quot;c7c0a431-18f6-4794-8aa6-28c4c884f131&quot;},&quot;in_trash&quot;:false,&quot;is_archived&quot;:false,&quot;is_locked&quot;:false,&quot;properties&quot;:{&quot;Tags&quot;:{&quot;id&quot;:&quot;erI%5D&quot;,&quot;type&quot;:&quot;multi_select&quot;,&quot;multi_select&quot;:[{&quot;id&quot;:&quot;5a965397-2ea1-4247-9f64-20db8576ab0b&quot;,&quot;name&quot;:&quot;Sale&quot;,&quot;color&quot;:&quot;default&quot;}]},&quot;Name&quot;:{&quot;id&quot;:&quot;title&quot;,&quot;type&quot;:&quot;title&quot;,&quot;title&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;Test entry&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;Test entry&quot;,&quot;href&quot;:null}]}},&quot;url&quot;:&quot;https://www.notion.so/Test-entry-329cd6cf1406815ea00fd9ab2ceadac7&quot;,&quot;public_url&quot;:null,&quot;request_id&quot;:&quot;7f97453d-5aee-49b5-a6fb-82611e9dda29&quot;}
+2026-03-20 21:17:51.253 [Test worker] ERROR io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Response from NotionAPIv2026-03-11 with error: 200
+2026-03-20 21:17:51.254 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Error response body: 
+Page(properties={Tags=MultiSelectProperty(type=multi_select, multiSelect=[SelectValue(id=5a965397-2ea1-4247-9f64-20db8576ab0b, name=Sale, color=default)]), Name=TitleProperty(type=title, title=[RichText(type=text, plainText=Test entry, href=null, annotations=RichText.Annotations(bold=false, italic=false, strikethrough=false, underline=false, code=false, color=default), text=RichText.Text(content=Test entry, link=null), mention=null, equation=null)])}, url=https://www.notion.so/Test-entry-329cd6cf1406815ea00fd9ab2ceadac7, publicUrl=null, icon=null, cover=null, isLocked=false)
+2026-03-20 21:17:51.255 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Calling NotionAPIv2026-03-11
+2026-03-20 21:17:51.255 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Building request...
+2026-03-20 21:17:51.256 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Request method: PATCH, url: https://api.notion.com/v1/data_sources/6b28cfa8-b849-4228-b2da-545b1e05528a, content-type: application/json
+2026-03-20 21:17:51.256 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Request body: 
+{
+  &quot;properties&quot; : {
+    &quot;Tags&quot; : {
+      &quot;multi_select&quot; : {
+        &quot;options&quot; : [ {
+          &quot;id&quot; : &quot;5a965397-2ea1-4247-9f64-20db8576ab0b&quot;,
+          &quot;name&quot; : &quot;Sale&quot;,
+          &quot;color&quot; : &quot;default&quot;
+        }, {
+          &quot;id&quot; : &quot;d3bc1c78-c637-43af-bb5e-627a1d5002e6&quot;,
+          &quot;name&quot; : &quot;New&quot;,
+          &quot;color&quot; : &quot;default&quot;
+        }, {
+          &quot;name&quot; : &quot;Popular&quot;,
+          &quot;color&quot; : &quot;purple&quot;
+        }, {
+          &quot;name&quot; : &quot;Limited&quot;,
+          &quot;color&quot; : &quot;orange&quot;
+        } ]
+      }
+    }
+  }
+}
+2026-03-20 21:17:52.007 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Response from NotionAPIv2026-03-11 with code: 200
+2026-03-20 21:17:52.008 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Response body: 
+{&quot;object&quot;:&quot;data_source&quot;,&quot;id&quot;:&quot;6b28cfa8-b849-4228-b2da-545b1e05528a&quot;,&quot;cover&quot;:null,&quot;icon&quot;:null,&quot;created_time&quot;:&quot;2026-03-20T21:17:00.000Z&quot;,&quot;created_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;last_edited_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;last_edited_time&quot;:&quot;2026-03-20T21:17:00.000Z&quot;,&quot;title&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;Tag Consistency DB&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;Tag Consistency DB&quot;,&quot;href&quot;:null}],&quot;description&quot;:[],&quot;is_inline&quot;:true,&quot;properties&quot;:{&quot;Tags&quot;:{&quot;id&quot;:&quot;erI%5D&quot;,&quot;name&quot;:&quot;Tags&quot;,&quot;description&quot;:null,&quot;type&quot;:&quot;multi_select&quot;,&quot;multi_select&quot;:{&quot;options&quot;:[{&quot;id&quot;:&quot;5a965397-2ea1-4247-9f64-20db8576ab0b&quot;,&quot;name&quot;:&quot;Sale&quot;,&quot;color&quot;:&quot;default&quot;,&quot;description&quot;:null},{&quot;id&quot;:&quot;d3bc1c78-c637-43af-bb5e-627a1d5002e6&quot;,&quot;name&quot;:&quot;New&quot;,&quot;color&quot;:&quot;default&quot;,&quot;description&quot;:null},{&quot;id&quot;:&quot;48d67ab9-122f-4a2f-b18e-1a51ecbbbf8d&quot;,&quot;name&quot;:&quot;Popular&quot;,&quot;color&quot;:&quot;purple&quot;,&quot;description&quot;:null},{&quot;id&quot;:&quot;d0b93b7d-ee42-4ebe-ba8a-ab3a0800b7ea&quot;,&quot;name&quot;:&quot;Limited&quot;,&quot;color&quot;:&quot;orange&quot;,&quot;description&quot;:null}]}},&quot;Name&quot;:{&quot;id&quot;:&quot;title&quot;,&quot;name&quot;:&quot;Name&quot;,&quot;description&quot;:null,&quot;type&quot;:&quot;title&quot;,&quot;title&quot;:{}}},&quot;parent&quot;:{&quot;type&quot;:&quot;database_id&quot;,&quot;database_id&quot;:&quot;c7c0a431-18f6-4794-8aa6-28c4c884f131&quot;},&quot;database_parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;329cd6cf-1406-8168-b5ea-f6198b4d300b&quot;},&quot;url&quot;:&quot;https://www.notion.so/c7c0a43118f647948aa628c4c884f131&quot;,&quot;public_url&quot;:null,&quot;in_trash&quot;:false,&quot;request_id&quot;:&quot;416119a4-88d7-4d0a-a91c-d39b2eda995a&quot;}
+2026-03-20 21:17:52.008 [Test worker] ERROR io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Response from NotionAPIv2026-03-11 with error: 200
+2026-03-20 21:17:52.008 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Error response body: 
+DataSource(title=[RichText(type=text, plainText=Tag Consistency DB, href=null, annotations=RichText.Annotations(bold=false, italic=false, strikethrough=false, underline=false, code=false, color=default), text=RichText.Text(content=Tag Consistency DB, link=null), mention=null, equation=null)], description=[], databaseParent=Parent(type=page_id, blockId=null, pageId=329cd6cf-1406-8168-b5ea-f6198b4d300b, databaseId=null, datasourceId=null, workspace=null), icon=null, cover=null, properties={Tags=MultiSelectSchema(multiSelect=MultiSelectSchema.MultiSelectConfig(options=[SelectOption(id=5a965397-2ea1-4247-9f64-20db8576ab0b, name=Sale, color=default), SelectOption(id=d3bc1c78-c637-43af-bb5e-627a1d5002e6, name=New, color=default), SelectOption(id=48d67ab9-122f-4a2f-b18e-1a51ecbbbf8d, name=Popular, color=purple), SelectOption(id=d0b93b7d-ee42-4ebe-ba8a-ab3a0800b7ea, name=Limited, color=orange)])), Name=TitleSchema(title={})}, isInline=true, url=https://www.notion.so/c7c0a43118f647948aa628c4c884f131, publicUrl=null)
+2026-03-20 21:17:52.009 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Calling NotionAPIv2026-03-11
+2026-03-20 21:17:52.009 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Building request...
+2026-03-20 21:17:52.009 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Request method: GET, url: https://api.notion.com/v1/pages/329cd6cf-1406-815e-a00f-d9ab2ceadac7, content-type: null
+2026-03-20 21:17:52.183 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Response from NotionAPIv2026-03-11 with code: 200
+2026-03-20 21:17:52.183 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Response body: 
+{&quot;object&quot;:&quot;page&quot;,&quot;id&quot;:&quot;329cd6cf-1406-815e-a00f-d9ab2ceadac7&quot;,&quot;created_time&quot;:&quot;2026-03-20T21:17:00.000Z&quot;,&quot;last_edited_time&quot;:&quot;2026-03-20T21:17:00.000Z&quot;,&quot;created_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;last_edited_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;cover&quot;:null,&quot;icon&quot;:null,&quot;parent&quot;:{&quot;type&quot;:&quot;data_source_id&quot;,&quot;data_source_id&quot;:&quot;6b28cfa8-b849-4228-b2da-545b1e05528a&quot;,&quot;database_id&quot;:&quot;c7c0a431-18f6-4794-8aa6-28c4c884f131&quot;},&quot;in_trash&quot;:false,&quot;is_archived&quot;:false,&quot;is_locked&quot;:false,&quot;properties&quot;:{&quot;Tags&quot;:{&quot;id&quot;:&quot;erI%5D&quot;,&quot;type&quot;:&quot;multi_select&quot;,&quot;multi_select&quot;:[{&quot;id&quot;:&quot;5a965397-2ea1-4247-9f64-20db8576ab0b&quot;,&quot;name&quot;:&quot;Sale&quot;,&quot;color&quot;:&quot;default&quot;}]},&quot;Name&quot;:{&quot;id&quot;:&quot;title&quot;,&quot;type&quot;:&quot;title&quot;,&quot;title&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;Test entry&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;Test entry&quot;,&quot;href&quot;:null}]}},&quot;url&quot;:&quot;https://www.notion.so/Test-entry-329cd6cf1406815ea00fd9ab2ceadac7&quot;,&quot;public_url&quot;:null,&quot;request_id&quot;:&quot;73183f78-19cd-46b3-81c8-5da958f1e418&quot;}
+2026-03-20 21:17:52.184 [Test worker] ERROR io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Response from NotionAPIv2026-03-11 with error: 200
+2026-03-20 21:17:52.184 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Error response body: 
+Page(properties={Tags=MultiSelectProperty(type=multi_select, multiSelect=[SelectValue(id=5a965397-2ea1-4247-9f64-20db8576ab0b, name=Sale, color=default)]), Name=TitleProperty(type=title, title=[RichText(type=text, plainText=Test entry, href=null, annotations=RichText.Annotations(bold=false, italic=false, strikethrough=false, underline=false, code=false, color=default), text=RichText.Text(content=Test entry, link=null), mention=null, equation=null)])}, url=https://www.notion.so/Test-entry-329cd6cf1406815ea00fd9ab2ceadac7, publicUrl=null, icon=null, cover=null, isLocked=false)
+2026-03-20 21:17:52.185 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Calling NotionAPIv2026-03-11
+2026-03-20 21:17:52.185 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Building request...
+2026-03-20 21:17:52.185 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Request method: PATCH, url: https://api.notion.com/v1/pages/329cd6cf-1406-815e-a00f-d9ab2ceadac7, content-type: application/json
+2026-03-20 21:17:52.185 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Request body: 
+{
+  &quot;properties&quot; : {
+    &quot;Tags&quot; : {
+      &quot;type&quot; : &quot;multi_select&quot;,
+      &quot;multi_select&quot; : [ {
+        &quot;name&quot; : &quot;Sale&quot;
+      }, {
+        &quot;name&quot; : &quot;Popular&quot;
+      } ]
+    }
+  }
+}
+2026-03-20 21:17:53.086 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Response from NotionAPIv2026-03-11 with code: 200
+2026-03-20 21:17:53.086 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Response body: 
+{&quot;object&quot;:&quot;page&quot;,&quot;id&quot;:&quot;329cd6cf-1406-815e-a00f-d9ab2ceadac7&quot;,&quot;created_time&quot;:&quot;2026-03-20T21:17:00.000Z&quot;,&quot;last_edited_time&quot;:&quot;2026-03-20T21:17:00.000Z&quot;,&quot;created_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;last_edited_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;cover&quot;:null,&quot;icon&quot;:null,&quot;parent&quot;:{&quot;type&quot;:&quot;data_source_id&quot;,&quot;data_source_id&quot;:&quot;6b28cfa8-b849-4228-b2da-545b1e05528a&quot;,&quot;database_id&quot;:&quot;c7c0a431-18f6-4794-8aa6-28c4c884f131&quot;},&quot;in_trash&quot;:false,&quot;is_archived&quot;:false,&quot;is_locked&quot;:false,&quot;properties&quot;:{&quot;Tags&quot;:{&quot;id&quot;:&quot;erI%5D&quot;,&quot;type&quot;:&quot;multi_select&quot;,&quot;multi_select&quot;:[{&quot;id&quot;:&quot;5a965397-2ea1-4247-9f64-20db8576ab0b&quot;,&quot;name&quot;:&quot;Sale&quot;,&quot;color&quot;:&quot;default&quot;},{&quot;id&quot;:&quot;48d67ab9-122f-4a2f-b18e-1a51ecbbbf8d&quot;,&quot;name&quot;:&quot;Popular&quot;,&quot;color&quot;:&quot;purple&quot;}]},&quot;Name&quot;:{&quot;id&quot;:&quot;title&quot;,&quot;type&quot;:&quot;title&quot;,&quot;title&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;Test entry&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;Test entry&quot;,&quot;href&quot;:null}]}},&quot;url&quot;:&quot;https://www.notion.so/Test-entry-329cd6cf1406815ea00fd9ab2ceadac7&quot;,&quot;public_url&quot;:null,&quot;request_id&quot;:&quot;730f4b32-e505-4bb9-a03c-aa617f66986d&quot;}
+2026-03-20 21:17:53.087 [Test worker] ERROR io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Response from NotionAPIv2026-03-11 with error: 200
+2026-03-20 21:17:53.087 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Error response body: 
+Page(properties={Tags=MultiSelectProperty(type=multi_select, multiSelect=[SelectValue(id=5a965397-2ea1-4247-9f64-20db8576ab0b, name=Sale, color=default), SelectValue(id=48d67ab9-122f-4a2f-b18e-1a51ecbbbf8d, name=Popular, color=purple)]), Name=TitleProperty(type=title, title=[RichText(type=text, plainText=Test entry, href=null, annotations=RichText.Annotations(bold=false, italic=false, strikethrough=false, underline=false, code=false, color=default), text=RichText.Text(content=Test entry, link=null), mention=null, equation=null)])}, url=https://www.notion.so/Test-entry-329cd6cf1406815ea00fd9ab2ceadac7, publicUrl=null, icon=null, cover=null, isLocked=false)
+2026-03-20 21:17:53.087 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Calling NotionAPIv2026-03-11
+2026-03-20 21:17:53.087 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Building request...
+2026-03-20 21:17:53.088 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Request method: GET, url: https://api.notion.com/v1/data_sources/6b28cfa8-b849-4228-b2da-545b1e05528a, content-type: null
+2026-03-20 21:17:53.196 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Response from NotionAPIv2026-03-11 with code: 200
+2026-03-20 21:17:53.197 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Response body: 
+{&quot;object&quot;:&quot;data_source&quot;,&quot;id&quot;:&quot;6b28cfa8-b849-4228-b2da-545b1e05528a&quot;,&quot;cover&quot;:null,&quot;icon&quot;:null,&quot;created_time&quot;:&quot;2026-03-20T21:17:00.000Z&quot;,&quot;created_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;last_edited_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;last_edited_time&quot;:&quot;2026-03-20T21:17:00.000Z&quot;,&quot;title&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;Tag Consistency DB&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;Tag Consistency DB&quot;,&quot;href&quot;:null}],&quot;description&quot;:[],&quot;is_inline&quot;:true,&quot;properties&quot;:{&quot;Tags&quot;:{&quot;id&quot;:&quot;erI%5D&quot;,&quot;name&quot;:&quot;Tags&quot;,&quot;description&quot;:null,&quot;type&quot;:&quot;multi_select&quot;,&quot;multi_select&quot;:{&quot;options&quot;:[{&quot;id&quot;:&quot;5a965397-2ea1-4247-9f64-20db8576ab0b&quot;,&quot;name&quot;:&quot;Sale&quot;,&quot;color&quot;:&quot;default&quot;,&quot;description&quot;:null},{&quot;id&quot;:&quot;d3bc1c78-c637-43af-bb5e-627a1d5002e6&quot;,&quot;name&quot;:&quot;New&quot;,&quot;color&quot;:&quot;default&quot;,&quot;description&quot;:null},{&quot;id&quot;:&quot;48d67ab9-122f-4a2f-b18e-1a51ecbbbf8d&quot;,&quot;name&quot;:&quot;Popular&quot;,&quot;color&quot;:&quot;purple&quot;,&quot;description&quot;:null},{&quot;id&quot;:&quot;d0b93b7d-ee42-4ebe-ba8a-ab3a0800b7ea&quot;,&quot;name&quot;:&quot;Limited&quot;,&quot;color&quot;:&quot;orange&quot;,&quot;description&quot;:null}]}},&quot;Name&quot;:{&quot;id&quot;:&quot;title&quot;,&quot;name&quot;:&quot;Name&quot;,&quot;description&quot;:null,&quot;type&quot;:&quot;title&quot;,&quot;title&quot;:{}}},&quot;parent&quot;:{&quot;type&quot;:&quot;database_id&quot;,&quot;database_id&quot;:&quot;c7c0a431-18f6-4794-8aa6-28c4c884f131&quot;},&quot;database_parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;329cd6cf-1406-8168-b5ea-f6198b4d300b&quot;},&quot;url&quot;:&quot;https://www.notion.so/c7c0a43118f647948aa628c4c884f131&quot;,&quot;public_url&quot;:null,&quot;in_trash&quot;:false,&quot;request_id&quot;:&quot;1feba745-3273-4b0e-8edb-b0ff235ec52a&quot;}
+2026-03-20 21:17:53.197 [Test worker] ERROR io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Response from NotionAPIv2026-03-11 with error: 200
+2026-03-20 21:17:53.197 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Error response body: 
+DataSource(title=[RichText(type=text, plainText=Tag Consistency DB, href=null, annotations=RichText.Annotations(bold=false, italic=false, strikethrough=false, underline=false, code=false, color=default), text=RichText.Text(content=Tag Consistency DB, link=null), mention=null, equation=null)], description=[], databaseParent=Parent(type=page_id, blockId=null, pageId=329cd6cf-1406-8168-b5ea-f6198b4d300b, databaseId=null, datasourceId=null, workspace=null), icon=null, cover=null, properties={Tags=MultiSelectSchema(multiSelect=MultiSelectSchema.MultiSelectConfig(options=[SelectOption(id=5a965397-2ea1-4247-9f64-20db8576ab0b, name=Sale, color=default), SelectOption(id=d3bc1c78-c637-43af-bb5e-627a1d5002e6, name=New, color=default), SelectOption(id=48d67ab9-122f-4a2f-b18e-1a51ecbbbf8d, name=Popular, color=purple), SelectOption(id=d0b93b7d-ee42-4ebe-ba8a-ab3a0800b7ea, name=Limited, color=orange)])), Name=TitleSchema(title={})}, isInline=true, url=https://www.notion.so/c7c0a43118f647948aa628c4c884f131, publicUrl=null)
+2026-03-20 21:17:53.199 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Calling NotionAPIv2026-03-11
+2026-03-20 21:17:53.199 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Building request...
+2026-03-20 21:17:53.199 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Request method: PATCH, url: https://api.notion.com/v1/data_sources/6b28cfa8-b849-4228-b2da-545b1e05528a, content-type: application/json
+2026-03-20 21:17:53.199 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Request body: 
+{
+  &quot;properties&quot; : {
+    &quot;Tags&quot; : {
+      &quot;multi_select&quot; : {
+        &quot;options&quot; : [ {
+          &quot;id&quot; : &quot;5a965397-2ea1-4247-9f64-20db8576ab0b&quot;,
+          &quot;name&quot; : &quot;Sale&quot;,
+          &quot;color&quot; : &quot;default&quot;
+        }, {
+          &quot;id&quot; : &quot;d3bc1c78-c637-43af-bb5e-627a1d5002e6&quot;,
+          &quot;name&quot; : &quot;New&quot;,
+          &quot;color&quot; : &quot;default&quot;
+        }, {
+          &quot;id&quot; : &quot;d0b93b7d-ee42-4ebe-ba8a-ab3a0800b7ea&quot;,
+          &quot;name&quot; : &quot;Limited&quot;,
+          &quot;color&quot; : &quot;orange&quot;
+        } ]
+      }
+    }
+  }
+}
+2026-03-20 21:17:53.721 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Response from NotionAPIv2026-03-11 with code: 200
+2026-03-20 21:17:53.721 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Response body: 
+{&quot;object&quot;:&quot;data_source&quot;,&quot;id&quot;:&quot;6b28cfa8-b849-4228-b2da-545b1e05528a&quot;,&quot;cover&quot;:null,&quot;icon&quot;:null,&quot;created_time&quot;:&quot;2026-03-20T21:17:00.000Z&quot;,&quot;created_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;last_edited_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;last_edited_time&quot;:&quot;2026-03-20T21:17:00.000Z&quot;,&quot;title&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;Tag Consistency DB&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;Tag Consistency DB&quot;,&quot;href&quot;:null}],&quot;description&quot;:[],&quot;is_inline&quot;:true,&quot;properties&quot;:{&quot;Tags&quot;:{&quot;id&quot;:&quot;erI%5D&quot;,&quot;name&quot;:&quot;Tags&quot;,&quot;description&quot;:null,&quot;type&quot;:&quot;multi_select&quot;,&quot;multi_select&quot;:{&quot;options&quot;:[{&quot;id&quot;:&quot;5a965397-2ea1-4247-9f64-20db8576ab0b&quot;,&quot;name&quot;:&quot;Sale&quot;,&quot;color&quot;:&quot;default&quot;,&quot;description&quot;:null},{&quot;id&quot;:&quot;d3bc1c78-c637-43af-bb5e-627a1d5002e6&quot;,&quot;name&quot;:&quot;New&quot;,&quot;color&quot;:&quot;default&quot;,&quot;description&quot;:null},{&quot;id&quot;:&quot;d0b93b7d-ee42-4ebe-ba8a-ab3a0800b7ea&quot;,&quot;name&quot;:&quot;Limited&quot;,&quot;color&quot;:&quot;orange&quot;,&quot;description&quot;:null}]}},&quot;Name&quot;:{&quot;id&quot;:&quot;title&quot;,&quot;name&quot;:&quot;Name&quot;,&quot;description&quot;:null,&quot;type&quot;:&quot;title&quot;,&quot;title&quot;:{}}},&quot;parent&quot;:{&quot;type&quot;:&quot;database_id&quot;,&quot;database_id&quot;:&quot;c7c0a431-18f6-4794-8aa6-28c4c884f131&quot;},&quot;database_parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;329cd6cf-1406-8168-b5ea-f6198b4d300b&quot;},&quot;url&quot;:&quot;https://www.notion.so/c7c0a43118f647948aa628c4c884f131&quot;,&quot;public_url&quot;:null,&quot;in_trash&quot;:false,&quot;request_id&quot;:&quot;669da3d7-6f36-4e19-b607-d9633b622e3d&quot;}
+2026-03-20 21:17:53.722 [Test worker] ERROR io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Response from NotionAPIv2026-03-11 with error: 200
+2026-03-20 21:17:53.722 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Error response body: 
+DataSource(title=[RichText(type=text, plainText=Tag Consistency DB, href=null, annotations=RichText.Annotations(bold=false, italic=false, strikethrough=false, underline=false, code=false, color=default), text=RichText.Text(content=Tag Consistency DB, link=null), mention=null, equation=null)], description=[], databaseParent=Parent(type=page_id, blockId=null, pageId=329cd6cf-1406-8168-b5ea-f6198b4d300b, databaseId=null, datasourceId=null, workspace=null), icon=null, cover=null, properties={Tags=MultiSelectSchema(multiSelect=MultiSelectSchema.MultiSelectConfig(options=[SelectOption(id=5a965397-2ea1-4247-9f64-20db8576ab0b, name=Sale, color=default), SelectOption(id=d3bc1c78-c637-43af-bb5e-627a1d5002e6, name=New, color=default), SelectOption(id=d0b93b7d-ee42-4ebe-ba8a-ab3a0800b7ea, name=Limited, color=orange)])), Name=TitleSchema(title={})}, isInline=true, url=https://www.notion.so/c7c0a43118f647948aa628c4c884f131, publicUrl=null)
+2026-03-20 21:17:53.723 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Calling NotionAPIv2026-03-11
+2026-03-20 21:17:53.723 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Building request...
+2026-03-20 21:17:53.723 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Request method: GET, url: https://api.notion.com/v1/pages/329cd6cf-1406-815e-a00f-d9ab2ceadac7, content-type: null
+2026-03-20 21:17:53.913 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Response from NotionAPIv2026-03-11 with code: 200
+2026-03-20 21:17:53.913 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Response body: 
+{&quot;object&quot;:&quot;page&quot;,&quot;id&quot;:&quot;329cd6cf-1406-815e-a00f-d9ab2ceadac7&quot;,&quot;created_time&quot;:&quot;2026-03-20T21:17:00.000Z&quot;,&quot;last_edited_time&quot;:&quot;2026-03-20T21:17:00.000Z&quot;,&quot;created_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;last_edited_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;cover&quot;:null,&quot;icon&quot;:null,&quot;parent&quot;:{&quot;type&quot;:&quot;data_source_id&quot;,&quot;data_source_id&quot;:&quot;6b28cfa8-b849-4228-b2da-545b1e05528a&quot;,&quot;database_id&quot;:&quot;c7c0a431-18f6-4794-8aa6-28c4c884f131&quot;},&quot;in_trash&quot;:false,&quot;is_archived&quot;:false,&quot;is_locked&quot;:false,&quot;properties&quot;:{&quot;Tags&quot;:{&quot;id&quot;:&quot;erI%5D&quot;,&quot;type&quot;:&quot;multi_select&quot;,&quot;multi_select&quot;:[{&quot;id&quot;:&quot;5a965397-2ea1-4247-9f64-20db8576ab0b&quot;,&quot;name&quot;:&quot;Sale&quot;,&quot;color&quot;:&quot;default&quot;}]},&quot;Name&quot;:{&quot;id&quot;:&quot;title&quot;,&quot;type&quot;:&quot;title&quot;,&quot;title&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;Test entry&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;Test entry&quot;,&quot;href&quot;:null}]}},&quot;url&quot;:&quot;https://www.notion.so/Test-entry-329cd6cf1406815ea00fd9ab2ceadac7&quot;,&quot;public_url&quot;:null,&quot;request_id&quot;:&quot;7697ffb1-28e6-4412-b010-bbdeae1c19fa&quot;}
+2026-03-20 21:17:53.914 [Test worker] ERROR io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Response from NotionAPIv2026-03-11 with error: 200
+2026-03-20 21:17:53.914 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Error response body: 
+Page(properties={Tags=MultiSelectProperty(type=multi_select, multiSelect=[SelectValue(id=5a965397-2ea1-4247-9f64-20db8576ab0b, name=Sale, color=default)]), Name=TitleProperty(type=title, title=[RichText(type=text, plainText=Test entry, href=null, annotations=RichText.Annotations(bold=false, italic=false, strikethrough=false, underline=false, code=false, color=default), text=RichText.Text(content=Test entry, link=null), mention=null, equation=null)])}, url=https://www.notion.so/Test-entry-329cd6cf1406815ea00fd9ab2ceadac7, publicUrl=null, icon=null, cover=null, isLocked=false)
+2026-03-20 21:17:53.919 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Calling NotionAPIv2026-03-11
+2026-03-20 21:17:53.919 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Building request...
+2026-03-20 21:17:53.919 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Request method: POST, url: https://api.notion.com/v1/pages, content-type: application/json
+2026-03-20 21:17:53.919 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Request body: 
+{
+  &quot;parent&quot; : {
+    &quot;type&quot; : &quot;page_id&quot;,
+    &quot;page_id&quot; : &quot;329cd6cf-1406-81c0-bbcf-c3e879b73182&quot;
+  },
+  &quot;properties&quot; : {
+    &quot;title&quot; : {
+      &quot;type&quot; : &quot;title&quot;,
+      &quot;title&quot; : [ {
+        &quot;type&quot; : &quot;text&quot;,
+        &quot;plain_text&quot; : &quot;[IT-55]: Data sources - Check status option add/remove via update&quot;,
+        &quot;annotations&quot; : { },
+        &quot;text&quot; : {
+          &quot;content&quot; : &quot;[IT-55]: Data sources - Check status option add/remove via update&quot;
+        }
+      } ]
+    }
+  },
+  &quot;position&quot; : {
+    &quot;type&quot; : &quot;page_start&quot;
+  }
+}
+2026-03-20 21:17:58.405 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Response from NotionAPIv2026-03-11 with code: 200
+2026-03-20 21:17:58.405 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Response body: 
+{&quot;object&quot;:&quot;page&quot;,&quot;id&quot;:&quot;329cd6cf-1406-815b-a2a4-d154c1a2021c&quot;,&quot;created_time&quot;:&quot;2026-03-20T21:17:00.000Z&quot;,&quot;last_edited_time&quot;:&quot;2026-03-20T21:17:00.000Z&quot;,&quot;created_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;last_edited_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;cover&quot;:null,&quot;icon&quot;:null,&quot;parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;329cd6cf-1406-81c0-bbcf-c3e879b73182&quot;},&quot;in_trash&quot;:false,&quot;is_archived&quot;:false,&quot;is_locked&quot;:false,&quot;properties&quot;:{&quot;title&quot;:{&quot;id&quot;:&quot;title&quot;,&quot;type&quot;:&quot;title&quot;,&quot;title&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;[IT-55]: Data sources - Check status option add/remove via update&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;[IT-55]: Data sources - Check status option add/remove via update&quot;,&quot;href&quot;:null}]}},&quot;url&quot;:&quot;https://www.notion.so/IT-55-Data-sources-Check-status-option-add-remove-via-update-329cd6cf1406815ba2a4d154c1a2021c&quot;,&quot;public_url&quot;:null,&quot;request_id&quot;:&quot;b5b66b06-1cbd-471c-b062-467fe4e5baa9&quot;}
+2026-03-20 21:17:58.405 [Test worker] ERROR io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Response from NotionAPIv2026-03-11 with error: 200
+2026-03-20 21:17:58.405 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Error response body: 
+Page(properties={title=TitleProperty(type=title, title=[RichText(type=text, plainText=[IT-55]: Data sources - Check status option add/remove via update, href=null, annotations=RichText.Annotations(bold=false, italic=false, strikethrough=false, underline=false, code=false, color=default), text=RichText.Text(content=[IT-55]: Data sources - Check status option add/remove via update, link=null), mention=null, equation=null)])}, url=https://www.notion.so/IT-55-Data-sources-Check-status-option-add-remove-via-update-329cd6cf1406815ba2a4d154c1a2021c, publicUrl=null, icon=null, cover=null, isLocked=false)
+2026-03-20 21:17:58.406 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Calling NotionAPIv2026-03-11
+2026-03-20 21:17:58.406 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Building request...
+2026-03-20 21:17:58.407 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Request method: POST, url: https://api.notion.com/v1/databases, content-type: application/json
+2026-03-20 21:17:58.407 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Request body: 
+{
+  &quot;parent&quot; : {
+    &quot;type&quot; : &quot;page_id&quot;,
+    &quot;page_id&quot; : &quot;329cd6cf-1406-815b-a2a4-d154c1a2021c&quot;
+  },
+  &quot;title&quot; : [ {
+    &quot;type&quot; : &quot;text&quot;,
+    &quot;plain_text&quot; : &quot;Status Test DB&quot;,
+    &quot;annotations&quot; : { },
+    &quot;text&quot; : {
+      &quot;content&quot; : &quot;Status Test DB&quot;
+    }
+  } ],
+  &quot;is_inline&quot; : true,
+  &quot;initial_data_source&quot; : {
+    &quot;properties&quot; : {
+      &quot;Name&quot; : {
+        &quot;type&quot; : &quot;title&quot;,
+        &quot;title&quot; : { }
+      },
+      &quot;Workflow&quot; : {
+        &quot;status&quot; : {
+          &quot;options&quot; : [ {
+            &quot;name&quot; : &quot;Backlog&quot;,
+            &quot;color&quot; : &quot;default&quot;
+          }, {
+            &quot;name&quot; : &quot;In Progress&quot;,
+            &quot;color&quot; : &quot;yellow&quot;
+          }, {
+            &quot;name&quot; : &quot;Completed&quot;,
+            &quot;color&quot; : &quot;green&quot;
+          } ]
+        }
+      }
+    }
+  }
+}
+2026-03-20 21:18:00.425 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Response from NotionAPIv2026-03-11 with code: 200
+2026-03-20 21:18:00.425 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Response body: 
+{&quot;object&quot;:&quot;database&quot;,&quot;id&quot;:&quot;456b4e52-6e8c-476d-ae32-22b86230e23f&quot;,&quot;title&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;Status Test DB&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;Status Test DB&quot;,&quot;href&quot;:null}],&quot;description&quot;:[],&quot;parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;329cd6cf-1406-815b-a2a4-d154c1a2021c&quot;},&quot;is_inline&quot;:true,&quot;in_trash&quot;:false,&quot;is_locked&quot;:false,&quot;created_time&quot;:&quot;2026-03-20T21:17:58.620+00:00&quot;,&quot;last_edited_time&quot;:&quot;2026-03-20T21:17:58.620+00:00&quot;,&quot;data_sources&quot;:[{&quot;id&quot;:&quot;a72fd591-a9cf-4387-ab71-c170a31f479d&quot;,&quot;name&quot;:&quot;Status Test DB&quot;}],&quot;icon&quot;:null,&quot;cover&quot;:null,&quot;url&quot;:&quot;https://www.notion.so/456b4e526e8c476dae3222b86230e23f&quot;,&quot;public_url&quot;:null,&quot;request_id&quot;:&quot;0514f804-7add-4122-bae1-da1cec39bffe&quot;}
+2026-03-20 21:18:00.425 [Test worker] ERROR io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Response from NotionAPIv2026-03-11 with error: 200
+2026-03-20 21:18:00.425 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Error response body: 
+Database(title=[RichText(type=text, plainText=Status Test DB, href=null, annotations=RichText.Annotations(bold=false, italic=false, strikethrough=false, underline=false, code=false, color=default), text=RichText.Text(content=Status Test DB, link=null), mention=null, equation=null)], description=[], icon=null, cover=null, url=https://www.notion.so/456b4e526e8c476dae3222b86230e23f, publicUrl=null, isInline=true, isLocked=false, dataSources=[DataSourceRef(id=a72fd591-a9cf-4387-ab71-c170a31f479d, name=Status Test DB)])
+2026-03-20 21:18:00.426 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Calling NotionAPIv2026-03-11
+2026-03-20 21:18:00.426 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Building request...
+2026-03-20 21:18:00.426 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Request method: GET, url: https://api.notion.com/v1/data_sources/a72fd591-a9cf-4387-ab71-c170a31f479d, content-type: null
+2026-03-20 21:18:00.558 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Response from NotionAPIv2026-03-11 with code: 200
+2026-03-20 21:18:00.559 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Response body: 
+{&quot;object&quot;:&quot;data_source&quot;,&quot;id&quot;:&quot;a72fd591-a9cf-4387-ab71-c170a31f479d&quot;,&quot;cover&quot;:null,&quot;icon&quot;:null,&quot;created_time&quot;:&quot;2026-03-20T21:17:00.000Z&quot;,&quot;created_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;last_edited_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;last_edited_time&quot;:&quot;2026-03-20T21:17:00.000Z&quot;,&quot;title&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;Status Test DB&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;Status Test DB&quot;,&quot;href&quot;:null}],&quot;description&quot;:[],&quot;is_inline&quot;:true,&quot;properties&quot;:{&quot;Workflow&quot;:{&quot;id&quot;:&quot;pllq&quot;,&quot;name&quot;:&quot;Workflow&quot;,&quot;description&quot;:null,&quot;type&quot;:&quot;status&quot;,&quot;status&quot;:{&quot;options&quot;:[{&quot;id&quot;:&quot;fd68786b-7a11-415e-9af5-8677889de205&quot;,&quot;name&quot;:&quot;Backlog&quot;,&quot;color&quot;:&quot;default&quot;,&quot;description&quot;:null},{&quot;id&quot;:&quot;bcd51b2d-edfa-4b17-9af2-3454f8a64602&quot;,&quot;name&quot;:&quot;In Progress&quot;,&quot;color&quot;:&quot;yellow&quot;,&quot;description&quot;:null},{&quot;id&quot;:&quot;594b31d4-812a-4ff5-9626-49d96164953b&quot;,&quot;name&quot;:&quot;Completed&quot;,&quot;color&quot;:&quot;green&quot;,&quot;description&quot;:null}],&quot;groups&quot;:[{&quot;id&quot;:&quot;a61fb2a0-5fc6-4791-8d1b-1c494fa5c61e&quot;,&quot;name&quot;:&quot;To-do&quot;,&quot;color&quot;:&quot;gray&quot;,&quot;option_ids&quot;:[&quot;fd68786b-7a11-415e-9af5-8677889de205&quot;,&quot;bcd51b2d-edfa-4b17-9af2-3454f8a64602&quot;,&quot;594b31d4-812a-4ff5-9626-49d96164953b&quot;]},{&quot;id&quot;:&quot;8c5d8d8e-402d-42d6-86fc-d1bfdbc8227f&quot;,&quot;name&quot;:&quot;In progress&quot;,&quot;color&quot;:&quot;blue&quot;,&quot;option_ids&quot;:[]},{&quot;id&quot;:&quot;cb884b01-f5c0-4eb6-92b5-42c131692159&quot;,&quot;name&quot;:&quot;Complete&quot;,&quot;color&quot;:&quot;green&quot;,&quot;option_ids&quot;:[]}]}},&quot;Name&quot;:{&quot;id&quot;:&quot;title&quot;,&quot;name&quot;:&quot;Name&quot;,&quot;description&quot;:null,&quot;type&quot;:&quot;title&quot;,&quot;title&quot;:{}}},&quot;parent&quot;:{&quot;type&quot;:&quot;database_id&quot;,&quot;database_id&quot;:&quot;456b4e52-6e8c-476d-ae32-22b86230e23f&quot;},&quot;database_parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;329cd6cf-1406-815b-a2a4-d154c1a2021c&quot;},&quot;url&quot;:&quot;https://www.notion.so/456b4e526e8c476dae3222b86230e23f&quot;,&quot;public_url&quot;:null,&quot;in_trash&quot;:false,&quot;request_id&quot;:&quot;a649a438-faab-40b3-b584-f03499fd0a8f&quot;}
+2026-03-20 21:18:00.559 [Test worker] ERROR io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Response from NotionAPIv2026-03-11 with error: 200
+2026-03-20 21:18:00.559 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Error response body: 
+DataSource(title=[RichText(type=text, plainText=Status Test DB, href=null, annotations=RichText.Annotations(bold=false, italic=false, strikethrough=false, underline=false, code=false, color=default), text=RichText.Text(content=Status Test DB, link=null), mention=null, equation=null)], description=[], databaseParent=Parent(type=page_id, blockId=null, pageId=329cd6cf-1406-815b-a2a4-d154c1a2021c, databaseId=null, datasourceId=null, workspace=null), icon=null, cover=null, properties={Workflow=StatusSchema(status=StatusSchema.StatusConfig(options=[StatusOption(id=fd68786b-7a11-415e-9af5-8677889de205, name=Backlog, color=default, description=null), StatusOption(id=bcd51b2d-edfa-4b17-9af2-3454f8a64602, name=In Progress, color=yellow, description=null), StatusOption(id=594b31d4-812a-4ff5-9626-49d96164953b, name=Completed, color=green, description=null)], groups=[StatusGroup(id=a61fb2a0-5fc6-4791-8d1b-1c494fa5c61e, name=To-do, color=gray, optionIds=[fd68786b-7a11-415e-9af5-8677889de205, bcd51b2d-edfa-4b17-9af2-3454f8a64602, 594b31d4-812a-4ff5-9626-49d96164953b]), StatusGroup(id=8c5d8d8e-402d-42d6-86fc-d1bfdbc8227f, name=In progress, color=blue, optionIds=[]), StatusGroup(id=cb884b01-f5c0-4eb6-92b5-42c131692159, name=Complete, color=green, optionIds=[])])), Name=TitleSchema(title={})}, isInline=true, url=https://www.notion.so/456b4e526e8c476dae3222b86230e23f, publicUrl=null)
+2026-03-20 21:18:00.561 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Calling NotionAPIv2026-03-11
+2026-03-20 21:18:00.561 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Building request...
+2026-03-20 21:18:00.561 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Request method: PATCH, url: https://api.notion.com/v1/data_sources/a72fd591-a9cf-4387-ab71-c170a31f479d, content-type: application/json
+2026-03-20 21:18:00.561 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Request body: 
+{
+  &quot;properties&quot; : {
+    &quot;Workflow&quot; : {
+      &quot;status&quot; : {
+        &quot;options&quot; : [ {
+          &quot;id&quot; : &quot;bcd51b2d-edfa-4b17-9af2-3454f8a64602&quot;,
+          &quot;name&quot; : &quot;In Progress&quot;,
+          &quot;color&quot; : &quot;yellow&quot;
+        }, {
+          &quot;id&quot; : &quot;594b31d4-812a-4ff5-9626-49d96164953b&quot;,
+          &quot;name&quot; : &quot;Completed&quot;,
+          &quot;color&quot; : &quot;green&quot;
+        }, {
+          &quot;name&quot; : &quot;Cancelled&quot;,
+          &quot;color&quot; : &quot;red&quot;
+        } ]
+      }
+    }
+  }
+}
+2026-03-20 21:18:01.515 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Response from NotionAPIv2026-03-11 with code: 200
+2026-03-20 21:18:01.515 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Response body: 
+{&quot;object&quot;:&quot;data_source&quot;,&quot;id&quot;:&quot;a72fd591-a9cf-4387-ab71-c170a31f479d&quot;,&quot;cover&quot;:null,&quot;icon&quot;:null,&quot;created_time&quot;:&quot;2026-03-20T21:17:00.000Z&quot;,&quot;created_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;last_edited_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;last_edited_time&quot;:&quot;2026-03-20T21:18:00.000Z&quot;,&quot;title&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;Status Test DB&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;Status Test DB&quot;,&quot;href&quot;:null}],&quot;description&quot;:[],&quot;is_inline&quot;:true,&quot;properties&quot;:{&quot;Workflow&quot;:{&quot;id&quot;:&quot;pllq&quot;,&quot;name&quot;:&quot;Workflow&quot;,&quot;description&quot;:null,&quot;type&quot;:&quot;status&quot;,&quot;status&quot;:{&quot;options&quot;:[{&quot;id&quot;:&quot;bcd51b2d-edfa-4b17-9af2-3454f8a64602&quot;,&quot;name&quot;:&quot;In Progress&quot;,&quot;color&quot;:&quot;yellow&quot;,&quot;description&quot;:null},{&quot;id&quot;:&quot;594b31d4-812a-4ff5-9626-49d96164953b&quot;,&quot;name&quot;:&quot;Completed&quot;,&quot;color&quot;:&quot;green&quot;,&quot;description&quot;:null},{&quot;id&quot;:&quot;e2c9554d-b1df-44a4-99a9-aeba35861eca&quot;,&quot;name&quot;:&quot;Cancelled&quot;,&quot;color&quot;:&quot;red&quot;,&quot;description&quot;:null}],&quot;groups&quot;:[{&quot;id&quot;:&quot;a61fb2a0-5fc6-4791-8d1b-1c494fa5c61e&quot;,&quot;name&quot;:&quot;To-do&quot;,&quot;color&quot;:&quot;gray&quot;,&quot;option_ids&quot;:[&quot;bcd51b2d-edfa-4b17-9af2-3454f8a64602&quot;,&quot;594b31d4-812a-4ff5-9626-49d96164953b&quot;,&quot;e2c9554d-b1df-44a4-99a9-aeba35861eca&quot;]},{&quot;id&quot;:&quot;8c5d8d8e-402d-42d6-86fc-d1bfdbc8227f&quot;,&quot;name&quot;:&quot;In progress&quot;,&quot;color&quot;:&quot;blue&quot;,&quot;option_ids&quot;:[]},{&quot;id&quot;:&quot;cb884b01-f5c0-4eb6-92b5-42c131692159&quot;,&quot;name&quot;:&quot;Complete&quot;,&quot;color&quot;:&quot;green&quot;,&quot;option_ids&quot;:[]}]}},&quot;Name&quot;:{&quot;id&quot;:&quot;title&quot;,&quot;name&quot;:&quot;Name&quot;,&quot;description&quot;:null,&quot;type&quot;:&quot;title&quot;,&quot;title&quot;:{}}},&quot;parent&quot;:{&quot;type&quot;:&quot;database_id&quot;,&quot;database_id&quot;:&quot;456b4e52-6e8c-476d-ae32-22b86230e23f&quot;},&quot;database_parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;329cd6cf-1406-815b-a2a4-d154c1a2021c&quot;},&quot;url&quot;:&quot;https://www.notion.so/456b4e526e8c476dae3222b86230e23f&quot;,&quot;public_url&quot;:null,&quot;in_trash&quot;:false,&quot;request_id&quot;:&quot;78c441e6-1809-44ef-920f-efa108b49c0c&quot;}
+2026-03-20 21:18:01.515 [Test worker] ERROR io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Response from NotionAPIv2026-03-11 with error: 200
+2026-03-20 21:18:01.515 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Error response body: 
+DataSource(title=[RichText(type=text, plainText=Status Test DB, href=null, annotations=RichText.Annotations(bold=false, italic=false, strikethrough=false, underline=false, code=false, color=default), text=RichText.Text(content=Status Test DB, link=null), mention=null, equation=null)], description=[], databaseParent=Parent(type=page_id, blockId=null, pageId=329cd6cf-1406-815b-a2a4-d154c1a2021c, databaseId=null, datasourceId=null, workspace=null), icon=null, cover=null, properties={Workflow=StatusSchema(status=StatusSchema.StatusConfig(options=[StatusOption(id=bcd51b2d-edfa-4b17-9af2-3454f8a64602, name=In Progress, color=yellow, description=null), StatusOption(id=594b31d4-812a-4ff5-9626-49d96164953b, name=Completed, color=green, description=null), StatusOption(id=e2c9554d-b1df-44a4-99a9-aeba35861eca, name=Cancelled, color=red, description=null)], groups=[StatusGroup(id=a61fb2a0-5fc6-4791-8d1b-1c494fa5c61e, name=To-do, color=gray, optionIds=[bcd51b2d-edfa-4b17-9af2-3454f8a64602, 594b31d4-812a-4ff5-9626-49d96164953b, e2c9554d-b1df-44a4-99a9-aeba35861eca]), StatusGroup(id=8c5d8d8e-402d-42d6-86fc-d1bfdbc8227f, name=In progress, color=blue, optionIds=[]), StatusGroup(id=cb884b01-f5c0-4eb6-92b5-42c131692159, name=Complete, color=green, optionIds=[])])), Name=TitleSchema(title={})}, isInline=true, url=https://www.notion.so/456b4e526e8c476dae3222b86230e23f, publicUrl=null)
+</pre>
+</span>
+</div>
+</div>
+<div id="footer">
+<p>
+<div>
+<label class="hidden" id="label-for-line-wrapping-toggle" for="line-wrapping-toggle">Wrap lines
+<input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
+</label>
+</div>Generated by 
+<a href="https://www.gradle.org">Gradle 8.14.4</a> at Mar 20, 2026, 9:18:02 PM</p>
+</div>
+</div>
+</body>
+</html>

@@ -40,7 +40,7 @@ public class CreateDataSourceParams {
     private Map&lt;String, DataSourcePropertySchemaParams&gt; properties;
     private IconParams icon;
 
-    public Builder parentDatabase(String parendDatabaseId) {
+    public Builder inDatabase(String parendDatabaseId) {
 <span class="nc" id="L44">      return parent(Parent.databaseParent(parendDatabaseId));</span>
     }
 
@@ -62,11 +62,28 @@ public class CreateDataSourceParams {
      * Sets the data source property schema via a pre-built map.
      *
      * &lt;p&gt;Prefer {@link #propertiesBuilder()} or {@link #properties(Consumer)} to avoid the explicit
-     * {@code DataSourceSchemaBuilder.builder()} / {@code .build()} wrapping.
+     * {@code DataSourceSchemaBuilder.builder()} / {@code .build()} wrapping. /** Sets the property
+     * schema via a pre-built map.
      */
     public Builder properties(Map&lt;String, DataSourcePropertySchemaParams&gt; properties) {
-<span class="nc" id="L68">      this.properties = properties;</span>
-<span class="nc" id="L69">      return this;</span>
+<span class="nc" id="L69">      this.properties = properties;</span>
+<span class="nc" id="L70">      return this;</span>
+    }
+
+    /**
+     * Sets a single property schema entry. Use as an escape hatch when only one property needs to
+     * be added or updated without configuring the full schema map.
+     *
+     * @param name the property name or ID
+     * @param property the schema params, or {@code null} to delete the property
+     * @return this builder
+     */
+    public Builder property(String name, DataSourcePropertySchemaParams property) {
+<span class="nc bnc" id="L82" title="All 2 branches missed.">      if (this.properties == null) {</span>
+<span class="nc" id="L83">        this.properties = new java.util.LinkedHashMap&lt;&gt;();</span>
+      }
+<span class="nc" id="L85">      this.properties.put(name, property);</span>
+<span class="nc" id="L86">      return this;</span>
     }
 
     /**
@@ -78,7 +95,7 @@ public class CreateDataSourceParams {
      * @return a {@link PropertiesStep} whose {@code buildProperties()} returns this builder
      */
     public PropertiesStep&lt;Builder&gt; propertiesBuilder() {
-<span class="nc" id="L81">      return new PropertiesStep&lt;&gt;(this, this::properties);</span>
+<span class="nc" id="L98">      return new PropertiesStep&lt;&gt;(this, this::properties);</span>
     }
 
     /**
@@ -99,9 +116,9 @@ public class CreateDataSourceParams {
      * @return this builder
      */
     public Builder properties(Consumer&lt;DataSourceSchemaBuilder&gt; configurator) {
-<span class="nc" id="L102">      DataSourceSchemaBuilder schema = DataSourceSchemaBuilder.builder();</span>
-<span class="nc" id="L103">      configurator.accept(schema);</span>
-<span class="nc" id="L104">      return properties(schema.build());</span>
+<span class="nc" id="L119">      DataSourceSchemaBuilder schema = DataSourceSchemaBuilder.builder();</span>
+<span class="nc" id="L120">      configurator.accept(schema);</span>
+<span class="nc" id="L121">      return properties(schema.build());</span>
     }
 
     /**
@@ -123,21 +140,21 @@ public class CreateDataSourceParams {
      * @return this builder
      */
     public Builder properties(Supplier&lt;Map&lt;String, DataSourcePropertySchemaParams&gt;&gt; producer) {
-<span class="nc" id="L126">      return properties(producer.get());</span>
+<span class="nc" id="L143">      return properties(producer.get());</span>
     }
 
     public Builder icon(IconParams icon) {
-<span class="nc" id="L130">      this.icon = icon;</span>
-<span class="nc" id="L131">      return this;</span>
+<span class="nc" id="L147">      this.icon = icon;</span>
+<span class="nc" id="L148">      return this;</span>
     }
 
     public CreateDataSourceParams build() {
-<span class="nc" id="L135">      CreateDataSourceParams params = new CreateDataSourceParams();</span>
-<span class="nc" id="L136">      params.setParent(parent);</span>
-<span class="nc" id="L137">      params.setTitle(title);</span>
-<span class="nc" id="L138">      params.setProperties(properties);</span>
-<span class="nc" id="L139">      params.setIcon(icon);</span>
-<span class="nc" id="L140">      return params;</span>
+<span class="nc" id="L152">      CreateDataSourceParams params = new CreateDataSourceParams();</span>
+<span class="nc" id="L153">      params.setParent(parent);</span>
+<span class="nc" id="L154">      params.setTitle(title);</span>
+<span class="nc" id="L155">      params.setProperties(properties);</span>
+<span class="nc" id="L156">      params.setIcon(icon);</span>
+<span class="nc" id="L157">      return params;</span>
     }
   }
 }

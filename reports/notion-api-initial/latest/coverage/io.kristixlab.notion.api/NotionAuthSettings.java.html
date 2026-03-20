@@ -4,6 +4,7 @@ import io.kristixlab.notion.api.util.NotionAuthUtil;
 import lombok.Data;
 import lombok.Setter;
 
+// TODO make immutable and use builder pattern
 @Data
 public class NotionAuthSettings {
 
@@ -40,32 +41,32 @@ public class NotionAuthSettings {
   private String oauthBasicHeader;
 
   public void setAccessToken(String accessToken) {
-<span class="fc" id="L43">    this.accessToken = accessToken;</span>
-<span class="fc" id="L44">    this.tokenAuthHeader = null;</span>
-<span class="fc" id="L45">  }</span>
+<span class="fc" id="L44">    this.accessToken = accessToken;</span>
+<span class="fc" id="L45">    this.tokenAuthHeader = null;</span>
+<span class="fc" id="L46">  }</span>
 
   public void setClientId(String clientId) {
-<span class="nc" id="L48">    this.clientId = clientId;</span>
-<span class="nc" id="L49">    this.oauthBasicHeader = null;</span>
-<span class="nc" id="L50">  }</span>
+<span class="nc" id="L49">    this.clientId = clientId;</span>
+<span class="nc" id="L50">    this.oauthBasicHeader = null;</span>
+<span class="nc" id="L51">  }</span>
 
   public void setClientSecret(String clientSecret) {
-<span class="nc" id="L53">    this.clientSecret = clientSecret;</span>
-<span class="nc" id="L54">    this.oauthBasicHeader = null;</span>
-<span class="nc" id="L55">  }</span>
+<span class="nc" id="L54">    this.clientSecret = clientSecret;</span>
+<span class="nc" id="L55">    this.oauthBasicHeader = null;</span>
+<span class="nc" id="L56">  }</span>
 
   public String getTokenAuthHeader() {
-<span class="nc bnc" id="L58" title="All 4 branches missed.">    if (tokenAuthHeader == null &amp;&amp; accessToken != null) {</span>
-<span class="nc" id="L59">      tokenAuthHeader = NotionAuthUtil.bearer(accessToken);</span>
+<span class="nc bnc" id="L59" title="All 4 branches missed.">    if (tokenAuthHeader == null &amp;&amp; accessToken != null) {</span>
+<span class="nc" id="L60">      tokenAuthHeader = NotionAuthUtil.bearer(accessToken);</span>
     }
-<span class="nc" id="L61">    return tokenAuthHeader;</span>
+<span class="nc" id="L62">    return tokenAuthHeader;</span>
   }
 
   public String getOauthBasicHeader() {
-<span class="nc bnc" id="L65" title="All 6 branches missed.">    if (oauthBasicHeader == null &amp;&amp; clientId != null &amp;&amp; clientSecret != null) {</span>
-<span class="nc" id="L66">      oauthBasicHeader = NotionAuthUtil.basic(clientId, clientSecret);</span>
+<span class="nc bnc" id="L66" title="All 6 branches missed.">    if (oauthBasicHeader == null &amp;&amp; clientId != null &amp;&amp; clientSecret != null) {</span>
+<span class="nc" id="L67">      oauthBasicHeader = NotionAuthUtil.basic(clientId, clientSecret);</span>
     }
-<span class="nc" id="L68">    return oauthBasicHeader;</span>
+<span class="nc" id="L69">    return oauthBasicHeader;</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

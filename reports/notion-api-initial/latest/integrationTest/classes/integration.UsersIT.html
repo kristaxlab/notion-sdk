@@ -41,7 +41,7 @@
 </td>
 <td>
 <div class="infoBox" id="duration">
-<div class="counter">0.691s</div>
+<div class="counter">0.762s</div>
 <p>duration</p>
 </div>
 </td>
@@ -81,13 +81,13 @@
 <tr>
 <td class="success">[INT-25]: Users - Retrieve me and then retrieve this same user (me) by id</td>
 <td class="success">testGetUser()</td>
-<td class="success">0.343s</td>
+<td class="success">0.518s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">[INT-32]: Users - Retrieve list of all users</td>
 <td class="success">testListUsers()</td>
-<td class="success">0.348s</td>
+<td class="success">0.244s</td>
 <td class="success">passed</td>
 </tr>
 </table>
@@ -95,32 +95,32 @@
 <div class="tab">
 <h2>Standard output</h2>
 <span class="code">
-<pre>2026-03-20 17:11:31.033 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Calling NotionAPIv2026-03-11
-2026-03-20 17:11:31.033 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Building request...
-2026-03-20 17:11:31.033 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request method: GET, url: https://api.notion.com/v1/users, content-type: null
-2026-03-20 17:11:31.375 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with code: 200
-2026-03-20 17:11:31.375 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response body: 
-{&quot;object&quot;:&quot;list&quot;,&quot;results&quot;:[{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;2e8d872b-594c-8197-b19f-000245c7469f&quot;,&quot;name&quot;:&quot;Notion SDK&quot;,&quot;avatar_url&quot;:&quot;https://lh3.googleusercontent.com/a/ACg8ocLI92G3npuAxEcx50qz8lw8csWU5Oz2hBrF4oDIQEYPnW3TMg=s100&quot;,&quot;type&quot;:&quot;person&quot;,&quot;person&quot;:{}},{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;,&quot;name&quot;:&quot;SDK Project - Internal Bot&quot;,&quot;avatar_url&quot;:&quot;https://s3-us-west-2.amazonaws.com/public.notion-static.com/4b1f8b01-ed6b-41c3-a845-eb795c0ef4e3/35f8a833-8f3b-40ea-bfef-a303db38340apng.png&quot;,&quot;type&quot;:&quot;bot&quot;,&quot;bot&quot;:{&quot;owner&quot;:{&quot;type&quot;:&quot;workspace&quot;,&quot;workspace&quot;:true},&quot;workspace_name&quot;:&quot;Notion SDK’s Space&quot;,&quot;workspace_id&quot;:&quot;74ecd6cf-1406-8114-a47c-000305deb73b&quot;,&quot;workspace_limits&quot;:{&quot;max_file_upload_size_in_bytes&quot;:5242880}}},{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;5bc643f4-4866-4b56-81b6-77b56f3fbe4f&quot;,&quot;name&quot;:&quot;SDK Project - Public Bot&quot;,&quot;avatar_url&quot;:&quot;https://s3-us-west-2.amazonaws.com/public.notion-static.com/6c0d23d0-73a5-406d-9112-5a0d9d0d9062/cc4fd512-b38c-4417-a7ca-bef2e827d2c9png.png&quot;,&quot;type&quot;:&quot;bot&quot;,&quot;bot&quot;:{}}],&quot;next_cursor&quot;:null,&quot;has_more&quot;:false,&quot;type&quot;:&quot;user&quot;,&quot;user&quot;:{},&quot;request_id&quot;:&quot;b1b1e4e2-ab35-49f7-a531-978130944dde&quot;}
-2026-03-20 17:11:31.376 [Test worker] ERROR io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with error: 200
-2026-03-20 17:11:31.376 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Error response body: 
+<pre>2026-03-20 21:17:35.537 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Calling NotionAPIv2026-03-11
+2026-03-20 21:17:35.538 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Building request...
+2026-03-20 21:17:35.538 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Request method: GET, url: https://api.notion.com/v1/users, content-type: null
+2026-03-20 21:17:35.775 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Response from NotionAPIv2026-03-11 with code: 200
+2026-03-20 21:17:35.775 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Response body: 
+{&quot;object&quot;:&quot;list&quot;,&quot;results&quot;:[{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;2e8d872b-594c-8197-b19f-000245c7469f&quot;,&quot;name&quot;:&quot;Notion SDK&quot;,&quot;avatar_url&quot;:&quot;https://lh3.googleusercontent.com/a/ACg8ocLI92G3npuAxEcx50qz8lw8csWU5Oz2hBrF4oDIQEYPnW3TMg=s100&quot;,&quot;type&quot;:&quot;person&quot;,&quot;person&quot;:{}},{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;,&quot;name&quot;:&quot;SDK Project - Internal Bot&quot;,&quot;avatar_url&quot;:&quot;https://s3-us-west-2.amazonaws.com/public.notion-static.com/4b1f8b01-ed6b-41c3-a845-eb795c0ef4e3/35f8a833-8f3b-40ea-bfef-a303db38340apng.png&quot;,&quot;type&quot;:&quot;bot&quot;,&quot;bot&quot;:{&quot;owner&quot;:{&quot;type&quot;:&quot;workspace&quot;,&quot;workspace&quot;:true},&quot;workspace_name&quot;:&quot;Notion SDK’s Space&quot;,&quot;workspace_id&quot;:&quot;74ecd6cf-1406-8114-a47c-000305deb73b&quot;,&quot;workspace_limits&quot;:{&quot;max_file_upload_size_in_bytes&quot;:5242880}}},{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;5bc643f4-4866-4b56-81b6-77b56f3fbe4f&quot;,&quot;name&quot;:&quot;SDK Project - Public Bot&quot;,&quot;avatar_url&quot;:&quot;https://s3-us-west-2.amazonaws.com/public.notion-static.com/6c0d23d0-73a5-406d-9112-5a0d9d0d9062/cc4fd512-b38c-4417-a7ca-bef2e827d2c9png.png&quot;,&quot;type&quot;:&quot;bot&quot;,&quot;bot&quot;:{}}],&quot;next_cursor&quot;:null,&quot;has_more&quot;:false,&quot;type&quot;:&quot;user&quot;,&quot;user&quot;:{},&quot;request_id&quot;:&quot;e11e8751-6c26-46a9-ac4e-5540b2bac82f&quot;}
+2026-03-20 21:17:35.776 [Test worker] ERROR io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Response from NotionAPIv2026-03-11 with error: 200
+2026-03-20 21:17:35.776 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Error response body: 
 UserList(user={})
-2026-03-20 17:11:31.381 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Calling NotionAPIv2026-03-11
-2026-03-20 17:11:31.381 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Building request...
-2026-03-20 17:11:31.381 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request method: GET, url: https://api.notion.com/v1/users/me, content-type: null
-2026-03-20 17:11:31.614 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with code: 200
-2026-03-20 17:11:31.614 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response body: 
-{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;,&quot;name&quot;:&quot;SDK Project - Internal Bot&quot;,&quot;avatar_url&quot;:&quot;https://s3-us-west-2.amazonaws.com/public.notion-static.com/4b1f8b01-ed6b-41c3-a845-eb795c0ef4e3/35f8a833-8f3b-40ea-bfef-a303db38340apng.png&quot;,&quot;type&quot;:&quot;bot&quot;,&quot;bot&quot;:{&quot;owner&quot;:{&quot;type&quot;:&quot;workspace&quot;,&quot;workspace&quot;:true},&quot;workspace_name&quot;:&quot;Notion SDK’s Space&quot;,&quot;workspace_id&quot;:&quot;74ecd6cf-1406-8114-a47c-000305deb73b&quot;,&quot;workspace_limits&quot;:{&quot;max_file_upload_size_in_bytes&quot;:5242880}},&quot;request_id&quot;:&quot;68af3a91-dd08-43df-b59a-681f10f26c8a&quot;}
-2026-03-20 17:11:31.614 [Test worker] ERROR io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with error: 200
-2026-03-20 17:11:31.614 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Error response body: 
+2026-03-20 21:17:35.783 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Calling NotionAPIv2026-03-11
+2026-03-20 21:17:35.783 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Building request...
+2026-03-20 21:17:35.783 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Request method: GET, url: https://api.notion.com/v1/users/me, content-type: null
+2026-03-20 21:17:36.171 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Response from NotionAPIv2026-03-11 with code: 200
+2026-03-20 21:17:36.171 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Response body: 
+{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;,&quot;name&quot;:&quot;SDK Project - Internal Bot&quot;,&quot;avatar_url&quot;:&quot;https://s3-us-west-2.amazonaws.com/public.notion-static.com/4b1f8b01-ed6b-41c3-a845-eb795c0ef4e3/35f8a833-8f3b-40ea-bfef-a303db38340apng.png&quot;,&quot;type&quot;:&quot;bot&quot;,&quot;bot&quot;:{&quot;owner&quot;:{&quot;type&quot;:&quot;workspace&quot;,&quot;workspace&quot;:true},&quot;workspace_name&quot;:&quot;Notion SDK’s Space&quot;,&quot;workspace_id&quot;:&quot;74ecd6cf-1406-8114-a47c-000305deb73b&quot;,&quot;workspace_limits&quot;:{&quot;max_file_upload_size_in_bytes&quot;:5242880}},&quot;request_id&quot;:&quot;32abc2db-571f-4cea-a5f5-44745324b425&quot;}
+2026-03-20 21:17:36.171 [Test worker] ERROR io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Response from NotionAPIv2026-03-11 with error: 200
+2026-03-20 21:17:36.172 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Error response body: 
 User(id=be59a966-190e-46f8-9864-9eefe5276dcc, name=SDK Project - Internal Bot, avatarUrl=https://s3-us-west-2.amazonaws.com/public.notion-static.com/4b1f8b01-ed6b-41c3-a845-eb795c0ef4e3/35f8a833-8f3b-40ea-bfef-a303db38340apng.png, type=bot, person=null, bot=Bot(owner=Owner(type=workspace, workspace=true, user=null), workspaceName=Notion SDK’s Space, workspaceId=74ecd6cf-1406-8114-a47c-000305deb73b, workspaceLimits=WorkspaceLimits(maxFileUploadSizeInBytes=5242880)))
-2026-03-20 17:11:31.615 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Calling NotionAPIv2026-03-11
-2026-03-20 17:11:31.615 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Building request...
-2026-03-20 17:11:31.615 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Request method: GET, url: https://api.notion.com/v1/users/be59a966-190e-46f8-9864-9eefe5276dcc, content-type: null
-2026-03-20 17:11:31.722 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with code: 200
-2026-03-20 17:11:31.722 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response body: 
-{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;,&quot;name&quot;:&quot;SDK Project - Internal Bot&quot;,&quot;avatar_url&quot;:&quot;https://s3-us-west-2.amazonaws.com/public.notion-static.com/4b1f8b01-ed6b-41c3-a845-eb795c0ef4e3/35f8a833-8f3b-40ea-bfef-a303db38340apng.png&quot;,&quot;type&quot;:&quot;bot&quot;,&quot;bot&quot;:{&quot;owner&quot;:{&quot;type&quot;:&quot;workspace&quot;,&quot;workspace&quot;:true},&quot;workspace_name&quot;:&quot;Notion SDK’s Space&quot;,&quot;workspace_id&quot;:&quot;74ecd6cf-1406-8114-a47c-000305deb73b&quot;,&quot;workspace_limits&quot;:{&quot;max_file_upload_size_in_bytes&quot;:5242880}},&quot;request_id&quot;:&quot;c764f9a9-1056-46f0-a850-c51f9c63868e&quot;}
-2026-03-20 17:11:31.722 [Test worker] ERROR io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Response from NotionAPIv2026-03-11 with error: 200
-2026-03-20 17:11:31.722 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [4b5d26da-2f73-434e-a846-42a60bd25de9] Error response body: 
+2026-03-20 21:17:36.172 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Calling NotionAPIv2026-03-11
+2026-03-20 21:17:36.172 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Building request...
+2026-03-20 21:17:36.173 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Request method: GET, url: https://api.notion.com/v1/users/be59a966-190e-46f8-9864-9eefe5276dcc, content-type: null
+2026-03-20 21:17:36.299 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Response from NotionAPIv2026-03-11 with code: 200
+2026-03-20 21:17:36.299 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Response body: 
+{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;,&quot;name&quot;:&quot;SDK Project - Internal Bot&quot;,&quot;avatar_url&quot;:&quot;https://s3-us-west-2.amazonaws.com/public.notion-static.com/4b1f8b01-ed6b-41c3-a845-eb795c0ef4e3/35f8a833-8f3b-40ea-bfef-a303db38340apng.png&quot;,&quot;type&quot;:&quot;bot&quot;,&quot;bot&quot;:{&quot;owner&quot;:{&quot;type&quot;:&quot;workspace&quot;,&quot;workspace&quot;:true},&quot;workspace_name&quot;:&quot;Notion SDK’s Space&quot;,&quot;workspace_id&quot;:&quot;74ecd6cf-1406-8114-a47c-000305deb73b&quot;,&quot;workspace_limits&quot;:{&quot;max_file_upload_size_in_bytes&quot;:5242880}},&quot;request_id&quot;:&quot;9b3c6f13-3f1e-4104-b7b1-5fde3aa3b7ad&quot;}
+2026-03-20 21:17:36.299 [Test worker] ERROR io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Response from NotionAPIv2026-03-11 with error: 200
+2026-03-20 21:17:36.299 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [ad640d5e-aa72-4e97-b00d-d6eeec0b49a6] Error response body: 
 User(id=be59a966-190e-46f8-9864-9eefe5276dcc, name=SDK Project - Internal Bot, avatarUrl=https://s3-us-west-2.amazonaws.com/public.notion-static.com/4b1f8b01-ed6b-41c3-a845-eb795c0ef4e3/35f8a833-8f3b-40ea-bfef-a303db38340apng.png, type=bot, person=null, bot=Bot(owner=Owner(type=workspace, workspace=true, user=null), workspaceName=Notion SDK’s Space, workspaceId=74ecd6cf-1406-8114-a47c-000305deb73b, workspaceLimits=WorkspaceLimits(maxFileUploadSizeInBytes=5242880)))
 </pre>
 </span>
@@ -133,7 +133,7 @@ User(id=be59a966-190e-46f8-9864-9eefe5276dcc, name=SDK Project - Internal Bot, a
 <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
 </label>
 </div>Generated by 
-<a href="https://www.gradle.org">Gradle 8.14.4</a> at Mar 20, 2026, 5:11:32 PM</p>
+<a href="https://www.gradle.org">Gradle 8.14.4</a> at Mar 20, 2026, 9:18:02 PM</p>
 </div>
 </div>
 </body>

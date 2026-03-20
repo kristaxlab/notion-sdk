@@ -3,6 +3,7 @@
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.kristixlab.notion.api.model.common.FileData;
 import io.kristixlab.notion.api.util.PagePropertyType;
+import java.util.Arrays;
 import java.util.List;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -16,9 +17,14 @@ public class FilesProperty extends PageProperty {
   private List&lt;FileData&gt; files;
 
   public static FilesProperty of(List&lt;FileData&gt; files) {
-<span class="nc" id="L19">    FilesProperty property = new FilesProperty();</span>
-<span class="nc" id="L20">    property.setFiles(files);</span>
-<span class="nc" id="L21">    return property;</span>
+<span class="nc" id="L20">    FilesProperty property = new FilesProperty();</span>
+<span class="nc" id="L21">    property.setFiles(files);</span>
+<span class="nc" id="L22">    return property;</span>
+  }
+
+  /** Creates a property from one or more {@link FileData} entries (varargs overload). */
+  public static FilesProperty of(FileData... files) {
+<span class="nc" id="L27">    return of(Arrays.asList(files));</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

@@ -27,22 +27,27 @@ public class FileData {
   @JsonProperty(&quot;name&quot;)
   private String name;
 
-  public static FileData fromExternalUrl(String url) {
+  public static FileData fromExternalUrl(String fileName, String url) {
 <span class="nc" id="L31">    FileData fileData = new FileData();</span>
-<span class="nc" id="L32">    fileData.setType(&quot;external&quot;);</span>
-<span class="nc" id="L33">    ExternalFile external = new ExternalFile();</span>
-<span class="nc" id="L34">    external.setUrl(url);</span>
-<span class="nc" id="L35">    fileData.setExternal(external);</span>
-<span class="nc" id="L36">    return fileData;</span>
+<span class="nc" id="L32">    fileData.setName(fileName);</span>
+<span class="nc" id="L33">    fileData.setType(&quot;external&quot;);</span>
+<span class="nc" id="L34">    ExternalFile external = new ExternalFile();</span>
+<span class="nc" id="L35">    external.setUrl(url);</span>
+<span class="nc" id="L36">    fileData.setExternal(external);</span>
+<span class="nc" id="L37">    return fileData;</span>
+  }
+
+  public static FileData fromExternalUrl(String url) {
+<span class="nc" id="L41">    return fromExternalUrl(&quot;file&quot;, url);</span>
   }
 
   public static FileData fromFileUpload(String fileUploadId) {
-<span class="nc" id="L40">    FileData fileData = new FileData();</span>
-<span class="nc" id="L41">    fileData.setType(&quot;file_upload&quot;);</span>
-<span class="nc" id="L42">    FileUploadRef fileUpload = new FileUploadRef();</span>
-<span class="nc" id="L43">    fileUpload.setId(fileUploadId);</span>
-<span class="nc" id="L44">    fileData.setFileUpload(fileUpload);</span>
-<span class="nc" id="L45">    return fileData;</span>
+<span class="nc" id="L45">    FileData fileData = new FileData();</span>
+<span class="nc" id="L46">    fileData.setType(&quot;file_upload&quot;);</span>
+<span class="nc" id="L47">    FileUploadRef fileUpload = new FileUploadRef();</span>
+<span class="nc" id="L48">    fileUpload.setId(fileUploadId);</span>
+<span class="nc" id="L49">    fileData.setFileUpload(fileUpload);</span>
+<span class="nc" id="L50">    return fileData;</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

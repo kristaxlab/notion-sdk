@@ -29,7 +29,7 @@
 </td>
 <td>
 <div class="infoBox" id="failures">
-<div class="counter">3</div>
+<div class="counter">0</div>
 <p>failures</p>
 </div>
 </td>
@@ -41,7 +41,7 @@
 </td>
 <td>
 <div class="infoBox" id="duration">
-<div class="counter">0.040s</div>
+<div class="counter">0.018s</div>
 <p>duration</p>
 </div>
 </td>
@@ -50,8 +50,8 @@
 </div>
 </td>
 <td>
-<div class="infoBox failures" id="successRate">
-<div class="percent">88%</div>
+<div class="infoBox success" id="successRate">
+<div class="percent">100%</div>
 <p>successful</p>
 </div>
 </td>
@@ -61,54 +61,9 @@
 <div class="tab-container">
 <ul class="tabLinks">
 <li>
-<a href="#">Failed tests</a>
-</li>
-<li>
 <a href="#">Tests</a>
 </li>
 </ul>
-<div class="tab">
-<h2>Failed tests</h2>
-<div class="test">
-<a name="delete()"></a>
-<h3 class="failures">delete()</h3>
-<span class="code">
-<pre>java.lang.ClassCastException: class io.kristixlab.notion.api.model.datasources.UpdateDataSourceParams cannot be cast to class io.kristixlab.notion.api.model.datasources.DataSource (io.kristixlab.notion.api.model.datasources.UpdateDataSourceParams and io.kristixlab.notion.api.model.datasources.DataSource are in unnamed module of loader 'app')
-	at io.kristixlab.notion.api.endpoints.impl.DataSourcesEndpointImplTest.delete(DataSourcesEndpointImplTest.java:91)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
-</pre>
-</span>
-</div>
-<div class="test">
-<a name="query_withoutFilters()"></a>
-<h3 class="failures">query_withoutFilters()</h3>
-<span class="code">
-<pre>java.lang.IllegalArgumentException: Request cannot be null
-	at io.kristixlab.notion.api.endpoints.impl.DataSourcesEndpointImpl.validateRequest(DataSourcesEndpointImpl.java:180)
-	at io.kristixlab.notion.api.endpoints.impl.DataSourcesEndpointImpl.query(DataSourcesEndpointImpl.java:139)
-	at io.kristixlab.notion.api.endpoints.impl.DataSourcesEndpointImpl.query(DataSourcesEndpointImpl.java:101)
-	at io.kristixlab.notion.api.endpoints.impl.DataSourcesEndpointImplTest.query_withoutFilters(DataSourcesEndpointImplTest.java:106)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
-</pre>
-</span>
-</div>
-<div class="test">
-<a name="restore()"></a>
-<h3 class="failures">restore()</h3>
-<span class="code">
-<pre>java.lang.ClassCastException: class io.kristixlab.notion.api.model.datasources.UpdateDataSourceParams cannot be cast to class io.kristixlab.notion.api.model.datasources.DataSource (io.kristixlab.notion.api.model.datasources.UpdateDataSourceParams and io.kristixlab.notion.api.model.datasources.DataSource are in unnamed module of loader 'app')
-	at io.kristixlab.notion.api.endpoints.impl.DataSourcesEndpointImplTest.restore(DataSourcesEndpointImplTest.java:101)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
-</pre>
-</span>
-</div>
-</div>
 <div class="tab">
 <h2>Tests</h2>
 <table>
@@ -133,10 +88,10 @@
 <td class="success">passed</td>
 </tr>
 <tr>
-<td class="failures">delete()</td>
-<td class="failures">delete()</td>
-<td class="failures">0.009s</td>
-<td class="failures">failed</td>
+<td class="success">delete()</td>
+<td class="success">delete()</td>
+<td class="success">0s</td>
+<td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">query()</td>
@@ -153,7 +108,7 @@
 <tr>
 <td class="success">[2] </td>
 <td class="success">query_rejectsBlankOrNullDataSourceId(String)[2]</td>
-<td class="success">0.001s</td>
+<td class="success">0s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
@@ -171,37 +126,37 @@
 <tr>
 <td class="success">query_withPaginationParams()</td>
 <td class="success">query_withPaginationParams()</td>
-<td class="success">0.005s</td>
+<td class="success">0.004s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">query_withStartCursorOnly()</td>
 <td class="success">query_withStartCursorOnly()</td>
-<td class="success">0.001s</td>
-<td class="success">passed</td>
-</tr>
-<tr>
-<td class="failures">query_withoutFilters()</td>
-<td class="failures">query_withoutFilters()</td>
-<td class="failures">0.002s</td>
-<td class="failures">failed</td>
-</tr>
-<tr>
-<td class="failures">restore()</td>
-<td class="failures">restore()</td>
-<td class="failures">0.002s</td>
-<td class="failures">failed</td>
-</tr>
-<tr>
-<td class="success">retrieveById()</td>
-<td class="success">retrieveById()</td>
 <td class="success">0s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
+<td class="success">query_withoutFilters()</td>
+<td class="success">query_withoutFilters()</td>
+<td class="success">0s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">restore()</td>
+<td class="success">restore()</td>
+<td class="success">0s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">retrieveById()</td>
+<td class="success">retrieveById()</td>
+<td class="success">0.001s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
 <td class="success">retrieveTemplates()</td>
 <td class="success">retrieveTemplates()</td>
-<td class="success">0.004s</td>
+<td class="success">0.001s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
@@ -249,25 +204,25 @@
 <tr>
 <td class="success">[1] null</td>
 <td class="success">update_rejectsBlankOrNullDataSourceId(String)[1]</td>
-<td class="success">0.003s</td>
+<td class="success">0.002s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">[2] </td>
 <td class="success">update_rejectsBlankOrNullDataSourceId(String)[2]</td>
-<td class="success">0.001s</td>
+<td class="success">0s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">[3]    </td>
 <td class="success">update_rejectsBlankOrNullDataSourceId(String)[3]</td>
-<td class="success">0.002s</td>
+<td class="success">0.001s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">update_rejectsNullRequest()</td>
 <td class="success">update_rejectsNullRequest()</td>
-<td class="success">0.001s</td>
+<td class="success">0s</td>
 <td class="success">passed</td>
 </tr>
 </table>
@@ -280,7 +235,7 @@
 <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
 </label>
 </div>Generated by 
-<a href="https://www.gradle.org">Gradle 8.14.4</a> at Mar 20, 2026, 5:09:59 PM</p>
+<a href="https://www.gradle.org">Gradle 8.14.4</a> at Mar 20, 2026, 9:16:06 PM</p>
 </div>
 </div>
 </body>

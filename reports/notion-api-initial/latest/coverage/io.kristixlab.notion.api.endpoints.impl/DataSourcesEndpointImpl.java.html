@@ -98,7 +98,7 @@ public class DataSourcesEndpointImpl implements DataSourcesEndpoint {
    * @return Response containing matching pages
    */
   public DataSourcePageList query(String dataSourceId) {
-<span class="nc" id="L101">    return query(dataSourceId, null, null, null);</span>
+<span class="fc" id="L101">    return query(dataSourceId, null, null, null);</span>
   }
 
   /**
@@ -136,22 +136,21 @@ public class DataSourcesEndpointImpl implements DataSourcesEndpoint {
   public DataSourcePageList query(
       String dataSourceId, DataSourceQuery request, String startCursor, Integer pageSize) {
 <span class="fc" id="L138">    validateDataSourceId(dataSourceId);</span>
-<span class="fc" id="L139">    validateRequest(request);</span>
 
-<span class="fc bfc" id="L141" title="All 2 branches covered.">    if (startCursor != null) {</span>
-<span class="fc" id="L142">      request.setStartCursor(startCursor);</span>
+<span class="fc bfc" id="L140" title="All 2 branches covered.">    if (startCursor != null) {</span>
+<span class="fc" id="L141">      request.setStartCursor(startCursor);</span>
     }
 
-<span class="fc bfc" id="L145" title="All 2 branches covered.">    if (pageSize != null) {</span>
-<span class="fc" id="L146">      request.setPageSize(pageSize);</span>
+<span class="fc bfc" id="L144" title="All 2 branches covered.">    if (pageSize != null) {</span>
+<span class="fc" id="L145">      request.setPageSize(pageSize);</span>
     }
 
-<span class="fc" id="L149">    URLInfo urlInfo =</span>
-<span class="fc" id="L150">        URLInfo.builder(&quot;/data_sources/{data_source_id}/query&quot;)</span>
-<span class="fc" id="L151">            .pathParam(DATA_SOURCE_ID, dataSourceId)</span>
-<span class="fc" id="L152">            .build();</span>
+<span class="fc" id="L148">    URLInfo urlInfo =</span>
+<span class="fc" id="L149">        URLInfo.builder(&quot;/data_sources/{data_source_id}/query&quot;)</span>
+<span class="fc" id="L150">            .pathParam(DATA_SOURCE_ID, dataSourceId)</span>
+<span class="fc" id="L151">            .build();</span>
 
-<span class="fc" id="L154">    return transport.call(&quot;POST&quot;, urlInfo, request, DataSourcePageList.class);</span>
+<span class="fc" id="L153">    return transport.call(&quot;POST&quot;, urlInfo, request, DataSourcePageList.class);</span>
   }
 
   /**
@@ -161,24 +160,24 @@ public class DataSourcesEndpointImpl implements DataSourcesEndpoint {
    * @return Templates
    */
   public Templates retrieveTemplates(String dataSourceId) {
-<span class="fc" id="L164">    validateDataSourceId(dataSourceId);</span>
-<span class="fc" id="L165">    URLInfo urlInfo =</span>
-<span class="fc" id="L166">        URLInfo.builder(&quot;/data_sources/{data_source_id}/templates&quot;)</span>
-<span class="fc" id="L167">            .pathParam(DATA_SOURCE_ID, dataSourceId)</span>
-<span class="fc" id="L168">            .build();</span>
-<span class="fc" id="L169">    return transport.call(&quot;GET&quot;, urlInfo, Templates.class);</span>
+<span class="fc" id="L163">    validateDataSourceId(dataSourceId);</span>
+<span class="fc" id="L164">    URLInfo urlInfo =</span>
+<span class="fc" id="L165">        URLInfo.builder(&quot;/data_sources/{data_source_id}/templates&quot;)</span>
+<span class="fc" id="L166">            .pathParam(DATA_SOURCE_ID, dataSourceId)</span>
+<span class="fc" id="L167">            .build();</span>
+<span class="fc" id="L168">    return transport.call(&quot;GET&quot;, urlInfo, Templates.class);</span>
   }
 
   private void validateDataSourceId(String dataSourceId) {
-<span class="fc bfc" id="L173" title="All 4 branches covered.">    if (dataSourceId == null || dataSourceId.trim().isEmpty()) {</span>
-<span class="fc" id="L174">      throw new IllegalArgumentException(&quot;Data source ID cannot be null or empty&quot;);</span>
+<span class="fc bfc" id="L172" title="All 4 branches covered.">    if (dataSourceId == null || dataSourceId.trim().isEmpty()) {</span>
+<span class="fc" id="L173">      throw new IllegalArgumentException(&quot;Data source ID cannot be null or empty&quot;);</span>
     }
-<span class="fc" id="L176">  }</span>
+<span class="fc" id="L175">  }</span>
 
   private void validateRequest(Object request) {
-<span class="fc bfc" id="L179" title="All 2 branches covered.">    if (request == null) {</span>
-<span class="fc" id="L180">      throw new IllegalArgumentException(&quot;Request cannot be null&quot;);</span>
+<span class="fc bfc" id="L178" title="All 2 branches covered.">    if (request == null) {</span>
+<span class="fc" id="L179">      throw new IllegalArgumentException(&quot;Request cannot be null&quot;);</span>
     }
-<span class="fc" id="L182">  }</span>
+<span class="fc" id="L181">  }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

@@ -35,68 +35,139 @@ public class UpdateDataSourceParams {
   @JsonProperty(&quot;in_trash&quot;)
   private Boolean inTrash;
 
-  public static Builder builder() {
-<span class="nc" id="L39">    return new Builder();</span>
+  public static UpdateDataSourceParams fromProperty(
+      String propertyNameOrId, DataSourcePropertySchemaParams propertySchema) {
+<span class="nc" id="L40">    return new Builder().property(propertyNameOrId, propertySchema).build();</span>
   }
 
-<span class="nc" id="L42">  public static class Builder {</span>
+  public static Builder builder() {
+<span class="nc" id="L44">    return new Builder();</span>
+  }
+
+<span class="nc" id="L47">  public static class Builder {</span>
     private List&lt;RichText&gt; title;
     private Map&lt;String, DataSourcePropertySchemaParams&gt; properties;
     private IconParams icon;
     private Boolean inTrash;
 
-    public Builder title(String title) {
-<span class="nc" id="L49">      return title(RichText.builder().fromText(title).buildAsList());</span>
+    public Builder dataSourceTitle(String title) {
+<span class="nc" id="L54">      return dataSourceTitle(RichText.builder().fromText(title).buildAsList());</span>
     }
 
-    public Builder title(List&lt;RichText&gt; title) {
-<span class="nc" id="L53">      this.title = title;</span>
-<span class="nc" id="L54">      return this;</span>
-    }
-
-    public Builder icon(IconParams icon) {
-<span class="nc" id="L58">      this.icon = icon;</span>
+    public Builder dataSourceTitle(List&lt;RichText&gt; title) {
+<span class="nc" id="L58">      this.title = title;</span>
 <span class="nc" id="L59">      return this;</span>
     }
 
-    public Builder inTrash(Boolean inTrash) {
-<span class="nc" id="L63">      this.inTrash = inTrash;</span>
+    public Builder icon(IconParams icon) {
+<span class="nc" id="L63">      this.icon = icon;</span>
 <span class="nc" id="L64">      return this;</span>
+    }
+
+    public Builder inTrash(Boolean inTrash) {
+<span class="nc" id="L68">      this.inTrash = inTrash;</span>
+<span class="nc" id="L69">      return this;</span>
     }
 
     /** Sets the property schema via a pre-built map. */
     public Builder properties(Map&lt;String, DataSourcePropertySchemaParams&gt; properties) {
-<span class="nc" id="L69">      this.properties = properties;</span>
-<span class="nc" id="L70">      return this;</span>
+<span class="nc" id="L74">      this.properties = properties;</span>
+<span class="nc" id="L75">      return this;</span>
     }
 
     /**
-     * Opens an embedded schema step-builder. Call {@link PropertiesStep#buildProperties()} to
-     * return to this builder.
+     * Sets a single property schema entry. Use as an escape hatch when only one property needs to
+     * be added or updated without configuring the full schema map.
+     *
+     * @param name the property name or ID
+     * @param property the schema params, or {@code null} to delete the property
+     * @return this builder
+     */
+    public Builder property(String name, DataSourcePropertySchemaParams property) {
+<span class="nc bnc" id="L87" title="All 2 branches missed.">      if (this.properties == null) {</span>
+<span class="nc" id="L88">        this.properties = new java.util.LinkedHashMap&lt;&gt;();</span>
+      }
+<span class="nc" id="L90">      this.properties.put(name, property);</span>
+<span class="nc" id="L91">      return this;</span>
+    }
+
+    /**
+     * Opens an embedded schema step-builder for configuring the data source properties.
+     *
+     * &lt;p&gt;Chain property methods on the returned {@link PropertiesStep}, then call {@link
+     * PropertiesStep#buildProperties()} to seal the schema and return to this builder.
+     *
+     * &lt;pre&gt;{@code
+     * UpdateDataSourceParams.builder()
+     *     .propertiesBuilder()
+     *         .status(&quot;Workflow&quot;, StatusSchemaParams.builder()
+     *             .option(&quot;Backlog&quot;,      Color.DEFAULT)
+     *             .option(&quot;In Progress&quot;,  Color.YELLOW)
+     *             .option(&quot;Completed&quot;,    Color.GREEN)
+     *             .build())
+     *         .rename(&quot;Name&quot;, &quot;Title&quot;)
+     *         .delete(&quot;Legacy Field&quot;)
+     *     .buildProperties()
+     *     .build();
+     * }&lt;/pre&gt;
+     *
+     * @return a {@link PropertiesStep} whose {@code buildProperties()} returns this builder
      */
     public PropertiesStep&lt;Builder&gt; propertiesBuilder() {
-<span class="nc" id="L78">      return new PropertiesStep&lt;&gt;(this, this::properties);</span>
+<span class="nc" id="L117">      return new PropertiesStep&lt;&gt;(this, this::properties);</span>
     }
 
-    /** Sets the property schema via a consumer lambda. */
+    /**
+     * Sets the data source property schema via a lambda that receives a fresh {@link
+     * DataSourceSchemaBuilder}.
+     *
+     * &lt;pre&gt;{@code
+     * UpdateDataSourceParams.builder()
+     *     .properties(s -&gt; s
+     *         .status(&quot;Workflow&quot;, StatusSchemaParams.builder()
+     *             .option(&quot;Backlog&quot;,     Color.DEFAULT)
+     *             .option(&quot;In Progress&quot;, Color.YELLOW)
+     *             .build())
+     *         .rename(&quot;Name&quot;, &quot;Title&quot;))
+     *     .build();
+     * }&lt;/pre&gt;
+     *
+     * @param configurator a lambda that chains property methods on the provided schema builder
+     * @return this builder
+     */
     public Builder properties(Consumer&lt;DataSourceSchemaBuilder&gt; configurator) {
-<span class="nc" id="L83">      DataSourceSchemaBuilder schema = DataSourceSchemaBuilder.builder();</span>
-<span class="nc" id="L84">      configurator.accept(schema);</span>
-<span class="nc" id="L85">      return properties(schema.build());</span>
+<span class="nc" id="L139">      DataSourceSchemaBuilder schema = DataSourceSchemaBuilder.builder();</span>
+<span class="nc" id="L140">      configurator.accept(schema);</span>
+<span class="nc" id="L141">      return properties(schema.build());</span>
     }
 
-    /** Sets the property schema via an external producer. */
+    /**
+     * Sets the data source property schema using a custom producer.
+     *
+     * &lt;p&gt;The supplier is called exactly once and its result is forwarded to {@link
+     * #properties(Map)}. Use this overload to inject a dedicated schema factory or any other
+     * externally managed producer:
+     *
+     * &lt;pre&gt;{@code
+     * UpdateDataSourceParams.builder()
+     *     .properties(catalogSchemaFactory::defaultSchema)
+     *     .build();
+     * }&lt;/pre&gt;
+     *
+     * @param producer a supplier that returns the property schema map
+     * @return this builder
+     */
     public Builder properties(Supplier&lt;Map&lt;String, DataSourcePropertySchemaParams&gt;&gt; producer) {
-<span class="nc" id="L90">      return properties(producer.get());</span>
+<span class="nc" id="L161">      return properties(producer.get());</span>
     }
 
     public UpdateDataSourceParams build() {
-<span class="nc" id="L94">      UpdateDataSourceParams params = new UpdateDataSourceParams();</span>
-<span class="nc" id="L95">      params.setTitle(title);</span>
-<span class="nc" id="L96">      params.setProperties(properties);</span>
-<span class="nc" id="L97">      params.setIcon(icon);</span>
-<span class="nc" id="L98">      params.setInTrash(inTrash);</span>
-<span class="nc" id="L99">      return params;</span>
+<span class="nc" id="L165">      UpdateDataSourceParams params = new UpdateDataSourceParams();</span>
+<span class="nc" id="L166">      params.setTitle(title);</span>
+<span class="nc" id="L167">      params.setProperties(properties);</span>
+<span class="nc" id="L168">      params.setIcon(icon);</span>
+<span class="nc" id="L169">      params.setInTrash(inTrash);</span>
+<span class="nc" id="L170">      return params;</span>
     }
   }
 }
