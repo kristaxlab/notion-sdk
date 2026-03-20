@@ -20,6 +20,10 @@ public class SelectProperty extends PageProperty {
     return property;
   }
 
+  public static SelectProperty of(String name) {
+    return of(null, name, null);
+  }
+
   public static SelectProperty of(String id, String name, Color color) {
     return of(SelectValue.of(id, name, color));
   }

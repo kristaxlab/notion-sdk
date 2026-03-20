@@ -16,6 +16,10 @@ public class SelectValue {
   @JsonProperty("color")
   private String color;
 
+  public static SelectValue of(String name) {
+    return of(null, name, null);
+  }
+
   public static SelectValue of(String name, Color color) {
     return of(null, name, color);
   }
@@ -24,7 +28,7 @@ public class SelectValue {
     SelectValue selectValue = new SelectValue();
     selectValue.setId(id);
     selectValue.setName(name);
-    selectValue.setColor(color.getValue());
+    selectValue.setColor(color != null ? color.getValue() : null);
     return selectValue;
   }
 }
