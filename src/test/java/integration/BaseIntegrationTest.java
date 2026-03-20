@@ -1,11 +1,10 @@
 package integration;
 
-import integration.util.AllureLogAttachUtil;
+
 import io.kristixlab.notion.NotionSdkSettings;
 import io.kristixlab.notion.api.NotionApiClient;
 import io.kristixlab.notion.api.http.transport.log.ExchangeContext;
 import java.lang.reflect.Method;
-import java.nio.file.Path;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
@@ -51,7 +50,7 @@ public abstract class BaseIntegrationTest {
   protected void afterEach() {
     // Attach exchange logs to Allure before the context is cleared so that
     // getTestLogDir() can still resolve the per-test subdirectory.
-    attachExchangeLogsToAllure();
+    attachExchangeLogsToReport();
 
     ExchangeContext.getCurrent().clear("testClass");
     ExchangeContext.getCurrent().clear("testLogsPath");
@@ -62,15 +61,16 @@ public abstract class BaseIntegrationTest {
    * Zips the HTTP exchange log directory produced during the current test and attaches the archive
    * to the Allure report. No-op when the directory does not exist or contains no log files.
    */
-  private void attachExchangeLogsToAllure() {
-    if (ExchangeContext.getCurrent().get("testLogsPath") == null) {
-      return;
-    }
-    Path logDir = (Path) ExchangeContext.getCurrent().get("testLogsPath");
-    String testMethod = ExchangeContext.getCurrent().getString("testMethod");
-    String attachmentName =
-        (testMethod != null && !testMethod.isEmpty()) ? testMethod : "exchange-logs";
-    AllureLogAttachUtil.attachDirectoryAsZip(logDir, attachmentName);
+  private void attachExchangeLogsToReport() {
+    // TODO finalize report attchments solution
+//    if (ExchangeContext.getCurrent().get("testLogsPath") == null) {
+//      return;
+//    }
+//    Path logDir = (Path) ExchangeContext.getCurrent().get("testLogsPath");
+//    String testMethod = ExchangeContext.getCurrent().getString("testMethod");
+//    String attachmentName =
+//        (testMethod != null && !testMethod.isEmpty()) ? testMethod : "exchange-logs";
+//    AllureLogAttachUtil.attachDirectoryAsZip(logDir, attachmentName);
   }
 
   public NotionApiClient getNotion() {
