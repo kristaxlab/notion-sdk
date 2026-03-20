@@ -205,8 +205,7 @@ public class FileUploadIT extends BaseIntegrationTest {
           partRequest.setFile(filePart);
           partRequest.setFileName(uploadedFilename);
           partRequest.setContentType(createRs.getContentType());
-          FileUpload uploadResponse =
-              getNotion().fileUploads().sendFileContent(id, partRequest);
+          FileUpload uploadResponse = getNotion().fileUploads().sendFileContent(id, partRequest);
 
           assertNotNull(uploadResponse);
           assertNotNull(uploadResponse.getNumberOfParts());

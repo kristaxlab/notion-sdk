@@ -68,8 +68,7 @@ public class CommentsEndpointImpl implements CommentsEndpoint {
     validateBlockId(blockId);
 
     URLInfo.Builder urlInfo =
-        URLInfo.builder("/comments", startCursor, pageSize)
-            .queryParam(BLOCK_ID, blockId);
+        URLInfo.builder("/comments", startCursor, pageSize).queryParam(BLOCK_ID, blockId);
 
     return transport.call("GET", urlInfo.build(), CommentList.class);
   }

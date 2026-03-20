@@ -16,12 +16,12 @@ import lombok.EqualsAndHashCode;
  *
  * <ul>
  *   <li>{@link #builder()} — for <strong>creating</strong> a new status property. Notion silently
- *       ignores group configuration during creation and places every option in the built-in
- *       "To-do" group automatically. Only option names and colors are needed here.
- *   <li>{@link #editor(StatusSchema)} — for <strong>reorganising groups</strong> after the
- *       property has been created. Accepts the live {@link StatusSchema} (retrieved from Notion)
- *       so that real Notion-assigned IDs are resolved internally by name, mirroring the
- *       drag-and-drop experience in the Notion UI.
+ *       ignores group configuration during creation and places every option in the built-in "To-do"
+ *       group automatically. Only option names and colors are needed here.
+ *   <li>{@link #editor(StatusSchema)} — for <strong>reorganising groups</strong> after the property
+ *       has been created. Accepts the live {@link StatusSchema} (retrieved from Notion) so that
+ *       real Notion-assigned IDs are resolved internally by name, mirroring the drag-and-drop
+ *       experience in the Notion UI.
  * </ul>
  *
  * <p>Typical usage:
@@ -142,7 +142,7 @@ public class StatusSchemaParams extends DataSourcePropertySchemaParams {
     /**
      * Adds a status option with the given {@link Color}.
      *
-     * @param name  the option name
+     * @param name the option name
      * @param color the option color, or {@code null} for the Notion default
      * @return this builder
      */
@@ -155,7 +155,7 @@ public class StatusSchemaParams extends DataSourcePropertySchemaParams {
      *
      * <p>Prefer the {@link #option(String, Color)} overload where possible.
      *
-     * @param name  the option name
+     * @param name the option name
      * @param color the raw color string accepted by the Notion API
      * @return this builder
      */
@@ -193,8 +193,8 @@ public class StatusSchemaParams extends DataSourcePropertySchemaParams {
    * group. All lookups are performed by name (case-sensitive) against the live schema supplied to
    * {@link StatusSchemaParams#editor(StatusSchema)}, with ID-based fallback.
    *
-   * <p>Each option belongs to exactly one group. When an option is moved to a group via
-   * {@link #option(String)}, it is automatically removed from whichever group currently holds it.
+   * <p>Each option belongs to exactly one group. When an option is moved to a group via {@link
+   * #option(String)}, it is automatically removed from whichever group currently holds it.
    *
    * <p>Groups that are not explicitly referenced by {@link #group(String)} retain their existing
    * option membership unchanged.
@@ -202,17 +202,20 @@ public class StatusSchemaParams extends DataSourcePropertySchemaParams {
   public static class Editor {
 
     /** The fixed name Notion always assigns to the first default group. */
-    public static final String GROUP_TODO        = "To-do";
+    public static final String GROUP_TODO = "To-do";
+
     /** The fixed name Notion always assigns to the second default group. */
     public static final String GROUP_IN_PROGRESS = "In progress";
+
     /** The fixed name Notion always assigns to the third default group. */
-    public static final String GROUP_COMPLETED   = "Completed";
+    public static final String GROUP_COMPLETED = "Completed";
 
     private final List<StatusOption> options;
     private final List<StatusGroup> groups;
 
     /** Fast name-based lookup — the primary way SDK users reference options. */
     private final Map<String, StatusOption> optionsByName;
+
     /** Fast name-based lookup — the primary way SDK users reference groups. */
     private final Map<String, StatusGroup> groupsByName;
 
@@ -274,11 +277,11 @@ public class StatusSchemaParams extends DataSourcePropertySchemaParams {
     /**
      * Selects an existing group as the active target for subsequent {@link #option(String)} calls.
      *
-     * <p>Because Notion always creates exactly three groups with fixed names —
-     * {@value #GROUP_TODO}, {@value #GROUP_IN_PROGRESS}, and {@value #GROUP_COMPLETED} — prefer
-     * the named convenience methods {@link #toDo()}, {@link #inProgress()}, and
-     * {@link #completed()} over this method. Use {@code group(nameOrId)} only as an escape hatch
-     * when a group ID must be used instead of a name.
+     * <p>Because Notion always creates exactly three groups with fixed names — {@value
+     * #GROUP_TODO}, {@value #GROUP_IN_PROGRESS}, and {@value #GROUP_COMPLETED} — prefer the named
+     * convenience methods {@link #toDo()}, {@link #inProgress()}, and {@link #completed()} over
+     * this method. Use {@code group(nameOrId)} only as an escape hatch when a group ID must be used
+     * instead of a name.
      *
      * <p>Selecting a group <strong>resets</strong> its current option membership — only options
      * explicitly assigned via {@link #option(String)} after this call will belong to the group in
@@ -287,7 +290,7 @@ public class StatusSchemaParams extends DataSourcePropertySchemaParams {
      * @param nameOrId the group name (preferred) or Notion-assigned group ID
      * @return this editor
      * @throws IllegalArgumentException if no group with the given name or ID exists in the
-     *                                  underlying schema
+     *     underlying schema
      */
     public Editor group(String nameOrId) {
       StatusGroup g = groupsByName.get(nameOrId);
@@ -299,8 +302,11 @@ public class StatusSchemaParams extends DataSourcePropertySchemaParams {
                 .orElseThrow(
                     () ->
                         new IllegalArgumentException(
-                            "No status group found with name or ID: \"" + nameOrId + "\"."
-                                + " Available groups: " + groupsByName.keySet()));
+                            "No status group found with name or ID: \""
+                                + nameOrId
+                                + "\"."
+                                + " Available groups: "
+                                + groupsByName.keySet()));
       }
       g.setOptionIds(new ArrayList<>()); // reset; rebuilt by subsequent option() calls
       activeGroup = g;
@@ -308,8 +314,8 @@ public class StatusSchemaParams extends DataSourcePropertySchemaParams {
     }
 
     /**
-     * Selects the <strong>"To-do"</strong> group as the active target for subsequent
-     * {@link #option(String)} calls.
+     * Selects the <strong>"To-do"</strong> group as the active target for subsequent {@link
+     * #option(String)} calls.
      *
      * <p>Equivalent to {@code group(}{@value #GROUP_TODO}{@code )}.
      *
@@ -321,28 +327,28 @@ public class StatusSchemaParams extends DataSourcePropertySchemaParams {
     }
 
     /**
-     * Selects the <strong>"In progress"</strong> group as the active target for subsequent
-     * {@link #option(String)} calls.
+     * Selects the <strong>"In progress"</strong> group as the active target for subsequent {@link
+     * #option(String)} calls.
      *
      * <p>Equivalent to {@code group(}{@value #GROUP_IN_PROGRESS}{@code )}.
      *
      * @return this editor
      * @throws IllegalArgumentException if the "In progress" group is not present in the underlying
-     *                                  schema
+     *     schema
      */
     public Editor inProgress() {
       return group(GROUP_IN_PROGRESS);
     }
 
     /**
-     * Selects the <strong>"Completed"</strong> group as the active target for subsequent
-     * {@link #option(String)} calls.
+     * Selects the <strong>"Completed"</strong> group as the active target for subsequent {@link
+     * #option(String)} calls.
      *
      * <p>Equivalent to {@code group(}{@value #GROUP_COMPLETED}{@code )}.
      *
      * @return this editor
      * @throws IllegalArgumentException if the "Completed" group is not present in the underlying
-     *                                  schema
+     *     schema
      */
     public Editor completed() {
       return group(GROUP_COMPLETED);
@@ -384,15 +390,15 @@ public class StatusSchemaParams extends DataSourcePropertySchemaParams {
      * Moves an existing option into the currently active group.
      *
      * <p>The option is looked up by name (case-sensitive) first, then by Notion-assigned ID,
-     * against the live schema supplied to {@link StatusSchemaParams#editor(StatusSchema)}.
-     * If the option currently belongs to another group it is removed from that group automatically,
+     * against the live schema supplied to {@link StatusSchemaParams#editor(StatusSchema)}. If the
+     * option currently belongs to another group it is removed from that group automatically,
      * enforcing the Notion constraint that each option belongs to exactly one group.
      *
      * @param nameOrId the option name (preferred) or Notion-assigned option ID
      * @return this editor
-     * @throws IllegalStateException    if {@link #group(String)} has not been called yet
+     * @throws IllegalStateException if {@link #group(String)} has not been called yet
      * @throws IllegalArgumentException if no option with the given name or ID exists in the
-     *                                  underlying schema
+     *     underlying schema
      */
     public Editor option(String nameOrId) {
       if (activeGroup == null) {
@@ -408,8 +414,11 @@ public class StatusSchemaParams extends DataSourcePropertySchemaParams {
                 .orElseThrow(
                     () ->
                         new IllegalArgumentException(
-                            "No status option found with name or ID: \"" + nameOrId + "\"."
-                                + " Available options: " + optionsByName.keySet()));
+                            "No status option found with name or ID: \""
+                                + nameOrId
+                                + "\"."
+                                + " Available options: "
+                                + optionsByName.keySet()));
       }
       final String optionId = opt.getId();
       // Enforce uniqueness: remove from every other group first
@@ -426,11 +435,11 @@ public class StatusSchemaParams extends DataSourcePropertySchemaParams {
     /**
      * Adds a brand-new option to the currently active group.
      *
-     * <p>Use this when you want to introduce an option that does not yet exist in Notion.
-     * A provisional ID is generated locally; Notion replaces it with a canonical ID after the
-     * update round-trip.
+     * <p>Use this when you want to introduce an option that does not yet exist in Notion. A
+     * provisional ID is generated locally; Notion replaces it with a canonical ID after the update
+     * round-trip.
      *
-     * @param name  the new option name
+     * @param name the new option name
      * @param color the option color, or {@code null} for the Notion default
      * @return this editor
      * @throws IllegalStateException if {@link #group(String)} has not been called yet

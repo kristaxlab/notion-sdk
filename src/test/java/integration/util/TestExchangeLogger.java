@@ -18,7 +18,6 @@ public class TestExchangeLogger extends SequentialExchangeLogger {
     super.logRequest(context);
   }
 
-
   @Override
   public void logResponse(ExchangeContext context) {
     if (context.get("testClass") == null || context.get("testMethod") == null) {

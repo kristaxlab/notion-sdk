@@ -13,5 +13,7 @@ import lombok.EqualsAndHashCode;
 public class CreatedTimeSchema extends DataSourcePropertySchema {
 
   @JsonProperty("created_time")
-  private Object createdTime = new Object();;
+  private Object createdTime = new Object();
+
+  ;
 }

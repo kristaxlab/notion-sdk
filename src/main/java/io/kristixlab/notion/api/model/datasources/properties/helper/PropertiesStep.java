@@ -41,7 +41,8 @@ public final class PropertiesStep<PARENT>
    * @param parent the parent builder to return to via {@link #buildProperties()}
    * @param setter a consumer that applies the finished schema map to the parent builder
    */
-  public PropertiesStep(PARENT parent, Consumer<Map<String, DataSourcePropertySchemaParams>> setter) {
+  public PropertiesStep(
+      PARENT parent, Consumer<Map<String, DataSourcePropertySchemaParams>> setter) {
     this.parent = parent;
     this.setter = setter;
   }
@@ -49,8 +50,8 @@ public final class PropertiesStep<PARENT>
   /**
    * Finalises the property schema and returns to the parent builder.
    *
-   * <p>Equivalent to calling {@link AbstractDataSourceSchemaBuilder#build()} and passing the
-   * result to the parent's {@code properties(Map)} method, but without breaking the chain.
+   * <p>Equivalent to calling {@link AbstractDataSourceSchemaBuilder#build()} and passing the result
+   * to the parent's {@code properties(Map)} method, but without breaking the chain.
    *
    * @return the parent builder for continued configuration
    */
@@ -59,5 +60,3 @@ public final class PropertiesStep<PARENT>
     return parent;
   }
 }
-
-

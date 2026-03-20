@@ -130,7 +130,7 @@ public class HttpTransportImpl implements HttpTransport {
 
     if (exchangeLogger != null) {
       // TODO serviceName pass from the endpoint implementation?
-      //ExchangeContext.getCurrent().put("serviceName", getApiName());
+      // ExchangeContext.getCurrent().put("serviceName", getApiName());
       ExchangeContext.getCurrent().put("method", request.method());
       ExchangeContext.getCurrent().put("path", request.url().toString());
       ExchangeContext.getCurrent().put("requestHeaders", request.headers().toMultimap());
@@ -166,15 +166,15 @@ public class HttpTransportImpl implements HttpTransport {
       Response response, Class<T> responseType, String exchangeId) throws HttpResponseException {
 
     ApiResponse apiResponse = null;
-    // TODO getApiName replace with some kind of service id passed from the endpoint implementation? or maybe from the request context?
+    // TODO getApiName replace with some kind of service id passed from the endpoint implementation?
+    // or maybe from the request context?
     Class convertTo = response.isSuccessful() ? responseType : getErrorType(getApiName());
 
     apiResponse = toApiReponse(response, convertTo, exchangeId);
     logResponse(apiResponse, apiResponse.getStatus(), exchangeId);
 
     if (!response.isSuccessful()) {
-      throw new HttpResponseException(
-          getApiName(), response.code(), apiResponse.getBody());
+      throw new HttpResponseException(getApiName(), response.code(), apiResponse.getBody());
     }
     return apiResponse;
   }

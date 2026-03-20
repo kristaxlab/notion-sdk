@@ -52,8 +52,8 @@ abstract class AbstractDataSourceSchemaBuilder<SELF extends AbstractDataSourceSc
   }
 
   /**
-   * Adds a {@code created_by} property with default parameters.
-   * Read-only; auto-populated by Notion.
+   * Adds a {@code created_by} property with default parameters. Read-only; auto-populated by
+   * Notion.
    */
   public SELF createdBy(String nameOrId) {
     return createdBy(nameOrId, new CreatedBySchemaParams());
@@ -66,8 +66,8 @@ abstract class AbstractDataSourceSchemaBuilder<SELF extends AbstractDataSourceSc
   }
 
   /**
-   * Adds a {@code created_time} property with default parameters.
-   * Read-only; auto-populated by Notion.
+   * Adds a {@code created_time} property with default parameters. Read-only; auto-populated by
+   * Notion.
    */
   public SELF createdTime(String nameOrId) {
     return createdTime(nameOrId, new CreatedTimeSchemaParams());
@@ -135,8 +135,8 @@ abstract class AbstractDataSourceSchemaBuilder<SELF extends AbstractDataSourceSc
   }
 
   /**
-   * Adds a {@code last_edited_by} property with default parameters.
-   * Read-only; auto-populated by Notion.
+   * Adds a {@code last_edited_by} property with default parameters. Read-only; auto-populated by
+   * Notion.
    */
   public SELF lastEditedBy(String nameOrId) {
     return lastEditedBy(nameOrId, new LastEditedBySchemaParams());
@@ -149,8 +149,8 @@ abstract class AbstractDataSourceSchemaBuilder<SELF extends AbstractDataSourceSc
   }
 
   /**
-   * Adds a {@code last_edited_time} property with default parameters.
-   * Read-only; auto-populated by Notion.
+   * Adds a {@code last_edited_time} property with default parameters. Read-only; auto-populated by
+   * Notion.
    */
   public SELF lastEditedTime(String nameOrId) {
     return lastEditedTime(nameOrId, new LastEditedTimeSchemaParams());
@@ -242,14 +242,13 @@ abstract class AbstractDataSourceSchemaBuilder<SELF extends AbstractDataSourceSc
    * @param dataSourceId the UUID of the related Notion database
    */
   public SELF relation(String nameOrId, String dataSourceId) {
-    return relation(
-        nameOrId, RelationSchemaParams.builder().dataSourceId(dataSourceId).build());
+    return relation(nameOrId, RelationSchemaParams.builder().dataSourceId(dataSourceId).build());
   }
 
   /**
    * Adds a dual-property (two-way) {@code relation}.
    *
-   * @param dataSourceId   the UUID of the related Notion database
+   * @param dataSourceId the UUID of the related Notion database
    * @param syncedPropName the name of the mirrored property on the target database
    */
   public SELF relation(String nameOrId, String dataSourceId, String syncedPropName) {
@@ -271,8 +270,8 @@ abstract class AbstractDataSourceSchemaBuilder<SELF extends AbstractDataSourceSc
    * Adds a {@code rollup} property that aggregates values from a related database.
    *
    * @param relationNameOrId the name or ID of the relation property to roll up through
-   * @param rollupNameOrId   the name or ID of the property in the related DB to aggregate
-   * @param rollupFunction   the aggregation function (e.g. {@code "sum"}, {@code "count"})
+   * @param rollupNameOrId the name or ID of the property in the related DB to aggregate
+   * @param rollupFunction the aggregation function (e.g. {@code "sum"}, {@code "count"})
    */
   public SELF rollup(
       String nameOrId, String relationNameOrId, String rollupNameOrId, String rollupFunction) {
@@ -308,8 +307,8 @@ abstract class AbstractDataSourceSchemaBuilder<SELF extends AbstractDataSourceSc
   /**
    * Adds a {@code status} property with default parameters.
    *
-   * <p>Notion places all options in the "To-do" group automatically on creation. Use
-   * {@link StatusSchemaParams#editor(StatusSchema)} after creation to reorganise groups.
+   * <p>Notion places all options in the "To-do" group automatically on creation. Use {@link
+   * StatusSchemaParams#editor(StatusSchema)} after creation to reorganise groups.
    */
   public SELF status(String nameOrId) {
     return status(nameOrId, new StatusSchemaParams());
@@ -399,6 +398,3 @@ abstract class AbstractDataSourceSchemaBuilder<SELF extends AbstractDataSourceSc
     return self();
   }
 }
-
-
-

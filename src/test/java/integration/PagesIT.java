@@ -400,9 +400,7 @@ public class PagesIT extends BaseIntegrationTest {
     // Step 1: Create a page with some content
     CreatePageParams params = createPageParams("Page to retrieve as markdown", currTestPageId);
     params.setChildren(
-        List.of(
-            ParagraphBlock.of("First paragraph"),
-            ParagraphBlock.of("Second paragraph")));
+        List.of(ParagraphBlock.of("First paragraph"), ParagraphBlock.of("Second paragraph")));
     Page page = getNotion().pages().create(params);
 
     // Step 2: Retrieve the page content as markdown
@@ -426,8 +424,7 @@ public class PagesIT extends BaseIntegrationTest {
     PageAsMarkdown replaced =
         getNotion()
             .pages()
-            .updateAsMarkdown(
-                page.getId(), UpdatePageAsMarkdownParams.replaceContent(newMarkdown));
+            .updateAsMarkdown(page.getId(), UpdatePageAsMarkdownParams.replaceContent(newMarkdown));
 
     assertNotNull(replaced);
     assertNotNull(replaced.getMarkdown());

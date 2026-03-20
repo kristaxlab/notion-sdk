@@ -2,7 +2,6 @@ package io.kristixlab.notion.api.endpoints.impl;
 
 import io.kristixlab.notion.api.endpoints.DataSourcesEndpoint;
 import io.kristixlab.notion.api.http.transport.HttpTransport;
-import io.kristixlab.notion.api.http.transport.log.ExchangeContext;
 import io.kristixlab.notion.api.http.transport.rq.URLInfo;
 import io.kristixlab.notion.api.model.datasources.*;
 import io.kristixlab.notion.api.model.pages.templates.Templates;

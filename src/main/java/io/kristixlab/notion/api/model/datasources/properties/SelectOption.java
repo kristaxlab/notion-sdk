@@ -2,8 +2,6 @@ package io.kristixlab.notion.api.model.datasources.properties;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.kristixlab.notion.api.model.common.Color;
-import java.util.ArrayList;
-import java.util.List;
 import lombok.Data;
 
 @Data

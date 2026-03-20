@@ -35,16 +35,14 @@ public class PlaceProperty extends PageProperty {
 
     /**
      * The corresponding ID value from AWS location provider. Only exposed for duplication or
-     * echoing responses; will not be read. Example: "123"
-     * //TODO only in reponse
+     * echoing responses; will not be read. Example: "123" //TODO only in reponse
      */
     @JsonProperty("aws_place_id")
     private String awsPlaceId;
 
     /**
      * The corresponding ID value from Google location provider. Only exposed for duplication or
-     * echoing responses; will not be read. Example: "123"
-     * //TODO only in reponse
+     * echoing responses; will not be read. Example: "123" //TODO only in reponse
      */
     @JsonProperty("google_place_id")
     private String googlePlaceId;

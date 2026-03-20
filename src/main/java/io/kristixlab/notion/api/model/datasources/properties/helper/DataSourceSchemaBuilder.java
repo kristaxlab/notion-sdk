@@ -8,13 +8,14 @@ import io.kristixlab.notion.api.model.datasources.properties.*;
  * <p>Use {@link #builder()} to obtain an instance, chain the desired property methods, and call
  * {@link #build()} to produce the property map for the Notion API.
  *
- * <p>All property methods are defined in {@link AbstractDataSourceSchemaBuilder}; this class is
- * the concrete, standalone entry point. For embedding inside a request builder (avoiding the
- * explicit {@code DataSourceSchemaBuilder.builder()} / {@code .build()} wrapping) use the
- * {@code propertiesBuilder()} method provided by {@code CreateDatabaseParams.Builder} or
- * {@code CreateDataSourceParams.Builder}.
+ * <p>All property methods are defined in {@link AbstractDataSourceSchemaBuilder}; this class is the
+ * concrete, standalone entry point. For embedding inside a request builder (avoiding the explicit
+ * {@code DataSourceSchemaBuilder.builder()} / {@code .build()} wrapping) use the {@code
+ * propertiesBuilder()} method provided by {@code CreateDatabaseParams.Builder} or {@code
+ * CreateDataSourceParams.Builder}.
  *
  * <p>Example — standalone:
+ *
  * <pre>{@code
  * Map<String, DataSourcePropertySchemaParams> schema = DataSourceSchemaBuilder.builder()
  *     .title("Name")
@@ -24,6 +25,7 @@ import io.kristixlab.notion.api.model.datasources.properties.*;
  * }</pre>
  *
  * <p>Example — embedded (step-builder):
+ *
  * <pre>{@code
  * CreateDatabaseParams params = CreateDatabaseParams.builder()
  *     .parentPage(pageId)
@@ -37,6 +39,7 @@ import io.kristixlab.notion.api.model.datasources.properties.*;
  * }</pre>
  *
  * <p>Example — consumer (lambda):
+ *
  * <pre>{@code
  * CreateDatabaseParams params = CreateDatabaseParams.builder()
  *     .parentPage(pageId)
@@ -65,4 +68,3 @@ public final class DataSourceSchemaBuilder
     return new DataSourceSchemaBuilder();
   }
 }
-

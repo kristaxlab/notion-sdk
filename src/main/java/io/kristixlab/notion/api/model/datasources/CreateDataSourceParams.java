@@ -61,8 +61,8 @@ public class CreateDataSourceParams {
     /**
      * Sets the data source property schema via a pre-built map.
      *
-     * <p>Prefer {@link #propertiesBuilder()} or {@link #properties(Consumer)} to avoid the
-     * explicit {@code DataSourceSchemaBuilder.builder()} / {@code .build()} wrapping.
+     * <p>Prefer {@link #propertiesBuilder()} or {@link #properties(Consumer)} to avoid the explicit
+     * {@code DataSourceSchemaBuilder.builder()} / {@code .build()} wrapping.
      */
     public Builder properties(Map<String, DataSourcePropertySchemaParams> properties) {
       this.properties = properties;
@@ -72,8 +72,8 @@ public class CreateDataSourceParams {
     /**
      * Opens an embedded schema step-builder for configuring the data source properties.
      *
-     * <p>Chain property methods on the returned {@link PropertiesStep}, then call
-     * {@link PropertiesStep#buildProperties()} to seal the schema and return to this builder.
+     * <p>Chain property methods on the returned {@link PropertiesStep}, then call {@link
+     * PropertiesStep#buildProperties()} to seal the schema and return to this builder.
      *
      * @return a {@link PropertiesStep} whose {@code buildProperties()} returns this builder
      */
@@ -82,8 +82,8 @@ public class CreateDataSourceParams {
     }
 
     /**
-     * Sets the data source property schema via a lambda that receives a fresh
-     * {@link DataSourceSchemaBuilder}.
+     * Sets the data source property schema via a lambda that receives a fresh {@link
+     * DataSourceSchemaBuilder}.
      *
      * <pre>{@code
      * CreateDataSourceParams.builder()
@@ -107,9 +107,9 @@ public class CreateDataSourceParams {
     /**
      * Sets the data source property schema using a custom producer.
      *
-     * <p>The supplier is called exactly once and its result is forwarded to
-     * {@link #properties(Map)}. Use this overload to inject a dedicated schema factory or any
-     * other externally managed producer:
+     * <p>The supplier is called exactly once and its result is forwarded to {@link
+     * #properties(Map)}. Use this overload to inject a dedicated schema factory or any other
+     * externally managed producer:
      *
      * <pre>{@code
      * CreateDataSourceParams.builder()

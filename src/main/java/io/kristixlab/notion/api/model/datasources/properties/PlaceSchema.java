@@ -14,6 +14,4 @@ public class PlaceSchema extends DataSourcePropertySchema {
 
   @JsonProperty("place")
   private Object place = new Object();
-
-
 }

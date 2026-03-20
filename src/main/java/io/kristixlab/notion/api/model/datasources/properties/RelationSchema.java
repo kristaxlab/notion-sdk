@@ -15,7 +15,7 @@ public class RelationSchema extends DataSourcePropertySchema {
   @Data
   public static class RelationConfig {
 
-    //TODO only in reponse
+    // TODO only in reponse
     @JsonProperty("database_id")
     private String databaseId;
 
@@ -95,7 +95,5 @@ public class RelationSchema extends DataSourcePropertySchema {
       prop.setRelation(config);
       return prop;
     }
-
   }
-
 }

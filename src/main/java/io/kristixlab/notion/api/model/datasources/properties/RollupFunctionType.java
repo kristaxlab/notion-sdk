@@ -1,7 +1,6 @@
 package io.kristixlab.notion.api.model.datasources.properties;
 
 public enum RollupFunctionType {
-
   COUNT("count"),
   COUNT_VALUES("count_values"),
   EMPTY("empty"),

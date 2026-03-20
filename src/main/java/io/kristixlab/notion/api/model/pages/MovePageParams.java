@@ -9,5 +9,4 @@ public class MovePageParams {
 
   @JsonProperty("parent")
   private Parent parent;
-
 }

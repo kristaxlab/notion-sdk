@@ -2,7 +2,6 @@ package io.kristixlab.notion.api.model.pages;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.kristixlab.notion.api.model.common.Cover;
-import io.kristixlab.notion.api.model.common.FileData;
 import io.kristixlab.notion.api.model.common.Icon;
 import io.kristixlab.notion.api.model.common.NotionObjectType;
 import io.kristixlab.notion.api.model.pages.properties.PageProperty;

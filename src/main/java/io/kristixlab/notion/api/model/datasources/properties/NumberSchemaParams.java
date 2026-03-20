@@ -12,8 +12,7 @@ public class NumberSchemaParams extends DataSourcePropertySchemaParams {
   @JsonProperty("number")
   private NumberFormat number = new NumberFormat();
 
-  public static NumberSchemaParams of(
-      NumberFormatType format) {
+  public static NumberSchemaParams of(NumberFormatType format) {
     return of(format.getValue());
   }
 
@@ -28,7 +27,6 @@ public class NumberSchemaParams extends DataSourcePropertySchemaParams {
   @Data
   public static class NumberFormat {
     @JsonProperty("format")
-    private String
-        format;
+    private String format;
   }
 }

@@ -251,7 +251,6 @@ public class BlocksIT extends BaseIntegrationTest {
     assertEquals(insertedBlockId, allBlocks.getResults().get(1).getId());
   }
 
-
   @Test
   @DisplayName("[IT-23]: Blocks & File Uploads - Insert an uploaded file as an image")
   public void insertUploadedFileAsImage() {
@@ -260,9 +259,9 @@ public class BlocksIT extends BaseIntegrationTest {
     ImageBlock imageBlock = new ImageBlock();
     imageBlock.setImage(FileData.fromFileUpload(fileUploadId));
     imageBlock
-            .getImage()
-            .setCaption(
-                    List.of(RichText.builder().fromText("[IT-23]: An image from uploaded file").build()));
+        .getImage()
+        .setCaption(
+            List.of(RichText.builder().fromText("[IT-23]: An image from uploaded file").build()));
 
     BlockList result = getNotion().blocks().appendChildren(currTestPageId, imageBlock);
 

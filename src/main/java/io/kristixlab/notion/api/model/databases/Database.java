@@ -2,7 +2,6 @@ package io.kristixlab.notion.api.model.databases;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.kristixlab.notion.api.model.common.*;
-
 import java.util.List;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

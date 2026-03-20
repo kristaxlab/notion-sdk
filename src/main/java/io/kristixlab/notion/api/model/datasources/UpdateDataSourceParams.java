@@ -71,8 +71,8 @@ public class UpdateDataSourceParams {
     }
 
     /**
-     * Opens an embedded schema step-builder.
-     * Call {@link PropertiesStep#buildProperties()} to return to this builder.
+     * Opens an embedded schema step-builder. Call {@link PropertiesStep#buildProperties()} to
+     * return to this builder.
      */
     public PropertiesStep<Builder> propertiesBuilder() {
       return new PropertiesStep<>(this, this::properties);
