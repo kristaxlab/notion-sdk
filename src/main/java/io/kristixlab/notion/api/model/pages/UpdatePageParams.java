@@ -124,16 +124,6 @@ public class UpdatePageParams {
       return property(name, FilesProperty.of(files));
     }
 
-    /** Sets a {@code place} property by location name and coordinates. */
-    public Builder place(String name, String locationName, double lat, double lon) {
-      return property(name, PlaceProperty.of(locationName, lat, lon));
-    }
-
-    /** Sets a {@code place} property by location name and address. */
-    public Builder place(String name, String locationName, String address) {
-      return property(name, PlaceProperty.of(locationName, address));
-    }
-
     /** Sets a {@code relation} property from one or more related page IDs. */
     public Builder relation(String name, String... pageIds) {
       return property(name, RelationProperty.of(pageIds));
