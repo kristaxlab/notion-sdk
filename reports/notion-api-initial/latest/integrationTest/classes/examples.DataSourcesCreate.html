@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=edge"/>
+<title>Test results - DataSourcesCreate</title>
+<link href="../css/base-style.css" rel="stylesheet" type="text/css"/>
+<link href="../css/style.css" rel="stylesheet" type="text/css"/>
+<script src="../js/report.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="content">
+<h1>DataSourcesCreate</h1>
+<div class="breadcrumbs">
+<a href="../index.html">all</a> &gt; 
+<a href="../packages/examples.html">examples</a> &gt; DataSourcesCreate</div>
+<div id="summary">
+<table>
+<tr>
+<td>
+<div class="summaryGroup">
+<table>
+<tr>
+<td>
+<div class="infoBox" id="tests">
+<div class="counter">1</div>
+<p>tests</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="failures">
+<div class="counter">1</div>
+<p>failures</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="ignored">
+<div class="counter">0</div>
+<p>ignored</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="duration">
+<div class="counter">0.647s</div>
+<p>duration</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</td>
+<td>
+<div class="infoBox failures" id="successRate">
+<div class="percent">0%</div>
+<p>successful</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="tab-container">
+<ul class="tabLinks">
+<li>
+<a href="#">Failed tests</a>
+</li>
+<li>
+<a href="#">Tests</a>
+</li>
+<li>
+<a href="#">Standard output</a>
+</li>
+</ul>
+<div class="tab">
+<h2>Failed tests</h2>
+<div class="test">
+<a name="exampleCreateDatabase()"></a>
+<h3 class="failures">exampleCreateDatabase()</h3>
+<span class="code">
+<pre>io.kristixlab.notion.api.http.exception.ValidationException
+ Notion API Exception - Status: 400, Code: validation_error, Message: body failed validation: body.initial_data_source.properties.One-sided to First DS.relation.data_source_id should be a valid uuid, instead was `&quot;some-existing-datasource-id&quot;`., Request ID: 5db5d3fa-8c6e-4b88-8b75-a01fcd2c14d9
+	at app//io.kristixlab.notion.api.http.NotionHttpTransport.handleResponse(NotionHttpTransport.java:167)
+	at app//io.kristixlab.notion.api.http.transport.HttpTransportImpl.execute(HttpTransportImpl.java:113)
+	at app//io.kristixlab.notion.api.http.NotionHttpTransport.execute(NotionHttpTransport.java:133)
+	at app//io.kristixlab.notion.api.http.transport.HttpTransportImpl.call(HttpTransportImpl.java:151)
+	at app//io.kristixlab.notion.api.http.transport.HttpTransportImpl.call(HttpTransportImpl.java:91)
+	at app//io.kristixlab.notion.api.endpoints.impl.DatabasesEndpointImpl.create(DatabasesEndpointImpl.java:45)
+	at app//examples.DataSourcesCreate.exampleCreateDatabase(DataSourcesCreate.java:118)
+	at java.base@17.0.18/java.lang.reflect.Method.invoke(Method.java:569)
+	at java.base@17.0.18/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base@17.0.18/java.util.ArrayList.forEach(ArrayList.java:1511)
+</pre>
+</span>
+</div>
+</div>
+<div class="tab">
+<h2>Tests</h2>
+<table>
+<thead>
+<tr>
+<th>Test</th>
+<th>Duration</th>
+<th>Result</th>
+</tr>
+</thead>
+<tr>
+<td class="failures">exampleCreateDatabase()</td>
+<td class="failures">0.647s</td>
+<td class="failures">failed</td>
+</tr>
+</table>
+</div>
+<div class="tab">
+<h2>Standard output</h2>
+<span class="code">
+<pre>2026-03-20 21:41:31.648 [Test worker] INFO  io.kristixlab.notion.NotionSdkSettings - Loading integration test settings from classpath: notion-sdk-settings-default.yml
+2026-03-20 21:41:31.729 [Test worker] INFO  io.kristixlab.notion.NotionSdkSettings - Loading integration test settings from classpath: notion-sdk-settings.yml
+2026-03-20 21:41:32.330 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [f77248a1-b04c-451a-a987-107f208454d1] Calling NotionAPIv2026-03-11
+2026-03-20 21:41:32.330 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [f77248a1-b04c-451a-a987-107f208454d1] Building request...
+2026-03-20 21:41:32.441 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [f77248a1-b04c-451a-a987-107f208454d1] Request method: GET, url: https://api.notion.com/v1/blocks/31dcd6cf140680c28ecfe3b1334397df/children, content-type: null
+2026-03-20 21:41:34.624 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [f77248a1-b04c-451a-a987-107f208454d1] Response from NotionAPIv2026-03-11 with code: 200
+2026-03-20 21:41:34.625 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [f77248a1-b04c-451a-a987-107f208454d1] Response body: 
+{&quot;object&quot;:&quot;list&quot;,&quot;results&quot;:[{&quot;object&quot;:&quot;block&quot;,&quot;id&quot;:&quot;327cd6cf-1406-80b8-a04b-d8fccccfd081&quot;,&quot;parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;31dcd6cf-1406-80c2-8ecf-e3b1334397df&quot;},&quot;created_time&quot;:&quot;2026-03-18T18:46:00.000Z&quot;,&quot;last_edited_time&quot;:&quot;2026-03-18T18:46:00.000Z&quot;,&quot;created_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;2e8d872b-594c-8197-b19f-000245c7469f&quot;},&quot;last_edited_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;2e8d872b-594c-8197-b19f-000245c7469f&quot;},&quot;has_children&quot;:false,&quot;in_trash&quot;:false,&quot;type&quot;:&quot;heading_3&quot;,&quot;heading_3&quot;:{&quot;rich_text&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;Complex database&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;Complex database&quot;,&quot;href&quot;:null}],&quot;is_toggleable&quot;:false,&quot;color&quot;:&quot;default&quot;}},{&quot;object&quot;:&quot;block&quot;,&quot;id&quot;:&quot;327cd6cf-1406-804f-a636-db55b2651b52&quot;,&quot;parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;31dcd6cf-1406-80c2-8ecf-e3b1334397df&quot;},&quot;created_time&quot;:&quot;2026-03-18T18:46:00.000Z&quot;,&quot;last_edited_time&quot;:&quot;2026-03-18T18:56:00.000Z&quot;,&quot;created_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;2e8d872b-594c-8197-b19f-000245c7469f&quot;},&quot;last_edited_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;2e8d872b-594c-8197-b19f-000245c7469f&quot;},&quot;has_children&quot;:false,&quot;in_trash&quot;:false,&quot;type&quot;:&quot;child_database&quot;,&quot;child_database&quot;:{&quot;title&quot;:&quot;Complex Database &quot;}},{&quot;object&quot;:&quot;block&quot;,&quot;id&quot;:&quot;327cd6cf-1406-80c3-9ad1-e6e50fb54f52&quot;,&quot;parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;31dcd6cf-1406-80c2-8ecf-e3b1334397df&quot;},&quot;created_time&quot;:&quot;2026-03-18T19:44:00.000Z&quot;,&quot;last_edited_time&quot;:&quot;2026-03-18T19:44:00.000Z&quot;,&quot;created_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;2e8d872b-594c-8197-b19f-000245c7469f&quot;},&quot;last_edited_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;2e8d872b-594c-8197-b19f-000245c7469f&quot;},&quot;has_children&quot;:false,&quot;in_trash&quot;:false,&quot;type&quot;:&quot;heading_3&quot;,&quot;heading_3&quot;:{&quot;rich_text&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;Page with blocks&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;Page with blocks&quot;,&quot;href&quot;:null}],&quot;is_toggleable&quot;:false,&quot;color&quot;:&quot;default&quot;}},{&quot;object&quot;:&quot;block&quot;,&quot;id&quot;:&quot;31dcd6cf-1406-8067-8100-dcb28020592d&quot;,&quot;parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;31dcd6cf-1406-80c2-8ecf-e3b1334397df&quot;},&quot;created_time&quot;:&quot;2026-03-08T16:37:00.000Z&quot;,&quot;last_edited_time&quot;:&quot;2026-03-17T16:45:00.000Z&quot;,&quot;created_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;ab53e082-c08e-43ef-ae91-62c018852f04&quot;},&quot;last_edited_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;2e8d872b-594c-8197-b19f-000245c7469f&quot;},&quot;has_children&quot;:true,&quot;in_trash&quot;:false,&quot;type&quot;:&quot;child_page&quot;,&quot;child_page&quot;:{&quot;title&quot;:&quot;Page with lots of different blocks&quot;}},{&quot;object&quot;:&quot;block&quot;,&quot;id&quot;:&quot;326cd6cf-1406-80d1-b1a1-f6ea1a95c27b&quot;,&quot;parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;31dcd6cf-1406-80c2-8ecf-e3b1334397df&quot;},&quot;created_time&quot;:&quot;2026-03-17T16:44:00.000Z&quot;,&quot;last_edited_time&quot;:&quot;2026-03-17T17:05:00.000Z&quot;,&quot;created_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;2e8d872b-594c-8197-b19f-000245c7469f&quot;},&quot;last_edited_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;2e8d872b-594c-8197-b19f-000245c7469f&quot;},&quot;has_children&quot;:false,&quot;in_trash&quot;:false,&quot;type&quot;:&quot;heading_3&quot;,&quot;heading_3&quot;:{&quot;rich_text&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;Icon&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;Icon&quot;,&quot;href&quot;:null}],&quot;is_toggleable&quot;:false,&quot;color&quot;:&quot;default&quot;}},{&quot;object&quot;:&quot;block&quot;,&quot;id&quot;:&quot;326cd6cf-1406-8017-881b-f4ef06322730&quot;,&quot;parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;31dcd6cf-1406-80c2-8ecf-e3b1334397df&quot;},&quot;created_time&quot;:&quot;2026-03-17T16:44:00.000Z&quot;,&quot;last_edited_time&quot;:&quot;2026-03-17T17:05:00.000Z&quot;,&quot;created_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;2e8d872b-594c-8197-b19f-000245c7469f&quot;},&quot;last_edited_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;2e8d872b-594c-8197-b19f-000245c7469f&quot;},&quot;has_children&quot;:false,&quot;in_trash&quot;:false,&quot;type&quot;:&quot;paragraph&quot;,&quot;paragraph&quot;:{&quot;rich_text&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;&#x1f698;&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;&#x1f698;&quot;,&quot;href&quot;:null}],&quot;color&quot;:&quot;default&quot;}},{&quot;object&quot;:&quot;block&quot;,&quot;id&quot;:&quot;326cd6cf-1406-809a-91b8-fde0c3507cec&quot;,&quot;parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;31dcd6cf-1406-80c2-8ecf-e3b1334397df&quot;},&quot;created_time&quot;:&quot;2026-03-17T16:44:00.000Z&quot;,&quot;last_edited_time&quot;:&quot;2026-03-17T17:05:00.000Z&quot;,&quot;created_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;2e8d872b-594c-8197-b19f-000245c7469f&quot;},&quot;last_edited_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;2e8d872b-594c-8197-b19f-000245c7469f&quot;},&quot;has_children&quot;:false,&quot;in_trash&quot;:false,&quot;type&quot;:&quot;heading_3&quot;,&quot;heading_3&quot;:{&quot;rich_text&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;Cover&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;Cover&quot;,&quot;href&quot;:null}],&quot;is_toggleable&quot;:false,&quot;color&quot;:&quot;default&quot;}},{&quot;object&quot;:&quot;block&quot;,&quot;id&quot;:&quot;326cd6cf-1406-800c-a9c3-cd315b868278&quot;,&quot;parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;31dcd6cf-1406-80c2-8ecf-e3b1334397df&quot;},&quot;created_time&quot;:&quot;2026-03-17T16:45:00.000Z&quot;,&quot;last_edited_time&quot;:&quot;2026-03-17T17:05:00.000Z&quot;,&quot;created_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;2e8d872b-594c-8197-b19f-000245c7469f&quot;},&quot;last_edited_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;2e8d872b-594c-8197-b19f-000245c7469f&quot;},&quot;has_children&quot;:false,&quot;in_trash&quot;:false,&quot;type&quot;:&quot;image&quot;,&quot;image&quot;:{&quot;caption&quot;:[],&quot;type&quot;:&quot;external&quot;,&quot;external&quot;:{&quot;url&quot;:&quot;https://images.unsplash.com/photo-1543906965-f9520aa2ed8a?ixlib=rb-4.1.0&amp;q=85&amp;fm=jpg&amp;crop=entropy&amp;cs=srgb&quot;}}},{&quot;object&quot;:&quot;block&quot;,&quot;id&quot;:&quot;329cd6cf-1406-8003-a333-d8e74c224f3d&quot;,&quot;parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;31dcd6cf-1406-80c2-8ecf-e3b1334397df&quot;},&quot;created_time&quot;:&quot;2026-03-20T20:29:00.000Z&quot;,&quot;last_edited_time&quot;:&quot;2026-03-20T20:32:00.000Z&quot;,&quot;created_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;ab53e082-c08e-43ef-ae91-62c018852f04&quot;},&quot;last_edited_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;ab53e082-c08e-43ef-ae91-62c018852f04&quot;},&quot;has_children&quot;:false,&quot;in_trash&quot;:false,&quot;type&quot;:&quot;heading_3&quot;,&quot;heading_3&quot;:{&quot;rich_text&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;Image uploaded via UI&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;Image uploaded via UI&quot;,&quot;href&quot;:null}],&quot;is_toggleable&quot;:false,&quot;color&quot;:&quot;default&quot;}},{&quot;object&quot;:&quot;block&quot;,&quot;id&quot;:&quot;329cd6cf-1406-8037-af31-db34bf202415&quot;,&quot;parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;31dcd6cf-1406-80c2-8ecf-e3b1334397df&quot;},&quot;created_time&quot;:&quot;2026-03-20T20:28:00.000Z&quot;,&quot;last_edited_time&quot;:&quot;2026-03-20T20:29:00.000Z&quot;,&quot;created_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;ab53e082-c08e-43ef-ae91-62c018852f04&quot;},&quot;last_edited_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;ab53e082-c08e-43ef-ae91-62c018852f04&quot;},&quot;has_children&quot;:false,&quot;in_trash&quot;:false,&quot;type&quot;:&quot;image&quot;,&quot;image&quot;:{&quot;caption&quot;:[],&quot;type&quot;:&quot;file&quot;,&quot;file&quot;:{&quot;url&quot;:&quot;https://prod-files-secure.s3.us-west-2.amazonaws.com/74ecd6cf-1406-8114-a47c-000305deb73b/3b29f47b-ea7c-4c66-abd3-da4747ba8484/image_nature_water_tree.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&amp;X-Amz-Credential=ASIAZI2LB466UROATZME%2F20260320%2Fus-west-2%2Fs3%2Faws4_request&amp;X-Amz-Date=20260320T214134Z&amp;X-Amz-Expires=3600&amp;X-Amz-Security-Token=IQoJb3JpZ2luX2VjEHUaCXVzLXdlc3QtMiJIMEYCIQCsAspygn5T7bAwORWmY6R8iQSd8P2O1kKBwtJG1rUrIAIhAIrYvogBDWir9mOKYPCJttHaE7n6KXwwips7pgB7mM0TKv8DCD4QABoMNjM3NDIzMTgzODA1IgypBcRAX63v3blG1z8q3APT2%2BpOgWWgX7kphidYPkUgP8FPug1TmL2geZBOBCvx1wE6DseMD8OkPK9qwBiu5cYbfVWi5Kj8fpmNWt2sG%2FbRYS%2F6w9JR69M9WOsM970tvkG%2B2kLsfCo30ELAtwQs0x65Vk1ZkQo5WtfIDnXw81jhysk5t%2Bhop6%2BONksAxMQaUnDDXrVDNQhz%2B0f9kicfUVuGuJbdvsYxzTviFUyfpGpSS6YETr%2BisWqQfAieNrpDQZZGMRw6d3LAjQajl0yhmPufR6rn2mWxaxDmStuAtO63Np0SpPvxHeYyTDf3%2BI99%2FzgQyjl0cB5aLlOkyDlhT8AmjHydYBAi9PwnnBFiBAKdaaUxh3NufCf8txeARIcfipadTRzRIE3RUTTScxH9s22XQvMFf90Av%2BzN62%2B4SOFHsOY8vObGQ0jy176Qk0YroBSQ0%2F6RQhCXYL4a7JSpW%2BBSAzMZ5JF4IhL%2BtOsQl1xSS3TIIqDnJO2jWUDF9IFvuhEd3A%2FwZnEb45JHHXqQs9AULlYT711E6KP3lcCnY67m5EDoFhr3cVGt7mFow5fBCMbYS3PXjzGKf9%2Bpzll9suVPf65JtRXv6sA5M7xGISePU%2BltTRKeBceGkVOBlO%2FTzEEDfJujH9tXd%2B00IDDD3fbNBjqkAU5LfneXYj2Y%2FDXin9lGsC6WVP%2FZa%2BRS6VmptqMmspVzW%2FeqBXcQhGSWQ1wIv%2F1l8jx7Y8IE6pTHZ8ARfq22m6f84ocQAldNHi2uoxHfeY27lzTrRw8TYL0rfn3zVlYGRmS2ajRYaN7rM947G3LG55tP5O3q0%2FEI5VeBuvurjOkY6hNzU%2BolPuKwVEHPu1dlMlm%2FGM%2BqcwFdlBGeBQHkufUqF2MM&amp;X-Amz-Signature=e8fd6040d04aafc8946ff32abee5d3a630b0cb82e3a809141b0c8cb688c4c257&amp;X-Amz-SignedHeaders=host&amp;x-amz-checksum-mode=ENABLED&amp;x-id=GetObject&quot;,&quot;expiry_time&quot;:&quot;2026-03-20T22:41:34.544Z&quot;}}}],&quot;next_cursor&quot;:null,&quot;has_more&quot;:false,&quot;type&quot;:&quot;block&quot;,&quot;block&quot;:{},&quot;request_id&quot;:&quot;764f6758-e7d8-471d-a0d3-fced55e366a1&quot;}
+2026-03-20 21:41:35.434 [Test worker] ERROR io.kristixlab.notion.api.http.transport.HttpTransportImpl - [f77248a1-b04c-451a-a987-107f208454d1] Response from NotionAPIv2026-03-11 with error: 200
+2026-03-20 21:41:35.457 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [f77248a1-b04c-451a-a987-107f208454d1] Error response body: 
+NotionListType(results=[HeadingThreeBlock(heading3=HeadingThreeBlock.Heading(richText=[RichText(type=text, plainText=Complex database, href=null, annotations=RichText.Annotations(bold=false, italic=false, strikethrough=false, underline=false, code=false, color=default), text=RichText.Text(content=Complex database, link=null), mention=null, equation=null)], color=default, isToggleable=false, children=null)), ChildDatabaseBlock(childDatabase=ChildDatabaseBlock.ChildDatabase(title=Complex Database )), HeadingThreeBlock(heading3=HeadingThreeBlock.Heading(richText=[RichText(type=text, plainText=Page with blocks, href=null, annotations=RichText.Annotations(bold=false, italic=false, strikethrough=false, underline=false, code=false, color=default), text=RichText.Text(content=Page with blocks, link=null), mention=null, equation=null)], color=default, isToggleable=false, children=null)), ChildPageBlock(childPage=ChildPageBlock.ChildPage(title=Page with lots of different blocks)), HeadingThreeBlock(heading3=HeadingThreeBlock.Heading(richText=[RichText(type=text, plainText=Icon, href=null, annotations=RichText.Annotations(bold=false, italic=false, strikethrough=false, underline=false, code=false, color=default), text=RichText.Text(content=Icon, link=null), mention=null, equation=null)], color=default, isToggleable=false, children=null)), ParagraphBlock(paragraph=ParagraphBlock.Paragraph(richText=[RichText(type=text, plainText=&#x1f698;, href=null, annotations=RichText.Annotations(bold=false, italic=false, strikethrough=false, underline=false, code=false, color=default), text=RichText.Text(content=&#x1f698;, link=null), mention=null, equation=null)], color=default, children=null)), HeadingThreeBlock(heading3=HeadingThreeBlock.Heading(richText=[RichText(type=text, plainText=Cover, href=null, annotations=RichText.Annotations(bold=false, italic=false, strikethrough=false, underline=false, code=false, color=default), text=RichText.Text(content=Cover, link=null), mention=null, equation=null)], color=default, isToggleable=false, children=null)), ImageBlock(image=FileData(type=external, external=ExternalFile(url=https://images.unsplash.com/photo-1543906965-f9520aa2ed8a?ixlib=rb-4.1.0&amp;q=85&amp;fm=jpg&amp;crop=entropy&amp;cs=srgb), file=null, fileUpload=null, caption=[], name=null)), HeadingThreeBlock(heading3=HeadingThreeBlock.Heading(richText=[RichText(type=text, plainText=Image uploaded via UI, href=null, annotations=RichText.Annotations(bold=false, italic=false, strikethrough=false, underline=false, code=false, color=default), text=RichText.Text(content=Image uploaded via UI, link=null), mention=null, equation=null)], color=default, isToggleable=false, children=null)), ImageBlock(image=FileData(type=file, external=null, file=File(url=https://prod-files-secure.s3.us-west-2.amazonaws.com/74ecd6cf-1406-8114-a47c-000305deb73b/3b29f47b-ea7c-4c66-abd3-da4747ba8484/image_nature_water_tree.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&amp;X-Amz-Credential=ASIAZI2LB466UROATZME%2F20260320%2Fus-west-2%2Fs3%2Faws4_request&amp;X-Amz-Date=20260320T214134Z&amp;X-Amz-Expires=3600&amp;X-Amz-Security-Token=IQoJb3JpZ2luX2VjEHUaCXVzLXdlc3QtMiJIMEYCIQCsAspygn5T7bAwORWmY6R8iQSd8P2O1kKBwtJG1rUrIAIhAIrYvogBDWir9mOKYPCJttHaE7n6KXwwips7pgB7mM0TKv8DCD4QABoMNjM3NDIzMTgzODA1IgypBcRAX63v3blG1z8q3APT2%2BpOgWWgX7kphidYPkUgP8FPug1TmL2geZBOBCvx1wE6DseMD8OkPK9qwBiu5cYbfVWi5Kj8fpmNWt2sG%2FbRYS%2F6w9JR69M9WOsM970tvkG%2B2kLsfCo30ELAtwQs0x65Vk1ZkQo5WtfIDnXw81jhysk5t%2Bhop6%2BONksAxMQaUnDDXrVDNQhz%2B0f9kicfUVuGuJbdvsYxzTviFUyfpGpSS6YETr%2BisWqQfAieNrpDQZZGMRw6d3LAjQajl0yhmPufR6rn2mWxaxDmStuAtO63Np0SpPvxHeYyTDf3%2BI99%2FzgQyjl0cB5aLlOkyDlhT8AmjHydYBAi9PwnnBFiBAKdaaUxh3NufCf8txeARIcfipadTRzRIE3RUTTScxH9s22XQvMFf90Av%2BzN62%2B4SOFHsOY8vObGQ0jy176Qk0YroBSQ0%2F6RQhCXYL4a7JSpW%2BBSAzMZ5JF4IhL%2BtOsQl1xSS3TIIqDnJO2jWUDF9IFvuhEd3A%2FwZnEb45JHHXqQs9AULlYT711E6KP3lcCnY67m5EDoFhr3cVGt7mFow5fBCMbYS3PXjzGKf9%2Bpzll9suVPf65JtRXv6sA5M7xGISePU%2BltTRKeBceGkVOBlO%2FTzEEDfJujH9tXd%2B00IDDD3fbNBjqkAU5LfneXYj2Y%2FDXin9lGsC6WVP%2FZa%2BRS6VmptqMmspVzW%2FeqBXcQhGSWQ1wIv%2F1l8jx7Y8IE6pTHZ8ARfq22m6f84ocQAldNHi2uoxHfeY27lzTrRw8TYL0rfn3zVlYGRmS2ajRYaN7rM947G3LG55tP5O3q0%2FEI5VeBuvurjOkY6hNzU%2BolPuKwVEHPu1dlMlm%2FGM%2BqcwFdlBGeBQHkufUqF2MM&amp;X-Amz-Signature=e8fd6040d04aafc8946ff32abee5d3a630b0cb82e3a809141b0c8cb688c4c257&amp;X-Amz-SignedHeaders=host&amp;x-amz-checksum-mode=ENABLED&amp;x-id=GetObject, expiryTime=2026-03-20T22:41:34.544Z), fileUpload=null, caption=[], name=null))], nextCursor=null, hasMore=false, type=block)
+2026-03-20 21:41:35.461 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [f77248a1-b04c-451a-a987-107f208454d1] Calling NotionAPIv2026-03-11
+2026-03-20 21:41:35.462 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [f77248a1-b04c-451a-a987-107f208454d1] Building request...
+2026-03-20 21:41:35.464 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [f77248a1-b04c-451a-a987-107f208454d1] Request method: GET, url: https://api.notion.com/v1/file_uploads?status=uploaded, content-type: null
+2026-03-20 21:41:35.745 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [f77248a1-b04c-451a-a987-107f208454d1] Response from NotionAPIv2026-03-11 with code: 200
+2026-03-20 21:41:35.746 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [f77248a1-b04c-451a-a987-107f208454d1] Response body: 
+{&quot;object&quot;:&quot;list&quot;,&quot;results&quot;:[{&quot;object&quot;:&quot;file_upload&quot;,&quot;id&quot;:&quot;329cd6cf-1406-8188-92c7-00b2dc481ab3&quot;,&quot;created_time&quot;:&quot;2026-03-20T21:39:00.000Z&quot;,&quot;created_by&quot;:{&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;,&quot;type&quot;:&quot;bot&quot;},&quot;last_edited_time&quot;:&quot;2026-03-20T21:39:00.000Z&quot;,&quot;expiry_time&quot;:&quot;2026-03-20T22:39:00.000Z&quot;,&quot;in_trash&quot;:false,&quot;status&quot;:&quot;uploaded&quot;,&quot;filename&quot;:&quot;int-14-image.jpg&quot;,&quot;content_type&quot;:&quot;image/jpeg&quot;,&quot;content_length&quot;:366112},{&quot;object&quot;:&quot;file_upload&quot;,&quot;id&quot;:&quot;329cd6cf-1406-8116-923a-00b2a600a854&quot;,&quot;created_time&quot;:&quot;2026-03-20T21:39:00.000Z&quot;,&quot;created_by&quot;:{&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;,&quot;type&quot;:&quot;bot&quot;},&quot;last_edited_time&quot;:&quot;2026-03-20T21:39:00.000Z&quot;,&quot;expiry_time&quot;:&quot;2026-03-20T22:39:00.000Z&quot;,&quot;in_trash&quot;:false,&quot;status&quot;:&quot;uploaded&quot;,&quot;filename&quot;:&quot;int-18-image.jpg&quot;,&quot;content_type&quot;:&quot;image/jpeg&quot;,&quot;content_length&quot;:366112},{&quot;object&quot;:&quot;file_upload&quot;,&quot;id&quot;:&quot;329cd6cf-1406-8128-a06d-00b2c13f4cf5&quot;,&quot;created_time&quot;:&quot;2026-03-20T21:39:00.000Z&quot;,&quot;created_by&quot;:{&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;,&quot;type&quot;:&quot;bot&quot;},&quot;last_edited_time&quot;:&quot;2026-03-20T21:39:00.000Z&quot;,&quot;expiry_time&quot;:&quot;2026-03-20T22:39:00.000Z&quot;,&quot;in_trash&quot;:false,&quot;status&quot;:&quot;uploaded&quot;,&quot;filename&quot;:&quot;int-19-image.jpg&quot;,&quot;content_type&quot;:&quot;image/jpeg&quot;,&quot;content_length&quot;:1197601,&quot;file_import_result&quot;:{&quot;type&quot;:&quot;success&quot;,&quot;success&quot;:{},&quot;imported_time&quot;:&quot;2026-03-20T21:39:13.000+00:00&quot;}},{&quot;object&quot;:&quot;file_upload&quot;,&quot;id&quot;:&quot;329cd6cf-1406-8155-acb5-00b2e0a33b69&quot;,&quot;created_time&quot;:&quot;2026-03-20T21:39:00.000Z&quot;,&quot;created_by&quot;:{&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;,&quot;type&quot;:&quot;bot&quot;},&quot;last_edited_time&quot;:&quot;2026-03-20T21:39:00.000Z&quot;,&quot;expiry_time&quot;:&quot;2026-03-20T22:39:00.000Z&quot;,&quot;in_trash&quot;:false,&quot;status&quot;:&quot;uploaded&quot;,&quot;filename&quot;:&quot;int-15-image.jpg&quot;,&quot;content_type&quot;:&quot;image/jpeg&quot;,&quot;content_length&quot;:366112},{&quot;object&quot;:&quot;file_upload&quot;,&quot;id&quot;:&quot;329cd6cf-1406-81c8-8eb1-00b227fc09ee&quot;,&quot;created_time&quot;:&quot;2026-03-20T21:17:00.000Z&quot;,&quot;created_by&quot;:{&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;,&quot;type&quot;:&quot;bot&quot;},&quot;last_edited_time&quot;:&quot;2026-03-20T21:17:00.000Z&quot;,&quot;expiry_time&quot;:null,&quot;in_trash&quot;:false,&quot;status&quot;:&quot;uploaded&quot;,&quot;filename&quot;:&quot;int-14-image.jpg&quot;,&quot;content_type&quot;:&quot;image/jpeg&quot;,&quot;content_length&quot;:366112},{&quot;object&quot;:&quot;file_upload&quot;,&quot;id&quot;:&quot;329cd6cf-1406-81e1-8258-00b22f2d62e2&quot;,&quot;created_time&quot;:&quot;2026-03-20T21:17:00.000Z&quot;,&quot;created_by&quot;:{&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;,&quot;type&quot;:&quot;bot&quot;},&quot;last_edited_time&quot;:&quot;2026-03-20T21:17:00.000Z&quot;,&quot;expiry_time&quot;:&quot;2026-03-20T22:17:00.000Z&quot;,&quot;in_trash&quot;:false,&quot;status&quot;:&quot;uploaded&quot;,&quot;filename&quot;:&quot;int-18-image.jpg&quot;,&quot;content_type&quot;:&quot;image/jpeg&quot;,&quot;content_length&quot;:366112},{&quot;object&quot;:&quot;file_upload&quot;,&quot;id&quot;:&quot;329cd6cf-1406-81d4-ae9e-00b23ca9059b&quot;,&quot;created_time&quot;:&quot;2026-03-20T21:17:00.000Z&quot;,&quot;created_by&quot;:{&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;,&quot;type&quot;:&quot;bot&quot;},&quot;last_edited_time&quot;:&quot;2026-03-20T21:17:00.000Z&quot;,&quot;expiry_time&quot;:&quot;2026-03-20T22:17:00.000Z&quot;,&quot;in_trash&quot;:false,&quot;status&quot;:&quot;uploaded&quot;,&quot;filename&quot;:&quot;int-19-image.jpg&quot;,&quot;content_type&quot;:&quot;image/jpeg&quot;,&quot;content_length&quot;:1197601,&quot;file_import_result&quot;:{&quot;type&quot;:&quot;success&quot;,&quot;success&quot;:{},&quot;imported_time&quot;:&quot;2026-03-20T21:17:12.000+00:00&quot;}},{&quot;object&quot;:&quot;file_upload&quot;,&quot;id&quot;:&quot;329cd6cf-1406-8112-b363-00b20b91da10&quot;,&quot;created_time&quot;:&quot;2026-03-20T21:17:00.000Z&quot;,&quot;created_by&quot;:{&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;,&quot;type&quot;:&quot;bot&quot;},&quot;last_edited_time&quot;:&quot;2026-03-20T21:17:00.000Z&quot;,&quot;expiry_time&quot;:&quot;2026-03-20T22:17:00.000Z&quot;,&quot;in_trash&quot;:false,&quot;status&quot;:&quot;uploaded&quot;,&quot;filename&quot;:&quot;int-15-image.jpg&quot;,&quot;content_type&quot;:&quot;image/jpeg&quot;,&quot;content_length&quot;:366112},{&quot;object&quot;:&quot;file_upload&quot;,&quot;id&quot;:&quot;329cd6cf-1406-81d2-8d30-00b2b8306a8f&quot;,&quot;created_time&quot;:&quot;2026-03-20T21:11:00.000Z&quot;,&quot;created_by&quot;:{&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;,&quot;type&quot;:&quot;bot&quot;},&quot;last_edited_time&quot;:&quot;2026-03-20T21:11:00.000Z&quot;,&quot;expiry_time&quot;:null,&quot;in_trash&quot;:false,&quot;status&quot;:&quot;uploaded&quot;,&quot;filename&quot;:&quot;int-14-image.jpg&quot;,&quot;content_type&quot;:&quot;image/jpeg&quot;,&quot;content_length&quot;:366112},{&quot;object&quot;:&quot;file_upload&quot;,&quot;id&quot;:&quot;329cd6cf-1406-81db-a4c8-00b26c52166d&quot;,&quot;created_time&quot;:&quot;2026-03-20T21:11:00.000Z&quot;,&quot;created_by&quot;:{&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;,&quot;type&quot;:&quot;bot&quot;},&quot;last_edited_time&quot;:&quot;2026-03-20T21:11:00.000Z&quot;,&quot;expiry_time&quot;:&quot;2026-03-20T22:11:00.000Z&quot;,&quot;in_trash&quot;:false,&quot;status&quot;:&quot;uploaded&quot;,&quot;filename&quot;:&quot;int-18-image.jpg&quot;,&quot;content_type&quot;:&quot;image/jpeg&quot;,&quot;content_length&quot;:366112},{&quot;object&quot;:&quot;file_upload&quot;,&quot;id&quot;:&quot;329cd6cf-1406-8160-add7-00b2a1444d98&quot;,&quot;created_time&quot;:&quot;2026-03-20T21:11:00.000Z&quot;,&quot;created_by&quot;:{&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;,&quot;type&quot;:&quot;bot&quot;},&quot;last_edited_time&quot;:&quot;2026-03-20T21:11:00.000Z&quot;,&quot;expiry_time&quot;:&quot;2026-03-20T22:11:00.000Z&quot;,&quot;in_trash&quot;:false,&quot;status&quot;:&quot;uploaded&quot;,&quot;filename&quot;:&quot;int-19-image.jpg&quot;,&quot;content_type&quot;:&quot;image/jpeg&quot;,&quot;content_length&quot;:1197601,&quot;file_import_result&quot;:{&quot;type&quot;:&quot;success&quot;,&quot;success&quot;:{},&quot;imported_time&quot;:&quot;2026-03-20T21:11:14.000+00:00&quot;}},{&quot;object&quot;:&quot;file_upload&quot;,&quot;id&quot;:&quot;329cd6cf-1406-81ee-a800-00b204923dad&quot;,&quot;created_time&quot;:&quot;2026-03-20T21:11:00.000Z&quot;,&quot;created_by&quot;:{&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;,&quot;type&quot;:&quot;bot&quot;},&quot;last_edited_time&quot;:&quot;2026-03-20T21:11:00.000Z&quot;,&quot;expiry_time&quot;:&quot;2026-03-20T22:11:00.000Z&quot;,&quot;in_trash&quot;:false,&quot;status&quot;:&quot;uploaded&quot;,&quot;filename&quot;:&quot;int-15-image.jpg&quot;,&quot;content_type&quot;:&quot;image/jpeg&quot;,&quot;content_length&quot;:366112},{&quot;object&quot;:&quot;file_upload&quot;,&quot;id&quot;:&quot;329cd6cf-1406-811d-b210-00b27122b1e6&quot;,&quot;created_time&quot;:&quot;2026-03-20T21:05:00.000Z&quot;,&quot;created_by&quot;:{&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;,&quot;type&quot;:&quot;bot&quot;},&quot;last_edited_time&quot;:&quot;2026-03-20T21:05:00.000Z&quot;,&quot;expiry_time&quot;:null,&quot;in_trash&quot;:false,&quot;status&quot;:&quot;uploaded&quot;,&quot;filename&quot;:&quot;int-14-image.jpg&quot;,&quot;content_type&quot;:&quot;image/jpeg&quot;,&quot;content_length&quot;:366112},{&quot;object&quot;:&quot;file_upload&quot;,&quot;id&quot;:&quot;329cd6cf-1406-8118-b932-00b2bb9fc398&quot;,&quot;created_time&quot;:&quot;2026-03-20T21:05:00.000Z&quot;,&quot;created_by&quot;:{&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;,&quot;type&quot;:&quot;bot&quot;},&quot;last_edited_time&quot;:&quot;2026-03-20T21:05:00.000Z&quot;,&quot;expiry_time&quot;:&quot;2026-03-20T22:05:00.000Z&quot;,&quot;in_trash&quot;:false,&quot;status&quot;:&quot;uploaded&quot;,&quot;filename&quot;:&quot;int-18-image.jpg&quot;,&quot;content_type&quot;:&quot;image/jpeg&quot;,&quot;content_length&quot;:366112},{&quot;object&quot;:&quot;file_upload&quot;,&quot;id&quot;:&quot;329cd6cf-1406-819f-a3e8-00b216906dd9&quot;,&quot;created_time&quot;:&quot;2026-03-20T21:05:00.000Z&quot;,&quot;created_by&quot;:{&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;,&quot;type&quot;:&quot;bot&quot;},&quot;last_edited_time&quot;:&quot;2026-03-20T21:05:00.000Z&quot;,&quot;expiry_time&quot;:&quot;2026-03-20T22:05:00.000Z&quot;,&quot;in_trash&quot;:false,&quot;status&quot;:&quot;uploaded&quot;,&quot;filename&quot;:&quot;int-19-image.jpg&quot;,&quot;content_type&quot;:&quot;image/jpeg&quot;,&quot;content_length&quot;:1197601,&quot;file_import_result&quot;:{&quot;type&quot;:&quot;success&quot;,&quot;success&quot;:{},&quot;imported_time&quot;:&quot;2026-03-20T21:05:36.000+00:00&quot;}},{&quot;object&quot;:&quot;file_upload&quot;,&quot;id&quot;:&quot;329cd6cf-1406-8180-b736-00b26bd3d5c8&quot;,&quot;created_time&quot;:&quot;2026-03-20T21:05:00.000Z&quot;,&quot;created_by&quot;:{&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;,&quot;type&quot;:&quot;bot&quot;},&quot;last_edited_time&quot;:&quot;2026-03-20T21:05:00.000Z&quot;,&quot;expiry_time&quot;:&quot;2026-03-20T22:05:00.000Z&quot;,&quot;in_trash&quot;:false,&quot;status&quot;:&quot;uploaded&quot;,&quot;filename&quot;:&quot;int-15-image.jpg&quot;,&quot;content_type&quot;:&quot;image/jpeg&quot;,&quot;content_length&quot;:366112},{&quot;object&quot;:&quot;file_upload&quot;,&quot;id&quot;:&quot;329cd6cf-1406-8135-b1af-00b2248388a3&quot;,&quot;created_time&quot;:&quot;2026-03-20T20:55:00.000Z&quot;,&quot;created_by&quot;:{&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;,&quot;type&quot;:&quot;bot&quot;},&quot;last_edited_time&quot;:&quot;2026-03-20T20:55:00.000Z&quot;,&quot;expiry_time&quot;:null,&quot;in_trash&quot;:false,&quot;status&quot;:&quot;uploaded&quot;,&quot;filename&quot;:&quot;int-14-image.jpg&quot;,&quot;content_type&quot;:&quot;image/jpeg&quot;,&quot;content_length&quot;:366112},{&quot;object&quot;:&quot;file_upload&quot;,&quot;id&quot;:&quot;329cd6cf-1406-81b2-94e5-00b254f66478&quot;,&quot;created_time&quot;:&quot;2026-03-20T20:55:00.000Z&quot;,&quot;created_by&quot;:{&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;,&quot;type&quot;:&quot;bot&quot;},&quot;last_edited_time&quot;:&quot;2026-03-20T20:55:00.000Z&quot;,&quot;expiry_time&quot;:&quot;2026-03-20T21:55:00.000Z&quot;,&quot;in_trash&quot;:false,&quot;status&quot;:&quot;uploaded&quot;,&quot;filename&quot;:&quot;int-18-image.jpg&quot;,&quot;content_type&quot;:&quot;image/jpeg&quot;,&quot;content_length&quot;:366112},{&quot;object&quot;:&quot;file_upload&quot;,&quot;id&quot;:&quot;329cd6cf-1406-8102-aafe-00b25787c37c&quot;,&quot;created_time&quot;:&quot;2026-03-20T20:55:00.000Z&quot;,&quot;created_by&quot;:{&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;,&quot;type&quot;:&quot;bot&quot;},&quot;last_edited_time&quot;:&quot;2026-03-20T20:55:00.000Z&quot;,&quot;expiry_time&quot;:&quot;2026-03-20T21:55:00.000Z&quot;,&quot;in_trash&quot;:false,&quot;status&quot;:&quot;uploaded&quot;,&quot;filename&quot;:&quot;int-19-image.jpg&quot;,&quot;content_type&quot;:&quot;image/jpeg&quot;,&quot;content_length&quot;:1197601,&quot;file_import_result&quot;:{&quot;type&quot;:&quot;success&quot;,&quot;success&quot;:{},&quot;imported_time&quot;:&quot;2026-03-20T20:55:42.000+00:00&quot;}},{&quot;object&quot;:&quot;file_upload&quot;,&quot;id&quot;:&quot;329cd6cf-1406-81e9-91bc-00b2b6080e67&quot;,&quot;created_time&quot;:&quot;2026-03-20T20:55:00.000Z&quot;,&quot;created_by&quot;:{&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;,&quot;type&quot;:&quot;bot&quot;},&quot;last_edited_time&quot;:&quot;2026-03-20T20:55:00.000Z&quot;,&quot;expiry_time&quot;:&quot;2026-03-20T21:55:00.000Z&quot;,&quot;in_trash&quot;:false,&quot;status&quot;:&quot;uploaded&quot;,&quot;filename&quot;:&quot;int-15-image.jpg&quot;,&quot;content_type&quot;:&quot;image/jpeg&quot;,&quot;content_length&quot;:366112},{&quot;object&quot;:&quot;file_upload&quot;,&quot;id&quot;:&quot;329cd6cf-1406-81b5-ada7-00b2603fe37e&quot;,&quot;created_time&quot;:&quot;2026-03-20T17:11:00.000Z&quot;,&quot;created_by&quot;:{&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;,&quot;type&quot;:&quot;bot&quot;},&quot;last_edited_time&quot;:&quot;2026-03-20T17:11:00.000Z&quot;,&quot;expiry_time&quot;:null,&quot;in_trash&quot;:false,&quot;status&quot;:&quot;uploaded&quot;,&quot;filename&quot;:&quot;int-14-image.jpg&quot;,&quot;content_type&quot;:&quot;image/jpeg&quot;,&quot;content_length&quot;:366112},{&quot;object&quot;:&quot;file_upload&quot;,&quot;id&quot;:&quot;326cd6cf-1406-8175-963e-00b241d03bf9&quot;,&quot;created_time&quot;:&quot;2026-03-17T23:50:00.000Z&quot;,&quot;created_by&quot;:{&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;,&quot;type&quot;:&quot;bot&quot;},&quot;last_edited_time&quot;:&quot;2026-03-17T23:50:00.000Z&quot;,&quot;expiry_time&quot;:null,&quot;in_trash&quot;:false,&quot;status&quot;:&quot;uploaded&quot;,&quot;filename&quot;:&quot;int-14-image.jpg&quot;,&quot;content_type&quot;:&quot;image/jpeg&quot;,&quot;content_length&quot;:366112},{&quot;object&quot;:&quot;file_upload&quot;,&quot;id&quot;:&quot;326cd6cf-1406-8106-bf57-00b205f28fce&quot;,&quot;created_time&quot;:&quot;2026-03-17T23:39:00.000Z&quot;,&quot;created_by&quot;:{&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;,&quot;type&quot;:&quot;bot&quot;},&quot;last_edited_time&quot;:&quot;2026-03-17T23:39:00.000Z&quot;,&quot;expiry_time&quot;:null,&quot;in_trash&quot;:false,&quot;status&quot;:&quot;uploaded&quot;,&quot;filename&quot;:&quot;int-14-image.jpg&quot;,&quot;content_type&quot;:&quot;image/jpeg&quot;,&quot;content_length&quot;:366112}],&quot;next_cursor&quot;:null,&quot;has_more&quot;:false,&quot;type&quot;:&quot;file_upload&quot;,&quot;file_upload&quot;:{},&quot;request_id&quot;:&quot;2c92ad23-8632-4108-823a-0fad2e614e0f&quot;}
+2026-03-20 21:41:35.785 [Test worker] ERROR io.kristixlab.notion.api.http.transport.HttpTransportImpl - [f77248a1-b04c-451a-a987-107f208454d1] Response from NotionAPIv2026-03-11 with error: 200
+2026-03-20 21:41:35.787 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [f77248a1-b04c-451a-a987-107f208454d1] Error response body: 
+FileUploadList(fileUpload={})
+2026-03-20 21:41:35.789 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [f77248a1-b04c-451a-a987-107f208454d1] Calling NotionAPIv2026-03-11
+2026-03-20 21:41:35.789 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [f77248a1-b04c-451a-a987-107f208454d1] Building request...
+2026-03-20 21:41:35.790 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [f77248a1-b04c-451a-a987-107f208454d1] Request method: GET, url: https://api.notion.com/v1/users, content-type: null
+2026-03-20 21:41:35.894 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [f77248a1-b04c-451a-a987-107f208454d1] Response from NotionAPIv2026-03-11 with code: 200
+2026-03-20 21:41:35.895 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [f77248a1-b04c-451a-a987-107f208454d1] Response body: 
+{&quot;object&quot;:&quot;list&quot;,&quot;results&quot;:[{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;2e8d872b-594c-8197-b19f-000245c7469f&quot;,&quot;name&quot;:&quot;Notion SDK&quot;,&quot;avatar_url&quot;:&quot;https://lh3.googleusercontent.com/a/ACg8ocLI92G3npuAxEcx50qz8lw8csWU5Oz2hBrF4oDIQEYPnW3TMg=s100&quot;,&quot;type&quot;:&quot;person&quot;,&quot;person&quot;:{}},{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;,&quot;name&quot;:&quot;SDK Project - Internal Bot&quot;,&quot;avatar_url&quot;:&quot;https://s3-us-west-2.amazonaws.com/public.notion-static.com/4b1f8b01-ed6b-41c3-a845-eb795c0ef4e3/35f8a833-8f3b-40ea-bfef-a303db38340apng.png&quot;,&quot;type&quot;:&quot;bot&quot;,&quot;bot&quot;:{&quot;owner&quot;:{&quot;type&quot;:&quot;workspace&quot;,&quot;workspace&quot;:true},&quot;workspace_name&quot;:&quot;Notion SDK’s Space&quot;,&quot;workspace_id&quot;:&quot;74ecd6cf-1406-8114-a47c-000305deb73b&quot;,&quot;workspace_limits&quot;:{&quot;max_file_upload_size_in_bytes&quot;:5242880}}},{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;5bc643f4-4866-4b56-81b6-77b56f3fbe4f&quot;,&quot;name&quot;:&quot;SDK Project - Public Bot&quot;,&quot;avatar_url&quot;:&quot;https://s3-us-west-2.amazonaws.com/public.notion-static.com/6c0d23d0-73a5-406d-9112-5a0d9d0d9062/cc4fd512-b38c-4417-a7ca-bef2e827d2c9png.png&quot;,&quot;type&quot;:&quot;bot&quot;,&quot;bot&quot;:{}}],&quot;next_cursor&quot;:null,&quot;has_more&quot;:false,&quot;type&quot;:&quot;user&quot;,&quot;user&quot;:{},&quot;request_id&quot;:&quot;1e9c0b0a-bf25-4c4c-9714-f5f7f1d73100&quot;}
+2026-03-20 21:41:35.900 [Test worker] ERROR io.kristixlab.notion.api.http.transport.HttpTransportImpl - [f77248a1-b04c-451a-a987-107f208454d1] Response from NotionAPIv2026-03-11 with error: 200
+2026-03-20 21:41:35.900 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [f77248a1-b04c-451a-a987-107f208454d1] Error response body: 
+UserList(user={})
+2026-03-20 21:41:35.909 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [f77248a1-b04c-451a-a987-107f208454d1] Calling NotionAPIv2026-03-11
+2026-03-20 21:41:35.910 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [f77248a1-b04c-451a-a987-107f208454d1] Building request...
+2026-03-20 21:41:36.011 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [f77248a1-b04c-451a-a987-107f208454d1] Request method: POST, url: https://api.notion.com/v1/pages, content-type: application/json
+2026-03-20 21:41:36.015 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [f77248a1-b04c-451a-a987-107f208454d1] Request body: 
+{
+  &quot;parent&quot; : {
+    &quot;type&quot; : &quot;page_id&quot;,
+    &quot;page_id&quot; : &quot;2f4cd6cf14068001ac57e261d1c18fda&quot;
+  },
+  &quot;properties&quot; : {
+    &quot;title&quot; : {
+      &quot;type&quot; : &quot;title&quot;,
+      &quot;title&quot; : [ {
+        &quot;type&quot; : &quot;text&quot;,
+        &quot;plain_text&quot; : &quot;Integration tests run 2026-03-20T21:41:35.901410418&quot;,
+        &quot;annotations&quot; : { },
+        &quot;text&quot; : {
+          &quot;content&quot; : &quot;Integration tests run 2026-03-20T21:41:35.901410418&quot;
+        }
+      } ]
+    }
+  },
+  &quot;position&quot; : {
+    &quot;type&quot; : &quot;page_start&quot;
+  }
+}
+2026-03-20 21:41:36.381 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [f77248a1-b04c-451a-a987-107f208454d1] Response from NotionAPIv2026-03-11 with code: 200
+2026-03-20 21:41:36.382 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [f77248a1-b04c-451a-a987-107f208454d1] Response body: 
+{&quot;object&quot;:&quot;page&quot;,&quot;id&quot;:&quot;329cd6cf-1406-81ff-899c-c9bae2e7ba01&quot;,&quot;created_time&quot;:&quot;2026-03-20T21:41:00.000Z&quot;,&quot;last_edited_time&quot;:&quot;2026-03-20T21:41:00.000Z&quot;,&quot;created_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;last_edited_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;cover&quot;:null,&quot;icon&quot;:null,&quot;parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;2f4cd6cf-1406-8001-ac57-e261d1c18fda&quot;},&quot;in_trash&quot;:false,&quot;is_archived&quot;:false,&quot;is_locked&quot;:false,&quot;properties&quot;:{&quot;title&quot;:{&quot;id&quot;:&quot;title&quot;,&quot;type&quot;:&quot;title&quot;,&quot;title&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;Integration tests run 2026-03-20T21:41:35.901410418&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;Integration tests run 2026-03-20T21:41:35.901410418&quot;,&quot;href&quot;:null}]}},&quot;url&quot;:&quot;https://www.notion.so/Integration-tests-run-2026-03-20T21-41-35-901410418-329cd6cf140681ff899cc9bae2e7ba01&quot;,&quot;public_url&quot;:null,&quot;request_id&quot;:&quot;89291b0d-7579-43f9-8054-af9b82b8e386&quot;}
+2026-03-20 21:41:36.404 [Test worker] ERROR io.kristixlab.notion.api.http.transport.HttpTransportImpl - [f77248a1-b04c-451a-a987-107f208454d1] Response from NotionAPIv2026-03-11 with error: 200
+2026-03-20 21:41:36.406 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [f77248a1-b04c-451a-a987-107f208454d1] Error response body: 
+Page(properties={title=TitleProperty(type=title, title=[RichText(type=text, plainText=Integration tests run 2026-03-20T21:41:35.901410418, href=null, annotations=RichText.Annotations(bold=false, italic=false, strikethrough=false, underline=false, code=false, color=default), text=RichText.Text(content=Integration tests run 2026-03-20T21:41:35.901410418, link=null), mention=null, equation=null)])}, url=https://www.notion.so/Integration-tests-run-2026-03-20T21-41-35-901410418-329cd6cf140681ff899cc9bae2e7ba01, publicUrl=null, icon=null, cover=null, isLocked=false)
+2026-03-20 21:41:36.408 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [f77248a1-b04c-451a-a987-107f208454d1] Calling NotionAPIv2026-03-11
+2026-03-20 21:41:36.408 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [f77248a1-b04c-451a-a987-107f208454d1] Building request...
+2026-03-20 21:41:36.411 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [f77248a1-b04c-451a-a987-107f208454d1] Request method: POST, url: https://api.notion.com/v1/pages, content-type: application/json
+2026-03-20 21:41:36.412 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [f77248a1-b04c-451a-a987-107f208454d1] Request body: 
+{
+  &quot;parent&quot; : {
+    &quot;type&quot; : &quot;page_id&quot;,
+    &quot;page_id&quot; : &quot;329cd6cf-1406-81ff-899c-c9bae2e7ba01&quot;
+  },
+  &quot;properties&quot; : {
+    &quot;title&quot; : {
+      &quot;type&quot; : &quot;title&quot;,
+      &quot;title&quot; : [ {
+        &quot;type&quot; : &quot;text&quot;,
+        &quot;plain_text&quot; : &quot;Data Sources&quot;,
+        &quot;annotations&quot; : { },
+        &quot;text&quot; : {
+          &quot;content&quot; : &quot;Data Sources&quot;
+        }
+      } ]
+    }
+  },
+  &quot;position&quot; : {
+    &quot;type&quot; : &quot;page_start&quot;
+  }
+}
+2026-03-20 21:41:36.699 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [f77248a1-b04c-451a-a987-107f208454d1] Response from NotionAPIv2026-03-11 with code: 200
+2026-03-20 21:41:36.700 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [f77248a1-b04c-451a-a987-107f208454d1] Response body: 
+{&quot;object&quot;:&quot;page&quot;,&quot;id&quot;:&quot;329cd6cf-1406-81c9-ab4f-dfbb0e330462&quot;,&quot;created_time&quot;:&quot;2026-03-20T21:41:00.000Z&quot;,&quot;last_edited_time&quot;:&quot;2026-03-20T21:41:00.000Z&quot;,&quot;created_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;last_edited_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;cover&quot;:null,&quot;icon&quot;:null,&quot;parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;329cd6cf-1406-81ff-899c-c9bae2e7ba01&quot;},&quot;in_trash&quot;:false,&quot;is_archived&quot;:false,&quot;is_locked&quot;:false,&quot;properties&quot;:{&quot;title&quot;:{&quot;id&quot;:&quot;title&quot;,&quot;type&quot;:&quot;title&quot;,&quot;title&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;Data Sources&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;Data Sources&quot;,&quot;href&quot;:null}]}},&quot;url&quot;:&quot;https://www.notion.so/Data-Sources-329cd6cf140681c9ab4fdfbb0e330462&quot;,&quot;public_url&quot;:null,&quot;request_id&quot;:&quot;313c7920-3356-4278-a3d8-86464b0800cb&quot;}
+2026-03-20 21:41:36.701 [Test worker] ERROR io.kristixlab.notion.api.http.transport.HttpTransportImpl - [f77248a1-b04c-451a-a987-107f208454d1] Response from NotionAPIv2026-03-11 with error: 200
+2026-03-20 21:41:36.702 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [f77248a1-b04c-451a-a987-107f208454d1] Error response body: 
+Page(properties={title=TitleProperty(type=title, title=[RichText(type=text, plainText=Data Sources, href=null, annotations=RichText.Annotations(bold=false, italic=false, strikethrough=false, underline=false, code=false, color=default), text=RichText.Text(content=Data Sources, link=null), mention=null, equation=null)])}, url=https://www.notion.so/Data-Sources-329cd6cf140681c9ab4fdfbb0e330462, publicUrl=null, icon=null, cover=null, isLocked=false)
+2026-03-20 21:41:36.760 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [f77248a1-b04c-451a-a987-107f208454d1] Calling NotionAPIv2026-03-11
+2026-03-20 21:41:36.761 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [f77248a1-b04c-451a-a987-107f208454d1] Building request...
+2026-03-20 21:41:36.763 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [f77248a1-b04c-451a-a987-107f208454d1] Request method: POST, url: https://api.notion.com/v1/pages, content-type: application/json
+2026-03-20 21:41:36.764 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [f77248a1-b04c-451a-a987-107f208454d1] Request body: 
+{
+  &quot;parent&quot; : {
+    &quot;type&quot; : &quot;page_id&quot;,
+    &quot;page_id&quot; : &quot;329cd6cf-1406-81c9-ab4f-dfbb0e330462&quot;
+  },
+  &quot;properties&quot; : {
+    &quot;title&quot; : {
+      &quot;type&quot; : &quot;title&quot;,
+      &quot;title&quot; : [ {
+        &quot;type&quot; : &quot;text&quot;,
+        &quot;plain_text&quot; : &quot;exampleCreateDatabase()&quot;,
+        &quot;annotations&quot; : { },
+        &quot;text&quot; : {
+          &quot;content&quot; : &quot;exampleCreateDatabase()&quot;
+        }
+      } ]
+    }
+  },
+  &quot;position&quot; : {
+    &quot;type&quot; : &quot;page_start&quot;
+  }
+}
+2026-03-20 21:41:37.060 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [f77248a1-b04c-451a-a987-107f208454d1] Response from NotionAPIv2026-03-11 with code: 200
+2026-03-20 21:41:37.060 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [f77248a1-b04c-451a-a987-107f208454d1] Response body: 
+{&quot;object&quot;:&quot;page&quot;,&quot;id&quot;:&quot;329cd6cf-1406-8160-8b45-fac9fce0a3a0&quot;,&quot;created_time&quot;:&quot;2026-03-20T21:41:00.000Z&quot;,&quot;last_edited_time&quot;:&quot;2026-03-20T21:41:00.000Z&quot;,&quot;created_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;last_edited_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;cover&quot;:null,&quot;icon&quot;:null,&quot;parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;329cd6cf-1406-81c9-ab4f-dfbb0e330462&quot;},&quot;in_trash&quot;:false,&quot;is_archived&quot;:false,&quot;is_locked&quot;:false,&quot;properties&quot;:{&quot;title&quot;:{&quot;id&quot;:&quot;title&quot;,&quot;type&quot;:&quot;title&quot;,&quot;title&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;exampleCreateDatabase()&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;exampleCreateDatabase()&quot;,&quot;href&quot;:null}]}},&quot;url&quot;:&quot;https://www.notion.so/exampleCreateDatabase-329cd6cf140681608b45fac9fce0a3a0&quot;,&quot;public_url&quot;:null,&quot;request_id&quot;:&quot;a4af82b5-5d3f-4cb1-b5e0-cd5435654598&quot;}
+2026-03-20 21:41:37.062 [Test worker] ERROR io.kristixlab.notion.api.http.transport.HttpTransportImpl - [f77248a1-b04c-451a-a987-107f208454d1] Response from NotionAPIv2026-03-11 with error: 200
+2026-03-20 21:41:37.062 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [f77248a1-b04c-451a-a987-107f208454d1] Error response body: 
+Page(properties={title=TitleProperty(type=title, title=[RichText(type=text, plainText=exampleCreateDatabase(), href=null, annotations=RichText.Annotations(bold=false, italic=false, strikethrough=false, underline=false, code=false, color=default), text=RichText.Text(content=exampleCreateDatabase(), link=null), mention=null, equation=null)])}, url=https://www.notion.so/exampleCreateDatabase-329cd6cf140681608b45fac9fce0a3a0, publicUrl=null, icon=null, cover=null, isLocked=false)
+2026-03-20 21:41:37.100 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [f77248a1-b04c-451a-a987-107f208454d1] Calling NotionAPIv2026-03-11
+2026-03-20 21:41:37.101 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [f77248a1-b04c-451a-a987-107f208454d1] Building request...
+2026-03-20 21:41:37.135 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [f77248a1-b04c-451a-a987-107f208454d1] Request method: POST, url: https://api.notion.com/v1/databases, content-type: application/json
+2026-03-20 21:41:37.138 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [f77248a1-b04c-451a-a987-107f208454d1] Request body: 
+{
+  &quot;parent&quot; : {
+    &quot;type&quot; : &quot;page_id&quot;,
+    &quot;page_id&quot; : &quot;329cd6cf-1406-8160-8b45-fac9fce0a3a0&quot;
+  },
+  &quot;title&quot; : [ {
+    &quot;type&quot; : &quot;text&quot;,
+    &quot;plain_text&quot; : &quot;Full property DB&quot;,
+    &quot;annotations&quot; : { },
+    &quot;text&quot; : {
+      &quot;content&quot; : &quot;Full property DB&quot;
+    }
+  } ],
+  &quot;description&quot; : [ {
+    &quot;type&quot; : &quot;text&quot;,
+    &quot;plain_text&quot; : &quot;Database to test all data source properties&quot;,
+    &quot;annotations&quot; : { },
+    &quot;text&quot; : {
+      &quot;content&quot; : &quot;Database to test all data source properties&quot;
+    }
+  } ],
+  &quot;is_inline&quot; : true,
+  &quot;initial_data_source&quot; : {
+    &quot;properties&quot; : {
+      &quot;Name&quot; : {
+        &quot;type&quot; : &quot;title&quot;,
+        &quot;title&quot; : { }
+      },
+      &quot;Description&quot; : {
+        &quot;rich_text&quot; : { }
+      },
+      &quot;Number&quot; : {
+        &quot;number&quot; : {
+          &quot;format&quot; : &quot;zloty&quot;
+        }
+      },
+      &quot;Checkbox&quot; : {
+        &quot;type&quot; : &quot;checkbox&quot;,
+        &quot;checkbox&quot; : { }
+      },
+      &quot;Due Date&quot; : {
+        &quot;date&quot; : { }
+      },
+      &quot;Category&quot; : {
+        &quot;select&quot; : {
+          &quot;options&quot; : [ {
+            &quot;name&quot; : &quot;Electronics&quot;
+          }, {
+            &quot;name&quot; : &quot;Books&quot;
+          }, {
+            &quot;name&quot; : &quot;Clothing&quot;
+          } ]
+        }
+      },
+      &quot;Tags&quot; : {
+        &quot;multi_select&quot; : {
+          &quot;options&quot; : [ {
+            &quot;name&quot; : &quot;Sale&quot;
+          }, {
+            &quot;name&quot; : &quot;New&quot;
+          }, {
+            &quot;name&quot; : &quot;Popular&quot;
+          } ]
+        }
+      },
+      &quot;Website&quot; : {
+        &quot;url&quot; : { }
+      },
+      &quot;Contact Email&quot; : {
+        &quot;email&quot; : { }
+      },
+      &quot;Contact Phone&quot; : {
+        &quot;phone_number&quot; : { }
+      },
+      &quot;People&quot; : {
+        &quot;people&quot; : { }
+      },
+      &quot;UniqueId&quot; : {
+        &quot;unique_id&quot; : { }
+      },
+      &quot;Created By&quot; : {
+        &quot;created_by&quot; : { }
+      },
+      &quot;Last Edited By&quot; : {
+        &quot;last_edited_by&quot; : { }
+      },
+      &quot;Created Time&quot; : {
+        &quot;created_time&quot; : { }
+      },
+      &quot;Last Edited Time&quot; : {
+        &quot;last_edited_time&quot; : { }
+      },
+      &quot;Files&quot; : {
+        &quot;files&quot; : { }
+      },
+      &quot;Formula&quot; : {
+        &quot;formula&quot; : {
+          &quot;expression&quot; : &quot;\&quot;Title: \&quot; + prop(\&quot;Name\&quot;)&quot;
+        }
+      },
+      &quot;Place&quot; : {
+        &quot;place&quot; : { }
+      },
+      &quot;One-sided to First DS&quot; : {
+        &quot;relation&quot; : {
+          &quot;data_source_id&quot; : &quot;some-existing-datasource-id&quot;,
+          &quot;single_property&quot; : { }
+        }
+      },
+      &quot;Dual to First DS&quot; : {
+        &quot;relation&quot; : {
+          &quot;data_source_id&quot; : &quot;some-existing-datasource-id&quot;,
+          &quot;type&quot; : &quot;dual_property&quot;,
+          &quot;dual_property&quot; : {
+            &quot;synced_property_id&quot; : &quot;Link to Second DS&quot;
+          }
+        }
+      },
+      &quot;Rollup&quot; : {
+        &quot;rollup&quot; : {
+          &quot;relation_property_id&quot; : &quot;Dual to First DS&quot;,
+          &quot;rollup_property_id&quot; : &quot;Name&quot;,
+          &quot;function&quot; : &quot;count&quot;
+        }
+      },
+      &quot;Status&quot; : {
+        &quot;status&quot; : { }
+      }
+    }
+  }
+}
+2026-03-20 21:41:37.363 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [f77248a1-b04c-451a-a987-107f208454d1] Response from NotionAPIv2026-03-11 with code: 400
+2026-03-20 21:41:37.364 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [f77248a1-b04c-451a-a987-107f208454d1] Response body: 
+{&quot;object&quot;:&quot;error&quot;,&quot;status&quot;:400,&quot;code&quot;:&quot;validation_error&quot;,&quot;message&quot;:&quot;body failed validation: body.initial_data_source.properties.One-sided to First DS.relation.data_source_id should be a valid uuid, instead was `\&quot;some-existing-datasource-id\&quot;`.&quot;,&quot;request_id&quot;:&quot;5db5d3fa-8c6e-4b88-8b75-a01fcd2c14d9&quot;}
+2026-03-20 21:41:37.369 [Test worker] ERROR io.kristixlab.notion.api.http.transport.HttpTransportImpl - [f77248a1-b04c-451a-a987-107f208454d1] Response from NotionAPIv2026-03-11 with error: 400
+2026-03-20 21:41:37.373 [Test worker] DEBUG io.kristixlab.notion.api.http.transport.HttpTransportImpl - [f77248a1-b04c-451a-a987-107f208454d1] Error response body: 
+NotionError(error=null, status=400, code=validation_error, message=body failed validation: body.initial_data_source.properties.One-sided to First DS.relation.data_source_id should be a valid uuid, instead was `&quot;some-existing-datasource-id&quot;`., additionalData=null)
+</pre>
+</span>
+</div>
+</div>
+<div id="footer">
+<p>
+<div>
+<label class="hidden" id="label-for-line-wrapping-toggle" for="line-wrapping-toggle">Wrap lines
+<input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
+</label>
+</div>Generated by 
+<a href="https://www.gradle.org">Gradle 8.14.4</a> at Mar 20, 2026, 9:42:51 PM</p>
+</div>
+</div>
+</body>
+</html>
