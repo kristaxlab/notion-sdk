@@ -44,20 +44,6 @@ public class UpdateDataSourceParams {
     return new Builder();
   }
 
-  /**
-   * Creates an {@link UpdateDataSourceParams} that updates a single property schema entry.
-   *
-   * <p>Shorthand for {@code builder().property(name, property).build()}.
-   *
-   * @param name the property name or ID
-   * @param property the new schema params, or {@code null} to delete the property
-   * @return a ready-to-use params object
-   */
-  public static UpdateDataSourceParams fromProperty(
-      String name, DataSourcePropertySchemaParams property) {
-    return builder().property(name, property).build();
-  }
-
   public static class Builder {
     private List<RichText> title;
     private Map<String, DataSourcePropertySchemaParams> properties;
