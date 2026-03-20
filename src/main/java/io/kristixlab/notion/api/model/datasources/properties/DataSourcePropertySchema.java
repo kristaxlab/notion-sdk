@@ -17,32 +17,30 @@ import lombok.Data;
     property = "type",
     visible = true)
 @JsonSubTypes({
-  @JsonSubTypes.Type(value = CheckboxDataSourcePropertySchema.class, name = "checkbox"),
-  @JsonSubTypes.Type(value = ButtonDataSourcePropertySchema.class, name = "button"),
-  @JsonSubTypes.Type(value = CreatedByDataSourcePropertySchema.class, name = "created_by"),
-  @JsonSubTypes.Type(value = CreatedTimeDataSourcePropertySchema.class, name = "created_time"),
-  @JsonSubTypes.Type(value = DateDataSourcePropertySchema.class, name = "date"),
-  @JsonSubTypes.Type(value = EmailDataSourcePropertySchema.class, name = "email"),
-  @JsonSubTypes.Type(value = FilesDataSourcePropertySchema.class, name = "files"),
-  @JsonSubTypes.Type(value = FormulaDataSourcePropertySchema.class, name = "formula"),
-  @JsonSubTypes.Type(value = LastEditedByDataSourcePropertySchema.class, name = "last_edited_by"),
-  @JsonSubTypes.Type(
-      value = LastEditedTimeDataSourcePropertySchema.class,
-      name = "last_edited_time"),
-  @JsonSubTypes.Type(value = MultiSelectDataSourcePropertySchema.class, name = "multi_select"),
-  @JsonSubTypes.Type(value = NumberDataSourcePropertySchema.class, name = "number"),
-  @JsonSubTypes.Type(value = PeopleDataSourcePropertySchema.class, name = "people"),
-  @JsonSubTypes.Type(value = PhoneNumberDataSourcePropertySchema.class, name = "phone_number"),
-  @JsonSubTypes.Type(value = RelationDataSourcePropertySchema.class, name = "relation"),
-  @JsonSubTypes.Type(value = RichTextDataSourcePropertySchema.class, name = "rich_text"),
-  @JsonSubTypes.Type(value = RollupDataSourcePropertySchema.class, name = "rollup"),
-  @JsonSubTypes.Type(value = SelectDataSourcePropertySchema.class, name = "select"),
-  @JsonSubTypes.Type(value = StatusDataSourcePropertySchema.class, name = "status"),
-  @JsonSubTypes.Type(value = TitleDataSourcePropertySchema.class, name = "title"),
-  @JsonSubTypes.Type(value = UniqueIdDataSourcePropertySchema.class, name = "unique_id"),
-  @JsonSubTypes.Type(value = UrlDataSourcePropertySchema.class, name = "url"),
-  @JsonSubTypes.Type(value = VerificationDataSourcePropertySchema.class, name = "verification"),
-  @JsonSubTypes.Type(value = PlaceDataSourcePropertySchema.class, name = "place")
+  @JsonSubTypes.Type(value = CheckboxSchema.class, name = "checkbox"),
+  @JsonSubTypes.Type(value = ButtonSchema.class, name = "button"),
+  @JsonSubTypes.Type(value = CreatedBySchema.class, name = "created_by"),
+  @JsonSubTypes.Type(value = CreatedTimeSchema.class, name = "created_time"),
+  @JsonSubTypes.Type(value = DateSchema.class, name = "date"),
+  @JsonSubTypes.Type(value = EmailSchema.class, name = "email"),
+  @JsonSubTypes.Type(value = FilesSchema.class, name = "files"),
+  @JsonSubTypes.Type(value = FormulaSchema.class, name = "formula"),
+  @JsonSubTypes.Type(value = LastEditedBySchema.class, name = "last_edited_by"),
+  @JsonSubTypes.Type(value = LastEditedTimeSchema.class, name = "last_edited_time"),
+  @JsonSubTypes.Type(value = MultiSelectSchema.class, name = "multi_select"),
+  @JsonSubTypes.Type(value = NumberSchema.class, name = "number"),
+  @JsonSubTypes.Type(value = PeopleSchema.class, name = "people"),
+  @JsonSubTypes.Type(value = PhoneSchema.class, name = "phone_number"),
+  @JsonSubTypes.Type(value = RelationSchema.class, name = "relation"),
+  @JsonSubTypes.Type(value = RichTextSchema.class, name = "rich_text"),
+  @JsonSubTypes.Type(value = RollupSchema.class, name = "rollup"),
+  @JsonSubTypes.Type(value = SelectSchema.class, name = "select"),
+  @JsonSubTypes.Type(value = StatusSchema.class, name = "status"),
+  @JsonSubTypes.Type(value = TitleSchema.class, name = "title"),
+  @JsonSubTypes.Type(value = UniqueIdSchema.class, name = "unique_id"),
+  @JsonSubTypes.Type(value = UrlSchema.class, name = "url"),
+  @JsonSubTypes.Type(value = VerificationSchema.class, name = "verification"),
+  @JsonSubTypes.Type(value = PlaceSchema.class, name = "place")
 })
 @Data
 public abstract class DataSourcePropertySchema {
@@ -66,92 +64,92 @@ public abstract class DataSourcePropertySchema {
   }
 
   // Type conversion methods similar to PageProperty
-  public CheckboxDataSourcePropertySchema asCheckbox() {
-    return (CheckboxDataSourcePropertySchema) this;
+  public CheckboxSchema asCheckbox() {
+    return (CheckboxSchema) this;
   }
 
-  public CreatedByDataSourcePropertySchema asCreatedBy() {
-    return (CreatedByDataSourcePropertySchema) this;
+  public CreatedBySchema asCreatedBy() {
+    return (CreatedBySchema) this;
   }
 
-  public CreatedTimeDataSourcePropertySchema asCreatedTime() {
-    return (CreatedTimeDataSourcePropertySchema) this;
+  public CreatedTimeSchema asCreatedTime() {
+    return (CreatedTimeSchema) this;
   }
 
-  public DateDataSourcePropertySchema asDate() {
-    return (DateDataSourcePropertySchema) this;
+  public DateSchema asDate() {
+    return (DateSchema) this;
   }
 
-  public EmailDataSourcePropertySchema asEmail() {
-    return (EmailDataSourcePropertySchema) this;
+  public EmailSchema asEmail() {
+    return (EmailSchema) this;
   }
 
-  public FilesDataSourcePropertySchema asFiles() {
-    return (FilesDataSourcePropertySchema) this;
+  public FilesSchema asFiles() {
+    return (FilesSchema) this;
   }
 
-  public FormulaDataSourcePropertySchema asFormula() {
-    return (FormulaDataSourcePropertySchema) this;
+  public FormulaSchema asFormula() {
+    return (FormulaSchema) this;
   }
 
-  public LastEditedByDataSourcePropertySchema asLastEditedBy() {
-    return (LastEditedByDataSourcePropertySchema) this;
+  public LastEditedBySchema asLastEditedBy() {
+    return (LastEditedBySchema) this;
   }
 
-  public LastEditedTimeDataSourcePropertySchema asLastEditedTime() {
-    return (LastEditedTimeDataSourcePropertySchema) this;
+  public LastEditedTimeSchema asLastEditedTime() {
+    return (LastEditedTimeSchema) this;
   }
 
-  public MultiSelectDataSourcePropertySchema asMultiSelect() {
-    return (MultiSelectDataSourcePropertySchema) this;
+  public MultiSelectSchema asMultiSelect() {
+    return (MultiSelectSchema) this;
   }
 
-  public NumberDataSourcePropertySchema asNumber() {
-    return (NumberDataSourcePropertySchema) this;
+  public NumberSchema asNumber() {
+    return (NumberSchema) this;
   }
 
-  public PeopleDataSourcePropertySchema asPeople() {
-    return (PeopleDataSourcePropertySchema) this;
+  public PeopleSchema asPeople() {
+    return (PeopleSchema) this;
   }
 
-  public PhoneNumberDataSourcePropertySchema asPhoneNumber() {
-    return (PhoneNumberDataSourcePropertySchema) this;
+  public PhoneSchema asPhoneNumber() {
+    return (PhoneSchema) this;
   }
 
-  public RelationDataSourcePropertySchema asRelation() {
-    return (RelationDataSourcePropertySchema) this;
+  public RelationSchema asRelation() {
+    return (RelationSchema) this;
   }
 
-  public RichTextDataSourcePropertySchema asRichText() {
-    return (RichTextDataSourcePropertySchema) this;
+  public RichTextSchema asRichText() {
+    return (RichTextSchema) this;
   }
 
-  public RollupDataSourcePropertySchema asRollup() {
-    return (RollupDataSourcePropertySchema) this;
+  public RollupSchema asRollup() {
+    return (RollupSchema) this;
   }
 
-  public SelectDataSourcePropertySchema asSelect() {
-    return (SelectDataSourcePropertySchema) this;
+  public SelectSchema asSelect() {
+    return (SelectSchema) this;
   }
 
-  public StatusDataSourcePropertySchema asStatus() {
-    return (StatusDataSourcePropertySchema) this;
+  public StatusSchema asStatus() {
+    return (StatusSchema) this;
   }
 
-  public TitleDataSourcePropertySchema asTitle() {
-    return (TitleDataSourcePropertySchema) this;
+  public TitleSchema asTitle() {
+    return (TitleSchema) this;
   }
 
-  public UniqueIdDataSourcePropertySchema asUniqueId() {
-    return (UniqueIdDataSourcePropertySchema) this;
+  public UniqueIdSchema asUniqueId() {
+    return (UniqueIdSchema) this;
   }
 
-  public UrlDataSourcePropertySchema asUrl() {
-    return (UrlDataSourcePropertySchema) this;
+  public UrlSchema asUrl() {
+    return (UrlSchema) this;
   }
 
-  public VerificationDataSourcePropertySchema asVerification() {
-    return (VerificationDataSourcePropertySchema) this;
+  public VerificationSchema asVerification() {
+    return (VerificationSchema) this;
   }
 
   // Type checking methods

@@ -11,6 +11,23 @@ public class TestExchangeLogger extends SequentialExchangeLogger {
   }
 
   @Override
+  public void logRequest(ExchangeContext context) {
+    if (context.get("testClass") == null || context.get("testMethod") == null) {
+      return;
+    }
+    super.logRequest(context);
+  }
+
+
+  @Override
+  public void logResponse(ExchangeContext context) {
+    if (context.get("testClass") == null || context.get("testMethod") == null) {
+      return;
+    }
+    super.logResponse(context);
+  }
+
+  @Override
   protected Path getBaseDir() {
     String testClass = ExchangeContext.getCurrent().getString("testClass");
     String testMethod = ExchangeContext.getCurrent().getString("testMethod");

@@ -130,7 +130,7 @@ public class HttpTransportImpl implements HttpTransport {
 
     if (exchangeLogger != null) {
       // TODO serviceName pass from the endpoint implementation?
-      ExchangeContext.getCurrent().put("serviceName", getApiName());
+      //ExchangeContext.getCurrent().put("serviceName", getApiName());
       ExchangeContext.getCurrent().put("method", request.method());
       ExchangeContext.getCurrent().put("path", request.url().toString());
       ExchangeContext.getCurrent().put("requestHeaders", request.headers().toMultimap());
@@ -186,8 +186,6 @@ public class HttpTransportImpl implements HttpTransport {
     }
 
     if (exchangeLogger != null) {
-      ExchangeContext.getCurrent().put("serviceName", getApiName());
-
       ExchangeContext.getCurrent().put("responseStatus", status);
       ExchangeContext.getCurrent().put("responseHeaders", response.getHeaders());
       if (response.getBody() != null) {

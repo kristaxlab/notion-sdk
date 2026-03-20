@@ -3,7 +3,10 @@ package io.kristixlab.notion.api.endpoints.impl;
 import static org.junit.jupiter.api.Assertions.*;
 
 import io.kristixlab.notion.api.http.TransportStub;
+import io.kristixlab.notion.api.model.common.Parent;
 import io.kristixlab.notion.api.model.pages.CreatePageParams;
+import io.kristixlab.notion.api.model.pages.MovePageParams;
+import io.kristixlab.notion.api.model.pages.UpdatePageAsMarkdownParams;
 import io.kristixlab.notion.api.model.pages.UpdatePageParams;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -162,5 +165,96 @@ class PagesEndpointImplTest {
     assertEquals("/pages/{page_id}", transport.getLastUrlInfo().getUrl());
     assertEquals("page-id-1", transport.getLastUrlInfo().getPathParams().get("page_id"));
     assertFalse(((UpdatePageParams) transport.getLastBody()).getInTrash());
+  }
+
+  // --- retrieveAsMarkdown ---
+
+  @Test
+  void retrieveAsMarkdown() {
+    endpoint.retrieveAsMarkdown("page-id-1");
+
+    assertEquals("GET", transport.getLastMethod());
+    assertEquals("/pages/{page_id}/markdown", transport.getLastUrlInfo().getUrl());
+    assertEquals("page-id-1", transport.getLastUrlInfo().getPathParams().get("page_id"));
+    assertEquals(
+        java.util.List.of("false"),
+        transport.getLastUrlInfo().getQueryParams().get("include_transcript"));
+    assertNull(transport.getLastBody());
+  }
+
+  @Test
+  void retrieveAsMarkdown_withIncludeTranscript() {
+    endpoint.retrieveAsMarkdown("page-id-1", true);
+
+    assertEquals("GET", transport.getLastMethod());
+    assertEquals("/pages/{page_id}/markdown", transport.getLastUrlInfo().getUrl());
+    assertEquals("page-id-1", transport.getLastUrlInfo().getPathParams().get("page_id"));
+    assertEquals(
+        java.util.List.of("true"),
+        transport.getLastUrlInfo().getQueryParams().get("include_transcript"));
+  }
+
+  @ParameterizedTest
+  @NullAndEmptySource
+  @ValueSource(strings = {"   "})
+  void retrieveAsMarkdown_rejectsBlankOrNullPageId(String pageId) {
+    assertThrows(IllegalArgumentException.class, () -> endpoint.retrieveAsMarkdown(pageId));
+  }
+
+  // --- updateAsMarkdown ---
+
+  @Test
+  void updateAsMarkdown() {
+    UpdatePageAsMarkdownParams request = UpdatePageAsMarkdownParams.replaceContent("# Hello");
+
+    endpoint.updateAsMarkdown("page-id-1", request);
+
+    assertEquals("PATCH", transport.getLastMethod());
+    assertEquals("/pages/{page_id}/markdown", transport.getLastUrlInfo().getUrl());
+    assertEquals("page-id-1", transport.getLastUrlInfo().getPathParams().get("page_id"));
+    assertSame(request, transport.getLastBody());
+  }
+
+  @Test
+  void updateAsMarkdown_rejectsNullRequest() {
+    assertThrows(
+        IllegalArgumentException.class, () -> endpoint.updateAsMarkdown("page-id-1", null));
+  }
+
+  @ParameterizedTest
+  @NullAndEmptySource
+  @ValueSource(strings = {"   "})
+  void updateAsMarkdown_rejectsBlankOrNullPageId(String pageId) {
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> endpoint.updateAsMarkdown(pageId, UpdatePageAsMarkdownParams.replaceContent("")));
+  }
+
+  // --- move ---
+
+  @Test
+  void move() {
+    Parent newParent = Parent.pageParent("parent-page-id");
+
+    endpoint.move("page-id-1", newParent);
+
+    assertEquals("POST", transport.getLastMethod());
+    assertEquals("/pages/{page_id}/move", transport.getLastUrlInfo().getUrl());
+    assertEquals("page-id-1", transport.getLastUrlInfo().getPathParams().get("page_id"));
+    assertSame(newParent, ((MovePageParams) transport.getLastBody()).getParent());
+  }
+
+  @Test
+  void move_rejectsNullParent() {
+    assertThrows(IllegalArgumentException.class, () -> endpoint.move("page-id-1", null));
+  }
+
+  @ParameterizedTest
+  @NullAndEmptySource
+  @ValueSource(strings = {"   "})
+  void move_rejectsBlankOrNullPageId(String pageId) {
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> endpoint.move(pageId, Parent.pageParent("parent-page-id")));
   }
 }

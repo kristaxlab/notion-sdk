@@ -16,24 +16,25 @@ public enum PropertyType {
   FORMULA("formula"),
   RELATION("relation"),
   ROLLUP("rollup"),
+  BUTTON("button"),
   CREATED_TIME("created_time"),
   CREATED_BY("created_by"),
   LAST_EDITED_TIME("last_edited_time"),
   LAST_EDITED_BY("last_edited_by");
 
-  private final String type;
+  private final String value;
 
-  PropertyType(String type) {
-    this.type = type;
+  PropertyType(String value) {
+    this.value = value;
   }
 
-  public String getType() {
-    return type;
+  public String getValue() {
+    return value;
   }
 
   public PropertyType fromType(String type) {
     for (PropertyType propertyType : PropertyType.values()) {
-      if (propertyType.type.equals(type)) {
+      if (propertyType.value.equals(type)) {
         return propertyType;
       }
     }

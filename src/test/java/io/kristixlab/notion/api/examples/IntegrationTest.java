@@ -11,7 +11,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 
+@Tag("integration")
 public class IntegrationTest extends BaseTest {
 
   private static final String TEST_OUTPUT_DIR = "src/test/resources/notion-api-integration-tests/";
@@ -24,10 +26,11 @@ public class IntegrationTest extends BaseTest {
   protected void setUp() throws Exception {
     Path outputDir = Paths.get(TEST_OUTPUT_DIR);
     Files.createDirectories(outputDir);
-    // String token = "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";
+    String token = "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";
     NotionApiClient notionApiClient = new NotionApiClient(TOKEN);
     // NotionClient notionClient = new NotionClient(token, null);
     NotionAuthSettings authSettings = new NotionAuthSettings();
+    authSettings.setAccessToken(token);
     transport = new NotionHttpTransport(authSettings);
   }
 
@@ -45,8 +48,5 @@ public class IntegrationTest extends BaseTest {
 
   protected void saveToFile(Object object, String filename) throws IOException {
     JsonConverter.getInstance().toFile(new File(getTestOutputDir() + filename), object);
-    /*getObjectMapper()
-    .writerWithDefaultPrettyPrinter()
-    .writeValue(new File(getTestOutputDir() + filename), object);*/
   }
 }

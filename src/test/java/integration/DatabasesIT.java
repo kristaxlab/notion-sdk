@@ -10,8 +10,9 @@ import io.kristixlab.notion.api.model.common.RichText;
 import io.kristixlab.notion.api.model.databases.*;
 import io.kristixlab.notion.api.model.datasources.CreateDataSourceParams;
 import io.kristixlab.notion.api.model.datasources.DataSource;
-import io.kristixlab.notion.api.model.datasources.properties.NumberDataSourcePropertySchema;
-import io.kristixlab.notion.api.model.datasources.properties.TitleDataSourcePropertySchema;
+import io.kristixlab.notion.api.model.datasources.UpdateDataSourceParams;
+import io.kristixlab.notion.api.model.datasources.properties.NumberSchemaParams;
+import io.kristixlab.notion.api.model.datasources.properties.TitleSchemaParams;
 import java.util.HashMap;
 import java.util.List;
 import org.junit.jupiter.api.*;
@@ -106,8 +107,8 @@ public class DatabasesIT extends BaseIntegrationTest {
     // Step 2: Create a second data source linked to the same database
     CreateDataSourceParams dsRequest = new CreateDataSourceParams();
     dsRequest.setProperties(new HashMap<>());
-    dsRequest.getProperties().put("Name", new TitleDataSourcePropertySchema());
-    dsRequest.getProperties().put("Number", new NumberDataSourcePropertySchema());
+    dsRequest.getProperties().put("Name", new TitleSchemaParams());
+    dsRequest.getProperties().put("Number", new NumberSchemaParams());
     dsRequest.setParent(Parent.databaseParent(database.getId()));
     dsRequest.setTitle(toRichTextList("Second data source"));
 
@@ -198,12 +199,16 @@ public class DatabasesIT extends BaseIntegrationTest {
     sourceParams.setIsInline(true);
     sourceParams.setInitialDataSource(new InitialDatasource());
     sourceParams.getInitialDataSource().setProperties(new HashMap<>());
-    sourceParams.getInitialDataSource().getProperties().put("Title property", new TitleDataSourcePropertySchema());
+    sourceParams
+        .getInitialDataSource()
+        .getProperties()
+        .put("Title property", new TitleSchemaParams());
     Database sourceDb = getNotion().databases().create(sourceParams);
     assertEquals(1, sourceDb.getDataSources().size());
 
     // Step 2: Add a second data source to the source database
-    CreateDataSourceParams dsRequest = createDataSourceParams("Second data source", sourceDb.getId());
+    CreateDataSourceParams dsRequest =
+        createDataSourceParams("Second data source", sourceDb.getId());
     DataSource secondDs = getNotion().dataSources().create(dsRequest);
 
     Database sourceWithTwo = getNotion().databases().retrieve(sourceDb.getId());
@@ -218,9 +223,9 @@ public class DatabasesIT extends BaseIntegrationTest {
     int targetInitialCount = targetDb.getDataSources().size();
 
     // Step 4: Move both data sources from source to target
-    UpdateDatabaseParams moveRequest = new UpdateDatabaseParams();
+    UpdateDataSourceParams moveRequest = new UpdateDataSourceParams();
     moveRequest.setParent(Parent.databaseParent(targetDb.getId()));
-    for (DataSourceReference dsRef : sourceWithTwo.getDataSources()) {
+    for (DataSourceRef dsRef : sourceWithTwo.getDataSources()) {
       getNotion().dataSources().update(dsRef.getId(), moveRequest);
     }
 
@@ -241,7 +246,7 @@ public class DatabasesIT extends BaseIntegrationTest {
     CreateDataSourceParams params = new CreateDataSourceParams();
     params.setTitle(toRichTextList(title));
     params.setProperties(new HashMap<>());
-    params.getProperties().put("Name", new TitleDataSourcePropertySchema());
+    params.getProperties().put("Name", new TitleSchemaParams());
     params.setParent(Parent.databaseParent(parentDatabaseId));
     return params;
   }

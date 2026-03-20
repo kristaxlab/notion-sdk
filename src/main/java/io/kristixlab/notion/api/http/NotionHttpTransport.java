@@ -5,12 +5,12 @@ import io.kristixlab.notion.api.NotionAuthSettings;
 import io.kristixlab.notion.api.http.exception.*;
 import io.kristixlab.notion.api.http.transport.HttpTransportImpl;
 import io.kristixlab.notion.api.http.transport.exception.HttpResponseException;
+import io.kristixlab.notion.api.http.transport.log.ExchangeContext;
 import io.kristixlab.notion.api.http.transport.log.ExchangeLogger;
 import io.kristixlab.notion.api.http.transport.log.SequentialExchangeLogger;
 import io.kristixlab.notion.api.http.transport.rq.URLInfo;
 import io.kristixlab.notion.api.http.transport.rs.ApiResponse;
 import io.kristixlab.notion.api.http.transport.util.HttpTransportConfig;
-import io.kristixlab.notion.api.json.JsonConverter;
 import io.kristixlab.notion.api.model.NotionError;
 import java.util.HashMap;
 import java.util.Map;
@@ -91,6 +91,19 @@ public class NotionHttpTransport extends HttpTransportImpl {
       Map<String, String> headerParams,
       Object body,
       Class<T> responseType) {
+
+    if (urlInfo.getUrl() != null) {
+      String serviceName =
+          urlInfo.getUrl().replaceAll("/", "").replaceAll("\\{.*?\\}", "_")
+              + ("GET".equals(method)
+                  ? "_retrieve"
+                  : "POST".equals(method)
+                      ? "_create"
+                      : "PATCH".equals(method)
+                          ? "_update"
+                          : "DELETE".equals(method) ? "_delete" : "");
+      ExchangeContext.getCurrent().put("serviceName", serviceName);
+    }
 
     if (headerParams == null) {
       headerParams = new HashMap<>();

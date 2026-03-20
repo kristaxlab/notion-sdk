@@ -28,7 +28,6 @@ public class JsonConverter {
     ObjectMapper mapper = new ObjectMapper();
     mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, failOnUnknown);
     mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-    mapper.configure(SerializationFeature.WRITE_NULL_MAP_VALUES, false);
     mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
     mapper.enable(SerializationFeature.INDENT_OUTPUT);
     mapper.registerModule(new JavaTimeModule());

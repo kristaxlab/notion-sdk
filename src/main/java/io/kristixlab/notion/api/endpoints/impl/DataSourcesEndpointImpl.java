@@ -2,12 +2,9 @@ package io.kristixlab.notion.api.endpoints.impl;
 
 import io.kristixlab.notion.api.endpoints.DataSourcesEndpoint;
 import io.kristixlab.notion.api.http.transport.HttpTransport;
+import io.kristixlab.notion.api.http.transport.log.ExchangeContext;
 import io.kristixlab.notion.api.http.transport.rq.URLInfo;
-import io.kristixlab.notion.api.model.databases.UpdateDatabaseParams;
-import io.kristixlab.notion.api.model.datasources.CreateDataSourceParams;
-import io.kristixlab.notion.api.model.datasources.DataSource;
-import io.kristixlab.notion.api.model.datasources.DataSourcePageList;
-import io.kristixlab.notion.api.model.datasources.DataSourceQuery;
+import io.kristixlab.notion.api.model.datasources.*;
 import io.kristixlab.notion.api.model.pages.templates.Templates;
 
 /**
@@ -57,7 +54,7 @@ public class DataSourcesEndpointImpl implements DataSourcesEndpoint {
    * @param request The request containing updated data source data
    * @return The updated data source
    */
-  public DataSource update(String dataSourceId, UpdateDatabaseParams request) {
+  public DataSource update(String dataSourceId, UpdateDataSourceParams request) {
     validateDataSourceId(dataSourceId);
     validateRequest(request);
 
@@ -77,7 +74,7 @@ public class DataSourcesEndpointImpl implements DataSourcesEndpoint {
    * @return The updated data source with inTrash set to true
    */
   public DataSource delete(String dataSourceId) {
-    UpdateDatabaseParams deleteRequest = new UpdateDatabaseParams();
+    UpdateDataSourceParams deleteRequest = new UpdateDataSourceParams();
     deleteRequest.setInTrash(true);
     return update(dataSourceId, deleteRequest);
   }
@@ -90,7 +87,7 @@ public class DataSourcesEndpointImpl implements DataSourcesEndpoint {
    * @return The updated data source with inTrash set to false
    */
   public DataSource restore(String dataSourceId) {
-    UpdateDatabaseParams restoreRequest = new UpdateDatabaseParams();
+    UpdateDataSourceParams restoreRequest = new UpdateDataSourceParams();
     restoreRequest.setInTrash(false);
     return update(dataSourceId, restoreRequest);
   }

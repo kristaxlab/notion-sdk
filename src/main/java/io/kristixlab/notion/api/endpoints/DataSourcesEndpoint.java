@@ -1,10 +1,6 @@
 package io.kristixlab.notion.api.endpoints;
 
-import io.kristixlab.notion.api.model.databases.UpdateDatabaseParams;
-import io.kristixlab.notion.api.model.datasources.CreateDataSourceParams;
-import io.kristixlab.notion.api.model.datasources.DataSource;
-import io.kristixlab.notion.api.model.datasources.DataSourcePageList;
-import io.kristixlab.notion.api.model.datasources.DataSourceQuery;
+import io.kristixlab.notion.api.model.datasources.*;
 import io.kristixlab.notion.api.model.pages.templates.Templates;
 
 /**
@@ -15,7 +11,7 @@ import io.kristixlab.notion.api.model.pages.templates.Templates;
 public interface DataSourcesEndpoint {
   DataSource create(CreateDataSourceParams request);
 
-  DataSource update(String dataSourceId, UpdateDatabaseParams request);
+  DataSource update(String dataSourceId, UpdateDataSourceParams request);
 
   DataSource retrieve(String dataSourceId);
 

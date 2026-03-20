@@ -9,4 +9,5 @@ public class Prerequisites {
   private String emojiIcon;
   private String pageWithBlocksId;
   private String imageFileUploadId;
+  private String testDatabaseId;
 }

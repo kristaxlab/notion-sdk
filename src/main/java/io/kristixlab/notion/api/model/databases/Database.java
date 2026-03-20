@@ -1,10 +1,8 @@
 package io.kristixlab.notion.api.model.databases;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.kristixlab.notion.api.model.common.FileData;
-import io.kristixlab.notion.api.model.common.Icon;
-import io.kristixlab.notion.api.model.common.NotionObjectType;
-import io.kristixlab.notion.api.model.common.RichText;
+import io.kristixlab.notion.api.model.common.*;
+
 import java.util.List;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -24,7 +22,7 @@ public class Database extends NotionObjectType {
   private Icon icon;
 
   @JsonProperty("cover")
-  private FileData cover;
+  private Cover cover;
 
   @JsonProperty("url")
   private String url;
@@ -35,6 +33,9 @@ public class Database extends NotionObjectType {
   @JsonProperty("is_inline")
   private Boolean isInline;
 
+  @JsonProperty("is_locked")
+  private Boolean isLocked;
+
   @JsonProperty("data_sources")
-  private List<DataSourceReference> dataSources;
+  private List<DataSourceRef> dataSources;
 }

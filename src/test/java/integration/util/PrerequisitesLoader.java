@@ -14,10 +14,12 @@ public class PrerequisitesLoader {
 
     BlockList pagaContent = client.blocks().retrieveChildren(prerequisitesPageId);
     for (int i = 0; i < pagaContent.getResults().size(); i++) {
-      if (matchTitle(pagaContent.getResults().get(i), "Cover")) {
+      if (matchHeading(pagaContent.getResults().get(i), "Cover")) {
         prerequisites.setCoverUrl(getCover(pagaContent, i + 1));
-      } else if (matchTitle(pagaContent.getResults().get(i), "Icon")) {
+      } else if (matchHeading(pagaContent.getResults().get(i), "Icon")) {
         prerequisites.setEmojiIcon(getIcon(pagaContent, i + 1));
+      } else if ("child_database".equals(pagaContent.getResults().get(i).getType())) {
+        prerequisites.setTestDatabaseId(pagaContent.getResults().get(i).asChildDatabase().getId());
       }
     }
 
@@ -57,7 +59,7 @@ public class PrerequisitesLoader {
     }
   }
 
-  private static boolean matchTitle(Block block, String title) {
+  private static boolean matchHeading(Block block, String title) {
     return block.getType() != null
         && block.getType().equals("heading_3")
         && block.asHeadingThree().getHeading3().getRichText().get(0).getPlainText().equals(title);
