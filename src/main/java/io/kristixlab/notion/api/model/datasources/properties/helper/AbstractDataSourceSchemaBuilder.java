@@ -4,6 +4,7 @@ import io.kristixlab.notion.api.model.datasources.properties.*;
 import io.kristixlab.notion.api.model.datasources.properties.NumberFormatType;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.function.Consumer;
 
 /**
  * Abstract fluent base for building a Notion data source (database) property schema.
@@ -307,11 +308,26 @@ abstract class AbstractDataSourceSchemaBuilder<SELF extends AbstractDataSourceSc
   /**
    * Adds a {@code status} property with default parameters.
    *
-   * <p>Notion places all options in the "To-do" group automatically on creation. Use {@link
-   * StatusSchemaParams#editor(StatusSchema)} after creation to reorganise groups.
+   * <p>Notion places all options in the "To-do" group automatically on creation.
    */
   public SELF status(String nameOrId) {
     return status(nameOrId, new StatusSchemaParams());
+  }
+
+  /**
+   * Adds a {@code status} property configured via a lambda on {@link StatusSchemaParams.Builder}.
+   *
+   * <pre>{@code
+   * .status("Workflow", s -> s
+   *     .option("Backlog",      Color.DEFAULT)
+   *     .option("In Progress",  Color.YELLOW)
+   *     .option("Completed",    Color.GREEN))
+   * }</pre>
+   */
+  public SELF status(String nameOrId, Consumer<StatusSchemaParams.Builder> configurator) {
+    StatusSchemaParams.Builder builder = StatusSchemaParams.builder();
+    configurator.accept(builder);
+    return status(nameOrId, builder.build());
   }
 
   /** Adds a {@code status} property with the given parameters. */

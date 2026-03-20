@@ -67,8 +67,9 @@ public class DataSourcesPropertiesIT extends BaseIntegrationTest {
                     .inDatabase(db.getId())
                     .title("Product catalog")
                     .properties(
-                        s ->
-                            s.title("Name")
+                        schema ->
+                            schema
+                                .title("Name")
                                 .text("Description")
                                 .number("Number", NumberFormatType.ZLOTY)
                                 .checkbox("Checkbox")
@@ -110,6 +111,7 @@ public class DataSourcesPropertiesIT extends BaseIntegrationTest {
                     .inDatasource(initialDsId)
                     .title("Minimal entry")
                     .build());
+
     // Step 2: Add a page with all properties filled and with content
     Page fullPage =
         getNotion()
@@ -253,25 +255,24 @@ public class DataSourcesPropertiesIT extends BaseIntegrationTest {
     // Step 1: Create a datasource with a status property and a defined set of options.
     // Notion ignores group configuration on creation; all options land in the default "To-do"
     // group. Groups are read-only via the API and cannot be changed programmatically.
-    Database db =
-        getNotion()
-            .databases()
-            .create(
-                CreateDatabaseParams.builder()
-                    .inPage(currTestPageId)
-                    .title("Status Test DB")
-                    .isInline(true)
-                    .propertiesBuilder()
-                    .title("Name")
-                    .status(
-                        "Workflow",
-                        StatusSchemaParams.builder()
-                            .option("Backlog", Color.DEFAULT)
-                            .option("In Progress", Color.YELLOW)
-                            .option("Completed", Color.GREEN)
-                            .build())
-                    .buildProperties()
-                    .build());
+    var rq =
+        CreateDatabaseParams.builder()
+            .inPage(currTestPageId)
+            .title("Status Test DB")
+            .isInline(true)
+            .properties(
+                schema ->
+                    schema
+                        .title("Name")
+                        .status(
+                            "Workflow",
+                            status ->
+                                status
+                                    .option("Backlog", Color.DEFAULT)
+                                    .option("In Progress", Color.YELLOW)
+                                    .option("Completed", Color.GREEN)));
+
+    Database db = getNotion().databases().create(rq.build());
 
     DataSource ds = getNotion().dataSources().retrieve(db.getDataSources().get(0).getId());
     StatusSchema statusSchema = ds.getProperties().get("Workflow").asStatus();
