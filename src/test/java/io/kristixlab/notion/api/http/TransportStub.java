@@ -1,8 +1,8 @@
 package io.kristixlab.notion.api.http;
 
-import io.kristixlab.notion.api.http.transport.HttpTransport;
-import io.kristixlab.notion.api.http.transport.rq.URLInfo;
-import io.kristixlab.notion.api.http.transport.rs.ApiResponse;
+import io.kristixlab.notion.api.http.legacy.HttpTransport;
+import io.kristixlab.notion.api.http.request.ApiPath;
+import io.kristixlab.notion.api.http.legacy.ApiResponse;
 import java.util.Map;
 
 /**
@@ -26,8 +26,8 @@ public class TransportStub implements HttpTransport {
   /** The HTTP method string of the most recent call (e.g. {@code "GET"}, {@code "POST"}). */
   private String lastMethod;
 
-  /** The {@link URLInfo} passed with the most recent call. */
-  private URLInfo lastUrlInfo;
+  /** The {@link ApiPath} passed with the most recent call. */
+  private ApiPath lastUrlInfo;
 
   /** The request body passed with the most recent call, or {@code null} for bodyless calls. */
   private Object lastBody;
@@ -41,7 +41,7 @@ public class TransportStub implements HttpTransport {
 
   @Override
   @SuppressWarnings("unchecked")
-  public <T> T call(String method, URLInfo urlInfo, Class<T> responseType) {
+  public <T> T call(String method, ApiPath urlInfo, Class<T> responseType) {
     this.lastMethod = method;
     this.lastUrlInfo = urlInfo;
     this.lastBody = null;
@@ -50,7 +50,7 @@ public class TransportStub implements HttpTransport {
 
   @Override
   @SuppressWarnings("unchecked")
-  public <T> T call(String method, URLInfo urlInfo, Object body, Class<T> responseType) {
+  public <T> T call(String method, ApiPath urlInfo, Object body, Class<T> responseType) {
     this.lastMethod = method;
     this.lastUrlInfo = urlInfo;
     this.lastBody = body;
@@ -61,7 +61,7 @@ public class TransportStub implements HttpTransport {
   @SuppressWarnings("unchecked")
   public <T> T call(
       String method,
-      URLInfo urlInfo,
+      ApiPath urlInfo,
       Map<String, String> headerParams,
       Object body,
       Class<T> responseType) {
@@ -74,7 +74,7 @@ public class TransportStub implements HttpTransport {
   @Override
   public <T> ApiResponse<T> execute(
       String method,
-      URLInfo urlInfo,
+      ApiPath urlInfo,
       Map<String, String> headerParams,
       Object body,
       Class<T> responseType) {
@@ -96,7 +96,7 @@ public class TransportStub implements HttpTransport {
     return lastMethod;
   }
 
-  public URLInfo getLastUrlInfo() {
+  public ApiPath getLastUrlInfo() {
     return lastUrlInfo;
   }
 

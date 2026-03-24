@@ -1,7 +1,7 @@
 package integration.util;
 
-import io.kristixlab.notion.api.http.transport.log.ExchangeContext;
-import io.kristixlab.notion.api.http.transport.log.SequentialExchangeLogger;
+import io.kristixlab.notion.api.http.log.ExchangeContext;
+import io.kristixlab.notion.api.http.log.SequentialExchangeLogger;
 import java.nio.file.Path;
 
 public class TestExchangeLogger extends SequentialExchangeLogger {
