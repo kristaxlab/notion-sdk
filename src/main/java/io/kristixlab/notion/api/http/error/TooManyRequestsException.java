@@ -1,4 +1,4 @@
-package io.kristixlab.notion.api.http.exception;
+package io.kristixlab.notion.api.http.error;
 
 import lombok.EqualsAndHashCode;
 
