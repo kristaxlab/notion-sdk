@@ -1,4 +1,4 @@
-package io.kristixlab.notion.api.http.transport;
+package io.kristixlab.notion.api.http.client;
 
 import static org.junit.jupiter.api.Assertions.*;
 
