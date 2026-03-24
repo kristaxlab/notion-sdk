@@ -2,8 +2,9 @@ package integration;
 
 import io.kristixlab.notion.NotionSdkSettings;
 import io.kristixlab.notion.api.NotionClient;
-import io.kristixlab.notion.api.http.log.ExchangeContext;
 import java.lang.reflect.Method;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
@@ -13,36 +14,37 @@ import org.junit.jupiter.api.TestInfo;
 public abstract class BaseIntegrationTest {
 
   private NotionClient notionClient;
-  // notion sdk settings are not linked semantically to the test class, so TODO: consider moving to
+  // TODO notion sdk settings are not linked semantically to the test class, so TODO: consider
+  // moving to
   // a separate util class if more tests will require it
   private NotionSdkSettings settings;
 
   @BeforeEach
   protected void beforeEach(TestInfo testInfo) {
-    notionClient = NotionClientProvider.internalTestingClient();
     settings = NotionSdkSettings.getInstance();
-    ExchangeContext.getCurrent()
-        .put("testClass", testInfo.getTestClass().map(Class::getSimpleName).orElse("unknownClass"));
-    String testMethod = testInfo.getDisplayName();
 
-    if (testMethod != null) {
-      // Sanitize testMethod to be a valid file system name:
-      // replace characters that are illegal on common file systems (/, \, :, *, ?, ", <, >, |,
-      // parens, brackets)
-      // and collapse any runs of whitespace or dots into a single underscore, then trim
-      // leading/trailing underscores
-      testMethod =
-          testMethod
-              .replaceAll("[/\\\\:*?\"<>|()\\[\\]]", "_")
-              .replaceAll("[\\s.]+", "_")
-              .replaceAll("_+", "_")
-              .replaceAll("^_|_$", "");
-    }
-    if (testMethod == null || testMethod.isEmpty()) {
+    String testClass = testInfo.getTestClass().map(Class::getSimpleName).orElse("unknownClass");
+
+    String testMethod = sanitize(testInfo.getDisplayName());
+    if (testMethod.isEmpty()) {
       testMethod = testInfo.getTestMethod().map(Method::getName).orElse("unknownMethod");
     }
 
-    ExchangeContext.getCurrent().put("testMethod", testMethod);
+    Path exchangeDir = Paths.get("exchanges", "exchange-logs", testClass, testMethod);
+
+    notionClient = NotionClientProvider.internalTestingClient(exchangeDir);
+  }
+
+  /**
+   * Strips characters that are illegal on common file systems and collapses whitespace/dot runs
+   * into a single underscore.
+   */
+  private static String sanitize(String name) {
+    if (name == null) return "";
+    return name.replaceAll("[/\\\\:*?\"<>|()\\[\\]]", "_")
+        .replaceAll("[\\s.]+", "_")
+        .replaceAll("_+", "_")
+        .replaceAll("^_|_$", "");
   }
 
   @AfterEach
@@ -50,10 +52,6 @@ public abstract class BaseIntegrationTest {
     // Attach exchange logs to Allure before the context is cleared so that
     // getTestLogDir() can still resolve the per-test subdirectory.
     attachExchangeLogsToReport();
-
-    ExchangeContext.getCurrent().clear("testClass");
-    ExchangeContext.getCurrent().clear("testLogsPath");
-    ExchangeContext.getCurrent().clear("testMethod");
   }
 
   /**

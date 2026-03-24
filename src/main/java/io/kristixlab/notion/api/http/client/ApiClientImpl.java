@@ -1,9 +1,9 @@
 package io.kristixlab.notion.api.http.client;
 
-import io.kristixlab.notion.api.http.request.HttpBodyFactory;
-import io.kristixlab.notion.api.http.request.ApiPath;
 import io.kristixlab.notion.api.http.config.ApiClientConfig;
+import io.kristixlab.notion.api.http.request.ApiPath;
 import io.kristixlab.notion.api.http.request.ApiPathUtil;
+import io.kristixlab.notion.api.http.request.HttpBodyFactory;
 import io.kristixlab.notion.api.json.JsonConverter;
 import java.io.IOException;
 import java.io.UncheckedIOException;

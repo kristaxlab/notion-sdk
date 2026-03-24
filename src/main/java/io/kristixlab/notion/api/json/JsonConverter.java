@@ -70,6 +70,24 @@ public class JsonConverter {
     }
   }
 
+  /**
+   * Parses {@code json} into a plain Java structure ({@code Map}, {@code List}, or boxed primitive)
+   * so it can be embedded as a real JSON value when re-serialized, rather than as a quoted string.
+   * Falls back to returning the raw string when {@code json} is not valid JSON.
+   *
+   * <p>Returns {@code null} when {@code json} is {@code null} or blank.
+   */
+  public Object parseJson(String json) {
+    if (json == null || json.isBlank()) {
+      return null;
+    }
+    try {
+      return regularMapper.readValue(json, Object.class);
+    } catch (JsonProcessingException e) {
+      return json;
+    }
+  }
+
   public void toFile(File file, Object object) {
     try {
       strictMappe.writerWithDefaultPrettyPrinter().writeValue(file, object);

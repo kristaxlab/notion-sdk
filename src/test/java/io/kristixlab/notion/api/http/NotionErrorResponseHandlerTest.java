@@ -2,8 +2,8 @@ package io.kristixlab.notion.api.http;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import io.kristixlab.notion.api.http.error.*;
 import io.kristixlab.notion.api.http.client.HttpClient.*;
+import io.kristixlab.notion.api.http.error.*;
 import io.kristixlab.notion.api.json.JsonConverter;
 import io.kristixlab.notion.api.model.NotionError;
 import java.util.Map;

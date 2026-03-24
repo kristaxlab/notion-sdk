@@ -1,7 +1,6 @@
 package io.kristixlab.notion.api.http.request;
 
 import io.kristixlab.notion.api.http.client.HttpClient.*;
-import io.kristixlab.notion.api.http.request.MultipartFormDataRequest;
 import io.kristixlab.notion.api.json.JsonConverter;
 import java.io.File;
 import java.io.FileInputStream;

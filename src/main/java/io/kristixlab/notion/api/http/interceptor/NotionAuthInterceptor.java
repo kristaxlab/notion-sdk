@@ -2,7 +2,6 @@ package io.kristixlab.notion.api.http.interceptor;
 
 import io.kristixlab.notion.api.NotionAuthSettings;
 import io.kristixlab.notion.api.http.client.HttpClient.HttpRequest;
-import io.kristixlab.notion.api.http.legacy.NotionHttpTransport;
 import java.util.Objects;
 import java.util.Set;
 
@@ -17,10 +16,6 @@ import java.util.Set;
  *   <li>{@code Authorization} — either a Bearer token (for regular API calls) or a Basic credential
  *       (for OAuth token/introspect/revoke endpoints), determined by inspecting the request URL
  * </ul>
- *
- * <p>This mirrors the header logic previously embedded in {@link
- * NotionHttpTransport#execute(String, io.kristixlab.notion.api.http.transport.rq.RequestTarget,
- * java.util.Map, Object, Class)}.
  *
  * <p>If the request already contains an {@code Authorization} header (set by the caller), this
  * interceptor will <b>not</b> overwrite it.

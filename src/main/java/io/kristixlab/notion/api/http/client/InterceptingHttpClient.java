@@ -1,7 +1,6 @@
 package io.kristixlab.notion.api.http.client;
 
 import io.kristixlab.notion.api.http.interceptor.HttpClientInterceptor;
-
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;

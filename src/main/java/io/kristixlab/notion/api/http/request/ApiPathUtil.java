@@ -23,8 +23,8 @@ public class ApiPathUtil {
    * @param baseUrl will be added as prefix to urlInfo if urlInfo url does not start with {@code
    *     http://} or {@code https://}
    * @param urlInfo object containing info about url + query + path params
-   * @return URL string enriched by provided query and path param values
-   * // TODO instead of this class add possibility to accept base url and do resolution for ApiPath
+   * @return URL string enriched by provided query and path param values // TODO instead of this
+   *     class add possibility to accept base url and do resolution for ApiPath
    */
   public static String toUrlString(String baseUrl, ApiPath urlInfo) {
     String processedUrl = buildBaseUrl(baseUrl, urlInfo.getUrl());

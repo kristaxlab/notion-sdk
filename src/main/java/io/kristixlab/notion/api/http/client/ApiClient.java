@@ -17,9 +17,9 @@ import java.util.Map;
  *       io.kristixlab.notion.api.json.JsonConverter}
  * </ul>
  *
- * <p>All cross-cutting concerns (authentication, rate-limiting, logging, error mapping) are supposed
- * to be handled by the decorators and interceptors in the underlying {@link HttpClient} pipeline
- * injected into the implementation — not by this interface.
+ * <p>All cross-cutting concerns (authentication, rate-limiting, logging, error mapping) are
+ * supposed to be handled by the decorators and interceptors in the underlying {@link HttpClient}
+ * pipeline injected into the implementation — not by this interface.
  *
  * <p>Use {@link ApiClientImpl} as the standard implementation, or provide a test double that
  * implements this interface directly (e.g. {@code ApiClientStub}).

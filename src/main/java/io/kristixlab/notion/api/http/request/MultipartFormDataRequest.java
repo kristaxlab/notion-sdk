@@ -9,7 +9,8 @@ import java.util.Map;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-// TODO Is there a way to get rid of this class considering I have HttpClient.HttpRequest supporting multipart?
+// TODO Is there a way to get rid of this class considering I have HttpClient.HttpRequest supporting
+// multipart?
 @Data
 public class MultipartFormDataRequest {
   private List<Part> parts = new ArrayList<>();

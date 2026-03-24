@@ -2,9 +2,7 @@ package io.kristixlab.notion.api.http.request;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import io.kristixlab.notion.api.http.request.HttpBodyFactory;
 import io.kristixlab.notion.api.http.client.HttpClient.*;
-import io.kristixlab.notion.api.http.request.MultipartFormDataRequest;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;

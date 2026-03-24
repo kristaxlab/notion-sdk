@@ -2,10 +2,8 @@ package io.kristixlab.notion.api.http.client;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import io.kristixlab.notion.api.http.client.HttpClient;
 import io.kristixlab.notion.api.http.client.HttpClient.*;
 import io.kristixlab.notion.api.http.interceptor.HttpClientInterceptor;
-import io.kristixlab.notion.api.http.client.InterceptingHttpClient;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;

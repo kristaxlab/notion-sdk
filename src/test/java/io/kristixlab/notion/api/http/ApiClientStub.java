@@ -6,7 +6,7 @@ import java.util.Map;
 
 /**
  * A test double for {@link ApiClient} that records the last invocation and returns a configurable
- * fixed response. Drop-in replacement for {@link TransportStub} in endpoint unit tests.
+ * fixed response. Intended to be used in endpoint unit tests.
  *
  * <p>Usage:
  *

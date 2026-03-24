@@ -1,8 +1,7 @@
 package io.kristixlab.notion.api.examples;
 
-import io.kristixlab.notion.api.http.legacy.NotionHttpTransport;
+import io.kristixlab.notion.api.NotionClient;
 import io.kristixlab.notion.api.http.client.ApiClient;
-import io.kristixlab.notion.api.http.legacy.HttpTransportApiClientAdapter;
 import io.kristixlab.notion.api.json.JsonConverter;
 import io.kristixlab.notion.api.model.BaseTest;
 import java.io.File;
@@ -19,12 +18,24 @@ public class IntegrationTest extends BaseTest {
   private static final String TEST_OUTPUT_DIR = "src/test/resources/notion-api-integration-tests/";
   private static final String TEST_INPUT_DIR = "notion-api-integration-tests/";
 
-  private static NotionHttpTransport transport;
+  private NotionClient notionClient;
 
   @BeforeEach
   protected void setUp() throws Exception {
     Path outputDir = Paths.get(TEST_OUTPUT_DIR);
     Files.createDirectories(outputDir);
+
+    String token = System.getenv("NOTION_PRIV_INTEGRATION_TOKEN");
+    notionClient = NotionClient.forToken(token);
+  }
+
+  protected NotionClient getNotion() {
+    return notionClient;
+  }
+
+  /** Exposes the underlying {@link ApiClient} for tests that construct endpoint impls directly. */
+  protected ApiClient getApiClient() {
+    return null;
   }
 
   protected static String getTestOutputDir() {
@@ -33,15 +44,6 @@ public class IntegrationTest extends BaseTest {
 
   protected static String getTestInputDir() {
     return TEST_INPUT_DIR;
-  }
-
-  protected static NotionHttpTransport getTransport() {
-    return transport;
-  }
-
-  /** Returns the transport wrapped as an {@link ApiClient} for use with the new endpoint impls. */
-  protected static ApiClient getApiClient() {
-    return new HttpTransportApiClientAdapter(getTransport());
   }
 
   protected void saveToFile(Object object, String filename) throws IOException {

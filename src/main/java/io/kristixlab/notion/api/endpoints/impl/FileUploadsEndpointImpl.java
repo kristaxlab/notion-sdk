@@ -2,8 +2,8 @@ package io.kristixlab.notion.api.endpoints.impl;
 
 import io.kristixlab.notion.api.endpoints.FileUploadsEndpoint;
 import io.kristixlab.notion.api.http.client.ApiClient;
-import io.kristixlab.notion.api.http.request.MultipartFormDataRequest;
 import io.kristixlab.notion.api.http.request.ApiPath;
+import io.kristixlab.notion.api.http.request.MultipartFormDataRequest;
 import io.kristixlab.notion.api.model.files.*;
 
 /**

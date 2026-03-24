@@ -3,7 +3,6 @@ package io.kristixlab.notion.api.http.error;
 import io.kristixlab.notion.api.http.client.ErrorResponseHandler;
 import io.kristixlab.notion.api.http.client.HttpClient.HttpRequest;
 import io.kristixlab.notion.api.http.client.HttpClient.HttpResponse;
-import io.kristixlab.notion.api.http.legacy.NotionHttpTransport;
 import io.kristixlab.notion.api.json.JsonConverter;
 import io.kristixlab.notion.api.model.NotionError;
 import org.slf4j.Logger;
@@ -13,10 +12,10 @@ import org.slf4j.LoggerFactory;
  * Notion-specific implementation of {@link ErrorResponseHandler} that maps HTTP error responses to
  * domain-specific {@link NotionApiException} subclasses.
  *
- * <p>This handler mirrors the error-handling logic previously embedded in {@link
- * NotionHttpTransport#handleResponse}: it deserializes the response body into a {@link
- * NotionError}, extracts the error code, message, and request ID, then throws the appropriate
- * exception based on the HTTP status code.
+ * <p>This handler maps HTTP error responses to domain-specific {@link NotionApiException}
+ * subclasses. It deserializes the response body into a {@link NotionError}, extracts the error
+ * code, message, and request ID, then throws the appropriate exception based on the HTTP status
+ * code.
  *
  * <p>Status code mapping:
  *
@@ -35,17 +34,8 @@ import org.slf4j.LoggerFactory;
  *   <tr><td>other</td><td>{@link NotionApiException}</td></tr>
  * </table>
  *
- * <p>Usage with the refactored transport layer:
- *
- * <pre>{@code
- * HttpClient client = new ErrorHandlingHttpClient(
- *     new InterceptingHttpClient(new OkHttp3Client(), interceptors),
- *     new NotionErrorResponseHandler()
- * );
- * }</pre>
- *
  * @see ErrorResponseHandler
- * @see io.kristixlab.notion.api.http.transport.refactored.ErrorHandlingHttpClient
+ * @see io.kristixlab.notion.api.http.client.ErrorHandlingHttpClient
  */
 public class NotionErrorResponseHandler implements ErrorResponseHandler {
 

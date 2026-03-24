@@ -5,6 +5,8 @@ import io.kristixlab.notion.api.endpoints.impl.*;
 import io.kristixlab.notion.api.http.client.*;
 import io.kristixlab.notion.api.http.config.ApiClientConfig;
 import io.kristixlab.notion.api.http.error.NotionErrorResponseHandler;
+import io.kristixlab.notion.api.http.interceptor.ExchangeRecordingInterceptor;
+import io.kristixlab.notion.api.http.interceptor.HttpClientInterceptor;
 import io.kristixlab.notion.api.http.interceptor.LoggingHttpInterceptor;
 import io.kristixlab.notion.api.http.interceptor.NotionAuthInterceptor;
 import io.kristixlab.notion.api.http.interceptor.RateLimitHttpInterceptor;
@@ -189,6 +191,12 @@ public class NotionClient {
 
     private boolean jsonFailOnUnknownProperties = false;
 
+    /**
+     * When non-{@code null}, an {@link ExchangeRecordingInterceptor} writes files to this
+     * directory.
+     */
+    private java.nio.file.Path rqRsCatchDir = null;
+
     private Builder() {}
 
     /**
@@ -261,6 +269,28 @@ public class NotionClient {
     }
 
     /**
+     * Enables file-based exchange logging via {@link ExchangeRecordingInterceptor}.
+     *
+     * <p>Each HTTP exchange (request + response) is written as a pretty-printed JSON file into
+     * {@code dir}. The directory is created automatically if it does not exist.
+     *
+     * <p>Pass {@code null} (or omit the call) to disable exchange logging.
+     *
+     * <p><b>Test pattern:</b>
+     *
+     * <pre>{@code
+     * Path dir = Paths.get("exchanges", testClass, testMethod);
+     * NotionClient.builder().auth(token).exchangeLogging(dir).build();
+     * }</pre>
+     *
+     * @param dir target directory; {@code null} disables exchange logging
+     */
+    public Builder exchangeLogging(java.nio.file.Path dir) {
+      this.rqRsCatchDir = dir;
+      return this;
+    }
+
+    /**
      * Builds the {@link NotionClient} with the configured settings.
      *
      * @throws NullPointerException if {@link #auth(NotionAuthSettings)} was not called
@@ -273,15 +303,17 @@ public class NotionClient {
       RateLimiter limiter = rateLimiter != null ? rateLimiter : new RateLimiter();
       String apiLabel = "Notion";
 
+      List<HttpClientInterceptor> interceptors = new java.util.ArrayList<>();
+      interceptors.add(new RateLimitHttpInterceptor(limiter, apiLabel));
+      interceptors.add(new NotionAuthInterceptor(authSettings, version));
+      if (rqRsCatchDir != null) {
+        interceptors.add(new ExchangeRecordingInterceptor(rqRsCatchDir));
+      }
+      interceptors.add(new LoggingHttpInterceptor(apiLabel));
+
       HttpClient pipeline =
           new ErrorHandlingHttpClient(
-              new InterceptingHttpClient(
-                  raw,
-                  List.of(
-                      new RateLimitHttpInterceptor(limiter, apiLabel),
-                      new NotionAuthInterceptor(authSettings, version),
-                      new LoggingHttpInterceptor(apiLabel))),
-              new NotionErrorResponseHandler());
+              new InterceptingHttpClient(raw, interceptors), new NotionErrorResponseHandler());
 
       ApiClientConfig cfg =
           ApiClientConfig.builder()
