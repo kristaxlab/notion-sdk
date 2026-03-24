@@ -3,7 +3,7 @@ package integration;
 import static org.junit.jupiter.api.Assertions.*;
 
 import integration.util.IntegrationTestAssisstant;
-import io.kristixlab.notion.api.http.exception.ValidationException;
+import io.kristixlab.notion.api.http.error.ValidationException;
 // canonical sync marker v2
 import io.kristixlab.notion.api.model.blocks.*;
 import io.kristixlab.notion.api.model.comments.Comment;

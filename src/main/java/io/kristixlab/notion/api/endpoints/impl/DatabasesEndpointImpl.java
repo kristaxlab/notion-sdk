@@ -1,8 +1,8 @@
 package io.kristixlab.notion.api.endpoints.impl;
 
 import io.kristixlab.notion.api.endpoints.DatabasesEndpoint;
-import io.kristixlab.notion.api.http.transport.HttpTransport;
-import io.kristixlab.notion.api.http.transport.rq.URLInfo;
+import io.kristixlab.notion.api.http.client.ApiClient;
+import io.kristixlab.notion.api.http.request.ApiPath;
 import io.kristixlab.notion.api.model.databases.CreateDatabaseParams;
 import io.kristixlab.notion.api.model.databases.Database;
 import io.kristixlab.notion.api.model.databases.UpdateDatabaseParams;
@@ -14,10 +14,10 @@ import io.kristixlab.notion.api.model.databases.UpdateDatabaseParams;
 public class DatabasesEndpointImpl implements DatabasesEndpoint {
 
   private static final String DATABASE_ID = "database_id";
-  private final HttpTransport transport;
+  private final ApiClient client;
 
-  public DatabasesEndpointImpl(HttpTransport transport) {
-    this.transport = transport;
+  public DatabasesEndpointImpl(ApiClient client) {
+    this.client = client;
   }
 
   /**
@@ -28,9 +28,9 @@ public class DatabasesEndpointImpl implements DatabasesEndpoint {
    */
   public Database retrieve(String databaseId) {
     validateDatabaseId(databaseId);
-    URLInfo urlInfo =
-        URLInfo.builder("/databases/{database_id}").pathParam(DATABASE_ID, databaseId).build();
-    return transport.call("GET", urlInfo, Database.class);
+    ApiPath urlInfo =
+        ApiPath.builder("/databases/{database_id}").pathParam(DATABASE_ID, databaseId).build();
+    return client.call("GET", urlInfo, Database.class);
   }
 
   /**
@@ -41,8 +41,8 @@ public class DatabasesEndpointImpl implements DatabasesEndpoint {
    */
   public Database create(CreateDatabaseParams request) {
     validateRequest(request);
-    URLInfo urlInfo = URLInfo.from("/databases");
-    return transport.call("POST", urlInfo, request, Database.class);
+    ApiPath urlInfo = ApiPath.from("/databases");
+    return client.call("POST", urlInfo, request, Database.class);
   }
 
   /**
@@ -56,10 +56,10 @@ public class DatabasesEndpointImpl implements DatabasesEndpoint {
     validateDatabaseId(databaseId);
     validateRequest(request);
 
-    URLInfo urlInfo =
-        URLInfo.builder("/databases/{database_id}").pathParam(DATABASE_ID, databaseId).build();
+    ApiPath urlInfo =
+        ApiPath.builder("/databases/{database_id}").pathParam(DATABASE_ID, databaseId).build();
 
-    return transport.call("PATCH", urlInfo, request, Database.class);
+    return client.call("PATCH", urlInfo, request, Database.class);
   }
 
   /**

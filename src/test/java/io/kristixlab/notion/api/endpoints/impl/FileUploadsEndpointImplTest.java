@@ -2,8 +2,8 @@ package io.kristixlab.notion.api.endpoints.impl;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import io.kristixlab.notion.api.http.TransportStub;
-import io.kristixlab.notion.api.http.transport.rq.MultipartFormDataRequest;
+import io.kristixlab.notion.api.http.ApiClientStub;
+import io.kristixlab.notion.api.http.request.MultipartFormDataRequest;
 import io.kristixlab.notion.api.model.files.FileUploadCreateParams;
 import io.kristixlab.notion.api.model.files.FileUploadSendParams;
 import java.io.ByteArrayInputStream;
@@ -17,13 +17,13 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 class FileUploadsEndpointImplTest {
 
-  private TransportStub transport;
+  private ApiClientStub client;
   private FileUploadsEndpointImpl endpoint;
 
   @BeforeEach
   void setUp() {
-    transport = new TransportStub();
-    endpoint = new FileUploadsEndpointImpl(transport);
+    client = new ApiClientStub();
+    endpoint = new FileUploadsEndpointImpl(client);
   }
 
   @Test
@@ -32,9 +32,9 @@ class FileUploadsEndpointImplTest {
 
     endpoint.createFileUpload(request);
 
-    assertEquals("POST", transport.getLastMethod());
-    assertEquals("/file_uploads", transport.getLastUrlInfo().getUrl());
-    assertSame(request, transport.getLastBody());
+    assertEquals("POST", client.getLastMethod());
+    assertEquals("/file_uploads", client.getLastUrlInfo().getUrl());
+    assertSame(request, client.getLastBody());
   }
 
   @Test
@@ -104,10 +104,10 @@ class FileUploadsEndpointImplTest {
 
     endpoint.sendFileContent("upload-id-1", request);
 
-    assertEquals("POST", transport.getLastMethod());
-    assertEquals("/file_uploads/{file_upload_id}/send", transport.getLastUrlInfo().getUrl());
-    assertEquals("upload-id-1", transport.getLastUrlInfo().getPathParams().get("file_upload_id"));
-    assertInstanceOf(MultipartFormDataRequest.class, transport.getLastBody());
+    assertEquals("POST", client.getLastMethod());
+    assertEquals("/file_uploads/{file_upload_id}/send", client.getLastUrlInfo().getUrl());
+    assertEquals("upload-id-1", client.getLastUrlInfo().getPathParams().get("file_upload_id"));
+    assertInstanceOf(MultipartFormDataRequest.class, client.getLastBody());
   }
 
   @Test
@@ -119,10 +119,10 @@ class FileUploadsEndpointImplTest {
 
     endpoint.sendFileContent("upload-id-1", request);
 
-    assertEquals("POST", transport.getLastMethod());
-    assertEquals("/file_uploads/{file_upload_id}/send", transport.getLastUrlInfo().getUrl());
-    assertEquals("upload-id-1", transport.getLastUrlInfo().getPathParams().get("file_upload_id"));
-    assertInstanceOf(MultipartFormDataRequest.class, transport.getLastBody());
+    assertEquals("POST", client.getLastMethod());
+    assertEquals("/file_uploads/{file_upload_id}/send", client.getLastUrlInfo().getUrl());
+    assertEquals("upload-id-1", client.getLastUrlInfo().getPathParams().get("file_upload_id"));
+    assertInstanceOf(MultipartFormDataRequest.class, client.getLastBody());
   }
 
   @Test
@@ -134,10 +134,10 @@ class FileUploadsEndpointImplTest {
 
     endpoint.sendFileContent("upload-id-1", request);
 
-    assertEquals("POST", transport.getLastMethod());
-    assertEquals("/file_uploads/{file_upload_id}/send", transport.getLastUrlInfo().getUrl());
-    assertEquals("upload-id-1", transport.getLastUrlInfo().getPathParams().get("file_upload_id"));
-    assertInstanceOf(MultipartFormDataRequest.class, transport.getLastBody());
+    assertEquals("POST", client.getLastMethod());
+    assertEquals("/file_uploads/{file_upload_id}/send", client.getLastUrlInfo().getUrl());
+    assertEquals("upload-id-1", client.getLastUrlInfo().getPathParams().get("file_upload_id"));
+    assertInstanceOf(MultipartFormDataRequest.class, client.getLastBody());
   }
 
   @Test
@@ -174,9 +174,9 @@ class FileUploadsEndpointImplTest {
   void completeFileUpload() {
     endpoint.completeFileUpload("upload-id-1");
 
-    assertEquals("POST", transport.getLastMethod());
-    assertEquals("/file_uploads/{file_upload_id}/complete", transport.getLastUrlInfo().getUrl());
-    assertEquals("upload-id-1", transport.getLastUrlInfo().getPathParams().get("file_upload_id"));
+    assertEquals("POST", client.getLastMethod());
+    assertEquals("/file_uploads/{file_upload_id}/complete", client.getLastUrlInfo().getUrl());
+    assertEquals("upload-id-1", client.getLastUrlInfo().getPathParams().get("file_upload_id"));
   }
 
   @ParameterizedTest
@@ -190,9 +190,9 @@ class FileUploadsEndpointImplTest {
   void retrieveFileUpload() {
     endpoint.retrieveFileUpload("upload-id-1");
 
-    assertEquals("GET", transport.getLastMethod());
-    assertEquals("/file_uploads/{file_upload_id}", transport.getLastUrlInfo().getUrl());
-    assertEquals("upload-id-1", transport.getLastUrlInfo().getPathParams().get("file_upload_id"));
+    assertEquals("GET", client.getLastMethod());
+    assertEquals("/file_uploads/{file_upload_id}", client.getLastUrlInfo().getUrl());
+    assertEquals("upload-id-1", client.getLastUrlInfo().getPathParams().get("file_upload_id"));
   }
 
   @ParameterizedTest
@@ -208,53 +208,53 @@ class FileUploadsEndpointImplTest {
   void listFileUploads() {
     endpoint.listFileUploads();
 
-    assertEquals("GET", transport.getLastMethod());
-    assertEquals("/file_uploads", transport.getLastUrlInfo().getUrl());
-    assertTrue(transport.getLastUrlInfo().getQueryParams().isEmpty());
+    assertEquals("GET", client.getLastMethod());
+    assertEquals("/file_uploads", client.getLastUrlInfo().getUrl());
+    assertTrue(client.getLastUrlInfo().getQueryParams().isEmpty());
   }
 
   @Test
   void listFileUploads_withStatus() {
     endpoint.listFileUploads("uploaded");
 
-    assertEquals("GET", transport.getLastMethod());
-    assertEquals("/file_uploads", transport.getLastUrlInfo().getUrl());
-    assertEquals(List.of("uploaded"), transport.getLastUrlInfo().getQueryParams().get("status"));
-    assertFalse(transport.getLastUrlInfo().getQueryParams().containsKey("start_cursor"));
-    assertFalse(transport.getLastUrlInfo().getQueryParams().containsKey("page_size"));
+    assertEquals("GET", client.getLastMethod());
+    assertEquals("/file_uploads", client.getLastUrlInfo().getUrl());
+    assertEquals(List.of("uploaded"), client.getLastUrlInfo().getQueryParams().get("status"));
+    assertFalse(client.getLastUrlInfo().getQueryParams().containsKey("start_cursor"));
+    assertFalse(client.getLastUrlInfo().getQueryParams().containsKey("page_size"));
   }
 
   @Test
   void listFileUploads_withStartCursor() {
     endpoint.listFileUploads("cursor-abc", 0);
 
-    assertEquals("GET", transport.getLastMethod());
-    assertEquals("/file_uploads", transport.getLastUrlInfo().getUrl());
+    assertEquals("GET", client.getLastMethod());
+    assertEquals("/file_uploads", client.getLastUrlInfo().getUrl());
     assertEquals(
-        List.of("cursor-abc"), transport.getLastUrlInfo().getQueryParams().get("start_cursor"));
-    assertFalse(transport.getLastUrlInfo().getQueryParams().containsKey("status"));
+        List.of("cursor-abc"), client.getLastUrlInfo().getQueryParams().get("start_cursor"));
+    assertFalse(client.getLastUrlInfo().getQueryParams().containsKey("status"));
   }
 
   @Test
   void listFileUploads_withPageSize() {
     endpoint.listFileUploads(null, 50);
 
-    assertEquals("GET", transport.getLastMethod());
-    assertEquals("/file_uploads", transport.getLastUrlInfo().getUrl());
-    assertEquals(List.of("50"), transport.getLastUrlInfo().getQueryParams().get("page_size"));
-    assertFalse(transport.getLastUrlInfo().getQueryParams().containsKey("status"));
+    assertEquals("GET", client.getLastMethod());
+    assertEquals("/file_uploads", client.getLastUrlInfo().getUrl());
+    assertEquals(List.of("50"), client.getLastUrlInfo().getQueryParams().get("page_size"));
+    assertFalse(client.getLastUrlInfo().getQueryParams().containsKey("status"));
   }
 
   @Test
   void listFileUploads_withAllParams() {
     endpoint.listFileUploads("pending", "cursor-abc", 25);
 
-    assertEquals("GET", transport.getLastMethod());
-    assertEquals("/file_uploads", transport.getLastUrlInfo().getUrl());
-    assertEquals(List.of("pending"), transport.getLastUrlInfo().getQueryParams().get("status"));
+    assertEquals("GET", client.getLastMethod());
+    assertEquals("/file_uploads", client.getLastUrlInfo().getUrl());
+    assertEquals(List.of("pending"), client.getLastUrlInfo().getQueryParams().get("status"));
     assertEquals(
-        List.of("cursor-abc"), transport.getLastUrlInfo().getQueryParams().get("start_cursor"));
-    assertEquals(List.of("25"), transport.getLastUrlInfo().getQueryParams().get("page_size"));
+        List.of("cursor-abc"), client.getLastUrlInfo().getQueryParams().get("start_cursor"));
+    assertEquals(List.of("25"), client.getLastUrlInfo().getQueryParams().get("page_size"));
   }
 
   @ParameterizedTest
@@ -263,9 +263,9 @@ class FileUploadsEndpointImplTest {
   void listFileUploads_omitsBlankOrNullStatus(String status) {
     endpoint.listFileUploads(status);
 
-    assertEquals("GET", transport.getLastMethod());
-    assertEquals("/file_uploads", transport.getLastUrlInfo().getUrl());
-    assertFalse(transport.getLastUrlInfo().getQueryParams().containsKey("status"));
+    assertEquals("GET", client.getLastMethod());
+    assertEquals("/file_uploads", client.getLastUrlInfo().getUrl());
+    assertFalse(client.getLastUrlInfo().getQueryParams().containsKey("status"));
   }
 
   private static FileUploadCreateParams singlePartRequest() {

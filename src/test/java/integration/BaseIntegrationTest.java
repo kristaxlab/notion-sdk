@@ -1,8 +1,8 @@
 package integration;
 
 import io.kristixlab.notion.NotionSdkSettings;
-import io.kristixlab.notion.api.NotionApiClient;
-import io.kristixlab.notion.api.http.transport.log.ExchangeContext;
+import io.kristixlab.notion.api.NotionClient;
+import io.kristixlab.notion.api.http.log.ExchangeContext;
 import java.lang.reflect.Method;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,7 +12,7 @@ import org.junit.jupiter.api.TestInfo;
 @Tag("integration")
 public abstract class BaseIntegrationTest {
 
-  private NotionApiClient notionClient;
+  private NotionClient notionClient;
   // notion sdk settings are not linked semantically to the test class, so TODO: consider moving to
   // a separate util class if more tests will require it
   private NotionSdkSettings settings;
@@ -72,7 +72,7 @@ public abstract class BaseIntegrationTest {
     //    AllureLogAttachUtil.attachDirectoryAsZip(logDir, attachmentName);
   }
 
-  public NotionApiClient getNotion() {
+  public NotionClient getNotion() {
     return notionClient;
   }
 

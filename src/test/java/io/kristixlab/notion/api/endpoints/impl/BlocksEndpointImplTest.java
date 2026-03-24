@@ -2,7 +2,7 @@ package io.kristixlab.notion.api.endpoints.impl;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import io.kristixlab.notion.api.http.TransportStub;
+import io.kristixlab.notion.api.http.ApiClientStub;
 import io.kristixlab.notion.api.model.blocks.AppendBlockChildrenParams;
 import io.kristixlab.notion.api.model.blocks.Block;
 import java.util.List;
@@ -14,22 +14,22 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 class BlocksEndpointImplTest {
 
-  private TransportStub transport;
+  private ApiClientStub client;
   private BlocksEndpointImpl endpoint;
 
   @BeforeEach
   void setUp() {
-    transport = new TransportStub();
-    endpoint = new BlocksEndpointImpl(transport);
+    client = new ApiClientStub();
+    endpoint = new BlocksEndpointImpl(client);
   }
 
   @Test
   void retrieveById() {
     endpoint.retrieve("block-id-1");
 
-    assertEquals("GET", transport.getLastMethod());
-    assertEquals("/blocks/{block_id}", transport.getLastUrlInfo().getUrl());
-    assertEquals("block-id-1", transport.getLastUrlInfo().getPathParams().get("block_id"));
+    assertEquals("GET", client.getLastMethod());
+    assertEquals("/blocks/{block_id}", client.getLastUrlInfo().getUrl());
+    assertEquals("block-id-1", client.getLastUrlInfo().getPathParams().get("block_id"));
   }
 
   @ParameterizedTest
@@ -43,45 +43,45 @@ class BlocksEndpointImplTest {
   void retrieveChildren() {
     endpoint.retrieveChildren("block-id-1");
 
-    assertEquals("GET", transport.getLastMethod());
-    assertEquals("/blocks/{block_id}/children", transport.getLastUrlInfo().getUrl());
-    assertEquals("block-id-1", transport.getLastUrlInfo().getPathParams().get("block_id"));
-    assertTrue(transport.getLastUrlInfo().getQueryParams().isEmpty());
+    assertEquals("GET", client.getLastMethod());
+    assertEquals("/blocks/{block_id}/children", client.getLastUrlInfo().getUrl());
+    assertEquals("block-id-1", client.getLastUrlInfo().getPathParams().get("block_id"));
+    assertTrue(client.getLastUrlInfo().getQueryParams().isEmpty());
   }
 
   @Test
   void retrieveChildren_withStartCursor() {
     endpoint.retrieveChildren("block-id-1", "cursor-abc", null);
 
-    assertEquals("GET", transport.getLastMethod());
-    assertEquals("/blocks/{block_id}/children", transport.getLastUrlInfo().getUrl());
-    assertEquals("block-id-1", transport.getLastUrlInfo().getPathParams().get("block_id"));
+    assertEquals("GET", client.getLastMethod());
+    assertEquals("/blocks/{block_id}/children", client.getLastUrlInfo().getUrl());
+    assertEquals("block-id-1", client.getLastUrlInfo().getPathParams().get("block_id"));
     assertEquals(
-        List.of("cursor-abc"), transport.getLastUrlInfo().getQueryParams().get("start_cursor"));
-    assertFalse(transport.getLastUrlInfo().getQueryParams().containsKey("page_size"));
+        List.of("cursor-abc"), client.getLastUrlInfo().getQueryParams().get("start_cursor"));
+    assertFalse(client.getLastUrlInfo().getQueryParams().containsKey("page_size"));
   }
 
   @Test
   void retrieveChildren_withPageSize() {
     endpoint.retrieveChildren("block-id-1", null, 25);
 
-    assertEquals("GET", transport.getLastMethod());
-    assertEquals("/blocks/{block_id}/children", transport.getLastUrlInfo().getUrl());
-    assertEquals("block-id-1", transport.getLastUrlInfo().getPathParams().get("block_id"));
-    assertEquals(List.of("25"), transport.getLastUrlInfo().getQueryParams().get("page_size"));
-    assertFalse(transport.getLastUrlInfo().getQueryParams().containsKey("start_cursor"));
+    assertEquals("GET", client.getLastMethod());
+    assertEquals("/blocks/{block_id}/children", client.getLastUrlInfo().getUrl());
+    assertEquals("block-id-1", client.getLastUrlInfo().getPathParams().get("block_id"));
+    assertEquals(List.of("25"), client.getLastUrlInfo().getQueryParams().get("page_size"));
+    assertFalse(client.getLastUrlInfo().getQueryParams().containsKey("start_cursor"));
   }
 
   @Test
   void retrieveChildren_withBothPaginationParams() {
     endpoint.retrieveChildren("block-id-1", "cursor-abc", 25);
 
-    assertEquals("GET", transport.getLastMethod());
-    assertEquals("/blocks/{block_id}/children", transport.getLastUrlInfo().getUrl());
-    assertEquals("block-id-1", transport.getLastUrlInfo().getPathParams().get("block_id"));
+    assertEquals("GET", client.getLastMethod());
+    assertEquals("/blocks/{block_id}/children", client.getLastUrlInfo().getUrl());
+    assertEquals("block-id-1", client.getLastUrlInfo().getPathParams().get("block_id"));
     assertEquals(
-        List.of("cursor-abc"), transport.getLastUrlInfo().getQueryParams().get("start_cursor"));
-    assertEquals(List.of("25"), transport.getLastUrlInfo().getQueryParams().get("page_size"));
+        List.of("cursor-abc"), client.getLastUrlInfo().getQueryParams().get("start_cursor"));
+    assertEquals(List.of("25"), client.getLastUrlInfo().getQueryParams().get("page_size"));
   }
 
   @ParameterizedTest
@@ -97,10 +97,10 @@ class BlocksEndpointImplTest {
 
     endpoint.appendChildren("block-id-1", request);
 
-    assertEquals("PATCH", transport.getLastMethod());
-    assertEquals("/blocks/{block_id}/children", transport.getLastUrlInfo().getUrl());
-    assertEquals("block-id-1", transport.getLastUrlInfo().getPathParams().get("block_id"));
-    assertSame(request, transport.getLastBody());
+    assertEquals("PATCH", client.getLastMethod());
+    assertEquals("/blocks/{block_id}/children", client.getLastUrlInfo().getUrl());
+    assertEquals("block-id-1", client.getLastUrlInfo().getPathParams().get("block_id"));
+    assertSame(request, client.getLastBody());
   }
 
   @Test
@@ -109,10 +109,10 @@ class BlocksEndpointImplTest {
 
     endpoint.appendChildren("block-id-1", child);
 
-    assertEquals("PATCH", transport.getLastMethod());
-    assertEquals("/blocks/{block_id}/children", transport.getLastUrlInfo().getUrl());
-    assertEquals("block-id-1", transport.getLastUrlInfo().getPathParams().get("block_id"));
-    AppendBlockChildrenParams body = (AppendBlockChildrenParams) transport.getLastBody();
+    assertEquals("PATCH", client.getLastMethod());
+    assertEquals("/blocks/{block_id}/children", client.getLastUrlInfo().getUrl());
+    assertEquals("block-id-1", client.getLastUrlInfo().getPathParams().get("block_id"));
+    AppendBlockChildrenParams body = (AppendBlockChildrenParams) client.getLastBody();
     assertEquals(1, body.getChildren().size());
     assertSame(child, body.getChildren().get(0));
   }
@@ -139,10 +139,10 @@ class BlocksEndpointImplTest {
 
     endpoint.update("block-id-1", request);
 
-    assertEquals("PATCH", transport.getLastMethod());
-    assertEquals("/blocks/{block_id}", transport.getLastUrlInfo().getUrl());
-    assertEquals("block-id-1", transport.getLastUrlInfo().getPathParams().get("block_id"));
-    assertSame(request, transport.getLastBody());
+    assertEquals("PATCH", client.getLastMethod());
+    assertEquals("/blocks/{block_id}", client.getLastUrlInfo().getUrl());
+    assertEquals("block-id-1", client.getLastUrlInfo().getPathParams().get("block_id"));
+    assertSame(request, client.getLastBody());
   }
 
   @Test
@@ -161,9 +161,9 @@ class BlocksEndpointImplTest {
   void delete() {
     endpoint.delete("block-id-1");
 
-    assertEquals("DELETE", transport.getLastMethod());
-    assertEquals("/blocks/{block_id}", transport.getLastUrlInfo().getUrl());
-    assertEquals("block-id-1", transport.getLastUrlInfo().getPathParams().get("block_id"));
+    assertEquals("DELETE", client.getLastMethod());
+    assertEquals("/blocks/{block_id}", client.getLastUrlInfo().getUrl());
+    assertEquals("block-id-1", client.getLastUrlInfo().getPathParams().get("block_id"));
   }
 
   @ParameterizedTest
@@ -177,10 +177,10 @@ class BlocksEndpointImplTest {
   void restore() {
     endpoint.restore("block-id-1");
 
-    assertEquals("PATCH", transport.getLastMethod());
-    assertEquals("/blocks/{block_id}", transport.getLastUrlInfo().getUrl());
-    assertEquals("block-id-1", transport.getLastUrlInfo().getPathParams().get("block_id"));
-    assertFalse(((Block) transport.getLastBody()).getInTrash());
+    assertEquals("PATCH", client.getLastMethod());
+    assertEquals("/blocks/{block_id}", client.getLastUrlInfo().getUrl());
+    assertEquals("block-id-1", client.getLastUrlInfo().getPathParams().get("block_id"));
+    assertFalse(((Block) client.getLastBody()).getInTrash());
   }
 
   @ParameterizedTest

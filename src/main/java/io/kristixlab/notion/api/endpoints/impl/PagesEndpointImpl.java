@@ -1,8 +1,8 @@
 package io.kristixlab.notion.api.endpoints.impl;
 
 import io.kristixlab.notion.api.endpoints.PagesEndpoint;
-import io.kristixlab.notion.api.http.transport.HttpTransport;
-import io.kristixlab.notion.api.http.transport.rq.URLInfo;
+import io.kristixlab.notion.api.http.client.ApiClient;
+import io.kristixlab.notion.api.http.request.ApiPath;
 import io.kristixlab.notion.api.model.common.Parent;
 import io.kristixlab.notion.api.model.pages.*;
 import io.kristixlab.notion.api.model.pages.properties.PageProperty;
@@ -18,10 +18,10 @@ public class PagesEndpointImpl implements PagesEndpoint {
   private static final String PAGE_ID = "page_id";
   private static final String PROPERTY_ID = "property_id";
 
-  private final HttpTransport transport;
+  private final ApiClient client;
 
-  public PagesEndpointImpl(HttpTransport transport) {
-    this.transport = transport;
+  public PagesEndpointImpl(ApiClient client) {
+    this.client = client;
   }
 
   /**
@@ -32,8 +32,8 @@ public class PagesEndpointImpl implements PagesEndpoint {
    */
   public Page create(CreatePageParams request) {
     validateRequest(request);
-    URLInfo urlInfo = URLInfo.from("/pages");
-    return transport.call("POST", urlInfo, request, Page.class);
+    ApiPath urlInfo = ApiPath.from("/pages");
+    return client.call("POST", urlInfo, request, Page.class);
   }
 
   /**
@@ -44,8 +44,8 @@ public class PagesEndpointImpl implements PagesEndpoint {
    */
   public Page retrieve(String pageId) {
     validatePageId(pageId);
-    URLInfo urlInfo = URLInfo.builder("/pages/{page_id}").pathParam(PAGE_ID, pageId).build();
-    return transport.call("GET", urlInfo, Page.class);
+    ApiPath urlInfo = ApiPath.builder("/pages/{page_id}").pathParam(PAGE_ID, pageId).build();
+    return client.call("GET", urlInfo, Page.class);
   }
 
   public PageAsMarkdown retrieveAsMarkdown(String pageId) {
@@ -54,20 +54,20 @@ public class PagesEndpointImpl implements PagesEndpoint {
 
   public PageAsMarkdown retrieveAsMarkdown(String pageId, boolean includeTranscript) {
     validatePageId(pageId);
-    URLInfo urlInfo =
-        URLInfo.builder("/pages/{page_id}/markdown")
+    ApiPath urlInfo =
+        ApiPath.builder("/pages/{page_id}/markdown")
             .pathParam(PAGE_ID, pageId)
             .queryParam("include_transcript", includeTranscript)
             .build();
-    return transport.call("GET", urlInfo, PageAsMarkdown.class);
+    return client.call("GET", urlInfo, PageAsMarkdown.class);
   }
 
   public PageAsMarkdown updateAsMarkdown(String pageId, UpdatePageAsMarkdownParams request) {
     validatePageId(pageId);
     validateRequest(request);
-    URLInfo urlInfo =
-        URLInfo.builder("/pages/{page_id}/markdown").pathParam(PAGE_ID, pageId).build();
-    return transport.call("PATCH", urlInfo, request, PageAsMarkdown.class);
+    ApiPath urlInfo =
+        ApiPath.builder("/pages/{page_id}/markdown").pathParam(PAGE_ID, pageId).build();
+    return client.call("PATCH", urlInfo, request, PageAsMarkdown.class);
   }
 
   /**
@@ -94,13 +94,11 @@ public class PagesEndpointImpl implements PagesEndpoint {
       String pageId, String propertyId, String startCursor, Integer pageSize) {
     validatePageId(pageId);
     validatePropertyId(propertyId);
-
-    URLInfo.Builder urlInfo =
-        URLInfo.builder("/pages/{page_id}/properties/{property_id}", startCursor, pageSize)
+    ApiPath.Builder urlInfo =
+        ApiPath.builder("/pages/{page_id}/properties/{property_id}", startCursor, pageSize)
             .pathParam(PAGE_ID, pageId)
             .pathParam(PROPERTY_ID, URLDecoder.decode(propertyId, StandardCharsets.UTF_8));
-
-    return transport.call("GET", urlInfo.build(), PageProperty.class);
+    return client.call("GET", urlInfo.build(), PageProperty.class);
   }
 
   /**
@@ -113,10 +111,8 @@ public class PagesEndpointImpl implements PagesEndpoint {
   public Page update(String pageId, UpdatePageParams request) {
     validatePageId(pageId);
     validateRequest(request);
-
-    URLInfo urlInfo = URLInfo.builder("/pages/{page_id}").pathParam(PAGE_ID, pageId).build();
-
-    return transport.call("PATCH", urlInfo, request, Page.class);
+    ApiPath urlInfo = ApiPath.builder("/pages/{page_id}").pathParam(PAGE_ID, pageId).build();
+    return client.call("PATCH", urlInfo, request, Page.class);
   }
 
   public Page move(String pageId, Parent newParent) {
@@ -125,9 +121,9 @@ public class PagesEndpointImpl implements PagesEndpoint {
 
     MovePageParams request = new MovePageParams();
     request.setParent(newParent);
-    URLInfo urlInfo = URLInfo.builder("/pages/{page_id}/move").pathParam(PAGE_ID, pageId).build();
+    ApiPath urlInfo = ApiPath.builder("/pages/{page_id}/move").pathParam(PAGE_ID, pageId).build();
 
-    return transport.call("POST", urlInfo, request, Page.class);
+    return client.call("POST", urlInfo, request, Page.class);
   }
 
   /**

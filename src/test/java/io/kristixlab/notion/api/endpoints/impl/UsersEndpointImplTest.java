@@ -2,7 +2,7 @@ package io.kristixlab.notion.api.endpoints.impl;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import io.kristixlab.notion.api.http.TransportStub;
+import io.kristixlab.notion.api.http.ApiClientStub;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,22 +12,22 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 class UsersEndpointImplTest {
 
-  private TransportStub transport;
+  private ApiClientStub client;
   private UsersEndpointImpl endpoint;
 
   @BeforeEach
   void setUp() {
-    transport = new TransportStub();
-    endpoint = new UsersEndpointImpl(transport);
+    client = new ApiClientStub();
+    endpoint = new UsersEndpointImpl(client);
   }
 
   @Test
   void retrieveById() {
     endpoint.retrieve("user-id-42");
 
-    assertEquals("GET", transport.getLastMethod());
-    assertEquals("/users/{user_id}", transport.getLastUrlInfo().getUrl());
-    assertEquals("user-id-42", transport.getLastUrlInfo().getPathParams().get("user_id"));
+    assertEquals("GET", client.getLastMethod());
+    assertEquals("/users/{user_id}", client.getLastUrlInfo().getUrl());
+    assertEquals("user-id-42", client.getLastUrlInfo().getPathParams().get("user_id"));
   }
 
   @ParameterizedTest
@@ -41,49 +41,48 @@ class UsersEndpointImplTest {
   void listUsers() {
     endpoint.listUsers();
 
-    assertEquals("GET", transport.getLastMethod());
-    assertEquals("/users", transport.getLastUrlInfo().getUrl());
-    assertTrue(transport.getLastUrlInfo().getQueryParams().isEmpty());
+    assertEquals("GET", client.getLastMethod());
+    assertEquals("/users", client.getLastUrlInfo().getUrl());
+    assertTrue(client.getLastUrlInfo().getQueryParams().isEmpty());
   }
 
   @Test
   void listUsers_withStartCursor() {
-
     endpoint.listUsers("cursor-xyz", null);
 
-    assertEquals("GET", transport.getLastMethod());
-    assertEquals("/users", transport.getLastUrlInfo().getUrl());
+    assertEquals("GET", client.getLastMethod());
+    assertEquals("/users", client.getLastUrlInfo().getUrl());
     assertEquals(
-        List.of("cursor-xyz"), transport.getLastUrlInfo().getQueryParams().get("start_cursor"));
-    assertFalse(transport.getLastUrlInfo().getQueryParams().containsKey("page_size"));
+        List.of("cursor-xyz"), client.getLastUrlInfo().getQueryParams().get("start_cursor"));
+    assertFalse(client.getLastUrlInfo().getQueryParams().containsKey("page_size"));
   }
 
   @Test
   void listUsers_withPageSize() {
     endpoint.listUsers(null, 50);
 
-    assertEquals("GET", transport.getLastMethod());
-    assertEquals("/users", transport.getLastUrlInfo().getUrl());
-    assertEquals(List.of("50"), transport.getLastUrlInfo().getQueryParams().get("page_size"));
-    assertFalse(transport.getLastUrlInfo().getQueryParams().containsKey("start_cursor"));
+    assertEquals("GET", client.getLastMethod());
+    assertEquals("/users", client.getLastUrlInfo().getUrl());
+    assertEquals(List.of("50"), client.getLastUrlInfo().getQueryParams().get("page_size"));
+    assertFalse(client.getLastUrlInfo().getQueryParams().containsKey("start_cursor"));
   }
 
   @Test
   void listUsers_withBothPaginationParams() {
     endpoint.listUsers("cursor-abc", 25);
 
-    assertEquals("GET", transport.getLastMethod());
-    assertEquals("/users", transport.getLastUrlInfo().getUrl());
+    assertEquals("GET", client.getLastMethod());
+    assertEquals("/users", client.getLastUrlInfo().getUrl());
     assertEquals(
-        List.of("cursor-abc"), transport.getLastUrlInfo().getQueryParams().get("start_cursor"));
-    assertEquals(List.of("25"), transport.getLastUrlInfo().getQueryParams().get("page_size"));
+        List.of("cursor-abc"), client.getLastUrlInfo().getQueryParams().get("start_cursor"));
+    assertEquals(List.of("25"), client.getLastUrlInfo().getQueryParams().get("page_size"));
   }
 
   @Test
   void me() {
     endpoint.me();
 
-    assertEquals("GET", transport.getLastMethod());
-    assertEquals("/users/me", transport.getLastUrlInfo().getUrl());
+    assertEquals("GET", client.getLastMethod());
+    assertEquals("/users/me", client.getLastUrlInfo().getUrl());
   }
 }

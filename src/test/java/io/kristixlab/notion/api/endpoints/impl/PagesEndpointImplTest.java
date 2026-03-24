@@ -2,7 +2,7 @@ package io.kristixlab.notion.api.endpoints.impl;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import io.kristixlab.notion.api.http.TransportStub;
+import io.kristixlab.notion.api.http.ApiClientStub;
 import io.kristixlab.notion.api.model.common.Parent;
 import io.kristixlab.notion.api.model.pages.CreatePageParams;
 import io.kristixlab.notion.api.model.pages.MovePageParams;
@@ -16,13 +16,13 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 class PagesEndpointImplTest {
 
-  private TransportStub transport;
+  private ApiClientStub client;
   private PagesEndpointImpl endpoint;
 
   @BeforeEach
   void setUp() {
-    transport = new TransportStub();
-    endpoint = new PagesEndpointImpl(transport);
+    client = new ApiClientStub();
+    endpoint = new PagesEndpointImpl(client);
   }
 
   @Test
@@ -31,9 +31,9 @@ class PagesEndpointImplTest {
 
     endpoint.create(request);
 
-    assertEquals("POST", transport.getLastMethod());
-    assertEquals("/pages", transport.getLastUrlInfo().getUrl());
-    assertSame(request, transport.getLastBody());
+    assertEquals("POST", client.getLastMethod());
+    assertEquals("/pages", client.getLastUrlInfo().getUrl());
+    assertSame(request, client.getLastBody());
   }
 
   @Test
@@ -45,9 +45,9 @@ class PagesEndpointImplTest {
   void retrieveById() {
     endpoint.retrieve("page-id-1");
 
-    assertEquals("GET", transport.getLastMethod());
-    assertEquals("/pages/{page_id}", transport.getLastUrlInfo().getUrl());
-    assertEquals("page-id-1", transport.getLastUrlInfo().getPathParams().get("page_id"));
+    assertEquals("GET", client.getLastMethod());
+    assertEquals("/pages/{page_id}", client.getLastUrlInfo().getUrl());
+    assertEquals("page-id-1", client.getLastUrlInfo().getPathParams().get("page_id"));
   }
 
   @ParameterizedTest
@@ -61,47 +61,47 @@ class PagesEndpointImplTest {
   void retrieveProperty() {
     endpoint.retrieveProperty("page-id-1", "prop-id-1");
 
-    assertEquals("GET", transport.getLastMethod());
-    assertEquals("/pages/{page_id}/properties/{property_id}", transport.getLastUrlInfo().getUrl());
-    assertEquals("page-id-1", transport.getLastUrlInfo().getPathParams().get("page_id"));
-    assertEquals("prop-id-1", transport.getLastUrlInfo().getPathParams().get("property_id"));
-    assertTrue(transport.getLastUrlInfo().getQueryParams().isEmpty());
+    assertEquals("GET", client.getLastMethod());
+    assertEquals("/pages/{page_id}/properties/{property_id}", client.getLastUrlInfo().getUrl());
+    assertEquals("page-id-1", client.getLastUrlInfo().getPathParams().get("page_id"));
+    assertEquals("prop-id-1", client.getLastUrlInfo().getPathParams().get("property_id"));
+    assertTrue(client.getLastUrlInfo().getQueryParams().isEmpty());
   }
 
   @Test
   void retrieveProperty_withStartCursor() {
     endpoint.retrieveProperty("page-id-1", "prop-id-1", "cursor-abc", null);
 
-    assertEquals("GET", transport.getLastMethod());
-    assertEquals("/pages/{page_id}/properties/{property_id}", transport.getLastUrlInfo().getUrl());
+    assertEquals("GET", client.getLastMethod());
+    assertEquals("/pages/{page_id}/properties/{property_id}", client.getLastUrlInfo().getUrl());
     assertEquals(
         java.util.List.of("cursor-abc"),
-        transport.getLastUrlInfo().getQueryParams().get("start_cursor"));
-    assertFalse(transport.getLastUrlInfo().getQueryParams().containsKey("page_size"));
+        client.getLastUrlInfo().getQueryParams().get("start_cursor"));
+    assertFalse(client.getLastUrlInfo().getQueryParams().containsKey("page_size"));
   }
 
   @Test
   void retrieveProperty_withPageSize() {
     endpoint.retrieveProperty("page-id-1", "prop-id-1", null, 10);
 
-    assertEquals("GET", transport.getLastMethod());
-    assertEquals("/pages/{page_id}/properties/{property_id}", transport.getLastUrlInfo().getUrl());
+    assertEquals("GET", client.getLastMethod());
+    assertEquals("/pages/{page_id}/properties/{property_id}", client.getLastUrlInfo().getUrl());
     assertEquals(
-        java.util.List.of("10"), transport.getLastUrlInfo().getQueryParams().get("page_size"));
-    assertFalse(transport.getLastUrlInfo().getQueryParams().containsKey("start_cursor"));
+        java.util.List.of("10"), client.getLastUrlInfo().getQueryParams().get("page_size"));
+    assertFalse(client.getLastUrlInfo().getQueryParams().containsKey("start_cursor"));
   }
 
   @Test
   void retrieveProperty_withBothPaginationParams() {
     endpoint.retrieveProperty("page-id-1", "prop-id-1", "cursor-abc", 10);
 
-    assertEquals("GET", transport.getLastMethod());
-    assertEquals("/pages/{page_id}/properties/{property_id}", transport.getLastUrlInfo().getUrl());
+    assertEquals("GET", client.getLastMethod());
+    assertEquals("/pages/{page_id}/properties/{property_id}", client.getLastUrlInfo().getUrl());
     assertEquals(
         java.util.List.of("cursor-abc"),
-        transport.getLastUrlInfo().getQueryParams().get("start_cursor"));
+        client.getLastUrlInfo().getQueryParams().get("start_cursor"));
     assertEquals(
-        java.util.List.of("10"), transport.getLastUrlInfo().getQueryParams().get("page_size"));
+        java.util.List.of("10"), client.getLastUrlInfo().getQueryParams().get("page_size"));
   }
 
   @ParameterizedTest
@@ -128,10 +128,10 @@ class PagesEndpointImplTest {
 
     endpoint.update("page-id-1", request);
 
-    assertEquals("PATCH", transport.getLastMethod());
-    assertEquals("/pages/{page_id}", transport.getLastUrlInfo().getUrl());
-    assertEquals("page-id-1", transport.getLastUrlInfo().getPathParams().get("page_id"));
-    assertSame(request, transport.getLastBody());
+    assertEquals("PATCH", client.getLastMethod());
+    assertEquals("/pages/{page_id}", client.getLastUrlInfo().getUrl());
+    assertEquals("page-id-1", client.getLastUrlInfo().getPathParams().get("page_id"));
+    assertSame(request, client.getLastBody());
   }
 
   @Test
@@ -151,20 +151,20 @@ class PagesEndpointImplTest {
   void delete() {
     endpoint.delete("page-id-1");
 
-    assertEquals("PATCH", transport.getLastMethod());
-    assertEquals("/pages/{page_id}", transport.getLastUrlInfo().getUrl());
-    assertEquals("page-id-1", transport.getLastUrlInfo().getPathParams().get("page_id"));
-    assertTrue(((UpdatePageParams) transport.getLastBody()).getInTrash());
+    assertEquals("PATCH", client.getLastMethod());
+    assertEquals("/pages/{page_id}", client.getLastUrlInfo().getUrl());
+    assertEquals("page-id-1", client.getLastUrlInfo().getPathParams().get("page_id"));
+    assertTrue(((UpdatePageParams) client.getLastBody()).getInTrash());
   }
 
   @Test
   void restore() {
     endpoint.restore("page-id-1");
 
-    assertEquals("PATCH", transport.getLastMethod());
-    assertEquals("/pages/{page_id}", transport.getLastUrlInfo().getUrl());
-    assertEquals("page-id-1", transport.getLastUrlInfo().getPathParams().get("page_id"));
-    assertFalse(((UpdatePageParams) transport.getLastBody()).getInTrash());
+    assertEquals("PATCH", client.getLastMethod());
+    assertEquals("/pages/{page_id}", client.getLastUrlInfo().getUrl());
+    assertEquals("page-id-1", client.getLastUrlInfo().getPathParams().get("page_id"));
+    assertFalse(((UpdatePageParams) client.getLastBody()).getInTrash());
   }
 
   // --- retrieveAsMarkdown ---
@@ -173,25 +173,25 @@ class PagesEndpointImplTest {
   void retrieveAsMarkdown() {
     endpoint.retrieveAsMarkdown("page-id-1");
 
-    assertEquals("GET", transport.getLastMethod());
-    assertEquals("/pages/{page_id}/markdown", transport.getLastUrlInfo().getUrl());
-    assertEquals("page-id-1", transport.getLastUrlInfo().getPathParams().get("page_id"));
+    assertEquals("GET", client.getLastMethod());
+    assertEquals("/pages/{page_id}/markdown", client.getLastUrlInfo().getUrl());
+    assertEquals("page-id-1", client.getLastUrlInfo().getPathParams().get("page_id"));
     assertEquals(
         java.util.List.of("false"),
-        transport.getLastUrlInfo().getQueryParams().get("include_transcript"));
-    assertNull(transport.getLastBody());
+        client.getLastUrlInfo().getQueryParams().get("include_transcript"));
+    assertNull(client.getLastBody());
   }
 
   @Test
   void retrieveAsMarkdown_withIncludeTranscript() {
     endpoint.retrieveAsMarkdown("page-id-1", true);
 
-    assertEquals("GET", transport.getLastMethod());
-    assertEquals("/pages/{page_id}/markdown", transport.getLastUrlInfo().getUrl());
-    assertEquals("page-id-1", transport.getLastUrlInfo().getPathParams().get("page_id"));
+    assertEquals("GET", client.getLastMethod());
+    assertEquals("/pages/{page_id}/markdown", client.getLastUrlInfo().getUrl());
+    assertEquals("page-id-1", client.getLastUrlInfo().getPathParams().get("page_id"));
     assertEquals(
         java.util.List.of("true"),
-        transport.getLastUrlInfo().getQueryParams().get("include_transcript"));
+        client.getLastUrlInfo().getQueryParams().get("include_transcript"));
   }
 
   @ParameterizedTest
@@ -209,10 +209,10 @@ class PagesEndpointImplTest {
 
     endpoint.updateAsMarkdown("page-id-1", request);
 
-    assertEquals("PATCH", transport.getLastMethod());
-    assertEquals("/pages/{page_id}/markdown", transport.getLastUrlInfo().getUrl());
-    assertEquals("page-id-1", transport.getLastUrlInfo().getPathParams().get("page_id"));
-    assertSame(request, transport.getLastBody());
+    assertEquals("PATCH", client.getLastMethod());
+    assertEquals("/pages/{page_id}/markdown", client.getLastUrlInfo().getUrl());
+    assertEquals("page-id-1", client.getLastUrlInfo().getPathParams().get("page_id"));
+    assertSame(request, client.getLastBody());
   }
 
   @Test
@@ -238,10 +238,10 @@ class PagesEndpointImplTest {
 
     endpoint.move("page-id-1", newParent);
 
-    assertEquals("POST", transport.getLastMethod());
-    assertEquals("/pages/{page_id}/move", transport.getLastUrlInfo().getUrl());
-    assertEquals("page-id-1", transport.getLastUrlInfo().getPathParams().get("page_id"));
-    assertSame(newParent, ((MovePageParams) transport.getLastBody()).getParent());
+    assertEquals("POST", client.getLastMethod());
+    assertEquals("/pages/{page_id}/move", client.getLastUrlInfo().getUrl());
+    assertEquals("page-id-1", client.getLastUrlInfo().getPathParams().get("page_id"));
+    assertSame(newParent, ((MovePageParams) client.getLastBody()).getParent());
   }
 
   @Test

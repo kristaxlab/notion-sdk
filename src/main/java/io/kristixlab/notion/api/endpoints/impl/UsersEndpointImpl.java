@@ -1,8 +1,8 @@
 package io.kristixlab.notion.api.endpoints.impl;
 
 import io.kristixlab.notion.api.endpoints.UsersEndpoint;
-import io.kristixlab.notion.api.http.transport.HttpTransport;
-import io.kristixlab.notion.api.http.transport.rq.URLInfo;
+import io.kristixlab.notion.api.http.client.ApiClient;
+import io.kristixlab.notion.api.http.request.ApiPath;
 import io.kristixlab.notion.api.model.users.User;
 import io.kristixlab.notion.api.model.users.UserList;
 
@@ -14,10 +14,10 @@ public class UsersEndpointImpl implements UsersEndpoint {
 
   private static final String USER_ID = "user_id";
 
-  private final HttpTransport transport;
+  private final ApiClient client;
 
-  public UsersEndpointImpl(HttpTransport transport) {
-    this.transport = transport;
+  public UsersEndpointImpl(ApiClient client) {
+    this.client = client;
   }
 
   /**
@@ -28,8 +28,8 @@ public class UsersEndpointImpl implements UsersEndpoint {
    */
   public User retrieve(String userId) {
     validateUserId(userId);
-    URLInfo urlInfo = URLInfo.builder("/users/{user_id}").pathParam(USER_ID, userId).build();
-    return transport.call("GET", urlInfo, User.class);
+    ApiPath urlInfo = ApiPath.builder("/users/{user_id}").pathParam(USER_ID, userId).build();
+    return client.call("GET", urlInfo, User.class);
   }
 
   /**
@@ -51,8 +51,8 @@ public class UsersEndpointImpl implements UsersEndpoint {
    * @return UsersList containing users in the workspace
    */
   public UserList listUsers(String startCursor, Integer pageSize) {
-    URLInfo.Builder urlInfo = URLInfo.builder("/users", startCursor, pageSize);
-    return transport.call("GET", urlInfo.build(), UserList.class);
+    ApiPath.Builder urlInfo = ApiPath.builder("/users", startCursor, pageSize);
+    return client.call("GET", urlInfo.build(), UserList.class);
   }
 
   /**
@@ -61,7 +61,7 @@ public class UsersEndpointImpl implements UsersEndpoint {
    * @return The current bot user
    */
   public User me() {
-    return transport.call("GET", URLInfo.from("/users/me"), User.class);
+    return client.call("GET", ApiPath.from("/users/me"), User.class);
   }
 
   /** Validates the user ID parameter. */

@@ -1,9 +1,9 @@
 package io.kristixlab.notion.api.endpoints.impl;
 
 import io.kristixlab.notion.api.endpoints.FileUploadsEndpoint;
-import io.kristixlab.notion.api.http.transport.HttpTransport;
-import io.kristixlab.notion.api.http.transport.rq.MultipartFormDataRequest;
-import io.kristixlab.notion.api.http.transport.rq.URLInfo;
+import io.kristixlab.notion.api.http.client.ApiClient;
+import io.kristixlab.notion.api.http.request.MultipartFormDataRequest;
+import io.kristixlab.notion.api.http.request.ApiPath;
 import io.kristixlab.notion.api.model.files.*;
 
 /**
@@ -18,10 +18,10 @@ public class FileUploadsEndpointImpl implements FileUploadsEndpoint {
   private static final String STATUS = "status";
   private static final String FILE_UPLOAD_ID = "file_upload_id";
 
-  private final HttpTransport transport;
+  private final ApiClient client;
 
-  public FileUploadsEndpointImpl(HttpTransport transport) {
-    this.transport = transport;
+  public FileUploadsEndpointImpl(ApiClient client) {
+    this.client = client;
   }
 
   /**
@@ -34,7 +34,7 @@ public class FileUploadsEndpointImpl implements FileUploadsEndpoint {
    */
   public FileUpload createFileUpload(FileUploadCreateParams request) {
     validateRequest(request);
-    return transport.call("POST", URLInfo.from("/file_uploads"), request, FileUpload.class);
+    return client.call("POST", ApiPath.from("/file_uploads"), request, FileUpload.class);
   }
 
   /**
@@ -48,8 +48,8 @@ public class FileUploadsEndpointImpl implements FileUploadsEndpoint {
    */
   public FileUpload sendFileContent(String fileUploadId, FileUploadSendParams request) {
     validateRequest(request);
-    URLInfo urlInfo =
-        URLInfo.builder("/file_uploads/{file_upload_id}/send")
+    ApiPath urlInfo =
+        ApiPath.builder("/file_uploads/{file_upload_id}/send")
             .pathParam(FILE_UPLOAD_ID, fileUploadId)
             .build();
 
@@ -67,7 +67,7 @@ public class FileUploadsEndpointImpl implements FileUploadsEndpoint {
     if (request.getPartNumber() != null) {
       multipartRq.addPart("part_number", request.getPartNumber().toString());
     }
-    return transport.call("POST", urlInfo, multipartRq, FileUpload.class);
+    return client.call("POST", urlInfo, multipartRq, FileUpload.class);
   }
 
   /**
@@ -80,11 +80,11 @@ public class FileUploadsEndpointImpl implements FileUploadsEndpoint {
   public FileUpload completeFileUpload(String fileUploadId) {
     validateFileUploadId(fileUploadId);
 
-    URLInfo urlInfo =
-        URLInfo.builder("/file_uploads/{file_upload_id}/complete")
+    ApiPath urlInfo =
+        ApiPath.builder("/file_uploads/{file_upload_id}/complete")
             .pathParam(FILE_UPLOAD_ID, fileUploadId)
             .build();
-    return transport.call("POST", urlInfo, new Object(), FileUpload.class);
+    return client.call("POST", urlInfo, new Object(), FileUpload.class);
   }
 
   /**
@@ -96,11 +96,11 @@ public class FileUploadsEndpointImpl implements FileUploadsEndpoint {
    */
   public FileUpload retrieveFileUpload(String fileUploadId) {
     validateFileUploadId(fileUploadId);
-    URLInfo urlInfo =
-        URLInfo.builder("/file_uploads/{file_upload_id}")
+    ApiPath urlInfo =
+        ApiPath.builder("/file_uploads/{file_upload_id}")
             .pathParam(FILE_UPLOAD_ID, fileUploadId)
             .build();
-    return transport.call("GET", urlInfo, FileUpload.class);
+    return client.call("GET", urlInfo, FileUpload.class);
   }
 
   /**
@@ -144,12 +144,12 @@ public class FileUploadsEndpointImpl implements FileUploadsEndpoint {
    * @return FileUploadListResponse containing the paginated list of file uploads
    */
   public FileUploadList listFileUploads(String status, String startCursor, Integer pageSize) {
-    URLInfo.Builder urlInfo = URLInfo.builder("/file_uploads", startCursor, pageSize);
+    ApiPath.Builder urlInfo = ApiPath.builder("/file_uploads", startCursor, pageSize);
     if (status != null && !status.trim().isEmpty()) {
       urlInfo.queryParam(STATUS, status);
     }
 
-    return transport.call("GET", urlInfo.build(), FileUploadList.class);
+    return client.call("GET", urlInfo.build(), FileUploadList.class);
   }
 
   /**

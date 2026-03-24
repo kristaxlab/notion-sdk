@@ -27,7 +27,7 @@ public class CommentsEndpointImplIntegrationExample extends IntegrationTest {
   @BeforeEach
   protected void setup() throws Exception {
     super.setUp();
-    commentsApi = new CommentsEndpointImpl(getTransport());
+    commentsApi = new CommentsEndpointImpl(getApiClient());
   }
 
   /** Test creating a comment on a page. This will create a new comment and save the response. */

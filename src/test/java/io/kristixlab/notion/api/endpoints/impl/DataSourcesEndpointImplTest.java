@@ -2,7 +2,7 @@ package io.kristixlab.notion.api.endpoints.impl;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import io.kristixlab.notion.api.http.TransportStub;
+import io.kristixlab.notion.api.http.ApiClientStub;
 import io.kristixlab.notion.api.model.datasources.CreateDataSourceParams;
 import io.kristixlab.notion.api.model.datasources.DataSourceQuery;
 import io.kristixlab.notion.api.model.datasources.UpdateDataSourceParams;
@@ -14,22 +14,22 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 class DataSourcesEndpointImplTest {
 
-  private TransportStub transport;
+  private ApiClientStub client;
   private DataSourcesEndpointImpl endpoint;
 
   @BeforeEach
   void setUp() {
-    transport = new TransportStub();
-    endpoint = new DataSourcesEndpointImpl(transport);
+    client = new ApiClientStub();
+    endpoint = new DataSourcesEndpointImpl(client);
   }
 
   @Test
   void retrieveById() {
     endpoint.retrieve("ds-id-1");
 
-    assertEquals("GET", transport.getLastMethod());
-    assertEquals("/data_sources/{data_source_id}", transport.getLastUrlInfo().getUrl());
-    assertEquals("ds-id-1", transport.getLastUrlInfo().getPathParams().get("data_source_id"));
+    assertEquals("GET", client.getLastMethod());
+    assertEquals("/data_sources/{data_source_id}", client.getLastUrlInfo().getUrl());
+    assertEquals("ds-id-1", client.getLastUrlInfo().getPathParams().get("data_source_id"));
   }
 
   @ParameterizedTest
@@ -45,9 +45,9 @@ class DataSourcesEndpointImplTest {
 
     endpoint.create(request);
 
-    assertEquals("POST", transport.getLastMethod());
-    assertEquals("/data_sources", transport.getLastUrlInfo().getUrl());
-    assertSame(request, transport.getLastBody());
+    assertEquals("POST", client.getLastMethod());
+    assertEquals("/data_sources", client.getLastUrlInfo().getUrl());
+    assertSame(request, client.getLastBody());
   }
 
   @Test
@@ -61,10 +61,10 @@ class DataSourcesEndpointImplTest {
 
     endpoint.update("ds-id-1", request);
 
-    assertEquals("PATCH", transport.getLastMethod());
-    assertEquals("/data_sources/{data_source_id}", transport.getLastUrlInfo().getUrl());
-    assertEquals("ds-id-1", transport.getLastUrlInfo().getPathParams().get("data_source_id"));
-    assertSame(request, transport.getLastBody());
+    assertEquals("PATCH", client.getLastMethod());
+    assertEquals("/data_sources/{data_source_id}", client.getLastUrlInfo().getUrl());
+    assertEquals("ds-id-1", client.getLastUrlInfo().getPathParams().get("data_source_id"));
+    assertSame(request, client.getLastBody());
   }
 
   @Test
@@ -84,29 +84,29 @@ class DataSourcesEndpointImplTest {
   void delete() {
     endpoint.delete("ds-id-1");
 
-    assertEquals("PATCH", transport.getLastMethod());
-    assertEquals("/data_sources/{data_source_id}", transport.getLastUrlInfo().getUrl());
-    assertEquals("ds-id-1", transport.getLastUrlInfo().getPathParams().get("data_source_id"));
-    assertTrue(((UpdateDataSourceParams) transport.getLastBody()).getInTrash());
+    assertEquals("PATCH", client.getLastMethod());
+    assertEquals("/data_sources/{data_source_id}", client.getLastUrlInfo().getUrl());
+    assertEquals("ds-id-1", client.getLastUrlInfo().getPathParams().get("data_source_id"));
+    assertTrue(((UpdateDataSourceParams) client.getLastBody()).getInTrash());
   }
 
   @Test
   void restore() {
     endpoint.restore("ds-id-1");
 
-    assertEquals("PATCH", transport.getLastMethod());
-    assertEquals("/data_sources/{data_source_id}", transport.getLastUrlInfo().getUrl());
-    assertEquals("ds-id-1", transport.getLastUrlInfo().getPathParams().get("data_source_id"));
-    assertFalse(((UpdateDataSourceParams) transport.getLastBody()).getInTrash());
+    assertEquals("PATCH", client.getLastMethod());
+    assertEquals("/data_sources/{data_source_id}", client.getLastUrlInfo().getUrl());
+    assertEquals("ds-id-1", client.getLastUrlInfo().getPathParams().get("data_source_id"));
+    assertFalse(((UpdateDataSourceParams) client.getLastBody()).getInTrash());
   }
 
   @Test
   void query_withoutFilters() {
     endpoint.query("ds-id-1");
 
-    assertEquals("POST", transport.getLastMethod());
-    assertEquals("/data_sources/{data_source_id}/query", transport.getLastUrlInfo().getUrl());
-    assertEquals("ds-id-1", transport.getLastUrlInfo().getPathParams().get("data_source_id"));
+    assertEquals("POST", client.getLastMethod());
+    assertEquals("/data_sources/{data_source_id}/query", client.getLastUrlInfo().getUrl());
+    assertEquals("ds-id-1", client.getLastUrlInfo().getPathParams().get("data_source_id"));
   }
 
   @Test
@@ -115,20 +115,20 @@ class DataSourcesEndpointImplTest {
 
     endpoint.query("ds-id-1", request);
 
-    assertEquals("POST", transport.getLastMethod());
-    assertEquals("/data_sources/{data_source_id}/query", transport.getLastUrlInfo().getUrl());
-    assertEquals("ds-id-1", transport.getLastUrlInfo().getPathParams().get("data_source_id"));
-    assertSame(request, transport.getLastBody());
+    assertEquals("POST", client.getLastMethod());
+    assertEquals("/data_sources/{data_source_id}/query", client.getLastUrlInfo().getUrl());
+    assertEquals("ds-id-1", client.getLastUrlInfo().getPathParams().get("data_source_id"));
+    assertSame(request, client.getLastBody());
   }
 
   @Test
   void query_withPaginationParams() {
     endpoint.query("ds-id-1", "cursor-abc", 25);
 
-    assertEquals("POST", transport.getLastMethod());
-    assertEquals("/data_sources/{data_source_id}/query", transport.getLastUrlInfo().getUrl());
-    assertEquals("ds-id-1", transport.getLastUrlInfo().getPathParams().get("data_source_id"));
-    DataSourceQuery body = (DataSourceQuery) transport.getLastBody();
+    assertEquals("POST", client.getLastMethod());
+    assertEquals("/data_sources/{data_source_id}/query", client.getLastUrlInfo().getUrl());
+    assertEquals("ds-id-1", client.getLastUrlInfo().getPathParams().get("data_source_id"));
+    DataSourceQuery body = (DataSourceQuery) client.getLastBody();
     assertEquals("cursor-abc", body.getStartCursor());
     assertEquals(25, body.getPageSize());
   }
@@ -137,7 +137,7 @@ class DataSourcesEndpointImplTest {
   void query_withStartCursorOnly() {
     endpoint.query("ds-id-1", "cursor-abc", null);
 
-    DataSourceQuery body = (DataSourceQuery) transport.getLastBody();
+    DataSourceQuery body = (DataSourceQuery) client.getLastBody();
     assertEquals("cursor-abc", body.getStartCursor());
     assertNull(body.getPageSize());
   }
@@ -146,7 +146,7 @@ class DataSourcesEndpointImplTest {
   void query_withPageSizeOnly() {
     endpoint.query("ds-id-1", null, 50);
 
-    DataSourceQuery body = (DataSourceQuery) transport.getLastBody();
+    DataSourceQuery body = (DataSourceQuery) client.getLastBody();
     assertNull(body.getStartCursor());
     assertEquals(50, body.getPageSize());
   }
@@ -162,9 +162,9 @@ class DataSourcesEndpointImplTest {
   void retrieveTemplates() {
     endpoint.retrieveTemplates("ds-id-1");
 
-    assertEquals("GET", transport.getLastMethod());
-    assertEquals("/data_sources/{data_source_id}/templates", transport.getLastUrlInfo().getUrl());
-    assertEquals("ds-id-1", transport.getLastUrlInfo().getPathParams().get("data_source_id"));
+    assertEquals("GET", client.getLastMethod());
+    assertEquals("/data_sources/{data_source_id}/templates", client.getLastUrlInfo().getUrl());
+    assertEquals("ds-id-1", client.getLastUrlInfo().getPathParams().get("data_source_id"));
   }
 
   @ParameterizedTest

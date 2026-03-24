@@ -1,8 +1,8 @@
 package io.kristixlab.notion.api.endpoints.impl;
 
 import io.kristixlab.notion.api.endpoints.BlocksEndpoint;
-import io.kristixlab.notion.api.http.transport.HttpTransport;
-import io.kristixlab.notion.api.http.transport.rq.URLInfo;
+import io.kristixlab.notion.api.http.client.ApiClient;
+import io.kristixlab.notion.api.http.request.ApiPath;
 import io.kristixlab.notion.api.model.blocks.AppendBlockChildrenParams;
 import io.kristixlab.notion.api.model.blocks.Block;
 import io.kristixlab.notion.api.model.blocks.BlockList;
@@ -15,10 +15,10 @@ public class BlocksEndpointImpl implements BlocksEndpoint {
 
   private static final String BLOCK_ID = "block_id";
 
-  private final HttpTransport transport;
+  private final ApiClient client;
 
-  public BlocksEndpointImpl(HttpTransport transport) {
-    this.transport = transport;
+  public BlocksEndpointImpl(ApiClient client) {
+    this.client = client;
   }
 
   /**
@@ -30,9 +30,9 @@ public class BlocksEndpointImpl implements BlocksEndpoint {
   public Block retrieve(String blockId) {
     validateBlockId(blockId);
 
-    URLInfo urlInfo = URLInfo.builder("/blocks/{block_id}").pathParam(BLOCK_ID, blockId).build();
+    ApiPath urlInfo = ApiPath.builder("/blocks/{block_id}").pathParam(BLOCK_ID, blockId).build();
 
-    return transport.call("GET", urlInfo, Block.class);
+    return client.call("GET", urlInfo, Block.class);
   }
 
   /**
@@ -56,11 +56,11 @@ public class BlocksEndpointImpl implements BlocksEndpoint {
   public BlockList retrieveChildren(String blockId, String startCursor, Integer pageSize) {
     validateBlockId(blockId);
 
-    URLInfo.Builder urlInfo =
-        URLInfo.builder("/blocks/{block_id}/children", startCursor, pageSize)
+    ApiPath.Builder urlInfo =
+        ApiPath.builder("/blocks/{block_id}/children", startCursor, pageSize)
             .pathParam(BLOCK_ID, blockId);
 
-    return transport.call("GET", urlInfo.build(), BlockList.class);
+    return client.call("GET", urlInfo.build(), BlockList.class);
   }
 
   /**
@@ -87,10 +87,10 @@ public class BlocksEndpointImpl implements BlocksEndpoint {
     validateBlockId(parentBlockId);
     validateRequest(request);
 
-    URLInfo urlInfo =
-        URLInfo.builder("/blocks/{block_id}/children").pathParam(BLOCK_ID, parentBlockId).build();
+    ApiPath urlInfo =
+        ApiPath.builder("/blocks/{block_id}/children").pathParam(BLOCK_ID, parentBlockId).build();
 
-    return transport.call("PATCH", urlInfo, request, BlockList.class);
+    return client.call("PATCH", urlInfo, request, BlockList.class);
   }
 
   /**
@@ -104,9 +104,9 @@ public class BlocksEndpointImpl implements BlocksEndpoint {
     validateBlockId(blockId);
     validateRequest(request);
 
-    URLInfo urlInfo = URLInfo.builder("/blocks/{block_id}").pathParam(BLOCK_ID, blockId).build();
+    ApiPath urlInfo = ApiPath.builder("/blocks/{block_id}").pathParam(BLOCK_ID, blockId).build();
 
-    return transport.call("PATCH", urlInfo, request, Block.class);
+    return client.call("PATCH", urlInfo, request, Block.class);
   }
 
   /**
@@ -117,8 +117,8 @@ public class BlocksEndpointImpl implements BlocksEndpoint {
    */
   public Block delete(String blockId) {
     validateBlockId(blockId);
-    URLInfo urlInfo = URLInfo.builder("/blocks/{block_id}").pathParam(BLOCK_ID, blockId).build();
-    return transport.call("DELETE", urlInfo, Block.class);
+    ApiPath urlInfo = ApiPath.builder("/blocks/{block_id}").pathParam(BLOCK_ID, blockId).build();
+    return client.call("DELETE", urlInfo, Block.class);
   }
 
   /**

@@ -2,7 +2,7 @@ package io.kristixlab.notion.api.endpoints.impl;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import io.kristixlab.notion.api.http.TransportStub;
+import io.kristixlab.notion.api.http.ApiClientStub;
 import io.kristixlab.notion.api.model.databases.CreateDatabaseParams;
 import io.kristixlab.notion.api.model.databases.UpdateDatabaseParams;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,22 +13,22 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 class DatabasesEndpointImplTest {
 
-  private TransportStub transport;
+  private ApiClientStub client;
   private DatabasesEndpointImpl endpoint;
 
   @BeforeEach
   void setUp() {
-    transport = new TransportStub();
-    endpoint = new DatabasesEndpointImpl(transport);
+    client = new ApiClientStub();
+    endpoint = new DatabasesEndpointImpl(client);
   }
 
   @Test
   void retrieveById() {
     endpoint.retrieve("db-id-1");
 
-    assertEquals("GET", transport.getLastMethod());
-    assertEquals("/databases/{database_id}", transport.getLastUrlInfo().getUrl());
-    assertEquals("db-id-1", transport.getLastUrlInfo().getPathParams().get("database_id"));
+    assertEquals("GET", client.getLastMethod());
+    assertEquals("/databases/{database_id}", client.getLastUrlInfo().getUrl());
+    assertEquals("db-id-1", client.getLastUrlInfo().getPathParams().get("database_id"));
   }
 
   @ParameterizedTest
@@ -44,9 +44,9 @@ class DatabasesEndpointImplTest {
 
     endpoint.create(request);
 
-    assertEquals("POST", transport.getLastMethod());
-    assertEquals("/databases", transport.getLastUrlInfo().getUrl());
-    assertSame(request, transport.getLastBody());
+    assertEquals("POST", client.getLastMethod());
+    assertEquals("/databases", client.getLastUrlInfo().getUrl());
+    assertSame(request, client.getLastBody());
   }
 
   @Test
@@ -60,10 +60,10 @@ class DatabasesEndpointImplTest {
 
     endpoint.update("db-id-1", request);
 
-    assertEquals("PATCH", transport.getLastMethod());
-    assertEquals("/databases/{database_id}", transport.getLastUrlInfo().getUrl());
-    assertEquals("db-id-1", transport.getLastUrlInfo().getPathParams().get("database_id"));
-    assertSame(request, transport.getLastBody());
+    assertEquals("PATCH", client.getLastMethod());
+    assertEquals("/databases/{database_id}", client.getLastUrlInfo().getUrl());
+    assertEquals("db-id-1", client.getLastUrlInfo().getPathParams().get("database_id"));
+    assertSame(request, client.getLastBody());
   }
 
   @Test
@@ -71,10 +71,10 @@ class DatabasesEndpointImplTest {
     UpdateDatabaseParams request = new UpdateDatabaseParams();
     endpoint.update("db-id-1", request);
 
-    assertEquals("PATCH", transport.getLastMethod());
-    assertEquals("/databases/{database_id}", transport.getLastUrlInfo().getUrl());
-    assertEquals("db-id-1", transport.getLastUrlInfo().getPathParams().get("database_id"));
-    assertSame(request, transport.getLastBody());
+    assertEquals("PATCH", client.getLastMethod());
+    assertEquals("/databases/{database_id}", client.getLastUrlInfo().getUrl());
+    assertEquals("db-id-1", client.getLastUrlInfo().getPathParams().get("database_id"));
+    assertSame(request, client.getLastBody());
   }
 
   @Test
@@ -94,19 +94,19 @@ class DatabasesEndpointImplTest {
   void delete() {
     endpoint.delete("db-id-1");
 
-    assertEquals("PATCH", transport.getLastMethod());
-    assertEquals("/databases/{database_id}", transport.getLastUrlInfo().getUrl());
-    assertEquals("db-id-1", transport.getLastUrlInfo().getPathParams().get("database_id"));
-    assertTrue(((UpdateDatabaseParams) transport.getLastBody()).getInTrash());
+    assertEquals("PATCH", client.getLastMethod());
+    assertEquals("/databases/{database_id}", client.getLastUrlInfo().getUrl());
+    assertEquals("db-id-1", client.getLastUrlInfo().getPathParams().get("database_id"));
+    assertTrue(((UpdateDatabaseParams) client.getLastBody()).getInTrash());
   }
 
   @Test
   void restore() {
     endpoint.restore("db-id-1");
 
-    assertEquals("PATCH", transport.getLastMethod());
-    assertEquals("/databases/{database_id}", transport.getLastUrlInfo().getUrl());
-    assertEquals("db-id-1", transport.getLastUrlInfo().getPathParams().get("database_id"));
-    assertFalse(((UpdateDatabaseParams) transport.getLastBody()).getInTrash());
+    assertEquals("PATCH", client.getLastMethod());
+    assertEquals("/databases/{database_id}", client.getLastUrlInfo().getUrl());
+    assertEquals("db-id-1", client.getLastUrlInfo().getPathParams().get("database_id"));
+    assertFalse(((UpdateDatabaseParams) client.getLastBody()).getInTrash());
   }
 }

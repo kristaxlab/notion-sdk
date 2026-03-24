@@ -1,8 +1,8 @@
 package io.kristixlab.notion.api.endpoints.impl;
 
 import io.kristixlab.notion.api.endpoints.SearchEndpoint;
-import io.kristixlab.notion.api.http.transport.HttpTransport;
-import io.kristixlab.notion.api.http.transport.rq.URLInfo;
+import io.kristixlab.notion.api.http.client.ApiClient;
+import io.kristixlab.notion.api.http.request.ApiPath;
 import io.kristixlab.notion.api.model.search.SearchFilter;
 import io.kristixlab.notion.api.model.search.SearchQuery;
 import io.kristixlab.notion.api.model.search.SearchResult;
@@ -14,21 +14,16 @@ import io.kristixlab.notion.api.model.search.SearchSort;
  */
 public class SearchEndpointImpl implements SearchEndpoint {
 
-  private final HttpTransport transport;
+  private final ApiClient client;
 
-  public SearchEndpointImpl(HttpTransport transport) {
-    this.transport = transport;
+  public SearchEndpointImpl(ApiClient client) {
+    this.client = client;
   }
 
-  /**
-   * Search through pages and data sources in the workspace.
-   *
-   * @param request The search request with query, filters, and pagination options
-   * @return SearchResponse containing results and pagination info
-   */
+  // ...existing code...
   public SearchResult search(SearchQuery request) {
     validateRequest(request);
-    return transport.call("POST", URLInfo.from("/search"), request, SearchResult.class);
+    return client.call("POST", ApiPath.from("/search"), request, SearchResult.class);
   }
 
   /**

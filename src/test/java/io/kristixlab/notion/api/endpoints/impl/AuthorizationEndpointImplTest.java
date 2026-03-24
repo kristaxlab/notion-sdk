@@ -3,7 +3,7 @@ package io.kristixlab.notion.api.endpoints.impl;
 import static org.junit.jupiter.api.Assertions.*;
 
 import io.kristixlab.notion.api.NotionAuthSettings;
-import io.kristixlab.notion.api.http.TransportStub;
+import io.kristixlab.notion.api.http.ApiClientStub;
 import io.kristixlab.notion.api.model.authorization.IntrospectTokenRequest;
 import io.kristixlab.notion.api.model.authorization.IntrospectTokenResponse;
 import io.kristixlab.notion.api.model.authorization.RefreshTokenRequest;
@@ -19,16 +19,16 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 class AuthorizationEndpointImplTest {
 
-  private TransportStub transport;
+  private ApiClientStub client;
   private NotionAuthSettings authSettings;
   private AuthorizationEndpointImpl endpoint;
 
   @BeforeEach
   void setUp() {
-    transport = new TransportStub();
-    transport.setResponse(new TokenResponse());
+    client = new ApiClientStub();
+    client.setResponse(new TokenResponse());
     authSettings = new NotionAuthSettings();
-    endpoint = new AuthorizationEndpointImpl(authSettings, transport);
+    endpoint = new AuthorizationEndpointImpl(authSettings, client);
   }
 
   // ── createToken ───────────────────────────────────────────────────────────
@@ -37,18 +37,18 @@ class AuthorizationEndpointImplTest {
   void createToken() {
     endpoint.createToken("auth-code");
 
-    assertEquals("POST", transport.getLastMethod());
-    assertEquals("/oauth/token", transport.getLastUrlInfo().getUrl());
-    assertEquals("auth-code", ((TokenRequest) transport.getLastBody()).getCode());
+    assertEquals("POST", client.getLastMethod());
+    assertEquals("/oauth/token", client.getLastUrlInfo().getUrl());
+    assertEquals("auth-code", ((TokenRequest) client.getLastBody()).getCode());
   }
 
   @Test
   void createToken_withRedirectUri() {
     endpoint.createToken("auth-code", "https://example.com/callback");
 
-    assertEquals("POST", transport.getLastMethod());
-    assertEquals("/oauth/token", transport.getLastUrlInfo().getUrl());
-    TokenRequest body = (TokenRequest) transport.getLastBody();
+    assertEquals("POST", client.getLastMethod());
+    assertEquals("/oauth/token", client.getLastUrlInfo().getUrl());
+    TokenRequest body = (TokenRequest) client.getLastBody();
     assertEquals("auth-code", body.getCode());
     assertEquals("https://example.com/callback", body.getRedirectUri());
   }
@@ -59,9 +59,9 @@ class AuthorizationEndpointImplTest {
 
     endpoint.createToken(request);
 
-    assertEquals("POST", transport.getLastMethod());
-    assertEquals("/oauth/token", transport.getLastUrlInfo().getUrl());
-    assertSame(request, transport.getLastBody());
+    assertEquals("POST", client.getLastMethod());
+    assertEquals("/oauth/token", client.getLastUrlInfo().getUrl());
+    assertSame(request, client.getLastBody());
   }
 
   @Test
@@ -70,9 +70,9 @@ class AuthorizationEndpointImplTest {
 
     endpoint.createToken(request, "client-id", "client-secret");
 
-    assertEquals("POST", transport.getLastMethod());
-    assertEquals("/oauth/token", transport.getLastUrlInfo().getUrl());
-    assertSame(request, transport.getLastBody());
+    assertEquals("POST", client.getLastMethod());
+    assertEquals("/oauth/token", client.getLastUrlInfo().getUrl());
+    assertSame(request, client.getLastBody());
   }
 
   @Test
@@ -95,20 +95,20 @@ class AuthorizationEndpointImplTest {
 
     endpoint.refreshToken();
 
-    assertEquals("POST", transport.getLastMethod());
-    assertEquals("/oauth/token", transport.getLastUrlInfo().getUrl());
+    assertEquals("POST", client.getLastMethod());
+    assertEquals("/oauth/token", client.getLastUrlInfo().getUrl());
     assertEquals(
-        "stored-refresh-token", ((RefreshTokenRequest) transport.getLastBody()).getRefreshToken());
+        "stored-refresh-token", ((RefreshTokenRequest) client.getLastBody()).getRefreshToken());
   }
 
   @Test
   void refreshToken_withToken() {
     endpoint.refreshToken("my-refresh-token");
 
-    assertEquals("POST", transport.getLastMethod());
-    assertEquals("/oauth/token", transport.getLastUrlInfo().getUrl());
+    assertEquals("POST", client.getLastMethod());
+    assertEquals("/oauth/token", client.getLastUrlInfo().getUrl());
     assertEquals(
-        "my-refresh-token", ((RefreshTokenRequest) transport.getLastBody()).getRefreshToken());
+        "my-refresh-token", ((RefreshTokenRequest) client.getLastBody()).getRefreshToken());
   }
 
   @Test
@@ -117,19 +117,19 @@ class AuthorizationEndpointImplTest {
 
     endpoint.refreshToken(request);
 
-    assertEquals("POST", transport.getLastMethod());
-    assertEquals("/oauth/token", transport.getLastUrlInfo().getUrl());
-    assertSame(request, transport.getLastBody());
+    assertEquals("POST", client.getLastMethod());
+    assertEquals("/oauth/token", client.getLastUrlInfo().getUrl());
+    assertSame(request, client.getLastBody());
   }
 
   @Test
   void refreshToken_withClientCredentials() {
     endpoint.refreshToken("my-refresh-token", "client-id", "client-secret");
 
-    assertEquals("POST", transport.getLastMethod());
-    assertEquals("/oauth/token", transport.getLastUrlInfo().getUrl());
+    assertEquals("POST", client.getLastMethod());
+    assertEquals("/oauth/token", client.getLastUrlInfo().getUrl());
     assertEquals(
-        "my-refresh-token", ((RefreshTokenRequest) transport.getLastBody()).getRefreshToken());
+        "my-refresh-token", ((RefreshTokenRequest) client.getLastBody()).getRefreshToken());
   }
 
   @Test
@@ -138,9 +138,9 @@ class AuthorizationEndpointImplTest {
 
     endpoint.refreshToken(request, "client-id", "client-secret");
 
-    assertEquals("POST", transport.getLastMethod());
-    assertEquals("/oauth/token", transport.getLastUrlInfo().getUrl());
-    assertSame(request, transport.getLastBody());
+    assertEquals("POST", client.getLastMethod());
+    assertEquals("/oauth/token", client.getLastUrlInfo().getUrl());
+    assertSame(request, client.getLastBody());
   }
 
   @Test
@@ -160,74 +160,73 @@ class AuthorizationEndpointImplTest {
 
   @Test
   void introspectToken() {
-    transport.setResponse(new IntrospectTokenResponse());
+    client.setResponse(new IntrospectTokenResponse());
 
     endpoint.introspectToken("some-token");
 
-    assertEquals("POST", transport.getLastMethod());
-    assertEquals("/oauth/introspect", transport.getLastUrlInfo().getUrl());
-    assertEquals("some-token", ((IntrospectTokenRequest) transport.getLastBody()).getToken());
+    assertEquals("POST", client.getLastMethod());
+    assertEquals("/oauth/introspect", client.getLastUrlInfo().getUrl());
+    assertEquals("some-token", ((IntrospectTokenRequest) client.getLastBody()).getToken());
   }
 
   @Test
   void introspectToken_withRequest() {
-    transport.setResponse(new IntrospectTokenResponse());
+    client.setResponse(new IntrospectTokenResponse());
     IntrospectTokenRequest request = IntrospectTokenRequest.of("some-token");
 
     endpoint.introspectToken(request);
 
-    assertEquals("POST", transport.getLastMethod());
-    assertEquals("/oauth/introspect", transport.getLastUrlInfo().getUrl());
-    assertSame(request, transport.getLastBody());
+    assertEquals("POST", client.getLastMethod());
+    assertEquals("/oauth/introspect", client.getLastUrlInfo().getUrl());
+    assertSame(request, client.getLastBody());
   }
 
   @Test
   void introspectToken_withClientCredentials() {
-    transport.setResponse(new IntrospectTokenResponse());
+    client.setResponse(new IntrospectTokenResponse());
 
     endpoint.introspectToken("some-token", "client-id", "client-secret");
 
-    assertEquals("POST", transport.getLastMethod());
-    assertEquals("/oauth/introspect", transport.getLastUrlInfo().getUrl());
-    assertEquals("some-token", ((IntrospectTokenRequest) transport.getLastBody()).getToken());
+    assertEquals("POST", client.getLastMethod());
+    assertEquals("/oauth/introspect", client.getLastUrlInfo().getUrl());
+    assertEquals("some-token", ((IntrospectTokenRequest) client.getLastBody()).getToken());
   }
 
   @Test
   void introspectToken_withRequestAndClientCredentials() {
-    transport.setResponse(new IntrospectTokenResponse());
+    client.setResponse(new IntrospectTokenResponse());
     IntrospectTokenRequest request = IntrospectTokenRequest.of("some-token");
 
     endpoint.introspectToken(request, "client-id", "client-secret");
 
-    assertEquals("POST", transport.getLastMethod());
-    assertEquals("/oauth/introspect", transport.getLastUrlInfo().getUrl());
-    assertSame(request, transport.getLastBody());
+    assertEquals("POST", client.getLastMethod());
+    assertEquals("/oauth/introspect", client.getLastUrlInfo().getUrl());
+    assertSame(request, client.getLastBody());
   }
 
   @Test
   void introspectAccessToken() {
-    transport.setResponse(new IntrospectTokenResponse());
+    client.setResponse(new IntrospectTokenResponse());
     authSettings.setAccessToken("stored-access-token");
 
     endpoint.introspectAccessToken();
 
-    assertEquals("POST", transport.getLastMethod());
-    assertEquals("/oauth/introspect", transport.getLastUrlInfo().getUrl());
-    assertEquals(
-        "stored-access-token", ((IntrospectTokenRequest) transport.getLastBody()).getToken());
+    assertEquals("POST", client.getLastMethod());
+    assertEquals("/oauth/introspect", client.getLastUrlInfo().getUrl());
+    assertEquals("stored-access-token", ((IntrospectTokenRequest) client.getLastBody()).getToken());
   }
 
   @Test
   void introspectRefreshToken() {
-    transport.setResponse(new IntrospectTokenResponse());
+    client.setResponse(new IntrospectTokenResponse());
     authSettings.setRefreshToken("stored-refresh-token");
 
     endpoint.introspectRefreshToken();
 
-    assertEquals("POST", transport.getLastMethod());
-    assertEquals("/oauth/introspect", transport.getLastUrlInfo().getUrl());
+    assertEquals("POST", client.getLastMethod());
+    assertEquals("/oauth/introspect", client.getLastUrlInfo().getUrl());
     assertEquals(
-        "stored-refresh-token", ((IntrospectTokenRequest) transport.getLastBody()).getToken());
+        "stored-refresh-token", ((IntrospectTokenRequest) client.getLastBody()).getToken());
   }
 
   @Test
@@ -248,36 +247,36 @@ class AuthorizationEndpointImplTest {
 
   @Test
   void revokeToken() {
-    transport.setResponse(new RevokeTokenResponse());
+    client.setResponse(new RevokeTokenResponse());
 
     endpoint.revokeToken("some-token");
 
-    assertEquals("POST", transport.getLastMethod());
-    assertEquals("/oauth/revoke", transport.getLastUrlInfo().getUrl());
-    assertEquals("some-token", ((RevokeTokenRequest) transport.getLastBody()).getToken());
+    assertEquals("POST", client.getLastMethod());
+    assertEquals("/oauth/revoke", client.getLastUrlInfo().getUrl());
+    assertEquals("some-token", ((RevokeTokenRequest) client.getLastBody()).getToken());
   }
 
   @Test
   void revokeToken_fromAuthSettings() {
-    transport.setResponse(new RevokeTokenResponse());
+    client.setResponse(new RevokeTokenResponse());
     authSettings.setAccessToken("stored-access-token");
 
     endpoint.revokeToken();
 
-    assertEquals("POST", transport.getLastMethod());
-    assertEquals("/oauth/revoke", transport.getLastUrlInfo().getUrl());
-    assertEquals("stored-access-token", ((RevokeTokenRequest) transport.getLastBody()).getToken());
+    assertEquals("POST", client.getLastMethod());
+    assertEquals("/oauth/revoke", client.getLastUrlInfo().getUrl());
+    assertEquals("stored-access-token", ((RevokeTokenRequest) client.getLastBody()).getToken());
   }
 
   @Test
   void revokeToken_withClientCredentials() {
-    transport.setResponse(new RevokeTokenResponse());
+    client.setResponse(new RevokeTokenResponse());
 
     endpoint.revokeToken("some-token", "client-id", "client-secret");
 
-    assertEquals("POST", transport.getLastMethod());
-    assertEquals("/oauth/revoke", transport.getLastUrlInfo().getUrl());
-    assertEquals("some-token", ((RevokeTokenRequest) transport.getLastBody()).getToken());
+    assertEquals("POST", client.getLastMethod());
+    assertEquals("/oauth/revoke", client.getLastUrlInfo().getUrl());
+    assertEquals("some-token", ((RevokeTokenRequest) client.getLastBody()).getToken());
   }
 
   @ParameterizedTest

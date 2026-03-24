@@ -1,6 +1,6 @@
 package integration.util;
 
-import io.kristixlab.notion.api.NotionApiClient;
+import io.kristixlab.notion.api.NotionClient;
 import io.kristixlab.notion.api.model.blocks.Block;
 import io.kristixlab.notion.api.model.blocks.BlockList;
 import io.kristixlab.notion.api.model.files.FileUpload;
@@ -10,7 +10,7 @@ import io.kristixlab.notion.api.model.users.User;
 
 public class PrerequisitesLoader {
 
-  public static Prerequisites load(NotionApiClient client, String prerequisitesPageId) {
+  public static Prerequisites load(NotionClient client, String prerequisitesPageId) {
     Prerequisites prerequisites = new Prerequisites();
 
     BlockList pagaContent = client.blocks().retrieveChildren(prerequisitesPageId);
@@ -50,7 +50,7 @@ public class PrerequisitesLoader {
   }
 
   private static void loadFileUploadId(
-      NotionApiClient client,
+      NotionClient client,
       Prerequisites prerequisites,
       String prerequisitesPageId,
       String backupImageUrl) {

@@ -1,6 +1,8 @@
 package io.kristixlab.notion.api.examples;
 
-import io.kristixlab.notion.api.http.NotionHttpTransport;
+import io.kristixlab.notion.api.http.legacy.NotionHttpTransport;
+import io.kristixlab.notion.api.http.client.ApiClient;
+import io.kristixlab.notion.api.http.legacy.HttpTransportApiClientAdapter;
 import io.kristixlab.notion.api.json.JsonConverter;
 import io.kristixlab.notion.api.model.BaseTest;
 import java.io.File;
@@ -35,6 +37,11 @@ public class IntegrationTest extends BaseTest {
 
   protected static NotionHttpTransport getTransport() {
     return transport;
+  }
+
+  /** Returns the transport wrapped as an {@link ApiClient} for use with the new endpoint impls. */
+  protected static ApiClient getApiClient() {
+    return new HttpTransportApiClientAdapter(getTransport());
   }
 
   protected void saveToFile(Object object, String filename) throws IOException {

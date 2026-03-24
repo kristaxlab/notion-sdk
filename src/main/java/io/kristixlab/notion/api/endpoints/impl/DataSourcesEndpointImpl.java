@@ -1,8 +1,8 @@
 package io.kristixlab.notion.api.endpoints.impl;
 
 import io.kristixlab.notion.api.endpoints.DataSourcesEndpoint;
-import io.kristixlab.notion.api.http.transport.HttpTransport;
-import io.kristixlab.notion.api.http.transport.rq.URLInfo;
+import io.kristixlab.notion.api.http.client.ApiClient;
+import io.kristixlab.notion.api.http.request.ApiPath;
 import io.kristixlab.notion.api.model.datasources.*;
 import io.kristixlab.notion.api.model.pages.templates.Templates;
 
@@ -14,10 +14,10 @@ public class DataSourcesEndpointImpl implements DataSourcesEndpoint {
 
   private static final String DATA_SOURCE_ID = "data_source_id";
 
-  private final HttpTransport transport;
+  private final ApiClient client;
 
-  public DataSourcesEndpointImpl(HttpTransport transport) {
-    this.transport = transport;
+  public DataSourcesEndpointImpl(ApiClient client) {
+    this.client = client;
   }
 
   /**
@@ -28,11 +28,11 @@ public class DataSourcesEndpointImpl implements DataSourcesEndpoint {
    */
   public DataSource retrieve(String dataSourceId) {
     validateDataSourceId(dataSourceId);
-    URLInfo urlInfo =
-        URLInfo.builder("/data_sources/{data_source_id}")
+    ApiPath urlInfo =
+        ApiPath.builder("/data_sources/{data_source_id}")
             .pathParam(DATA_SOURCE_ID, dataSourceId)
             .build();
-    return transport.call("GET", urlInfo, DataSource.class);
+    return client.call("GET", urlInfo, DataSource.class);
   }
 
   /**
@@ -43,7 +43,7 @@ public class DataSourcesEndpointImpl implements DataSourcesEndpoint {
    */
   public DataSource create(CreateDataSourceParams request) {
     validateRequest(request);
-    return transport.call("POST", URLInfo.from("/data_sources"), request, DataSource.class);
+    return client.call("POST", ApiPath.from("/data_sources"), request, DataSource.class);
   }
 
   /**
@@ -57,12 +57,12 @@ public class DataSourcesEndpointImpl implements DataSourcesEndpoint {
     validateDataSourceId(dataSourceId);
     validateRequest(request);
 
-    URLInfo urlInfo =
-        URLInfo.builder("/data_sources/{data_source_id}")
+    ApiPath urlInfo =
+        ApiPath.builder("/data_sources/{data_source_id}")
             .pathParam(DATA_SOURCE_ID, dataSourceId)
             .build();
 
-    return transport.call("PATCH", urlInfo, request, DataSource.class);
+    return client.call("PATCH", urlInfo, request, DataSource.class);
   }
 
   /**
@@ -145,12 +145,12 @@ public class DataSourcesEndpointImpl implements DataSourcesEndpoint {
       request.setPageSize(pageSize);
     }
 
-    URLInfo urlInfo =
-        URLInfo.builder("/data_sources/{data_source_id}/query")
+    ApiPath urlInfo =
+        ApiPath.builder("/data_sources/{data_source_id}/query")
             .pathParam(DATA_SOURCE_ID, dataSourceId)
             .build();
 
-    return transport.call("POST", urlInfo, request, DataSourcePageList.class);
+    return client.call("POST", urlInfo, request, DataSourcePageList.class);
   }
 
   /**
@@ -161,11 +161,11 @@ public class DataSourcesEndpointImpl implements DataSourcesEndpoint {
    */
   public Templates retrieveTemplates(String dataSourceId) {
     validateDataSourceId(dataSourceId);
-    URLInfo urlInfo =
-        URLInfo.builder("/data_sources/{data_source_id}/templates")
+    ApiPath urlInfo =
+        ApiPath.builder("/data_sources/{data_source_id}/templates")
             .pathParam(DATA_SOURCE_ID, dataSourceId)
             .build();
-    return transport.call("GET", urlInfo, Templates.class);
+    return client.call("GET", urlInfo, Templates.class);
   }
 
   private void validateDataSourceId(String dataSourceId) {

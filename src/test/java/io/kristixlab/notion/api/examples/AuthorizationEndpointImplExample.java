@@ -15,7 +15,7 @@ public class AuthorizationEndpointImplExample extends IntegrationTest {
   @BeforeEach
   protected void setUp() throws Exception {
     super.setUp();
-    authorizationApi = new AuthorizationEndpointImpl(null, getTransport());
+    authorizationApi = new AuthorizationEndpointImpl(null, getApiClient());
   }
 
   @Test

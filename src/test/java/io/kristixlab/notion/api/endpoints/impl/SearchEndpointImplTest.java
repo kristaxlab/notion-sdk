@@ -2,7 +2,7 @@ package io.kristixlab.notion.api.endpoints.impl;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import io.kristixlab.notion.api.http.TransportStub;
+import io.kristixlab.notion.api.http.ApiClientStub;
 import io.kristixlab.notion.api.model.search.SearchFilter;
 import io.kristixlab.notion.api.model.search.SearchQuery;
 import io.kristixlab.notion.api.model.search.SearchSort;
@@ -13,22 +13,22 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 class SearchEndpointImplTest {
 
-  private TransportStub transport;
+  private ApiClientStub client;
   private SearchEndpointImpl endpoint;
 
   @BeforeEach
   void setUp() {
-    transport = new TransportStub();
-    endpoint = new SearchEndpointImpl(transport);
+    client = new ApiClientStub();
+    endpoint = new SearchEndpointImpl(client);
   }
 
   @Test
   void search() {
     endpoint.search("notion");
 
-    assertEquals("POST", transport.getLastMethod());
-    assertEquals("/search", transport.getLastUrlInfo().getUrl());
-    assertEquals("notion", ((SearchQuery) transport.getLastBody()).getQuery());
+    assertEquals("POST", client.getLastMethod());
+    assertEquals("/search", client.getLastUrlInfo().getUrl());
+    assertEquals("notion", ((SearchQuery) client.getLastBody()).getQuery());
   }
 
   @Test
@@ -37,9 +37,9 @@ class SearchEndpointImplTest {
 
     endpoint.search("notion", filter);
 
-    assertEquals("POST", transport.getLastMethod());
-    assertEquals("/search", transport.getLastUrlInfo().getUrl());
-    SearchQuery body = (SearchQuery) transport.getLastBody();
+    assertEquals("POST", client.getLastMethod());
+    assertEquals("/search", client.getLastUrlInfo().getUrl());
+    SearchQuery body = (SearchQuery) client.getLastBody();
     assertEquals("notion", body.getQuery());
     assertEquals(filter, body.getFilter());
   }
@@ -50,9 +50,9 @@ class SearchEndpointImplTest {
 
     endpoint.search("notion", SearchFilter.pages(), sort);
 
-    assertEquals("POST", transport.getLastMethod());
-    assertEquals("/search", transport.getLastUrlInfo().getUrl());
-    SearchQuery body = (SearchQuery) transport.getLastBody();
+    assertEquals("POST", client.getLastMethod());
+    assertEquals("/search", client.getLastUrlInfo().getUrl());
+    SearchQuery body = (SearchQuery) client.getLastBody();
     assertEquals(sort, body.getSort());
   }
 
@@ -60,9 +60,9 @@ class SearchEndpointImplTest {
   void search_withPaginationInBody() {
     endpoint.search("notion", 25, "cursor-abc");
 
-    assertEquals("POST", transport.getLastMethod());
-    assertEquals("/search", transport.getLastUrlInfo().getUrl());
-    SearchQuery body = (SearchQuery) transport.getLastBody();
+    assertEquals("POST", client.getLastMethod());
+    assertEquals("/search", client.getLastUrlInfo().getUrl());
+    SearchQuery body = (SearchQuery) client.getLastBody();
     assertEquals(25, body.getPageSize());
     assertEquals("cursor-abc", body.getStartCursor());
   }
@@ -71,9 +71,9 @@ class SearchEndpointImplTest {
   void searchPages() {
     endpoint.searchPages("notion");
 
-    assertEquals("POST", transport.getLastMethod());
-    assertEquals("/search", transport.getLastUrlInfo().getUrl());
-    SearchQuery body = (SearchQuery) transport.getLastBody();
+    assertEquals("POST", client.getLastMethod());
+    assertEquals("/search", client.getLastUrlInfo().getUrl());
+    SearchQuery body = (SearchQuery) client.getLastBody();
     assertEquals("notion", body.getQuery());
     assertEquals("page", body.getFilter().getValue());
   }
@@ -82,9 +82,9 @@ class SearchEndpointImplTest {
   void searchDataSources() {
     endpoint.searchDataSources("notion");
 
-    assertEquals("POST", transport.getLastMethod());
-    assertEquals("/search", transport.getLastUrlInfo().getUrl());
-    SearchQuery body = (SearchQuery) transport.getLastBody();
+    assertEquals("POST", client.getLastMethod());
+    assertEquals("/search", client.getLastUrlInfo().getUrl());
+    SearchQuery body = (SearchQuery) client.getLastBody();
     assertEquals("notion", body.getQuery());
     assertEquals("data_source", body.getFilter().getValue());
   }
@@ -93,9 +93,9 @@ class SearchEndpointImplTest {
   void getAll() {
     endpoint.getAll();
 
-    assertEquals("POST", transport.getLastMethod());
-    assertEquals("/search", transport.getLastUrlInfo().getUrl());
-    SearchQuery body = (SearchQuery) transport.getLastBody();
+    assertEquals("POST", client.getLastMethod());
+    assertEquals("/search", client.getLastUrlInfo().getUrl());
+    SearchQuery body = (SearchQuery) client.getLastBody();
     assertNull(body.getQuery());
     assertNull(body.getFilter());
   }
@@ -104,9 +104,9 @@ class SearchEndpointImplTest {
   void getAll_withPagination() {
     endpoint.getAll(50, "cursor-xyz");
 
-    assertEquals("POST", transport.getLastMethod());
-    assertEquals("/search", transport.getLastUrlInfo().getUrl());
-    SearchQuery body = (SearchQuery) transport.getLastBody();
+    assertEquals("POST", client.getLastMethod());
+    assertEquals("/search", client.getLastUrlInfo().getUrl());
+    SearchQuery body = (SearchQuery) client.getLastBody();
     assertEquals(50, body.getPageSize());
     assertEquals("cursor-xyz", body.getStartCursor());
   }

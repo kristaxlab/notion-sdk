@@ -1,8 +1,8 @@
 package io.kristixlab.notion.api.endpoints.impl;
 
 import io.kristixlab.notion.api.endpoints.CommentsEndpoint;
-import io.kristixlab.notion.api.http.transport.HttpTransport;
-import io.kristixlab.notion.api.http.transport.rq.URLInfo;
+import io.kristixlab.notion.api.http.client.ApiClient;
+import io.kristixlab.notion.api.http.request.ApiPath;
 import io.kristixlab.notion.api.model.comments.Comment;
 import io.kristixlab.notion.api.model.comments.CommentList;
 import io.kristixlab.notion.api.model.comments.CreateCommentParams;
@@ -16,10 +16,10 @@ public class CommentsEndpointImpl implements CommentsEndpoint {
   private static final String BLOCK_ID = "block_id";
   private static final String COMMENT_ID = "comment_id";
 
-  private final HttpTransport transport;
+  private final ApiClient client;
 
-  public CommentsEndpointImpl(HttpTransport transport) {
-    this.transport = transport;
+  public CommentsEndpointImpl(ApiClient client) {
+    this.client = client;
   }
 
   /**
@@ -30,7 +30,7 @@ public class CommentsEndpointImpl implements CommentsEndpoint {
    */
   public Comment create(CreateCommentParams request) {
     validateRequest(request);
-    return transport.call("POST", URLInfo.from("/comments"), request, Comment.class);
+    return client.call("POST", ApiPath.from("/comments"), request, Comment.class);
   }
 
   /**
@@ -41,9 +41,9 @@ public class CommentsEndpointImpl implements CommentsEndpoint {
    */
   public Comment retrieve(String commentId) {
     validateCommentId(commentId);
-    URLInfo urlInfo =
-        URLInfo.builder("/comments/{comment_id}").pathParam(COMMENT_ID, commentId).build();
-    return transport.call("GET", urlInfo, Comment.class);
+    ApiPath urlInfo =
+        ApiPath.builder("/comments/{comment_id}").pathParam(COMMENT_ID, commentId).build();
+    return client.call("GET", urlInfo, Comment.class);
   }
 
   /**
@@ -67,10 +67,10 @@ public class CommentsEndpointImpl implements CommentsEndpoint {
   public CommentList listComments(String blockId, String startCursor, Integer pageSize) {
     validateBlockId(blockId);
 
-    URLInfo.Builder urlInfo =
-        URLInfo.builder("/comments", startCursor, pageSize).queryParam(BLOCK_ID, blockId);
+    ApiPath.Builder urlInfo =
+        ApiPath.builder("/comments", startCursor, pageSize).queryParam(BLOCK_ID, blockId);
 
-    return transport.call("GET", urlInfo.build(), CommentList.class);
+    return client.call("GET", urlInfo.build(), CommentList.class);
   }
 
   /** Validates the block ID parameter. */

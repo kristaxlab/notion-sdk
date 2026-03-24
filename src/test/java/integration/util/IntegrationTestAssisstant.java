@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 import integration.NotionClientProvider;
 import io.kristixlab.notion.NotionSdkSettings;
-import io.kristixlab.notion.api.NotionApiClient;
+import io.kristixlab.notion.api.NotionClient;
 import io.kristixlab.notion.api.model.common.Parent;
 import io.kristixlab.notion.api.model.common.Position;
 import io.kristixlab.notion.api.model.common.PositionType;
@@ -24,7 +24,7 @@ public class IntegrationTestAssisstant {
   private static Prerequisites prerequisites;
   private static String testPageId;
 
-  public static NotionApiClient getNotion() {
+  public static NotionClient getNotion() {
     return NotionClientProvider.internalTestingClient();
   }
 
