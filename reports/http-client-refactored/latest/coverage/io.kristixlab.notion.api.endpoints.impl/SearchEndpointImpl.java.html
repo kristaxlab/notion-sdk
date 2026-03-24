@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SearchEndpointImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">notion-sdk</a> &gt; <a href="index.source.html" class="el_package">io.kristixlab.notion.api.endpoints.impl</a> &gt; <span class="el_source">SearchEndpointImpl.java</span></div><h1>SearchEndpointImpl.java</h1><pre class="source lang-java linenums">package io.kristixlab.notion.api.endpoints.impl;
+
+import io.kristixlab.notion.api.endpoints.SearchEndpoint;
+import io.kristixlab.notion.api.http.client.ApiClient;
+import io.kristixlab.notion.api.http.request.ApiPath;
+import io.kristixlab.notion.api.model.search.SearchFilter;
+import io.kristixlab.notion.api.model.search.SearchQuery;
+import io.kristixlab.notion.api.model.search.SearchResult;
+import io.kristixlab.notion.api.model.search.SearchSort;
+
+/**
+ * API for searching through pages and data sources in a workspace. Provides methods to search with
+ * various filters and sorting options.
+ */
+public class SearchEndpointImpl implements SearchEndpoint {
+
+  private final ApiClient client;
+
+<span class="fc" id="L19">  public SearchEndpointImpl(ApiClient client) {</span>
+<span class="fc" id="L20">    this.client = client;</span>
+<span class="fc" id="L21">  }</span>
+
+  // ...existing code...
+  public SearchResult search(SearchQuery request) {
+<span class="fc" id="L25">    validateRequest(request);</span>
+<span class="fc" id="L26">    return client.call(&quot;POST&quot;, ApiPath.from(&quot;/search&quot;), request, SearchResult.class);</span>
+  }
+
+  /**
+   * Simple search with just a query string.
+   *
+   * @param query The text to search for in page and data source titles
+   * @return SearchResponse containing results
+   */
+  public SearchResult search(String query) {
+<span class="fc" id="L36">    SearchQuery request = new SearchQuery();</span>
+<span class="fc" id="L37">    request.setQuery(query);</span>
+<span class="fc" id="L38">    return search(request);</span>
+  }
+
+  /**
+   * Search with query and filter (pages or data sources only).
+   *
+   * @param query The text to search for
+   * @param filter Filter to limit results to pages or data sources
+   * @return SearchResponse containing filtered results
+   */
+  public SearchResult search(String query, SearchFilter filter) {
+<span class="fc" id="L49">    SearchQuery request = new SearchQuery();</span>
+<span class="fc" id="L50">    request.setQuery(query);</span>
+<span class="fc" id="L51">    request.setFilter(filter);</span>
+<span class="fc" id="L52">    return search(request);</span>
+  }
+
+  /**
+   * Search with query, filter, and sorting.
+   *
+   * @param query The text to search for
+   * @param filter Filter to limit results to pages or data sources
+   * @param sort Sorting criteria for results
+   * @return SearchResponse containing filtered and sorted results
+   */
+  public SearchResult search(String query, SearchFilter filter, SearchSort sort) {
+<span class="fc" id="L64">    SearchQuery request = new SearchQuery();</span>
+<span class="fc" id="L65">    request.setQuery(query);</span>
+<span class="fc" id="L66">    request.setFilter(filter);</span>
+<span class="fc" id="L67">    request.setSort(sort);</span>
+<span class="fc" id="L68">    return search(request);</span>
+  }
+
+  /**
+   * Search with pagination support.
+   *
+   * @param query The text to search for
+   * @param pageSize Number of results per page (max 100)
+   * @param startCursor Cursor for pagination
+   * @return SearchResponse with paginated results
+   */
+  public SearchResult search(String query, Integer pageSize, String startCursor) {
+<span class="fc" id="L80">    SearchQuery request = new SearchQuery();</span>
+<span class="fc" id="L81">    request.setQuery(query);</span>
+<span class="fc" id="L82">    request.setPageSize(pageSize);</span>
+<span class="fc" id="L83">    request.setStartCursor(startCursor);</span>
+<span class="fc" id="L84">    return search(request);</span>
+  }
+
+  /**
+   * Search only pages in the workspace.
+   *
+   * @param query The text to search for in page titles
+   * @return SearchResponse containing only page results
+   */
+  public SearchResult searchPages(String query) {
+<span class="fc" id="L94">    return search(query, SearchFilter.pages());</span>
+  }
+
+  /**
+   * Search only data sources in the workspace (API version 2025-09-03+).
+   *
+   * @param query The text to search for in data source titles
+   * @return SearchResponse containing only data source results
+   */
+  public SearchResult searchDataSources(String query) {
+<span class="fc" id="L104">    return search(query, SearchFilter.dataSources());</span>
+  }
+
+  /**
+   * Get all pages and data sources (no query filter).
+   *
+   * @return SearchResponse containing all accessible pages and data sources
+   */
+  public SearchResult getAll() {
+<span class="fc" id="L113">    SearchQuery request = new SearchQuery();</span>
+<span class="fc" id="L114">    return search(request);</span>
+  }
+
+  /**
+   * Get all pages and data sources with pagination.
+   *
+   * @param pageSize Number of results per page (max 100)
+   * @param startCursor Cursor for pagination
+   * @return SearchResponse with paginated results
+   */
+  public SearchResult getAll(Integer pageSize, String startCursor) {
+<span class="fc" id="L125">    SearchQuery request = new SearchQuery();</span>
+<span class="fc" id="L126">    request.setPageSize(pageSize);</span>
+<span class="fc" id="L127">    request.setStartCursor(startCursor);</span>
+<span class="fc" id="L128">    return search(request);</span>
+  }
+
+  private void validateRequest(SearchQuery request) {
+<span class="fc bfc" id="L132" title="All 2 branches covered.">    if (request == null) {</span>
+<span class="fc" id="L133">      throw new IllegalArgumentException(&quot;Search request cannot be null&quot;);</span>
+    }
+
+<span class="fc bfc" id="L136" title="All 2 branches covered.">    if (request.getPageSize() != null</span>
+<span class="fc bfc" id="L137" title="All 4 branches covered.">        &amp;&amp; (request.getPageSize() &lt; 1 || request.getPageSize() &gt; 100)) {</span>
+<span class="fc" id="L138">      throw new IllegalArgumentException(&quot;Page size must be between 1 and 100&quot;);</span>
+    }
+<span class="fc" id="L140">  }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=edge"/>
+<title>Test results - FileUploadIT</title>
+<link href="../css/base-style.css" rel="stylesheet" type="text/css"/>
+<link href="../css/style.css" rel="stylesheet" type="text/css"/>
+<script src="../js/report.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="content">
+<h1>FileUploadIT</h1>
+<div class="breadcrumbs">
+<a href="../index.html">all</a> &gt; 
+<a href="../packages/integration.html">integration</a> &gt; FileUploadIT</div>
+<div id="summary">
+<table>
+<tr>
+<td>
+<div class="summaryGroup">
+<table>
+<tr>
+<td>
+<div class="infoBox" id="tests">
+<div class="counter">6</div>
+<p>tests</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="failures">
+<div class="counter">0</div>
+<p>failures</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="ignored">
+<div class="counter">0</div>
+<p>ignored</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="duration">
+<div class="counter">5.548s</div>
+<p>duration</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</td>
+<td>
+<div class="infoBox success" id="successRate">
+<div class="percent">100%</div>
+<p>successful</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="tab-container">
+<ul class="tabLinks">
+<li>
+<a href="#">Tests</a>
+</li>
+<li>
+<a href="#">Standard output</a>
+</li>
+</ul>
+<div class="tab">
+<h2>Tests</h2>
+<table>
+<thead>
+<tr>
+<th>Test</th>
+<th>Method name</th>
+<th>Duration</th>
+<th>Result</th>
+</tr>
+</thead>
+<tr>
+<td class="success">[IT-19]: File Uploads - Import external file</td>
+<td class="success">testFileUploadExternal()</td>
+<td class="success">0.493s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">[IT-18]: File Uploads - Upload a single-part file as byte array</td>
+<td class="success">testFileUploadSinglePartAsBytes()</td>
+<td class="success">0.807s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">[IT-14]: File Uploads - Upload a single-part file</td>
+<td class="success">testFileUploadSinglePartAsFile()</td>
+<td class="success">0.954s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">[IT-15]: File Uploads - Upload a single-part file as input stream</td>
+<td class="success">testFileUploadSinglePartAsStream()</td>
+<td class="success">0.726s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">[IT-16]: File Uploads - List all file uploads</td>
+<td class="success">testListAllFileUploads()</td>
+<td class="success">1.303s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">[IT-17]: File Uploads - List all expired file uploads</td>
+<td class="success">testListAllFileUploadsExpired()</td>
+<td class="success">1.265s</td>
+<td class="success">passed</td>
+</tr>
+</table>
+</div>
+<div class="tab">
+<h2>Standard output</h2>
+<span class="code">
+<pre>2026-03-24 19:50:32.705 [Test worker] DEBUG io.kristixlab.notion.api.http.interceptor.LoggingHttpInterceptor - [Notion] &gt;&gt; POST https://api.notion.com/v1/file_uploads | body: application/json (63 chars)
+2026-03-24 19:50:32.992 [Test worker] DEBUG io.kristixlab.notion.api.http.interceptor.LoggingHttpInterceptor - [Notion] &lt;&lt; POST https://api.notion.com/v1/file_uploads | status: 200 | body: {&quot;object&quot;:&quot;file_upload&quot;,&quot;id&quot;:&quot;32dcd6cf-1406-818e-a229-00b2c781e211&quot;,&quot;created_time&quot;:&quot;2026-03-24T19:50:00.000Z&quot;,&quot;created_by&quot;:{&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;,&quot;type&quot;:&quot;bot&quot;},&quot;last_edited_time&quot;:&quot;2026-03-24T19:50:00.000Z&quot;,&quot;expiry_time&quot;:&quot;2026-03-24T20:50:00.000Z&quot;,&quot;upload_url&quot;:&quot;https://api.notion.com/v1/file_uploads/32dcd6cf-1406-818e-a229-00b2c781e211/send&quot;,&quot;in_trash&quot;:false,&quot;status&quot;:&quot;pending&quot;,&quot;filename&quot;:&quot;int-15-image.jpg&quot;,&quot;content_type&quot;:&quot;image/jpeg&quot;,&quot;content_length&quot;:null,&quot;request_id&quot;:&quot;c47a131c-5dab-41f4-8ce4-b6a1b4b9ee6d&quot;}
+2026-03-24 19:50:32.999 [Test worker] DEBUG io.kristixlab.notion.api.http.interceptor.LoggingHttpInterceptor - [Notion] &gt;&gt; POST https://api.notion.com/v1/file_uploads/32dcd6cf-1406-818e-a229-00b2c781e211/send | body: multipart (1 parts)
+2026-03-24 19:50:33.425 [Test worker] DEBUG io.kristixlab.notion.api.http.interceptor.LoggingHttpInterceptor - [Notion] &lt;&lt; POST https://api.notion.com/v1/file_uploads/32dcd6cf-1406-818e-a229-00b2c781e211/send | status: 200 | body: {&quot;object&quot;:&quot;file_upload&quot;,&quot;id&quot;:&quot;32dcd6cf-1406-818e-a229-00b2c781e211&quot;,&quot;created_time&quot;:&quot;2026-03-24T19:50:00.000Z&quot;,&quot;created_by&quot;:{&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;,&quot;type&quot;:&quot;bot&quot;},&quot;last_edited_time&quot;:&quot;2026-03-24T19:50:00.000Z&quot;,&quot;expiry_time&quot;:&quot;2026-03-24T20:50:00.000Z&quot;,&quot;in_trash&quot;:false,&quot;status&quot;:&quot;uploaded&quot;,&quot;filename&quot;:&quot;int-15-image.jpg&quot;,&quot;content_type&quot;:&quot;image/jpeg&quot;,&quot;content_length&quot;:366112,&quot;request_id&quot;:&quot;1d151911-077c-4e7b-9bef-dcbde330d3b8&quot;}
+2026-03-24 19:50:33.430 [Test worker] DEBUG io.kristixlab.notion.api.http.interceptor.LoggingHttpInterceptor - [Notion] &gt;&gt; GET https://api.notion.com/v1/file_uploads | body: none
+2026-03-24 19:50:34.729 [Test worker] DEBUG io.kristixlab.notion.api.http.interceptor.LoggingHttpInterceptor - [Notion] &lt;&lt; GET https://api.notion.com/v1/file_uploads | status: 200 | body: {&quot;object&quot;:&quot;list&quot;,&quot;results&quot;:[{&quot;object&quot;:&quot;file_upload&quot;,&quot;id&quot;:&quot;32dcd6cf-1406-818e-a229-00b2c781e211&quot;,&quot;created_time&quot;:&quot;2026-03-24T19:50:00.000Z&quot;,&quot;created_by&quot;:{&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;,&quot;type&quot;:&quot;bot&quot;},&quot;last_edited_time&quot;:&quot;2026-03-24T19:50:00.000Z&quot;,&quot;expiry_time&quot;:&quot;2026-03-24T20:50:00.000Z&quot;,&quot;in_trash&quot;:false,&quot;status&quot;:&quot;uploaded&quot;,&quot;filename&quot;:&quot;int-15-image.jpg&quot;,&quot;content_type&quot;:&quot;image/jpeg&quot;,&quot;content_length&quot;:366112},{&quot;object&quot;:&quot;file_upload&quot;,&quot;id&quot;:&quot;32dcd6cf-1406-8106-9a57-00b24525ed46&quot;,&quot;created_time&quot;:&quot;2026-03-24T11:36:00.000Z&quot;,&quot;created_by&quot;:{&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;,&quot;type&quot;:&quot;bot&quot;},&quot;last_edited_time&quot;:&quot;2026-03-24T11:36:00.000Z&quot;,&quot;expiry_time&quot;:null,&quot;in_trash&quot;:false,&quot;status&quot;:&quot;uploaded&quot;,&quot;filename&quot;:&quot;int-14-image.jpg&quot;,&quot;content_type&quot;:&quot;image/jpeg&quot;,&quot;content_length&quot;:366112},{&quot;object&quot;:&quot;file_upload&quot;,&quot;id&quot;:&quot;32dcd6cf-1406-8142-90a3-00b2907e32c5&quot;,&quot;created_time&quot;:&quot;2026-03-24T11:35:00.000Z&quot;,&quot;created_by&quot;:{&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;,&quot;type&quot;:&quot;bot&quot;},&quot;last_edited_time&quot;:&quot;2026-03-24T13:05:00.000Z&quot;,&quot;expiry_time...[truncated]
+2026-03-24 19:50:34.735 [Test worker] DEBUG io.kristixlab.notion.api.http.interceptor.LoggingHttpInterceptor - [Notion] &gt;&gt; GET https://api.notion.com/v1/file_uploads?status=expired | body: none
+2026-03-24 19:50:35.995 [Test worker] DEBUG io.kristixlab.notion.api.http.interceptor.LoggingHttpInterceptor - [Notion] &lt;&lt; GET https://api.notion.com/v1/file_uploads?status=expired | status: 200 | body: {&quot;object&quot;:&quot;list&quot;,&quot;results&quot;:[{&quot;object&quot;:&quot;file_upload&quot;,&quot;id&quot;:&quot;32dcd6cf-1406-8142-90a3-00b2907e32c5&quot;,&quot;created_time&quot;:&quot;2026-03-24T11:35:00.000Z&quot;,&quot;created_by&quot;:{&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;,&quot;type&quot;:&quot;bot&quot;},&quot;last_edited_time&quot;:&quot;2026-03-24T13:05:00.000Z&quot;,&quot;expiry_time&quot;:null,&quot;in_trash&quot;:false,&quot;status&quot;:&quot;expired&quot;,&quot;filename&quot;:&quot;int-18-image.jpg&quot;,&quot;content_type&quot;:&quot;image/jpeg&quot;,&quot;content_length&quot;:366112},{&quot;object&quot;:&quot;file_upload&quot;,&quot;id&quot;:&quot;32dcd6cf-1406-81eb-a701-00b2d4a8ecdf&quot;,&quot;created_time&quot;:&quot;2026-03-24T11:35:00.000Z&quot;,&quot;created_by&quot;:{&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;,&quot;type&quot;:&quot;bot&quot;},&quot;last_edited_time&quot;:&quot;2026-03-24T13:05:00.000Z&quot;,&quot;expiry_time&quot;:null,&quot;in_trash&quot;:false,&quot;status&quot;:&quot;expired&quot;,&quot;filename&quot;:&quot;int-19-image.jpg&quot;,&quot;content_type&quot;:&quot;image/jpeg&quot;,&quot;content_length&quot;:1197601,&quot;file_import_result&quot;:{&quot;type&quot;:&quot;success&quot;,&quot;success&quot;:{},&quot;imported_time&quot;:&quot;2026-03-24T11:35:57.000+00:00&quot;}},{&quot;object&quot;:&quot;file_upload&quot;,&quot;id&quot;:&quot;32dcd6cf-1406-81da-97a2-00b2a61f2bb6&quot;,&quot;created_time&quot;:&quot;2026-03-24T11:35:00.000Z&quot;,&quot;created_by&quot;:{&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe527...[truncated]
+2026-03-24 19:50:36.004 [Test worker] DEBUG io.kristixlab.notion.api.http.interceptor.LoggingHttpInterceptor - [Notion] &gt;&gt; POST https://api.notion.com/v1/file_uploads | body: application/json (286 chars)
+2026-03-24 19:50:36.381 [Test worker] DEBUG io.kristixlab.notion.api.http.interceptor.LoggingHttpInterceptor - [Notion] &lt;&lt; POST https://api.notion.com/v1/file_uploads | status: 200 | body: {&quot;object&quot;:&quot;file_upload&quot;,&quot;id&quot;:&quot;32dcd6cf-1406-81e9-b263-00b26c806ece&quot;,&quot;created_time&quot;:&quot;2026-03-24T19:50:00.000Z&quot;,&quot;created_by&quot;:{&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;,&quot;type&quot;:&quot;bot&quot;},&quot;last_edited_time&quot;:&quot;2026-03-24T19:50:00.000Z&quot;,&quot;expiry_time&quot;:&quot;2026-03-24T20:50:00.000Z&quot;,&quot;upload_url&quot;:&quot;https://api.notion.com/v1/file_uploads/32dcd6cf-1406-81e9-b263-00b26c806ece/send&quot;,&quot;in_trash&quot;:false,&quot;status&quot;:&quot;pending&quot;,&quot;filename&quot;:&quot;int-19-image.jpg&quot;,&quot;content_type&quot;:&quot;image/jpeg&quot;,&quot;content_length&quot;:null,&quot;request_id&quot;:&quot;9122dae1-482b-45f4-be0c-9a925e409d02&quot;}
+2026-03-24 19:50:36.382 [Test worker] DEBUG io.kristixlab.notion.api.http.interceptor.LoggingHttpInterceptor - [Notion] &gt;&gt; GET https://api.notion.com/v1/file_uploads/32dcd6cf-1406-81e9-b263-00b26c806ece | body: none
+2026-03-24 19:50:36.493 [Test worker] DEBUG io.kristixlab.notion.api.http.interceptor.LoggingHttpInterceptor - [Notion] &lt;&lt; GET https://api.notion.com/v1/file_uploads/32dcd6cf-1406-81e9-b263-00b26c806ece | status: 200 | body: {&quot;object&quot;:&quot;file_upload&quot;,&quot;id&quot;:&quot;32dcd6cf-1406-81e9-b263-00b26c806ece&quot;,&quot;created_time&quot;:&quot;2026-03-24T19:50:00.000Z&quot;,&quot;created_by&quot;:{&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;,&quot;type&quot;:&quot;bot&quot;},&quot;last_edited_time&quot;:&quot;2026-03-24T19:50:00.000Z&quot;,&quot;expiry_time&quot;:&quot;2026-03-24T20:50:00.000Z&quot;,&quot;upload_url&quot;:&quot;https://api.notion.com/v1/file_uploads/32dcd6cf-1406-81e9-b263-00b26c806ece/send&quot;,&quot;in_trash&quot;:false,&quot;status&quot;:&quot;pending&quot;,&quot;filename&quot;:&quot;int-19-image.jpg&quot;,&quot;content_type&quot;:&quot;image/jpeg&quot;,&quot;content_length&quot;:null,&quot;request_id&quot;:&quot;0fa51e44-103d-4ad3-8ac3-9cb11d8d503f&quot;}
+2026-03-24 19:50:36.498 [Test worker] DEBUG io.kristixlab.notion.api.http.interceptor.LoggingHttpInterceptor - [Notion] &gt;&gt; POST https://api.notion.com/v1/file_uploads | body: application/json (63 chars)
+2026-03-24 19:50:36.782 [Test worker] DEBUG io.kristixlab.notion.api.http.interceptor.LoggingHttpInterceptor - [Notion] &lt;&lt; POST https://api.notion.com/v1/file_uploads | status: 200 | body: {&quot;object&quot;:&quot;file_upload&quot;,&quot;id&quot;:&quot;32dcd6cf-1406-8148-8dfd-00b26854580c&quot;,&quot;created_time&quot;:&quot;2026-03-24T19:50:00.000Z&quot;,&quot;created_by&quot;:{&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;,&quot;type&quot;:&quot;bot&quot;},&quot;last_edited_time&quot;:&quot;2026-03-24T19:50:00.000Z&quot;,&quot;expiry_time&quot;:&quot;2026-03-24T20:50:00.000Z&quot;,&quot;upload_url&quot;:&quot;https://api.notion.com/v1/file_uploads/32dcd6cf-1406-8148-8dfd-00b26854580c/send&quot;,&quot;in_trash&quot;:false,&quot;status&quot;:&quot;pending&quot;,&quot;filename&quot;:&quot;int-18-image.jpg&quot;,&quot;content_type&quot;:&quot;image/jpeg&quot;,&quot;content_length&quot;:null,&quot;request_id&quot;:&quot;de4bdf40-9fb2-4887-83f1-efe174f11880&quot;}
+2026-03-24 19:50:36.792 [Test worker] DEBUG io.kristixlab.notion.api.http.interceptor.LoggingHttpInterceptor - [Notion] &gt;&gt; POST https://api.notion.com/v1/file_uploads/32dcd6cf-1406-8148-8dfd-00b26854580c/send | body: multipart (1 parts)
+2026-03-24 19:50:37.302 [Test worker] DEBUG io.kristixlab.notion.api.http.interceptor.LoggingHttpInterceptor - [Notion] &lt;&lt; POST https://api.notion.com/v1/file_uploads/32dcd6cf-1406-8148-8dfd-00b26854580c/send | status: 200 | body: {&quot;object&quot;:&quot;file_upload&quot;,&quot;id&quot;:&quot;32dcd6cf-1406-8148-8dfd-00b26854580c&quot;,&quot;created_time&quot;:&quot;2026-03-24T19:50:00.000Z&quot;,&quot;created_by&quot;:{&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;,&quot;type&quot;:&quot;bot&quot;},&quot;last_edited_time&quot;:&quot;2026-03-24T19:50:00.000Z&quot;,&quot;expiry_time&quot;:&quot;2026-03-24T20:50:00.000Z&quot;,&quot;in_trash&quot;:false,&quot;status&quot;:&quot;uploaded&quot;,&quot;filename&quot;:&quot;int-18-image.jpg&quot;,&quot;content_type&quot;:&quot;image/jpeg&quot;,&quot;content_length&quot;:366112,&quot;request_id&quot;:&quot;90379a85-430a-40ec-91ac-6769061d2e4c&quot;}
+2026-03-24 19:50:37.307 [Test worker] DEBUG io.kristixlab.notion.api.http.interceptor.LoggingHttpInterceptor - [Notion] &gt;&gt; POST https://api.notion.com/v1/file_uploads | body: application/json (63 chars)
+2026-03-24 19:50:37.672 [Test worker] DEBUG io.kristixlab.notion.api.http.interceptor.LoggingHttpInterceptor - [Notion] &lt;&lt; POST https://api.notion.com/v1/file_uploads | status: 200 | body: {&quot;object&quot;:&quot;file_upload&quot;,&quot;id&quot;:&quot;32dcd6cf-1406-81b3-af97-00b2b540d688&quot;,&quot;created_time&quot;:&quot;2026-03-24T19:50:00.000Z&quot;,&quot;created_by&quot;:{&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;,&quot;type&quot;:&quot;bot&quot;},&quot;last_edited_time&quot;:&quot;2026-03-24T19:50:00.000Z&quot;,&quot;expiry_time&quot;:&quot;2026-03-24T20:50:00.000Z&quot;,&quot;upload_url&quot;:&quot;https://api.notion.com/v1/file_uploads/32dcd6cf-1406-81b3-af97-00b2b540d688/send&quot;,&quot;in_trash&quot;:false,&quot;status&quot;:&quot;pending&quot;,&quot;filename&quot;:&quot;int-14-image.jpg&quot;,&quot;content_type&quot;:&quot;image/jpeg&quot;,&quot;content_length&quot;:null,&quot;request_id&quot;:&quot;59e7413d-373a-4e58-b96d-8d0244a90bce&quot;}
+2026-03-24 19:50:37.673 [Test worker] DEBUG io.kristixlab.notion.api.http.interceptor.LoggingHttpInterceptor - [Notion] &gt;&gt; GET https://api.notion.com/v1/file_uploads/32dcd6cf-1406-81b3-af97-00b2b540d688 | body: none
+2026-03-24 19:50:37.815 [Test worker] DEBUG io.kristixlab.notion.api.http.interceptor.LoggingHttpInterceptor - [Notion] &lt;&lt; GET https://api.notion.com/v1/file_uploads/32dcd6cf-1406-81b3-af97-00b2b540d688 | status: 200 | body: {&quot;object&quot;:&quot;file_upload&quot;,&quot;id&quot;:&quot;32dcd6cf-1406-81b3-af97-00b2b540d688&quot;,&quot;created_time&quot;:&quot;2026-03-24T19:50:00.000Z&quot;,&quot;created_by&quot;:{&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;,&quot;type&quot;:&quot;bot&quot;},&quot;last_edited_time&quot;:&quot;2026-03-24T19:50:00.000Z&quot;,&quot;expiry_time&quot;:&quot;2026-03-24T20:50:00.000Z&quot;,&quot;upload_url&quot;:&quot;https://api.notion.com/v1/file_uploads/32dcd6cf-1406-81b3-af97-00b2b540d688/send&quot;,&quot;in_trash&quot;:false,&quot;status&quot;:&quot;pending&quot;,&quot;filename&quot;:&quot;int-14-image.jpg&quot;,&quot;content_type&quot;:&quot;image/jpeg&quot;,&quot;content_length&quot;:null,&quot;request_id&quot;:&quot;60b1cb7d-5380-45dd-bac5-dfb99c496c48&quot;}
+2026-03-24 19:50:37.816 [Test worker] DEBUG io.kristixlab.notion.api.http.interceptor.LoggingHttpInterceptor - [Notion] &gt;&gt; POST https://api.notion.com/v1/file_uploads/32dcd6cf-1406-81b3-af97-00b2b540d688/send | body: multipart (1 parts)
+2026-03-24 19:50:38.258 [Test worker] DEBUG io.kristixlab.notion.api.http.interceptor.LoggingHttpInterceptor - [Notion] &lt;&lt; POST https://api.notion.com/v1/file_uploads/32dcd6cf-1406-81b3-af97-00b2b540d688/send | status: 200 | body: {&quot;object&quot;:&quot;file_upload&quot;,&quot;id&quot;:&quot;32dcd6cf-1406-81b3-af97-00b2b540d688&quot;,&quot;created_time&quot;:&quot;2026-03-24T19:50:00.000Z&quot;,&quot;created_by&quot;:{&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;,&quot;type&quot;:&quot;bot&quot;},&quot;last_edited_time&quot;:&quot;2026-03-24T19:50:00.000Z&quot;,&quot;expiry_time&quot;:&quot;2026-03-24T20:50:00.000Z&quot;,&quot;in_trash&quot;:false,&quot;status&quot;:&quot;uploaded&quot;,&quot;filename&quot;:&quot;int-14-image.jpg&quot;,&quot;content_type&quot;:&quot;image/jpeg&quot;,&quot;content_length&quot;:366112,&quot;request_id&quot;:&quot;26c10112-30a4-4703-8078-39b24c4e1a4d&quot;}
+</pre>
+</span>
+</div>
+</div>
+<div id="footer">
+<p>
+<div>
+<label class="hidden" id="label-for-line-wrapping-toggle" for="line-wrapping-toggle">Wrap lines
+<input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
+</label>
+</div>Generated by 
+<a href="https://www.gradle.org">Gradle 8.14.4</a> at Mar 24, 2026, 7:51:21 PM</p>
+</div>
+</div>
+</body>
+</html>

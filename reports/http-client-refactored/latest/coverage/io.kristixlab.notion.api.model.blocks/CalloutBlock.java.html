@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CalloutBlock.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">notion-sdk</a> &gt; <a href="index.source.html" class="el_package">io.kristixlab.notion.api.model.blocks</a> &gt; <span class="el_source">CalloutBlock.java</span></div><h1>CalloutBlock.java</h1><pre class="source lang-java linenums">package io.kristixlab.notion.api.model.blocks;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import io.kristixlab.notion.api.model.common.Icon;
+import io.kristixlab.notion.api.model.common.RichText;
+import java.util.List;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+/**
+ * Represents a callout block in Notion.
+ *
+ * &lt;p&gt;A callout block displays content in a highlighted box with an optional icon. It's used to draw
+ * attention to important information, notes, warnings, or tips. Supports rich text formatting,
+ * custom icons, and nested child blocks.
+ *
+ * @author KristaxLab
+ * @see Block
+ * @see RichText
+ * @see Icon
+ * @since 1.0
+ */
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@Data
+@EqualsAndHashCode(callSuper = true)
+public class CalloutBlock extends Block {
+
+  /** The callout configuration */
+  @JsonProperty(&quot;callout&quot;)
+  private Callout callout;
+
+<span class="nc" id="L33">  public CalloutBlock() {</span>
+<span class="nc" id="L34">    setType(&quot;callout&quot;);</span>
+<span class="nc" id="L35">    callout = new Callout();</span>
+<span class="nc" id="L36">  }</span>
+
+  /**
+   * Represents the configuration for a callout block.
+   *
+   * &lt;p&gt;Contains the text content, optional icon, color styling, and any nested child blocks that
+   * belong to this callout.
+   */
+  @Data
+  public static class Callout {
+    /** The rich text content of the callout */
+    @JsonProperty(&quot;rich_text&quot;)
+    private List&lt;RichText&gt; richText;
+
+    /** The icon displayed with the callout */
+    @JsonProperty(&quot;icon&quot;)
+    private Icon icon;
+
+    /** The color of the callout background and text */
+    @JsonProperty(&quot;color&quot;)
+    private String color;
+
+    /** Child blocks nested under this callout */
+    @JsonProperty(&quot;children&quot;)
+    private List&lt;Block&gt; children;
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

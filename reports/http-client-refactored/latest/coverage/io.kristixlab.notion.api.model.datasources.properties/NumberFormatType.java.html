@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>NumberFormatType.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">notion-sdk</a> &gt; <a href="index.source.html" class="el_package">io.kristixlab.notion.api.model.datasources.properties</a> &gt; <span class="el_source">NumberFormatType.java</span></div><h1>NumberFormatType.java</h1><pre class="source lang-java linenums">package io.kristixlab.notion.api.model.datasources.properties;
+
+<span class="nc" id="L3">public enum NumberFormatType {</span>
+<span class="nc" id="L4">  ARGENTINE_PESO(&quot;argentine_peso&quot;),</span>
+<span class="nc" id="L5">  BAHT(&quot;baht&quot;),</span>
+<span class="nc" id="L6">  AUSTRALIAN_DOLLAR(&quot;australian_dollar&quot;),</span>
+<span class="nc" id="L7">  CANADIAN_DOLLAR(&quot;canadian_dollar&quot;),</span>
+<span class="nc" id="L8">  CHILEAN_PESO(&quot;chilean_peso&quot;),</span>
+<span class="nc" id="L9">  COLOMBIAN_PESO(&quot;colombian_peso&quot;),</span>
+<span class="nc" id="L10">  DANISH_KRONE(&quot;danish_krone&quot;),</span>
+<span class="nc" id="L11">  DIRHAM(&quot;dirham&quot;),</span>
+<span class="nc" id="L12">  DOLLAR(&quot;dollar&quot;),</span>
+<span class="nc" id="L13">  EURO(&quot;euro&quot;),</span>
+<span class="nc" id="L14">  FORINT(&quot;forint&quot;),</span>
+<span class="nc" id="L15">  FRANC(&quot;franc&quot;),</span>
+<span class="nc" id="L16">  HONG_KONG_DOLLAR(&quot;hong_kong_dollar&quot;),</span>
+<span class="nc" id="L17">  KORUNA(&quot;koruna&quot;),</span>
+<span class="nc" id="L18">  KRONA(&quot;krona&quot;),</span>
+<span class="nc" id="L19">  LEU(&quot;leu&quot;),</span>
+<span class="nc" id="L20">  LIRA(&quot;lira&quot;),</span>
+<span class="nc" id="L21">  MEXICAN_PESO(&quot;mexican_peso&quot;),</span>
+<span class="nc" id="L22">  NEW_TAIWAN_DOLLAR(&quot;new_taiwan_dollar&quot;),</span>
+<span class="nc" id="L23">  NEW_ZEALAND_DOLLAR(&quot;new_zealand_dollar&quot;),</span>
+<span class="nc" id="L24">  NORWEGIAN_KRONE(&quot;norwegian_krone&quot;),</span>
+<span class="nc" id="L25">  NUMBER(&quot;number&quot;),</span>
+<span class="nc" id="L26">  NUMBER_WITH_COMMAs(&quot;number_with_commas&quot;),</span>
+<span class="nc" id="L27">  PERCENT(&quot;percent&quot;),</span>
+<span class="nc" id="L28">  PHILIPPINE_PESO(&quot;philippine_peso&quot;),</span>
+<span class="nc" id="L29">  POUND(&quot;pound&quot;),</span>
+<span class="nc" id="L30">  PERUVIAN_SOL(&quot;peruvian_sol&quot;),</span>
+<span class="nc" id="L31">  RAND(&quot;rand&quot;),</span>
+<span class="nc" id="L32">  REAL(&quot;real&quot;),</span>
+<span class="nc" id="L33">  RINGGIT(&quot;ringgit&quot;),</span>
+<span class="nc" id="L34">  RIYAL(&quot;riyal&quot;),</span>
+<span class="nc" id="L35">  RUBLE(&quot;ruble&quot;),</span>
+<span class="nc" id="L36">  RUPEE(&quot;rupee&quot;),</span>
+<span class="nc" id="L37">  RUPIAH(&quot;rupiah&quot;),</span>
+<span class="nc" id="L38">  SHEKEL(&quot;shekel&quot;),</span>
+<span class="nc" id="L39">  SINGAPORE_DOLLAR(&quot;singapore_dollar&quot;),</span>
+<span class="nc" id="L40">  URUGUAYAN_PESO(&quot;uruguayan_peso&quot;),</span>
+<span class="nc" id="L41">  YEN(&quot;yen&quot;),</span>
+<span class="nc" id="L42">  YUAN(&quot;yuan&quot;),</span>
+<span class="nc" id="L43">  WON(&quot;won&quot;),</span>
+<span class="nc" id="L44">  ZLOTY(&quot;zloty&quot;);</span>
+
+  private final String value;
+
+<span class="nc" id="L48">  NumberFormatType(String value) {</span>
+<span class="nc" id="L49">    this.value = value;</span>
+<span class="nc" id="L50">  }</span>
+
+  public String getValue() {
+<span class="nc" id="L53">    return value;</span>
+  }
+
+  public NumberFormatType fromValue(String value) {
+<span class="nc bnc" id="L57" title="All 2 branches missed.">    for (NumberFormatType format : NumberFormatType.values()) {</span>
+<span class="nc bnc" id="L58" title="All 2 branches missed.">      if (format.value.equals(value)) {</span>
+<span class="nc" id="L59">        return format;</span>
+      }
+    }
+<span class="nc" id="L62">    throw new IllegalArgumentException(&quot;Unknown number format: &quot; + value);</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

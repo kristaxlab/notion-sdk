@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>NumberedListItemBlock.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">notion-sdk</a> &gt; <a href="index.source.html" class="el_package">io.kristixlab.notion.api.model.blocks</a> &gt; <span class="el_source">NumberedListItemBlock.java</span></div><h1>NumberedListItemBlock.java</h1><pre class="source lang-java linenums">package io.kristixlab.notion.api.model.blocks;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import io.kristixlab.notion.api.model.common.RichText;
+import java.util.List;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+/**
+ * Represents a numbered list item block in Notion.
+ *
+ * &lt;p&gt;A numbered list item is a block that displays content with an automatic numbering. It can
+ * contain rich text content and supports nested child blocks to create hierarchical numbered list
+ * structures.
+ *
+ * @author KristaxLab
+ * @see Block
+ * @see RichText
+ * @since 1.0
+ */
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@Data
+@EqualsAndHashCode(callSuper = true)
+public class NumberedListItemBlock extends Block {
+  /** The numbered list item configuration */
+  @JsonProperty(&quot;numbered_list_item&quot;)
+  private NumberedListItem numberedListItem;
+
+<span class="nc" id="L30">  public NumberedListItemBlock() {</span>
+<span class="nc" id="L31">    setType(&quot;numbered_list_item&quot;);</span>
+<span class="nc" id="L32">    numberedListItem = new NumberedListItem();</span>
+<span class="nc" id="L33">  }</span>
+
+  public static NumberedListItemBlock of(String text) {
+<span class="nc" id="L36">    NumberedListItemBlock block = new NumberedListItemBlock();</span>
+<span class="nc" id="L37">    block.getNumberedListItem().setRichText(RichText.builder().fromText(text).buildAsList());</span>
+<span class="nc" id="L38">    return block;</span>
+  }
+
+  /**
+   * Represents the configuration for a numbered list item.
+   *
+   * &lt;p&gt;Contains the text content, color styling, and any nested child blocks that belong to this
+   * numbered list item.
+   */
+  @Data
+  public static class NumberedListItem {
+    /** The rich text content of the list item */
+    @JsonProperty(&quot;rich_text&quot;)
+    private List&lt;RichText&gt; richText;
+
+    /** The color of the list item text */
+    @JsonProperty(&quot;color&quot;)
+    private String color;
+
+    /** Child blocks nested under this list item */
+    @JsonProperty(&quot;children&quot;)
+    private List&lt;Block&gt; children;
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

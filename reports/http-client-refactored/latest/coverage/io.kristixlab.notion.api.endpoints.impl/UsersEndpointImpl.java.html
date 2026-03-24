@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UsersEndpointImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">notion-sdk</a> &gt; <a href="index.source.html" class="el_package">io.kristixlab.notion.api.endpoints.impl</a> &gt; <span class="el_source">UsersEndpointImpl.java</span></div><h1>UsersEndpointImpl.java</h1><pre class="source lang-java linenums">package io.kristixlab.notion.api.endpoints.impl;
+
+import io.kristixlab.notion.api.endpoints.UsersEndpoint;
+import io.kristixlab.notion.api.http.client.ApiClient;
+import io.kristixlab.notion.api.http.request.ApiPath;
+import io.kristixlab.notion.api.model.users.User;
+import io.kristixlab.notion.api.model.users.UserList;
+
+/**
+ * API for interacting with Notion Users endpoints. Provides methods to retrieve users and list all
+ * users in the workspace.
+ */
+public class UsersEndpointImpl implements UsersEndpoint {
+
+  private static final String USER_ID = &quot;user_id&quot;;
+
+  private final ApiClient client;
+
+<span class="fc" id="L19">  public UsersEndpointImpl(ApiClient client) {</span>
+<span class="fc" id="L20">    this.client = client;</span>
+<span class="fc" id="L21">  }</span>
+
+  /**
+   * Retrieve a user by their ID. Returns a User object for the user with the specified ID.
+   *
+   * @param userId The ID of the user to retrieve
+   * @return The user object
+   */
+  public User retrieve(String userId) {
+<span class="fc" id="L30">    validateUserId(userId);</span>
+<span class="fc" id="L31">    ApiPath urlInfo = ApiPath.builder(&quot;/users/{user_id}&quot;).pathParam(USER_ID, userId).build();</span>
+<span class="fc" id="L32">    return client.call(&quot;GET&quot;, urlInfo, User.class);</span>
+  }
+
+  /**
+   * List all users in the workspace with default parameters. Returns a paginated list of User
+   * objects for all users in the workspace.
+   *
+   * @return UsersList containing all users in the workspace
+   */
+  public UserList listUsers() {
+<span class="fc" id="L42">    return listUsers(null, null);</span>
+  }
+
+  /**
+   * List all users in the workspace with pagination. Returns a paginated list of User objects for
+   * all users in the workspace.
+   *
+   * @param startCursor The cursor to start from for pagination
+   * @param pageSize The number of results to return (max 100)
+   * @return UsersList containing users in the workspace
+   */
+  public UserList listUsers(String startCursor, Integer pageSize) {
+<span class="fc" id="L54">    ApiPath.Builder urlInfo = ApiPath.builder(&quot;/users&quot;, startCursor, pageSize);</span>
+<span class="fc" id="L55">    return client.call(&quot;GET&quot;, urlInfo.build(), UserList.class);</span>
+  }
+
+  /**
+   * Retrieve the current bot user. Returns information about the current bot user.
+   *
+   * @return The current bot user
+   */
+  public User me() {
+<span class="fc" id="L64">    return client.call(&quot;GET&quot;, ApiPath.from(&quot;/users/me&quot;), User.class);</span>
+  }
+
+  /** Validates the user ID parameter. */
+  private void validateUserId(String userId) {
+<span class="fc bfc" id="L69" title="All 4 branches covered.">    if (userId == null || userId.trim().isEmpty()) {</span>
+<span class="fc" id="L70">      throw new IllegalArgumentException(&quot;User ID cannot be null or empty&quot;);</span>
+    }
+<span class="fc" id="L72">  }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

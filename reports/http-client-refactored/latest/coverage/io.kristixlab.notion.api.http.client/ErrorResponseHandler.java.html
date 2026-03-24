@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ErrorResponseHandler.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">notion-sdk</a> &gt; <a href="index.source.html" class="el_package">io.kristixlab.notion.api.http.client</a> &gt; <span class="el_source">ErrorResponseHandler.java</span></div><h1>ErrorResponseHandler.java</h1><pre class="source lang-java linenums">package io.kristixlab.notion.api.http.client;
+
+import io.kristixlab.notion.api.http.client.HttpClient.HttpRequest;
+import io.kristixlab.notion.api.http.client.HttpClient.HttpResponse;
+import io.kristixlab.notion.api.http.interceptor.HttpClientInterceptor;
+
+/**
+ * Strategy for inspecting HTTP responses and throwing domain-specific exceptions when the response
+ * represents an error.
+ *
+ * &lt;p&gt;Implementations decide what constitutes an error (typically {@code status &gt;= 400}) and how to
+ * map the raw response into a meaningful exception. This keeps error interpretation separate from
+ * the transport pipeline ({@link HttpClient}) and from cross-cutting interceptors ({@link
+ * HttpClientInterceptor}).
+ *
+ * &lt;p&gt;Example for a Notion-specific handler:
+ *
+ * &lt;pre&gt;{@code
+ * ErrorResponseHandler notionErrors = (request, response) -&gt; {
+ *     if (response.statusCode() &lt; 400) return;
+ *     NotionError error = parseBody(response);
+ *     switch (response.statusCode()) {
+ *         case 400 -&gt; throw new ValidationException(...);
+ *         case 401 -&gt; throw new UnauthorizedException(...);
+ *         ...
+ *     }
+ * };
+ * }&lt;/pre&gt;
+ *
+ * @see ErrorHandlingHttpClient
+ */
+@FunctionalInterface
+public interface ErrorResponseHandler {
+
+  /**
+   * A handler that never throws an exception. Use this when no error mapping is needed (e.g. the
+   * caller handles raw status codes directly).
+   */
+<span class="fc" id="L39">  ErrorResponseHandler QUIET = (request, response) -&gt; {};</span>
+
+  /**
+   * Inspects the response and throws an appropriate exception if it represents an error.
+   *
+   * &lt;p&gt;If the response is &lt;em&gt;not&lt;/em&gt; an error (e.g. a 2xx status), this method &lt;b&gt;must&lt;/b&gt; return
+   * normally (no exception, no side-effects).
+   *
+   * @param request the request that was sent (useful for context in error messages)
+   * @param response the raw HTTP response to inspect
+   * @throws RuntimeException a domain-specific exception if the response is an error
+   */
+  void handle(HttpRequest request, HttpResponse response);
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

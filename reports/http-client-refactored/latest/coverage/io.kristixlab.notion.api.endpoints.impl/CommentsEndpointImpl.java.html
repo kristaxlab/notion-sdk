@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CommentsEndpointImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">notion-sdk</a> &gt; <a href="index.source.html" class="el_package">io.kristixlab.notion.api.endpoints.impl</a> &gt; <span class="el_source">CommentsEndpointImpl.java</span></div><h1>CommentsEndpointImpl.java</h1><pre class="source lang-java linenums">package io.kristixlab.notion.api.endpoints.impl;
+
+import io.kristixlab.notion.api.endpoints.CommentsEndpoint;
+import io.kristixlab.notion.api.http.client.ApiClient;
+import io.kristixlab.notion.api.http.request.ApiPath;
+import io.kristixlab.notion.api.model.comments.Comment;
+import io.kristixlab.notion.api.model.comments.CommentList;
+import io.kristixlab.notion.api.model.comments.CreateCommentParams;
+
+/**
+ * API for interacting with Notion Comments endpoints. Provides methods to create and retrieve
+ * comments.
+ */
+public class CommentsEndpointImpl implements CommentsEndpoint {
+
+  private static final String BLOCK_ID = &quot;block_id&quot;;
+  private static final String COMMENT_ID = &quot;comment_id&quot;;
+
+  private final ApiClient client;
+
+<span class="fc" id="L21">  public CommentsEndpointImpl(ApiClient client) {</span>
+<span class="fc" id="L22">    this.client = client;</span>
+<span class="fc" id="L23">  }</span>
+
+  /**
+   * Create a new comment.
+   *
+   * @param request The comment to create
+   * @return The created comment
+   */
+  public Comment create(CreateCommentParams request) {
+<span class="fc" id="L32">    validateRequest(request);</span>
+<span class="fc" id="L33">    return client.call(&quot;POST&quot;, ApiPath.from(&quot;/comments&quot;), request, Comment.class);</span>
+  }
+
+  /**
+   * Retrieve a comment by its ID.
+   *
+   * @param commentId The ID of the comment to retrieve
+   * @return The comment with the specified ID
+   */
+  public Comment retrieve(String commentId) {
+<span class="fc" id="L43">    validateCommentId(commentId);</span>
+<span class="fc" id="L44">    ApiPath urlInfo =</span>
+<span class="fc" id="L45">        ApiPath.builder(&quot;/comments/{comment_id}&quot;).pathParam(COMMENT_ID, commentId).build();</span>
+<span class="fc" id="L46">    return client.call(&quot;GET&quot;, urlInfo, Comment.class);</span>
+  }
+
+  /**
+   * Retrieve comments for a block with default parameters.
+   *
+   * @param blockId The ID of the block to retrieve comments for
+   * @return Comments response containing the comments
+   */
+  public CommentList listComments(String blockId) {
+<span class="fc" id="L56">    return listComments(blockId, null, null);</span>
+  }
+
+  /**
+   * Retrieve comments for a block with pagination.
+   *
+   * @param blockId The ID of the block to retrieve comments for
+   * @param startCursor The cursor to start from for pagination
+   * @param pageSize The number of results to return (max 100)
+   * @return Comments response containing the comments
+   */
+  public CommentList listComments(String blockId, String startCursor, Integer pageSize) {
+<span class="fc" id="L68">    validateBlockId(blockId);</span>
+
+<span class="fc" id="L70">    ApiPath.Builder urlInfo =</span>
+<span class="fc" id="L71">        ApiPath.builder(&quot;/comments&quot;, startCursor, pageSize).queryParam(BLOCK_ID, blockId);</span>
+
+<span class="fc" id="L73">    return client.call(&quot;GET&quot;, urlInfo.build(), CommentList.class);</span>
+  }
+
+  /** Validates the block ID parameter. */
+  private void validateCommentId(String commentId) {
+<span class="fc bfc" id="L78" title="All 4 branches covered.">    if (commentId == null || commentId.trim().isEmpty()) {</span>
+<span class="fc" id="L79">      throw new IllegalArgumentException(&quot;Comment ID cannot be null or empty&quot;);</span>
+    }
+<span class="fc" id="L81">  }</span>
+
+  /** Validates the block ID parameter. */
+  private void validateBlockId(String blockId) {
+<span class="fc bfc" id="L85" title="All 4 branches covered.">    if (blockId == null || blockId.trim().isEmpty()) {</span>
+<span class="fc" id="L86">      throw new IllegalArgumentException(&quot;Block ID cannot be null or empty&quot;);</span>
+    }
+<span class="fc" id="L88">  }</span>
+
+  /** Validates the request object. */
+  private void validateRequest(Object request) {
+<span class="fc bfc" id="L92" title="All 2 branches covered.">    if (request == null) {</span>
+<span class="fc" id="L93">      throw new IllegalArgumentException(&quot;Request cannot be null&quot;);</span>
+    }
+<span class="fc" id="L95">  }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

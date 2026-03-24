@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FileUploadsEndpointImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">notion-sdk</a> &gt; <a href="index.source.html" class="el_package">io.kristixlab.notion.api.endpoints.impl</a> &gt; <span class="el_source">FileUploadsEndpointImpl.java</span></div><h1>FileUploadsEndpointImpl.java</h1><pre class="source lang-java linenums">package io.kristixlab.notion.api.endpoints.impl;
+
+import io.kristixlab.notion.api.endpoints.FileUploadsEndpoint;
+import io.kristixlab.notion.api.http.client.ApiClient;
+import io.kristixlab.notion.api.http.request.ApiPath;
+import io.kristixlab.notion.api.http.request.MultipartFormDataRequest;
+import io.kristixlab.notion.api.model.files.*;
+
+/**
+ * API for file upload operations in Notion.
+ *
+ * &lt;p&gt;Provides methods for the complete file upload lifecycle: 1. Create a file upload request to
+ * get a pre-signed URL 2. Send file content to the pre-signed URL (external to this API) 3.
+ * Complete the file upload process 4. Retrieve and list file uploads
+ */
+public class FileUploadsEndpointImpl implements FileUploadsEndpoint {
+
+  private static final String STATUS = &quot;status&quot;;
+  private static final String FILE_UPLOAD_ID = &quot;file_upload_id&quot;;
+
+  private final ApiClient client;
+
+<span class="fc" id="L23">  public FileUploadsEndpointImpl(ApiClient client) {</span>
+<span class="fc" id="L24">    this.client = client;</span>
+<span class="fc" id="L25">  }</span>
+
+  /**
+   * Creates a new file upload and returns a pre-signed URL for uploading the file content. POST
+   * https://api.notion.com/v1/file_uploads
+   *
+   * @param request The file upload request containing file name, content type, and parent
+   * @return FileUpload containing the pre-signed URL and file metadata
+   * @throws IllegalArgumentException if request or required fields are null/empty
+   */
+  public FileUpload createFileUpload(FileUploadCreateParams request) {
+<span class="fc" id="L36">    validateRequest(request);</span>
+<span class="fc" id="L37">    return client.call(&quot;POST&quot;, ApiPath.from(&quot;/file_uploads&quot;), request, FileUpload.class);</span>
+  }
+
+  /**
+   * Sends file content to the pre-signed URL. This is typically done externally using the
+   * upload_url from createFileUpload response. POST
+   * https://api.notion.com/v1/file_uploads/{file_upload_id}/send
+   *
+   * @param fileUploadId The ID of the file upload
+   * @param request request
+   * @return Response from the file upload service
+   */
+  public FileUpload sendFileContent(String fileUploadId, FileUploadSendParams request) {
+<span class="fc" id="L50">    validateRequest(request);</span>
+<span class="fc" id="L51">    ApiPath urlInfo =</span>
+<span class="fc" id="L52">        ApiPath.builder(&quot;/file_uploads/{file_upload_id}/send&quot;)</span>
+<span class="fc" id="L53">            .pathParam(FILE_UPLOAD_ID, fileUploadId)</span>
+<span class="fc" id="L54">            .build();</span>
+
+<span class="fc" id="L56">    MultipartFormDataRequest multipartRq = new MultipartFormDataRequest();</span>
+<span class="fc bfc" id="L57" title="All 2 branches covered.">    if (request.getFile() != null) {</span>
+<span class="fc" id="L58">      multipartRq.addFilePart(</span>
+<span class="fc" id="L59">          &quot;file&quot;, request.getFile(), request.getFileName(), request.getContentType());</span>
+<span class="fc bfc" id="L60" title="All 2 branches covered.">    } else if (request.getBytes() != null) {</span>
+<span class="fc" id="L61">      multipartRq.addByteArrayPart(</span>
+<span class="fc" id="L62">          &quot;file&quot;, request.getBytes(), request.getFileName(), request.getContentType());</span>
+<span class="pc bpc" id="L63" title="1 of 2 branches missed.">    } else if (request.getInputStream() != null) {</span>
+<span class="fc" id="L64">      multipartRq.addInputStreamPart(</span>
+<span class="fc" id="L65">          &quot;file&quot;, request.getInputStream(), request.getFileName(), request.getContentType());</span>
+    }
+<span class="pc bpc" id="L67" title="1 of 2 branches missed.">    if (request.getPartNumber() != null) {</span>
+<span class="nc" id="L68">      multipartRq.addPart(&quot;part_number&quot;, request.getPartNumber().toString());</span>
+    }
+<span class="fc" id="L70">    return client.call(&quot;POST&quot;, urlInfo, multipartRq, FileUpload.class);</span>
+  }
+
+  /**
+   * Use this API to finalize a mode=multi_part file upload after all of the parts have been sent
+   * successfully.
+   *
+   * @param fileUploadId The ID of the file upload to complete
+   * @return Updated FileUpload with completion status
+   */
+  public FileUpload completeFileUpload(String fileUploadId) {
+<span class="fc" id="L81">    validateFileUploadId(fileUploadId);</span>
+
+<span class="fc" id="L83">    ApiPath urlInfo =</span>
+<span class="fc" id="L84">        ApiPath.builder(&quot;/file_uploads/{file_upload_id}/complete&quot;)</span>
+<span class="fc" id="L85">            .pathParam(FILE_UPLOAD_ID, fileUploadId)</span>
+<span class="fc" id="L86">            .build();</span>
+<span class="fc" id="L87">    return client.call(&quot;POST&quot;, urlInfo, new Object(), FileUpload.class);</span>
+  }
+
+  /**
+   * Retrieves a specific file upload by its ID. GET
+   * https://api.notion.com/v1/file_uploads/{file_upload_id}
+   *
+   * @param fileUploadId The ID of the file upload to retrieve
+   * @return FileUpload containing the file upload details
+   */
+  public FileUpload retrieveFileUpload(String fileUploadId) {
+<span class="fc" id="L98">    validateFileUploadId(fileUploadId);</span>
+<span class="fc" id="L99">    ApiPath urlInfo =</span>
+<span class="fc" id="L100">        ApiPath.builder(&quot;/file_uploads/{file_upload_id}&quot;)</span>
+<span class="fc" id="L101">            .pathParam(FILE_UPLOAD_ID, fileUploadId)</span>
+<span class="fc" id="L102">            .build();</span>
+<span class="fc" id="L103">    return client.call(&quot;GET&quot;, urlInfo, FileUpload.class);</span>
+  }
+
+  /**
+   * Lists all file uploads in the workspace. GET https://api.notion.com/v1/file_uploads
+   *
+   * @return FileUploadListResponse containing the list of file uploads
+   */
+  public FileUploadList listFileUploads() {
+<span class="fc" id="L112">    return listFileUploads(null);</span>
+  }
+
+  /**
+   * Lists all file uploads in the workspace. GET https://api.notion.com/v1/file_uploads
+   *
+   * @return FileUploadListResponse containing the list of file uploads
+   */
+  public FileUploadList listFileUploads(String status) {
+<span class="fc" id="L121">    return listFileUploads(status, null, null);</span>
+  }
+
+  /**
+   * Use this API to retrieve file uploads for the current bot integration, sorted by most recent
+   * first.
+   *
+   * @param startCursor Cursor for pagination (can be null for first page)
+   * @param pageSize Number of items to return (can be null for default)
+   * @return FileUploadListResponse containing the paginated list of file uploads
+   */
+  public FileUploadList listFileUploads(String startCursor, Integer pageSize) {
+<span class="fc" id="L133">    return listFileUploads(null, startCursor, pageSize);</span>
+  }
+
+  /**
+   * Use this API to retrieve file uploads for the current bot integration, sorted by most recent
+   * first.
+   *
+   * @param status Filter file uploads by specifying the status. Supported values are pending,
+   *     uploaded, expired, failed.
+   * @param startCursor Cursor for pagination (can be null for first page)
+   * @param pageSize Number of items to return (can be null for default)
+   * @return FileUploadListResponse containing the paginated list of file uploads
+   */
+  public FileUploadList listFileUploads(String status, String startCursor, Integer pageSize) {
+<span class="fc" id="L147">    ApiPath.Builder urlInfo = ApiPath.builder(&quot;/file_uploads&quot;, startCursor, pageSize);</span>
+<span class="fc bfc" id="L148" title="All 4 branches covered.">    if (status != null &amp;&amp; !status.trim().isEmpty()) {</span>
+<span class="fc" id="L149">      urlInfo.queryParam(STATUS, status);</span>
+    }
+
+<span class="fc" id="L152">    return client.call(&quot;GET&quot;, urlInfo.build(), FileUploadList.class);</span>
+  }
+
+  /**
+   * Validates the file upload request.
+   *
+   * @param request The request to validate
+   * @throws IllegalArgumentException if request or required fields are invalid
+   */
+  private void validateRequest(FileUploadCreateParams request) {
+<span class="fc bfc" id="L162" title="All 2 branches covered.">    if (request == null) {</span>
+<span class="fc" id="L163">      throw new IllegalArgumentException(&quot;FileUploadRequest cannot be null&quot;);</span>
+    }
+
+    // Validate mode
+<span class="fc" id="L167">    String mode = request.getMode();</span>
+<span class="fc bfc" id="L168" title="All 4 branches covered.">    if (mode == null || mode.trim().isEmpty()) {</span>
+<span class="fc" id="L169">      throw new IllegalArgumentException(&quot;Mode cannot be null or empty&quot;);</span>
+    }
+
+<span class="fc bfc" id="L172" title="All 6 branches covered.">    if (!(&quot;multi_part&quot;.equals(mode) || &quot;external_url&quot;.equals(mode) || &quot;single_part&quot;.equals(mode))) {</span>
+<span class="fc" id="L173">      throw new IllegalArgumentException(</span>
+          &quot;Mode must be one of: multi_part, external_url, single_part&quot;);
+    }
+
+    // Validate filename for multi_part and external_url modes
+<span class="fc bfc" id="L178" title="All 4 branches covered.">    if ((&quot;multi_part&quot;.equals(mode) || &quot;external_url&quot;.equals(mode))) {</span>
+<span class="pc bpc" id="L179" title="1 of 4 branches missed.">      if (request.getFilename() == null || request.getFilename().trim().isEmpty()) {</span>
+<span class="fc" id="L180">        throw new IllegalArgumentException(&quot;Filename is required when mode is &quot; + mode);</span>
+      }
+    }
+
+    // Validate number of parts for multi_part mode
+<span class="fc bfc" id="L185" title="All 2 branches covered.">    if (&quot;multi_part&quot;.equals(mode)) {</span>
+<span class="fc" id="L186">      Integer numberOfParts = request.getNumberOfParts();</span>
+<span class="pc bpc" id="L187" title="2 of 6 branches missed.">      if (numberOfParts != null &amp;&amp; (numberOfParts &lt; 1 || numberOfParts &gt; 1000)) {</span>
+<span class="fc" id="L188">        throw new IllegalArgumentException(</span>
+            &quot;Number of parts must be between 1 and 1,000 for multi_part mode&quot;);
+      }
+    }
+
+    // Validate external URL for external_url mode
+<span class="fc bfc" id="L194" title="All 2 branches covered.">    if (&quot;external_url&quot;.equals(mode)) {</span>
+<span class="fc" id="L195">      String externalUrl = request.getExternalUrl();</span>
+<span class="pc bpc" id="L196" title="3 of 4 branches missed.">      if (externalUrl == null || externalUrl.trim().isEmpty()) {</span>
+<span class="fc" id="L197">        throw new IllegalArgumentException(&quot;External URL is required when mode is external_url&quot;);</span>
+      }
+    }
+<span class="fc" id="L200">  }</span>
+
+  private void validateFileUploadId(String fileUploadId) {
+<span class="fc bfc" id="L203" title="All 4 branches covered.">    if (fileUploadId == null || fileUploadId.trim().isEmpty()) {</span>
+<span class="fc" id="L204">      throw new IllegalArgumentException(&quot;File upload ID cannot be null or empty&quot;);</span>
+    }
+<span class="fc" id="L206">  }</span>
+
+  private void validateRequest(FileUploadSendParams request) {
+<span class="fc bfc" id="L209" title="All 2 branches covered.">    if (request.getFile() == null</span>
+<span class="fc bfc" id="L210" title="All 2 branches covered.">        &amp;&amp; request.getBytes() == null</span>
+<span class="fc bfc" id="L211" title="All 2 branches covered.">        &amp;&amp; request.getInputStream() == null) {</span>
+<span class="fc" id="L212">      throw new IllegalArgumentException(&quot;One of file, bytes, or inputStream must be provided&quot;);</span>
+    }
+
+<span class="pc bpc" id="L215" title="1 of 4 branches missed.">    if (request.getFileName() == null || request.getFileName().trim().isEmpty()) {</span>
+<span class="fc" id="L216">      throw new IllegalArgumentException(&quot;Filename cannot be null or empty&quot;);</span>
+    }
+
+<span class="fc bfc" id="L219" title="All 2 branches covered.">    if (request.getContentType() == null) {</span>
+<span class="fc" id="L220">      throw new IllegalArgumentException(&quot;Content type cannot be null&quot;);</span>
+    }
+<span class="fc" id="L222">  }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

@@ -1,0 +1,417 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AbstractDataSourceSchemaBuilder.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">notion-sdk</a> &gt; <a href="index.source.html" class="el_package">io.kristixlab.notion.api.model.datasources.properties.helper</a> &gt; <span class="el_source">AbstractDataSourceSchemaBuilder.java</span></div><h1>AbstractDataSourceSchemaBuilder.java</h1><pre class="source lang-java linenums">package io.kristixlab.notion.api.model.datasources.properties.helper;
+
+import io.kristixlab.notion.api.model.datasources.properties.*;
+import io.kristixlab.notion.api.model.datasources.properties.NumberFormatType;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.function.Consumer;
+
+/**
+ * Abstract fluent base for building a Notion data source (database) property schema.
+ *
+ * &lt;p&gt;Uses the &lt;em&gt;curiously recurring template pattern&lt;/em&gt; (CRTP) so that every property-defining
+ * method returns the concrete subclass type, keeping the chain unbroken regardless of which
+ * concrete builder is in use.
+ *
+ * &lt;p&gt;This class is intentionally package-private; clients interact only with its concrete
+ * descendants.
+ *
+ * @param &lt;SELF&gt; the concrete subclass type (enables covariant method chaining)
+ */
+<span class="nc" id="L21">abstract class AbstractDataSourceSchemaBuilder&lt;SELF extends AbstractDataSourceSchemaBuilder&lt;SELF&gt;&gt; {</span>
+
+<span class="nc" id="L23">  protected final Map&lt;String, DataSourcePropertySchemaParams&gt; properties = new LinkedHashMap&lt;&gt;();</span>
+
+  @SuppressWarnings(&quot;unchecked&quot;)
+  private SELF self() {
+<span class="nc" id="L27">    return (SELF) this;</span>
+  }
+
+  /**
+   * Builds and returns the property schema map.
+   *
+   * &lt;p&gt;The returned map preserves insertion order and maps each property name/ID to its schema
+   * params. A {@code null} value signals the Notion API to delete the property.
+   *
+   * @return the accumulated property schema map
+   */
+  public Map&lt;String, DataSourcePropertySchemaParams&gt; build() {
+<span class="nc" id="L39">    return properties;</span>
+  }
+
+  // ── Property definitions ────────────────────────────────────────────────
+
+  /** Adds a {@code checkbox} property with default parameters. */
+  public SELF checkbox(String nameOrId) {
+<span class="nc" id="L46">    return checkbox(nameOrId, new CheckboxSchemaParams());</span>
+  }
+
+  /** Adds a {@code checkbox} property with the given parameters. */
+  public SELF checkbox(String nameOrId, CheckboxSchemaParams params) {
+<span class="nc" id="L51">    properties.put(nameOrId, params);</span>
+<span class="nc" id="L52">    return self();</span>
+  }
+
+  /**
+   * Adds a {@code created_by} property with default parameters. Read-only; auto-populated by
+   * Notion.
+   */
+  public SELF createdBy(String nameOrId) {
+<span class="nc" id="L60">    return createdBy(nameOrId, new CreatedBySchemaParams());</span>
+  }
+
+  /** Adds a {@code created_by} property with the given parameters. */
+  public SELF createdBy(String nameOrId, CreatedBySchemaParams params) {
+<span class="nc" id="L65">    properties.put(nameOrId, params);</span>
+<span class="nc" id="L66">    return self();</span>
+  }
+
+  /**
+   * Adds a {@code created_time} property with default parameters. Read-only; auto-populated by
+   * Notion.
+   */
+  public SELF createdTime(String nameOrId) {
+<span class="nc" id="L74">    return createdTime(nameOrId, new CreatedTimeSchemaParams());</span>
+  }
+
+  /** Adds a {@code created_time} property with the given parameters. */
+  public SELF createdTime(String nameOrId, CreatedTimeSchemaParams params) {
+<span class="nc" id="L79">    properties.put(nameOrId, params);</span>
+<span class="nc" id="L80">    return self();</span>
+  }
+
+  /** Adds a {@code date} property with default parameters. */
+  public SELF date(String nameOrId) {
+<span class="nc" id="L85">    return date(nameOrId, new DateSchemaParams());</span>
+  }
+
+  /** Adds a {@code date} property with the given parameters. */
+  public SELF date(String nameOrId, DateSchemaParams params) {
+<span class="nc" id="L90">    properties.put(nameOrId, params);</span>
+<span class="nc" id="L91">    return self();</span>
+  }
+
+  /** Adds an {@code email} property with default parameters. */
+  public SELF email(String nameOrId) {
+<span class="nc" id="L96">    return email(nameOrId, new EmailSchemaParams());</span>
+  }
+
+  /** Adds an {@code email} property with the given parameters. */
+  public SELF email(String nameOrId, EmailSchemaParams params) {
+<span class="nc" id="L101">    properties.put(nameOrId, params);</span>
+<span class="nc" id="L102">    return self();</span>
+  }
+
+  /** Adds a {@code files} property with default parameters. */
+  public SELF files(String nameOrId) {
+<span class="nc" id="L107">    return files(nameOrId, new FilesSchemaParams());</span>
+  }
+
+  /** Adds a {@code files} property with the given parameters. */
+  public SELF files(String nameOrId, FilesSchemaParams params) {
+<span class="nc" id="L112">    properties.put(nameOrId, params);</span>
+<span class="nc" id="L113">    return self();</span>
+  }
+
+  /** Adds a {@code formula} property with an empty expression. */
+  public SELF formula(String nameOrId) {
+<span class="nc" id="L118">    return formula(nameOrId, new FormulaSchemaParams());</span>
+  }
+
+  /**
+   * Adds a {@code formula} property with the given Notion formula expression.
+   *
+   * @param expression a Notion formula string, e.g. {@code &quot;\&quot;Hello: \&quot; + prop(\&quot;Name\&quot;)&quot;}
+   */
+  public SELF formula(String nameOrId, String expression) {
+<span class="nc" id="L127">    FormulaSchemaParams params = new FormulaSchemaParams();</span>
+<span class="nc" id="L128">    params.getFormula().setExpression(expression);</span>
+<span class="nc" id="L129">    return formula(nameOrId, params);</span>
+  }
+
+  /** Adds a {@code formula} property with the given parameters. */
+  public SELF formula(String nameOrId, FormulaSchemaParams params) {
+<span class="nc" id="L134">    properties.put(nameOrId, params);</span>
+<span class="nc" id="L135">    return self();</span>
+  }
+
+  /**
+   * Adds a {@code last_edited_by} property with default parameters. Read-only; auto-populated by
+   * Notion.
+   */
+  public SELF lastEditedBy(String nameOrId) {
+<span class="nc" id="L143">    return lastEditedBy(nameOrId, new LastEditedBySchemaParams());</span>
+  }
+
+  /** Adds a {@code last_edited_by} property with the given parameters. */
+  public SELF lastEditedBy(String nameOrId, LastEditedBySchemaParams params) {
+<span class="nc" id="L148">    properties.put(nameOrId, params);</span>
+<span class="nc" id="L149">    return self();</span>
+  }
+
+  /**
+   * Adds a {@code last_edited_time} property with default parameters. Read-only; auto-populated by
+   * Notion.
+   */
+  public SELF lastEditedTime(String nameOrId) {
+<span class="nc" id="L157">    return lastEditedTime(nameOrId, new LastEditedTimeSchemaParams());</span>
+  }
+
+  /** Adds a {@code last_edited_time} property with the given parameters. */
+  public SELF lastEditedTime(String nameOrId, LastEditedTimeSchemaParams params) {
+<span class="nc" id="L162">    properties.put(nameOrId, params);</span>
+<span class="nc" id="L163">    return self();</span>
+  }
+
+  /** Adds a {@code multi_select} property with no predefined options. */
+  public SELF multiSelect(String nameOrId) {
+<span class="nc" id="L168">    return multiSelect(nameOrId, new MultiSelectSchemaParams());</span>
+  }
+
+  /** Adds a {@code multi_select} property with the given predefined option names. */
+  public SELF multiSelect(String nameOrId, String... options) {
+<span class="nc" id="L173">    return multiSelect(nameOrId, MultiSelectSchemaParams.of(options));</span>
+  }
+
+  /** Adds a {@code multi_select} property with the given parameters. */
+  public SELF multiSelect(String nameOrId, MultiSelectSchemaParams params) {
+<span class="nc" id="L178">    properties.put(nameOrId, params);</span>
+<span class="nc" id="L179">    return self();</span>
+  }
+
+  /** Adds a {@code number} property with the default format. */
+  public SELF number(String nameOrId) {
+<span class="nc" id="L184">    return number(nameOrId, new NumberSchemaParams());</span>
+  }
+
+  /** Adds a {@code number} property with the given format string (e.g. {@code &quot;dollar&quot;}). */
+  public SELF number(String nameOrId, String format) {
+<span class="nc" id="L189">    return number(nameOrId, NumberSchemaParams.of(format));</span>
+  }
+
+  /** Adds a {@code number} property with the given {@link NumberFormatType}. */
+  public SELF number(String nameOrId, NumberFormatType format) {
+<span class="nc" id="L194">    return number(nameOrId, NumberSchemaParams.of(format));</span>
+  }
+
+  /** Adds a {@code number} property with the given parameters. */
+  public SELF number(String nameOrId, NumberSchemaParams params) {
+<span class="nc" id="L199">    properties.put(nameOrId, params);</span>
+<span class="nc" id="L200">    return self();</span>
+  }
+
+  /** Adds a {@code people} property with default parameters. */
+  public SELF people(String nameOrId) {
+<span class="nc" id="L205">    return people(nameOrId, new PeopleSchemaParams());</span>
+  }
+
+  /** Adds a {@code people} property with the given parameters. */
+  public SELF people(String nameOrId, PeopleSchemaParams params) {
+<span class="nc" id="L210">    properties.put(nameOrId, params);</span>
+<span class="nc" id="L211">    return self();</span>
+  }
+
+  /** Adds a {@code phone_number} property with default parameters. */
+  public SELF phone(String nameOrId) {
+<span class="nc" id="L216">    return phone(nameOrId, new PhoneSchemaParams());</span>
+  }
+
+  /** Adds a {@code phone_number} property with the given parameters. */
+  public SELF phone(String nameOrId, PhoneSchemaParams params) {
+<span class="nc" id="L221">    properties.put(nameOrId, params);</span>
+<span class="nc" id="L222">    return self();</span>
+  }
+
+  /**
+   * Adds a {@code place} (location) property with default parameters.
+   *
+   * &lt;p&gt;Stores geographic data: latitude, longitude, name, and address.
+   */
+  public SELF place(String nameOrId) {
+<span class="nc" id="L231">    return place(nameOrId, new PlaceSchemaParams());</span>
+  }
+
+  /** Adds a {@code place} (location) property with the given parameters. */
+  public SELF place(String nameOrId, PlaceSchemaParams params) {
+<span class="nc" id="L236">    properties.put(nameOrId, params);</span>
+<span class="nc" id="L237">    return self();</span>
+  }
+
+  /**
+   * Adds a single-way {@code relation} property pointing to the given data source.
+   *
+   * @param dataSourceId the UUID of the related Notion database
+   */
+  public SELF relation(String nameOrId, String dataSourceId) {
+<span class="nc" id="L246">    return relation(nameOrId, RelationSchemaParams.builder().dataSourceId(dataSourceId).build());</span>
+  }
+
+  /**
+   * Adds a dual-property (two-way) {@code relation}.
+   *
+   * @param dataSourceId the UUID of the related Notion database
+   * @param syncedPropName the name of the mirrored property on the target database
+   */
+  public SELF relation(String nameOrId, String dataSourceId, String syncedPropName) {
+<span class="nc" id="L256">    return relation(</span>
+        nameOrId,
+<span class="nc" id="L258">        RelationSchemaParams.builder()</span>
+<span class="nc" id="L259">            .dataSourceId(dataSourceId)</span>
+<span class="nc" id="L260">            .syncedProperty(syncedPropName)</span>
+<span class="nc" id="L261">            .build());</span>
+  }
+
+  /** Adds a {@code relation} property with the given parameters. */
+  public SELF relation(String nameOrId, RelationSchemaParams params) {
+<span class="nc" id="L266">    properties.put(nameOrId, params);</span>
+<span class="nc" id="L267">    return self();</span>
+  }
+
+  /**
+   * Adds a {@code rollup} property that aggregates values from a related database.
+   *
+   * @param relationNameOrId the name or ID of the relation property to roll up through
+   * @param rollupNameOrId the name or ID of the property in the related DB to aggregate
+   * @param rollupFunction the aggregation function (e.g. {@code &quot;sum&quot;}, {@code &quot;count&quot;})
+   */
+  public SELF rollup(
+      String nameOrId, String relationNameOrId, String rollupNameOrId, String rollupFunction) {
+<span class="nc" id="L279">    RollupSchemaParams params = new RollupSchemaParams();</span>
+<span class="nc" id="L280">    params.getRollup().setRelationPropertyId(relationNameOrId);</span>
+<span class="nc" id="L281">    params.getRollup().setRollupPropertyId(rollupNameOrId);</span>
+<span class="nc" id="L282">    params.getRollup().setFunction(rollupFunction);</span>
+<span class="nc" id="L283">    return rollup(nameOrId, params);</span>
+  }
+
+  /** Adds a {@code rollup} property with the given parameters. */
+  public SELF rollup(String nameOrId, RollupSchemaParams params) {
+<span class="nc" id="L288">    properties.put(nameOrId, params);</span>
+<span class="nc" id="L289">    return self();</span>
+  }
+
+  /** Adds a {@code select} property with no predefined options. */
+  public SELF select(String nameOrId) {
+<span class="nc" id="L294">    return select(nameOrId, new SelectSchemaParams());</span>
+  }
+
+  /** Adds a {@code select} property with the given predefined option names. */
+  public SELF select(String nameOrId, String... options) {
+<span class="nc" id="L299">    return select(nameOrId, SelectSchemaParams.of(options));</span>
+  }
+
+  /** Adds a {@code select} property with the given parameters. */
+  public SELF select(String nameOrId, SelectSchemaParams params) {
+<span class="nc" id="L304">    properties.put(nameOrId, params);</span>
+<span class="nc" id="L305">    return self();</span>
+  }
+
+  /**
+   * Adds a {@code status} property with default parameters.
+   *
+   * &lt;p&gt;Notion places all options in the &quot;To-do&quot; group automatically on creation.
+   */
+  public SELF status(String nameOrId) {
+<span class="nc" id="L314">    return status(nameOrId, new StatusSchemaParams());</span>
+  }
+
+  /**
+   * Adds a {@code status} property configured via a lambda on {@link StatusSchemaParams.Builder}.
+   *
+   * &lt;pre&gt;{@code
+   * .status(&quot;Workflow&quot;, s -&gt; s
+   *     .option(&quot;Backlog&quot;,      Color.DEFAULT)
+   *     .option(&quot;In Progress&quot;,  Color.YELLOW)
+   *     .option(&quot;Completed&quot;,    Color.GREEN))
+   * }&lt;/pre&gt;
+   */
+  public SELF status(String nameOrId, Consumer&lt;StatusSchemaParams.Builder&gt; configurator) {
+<span class="nc" id="L328">    StatusSchemaParams.Builder builder = StatusSchemaParams.builder();</span>
+<span class="nc" id="L329">    configurator.accept(builder);</span>
+<span class="nc" id="L330">    return status(nameOrId, builder.build());</span>
+  }
+
+  /** Adds a {@code status} property with the given parameters. */
+  public SELF status(String nameOrId, StatusSchemaParams params) {
+<span class="nc" id="L335">    properties.put(nameOrId, params);</span>
+<span class="nc" id="L336">    return self();</span>
+  }
+
+  /** Adds a {@code rich_text} property with default parameters. */
+  public SELF text(String nameOrId) {
+<span class="nc" id="L341">    return text(nameOrId, new RichTextSchemaParams());</span>
+  }
+
+  /** Adds a {@code rich_text} property with the given parameters. */
+  public SELF text(String nameOrId, RichTextSchemaParams params) {
+<span class="nc" id="L346">    properties.put(nameOrId, params);</span>
+<span class="nc" id="L347">    return self();</span>
+  }
+
+  /**
+   * Adds a {@code title} property with default parameters.
+   *
+   * &lt;p&gt;Every Notion database must have exactly one title property.
+   */
+  public SELF title(String nameOrId) {
+<span class="nc" id="L356">    return title(nameOrId, new TitleSchemaParams());</span>
+  }
+
+  /** Adds a {@code title} property with the given parameters. */
+  public SELF title(String nameOrId, TitleSchemaParams params) {
+<span class="nc" id="L361">    properties.put(nameOrId, params);</span>
+<span class="nc" id="L362">    return self();</span>
+  }
+
+  /**
+   * Adds a {@code unique_id} property with default parameters.
+   *
+   * &lt;p&gt;Auto-increments and assigns each page a sequential numeric identifier.
+   */
+  public SELF uniqueId(String nameOrId) {
+<span class="nc" id="L371">    return uniqueId(nameOrId, new UniqueIdSchemaParams());</span>
+  }
+
+  /** Adds a {@code unique_id} property with the given parameters. */
+  public SELF uniqueId(String nameOrId, UniqueIdSchemaParams params) {
+<span class="nc" id="L376">    properties.put(nameOrId, params);</span>
+<span class="nc" id="L377">    return self();</span>
+  }
+
+  /** Adds a {@code url} property with default parameters. */
+  public SELF url(String nameOrId) {
+<span class="nc" id="L382">    return url(nameOrId, new UrlSchemaParams());</span>
+  }
+
+  /** Adds a {@code url} property with the given parameters. */
+  public SELF url(String nameOrId, UrlSchemaParams params) {
+<span class="nc" id="L387">    properties.put(nameOrId, params);</span>
+<span class="nc" id="L388">    return self();</span>
+  }
+
+  // ── Modify operations ───────────────────────────────────────────────────
+
+  /**
+   * Renames an existing property.
+   *
+   * &lt;p&gt;If the property is not already present a stub entry is created so that the rename
+   * instruction is sent to the Notion API even without re-specifying every other property.
+   */
+  public SELF rename(String nameOrId, String newName) {
+<span class="nc" id="L400">    properties</span>
+<span class="nc" id="L401">        .computeIfAbsent(nameOrId, k -&gt; new DataSourcePropertySchemaParams())</span>
+<span class="nc" id="L402">        .setName(newName);</span>
+<span class="nc" id="L403">    return self();</span>
+  }
+
+  /**
+   * Marks a property for deletion.
+   *
+   * &lt;p&gt;A {@code null} value instructs the Notion API to permanently remove the property and all
+   * data stored in it.
+   */
+  public SELF delete(String nameOrId) {
+<span class="nc" id="L413">    properties.put(nameOrId, null);</span>
+<span class="nc" id="L414">    return self();</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=edge"/>
+<title>Test results - NotionClientBuilderTest</title>
+<link href="../css/base-style.css" rel="stylesheet" type="text/css"/>
+<link href="../css/style.css" rel="stylesheet" type="text/css"/>
+<script src="../js/report.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="content">
+<h1>NotionClientBuilderTest</h1>
+<div class="breadcrumbs">
+<a href="../index.html">all</a> &gt; 
+<a href="../packages/io.kristixlab.notion.api.html">io.kristixlab.notion.api</a> &gt; NotionClientBuilderTest</div>
+<div id="summary">
+<table>
+<tr>
+<td>
+<div class="summaryGroup">
+<table>
+<tr>
+<td>
+<div class="infoBox" id="tests">
+<div class="counter">11</div>
+<p>tests</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="failures">
+<div class="counter">0</div>
+<p>failures</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="ignored">
+<div class="counter">0</div>
+<p>ignored</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="duration">
+<div class="counter">1.363s</div>
+<p>duration</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</td>
+<td>
+<div class="infoBox success" id="successRate">
+<div class="percent">100%</div>
+<p>successful</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="tab-container">
+<ul class="tabLinks">
+<li>
+<a href="#">Tests</a>
+</li>
+<li>
+<a href="#">Standard output</a>
+</li>
+</ul>
+<div class="tab">
+<h2>Tests</h2>
+<table>
+<thead>
+<tr>
+<th>Test</th>
+<th>Method name</th>
+<th>Duration</th>
+<th>Result</th>
+</tr>
+</thead>
+<tr>
+<td class="success">NotionClient exposes all endpoint accessors</td>
+<td class="success">allEndpointAccessorsNonNull()</td>
+<td class="success">0.004s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">auth(String) with blank token throws IllegalArgumentException</td>
+<td class="success">authWithBlankTokenThrows()</td>
+<td class="success">0.001s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">build() with null auth(NotionAuthSettings) throws NullPointerException</td>
+<td class="success">buildWithNullAuthSettingsThrows()</td>
+<td class="success">0.001s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">build() without auth() throws NullPointerException</td>
+<td class="success">buildWithoutAuthThrows()</td>
+<td class="success">0.007s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">builder().auth(authSettings).build() returns a non-null NotionClient</td>
+<td class="success">builderWithAuthSettingsSucceeds()</td>
+<td class="success">0.001s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">builder().auth(String).build() returns a non-null NotionClient</td>
+<td class="success">builderWithAuthStringSucceeds()</td>
+<td class="success">0.002s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Built client injects Authorization header</td>
+<td class="success">builtClientInjectsAuthHeader()</td>
+<td class="success">0.002s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Built client injects custom Notion-Version header</td>
+<td class="success">builtClientInjectsVersionHeader()</td>
+<td class="success">1.117s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Built client uses custom base URL</td>
+<td class="success">builtClientUsesCustomBaseUrl()</td>
+<td class="success">0.003s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">forToken(token) returns a non-null NotionClient</td>
+<td class="success">forTokenSucceeds()</td>
+<td class="success">0.224s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">forToken() with blank token throws IllegalArgumentException</td>
+<td class="success">forTokenWithBlankThrows()</td>
+<td class="success">0.001s</td>
+<td class="success">passed</td>
+</tr>
+</table>
+</div>
+<div class="tab">
+<h2>Standard output</h2>
+<span class="code">
+<pre>2026-03-24 19:49:38.966 [Test worker] DEBUG io.kristixlab.notion.api.http.interceptor.LoggingHttpInterceptor - [Notion] &gt;&gt; GET https://api.notion.com/v1/users/me | body: none
+2026-03-24 19:49:38.967 [Test worker] DEBUG io.kristixlab.notion.api.http.interceptor.LoggingHttpInterceptor - [Notion] &lt;&lt; GET https://api.notion.com/v1/users/me | status: 200 | body: {}
+2026-03-24 19:49:39.789 [Test worker] DEBUG io.kristixlab.notion.api.http.interceptor.LoggingHttpInterceptor - [Notion] &gt;&gt; GET https://mock.notion.test/v1/users/me | body: none
+2026-03-24 19:49:39.789 [Test worker] DEBUG io.kristixlab.notion.api.http.interceptor.LoggingHttpInterceptor - [Notion] &lt;&lt; GET https://mock.notion.test/v1/users/me | status: 200 | body: {}
+2026-03-24 19:49:40.031 [Test worker] DEBUG io.kristixlab.notion.api.http.interceptor.LoggingHttpInterceptor - [Notion] &gt;&gt; GET https://api.notion.com/v1/users/me | body: none
+2026-03-24 19:49:40.031 [Test worker] DEBUG io.kristixlab.notion.api.http.interceptor.LoggingHttpInterceptor - [Notion] &lt;&lt; GET https://api.notion.com/v1/users/me | status: 200 | body: {}
+</pre>
+</span>
+</div>
+</div>
+<div id="footer">
+<p>
+<div>
+<label class="hidden" id="label-for-line-wrapping-toggle" for="line-wrapping-toggle">Wrap lines
+<input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
+</label>
+</div>Generated by 
+<a href="https://www.gradle.org">Gradle 8.14.4</a> at Mar 24, 2026, 7:49:41 PM</p>
+</div>
+</div>
+</body>
+</html>

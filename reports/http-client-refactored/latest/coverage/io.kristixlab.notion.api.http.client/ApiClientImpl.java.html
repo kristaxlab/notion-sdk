@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ApiClientImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">notion-sdk</a> &gt; <a href="index.source.html" class="el_package">io.kristixlab.notion.api.http.client</a> &gt; <span class="el_source">ApiClientImpl.java</span></div><h1>ApiClientImpl.java</h1><pre class="source lang-java linenums">package io.kristixlab.notion.api.http.client;
+
+import io.kristixlab.notion.api.http.config.ApiClientConfig;
+import io.kristixlab.notion.api.http.request.ApiPath;
+import io.kristixlab.notion.api.http.request.ApiPathUtil;
+import io.kristixlab.notion.api.http.request.HttpBodyFactory;
+import io.kristixlab.notion.api.json.JsonConverter;
+import java.io.IOException;
+import java.io.UncheckedIOException;
+import java.util.Map;
+import java.util.Objects;
+
+/**
+ * Standard implementation of {@link ApiClient} that sits on top of a fully-composed {@link
+ * HttpClient} pipeline.
+ *
+ * &lt;p&gt;Responsibilities:
+ *
+ * &lt;ol&gt;
+ *   &lt;li&gt;URL building — uses {@link ApiPathUtil} to merge base URL + {@link ApiPath} path/query
+ *       params
+ *   &lt;li&gt;Body serialization — delegates to {@link HttpBodyFactory}
+ *   &lt;li&gt;Request dispatch — delegates to the injected {@link HttpClient}
+ *   &lt;li&gt;Response deserialization — converts the raw response body to a typed object via {@link
+ *       JsonConverter}
+ * &lt;/ol&gt;
+ *
+ * &lt;p&gt;All cross-cutting concerns (authentication, rate-limiting, logging, error mapping) must be
+ * handled by the {@link HttpClient} pipeline passed in at construction time. This class contains no
+ * Notion-specific logic.
+ *
+ * &lt;p&gt;Construct directly for tests or custom pipelines:
+ *
+ * &lt;pre&gt;{@code
+ * HttpClient pipeline = new ErrorHandlingHttpClient(
+ *     new InterceptingHttpClient(new OkHttp3Client(), interceptors),
+ *     errorHandler);
+ *
+ * ApiClient client = new ApiClientImpl(pipeline, &quot;https://api.notion.com/v1&quot;);
+ * }&lt;/pre&gt;
+ *
+ * &lt;p&gt;For production use, prefer {@link io.kristixlab.notion.api.NotionClient#builder()} which wires
+ * the full Notion pipeline automatically.
+ *
+ * @see ApiClient
+ * @see io.kristixlab.notion.api.NotionClient
+ */
+public class ApiClientImpl implements ApiClient {
+
+  private final HttpClient httpClient;
+  private final String baseUrl;
+  private final ApiClientConfig config;
+
+  /**
+   * Constructs an {@code ApiClientImpl} with default transport config ({@code
+   * jsonFailOnUnknownProperties=false}).
+   *
+   * @param httpClient the fully-composed HTTP pipeline to delegate to
+   * @param baseUrl the base URL prepended to all relative paths (e.g. {@code
+   *     &quot;https://api.notion.com/v1&quot;})
+   */
+  public ApiClientImpl(HttpClient httpClient, String baseUrl) {
+<span class="nc" id="L63">    this(httpClient, baseUrl, null);</span>
+<span class="nc" id="L64">  }</span>
+
+  /**
+   * @param httpClient the fully-composed HTTP pipeline to delegate to
+   * @param baseUrl the base URL prepended to all relative paths
+   * @param config transport configuration controlling JSON strictness; {@code null} uses sensible
+   *     defaults
+   */
+<span class="fc" id="L72">  public ApiClientImpl(HttpClient httpClient, String baseUrl, ApiClientConfig config) {</span>
+<span class="fc" id="L73">    this.httpClient = Objects.requireNonNull(httpClient, &quot;httpClient&quot;);</span>
+<span class="fc" id="L74">    this.baseUrl = normalizeBaseUrl(Objects.requireNonNull(baseUrl, &quot;baseUrl&quot;));</span>
+<span class="pc bpc" id="L75" title="1 of 2 branches missed.">    this.config = config != null ? config : defaultConfig();</span>
+<span class="fc" id="L76">  }</span>
+
+  // ==================================================================
+  // ApiClient implementation
+  // ==================================================================
+
+  @Override
+  public &lt;T&gt; T call(String method, ApiPath apiPath, Class&lt;T&gt; responseType) {
+<span class="fc" id="L84">    return call(method, apiPath, null, null, responseType);</span>
+  }
+
+  @Override
+  public &lt;T&gt; T call(String method, ApiPath apiPath, Object body, Class&lt;T&gt; responseType) {
+<span class="nc" id="L89">    return call(method, apiPath, null, body, responseType);</span>
+  }
+
+  @Override
+  public &lt;T&gt; T call(
+      String method,
+      ApiPath apiPath,
+      Map&lt;String, String&gt; extraHeaders,
+      Object body,
+      Class&lt;T&gt; responseType) {
+
+<span class="fc" id="L100">    String url = ApiPathUtil.toUrlString(baseUrl, apiPath);</span>
+<span class="fc" id="L101">    HttpClient.Body requestBody = HttpBodyFactory.create(body);</span>
+
+    HttpClient.HttpRequest.Builder builder =
+<span class="fc" id="L104">        HttpClient.HttpRequest.builder().url(url).method(toHttpMethod(method)).body(requestBody);</span>
+
+<span class="pc bpc" id="L106" title="1 of 2 branches missed.">    if (HttpBodyFactory.requiresJsonContentType(body)) {</span>
+<span class="nc" id="L107">      builder.header(&quot;Content-Type&quot;, &quot;application/json&quot;);</span>
+    }
+
+<span class="pc bpc" id="L110" title="1 of 2 branches missed.">    if (extraHeaders != null) {</span>
+<span class="nc" id="L111">      extraHeaders.forEach(builder::header);</span>
+    }
+
+<span class="fc" id="L114">    HttpClient.HttpResponse response = send(builder.build());</span>
+<span class="fc" id="L115">    return deserialize(response.bodyAsString(), responseType);</span>
+  }
+
+  // ==================================================================
+  // Internals
+  // ==================================================================
+
+  private HttpClient.HttpResponse send(HttpClient.HttpRequest request) {
+    try {
+<span class="fc" id="L124">      return httpClient.send(request);</span>
+<span class="nc" id="L125">    } catch (IOException e) {</span>
+<span class="nc" id="L126">      throw new UncheckedIOException(&quot;Network error calling &quot; + request.url(), e);</span>
+    }
+  }
+
+  private &lt;T&gt; T deserialize(String body, Class&lt;T&gt; responseType) {
+<span class="pc bpc" id="L131" title="1 of 2 branches missed.">    if (responseType == String.class) {</span>
+<span class="nc" id="L132">      return responseType.cast(body);</span>
+    }
+<span class="fc" id="L134">    return JsonConverter.getInstance()</span>
+<span class="fc" id="L135">        .toObject(body, responseType, config.isJsonFailOnUnknownProperties());</span>
+  }
+
+  private static HttpClient.HttpMethod toHttpMethod(String method) {
+    try {
+<span class="fc" id="L140">      return HttpClient.HttpMethod.valueOf(method.toUpperCase());</span>
+<span class="nc" id="L141">    } catch (IllegalArgumentException e) {</span>
+<span class="nc" id="L142">      throw new IllegalArgumentException(&quot;Unsupported HTTP method: &quot; + method, e);</span>
+    }
+  }
+
+  /** Strips a trailing slash (except for bare protocol strings like {@code https://}). */
+  private static String normalizeBaseUrl(String baseUrl) {
+<span class="pc bpc" id="L148" title="5 of 6 branches missed.">    if (baseUrl.endsWith(&quot;/&quot;) &amp;&amp; !baseUrl.equals(&quot;https://&quot;) &amp;&amp; !baseUrl.equals(&quot;http://&quot;)) {</span>
+<span class="nc" id="L149">      return baseUrl.substring(0, baseUrl.length() - 1);</span>
+    }
+<span class="fc" id="L151">    return baseUrl;</span>
+  }
+
+  private static ApiClientConfig defaultConfig() {
+<span class="nc" id="L155">    return ApiClientConfig.builder().jsonFailOnUnknownProperties(false).build();</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

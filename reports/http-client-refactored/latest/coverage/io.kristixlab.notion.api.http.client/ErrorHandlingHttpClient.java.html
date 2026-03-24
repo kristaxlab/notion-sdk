@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ErrorHandlingHttpClient.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">notion-sdk</a> &gt; <a href="index.source.html" class="el_package">io.kristixlab.notion.api.http.client</a> &gt; <span class="el_source">ErrorHandlingHttpClient.java</span></div><h1>ErrorHandlingHttpClient.java</h1><pre class="source lang-java linenums">package io.kristixlab.notion.api.http.client;
+
+import java.io.IOException;
+import java.util.Objects;
+
+/**
+ * A decorator that delegates to an underlying {@link HttpClient} and passes every response through
+ * an {@link ErrorResponseHandler} before returning it to the caller.
+ *
+ * &lt;p&gt;If the handler considers the response an error it throws a domain-specific {@link
+ * RuntimeException}; otherwise the response is returned unchanged.
+ *
+ * &lt;p&gt;&lt;b&gt;Composition order matters.&lt;/b&gt; Place this decorator &lt;em&gt;outside&lt;/em&gt; the {@link
+ * InterceptingHttpClient} so that cross-cutting interceptors (logging, rate-limiting) still observe
+ * the raw response before the exception is thrown:
+ *
+ * &lt;pre&gt;{@code
+ * HttpClient raw         = new OkHttp3Client();
+ * HttpClient intercepted = new InterceptingHttpClient(raw, List.of(
+ *     new RateLimitHttpInterceptor(limiter, &quot;Notion&quot;),
+ *     new LoggingHttpInterceptor(&quot;Notion&quot;)
+ * ));
+ * HttpClient safe        = new ErrorHandlingHttpClient(intercepted, notionErrorHandler);
+ *
+ * // Response flow:  OkHttp3  →  interceptors (logging)  →  error handler (throws if 4xx/5xx)
+ * HttpResponse rs = safe.send(request);
+ * }&lt;/pre&gt;
+ *
+ * @see ErrorResponseHandler
+ * @see InterceptingHttpClient
+ */
+public class ErrorHandlingHttpClient implements HttpClient {
+
+  private final HttpClient delegate;
+  private final ErrorResponseHandler errorHandler;
+
+  /**
+   * @param delegate the HTTP client to delegate actual sending to
+   * @param errorHandler strategy that inspects each response and may throw; must not be {@code
+   *     null} — use {@link ErrorResponseHandler#QUIET} for no error mapping
+   */
+<span class="fc" id="L42">  public ErrorHandlingHttpClient(HttpClient delegate, ErrorResponseHandler errorHandler) {</span>
+<span class="fc" id="L43">    this.delegate = Objects.requireNonNull(delegate, &quot;delegate&quot;);</span>
+<span class="fc" id="L44">    this.errorHandler = Objects.requireNonNull(errorHandler, &quot;errorHandler&quot;);</span>
+<span class="fc" id="L45">  }</span>
+
+  @Override
+  public HttpResponse send(HttpRequest request) throws IOException {
+<span class="fc" id="L49">    HttpResponse response = delegate.send(request);</span>
+<span class="fc" id="L50">    errorHandler.handle(request, response);</span>
+<span class="fc" id="L51">    return response;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

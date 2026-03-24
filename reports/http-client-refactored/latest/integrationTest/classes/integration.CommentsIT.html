@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=edge"/>
+<title>Test results - CommentsIT</title>
+<link href="../css/base-style.css" rel="stylesheet" type="text/css"/>
+<link href="../css/style.css" rel="stylesheet" type="text/css"/>
+<script src="../js/report.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="content">
+<h1>CommentsIT</h1>
+<div class="breadcrumbs">
+<a href="../index.html">all</a> &gt; 
+<a href="../packages/integration.html">integration</a> &gt; CommentsIT</div>
+<div id="summary">
+<table>
+<tr>
+<td>
+<div class="summaryGroup">
+<table>
+<tr>
+<td>
+<div class="infoBox" id="tests">
+<div class="counter">2</div>
+<p>tests</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="failures">
+<div class="counter">0</div>
+<p>failures</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="ignored">
+<div class="counter">0</div>
+<p>ignored</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="duration">
+<div class="counter">2.985s</div>
+<p>duration</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</td>
+<td>
+<div class="infoBox success" id="successRate">
+<div class="percent">100%</div>
+<p>successful</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="tab-container">
+<ul class="tabLinks">
+<li>
+<a href="#">Tests</a>
+</li>
+<li>
+<a href="#">Standard output</a>
+</li>
+</ul>
+<div class="tab">
+<h2>Tests</h2>
+<table>
+<thead>
+<tr>
+<th>Test</th>
+<th>Method name</th>
+<th>Duration</th>
+<th>Result</th>
+</tr>
+</thead>
+<tr>
+<td class="success">[IT-9]: Comments - Add comments to a block and retrieve it</td>
+<td class="success">addCommentToBlock()</td>
+<td class="success">1.285s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">[IT-34]: Comments &amp; Pages - Add 3 comments to a page and retrieve them</td>
+<td class="success">addCommentsToPage()</td>
+<td class="success">1.700s</td>
+<td class="success">passed</td>
+</tr>
+</table>
+</div>
+<div class="tab">
+<h2>Standard output</h2>
+<span class="code">
+<pre>2026-03-24 19:50:10.969 [Test worker] DEBUG io.kristixlab.notion.api.http.interceptor.LoggingHttpInterceptor - [Notion] &gt;&gt; POST https://api.notion.com/v1/pages | body: application/json (394 chars)
+2026-03-24 19:50:11.318 [Test worker] DEBUG io.kristixlab.notion.api.http.interceptor.LoggingHttpInterceptor - [Notion] &lt;&lt; POST https://api.notion.com/v1/pages | status: 200 | body: {&quot;object&quot;:&quot;page&quot;,&quot;id&quot;:&quot;32dcd6cf-1406-81a5-ae3a-f2ce791655f4&quot;,&quot;created_time&quot;:&quot;2026-03-24T19:50:00.000Z&quot;,&quot;last_edited_time&quot;:&quot;2026-03-24T19:50:00.000Z&quot;,&quot;created_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;last_edited_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;cover&quot;:null,&quot;icon&quot;:null,&quot;parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;32dcd6cf-1406-8195-b9d7-f836ef6b23d0&quot;},&quot;in_trash&quot;:false,&quot;is_archived&quot;:false,&quot;is_locked&quot;:false,&quot;properties&quot;:{&quot;title&quot;:{&quot;id&quot;:&quot;title&quot;,&quot;type&quot;:&quot;title&quot;,&quot;title&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;Pages&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;Pages&quot;,&quot;href&quot;:null}]}},&quot;url&quot;:&quot;https://www.notion.so/Pages-32dcd6cf140681a5ae3af2ce791655f4&quot;,&quot;public_url&quot;:null,&quot;request_id&quot;:&quot;44f7f021-7105-4544-b450-f2051039ad8f&quot;}
+2026-03-24 19:50:11.323 [Test worker] DEBUG io.kristixlab.notion.api.http.interceptor.LoggingHttpInterceptor - [Notion] &gt;&gt; POST https://api.notion.com/v1/pages | body: application/json (500 chars)
+2026-03-24 19:50:11.693 [Test worker] DEBUG io.kristixlab.notion.api.http.interceptor.LoggingHttpInterceptor - [Notion] &lt;&lt; POST https://api.notion.com/v1/pages | status: 200 | body: {&quot;object&quot;:&quot;page&quot;,&quot;id&quot;:&quot;32dcd6cf-1406-81ed-95f0-d72dce47c26f&quot;,&quot;created_time&quot;:&quot;2026-03-24T19:50:00.000Z&quot;,&quot;last_edited_time&quot;:&quot;2026-03-24T19:50:00.000Z&quot;,&quot;created_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;last_edited_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;cover&quot;:null,&quot;icon&quot;:null,&quot;parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;32dcd6cf-1406-81a5-ae3a-f2ce791655f4&quot;},&quot;in_trash&quot;:false,&quot;is_archived&quot;:false,&quot;is_locked&quot;:false,&quot;properties&quot;:{&quot;title&quot;:{&quot;id&quot;:&quot;title&quot;,&quot;type&quot;:&quot;title&quot;,&quot;title&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;[IT-9]: Comments - Add comments to a block and retrieve it&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;[IT-9]: Comments - Add comments to a block and retrieve it&quot;,&quot;href&quot;:null}]}},&quot;url&quot;:&quot;https://www.notion.so/IT-9-Comments-Add-comments-to-a-block-and-retrieve-it-32dcd6cf140681ed95f0d72dce47c26f&quot;,&quot;public_url&quot;:null,&quot;request_id&quot;:&quot;35d0cfa0-def8-42b6-a033-a4a53c3679ac&quot;}
+2026-03-24 19:50:11.695 [Test worker] DEBUG io.kristixlab.notion.api.http.interceptor.LoggingHttpInterceptor - [Notion] &gt;&gt; PATCH https://api.notion.com/v1/blocks/32dcd6cf-1406-81ed-95f0-d72dce47c26f/children | body: application/json (312 chars)
+2026-03-24 19:50:12.185 [Test worker] DEBUG io.kristixlab.notion.api.http.interceptor.LoggingHttpInterceptor - [Notion] &lt;&lt; PATCH https://api.notion.com/v1/blocks/32dcd6cf-1406-81ed-95f0-d72dce47c26f/children | status: 200 | body: {&quot;object&quot;:&quot;list&quot;,&quot;results&quot;:[{&quot;object&quot;:&quot;block&quot;,&quot;id&quot;:&quot;32dcd6cf-1406-8141-bf80-c5f88fbe755b&quot;,&quot;parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;32dcd6cf-1406-81ed-95f0-d72dce47c26f&quot;},&quot;created_time&quot;:&quot;2026-03-24T19:50:00.000Z&quot;,&quot;last_edited_time&quot;:&quot;2026-03-24T19:50:00.000Z&quot;,&quot;created_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;last_edited_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;has_children&quot;:false,&quot;in_trash&quot;:false,&quot;type&quot;:&quot;paragraph&quot;,&quot;paragraph&quot;:{&quot;rich_text&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;Text to comment on&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;Text to comment on&quot;,&quot;href&quot;:null}],&quot;color&quot;:&quot;default&quot;}}],&quot;next_cursor&quot;:null,&quot;has_more&quot;:false,&quot;type&quot;:&quot;block&quot;,&quot;block&quot;:{},&quot;request_id&quot;:&quot;c7f2786b-f301-41a0-8645-df5c817a3197&quot;}
+2026-03-24 19:50:12.191 [Test worker] DEBUG io.kristixlab.notion.api.http.interceptor.LoggingHttpInterceptor - [Notion] &gt;&gt; POST https://api.notion.com/v1/comments | body: application/json (293 chars)
+2026-03-24 19:50:12.435 [Test worker] DEBUG io.kristixlab.notion.api.http.interceptor.LoggingHttpInterceptor - [Notion] &lt;&lt; POST https://api.notion.com/v1/comments | status: 200 | body: {&quot;object&quot;:&quot;comment&quot;,&quot;id&quot;:&quot;32dcd6cf-1406-816b-8efd-001d5b7de07c&quot;,&quot;parent&quot;:{&quot;type&quot;:&quot;block_id&quot;,&quot;block_id&quot;:&quot;32dcd6cf-1406-8141-bf80-c5f88fbe755b&quot;},&quot;discussion_id&quot;:&quot;32dcd6cf-1406-81d0-bee0-001c8391f730&quot;,&quot;created_time&quot;:&quot;2026-03-24T19:50:00.000Z&quot;,&quot;last_edited_time&quot;:&quot;2026-03-24T19:50:00.000Z&quot;,&quot;created_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;rich_text&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;Comment on the whole block&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;Comment on the whole block&quot;,&quot;href&quot;:null}],&quot;display_name&quot;:{&quot;type&quot;:&quot;integration&quot;,&quot;resolved_name&quot;:&quot;SDK Project - Internal Bot&quot;},&quot;request_id&quot;:&quot;f384c3ef-6743-404a-9dd8-272e3766ea25&quot;}
+2026-03-24 19:50:12.440 [Test worker] DEBUG io.kristixlab.notion.api.http.interceptor.LoggingHttpInterceptor - [Notion] &gt;&gt; GET https://api.notion.com/v1/comments/32dcd6cf-1406-816b-8efd-001d5b7de07c | body: none
+2026-03-24 19:50:12.604 [Test worker] DEBUG io.kristixlab.notion.api.http.interceptor.LoggingHttpInterceptor - [Notion] &lt;&lt; GET https://api.notion.com/v1/comments/32dcd6cf-1406-816b-8efd-001d5b7de07c | status: 200 | body: {&quot;object&quot;:&quot;comment&quot;,&quot;id&quot;:&quot;32dcd6cf-1406-816b-8efd-001d5b7de07c&quot;,&quot;parent&quot;:{&quot;type&quot;:&quot;block_id&quot;,&quot;block_id&quot;:&quot;32dcd6cf-1406-8141-bf80-c5f88fbe755b&quot;},&quot;discussion_id&quot;:&quot;32dcd6cf-1406-81d0-bee0-001c8391f730&quot;,&quot;created_time&quot;:&quot;2026-03-24T19:50:00.000Z&quot;,&quot;last_edited_time&quot;:&quot;2026-03-24T19:50:00.000Z&quot;,&quot;created_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;rich_text&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;Comment on the whole block&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;Comment on the whole block&quot;,&quot;href&quot;:null}],&quot;display_name&quot;:{&quot;type&quot;:&quot;integration&quot;,&quot;resolved_name&quot;:&quot;SDK Project - Internal Bot&quot;},&quot;request_id&quot;:&quot;841381b4-6c38-4ee0-bf96-aea6788c09b6&quot;}
+2026-03-24 19:50:12.610 [Test worker] DEBUG io.kristixlab.notion.api.http.interceptor.LoggingHttpInterceptor - [Notion] &gt;&gt; POST https://api.notion.com/v1/pages | body: application/json (524 chars)
+2026-03-24 19:50:12.947 [Test worker] DEBUG io.kristixlab.notion.api.http.interceptor.LoggingHttpInterceptor - [Notion] &lt;&lt; POST https://api.notion.com/v1/pages | status: 200 | body: {&quot;object&quot;:&quot;page&quot;,&quot;id&quot;:&quot;32dcd6cf-1406-81cb-bb00-ed5333235dfe&quot;,&quot;created_time&quot;:&quot;2026-03-24T19:50:00.000Z&quot;,&quot;last_edited_time&quot;:&quot;2026-03-24T19:50:00.000Z&quot;,&quot;created_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;last_edited_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;cover&quot;:null,&quot;icon&quot;:null,&quot;parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;32dcd6cf-1406-81a5-ae3a-f2ce791655f4&quot;},&quot;in_trash&quot;:false,&quot;is_archived&quot;:false,&quot;is_locked&quot;:false,&quot;properties&quot;:{&quot;title&quot;:{&quot;id&quot;:&quot;title&quot;,&quot;type&quot;:&quot;title&quot;,&quot;title&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;[IT-34]: Comments &amp; Pages - Add 3 comments to a page and retrieve them&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;[IT-34]: Comments &amp; Pages - Add 3 comments to a page and retrieve them&quot;,&quot;href&quot;:null}]}},&quot;url&quot;:&quot;https://www.notion.so/IT-34-Comments-Pages-Add-3-comments-to-a-page-and-retrieve-them-32dcd6cf140681cbbb00ed5333235dfe&quot;,&quot;public_url&quot;:null,&quot;request_id&quot;:&quot;557ca201-...[truncated]
+2026-03-24 19:50:12.950 [Test worker] DEBUG io.kristixlab.notion.api.http.interceptor.LoggingHttpInterceptor - [Notion] &gt;&gt; POST https://api.notion.com/v1/comments | body: application/json (289 chars)
+2026-03-24 19:50:13.335 [Test worker] DEBUG io.kristixlab.notion.api.http.interceptor.LoggingHttpInterceptor - [Notion] &lt;&lt; POST https://api.notion.com/v1/comments | status: 200 | body: {&quot;object&quot;:&quot;comment&quot;,&quot;id&quot;:&quot;32dcd6cf-1406-81e5-af11-001d23f1289b&quot;,&quot;parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;32dcd6cf-1406-81cb-bb00-ed5333235dfe&quot;},&quot;discussion_id&quot;:&quot;32dcd6cf-1406-81eb-a458-001cd620ff63&quot;,&quot;created_time&quot;:&quot;2026-03-24T19:50:00.000Z&quot;,&quot;last_edited_time&quot;:&quot;2026-03-24T19:50:00.000Z&quot;,&quot;created_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;rich_text&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;First comment on the page&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;First comment on the page&quot;,&quot;href&quot;:null}],&quot;display_name&quot;:{&quot;type&quot;:&quot;integration&quot;,&quot;resolved_name&quot;:&quot;SDK Project - Internal Bot&quot;},&quot;request_id&quot;:&quot;ed79fd57-915d-4147-bf86-a258fc283105&quot;}
+2026-03-24 19:50:13.339 [Test worker] DEBUG io.kristixlab.notion.api.http.interceptor.LoggingHttpInterceptor - [Notion] &gt;&gt; POST https://api.notion.com/v1/comments | body: application/json (394 chars)
+2026-03-24 19:50:13.799 [Test worker] DEBUG io.kristixlab.notion.api.http.interceptor.LoggingHttpInterceptor - [Notion] &lt;&lt; POST https://api.notion.com/v1/comments | status: 200 | body: {&quot;object&quot;:&quot;comment&quot;,&quot;id&quot;:&quot;32dcd6cf-1406-810c-97f6-001de117397e&quot;,&quot;parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;32dcd6cf-1406-81cb-bb00-ed5333235dfe&quot;},&quot;discussion_id&quot;:&quot;32dcd6cf-1406-81eb-a458-001cd620ff63&quot;,&quot;created_time&quot;:&quot;2026-03-24T19:50:00.000Z&quot;,&quot;last_edited_time&quot;:&quot;2026-03-24T19:50:00.000Z&quot;,&quot;created_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;rich_text&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;Comment with image&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;Comment with image&quot;,&quot;href&quot;:null}],&quot;display_name&quot;:{&quot;type&quot;:&quot;integration&quot;,&quot;resolved_name&quot;:&quot;SDK Project - Internal Bot&quot;},&quot;attachments&quot;:[{&quot;category&quot;:&quot;image&quot;,&quot;file&quot;:{&quot;url&quot;:&quot;https://prod-files-secure.s3.us-west-2.amazonaws.com/74ecd6cf-1406-8114-a47c-000305deb73b/d99f0c70-a190-4839-82e7-280e9a1809ea/int-14-image.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&amp;X-Amz-Credential=ASIAZI2LB46653GCZSUP%2F20260324%2Fus-west-2%2Fs3%2Faws4_r...[truncated]
+2026-03-24 19:50:13.803 [Test worker] DEBUG io.kristixlab.notion.api.http.interceptor.LoggingHttpInterceptor - [Notion] &gt;&gt; POST https://api.notion.com/v1/comments | body: application/json (357 chars)
+2026-03-24 19:50:14.080 [Test worker] DEBUG io.kristixlab.notion.api.http.interceptor.LoggingHttpInterceptor - [Notion] &lt;&lt; POST https://api.notion.com/v1/comments | status: 200 | body: {&quot;object&quot;:&quot;comment&quot;,&quot;id&quot;:&quot;32dcd6cf-1406-8142-92af-001df8b901ab&quot;,&quot;parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;32dcd6cf-1406-81cb-bb00-ed5333235dfe&quot;},&quot;discussion_id&quot;:&quot;32dcd6cf-1406-81eb-a458-001cd620ff63&quot;,&quot;created_time&quot;:&quot;2026-03-24T19:50:00.000Z&quot;,&quot;last_edited_time&quot;:&quot;2026-03-24T19:50:00.000Z&quot;,&quot;created_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;rich_text&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;Reply to the attachment comment&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;Reply to the attachment comment&quot;,&quot;href&quot;:null}],&quot;display_name&quot;:{&quot;type&quot;:&quot;custom&quot;,&quot;resolved_name&quot;:&quot;Hejka&quot;},&quot;request_id&quot;:&quot;5236b78a-e26b-4794-990b-675595613a08&quot;}
+2026-03-24 19:50:14.082 [Test worker] DEBUG io.kristixlab.notion.api.http.interceptor.LoggingHttpInterceptor - [Notion] &gt;&gt; GET https://api.notion.com/v1/comments?block_id=32dcd6cf-1406-81cb-bb00-ed5333235dfe | body: none
+2026-03-24 19:50:14.304 [Test worker] DEBUG io.kristixlab.notion.api.http.interceptor.LoggingHttpInterceptor - [Notion] &lt;&lt; GET https://api.notion.com/v1/comments?block_id=32dcd6cf-1406-81cb-bb00-ed5333235dfe | status: 200 | body: {&quot;object&quot;:&quot;list&quot;,&quot;results&quot;:[{&quot;object&quot;:&quot;comment&quot;,&quot;id&quot;:&quot;32dcd6cf-1406-81e5-af11-001d23f1289b&quot;,&quot;parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;32dcd6cf-1406-81cb-bb00-ed5333235dfe&quot;},&quot;discussion_id&quot;:&quot;32dcd6cf-1406-81eb-a458-001cd620ff63&quot;,&quot;created_time&quot;:&quot;2026-03-24T19:50:00.000Z&quot;,&quot;last_edited_time&quot;:&quot;2026-03-24T19:50:00.000Z&quot;,&quot;created_by&quot;:{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;},&quot;rich_text&quot;:[{&quot;type&quot;:&quot;text&quot;,&quot;text&quot;:{&quot;content&quot;:&quot;First comment on the page&quot;,&quot;link&quot;:null},&quot;annotations&quot;:{&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;strikethrough&quot;:false,&quot;underline&quot;:false,&quot;code&quot;:false,&quot;color&quot;:&quot;default&quot;},&quot;plain_text&quot;:&quot;First comment on the page&quot;,&quot;href&quot;:null}],&quot;display_name&quot;:{&quot;type&quot;:&quot;integration&quot;,&quot;resolved_name&quot;:&quot;SDK Project - Internal Bot&quot;}},{&quot;object&quot;:&quot;comment&quot;,&quot;id&quot;:&quot;32dcd6cf-1406-810c-97f6-001de117397e&quot;,&quot;parent&quot;:{&quot;type&quot;:&quot;page_id&quot;,&quot;page_id&quot;:&quot;32dcd6cf-1406-81cb-bb00-ed5333235dfe&quot;},&quot;discussion_id&quot;:&quot;32dcd6cf-1406-81eb-a458-001cd620ff63&quot;,&quot;created_time&quot;:&quot;2026-03-24T19:50:00.000Z&quot;,&quot;last_edited_time&quot;:&quot;2026-03-24T19:50:00.000Z&quot;,&quot;created_by&quot;...[truncated]
+</pre>
+</span>
+</div>
+</div>
+<div id="footer">
+<p>
+<div>
+<label class="hidden" id="label-for-line-wrapping-toggle" for="line-wrapping-toggle">Wrap lines
+<input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
+</label>
+</div>Generated by 
+<a href="https://www.gradle.org">Gradle 8.14.4</a> at Mar 24, 2026, 7:51:21 PM</p>
+</div>
+</div>
+</body>
+</html>

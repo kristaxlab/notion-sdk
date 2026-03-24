@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CreateDataSourceParams.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">notion-sdk</a> &gt; <a href="index.source.html" class="el_package">io.kristixlab.notion.api.model.datasources</a> &gt; <span class="el_source">CreateDataSourceParams.java</span></div><h1>CreateDataSourceParams.java</h1><pre class="source lang-java linenums">package io.kristixlab.notion.api.model.datasources;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import io.kristixlab.notion.api.model.common.*;
+import io.kristixlab.notion.api.model.datasources.properties.DataSourcePropertySchemaParams;
+import io.kristixlab.notion.api.model.datasources.properties.helper.DataSourceSchemaBuilder;
+import io.kristixlab.notion.api.model.datasources.properties.helper.PropertiesStep;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
+import lombok.Data;
+
+/**
+ * Represents a Notion data source object. Contains the data source schema, properties, and
+ * metadata.
+ */
+@Data
+public class CreateDataSourceParams {
+
+  @JsonProperty(&quot;parent&quot;)
+  private Parent parent;
+
+  @JsonProperty(&quot;title&quot;)
+  private List&lt;RichText&gt; title;
+
+  @JsonProperty(&quot;properties&quot;)
+  private Map&lt;String, DataSourcePropertySchemaParams&gt; properties;
+
+  @JsonProperty(&quot;icon&quot;)
+  private IconParams icon;
+
+  public static Builder builder() {
+<span class="nc" id="L34">    return new Builder();</span>
+  }
+
+<span class="nc" id="L37">  public static class Builder {</span>
+    private Parent parent;
+    private List&lt;RichText&gt; title;
+    private Map&lt;String, DataSourcePropertySchemaParams&gt; properties;
+    private IconParams icon;
+
+    public Builder inDatabase(String parendDatabaseId) {
+<span class="nc" id="L44">      return parent(Parent.databaseParent(parendDatabaseId));</span>
+    }
+
+    public Builder parent(Parent parent) {
+<span class="nc" id="L48">      this.parent = parent;</span>
+<span class="nc" id="L49">      return this;</span>
+    }
+
+    public Builder title(String title) {
+<span class="nc" id="L53">      return title(RichText.builder().fromText(title).buildAsList());</span>
+    }
+
+    public Builder title(List&lt;RichText&gt; title) {
+<span class="nc" id="L57">      this.title = title;</span>
+<span class="nc" id="L58">      return this;</span>
+    }
+
+    /**
+     * Sets the data source property schema via a pre-built map.
+     *
+     * &lt;p&gt;Prefer {@link #propertiesBuilder()} or {@link #properties(Consumer)} to avoid the explicit
+     * {@code DataSourceSchemaBuilder.builder()} / {@code .build()} wrapping. /** Sets the property
+     * schema via a pre-built map.
+     */
+    public Builder properties(Map&lt;String, DataSourcePropertySchemaParams&gt; properties) {
+<span class="nc" id="L69">      this.properties = properties;</span>
+<span class="nc" id="L70">      return this;</span>
+    }
+
+    /**
+     * Sets a single property schema entry. Use as an escape hatch when only one property needs to
+     * be added or updated without configuring the full schema map.
+     *
+     * @param name the property name or ID
+     * @param property the schema params, or {@code null} to delete the property
+     * @return this builder
+     */
+    public Builder property(String name, DataSourcePropertySchemaParams property) {
+<span class="nc bnc" id="L82" title="All 2 branches missed.">      if (this.properties == null) {</span>
+<span class="nc" id="L83">        this.properties = new java.util.LinkedHashMap&lt;&gt;();</span>
+      }
+<span class="nc" id="L85">      this.properties.put(name, property);</span>
+<span class="nc" id="L86">      return this;</span>
+    }
+
+    /**
+     * Opens an embedded schema step-builder for configuring the data source properties.
+     *
+     * &lt;p&gt;Chain property methods on the returned {@link PropertiesStep}, then call {@link
+     * PropertiesStep#buildProperties()} to seal the schema and return to this builder.
+     *
+     * @return a {@link PropertiesStep} whose {@code buildProperties()} returns this builder
+     */
+    public PropertiesStep&lt;Builder&gt; propertiesBuilder() {
+<span class="nc" id="L98">      return new PropertiesStep&lt;&gt;(this, this::properties);</span>
+    }
+
+    /**
+     * Sets the data source property schema via a lambda that receives a fresh {@link
+     * DataSourceSchemaBuilder}.
+     *
+     * &lt;pre&gt;{@code
+     * CreateDataSourceParams.builder()
+     *     .parentDatabase(dbId)
+     *     .title(&quot;Catalog&quot;)
+     *     .properties(s -&gt; s
+     *         .title(&quot;Name&quot;)
+     *         .number(&quot;Price&quot;, NumberFormatType.EURO))
+     *     .build();
+     * }&lt;/pre&gt;
+     *
+     * @param configurator a lambda that chains property methods on the provided schema builder
+     * @return this builder
+     */
+    public Builder properties(Consumer&lt;DataSourceSchemaBuilder&gt; configurator) {
+<span class="nc" id="L119">      DataSourceSchemaBuilder schema = DataSourceSchemaBuilder.builder();</span>
+<span class="nc" id="L120">      configurator.accept(schema);</span>
+<span class="nc" id="L121">      return properties(schema.build());</span>
+    }
+
+    /**
+     * Sets the data source property schema using a custom producer.
+     *
+     * &lt;p&gt;The supplier is called exactly once and its result is forwarded to {@link
+     * #properties(Map)}. Use this overload to inject a dedicated schema factory or any other
+     * externally managed producer:
+     *
+     * &lt;pre&gt;{@code
+     * CreateDataSourceParams.builder()
+     *     .parentDatabase(dbId)
+     *     .title(&quot;Catalog&quot;)
+     *     .properties(catalogSchemaFactory::defaultSchema)
+     *     .build();
+     * }&lt;/pre&gt;
+     *
+     * @param producer a supplier that returns the property schema map
+     * @return this builder
+     */
+    public Builder properties(Supplier&lt;Map&lt;String, DataSourcePropertySchemaParams&gt;&gt; producer) {
+<span class="nc" id="L143">      return properties(producer.get());</span>
+    }
+
+    public Builder icon(IconParams icon) {
+<span class="nc" id="L147">      this.icon = icon;</span>
+<span class="nc" id="L148">      return this;</span>
+    }
+
+    public CreateDataSourceParams build() {
+<span class="nc" id="L152">      CreateDataSourceParams params = new CreateDataSourceParams();</span>
+<span class="nc" id="L153">      params.setParent(parent);</span>
+<span class="nc" id="L154">      params.setTitle(title);</span>
+<span class="nc" id="L155">      params.setProperties(properties);</span>
+<span class="nc" id="L156">      params.setIcon(icon);</span>
+<span class="nc" id="L157">      return params;</span>
+    }
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

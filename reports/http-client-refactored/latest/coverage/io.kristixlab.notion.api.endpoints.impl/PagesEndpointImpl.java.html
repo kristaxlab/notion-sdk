@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PagesEndpointImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">notion-sdk</a> &gt; <a href="index.source.html" class="el_package">io.kristixlab.notion.api.endpoints.impl</a> &gt; <span class="el_source">PagesEndpointImpl.java</span></div><h1>PagesEndpointImpl.java</h1><pre class="source lang-java linenums">package io.kristixlab.notion.api.endpoints.impl;
+
+import io.kristixlab.notion.api.endpoints.PagesEndpoint;
+import io.kristixlab.notion.api.http.client.ApiClient;
+import io.kristixlab.notion.api.http.request.ApiPath;
+import io.kristixlab.notion.api.model.common.Parent;
+import io.kristixlab.notion.api.model.pages.*;
+import io.kristixlab.notion.api.model.pages.properties.PageProperty;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
+
+/**
+ * API for interacting with Notion Pages endpoints. Provides methods to retrieve, create, and update
+ * pages.
+ */
+public class PagesEndpointImpl implements PagesEndpoint {
+
+  private static final String PAGE_ID = &quot;page_id&quot;;
+  private static final String PROPERTY_ID = &quot;property_id&quot;;
+
+  private final ApiClient client;
+
+<span class="fc" id="L23">  public PagesEndpointImpl(ApiClient client) {</span>
+<span class="fc" id="L24">    this.client = client;</span>
+<span class="fc" id="L25">  }</span>
+
+  /**
+   * Create a new page.
+   *
+   * @param request The request containing page data
+   * @return The created page
+   */
+  public Page create(CreatePageParams request) {
+<span class="fc" id="L34">    validateRequest(request);</span>
+<span class="fc" id="L35">    ApiPath urlInfo = ApiPath.from(&quot;/pages&quot;);</span>
+<span class="fc" id="L36">    return client.call(&quot;POST&quot;, urlInfo, request, Page.class);</span>
+  }
+
+  /**
+   * Retrieve a page by its ID.
+   *
+   * @param pageId The ID of the page to retrieve
+   * @return The page object
+   */
+  public Page retrieve(String pageId) {
+<span class="fc" id="L46">    validatePageId(pageId);</span>
+<span class="fc" id="L47">    ApiPath urlInfo = ApiPath.builder(&quot;/pages/{page_id}&quot;).pathParam(PAGE_ID, pageId).build();</span>
+<span class="fc" id="L48">    return client.call(&quot;GET&quot;, urlInfo, Page.class);</span>
+  }
+
+  public PageAsMarkdown retrieveAsMarkdown(String pageId) {
+<span class="fc" id="L52">    return retrieveAsMarkdown(pageId, false);</span>
+  }
+
+  public PageAsMarkdown retrieveAsMarkdown(String pageId, boolean includeTranscript) {
+<span class="fc" id="L56">    validatePageId(pageId);</span>
+<span class="fc" id="L57">    ApiPath urlInfo =</span>
+<span class="fc" id="L58">        ApiPath.builder(&quot;/pages/{page_id}/markdown&quot;)</span>
+<span class="fc" id="L59">            .pathParam(PAGE_ID, pageId)</span>
+<span class="fc" id="L60">            .queryParam(&quot;include_transcript&quot;, includeTranscript)</span>
+<span class="fc" id="L61">            .build();</span>
+<span class="fc" id="L62">    return client.call(&quot;GET&quot;, urlInfo, PageAsMarkdown.class);</span>
+  }
+
+  public PageAsMarkdown updateAsMarkdown(String pageId, UpdatePageAsMarkdownParams request) {
+<span class="fc" id="L66">    validatePageId(pageId);</span>
+<span class="fc" id="L67">    validateRequest(request);</span>
+<span class="fc" id="L68">    ApiPath urlInfo =</span>
+<span class="fc" id="L69">        ApiPath.builder(&quot;/pages/{page_id}/markdown&quot;).pathParam(PAGE_ID, pageId).build();</span>
+<span class="fc" id="L70">    return client.call(&quot;PATCH&quot;, urlInfo, request, PageAsMarkdown.class);</span>
+  }
+
+  /**
+   * Retrieve a specific page property.
+   *
+   * @param pageId The ID of the page
+   * @param propertyId The ID of the property to retrieve
+   * @return The property object
+   */
+  public PageProperty retrieveProperty(String pageId, String propertyId) {
+<span class="fc" id="L81">    return retrieveProperty(pageId, propertyId, null, null);</span>
+  }
+
+  /**
+   * Retrieve a specific page property with pagination.
+   *
+   * @param pageId The ID of the page
+   * @param propertyId The ID of the property to retrieve
+   * @param startCursor Cursor for pagination (optional)
+   * @param pageSize Number of items to return (optional, max 100)
+   * @return The property object
+   */
+  public PageProperty retrieveProperty(
+      String pageId, String propertyId, String startCursor, Integer pageSize) {
+<span class="fc" id="L95">    validatePageId(pageId);</span>
+<span class="fc" id="L96">    validatePropertyId(propertyId);</span>
+<span class="fc" id="L97">    ApiPath.Builder urlInfo =</span>
+<span class="fc" id="L98">        ApiPath.builder(&quot;/pages/{page_id}/properties/{property_id}&quot;, startCursor, pageSize)</span>
+<span class="fc" id="L99">            .pathParam(PAGE_ID, pageId)</span>
+<span class="fc" id="L100">            .pathParam(PROPERTY_ID, URLDecoder.decode(propertyId, StandardCharsets.UTF_8));</span>
+<span class="fc" id="L101">    return client.call(&quot;GET&quot;, urlInfo.build(), PageProperty.class);</span>
+  }
+
+  /**
+   * Update page properties.
+   *
+   * @param pageId The ID of the page to update
+   * @param request The update request
+   * @return The updated page
+   */
+  public Page update(String pageId, UpdatePageParams request) {
+<span class="fc" id="L112">    validatePageId(pageId);</span>
+<span class="fc" id="L113">    validateRequest(request);</span>
+<span class="fc" id="L114">    ApiPath urlInfo = ApiPath.builder(&quot;/pages/{page_id}&quot;).pathParam(PAGE_ID, pageId).build();</span>
+<span class="fc" id="L115">    return client.call(&quot;PATCH&quot;, urlInfo, request, Page.class);</span>
+  }
+
+  public Page move(String pageId, Parent newParent) {
+<span class="fc" id="L119">    validatePageId(pageId);</span>
+<span class="fc" id="L120">    validateRequest(newParent);</span>
+
+<span class="fc" id="L122">    MovePageParams request = new MovePageParams();</span>
+<span class="fc" id="L123">    request.setParent(newParent);</span>
+<span class="fc" id="L124">    ApiPath urlInfo = ApiPath.builder(&quot;/pages/{page_id}/move&quot;).pathParam(PAGE_ID, pageId).build();</span>
+
+<span class="fc" id="L126">    return client.call(&quot;POST&quot;, urlInfo, request, Page.class);</span>
+  }
+
+  /**
+   * Archive a page.
+   *
+   * @param pageId The ID of the page to archive
+   * @return The archived page
+   */
+  public Page delete(String pageId) {
+<span class="fc" id="L136">    UpdatePageParams updatePageParams = new UpdatePageParams();</span>
+<span class="fc" id="L137">    updatePageParams.setInTrash(true);</span>
+<span class="fc" id="L138">    return update(pageId, updatePageParams);</span>
+  }
+
+  /**
+   * Unarchive a page.
+   *
+   * @param pageId The ID of the page to unarchive
+   * @return The unarchived page
+   */
+  public Page restore(String pageId) {
+<span class="fc" id="L148">    UpdatePageParams updatePageParams = new UpdatePageParams();</span>
+<span class="fc" id="L149">    updatePageParams.setInTrash(false);</span>
+<span class="fc" id="L150">    return update(pageId, updatePageParams);</span>
+  }
+
+  /**
+   * Validates the page ID.
+   *
+   * @param pageId The page ID to validate
+   * @throws IllegalArgumentException if the page ID is null or empty
+   */
+  private void validatePageId(String pageId) {
+<span class="fc bfc" id="L160" title="All 4 branches covered.">    if (pageId == null || pageId.trim().isEmpty()) {</span>
+<span class="fc" id="L161">      throw new IllegalArgumentException(&quot;Page ID cannot be null or empty&quot;);</span>
+    }
+<span class="fc" id="L163">  }</span>
+
+  /**
+   * Validates the request object.
+   *
+   * @param request The request object to validate
+   * @throws IllegalArgumentException if the request is null
+   */
+  private void validateRequest(Object request) {
+<span class="fc bfc" id="L172" title="All 2 branches covered.">    if (request == null) {</span>
+<span class="fc" id="L173">      throw new IllegalArgumentException(&quot;Request cannot be null&quot;);</span>
+    }
+<span class="fc" id="L175">  }</span>
+
+  /**
+   * Validates the property ID.
+   *
+   * @param propertyId The property ID to validate
+   * @throws IllegalArgumentException if the property ID is null or empty
+   */
+  private void validatePropertyId(String propertyId) {
+<span class="fc bfc" id="L184" title="All 4 branches covered.">    if (propertyId == null || propertyId.trim().isEmpty()) {</span>
+<span class="fc" id="L185">      throw new IllegalArgumentException(&quot;Property ID cannot be null or empty&quot;);</span>
+    }
+<span class="fc" id="L187">  }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

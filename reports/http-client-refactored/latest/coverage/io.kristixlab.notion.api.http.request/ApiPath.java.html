@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ApiPath.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">notion-sdk</a> &gt; <a href="index.source.html" class="el_package">io.kristixlab.notion.api.http.request</a> &gt; <span class="el_source">ApiPath.java</span></div><h1>ApiPath.java</h1><pre class="source lang-java linenums">package io.kristixlab.notion.api.http.request;
+
+import java.util.*;
+import lombok.Data;
+
+@Data
+public class ApiPath {
+
+  private String url;
+  private Map&lt;String, List&lt;String&gt;&gt; queryParams = new HashMap&lt;&gt;();
+  private Map&lt;String, String&gt; pathParams = new HashMap&lt;&gt;();
+
+  public static Builder builder() {
+<span class="nc" id="L14">    return new Builder();</span>
+  }
+
+  public static ApiPath.Builder builder(String url) {
+<span class="fc" id="L18">    return new ApiPath.Builder().url(url);</span>
+  }
+
+  public static ApiPath.Builder builder(String url, String startCursor, Integer pageSize) {
+<span class="fc" id="L22">    ApiPath.Builder urlInfo = new ApiPath.Builder().url(url);</span>
+<span class="fc bfc" id="L23" title="All 2 branches covered.">    if (startCursor != null) {</span>
+<span class="fc" id="L24">      urlInfo.queryParam(&quot;start_cursor&quot;, startCursor);</span>
+    }
+<span class="fc bfc" id="L26" title="All 2 branches covered.">    if (pageSize != null) {</span>
+<span class="fc" id="L27">      urlInfo.queryParam(&quot;page_size&quot;, pageSize);</span>
+    }
+<span class="fc" id="L29">    return urlInfo;</span>
+  }
+
+  public static ApiPath from(String url) {
+<span class="fc" id="L33">    return new ApiPath.Builder().url(url).build();</span>
+  }
+
+<span class="fc" id="L36">  public static class Builder {</span>
+
+<span class="fc" id="L38">    private final ApiPath apiPath = new ApiPath();</span>
+
+    public ApiPath build() {
+<span class="fc" id="L41">      return apiPath;</span>
+    }
+
+    public Builder url(String url) {
+<span class="fc" id="L45">      apiPath.setUrl(url);</span>
+<span class="fc" id="L46">      return this;</span>
+    }
+
+    public Builder pathParam(String key, String value) {
+<span class="fc" id="L50">      apiPath.getPathParams().put(key, value);</span>
+<span class="fc" id="L51">      return this;</span>
+    }
+
+    public Builder pathParams(Map&lt;String, String&gt; pathParams) {
+<span class="fc" id="L55">      apiPath.getPathParams().putAll(pathParams);</span>
+<span class="fc" id="L56">      return this;</span>
+    }
+
+    public Builder queryParam(String key, List&lt;String&gt; values) {
+<span class="fc bfc" id="L60" title="All 2 branches covered.">      if (apiPath.getQueryParams().containsKey(key)) {</span>
+<span class="fc" id="L61">        apiPath.getQueryParams().get(key).addAll(values);</span>
+      } else {
+<span class="fc" id="L63">        apiPath.getQueryParams().put(key, new ArrayList&lt;&gt;(values));</span>
+      }
+<span class="fc" id="L65">      return this;</span>
+    }
+
+    public Builder queryParam(String key, String value) {
+<span class="fc" id="L69">      queryParam(key, toList(value));</span>
+<span class="fc" id="L70">      return this;</span>
+    }
+
+    public Builder queryParam(String key, Object value) {
+<span class="fc" id="L74">      queryParam(key, toList(String.valueOf(value)));</span>
+<span class="fc" id="L75">      return this;</span>
+    }
+
+    public Builder queryParams(Map&lt;String, String&gt; queryParams) {
+<span class="fc" id="L79">      queryParams.forEach((key, value) -&gt; apiPath.getQueryParams().put(key, List.of(value)));</span>
+<span class="fc" id="L80">      return this;</span>
+    }
+
+    public Builder queryParamsArrays(Map&lt;String, String[]&gt; queryParams) {
+<span class="fc" id="L84">      queryParams.forEach((key, values) -&gt; apiPath.getQueryParams().put(key, toList(values)));</span>
+<span class="fc" id="L85">      return this;</span>
+    }
+
+    public Builder queryParamsLists(Map&lt;String, List&lt;String&gt;&gt; queryParams) {
+<span class="fc" id="L89">      apiPath.getQueryParams().putAll(queryParams);</span>
+<span class="fc" id="L90">      return this;</span>
+    }
+
+    private List&lt;String&gt; toList(String value) {
+<span class="fc" id="L94">      List&lt;String&gt; values = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L95">      values.add(value);</span>
+<span class="fc" id="L96">      return values;</span>
+    }
+
+    private List&lt;String&gt; toList(String[] array) {
+<span class="fc" id="L100">      List&lt;String&gt; values = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L101">      Collections.addAll(values, array);</span>
+<span class="fc" id="L102">      return values;</span>
+    }
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

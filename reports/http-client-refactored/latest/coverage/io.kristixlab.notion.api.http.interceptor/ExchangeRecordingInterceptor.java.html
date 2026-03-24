@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ExchangeRecordingInterceptor.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">notion-sdk</a> &gt; <a href="index.source.html" class="el_package">io.kristixlab.notion.api.http.interceptor</a> &gt; <span class="el_source">ExchangeRecordingInterceptor.java</span></div><h1>ExchangeRecordingInterceptor.java</h1><pre class="source lang-java linenums">package io.kristixlab.notion.api.http.interceptor;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import io.kristixlab.notion.api.http.client.HttpClient.Body;
+import io.kristixlab.notion.api.http.client.HttpClient.BytesBody;
+import io.kristixlab.notion.api.http.client.HttpClient.EmptyBody;
+import io.kristixlab.notion.api.http.client.HttpClient.FileBody;
+import io.kristixlab.notion.api.http.client.HttpClient.HttpRequest;
+import io.kristixlab.notion.api.http.client.HttpClient.HttpResponse;
+import io.kristixlab.notion.api.http.client.HttpClient.InputStreamBody;
+import io.kristixlab.notion.api.http.client.HttpClient.MultipartBody;
+import io.kristixlab.notion.api.http.client.HttpClient.StringBody;
+import io.kristixlab.notion.api.json.JsonConverter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import lombok.Builder;
+import lombok.Value;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+/**
+ * Interceptor that writes each HTTP exchange as two pretty-printed JSON files into a
+ * caller-supplied directory:
+ *
+ * &lt;ul&gt;
+ *   &lt;li&gt;{@code &lt;epoch_ms&gt;_&lt;thread_id&gt;_rq.json} — written in {@link #beforeSend}
+ *   &lt;li&gt;{@code &lt;epoch_ms&gt;_&lt;thread_id&gt;_rs.json} — written in {@link #afterReceive}
+ * &lt;/ul&gt;
+ *
+ * &lt;p&gt;The two files share the same {@code &lt;epoch_ms&gt;_&lt;thread_id&gt;} prefix so they can always be
+ * associated. The prefix is generated once in {@code beforeSend} and carried to {@code
+ * afterReceive} via a {@link ThreadLocal}.
+ *
+ * &lt;p&gt;The target directory is created eagerly at construction time. Write failures are logged at
+ * {@code WARN} level and never propagate to the caller.
+ *
+ * &lt;p&gt;&lt;b&gt;Typical test usage:&lt;/b&gt;
+ *
+ * &lt;pre&gt;{@code
+ * Path dir = Paths.get(&quot;exchanges&quot;, testClass, testMethod);
+ * NotionClient notion = NotionClient.builder()
+ *     .auth(token)
+ *     .recordExchanges(dir)
+ *     .build();
+ * }&lt;/pre&gt;
+ *
+ * @see RequestRecord
+ * @see ResponseRecord
+ */
+public class ExchangeRecordingInterceptor implements HttpClientInterceptor {
+
+  // ==================================================================
+  // Nested record types
+  // ==================================================================
+
+  /** Immutable snapshot of the request side of an HTTP exchange. */
+  @Value
+  @Builder
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  public static class RequestRecord {
+
+    @JsonProperty(&quot;method&quot;)
+    String method;
+
+    @JsonProperty(&quot;url&quot;)
+    String url;
+
+    /** {@code Authorization} header value is always replaced with {@code &quot;[redacted]&quot;}. */
+    @JsonProperty(&quot;request_headers&quot;)
+    Map&lt;String, String&gt; requestHeaders;
+
+    /**
+     * JSON bodies are stored as a parsed object; binary/multipart bodies as a short string
+     * descriptor.
+     */
+    @JsonProperty(&quot;request_body&quot;)
+    Object requestBody;
+  }
+
+  /** Immutable snapshot of the response side of an HTTP exchange. */
+  @Value
+  @Builder
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  public static class ResponseRecord {
+
+    @JsonProperty(&quot;status_code&quot;)
+    Integer statusCode;
+
+    @JsonProperty(&quot;response_headers&quot;)
+    Map&lt;String, List&lt;String&gt;&gt; responseHeaders;
+
+    /** Parsed as a JSON object when the response body is valid JSON, raw string otherwise. */
+    @JsonProperty(&quot;response_body&quot;)
+    Object responseBody;
+  }
+
+  // ==================================================================
+  // Interceptor implementation
+  // ==================================================================
+
+<span class="nc" id="L107">  private static final Logger LOGGER = LoggerFactory.getLogger(ExchangeRecordingInterceptor.class);</span>
+
+  private final Path dir;
+
+  /** Carries the base filename prefix from {@link #beforeSend} to {@link #afterReceive}. */
+<span class="nc" id="L112">  private final ThreadLocal&lt;String&gt; pendingBaseName = new ThreadLocal&lt;&gt;();</span>
+
+  /**
+   * @param dir directory where exchange files are written; created eagerly if it does not exist
+   */
+<span class="nc" id="L117">  public ExchangeRecordingInterceptor(Path dir) {</span>
+<span class="nc" id="L118">    this.dir = Objects.requireNonNull(dir, &quot;dir&quot;);</span>
+    try {
+<span class="nc" id="L120">      Files.createDirectories(dir);</span>
+<span class="nc" id="L121">    } catch (IOException e) {</span>
+<span class="nc" id="L122">      LOGGER.warn(&quot;Could not create exchange log directory: {}&quot;, dir, e);</span>
+<span class="nc" id="L123">    }</span>
+<span class="nc" id="L124">  }</span>
+
+  @Override
+  public HttpRequest beforeSend(HttpRequest request) {
+<span class="nc" id="L128">    String baseName =</span>
+<span class="nc" id="L129">        String.format(&quot;%d_%d&quot;, System.currentTimeMillis(), Thread.currentThread().getId());</span>
+<span class="nc" id="L130">    pendingBaseName.set(baseName);</span>
+
+    RequestRecord record =
+<span class="nc" id="L133">        RequestRecord.builder()</span>
+<span class="nc" id="L134">            .method(request.method().name())</span>
+<span class="nc" id="L135">            .url(request.url())</span>
+<span class="nc" id="L136">            .requestHeaders(redactedHeaders(request.headers()))</span>
+<span class="nc" id="L137">            .requestBody(describeBody(request.body()))</span>
+<span class="nc" id="L138">            .build();</span>
+
+<span class="nc" id="L140">    write(baseName + &quot;_rq.json&quot;, record);</span>
+<span class="nc" id="L141">    return request;</span>
+  }
+
+  @Override
+  public void afterReceive(HttpRequest request, HttpResponse response) {
+<span class="nc" id="L146">    String baseName = pendingBaseName.get();</span>
+<span class="nc" id="L147">    pendingBaseName.remove();</span>
+
+<span class="nc bnc" id="L149" title="All 2 branches missed.">    if (baseName == null) {</span>
+<span class="nc" id="L150">      baseName = String.format(&quot;%d_%d&quot;, System.currentTimeMillis(), Thread.currentThread().getId());</span>
+    }
+
+    ResponseRecord record =
+<span class="nc" id="L154">        ResponseRecord.builder()</span>
+<span class="nc" id="L155">            .statusCode(response.statusCode())</span>
+<span class="nc bnc" id="L156" title="All 2 branches missed.">            .responseHeaders(response.headers().isEmpty() ? null : response.headers())</span>
+<span class="nc" id="L157">            .responseBody(JsonConverter.getInstance().parseJson(response.bodyAsString()))</span>
+<span class="nc" id="L158">            .build();</span>
+
+<span class="nc" id="L160">    write(baseName + &quot;_rs.json&quot;, record);</span>
+<span class="nc" id="L161">  }</span>
+
+  // ==================================================================
+  // Helpers
+  // ==================================================================
+
+  private void write(String fileName, Object record) {
+<span class="nc" id="L168">    Path file = dir.resolve(fileName);</span>
+    try {
+<span class="nc" id="L170">      Files.writeString(file, JsonConverter.getInstance().toJson(record, true));</span>
+<span class="nc" id="L171">    } catch (IOException e) {</span>
+<span class="nc" id="L172">      LOGGER.warn(&quot;Failed to write exchange log to: {}&quot;, file, e);</span>
+<span class="nc" id="L173">    }</span>
+<span class="nc" id="L174">  }</span>
+
+  private static Map&lt;String, String&gt; redactedHeaders(Map&lt;String, String&gt; headers) {
+<span class="nc bnc" id="L177" title="All 4 branches missed.">    if (headers == null || headers.isEmpty()) {</span>
+<span class="nc" id="L178">      return null;</span>
+    }
+<span class="nc" id="L180">    Map&lt;String, String&gt; copy = new LinkedHashMap&lt;&gt;(headers);</span>
+<span class="nc" id="L181">    copy.computeIfPresent(&quot;Authorization&quot;, (k, v) -&gt; &quot;[redacted]&quot;);</span>
+<span class="nc" id="L182">    return copy;</span>
+  }
+
+  private static Object describeBody(Body body) {
+<span class="nc bnc" id="L186" title="All 4 branches missed.">    if (body == null || body instanceof EmptyBody) {</span>
+<span class="nc" id="L187">      return null;</span>
+    }
+<span class="nc bnc" id="L189" title="All 2 branches missed.">    if (body instanceof StringBody sb) {</span>
+<span class="nc" id="L190">      return JsonConverter.getInstance().parseJson(sb.content());</span>
+    }
+<span class="nc bnc" id="L192" title="All 2 branches missed.">    if (body instanceof BytesBody bb) {</span>
+<span class="nc" id="L193">      return &quot;[bytes: &quot; + bb.bytes().length + &quot;]&quot;;</span>
+    }
+<span class="nc bnc" id="L195" title="All 2 branches missed.">    if (body instanceof MultipartBody mb) {</span>
+<span class="nc" id="L196">      return &quot;[multipart: &quot; + mb.parts().size() + &quot; parts]&quot;;</span>
+    }
+<span class="nc bnc" id="L198" title="All 2 branches missed.">    if (body instanceof FileBody fb) {</span>
+<span class="nc" id="L199">      return &quot;[file: &quot; + fb.file().getName() + &quot;]&quot;;</span>
+    }
+<span class="nc bnc" id="L201" title="All 2 branches missed.">    if (body instanceof InputStreamBody isb) {</span>
+<span class="nc" id="L202">      return &quot;[stream: &quot; + isb.contentLength() + &quot; bytes]&quot;;</span>
+    }
+<span class="nc" id="L204">    return &quot;[body]&quot;;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DataSourcePropertySchemaParams.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">notion-sdk</a> &gt; <a href="index.source.html" class="el_package">io.kristixlab.notion.api.model.datasources.properties</a> &gt; <span class="el_source">DataSourcePropertySchemaParams.java</span></div><h1>DataSourcePropertySchemaParams.java</h1><pre class="source lang-java linenums">package io.kristixlab.notion.api.model.datasources.properties;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import lombok.Data;
+
+/**
+ * Base class for database property objects. Database properties define the schema and configuration
+ * of database columns.
+ */
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    defaultImpl = UnknownDataSourcePropertySchema.class,
+    include = JsonTypeInfo.As.EXISTING_PROPERTY,
+    property = &quot;type&quot;,
+    visible = true)
+@JsonSubTypes({
+  @JsonSubTypes.Type(value = CheckboxSchemaParams.class, name = &quot;checkbox&quot;),
+  @JsonSubTypes.Type(value = CreatedBySchemaParams.class, name = &quot;created_by&quot;),
+  @JsonSubTypes.Type(value = CreatedTimeSchemaParams.class, name = &quot;created_time&quot;),
+  @JsonSubTypes.Type(value = DateSchemaParams.class, name = &quot;date&quot;),
+  @JsonSubTypes.Type(value = EmailSchemaParams.class, name = &quot;email&quot;),
+  @JsonSubTypes.Type(value = FilesSchemaParams.class, name = &quot;files&quot;),
+  @JsonSubTypes.Type(value = FormulaSchemaParams.class, name = &quot;formula&quot;),
+  @JsonSubTypes.Type(value = LastEditedBySchemaParams.class, name = &quot;last_edited_by&quot;),
+  @JsonSubTypes.Type(value = LastEditedTimeSchemaParams.class, name = &quot;last_edited_time&quot;),
+  @JsonSubTypes.Type(value = MultiSelectSchemaParams.class, name = &quot;multi_select&quot;),
+  @JsonSubTypes.Type(value = NumberSchemaParams.class, name = &quot;number&quot;),
+  @JsonSubTypes.Type(value = PeopleSchemaParams.class, name = &quot;people&quot;),
+  @JsonSubTypes.Type(value = PhoneSchemaParams.class, name = &quot;phone_number&quot;),
+  @JsonSubTypes.Type(value = RelationSchemaParams.class, name = &quot;relation&quot;), // TODO supported?
+  @JsonSubTypes.Type(value = RichTextSchemaParams.class, name = &quot;rich_text&quot;),
+  @JsonSubTypes.Type(value = RollupSchemaParams.class, name = &quot;rollup&quot;), // TODO supported?
+  @JsonSubTypes.Type(value = SelectSchemaParams.class, name = &quot;select&quot;),
+  @JsonSubTypes.Type(value = StatusSchemaParams.class, name = &quot;status&quot;), // TODO supported?
+  @JsonSubTypes.Type(value = TitleSchemaParams.class, name = &quot;title&quot;),
+  @JsonSubTypes.Type(value = UniqueIdSchemaParams.class, name = &quot;unique_id&quot;),
+  @JsonSubTypes.Type(value = UrlSchemaParams.class, name = &quot;url&quot;),
+  @JsonSubTypes.Type(value = PlaceSchemaParams.class, name = &quot;place&quot;)
+})
+@Data
+public class DataSourcePropertySchemaParams {
+
+  /*
+   * Use to change name
+   */
+  @JsonProperty(&quot;name&quot;)
+  private String name;
+
+  @JsonProperty(&quot;type&quot;)
+  private String type;
+
+  @JsonProperty(&quot;description&quot;)
+  private String description;
+
+<span class="nc" id="L57">  public DataSourcePropertySchemaParams() {</span>
+<span class="nc" id="L58">    setType(getType());</span>
+<span class="nc" id="L59">  }</span>
+
+<span class="nc" id="L61">  public DataSourcePropertySchemaParams(String name) {</span>
+<span class="nc" id="L62">    setName(name);</span>
+<span class="nc" id="L63">    setType(getType());</span>
+<span class="nc" id="L64">  }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

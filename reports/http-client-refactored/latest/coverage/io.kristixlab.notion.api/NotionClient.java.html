@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>NotionClient.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">notion-sdk</a> &gt; <a href="index.source.html" class="el_package">io.kristixlab.notion.api</a> &gt; <span class="el_source">NotionClient.java</span></div><h1>NotionClient.java</h1><pre class="source lang-java linenums">package io.kristixlab.notion.api;
+
+import io.kristixlab.notion.api.endpoints.*;
+import io.kristixlab.notion.api.endpoints.impl.*;
+import io.kristixlab.notion.api.http.client.*;
+import io.kristixlab.notion.api.http.config.ApiClientConfig;
+import io.kristixlab.notion.api.http.error.NotionErrorResponseHandler;
+import io.kristixlab.notion.api.http.interceptor.ExchangeRecordingInterceptor;
+import io.kristixlab.notion.api.http.interceptor.HttpClientInterceptor;
+import io.kristixlab.notion.api.http.interceptor.LoggingHttpInterceptor;
+import io.kristixlab.notion.api.http.interceptor.NotionAuthInterceptor;
+import io.kristixlab.notion.api.http.interceptor.RateLimitHttpInterceptor;
+import io.kristixlab.notion.api.http.interceptor.RateLimiter;
+import java.util.List;
+import java.util.Objects;
+import java.util.concurrent.TimeUnit;
+import okhttp3.OkHttpClient;
+
+/**
+ * Primary entry point for the Notion SDK.
+ *
+ * &lt;p&gt;Holds an {@link ApiClient} reference and all endpoint implementations. The {@link ApiClient}
+ * is constructed once and injected into every endpoint — endpoints carry no transport knowledge
+ * beyond calling {@code client.call(...)}.
+ *
+ * &lt;p&gt;&lt;b&gt;Typical usage (private integration / internal token):&lt;/b&gt;
+ *
+ * &lt;pre&gt;{@code
+ * NotionClient notion = NotionClient.forToken(&quot;secret_xxx&quot;);
+ * User me = notion.users().me();
+ * Page page = notion.pages().retrieve(&quot;page-id&quot;);
+ * }&lt;/pre&gt;
+ *
+ * &lt;p&gt;&lt;b&gt;Fluent builder (full control):&lt;/b&gt;
+ *
+ * &lt;pre&gt;{@code
+ * NotionClient notion = NotionClient.builder()
+ *     .auth(authSettings)                  // required
+ *     .version(&quot;2026-03-11&quot;)               // optional — Notion-Version header
+ *     .baseUrl(&quot;https://api.notion.com/v1&quot;) // optional
+ *     .rawHttpClient(customOkHttp3Client)  // optional — inject a custom HTTP client
+ *     .rateLimiter(myRateLimiter)          // optional
+ *     .jsonFailOnUnknownProperties(true)   // optional, default false
+ *     .build();
+ * }&lt;/pre&gt;
+ *
+ * &lt;p&gt;The builder wires the full Notion-specific pipeline automatically:
+ *
+ * &lt;pre&gt;
+ *   ErrorHandlingHttpClient (NotionErrorResponseHandler)
+ *     └─ InterceptingHttpClient
+ *          ├─ RateLimitHttpInterceptor
+ *          ├─ NotionAuthInterceptor  (adds Bearer/Basic + Notion-Version + Accept)
+ *          └─ LoggingHttpInterceptor
+ *               └─ OkHttp3Client (or custom HttpClient)
+ * &lt;/pre&gt;
+ *
+ * @see ApiClient
+ * @see ApiClientImpl
+ * @see Builder
+ */
+public class NotionClient {
+
+  private final ApiClient apiClient;
+
+  private final AuthorizationEndpoint authorization;
+  private final BlocksEndpoint blocks;
+  private final CommentsEndpoint comments;
+  private final DataSourcesEndpoint dataSources;
+  private final DatabasesEndpoint databases;
+  private final FileUploadsEndpoint fileUploads;
+  private final PagesEndpoint pages;
+  private final SearchEndpoint search;
+  private final UsersEndpoint users;
+
+<span class="fc" id="L76">  private NotionClient(ApiClient apiClient, NotionAuthSettings authSettings) {</span>
+<span class="fc" id="L77">    this.apiClient = apiClient;</span>
+<span class="fc" id="L78">    this.authorization = new AuthorizationEndpointImpl(authSettings, apiClient);</span>
+<span class="fc" id="L79">    this.blocks = new BlocksEndpointImpl(apiClient);</span>
+<span class="fc" id="L80">    this.comments = new CommentsEndpointImpl(apiClient);</span>
+<span class="fc" id="L81">    this.dataSources = new DataSourcesEndpointImpl(apiClient);</span>
+<span class="fc" id="L82">    this.databases = new DatabasesEndpointImpl(apiClient);</span>
+<span class="fc" id="L83">    this.fileUploads = new FileUploadsEndpointImpl(apiClient);</span>
+<span class="fc" id="L84">    this.pages = new PagesEndpointImpl(apiClient);</span>
+<span class="fc" id="L85">    this.search = new SearchEndpointImpl(apiClient);</span>
+<span class="fc" id="L86">    this.users = new UsersEndpointImpl(apiClient);</span>
+<span class="fc" id="L87">  }</span>
+
+  // ==================================================================
+  // Endpoint accessors
+  // ==================================================================
+
+  public AuthorizationEndpoint authorization() {
+<span class="fc" id="L94">    return authorization;</span>
+  }
+
+  public BlocksEndpoint blocks() {
+<span class="fc" id="L98">    return blocks;</span>
+  }
+
+  public CommentsEndpoint comments() {
+<span class="fc" id="L102">    return comments;</span>
+  }
+
+  public DataSourcesEndpoint dataSources() {
+<span class="fc" id="L106">    return dataSources;</span>
+  }
+
+  public DatabasesEndpoint databases() {
+<span class="fc" id="L110">    return databases;</span>
+  }
+
+  public FileUploadsEndpoint fileUploads() {
+<span class="fc" id="L114">    return fileUploads;</span>
+  }
+
+  public PagesEndpoint pages() {
+<span class="fc" id="L118">    return pages;</span>
+  }
+
+  public SearchEndpoint search() {
+<span class="fc" id="L122">    return search;</span>
+  }
+
+  public UsersEndpoint users() {
+<span class="fc" id="L126">    return users;</span>
+  }
+
+  // ==================================================================
+  // Static factories
+  // ==================================================================
+
+  /**
+   * Creates a {@link NotionClient} for a private integration token with all Notion defaults.
+   *
+   * &lt;p&gt;Equivalent to:
+   *
+   * &lt;pre&gt;{@code
+   * NotionAuthSettings auth = new NotionAuthSettings();
+   * auth.setAccessToken(token);
+   * NotionClient.builder().auth(auth).build();
+   * }&lt;/pre&gt;
+   *
+   * @param token the Notion integration token (e.g. {@code &quot;secret_xxx&quot;}); must not be blank
+   * @return a fully-wired {@link NotionClient}
+   */
+  public static NotionClient forToken(String token) {
+<span class="pc bpc" id="L148" title="1 of 4 branches missed.">    if (token == null || token.isBlank()) {</span>
+<span class="fc" id="L149">      throw new IllegalArgumentException(&quot;Token must not be null or blank&quot;);</span>
+    }
+<span class="fc" id="L151">    NotionAuthSettings auth = new NotionAuthSettings();</span>
+<span class="fc" id="L152">    auth.setAccessToken(token);</span>
+<span class="fc" id="L153">    return builder().auth(auth).build();</span>
+  }
+
+  /**
+   * Returns a {@link Builder} pre-configured with Notion API defaults (version {@code
+   * &quot;2026-03-11&quot;}, base URL {@code &quot;https://api.notion.com/v1&quot;}, 30 s OkHttp timeouts).
+   *
+   * &lt;p&gt;Only {@link Builder#auth(NotionAuthSettings)} is required before calling {@link
+   * Builder#build()}.
+   */
+  public static Builder builder() {
+<span class="fc" id="L164">    return new Builder();</span>
+  }
+
+  // ==================================================================
+  // Builder
+  // ==================================================================
+
+  /**
+   * Fluent builder for {@link NotionClient}.
+   *
+   * &lt;p&gt;Wires the Notion-specific {@link HttpClient} pipeline internally and produces a fully
+   * configured {@link NotionClient} with all endpoints ready.
+   */
+  public static final class Builder {
+
+    private static final String DEFAULT_VERSION = &quot;2026-03-11&quot;;
+    private static final String DEFAULT_BASE_URL = &quot;https://api.notion.com/v1&quot;;
+
+    private NotionAuthSettings authSettings;
+<span class="fc" id="L183">    private String version = DEFAULT_VERSION;</span>
+<span class="fc" id="L184">    private String baseUrl = DEFAULT_BASE_URL;</span>
+
+    /** Raw (un-intercepted) client. {@code null} → default OkHttp3Client with 30 s timeouts. */
+    private HttpClient rawHttpClient;
+
+    /** {@code null} → a default {@link RateLimiter} is created. */
+    private RateLimiter rateLimiter;
+
+<span class="fc" id="L192">    private boolean jsonFailOnUnknownProperties = false;</span>
+
+    /**
+     * When non-{@code null}, an {@link ExchangeRecordingInterceptor} writes files to this
+     * directory.
+     */
+<span class="fc" id="L198">    private java.nio.file.Path rqRsCatchDir = null;</span>
+
+<span class="fc" id="L200">    private Builder() {}</span>
+
+    /**
+     * &lt;b&gt;Required.&lt;/b&gt; Sets the auth settings providing the Bearer access token for regular calls
+     * and optional OAuth client credentials for token-exchange endpoints.
+     */
+    public Builder auth(NotionAuthSettings authSettings) {
+<span class="fc" id="L207">      this.authSettings = authSettings;</span>
+<span class="fc" id="L208">      return this;</span>
+    }
+
+    /**
+     * Convenience overload: creates a {@link NotionAuthSettings} with the given access token.
+     *
+     * @param token the Notion integration token; must not be blank
+     */
+    public Builder auth(String token) {
+<span class="pc bpc" id="L217" title="1 of 4 branches missed.">      if (token == null || token.isBlank()) {</span>
+<span class="fc" id="L218">        throw new IllegalArgumentException(&quot;Token must not be null or blank&quot;);</span>
+      }
+<span class="fc" id="L220">      NotionAuthSettings s = new NotionAuthSettings();</span>
+<span class="fc" id="L221">      s.setAccessToken(token);</span>
+<span class="fc" id="L222">      this.authSettings = s;</span>
+<span class="fc" id="L223">      return this;</span>
+    }
+
+    /** Sets the {@code Notion-Version} header value. Defaults to {@value DEFAULT_VERSION}. */
+    public Builder version(String version) {
+<span class="fc" id="L228">      this.version = version;</span>
+<span class="fc" id="L229">      return this;</span>
+    }
+
+    /**
+     * Overrides the base URL. Defaults to {@value DEFAULT_BASE_URL}.
+     *
+     * &lt;p&gt;Useful for testing against a mock server.
+     */
+    public Builder baseUrl(String baseUrl) {
+<span class="fc" id="L238">      this.baseUrl = baseUrl;</span>
+<span class="fc" id="L239">      return this;</span>
+    }
+
+    /**
+     * Provides a custom raw {@link HttpClient} as the innermost transport layer. Interceptors and
+     * the error handler are still applied on top.
+     *
+     * &lt;p&gt;If not set, an {@link OkHttp3Client} with 30-second timeouts is created automatically.
+     */
+    public Builder rawHttpClient(HttpClient rawHttpClient) {
+<span class="fc" id="L249">      this.rawHttpClient = rawHttpClient;</span>
+<span class="fc" id="L250">      return this;</span>
+    }
+
+    /**
+     * Provides a custom {@link RateLimiter}. Defaults to a new {@link RateLimiter} instance (3
+     * requests per second).
+     */
+    public Builder rateLimiter(RateLimiter rateLimiter) {
+<span class="nc" id="L258">      this.rateLimiter = rateLimiter;</span>
+<span class="nc" id="L259">      return this;</span>
+    }
+
+    /**
+     * Controls whether unknown JSON properties in responses cause deserialization to fail. Defaults
+     * to {@code false} (unknown properties are silently ignored).
+     */
+    public Builder jsonFailOnUnknownProperties(boolean fail) {
+<span class="nc" id="L267">      this.jsonFailOnUnknownProperties = fail;</span>
+<span class="nc" id="L268">      return this;</span>
+    }
+
+    /**
+     * Enables file-based exchange logging via {@link ExchangeRecordingInterceptor}.
+     *
+     * &lt;p&gt;Each HTTP exchange (request + response) is written as a pretty-printed JSON file into
+     * {@code dir}. The directory is created automatically if it does not exist.
+     *
+     * &lt;p&gt;Pass {@code null} (or omit the call) to disable exchange logging.
+     *
+     * &lt;p&gt;&lt;b&gt;Test pattern:&lt;/b&gt;
+     *
+     * &lt;pre&gt;{@code
+     * Path dir = Paths.get(&quot;exchanges&quot;, testClass, testMethod);
+     * NotionClient.builder().auth(token).exchangeLogging(dir).build();
+     * }&lt;/pre&gt;
+     *
+     * @param dir target directory; {@code null} disables exchange logging
+     */
+    public Builder exchangeLogging(java.nio.file.Path dir) {
+<span class="nc" id="L289">      this.rqRsCatchDir = dir;</span>
+<span class="nc" id="L290">      return this;</span>
+    }
+
+    /**
+     * Builds the {@link NotionClient} with the configured settings.
+     *
+     * @throws NullPointerException if {@link #auth(NotionAuthSettings)} was not called
+     */
+    public NotionClient build() {
+<span class="fc" id="L299">      Objects.requireNonNull(</span>
+          authSettings, &quot;authSettings is required — call auth(NotionAuthSettings) or auth(String)&quot;);
+
+<span class="fc bfc" id="L302" title="All 2 branches covered.">      HttpClient raw = rawHttpClient != null ? rawHttpClient : defaultOkHttp3Client();</span>
+<span class="pc bpc" id="L303" title="1 of 2 branches missed.">      RateLimiter limiter = rateLimiter != null ? rateLimiter : new RateLimiter();</span>
+<span class="fc" id="L304">      String apiLabel = &quot;Notion&quot;;</span>
+
+<span class="fc" id="L306">      List&lt;HttpClientInterceptor&gt; interceptors = new java.util.ArrayList&lt;&gt;();</span>
+<span class="fc" id="L307">      interceptors.add(new RateLimitHttpInterceptor(limiter, apiLabel));</span>
+<span class="fc" id="L308">      interceptors.add(new NotionAuthInterceptor(authSettings, version));</span>
+<span class="pc bpc" id="L309" title="1 of 2 branches missed.">      if (rqRsCatchDir != null) {</span>
+<span class="nc" id="L310">        interceptors.add(new ExchangeRecordingInterceptor(rqRsCatchDir));</span>
+      }
+<span class="fc" id="L312">      interceptors.add(new LoggingHttpInterceptor(apiLabel));</span>
+
+<span class="fc" id="L314">      HttpClient pipeline =</span>
+          new ErrorHandlingHttpClient(
+              new InterceptingHttpClient(raw, interceptors), new NotionErrorResponseHandler());
+
+      ApiClientConfig cfg =
+<span class="fc" id="L319">          ApiClientConfig.builder()</span>
+<span class="fc" id="L320">              .jsonFailOnUnknownProperties(jsonFailOnUnknownProperties)</span>
+<span class="fc" id="L321">              .build();</span>
+
+<span class="fc" id="L323">      ApiClientImpl apiClient = new ApiClientImpl(pipeline, baseUrl, cfg);</span>
+<span class="fc" id="L324">      return new NotionClient(apiClient, authSettings);</span>
+    }
+
+    /** Creates an {@link OkHttp3Client} backed by an {@link OkHttpClient} with 30 s timeouts. */
+    private static HttpClient defaultOkHttp3Client() {
+<span class="fc" id="L329">      OkHttpClient ok =</span>
+          new OkHttpClient.Builder()
+<span class="fc" id="L331">              .connectTimeout(30, TimeUnit.SECONDS)</span>
+<span class="fc" id="L332">              .readTimeout(30, TimeUnit.SECONDS)</span>
+<span class="fc" id="L333">              .writeTimeout(30, TimeUnit.SECONDS)</span>
+<span class="fc" id="L334">              .build();</span>
+<span class="fc" id="L335">      return new OkHttp3Client(ok);</span>
+    }
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

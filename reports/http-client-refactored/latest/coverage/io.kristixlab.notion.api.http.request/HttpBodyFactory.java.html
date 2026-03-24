@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>HttpBodyFactory.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">notion-sdk</a> &gt; <a href="index.source.html" class="el_package">io.kristixlab.notion.api.http.request</a> &gt; <span class="el_source">HttpBodyFactory.java</span></div><h1>HttpBodyFactory.java</h1><pre class="source lang-java linenums">package io.kristixlab.notion.api.http.request;
+
+import io.kristixlab.notion.api.http.client.HttpClient.*;
+import io.kristixlab.notion.api.json.JsonConverter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Creates library-agnostic {@link Body} instances from SDK request objects.
+ *
+ * &lt;p&gt;Supports two payload types:
+ *
+ * &lt;ul&gt;
+ *   &lt;li&gt;&lt;b&gt;JSON&lt;/b&gt; — any non-{@code null} body that is not a {@link MultipartFormDataRequest} is
+ *       serialized via {@link JsonConverter} into a {@link StringBody} with content type {@code
+ *       application/json}.
+ *   &lt;li&gt;&lt;b&gt;Multipart&lt;/b&gt; — a {@link MultipartFormDataRequest} is converted to a {@link
+ *       MultipartBody}. File parts are always wrapped as {@link InputStreamPart}s and streamed in
+ *       chunks; they are never loaded into memory regardless of file size.
+ * &lt;/ul&gt;
+ *
+ * &lt;p&gt;A {@code null} body produces {@code null} (used by GET / HEAD / DELETE).
+ *
+ * @see HttpClient.Body
+ */
+public class HttpBodyFactory {
+
+  private static final String APPLICATION_JSON = &quot;application/json&quot;;
+  private static final String APPLICATION_OCTET_STREAM = &quot;application/octet-stream&quot;;
+
+  private HttpBodyFactory() {}
+
+  // ==================================================================
+  // Public API
+  // ==================================================================
+
+  /**
+   * Creates a library-agnostic {@link Body} for the given payload object.
+   *
+   * @param body the request payload — may be {@code null}, a {@link MultipartFormDataRequest}, or
+   *     any JSON-serializable object
+   * @return a {@link Body} instance, or {@code null} when {@code body} is {@code null}
+   */
+  public static Body create(Object body) {
+<span class="fc bfc" id="L49" title="All 2 branches covered.">    if (body == null) {</span>
+<span class="fc" id="L50">      return null;</span>
+    }
+<span class="fc bfc" id="L52" title="All 2 branches covered.">    if (body instanceof MultipartFormDataRequest multipart) {</span>
+<span class="fc" id="L53">      return createMultipartBody(multipart);</span>
+    }
+<span class="fc" id="L55">    return createJsonBody(body);</span>
+  }
+
+  /**
+   * Returns {@code true} when the body will be serialized as JSON and the caller should set a
+   * {@code Content-Type: application/json} request header.
+   *
+   * @param body the request payload (may be {@code null})
+   * @return {@code true} for JSON payloads, {@code false} for multipart or {@code null} bodies
+   */
+  public static boolean requiresJsonContentType(Object body) {
+<span class="fc bfc" id="L66" title="All 4 branches covered.">    return body != null &amp;&amp; !(body instanceof MultipartFormDataRequest);</span>
+  }
+
+  // ==================================================================
+  // JSON
+  // ==================================================================
+
+  private static StringBody createJsonBody(Object body) {
+<span class="fc" id="L74">    String json = JsonConverter.getInstance().toJson(body);</span>
+<span class="fc" id="L75">    return new StringBody(json, APPLICATION_JSON);</span>
+  }
+
+  // ==================================================================
+  // Multipart — assembly
+  // ==================================================================
+
+  private static MultipartBody createMultipartBody(MultipartFormDataRequest multipart) {
+<span class="fc" id="L83">    List&lt;Part&gt; parts = new ArrayList&lt;&gt;();</span>
+
+<span class="fc bfc" id="L85" title="All 2 branches covered.">    for (var part : multipart.getParts()) {</span>
+<span class="fc bfc" id="L86" title="All 2 branches covered.">      if (part instanceof MultipartFormDataRequest.FilePart filePart) {</span>
+<span class="fc" id="L87">        parts.add(toFilePart(filePart));</span>
+
+<span class="fc bfc" id="L89" title="All 2 branches covered.">      } else if (part instanceof MultipartFormDataRequest.InputStreamPart streamPart) {</span>
+<span class="fc" id="L90">        parts.add(toInputStreamPart(streamPart));</span>
+
+<span class="fc bfc" id="L92" title="All 2 branches covered.">      } else if (part instanceof MultipartFormDataRequest.ByteArrayPart bytesPart) {</span>
+<span class="fc" id="L93">        parts.add(toBytesPart(bytesPart));</span>
+
+      } else {
+        // Plain text part
+<span class="fc" id="L97">        parts.add(new TextPart(part.getName(), String.valueOf(part.getContent())));</span>
+      }
+<span class="fc" id="L99">    }</span>
+
+<span class="fc" id="L101">    return new MultipartBody(parts);</span>
+  }
+
+  // ==================================================================
+  // Multipart — per-part conversion
+  // ==================================================================
+
+  /**
+   * Converts a {@link MultipartFormDataRequest.FilePart} to an {@link InputStreamPart}.
+   *
+   * &lt;p&gt;Files are always streamed — they are never loaded into memory regardless of size.
+   */
+  private static InputStreamPart toFilePart(MultipartFormDataRequest.FilePart filePart) {
+<span class="fc" id="L114">    File file = validatedFile(filePart);</span>
+<span class="pc bpc" id="L115" title="1 of 2 branches missed.">    String fileName = filePart.getFileName() != null ? filePart.getFileName() : file.getName();</span>
+<span class="fc" id="L116">    String contentType = resolveContentType(filePart.getHeaders().get(&quot;Content-Type&quot;));</span>
+    try {
+<span class="fc" id="L118">      InputStream is = new FileInputStream(file);</span>
+<span class="fc" id="L119">      return new InputStreamPart(filePart.getName(), fileName, is, contentType);</span>
+<span class="nc" id="L120">    } catch (IOException e) {</span>
+<span class="nc" id="L121">      throw new RuntimeException(&quot;Failed to open file for streaming: &quot; + file.getAbsolutePath(), e);</span>
+    }
+  }
+
+  /** Converts a {@link MultipartFormDataRequest.InputStreamPart} to an {@link InputStreamPart}. */
+  private static InputStreamPart toInputStreamPart(
+      MultipartFormDataRequest.InputStreamPart streamPart) {
+    String fileName =
+<span class="pc bpc" id="L129" title="1 of 2 branches missed.">        streamPart.getFileName() != null ? streamPart.getFileName() : streamPart.getName();</span>
+<span class="fc" id="L130">    String contentType = resolveContentType(streamPart.getHeaders().get(&quot;Content-Type&quot;));</span>
+<span class="fc" id="L131">    return new InputStreamPart(</span>
+<span class="fc" id="L132">        streamPart.getName(), fileName, streamPart.getContent(), contentType);</span>
+  }
+
+  /** Converts a {@link MultipartFormDataRequest.ByteArrayPart} to a {@link BytesPart}. */
+  private static BytesPart toBytesPart(MultipartFormDataRequest.ByteArrayPart bytesPart) {
+<span class="fc" id="L137">    byte[] bytes = bytesPart.getContent();</span>
+<span class="pc bpc" id="L138" title="1 of 4 branches missed.">    if (bytes == null || bytes.length == 0) {</span>
+<span class="fc" id="L139">      throw new IllegalArgumentException(</span>
+<span class="fc" id="L140">          &quot;Byte array is null or empty for part: &quot; + bytesPart.getName());</span>
+    }
+<span class="fc" id="L142">    String contentType = resolveContentType(bytesPart.getHeaders().get(&quot;Content-Type&quot;));</span>
+<span class="fc" id="L143">    return new BytesPart(bytesPart.getName(), bytesPart.getFileName(), bytes, contentType);</span>
+  }
+
+  // ==================================================================
+  // Shared utilities
+  // ==================================================================
+
+  /**
+   * Resolves the content type, falling back to {@code application/octet-stream} when absent or
+   * empty.
+   */
+  private static String resolveContentType(String contentType) {
+<span class="pc bpc" id="L155" title="2 of 4 branches missed.">    return (contentType != null &amp;&amp; !contentType.isEmpty()) ? contentType : APPLICATION_OCTET_STREAM;</span>
+  }
+
+  /** Validates that the file part references an existing file on disk. */
+  private static File validatedFile(MultipartFormDataRequest.FilePart filePart) {
+<span class="fc" id="L160">    File file = filePart.getContent();</span>
+<span class="pc bpc" id="L161" title="2 of 4 branches missed.">    if (file == null || !file.exists()) {</span>
+<span class="nc" id="L162">      throw new IllegalArgumentException(</span>
+<span class="nc bnc" id="L163" title="All 2 branches missed.">          &quot;File is null or does not exist: &quot; + (file != null ? file.getAbsolutePath() : &quot;null&quot;));</span>
+    }
+<span class="fc" id="L165">    return file;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

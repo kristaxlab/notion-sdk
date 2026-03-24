@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>StatusSchemaParams.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">notion-sdk</a> &gt; <a href="index.source.html" class="el_package">io.kristixlab.notion.api.model.datasources.properties</a> &gt; <span class="el_source">StatusSchemaParams.java</span></div><h1>StatusSchemaParams.java</h1><pre class="source lang-java linenums">package io.kristixlab.notion.api.model.datasources.properties;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import io.kristixlab.notion.api.model.common.Color;
+import java.util.ArrayList;
+import java.util.List;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+/**
+ * Schema params for a Notion {@code status} database property.
+ *
+ * &lt;p&gt;Use {@link #builder()} to define the desired set of options. The update request must always
+ * carry the &lt;em&gt;full&lt;/em&gt; desired options list: options present in the list are kept/created,
+ * options omitted are deleted.
+ *
+ * &lt;p&gt;&lt;strong&gt;Note on groups:&lt;/strong&gt; Notion status groups ({@code To-do}, {@code In progress},
+ * {@code Complete}) are &lt;em&gt;read-only&lt;/em&gt; via the API. Every option added through the API is
+ * automatically placed in the default group. Group membership cannot be changed programmatically.
+ *
+ * &lt;p&gt;Typical usage — create:
+ *
+ * &lt;pre&gt;{@code
+ * DataSourceSchemaBuilder.builder()
+ *     .status(&quot;Status&quot;, StatusSchemaParams.builder()
+ *         .option(&quot;Idea&quot;,        Color.DEFAULT)
+ *         .option(&quot;In Progress&quot;, Color.YELLOW)
+ *         .option(&quot;Completed&quot;,   Color.GREEN)
+ *         .build())
+ *     .build();
+ * }&lt;/pre&gt;
+ *
+ * &lt;p&gt;Typical usage — update (send the full desired options list):
+ *
+ * &lt;pre&gt;{@code
+ * DataSource ds = notion.dataSources().retrieve(dsId);
+ * StatusSchema existing = (StatusSchema) ds.getProperties().get(&quot;Status&quot;);
+ *
+ * // Seed the builder from the existing options, then add/remove as needed.
+ * StatusSchemaParams updated = StatusSchemaParams.builder(existing.getStatus().getOptions())
+ *     .option(&quot;Cancelled&quot;, Color.RED)   // add new option
+ *     .remove(&quot;Idea&quot;)                   // omit → Notion will delete it
+ *     .build();
+ * }&lt;/pre&gt;
+ */
+@Data
+@EqualsAndHashCode(callSuper = true)
+public class StatusSchemaParams extends DataSourcePropertySchemaParams {
+
+  @JsonProperty(&quot;id&quot;)
+  private String id;
+
+  @JsonProperty(&quot;status&quot;)
+  private StatusConfig status = new StatusConfig();
+
+  @Data
+  public static class StatusConfig {
+
+    @JsonProperty(&quot;options&quot;)
+    private List&lt;StatusOption&gt; options;
+  }
+
+  // ── Static factory ────────────────────────────────────────────────────
+
+  /**
+   * i * Returns a builder pre-seeded with the given list of existing options.
+   *
+   * &lt;p&gt;Each option is deep-copied so the builder is fully self-contained. Use this factory when
+   * updating an existing status property: seed from the live options, then call {@link
+   * Builder#option} to add new ones and {@link Builder#remove} to exclude ones that should be
+   * deleted.
+   *
+   * @param existingOptions the current options retrieved from a {@link StatusSchema}
+   * @return a new {@link Builder} pre-populated with copies of {@code existingOptions}
+   */
+  public static Builder builder(List&lt;StatusOption&gt; existingOptions) {
+<span class="nc" id="L77">    return new Builder().options(existingOptions);</span>
+  }
+
+  /**
+   * Returns an empty builder.
+   *
+   * &lt;p&gt;Notion ignores group configuration; all options are placed in the built-in &quot;To-do&quot; group
+   * automatically. On update, send the &lt;em&gt;full&lt;/em&gt; desired options list — Notion treats omitted
+   * options as deletions.
+   *
+   * @return a new {@link Builder}
+   */
+  public static Builder builder() {
+<span class="nc" id="L90">    return new Builder();</span>
+  }
+
+  // ── Builder ────────────────────────────────────────────────────────────
+
+  /**
+   * Fluent builder for a status property schema.
+   *
+   * &lt;p&gt;Each {@code option()} call appends one option to the list. When used for updates, include
+   * every option that should remain after the operation (Notion deletes any option not present in
+   * the list).
+   */
+<span class="nc" id="L102">  public static class Builder {</span>
+
+<span class="nc" id="L104">    private final List&lt;StatusOption&gt; options = new ArrayList&lt;&gt;();</span>
+
+    /**
+     * Appends all options from the given list, deep-copying each entry to preserve Notion-assigned
+     * IDs and colors.
+     *
+     * &lt;p&gt;Intended for seeding an update payload from the options of a retrieved {@link
+     * StatusSchema}. Equivalent to calling {@link #option(String, String)} for every entry, but
+     * without having to enumerate them manually.
+     *
+     * @param existingOptions the options to copy into this builder; {@code null} is treated as an
+     *     empty list
+     * @return this builder
+     */
+    public Builder options(List&lt;StatusOption&gt; existingOptions) {
+<span class="nc bnc" id="L119" title="All 2 branches missed.">      if (existingOptions != null) {</span>
+<span class="nc bnc" id="L120" title="All 2 branches missed.">        for (StatusOption src : existingOptions) {</span>
+<span class="nc" id="L121">          StatusOption copy = new StatusOption();</span>
+<span class="nc" id="L122">          copy.setId(src.getId());</span>
+<span class="nc" id="L123">          copy.setName(src.getName());</span>
+<span class="nc" id="L124">          copy.setColor(src.getColor());</span>
+<span class="nc" id="L125">          options.add(copy);</span>
+<span class="nc" id="L126">        }</span>
+      }
+<span class="nc" id="L128">      return this;</span>
+    }
+
+    /**
+     * Adds a status option with the default color.
+     *
+     * @param name the option name as it will appear in Notion
+     * @return this builder
+     */
+    public Builder option(String name) {
+<span class="nc" id="L138">      return option(name, (Color) null);</span>
+    }
+
+    /**
+     * Adds a status option with the given {@link Color}.
+     *
+     * @param name the option name
+     * @param color the option color, or {@code null} for the Notion default
+     * @return this builder
+     */
+    public Builder option(String name, Color color) {
+<span class="nc bnc" id="L149" title="All 2 branches missed.">      return option(name, color == null ? null : color.getValue());</span>
+    }
+
+    /**
+     * Adds a status option with the given raw color string (e.g. {@code &quot;blue&quot;}).
+     *
+     * &lt;p&gt;Prefer the {@link #option(String, Color)} overload where possible.
+     *
+     * @param name the option name
+     * @param color the raw color string accepted by the Notion API, or {@code null} for the default
+     * @return this builder
+     */
+    public Builder option(String name, String color) {
+<span class="nc" id="L162">      StatusOption opt = new StatusOption();</span>
+<span class="nc" id="L163">      opt.setName(name);</span>
+<span class="nc bnc" id="L164" title="All 2 branches missed.">      if (color != null) {</span>
+<span class="nc" id="L165">        opt.setColor(color);</span>
+      }
+<span class="nc" id="L167">      options.add(opt);</span>
+<span class="nc" id="L168">      return this;</span>
+    }
+
+    /**
+     * Removes a previously added option from the list by name.
+     *
+     * &lt;p&gt;No-op if no option with the given name is present. Useful when building an update payload
+     * from a pre-populated list and a specific option needs to be excluded.
+     *
+     * @param name the option name to remove (case-sensitive)
+     * @return this builder
+     */
+    public Builder remove(String name) {
+
+<span class="nc" id="L182">      options.removeIf(o -&gt; name.equals(o.getName()));</span>
+<span class="nc" id="L183">      return this;</span>
+    }
+
+    /**
+     * Builds and returns the {@link StatusSchemaParams}.
+     *
+     * @return the configured params, ready to pass to the create or update-data-source request
+     */
+    public StatusSchemaParams build() {
+<span class="nc" id="L192">      StatusSchemaParams params = new StatusSchemaParams();</span>
+<span class="nc" id="L193">      StatusConfig config = new StatusConfig();</span>
+<span class="nc bnc" id="L194" title="All 2 branches missed.">      config.setOptions(options.isEmpty() ? null : new ArrayList&lt;&gt;(options));</span>
+<span class="nc" id="L195">      params.setStatus(config);</span>
+<span class="nc" id="L196">      return params;</span>
+    }
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

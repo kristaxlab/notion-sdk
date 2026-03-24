@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CreateDatabaseParams.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">notion-sdk</a> &gt; <a href="index.source.html" class="el_package">io.kristixlab.notion.api.model.databases</a> &gt; <span class="el_source">CreateDatabaseParams.java</span></div><h1>CreateDatabaseParams.java</h1><pre class="source lang-java linenums">package io.kristixlab.notion.api.model.databases;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import io.kristixlab.notion.api.model.common.*;
+import io.kristixlab.notion.api.model.datasources.properties.DataSourcePropertySchemaParams;
+import io.kristixlab.notion.api.model.datasources.properties.helper.DataSourceSchemaBuilder;
+import io.kristixlab.notion.api.model.datasources.properties.helper.PropertiesStep;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
+import lombok.Data;
+
+@Data
+public class CreateDatabaseParams {
+
+  @JsonProperty(&quot;parent&quot;)
+  private Parent parent;
+
+  @JsonProperty(&quot;title&quot;)
+  private List&lt;RichText&gt; title;
+
+  @JsonProperty(&quot;description&quot;)
+  private List&lt;RichText&gt; description;
+
+  @JsonProperty(&quot;icon&quot;)
+  private IconParams icon;
+
+  @JsonProperty(&quot;cover&quot;)
+  private CoverParams cover;
+
+  @JsonProperty(&quot;is_inline&quot;)
+  private Boolean isInline;
+
+  @JsonProperty(&quot;initial_data_source&quot;)
+  private InitialDatasource initialDataSource;
+
+  public static Builder builder() {
+<span class="nc" id="L39">    return new Builder();</span>
+  }
+
+<span class="nc" id="L42">  public static class Builder {</span>
+    private Parent parent;
+    private List&lt;RichText&gt; title;
+    private List&lt;RichText&gt; description;
+    private IconParams icon;
+    private CoverParams cover;
+    private Boolean isInline;
+    private InitialDatasource initialDataSource;
+
+    public Builder inPage(String pageId) {
+<span class="nc" id="L52">      return parent(Parent.pageParent(pageId));</span>
+    }
+
+    public Builder parent(Parent parent) {
+<span class="nc" id="L56">      this.parent = parent;</span>
+<span class="nc" id="L57">      return this;</span>
+    }
+
+    public Builder title(String title) {
+<span class="nc" id="L61">      return title(RichText.builder().fromText(title).buildAsList());</span>
+    }
+
+    public Builder title(List&lt;RichText&gt; title) {
+<span class="nc" id="L65">      this.title = title;</span>
+<span class="nc" id="L66">      return this;</span>
+    }
+
+    public Builder description(String description) {
+<span class="nc" id="L70">      return description(RichText.builder().fromText(description).buildAsList());</span>
+    }
+
+    public Builder description(List&lt;RichText&gt; description) {
+<span class="nc" id="L74">      this.description = description;</span>
+<span class="nc" id="L75">      return this;</span>
+    }
+
+    public Builder icon(IconParams icon) {
+<span class="nc" id="L79">      this.icon = icon;</span>
+<span class="nc" id="L80">      return this;</span>
+    }
+
+    public Builder cover(CoverParams cover) {
+<span class="nc" id="L84">      this.cover = cover;</span>
+<span class="nc" id="L85">      return this;</span>
+    }
+
+    public Builder isInline(Boolean isInline) {
+<span class="nc" id="L89">      this.isInline = isInline;</span>
+<span class="nc" id="L90">      return this;</span>
+    }
+
+    /**
+     * Configures the initial data source properties via a pre-built schema map.
+     *
+     * &lt;p&gt;Prefer {@link #propertiesBuilder()} or {@link #properties(Consumer)} to avoid the explicit
+     * {@code DataSourceSchemaBuilder.builder()} / {@code .build()} wrapping.
+     */
+    public Builder properties(
+        Map&lt;String, DataSourcePropertySchemaParams&gt; initialDataSourceProperties) {
+<span class="nc" id="L101">      InitialDatasource initialDataSource = new InitialDatasource();</span>
+<span class="nc" id="L102">      initialDataSource.setProperties(initialDataSourceProperties);</span>
+<span class="nc" id="L103">      this.initialDataSource = initialDataSource;</span>
+<span class="nc" id="L104">      return this;</span>
+    }
+
+    /**
+     * Opens an embedded schema step-builder for configuring the initial data source properties.
+     *
+     * &lt;p&gt;Chain property methods on the returned {@link PropertiesStep}, then call {@link
+     * PropertiesStep#buildProperties()} to seal the schema and return to this builder.
+     *
+     * &lt;pre&gt;{@code
+     * CreateDatabaseParams.builder()
+     *     .parentPage(pageId)
+     *     .title(&quot;My DB&quot;)
+     *     .propertiesBuilder()
+     *         .title(&quot;Name&quot;)
+     *         .number(&quot;Price&quot;, NumberFormatType.EURO)
+     *     .buildProperties()
+     *     .build();
+     * }&lt;/pre&gt;
+     *
+     * @return a {@link PropertiesStep} whose {@code buildProperties()} returns this builder
+     */
+    public PropertiesStep&lt;Builder&gt; propertiesBuilder() {
+<span class="nc" id="L127">      return new PropertiesStep&lt;&gt;(this, this::properties);</span>
+    }
+
+    /**
+     * Configures the initial data source properties via a lambda that receives a fresh {@link
+     * DataSourceSchemaBuilder}.
+     *
+     * &lt;p&gt;This is the most concise option — no explicit {@code builder()} / {@code build()} and no
+     * {@code buildProperties()} needed:
+     *
+     * &lt;pre&gt;{@code
+     * CreateDatabaseParams.builder()
+     *     .parentPage(pageId)
+     *     .title(&quot;My DB&quot;)
+     *     .properties(s -&gt; s
+     *         .title(&quot;Name&quot;)
+     *         .number(&quot;Price&quot;, NumberFormatType.EURO))
+     *     .build();
+     * }&lt;/pre&gt;
+     *
+     * @param configurator a lambda that chains property methods on the provided schema builder
+     * @return this builder
+     */
+    public Builder properties(Consumer&lt;DataSourceSchemaBuilder&gt; configurator) {
+<span class="nc" id="L151">      DataSourceSchemaBuilder schema = DataSourceSchemaBuilder.builder();</span>
+<span class="nc" id="L152">      configurator.accept(schema);</span>
+<span class="nc" id="L153">      return properties(schema.build());</span>
+    }
+
+    /**
+     * Configures the initial data source properties using a custom producer.
+     *
+     * &lt;p&gt;The supplier is called exactly once during this method and its result is forwarded to
+     * {@link #properties(Map)}. Use this overload to inject a dedicated schema factory, a
+     * Spring/CDI bean, or any other externally managed producer:
+     *
+     * &lt;pre&gt;{@code
+     * CreateDatabaseParams.builder()
+     *     .parentPage(pageId)
+     *     .title(&quot;My DB&quot;)
+     *     .properties(catalogSchemaFactory::defaultSchema)
+     *     .build();
+     * }&lt;/pre&gt;
+     *
+     * @param producer a supplier that returns the property schema map
+     * @return this builder
+     */
+    public Builder properties(Supplier&lt;Map&lt;String, DataSourcePropertySchemaParams&gt;&gt; producer) {
+<span class="nc" id="L175">      return properties(producer.get());</span>
+    }
+
+    public CreateDatabaseParams build() {
+<span class="nc" id="L179">      CreateDatabaseParams params = new CreateDatabaseParams();</span>
+<span class="nc" id="L180">      params.setParent(parent);</span>
+<span class="nc" id="L181">      params.setTitle(title);</span>
+<span class="nc" id="L182">      params.setDescription(description);</span>
+<span class="nc" id="L183">      params.setIcon(icon);</span>
+<span class="nc" id="L184">      params.setCover(cover);</span>
+<span class="nc" id="L185">      params.setIsInline(isInline);</span>
+<span class="nc" id="L186">      params.setInitialDataSource(initialDataSource);</span>
+<span class="nc" id="L187">      return params;</span>
+    }
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

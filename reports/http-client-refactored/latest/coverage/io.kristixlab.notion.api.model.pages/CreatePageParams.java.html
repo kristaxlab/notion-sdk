@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CreatePageParams.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">notion-sdk</a> &gt; <a href="index.source.html" class="el_package">io.kristixlab.notion.api.model.pages</a> &gt; <span class="el_source">CreatePageParams.java</span></div><h1>CreatePageParams.java</h1><pre class="source lang-java linenums">package io.kristixlab.notion.api.model.pages;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import io.kristixlab.notion.api.model.blocks.Block;
+import io.kristixlab.notion.api.model.common.*;
+import io.kristixlab.notion.api.model.pages.properties.*;
+import io.kristixlab.notion.api.model.pages.templates.TemplateParams;
+import java.util.*;
+import lombok.Data;
+
+@Data
+public class CreatePageParams {
+
+  @JsonProperty(&quot;parent&quot;)
+  private Parent parent;
+
+  @JsonProperty(&quot;properties&quot;)
+  private Map&lt;String, PageProperty&gt; properties;
+
+  @JsonProperty(&quot;icon&quot;)
+  private IconParams icon;
+
+  @JsonProperty(&quot;cover&quot;)
+  private CoverParams cover;
+
+  // TODO
+  @JsonProperty(&quot;content&quot;)
+  private List&lt;Block&gt; content;
+
+  // TODO
+  @JsonProperty(&quot;children&quot;)
+  private List&lt;Block&gt; children;
+
+  @JsonProperty(&quot;markdown&quot;)
+  private String markdown;
+
+  @JsonProperty(&quot;template&quot;)
+  private TemplateParams template;
+
+  @JsonProperty(&quot;position&quot;)
+  private Position position;
+
+  public static Builder builder() {
+<span class="nc" id="L44">    return new Builder();</span>
+  }
+
+  /**
+   * Fluent builder for {@link CreatePageParams}.
+   *
+   * &lt;p&gt;Provides typed DSL methods for every common page property so that page creation reads like a
+   * declarative spec rather than a sequence of map operations:
+   *
+   * &lt;pre&gt;{@code
+   * CreatePageParams params = CreatePageParams.builder()
+   *     .inDatasource(dsId)
+   *     .title(&quot;Full entry&quot;)
+   *     .richText(&quot;Description&quot;, &quot;A detailed description&quot;)
+   *     .number(&quot;Price&quot;, 49.99)
+   *     .select(&quot;Category&quot;, &quot;Electronics&quot;)
+   *     .multiSelect(&quot;Tags&quot;, SelectValue.of(&quot;Sale&quot;), SelectValue.of(&quot;New&quot;))
+   *     .date(&quot;Due Date&quot;, &quot;2026-04-01&quot;)
+   *     .checkbox(&quot;Published&quot;, true)
+   *     .email(&quot;Contact Email&quot;, &quot;hi@example.com&quot;)
+   *     .phone(&quot;Contact Phone&quot;, &quot;+1234567890&quot;)
+   *     .url(&quot;Website&quot;, &quot;https://example.com&quot;)
+   *     .children(ParagraphBlock.of(&quot;Hello&quot;), ParagraphBlock.of(&quot;World&quot;))
+   *     .build();
+   * }&lt;/pre&gt;
+   */
+<span class="nc" id="L70">  public static class Builder {</span>
+
+    private Parent parent;
+<span class="nc" id="L73">    private final Map&lt;String, PageProperty&gt; properties = new LinkedHashMap&lt;&gt;();</span>
+    private List&lt;Block&gt; children;
+    private IconParams icon;
+    private CoverParams cover;
+
+    // ── Parent ───────────────────────────────────────────────────────────
+
+    /** Sets the parent to the data source with the given ID. */
+    public Builder inDatasource(String datasourceId) {
+<span class="nc" id="L82">      return parent(Parent.datasourceParent(datasourceId));</span>
+    }
+
+    /** Sets the parent to the page with the given ID. */
+    public Builder inPage(String pageId) {
+<span class="nc" id="L87">      return parent(Parent.pageParent(pageId));</span>
+    }
+
+    /** Sets a fully constructed {@link Parent}. */
+    public Builder parent(Parent parent) {
+<span class="nc" id="L92">      this.parent = parent;</span>
+<span class="nc" id="L93">      return this;</span>
+    }
+
+    // ── Properties ───────────────────────────────────────────────────────
+
+    /** Sets the title property. */
+    public Builder title(String text) {
+<span class="nc" id="L100">      return property(TitleProperty.NAME, TitleProperty.of(text));</span>
+    }
+
+    /** Sets a {@code rich_text} property. */
+    public Builder text(String name, String text) {
+<span class="nc" id="L105">      return property(name, RichTextProperty.of(text));</span>
+    }
+
+    /** Sets a {@code number} property. */
+    public Builder number(String name, Number value) {
+<span class="nc" id="L110">      return property(name, NumberProperty.of(value));</span>
+    }
+
+    /** Sets a {@code select} property by option name. */
+    public Builder select(String name, String value) {
+<span class="nc" id="L115">      return property(name, SelectProperty.of(value));</span>
+    }
+
+    /** Sets a {@code multi_select} property from the given {@link SelectValue} entries. */
+    public Builder multiSelect(String name, SelectValue... values) {
+<span class="nc" id="L120">      return property(name, MultiSelectProperty.of(values));</span>
+    }
+
+    /** Sets a {@code date} property from an ISO-8601 date string (e.g. {@code &quot;2026-04-01&quot;}). */
+    public Builder date(String name, String isoDate) {
+<span class="nc" id="L125">      return property(name, DateProperty.of(isoDate));</span>
+    }
+
+    /** Sets a {@code checkbox} property. */
+    public Builder checkbox(String name, boolean checked) {
+<span class="nc bnc" id="L130" title="All 2 branches missed.">      return property(name, checked ? CheckboxProperty.checked() : CheckboxProperty.unchecked());</span>
+    }
+
+    /** Sets an {@code email} property. */
+    public Builder email(String name, String email) {
+<span class="nc" id="L135">      return property(name, EmailProperty.of(email));</span>
+    }
+
+    /** Sets a {@code phone_number} property. */
+    public Builder phone(String name, String phone) {
+<span class="nc" id="L140">      return property(name, PhoneNumberProperty.of(phone));</span>
+    }
+
+    /** Sets a {@code url} property. */
+    public Builder url(String name, String url) {
+<span class="nc" id="L145">      return property(name, UrlProperty.of(url));</span>
+    }
+
+    /** Sets a {@code people} property from one or more Notion user IDs. */
+    public Builder people(String name, String... userIds) {
+<span class="nc" id="L150">      return property(name, PeopleProperty.of(userIds));</span>
+    }
+
+    /** Sets a {@code files} property from one or more {@link FileData} entries. */
+    public Builder files(String name, FileData... files) {
+<span class="nc" id="L155">      return property(name, FilesProperty.of(files));</span>
+    }
+
+    /** Sets a {@code relation} property from one or more related page IDs. */
+    public Builder relation(String name, String... pageIds) {
+<span class="nc" id="L160">      return property(name, RelationProperty.of(pageIds));</span>
+    }
+
+    /** Sets a {@code status} property by option name. */
+    public Builder status(String name, String optionName) {
+<span class="nc" id="L165">      return property(name, StatusProperty.of(optionName));</span>
+    }
+
+    /**
+     * Sets an arbitrary property. Use as an escape hatch for property types not covered by the
+     * named convenience methods above.
+     */
+    public Builder property(String name, PageProperty property) {
+<span class="nc" id="L173">      this.properties.put(name, property);</span>
+<span class="nc" id="L174">      return this;</span>
+    }
+
+    // ── Content ──────────────────────────────────────────────────────────
+
+    /** Sets the page body blocks (varargs convenience overload). */
+    public Builder children(Block... blocks) {
+<span class="nc" id="L181">      return children(Arrays.asList(blocks));</span>
+    }
+
+    /** Sets the page body blocks from a list. */
+    public Builder children(List&lt;Block&gt; blocks) {
+<span class="nc" id="L186">      this.children = new ArrayList&lt;&gt;(blocks);</span>
+<span class="nc" id="L187">      return this;</span>
+    }
+
+    // ── Decoration ───────────────────────────────────────────────────────
+
+    /** Sets the page icon. */
+    public Builder icon(IconParams icon) {
+<span class="nc" id="L194">      this.icon = icon;</span>
+<span class="nc" id="L195">      return this;</span>
+    }
+
+    /** Sets the page cover. */
+    public Builder cover(CoverParams cover) {
+<span class="nc" id="L200">      this.cover = cover;</span>
+<span class="nc" id="L201">      return this;</span>
+    }
+
+    // ── Build ────────────────────────────────────────────────────────────
+
+    public CreatePageParams build() {
+<span class="nc" id="L207">      CreatePageParams params = new CreatePageParams();</span>
+<span class="nc" id="L208">      params.setParent(parent);</span>
+<span class="nc bnc" id="L209" title="All 2 branches missed.">      params.setProperties(properties.isEmpty() ? null : new LinkedHashMap&lt;&gt;(properties));</span>
+<span class="nc" id="L210">      params.setChildren(children);</span>
+<span class="nc" id="L211">      params.setIcon(icon);</span>
+<span class="nc" id="L212">      params.setCover(cover);</span>
+<span class="nc" id="L213">      return params;</span>
+    }
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

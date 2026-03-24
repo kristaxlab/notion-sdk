@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>HttpClientInterceptor.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">notion-sdk</a> &gt; <a href="index.source.html" class="el_package">io.kristixlab.notion.api.http.interceptor</a> &gt; <span class="el_source">HttpClientInterceptor.java</span></div><h1>HttpClientInterceptor.java</h1><pre class="source lang-java linenums">package io.kristixlab.notion.api.http.interceptor;
+
+import io.kristixlab.notion.api.http.client.HttpClient;
+import io.kristixlab.notion.api.http.client.HttpClient.HttpRequest;
+import io.kristixlab.notion.api.http.client.HttpClient.HttpResponse;
+import io.kristixlab.notion.api.http.client.InterceptingHttpClient;
+
+/**
+ * Callback interface for observing and modifying HTTP exchanges in the {@link HttpClient} pipeline.
+ *
+ * &lt;p&gt;Interceptors are invoked in registration order by {@link InterceptingHttpClient}:
+ *
+ * &lt;ol&gt;
+ *   &lt;li&gt;{@link #beforeSend} — called before the request is sent. May return a &lt;em&gt;modified&lt;/em&gt;
+ *       request (e.g. with extra headers). If an interceptor throws, the request is never sent and
+ *       subsequent interceptors are skipped.
+ *   &lt;li&gt;{@link #afterReceive} — called after the response is received. Useful for logging and
+ *       metrics. Receives both the (possibly modified) request and the response.
+ * &lt;/ol&gt;
+ *
+ * &lt;p&gt;Both methods default to no-ops so implementations only need to override the callbacks they
+ * care about.
+ *
+ * @see InterceptingHttpClient
+ */
+public interface HttpClientInterceptor {
+
+  /**
+   * Called before the request is sent. May return a modified request.
+   *
+   * &lt;p&gt;Use {@link HttpRequest#toBuilder()} to create a modified copy:
+   *
+   * &lt;pre&gt;{@code
+   * @Override
+   * public HttpRequest beforeSend(HttpRequest request) {
+   *     return request.toBuilder()
+   *         .header(&quot;X-Custom&quot;, &quot;value&quot;)
+   *         .build();
+   * }
+   * }&lt;/pre&gt;
+   *
+   * @param request the request about to be sent
+   * @return the (possibly modified) request to actually send
+   */
+  default HttpRequest beforeSend(HttpRequest request) {
+<span class="fc" id="L46">    return request;</span>
+  }
+
+  /**
+   * Called after the response is received (regardless of status code).
+   *
+   * @param request the request that was sent (after all {@code beforeSend} modifications)
+   * @param response the response received from the server
+   */
+<span class="fc" id="L55">  default void afterReceive(HttpRequest request, HttpResponse response) {}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

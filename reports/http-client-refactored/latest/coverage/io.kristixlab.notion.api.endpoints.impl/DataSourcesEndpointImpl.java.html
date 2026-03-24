@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DataSourcesEndpointImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">notion-sdk</a> &gt; <a href="index.source.html" class="el_package">io.kristixlab.notion.api.endpoints.impl</a> &gt; <span class="el_source">DataSourcesEndpointImpl.java</span></div><h1>DataSourcesEndpointImpl.java</h1><pre class="source lang-java linenums">package io.kristixlab.notion.api.endpoints.impl;
+
+import io.kristixlab.notion.api.endpoints.DataSourcesEndpoint;
+import io.kristixlab.notion.api.http.client.ApiClient;
+import io.kristixlab.notion.api.http.request.ApiPath;
+import io.kristixlab.notion.api.model.datasources.*;
+import io.kristixlab.notion.api.model.pages.templates.Templates;
+
+/**
+ * API for interacting with Notion Data Sources endpoints (API version 2025-09-03+). Provides
+ * methods to retrieve, create, update, and query data sources.
+ */
+public class DataSourcesEndpointImpl implements DataSourcesEndpoint {
+
+  private static final String DATA_SOURCE_ID = &quot;data_source_id&quot;;
+
+  private final ApiClient client;
+
+<span class="fc" id="L19">  public DataSourcesEndpointImpl(ApiClient client) {</span>
+<span class="fc" id="L20">    this.client = client;</span>
+<span class="fc" id="L21">  }</span>
+
+  /**
+   * Retrieve a data source by its ID.
+   *
+   * @param dataSourceId The ID of the data source to retrieve
+   * @return The data source object
+   */
+  public DataSource retrieve(String dataSourceId) {
+<span class="fc" id="L30">    validateDataSourceId(dataSourceId);</span>
+<span class="fc" id="L31">    ApiPath urlInfo =</span>
+<span class="fc" id="L32">        ApiPath.builder(&quot;/data_sources/{data_source_id}&quot;)</span>
+<span class="fc" id="L33">            .pathParam(DATA_SOURCE_ID, dataSourceId)</span>
+<span class="fc" id="L34">            .build();</span>
+<span class="fc" id="L35">    return client.call(&quot;GET&quot;, urlInfo, DataSource.class);</span>
+  }
+
+  /**
+   * Create a new data source.
+   *
+   * @param request The request containing data source data
+   * @return The created data source
+   */
+  public DataSource create(CreateDataSourceParams request) {
+<span class="fc" id="L45">    validateRequest(request);</span>
+<span class="fc" id="L46">    return client.call(&quot;POST&quot;, ApiPath.from(&quot;/data_sources&quot;), request, DataSource.class);</span>
+  }
+
+  /**
+   * Update an existing data source.
+   *
+   * @param dataSourceId The ID of the data source to update
+   * @param request The request containing updated data source data
+   * @return The updated data source
+   */
+  public DataSource update(String dataSourceId, UpdateDataSourceParams request) {
+<span class="fc" id="L57">    validateDataSourceId(dataSourceId);</span>
+<span class="fc" id="L58">    validateRequest(request);</span>
+
+<span class="fc" id="L60">    ApiPath urlInfo =</span>
+<span class="fc" id="L61">        ApiPath.builder(&quot;/data_sources/{data_source_id}&quot;)</span>
+<span class="fc" id="L62">            .pathParam(DATA_SOURCE_ID, dataSourceId)</span>
+<span class="fc" id="L63">            .build();</span>
+
+<span class="fc" id="L65">    return client.call(&quot;PATCH&quot;, urlInfo, request, DataSource.class);</span>
+  }
+
+  /**
+   * Delete a data source by moving it to trash. This operation sets the data source's inTrash
+   * property to true.
+   *
+   * @param dataSourceId The ID of the data source to delete
+   * @return The updated data source with inTrash set to true
+   */
+  public DataSource delete(String dataSourceId) {
+<span class="fc" id="L76">    UpdateDataSourceParams deleteRequest = new UpdateDataSourceParams();</span>
+<span class="fc" id="L77">    deleteRequest.setInTrash(true);</span>
+<span class="fc" id="L78">    return update(dataSourceId, deleteRequest);</span>
+  }
+
+  /**
+   * Restore a data source from trash. This operation sets the data source's inTrash property to
+   * false.
+   *
+   * @param dataSourceId The ID of the data source to restore
+   * @return The updated data source with inTrash set to false
+   */
+  public DataSource restore(String dataSourceId) {
+<span class="fc" id="L89">    UpdateDataSourceParams restoreRequest = new UpdateDataSourceParams();</span>
+<span class="fc" id="L90">    restoreRequest.setInTrash(false);</span>
+<span class="fc" id="L91">    return update(dataSourceId, restoreRequest);</span>
+  }
+
+  /**
+   * Query a data source to get pages that match the specified criteria.
+   *
+   * @param dataSourceId The ID of the data source to query
+   * @return Response containing matching pages
+   */
+  public DataSourcePageList query(String dataSourceId) {
+<span class="fc" id="L101">    return query(dataSourceId, null, null, null);</span>
+  }
+
+  /**
+   * Query a data source to get pages that match the specified criteria.
+   *
+   * @param dataSourceId The ID of the data source to query
+   * @param request The query request containing filter and sort criteria
+   * @return Response containing matching pages
+   */
+  public DataSourcePageList query(String dataSourceId, DataSourceQuery request) {
+<span class="fc" id="L112">    return query(dataSourceId, request, null, null);</span>
+  }
+
+  /**
+   * Query a data source with pagination parameters.
+   *
+   * @param dataSourceId The ID of the data source to query
+   * @param startCursor The cursor to start pagination from
+   * @param pageSize The number of items to return (max 100)
+   * @return Response containing matching pages
+   */
+  public DataSourcePageList query(String dataSourceId, String startCursor, Integer pageSize) {
+<span class="fc" id="L124">    return query(dataSourceId, new DataSourceQuery(), startCursor, pageSize);</span>
+  }
+
+  /**
+   * Query a data source with pagination parameters.
+   *
+   * @param dataSourceId The ID of the data source to query
+   * @param request The query request containing filter and sort criteria
+   * @param pageSize The number of items to return (max 100)
+   * @param startCursor The cursor to start pagination from
+   * @return Response containing matching pages
+   */
+  public DataSourcePageList query(
+      String dataSourceId, DataSourceQuery request, String startCursor, Integer pageSize) {
+<span class="fc" id="L138">    validateDataSourceId(dataSourceId);</span>
+
+<span class="fc bfc" id="L140" title="All 2 branches covered.">    if (startCursor != null) {</span>
+<span class="fc" id="L141">      request.setStartCursor(startCursor);</span>
+    }
+
+<span class="fc bfc" id="L144" title="All 2 branches covered.">    if (pageSize != null) {</span>
+<span class="fc" id="L145">      request.setPageSize(pageSize);</span>
+    }
+
+<span class="fc" id="L148">    ApiPath urlInfo =</span>
+<span class="fc" id="L149">        ApiPath.builder(&quot;/data_sources/{data_source_id}/query&quot;)</span>
+<span class="fc" id="L150">            .pathParam(DATA_SOURCE_ID, dataSourceId)</span>
+<span class="fc" id="L151">            .build();</span>
+
+<span class="fc" id="L153">    return client.call(&quot;POST&quot;, urlInfo, request, DataSourcePageList.class);</span>
+  }
+
+  /**
+   * Retrieve a data source templates by its ID.
+   *
+   * @param dataSourceId The ID of the data source to retrieve templates for
+   * @return Templates
+   */
+  public Templates retrieveTemplates(String dataSourceId) {
+<span class="fc" id="L163">    validateDataSourceId(dataSourceId);</span>
+<span class="fc" id="L164">    ApiPath urlInfo =</span>
+<span class="fc" id="L165">        ApiPath.builder(&quot;/data_sources/{data_source_id}/templates&quot;)</span>
+<span class="fc" id="L166">            .pathParam(DATA_SOURCE_ID, dataSourceId)</span>
+<span class="fc" id="L167">            .build();</span>
+<span class="fc" id="L168">    return client.call(&quot;GET&quot;, urlInfo, Templates.class);</span>
+  }
+
+  private void validateDataSourceId(String dataSourceId) {
+<span class="fc bfc" id="L172" title="All 4 branches covered.">    if (dataSourceId == null || dataSourceId.trim().isEmpty()) {</span>
+<span class="fc" id="L173">      throw new IllegalArgumentException(&quot;Data source ID cannot be null or empty&quot;);</span>
+    }
+<span class="fc" id="L175">  }</span>
+
+  private void validateRequest(Object request) {
+<span class="fc bfc" id="L178" title="All 2 branches covered.">    if (request == null) {</span>
+<span class="fc" id="L179">      throw new IllegalArgumentException(&quot;Request cannot be null&quot;);</span>
+    }
+<span class="fc" id="L181">  }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

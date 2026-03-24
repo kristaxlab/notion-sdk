@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>NotionAuthInterceptor.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">notion-sdk</a> &gt; <a href="index.source.html" class="el_package">io.kristixlab.notion.api.http.interceptor</a> &gt; <span class="el_source">NotionAuthInterceptor.java</span></div><h1>NotionAuthInterceptor.java</h1><pre class="source lang-java linenums">package io.kristixlab.notion.api.http.interceptor;
+
+import io.kristixlab.notion.api.NotionAuthSettings;
+import io.kristixlab.notion.api.http.client.HttpClient.HttpRequest;
+import java.util.Objects;
+import java.util.Set;
+
+/**
+ * Interceptor that adds Notion-specific authentication and API headers to every outgoing request.
+ *
+ * &lt;p&gt;Headers added:
+ *
+ * &lt;ul&gt;
+ *   &lt;li&gt;{@code Notion-Version} — the API version string (e.g. {@code &quot;2026-03-11&quot;})
+ *   &lt;li&gt;{@code Accept: application/json}
+ *   &lt;li&gt;{@code Authorization} — either a Bearer token (for regular API calls) or a Basic credential
+ *       (for OAuth token/introspect/revoke endpoints), determined by inspecting the request URL
+ * &lt;/ul&gt;
+ *
+ * &lt;p&gt;If the request already contains an {@code Authorization} header (set by the caller), this
+ * interceptor will &lt;b&gt;not&lt;/b&gt; overwrite it.
+ *
+ * &lt;p&gt;Usage:
+ *
+ * &lt;pre&gt;{@code
+ * HttpClient client = new InterceptingHttpClient(new OkHttp3Client(), List.of(
+ *     new RateLimitHttpInterceptor(rateLimiter, &quot;Notion&quot;),
+ *     new NotionAuthInterceptor(authSettings, &quot;2026-03-11&quot;),
+ *     new LoggingHttpInterceptor(&quot;Notion&quot;)
+ * ));
+ * }&lt;/pre&gt;
+ *
+ * @see HttpClientInterceptor
+ */
+public class NotionAuthInterceptor implements HttpClientInterceptor {
+
+  /** OAuth endpoints that require Basic authentication (client-id:client-secret). */
+<span class="fc" id="L38">  private static final Set&lt;String&gt; OAUTH_PATHS =</span>
+<span class="fc" id="L39">      Set.of(&quot;/oauth/token&quot;, &quot;/oauth/introspect&quot;, &quot;/oauth/revoke&quot;);</span>
+
+  private final NotionAuthSettings authSettings;
+  private final String notionVersion;
+
+  /**
+   * @param authSettings the authentication settings containing tokens / client credentials
+   * @param notionVersion the Notion API version header value (e.g. {@code &quot;2026-03-11&quot;})
+   */
+<span class="fc" id="L48">  public NotionAuthInterceptor(NotionAuthSettings authSettings, String notionVersion) {</span>
+<span class="fc" id="L49">    this.authSettings = Objects.requireNonNull(authSettings, &quot;authSettings&quot;);</span>
+<span class="fc" id="L50">    this.notionVersion = Objects.requireNonNull(notionVersion, &quot;notionVersion&quot;);</span>
+<span class="fc" id="L51">  }</span>
+
+  @Override
+  public HttpRequest beforeSend(HttpRequest request) {
+<span class="fc" id="L55">    HttpRequest.Builder builder =</span>
+<span class="fc" id="L56">        request.toBuilder()</span>
+<span class="fc" id="L57">            .header(&quot;Notion-Version&quot;, notionVersion)</span>
+<span class="fc" id="L58">            .header(&quot;Accept&quot;, &quot;application/json&quot;);</span>
+
+<span class="fc bfc" id="L60" title="All 2 branches covered.">    if (!request.headers().containsKey(&quot;Authorization&quot;)) {</span>
+<span class="fc" id="L61">      builder.header(&quot;Authorization&quot;, resolveAuthHeader(request.url()));</span>
+    }
+
+<span class="fc" id="L64">    return builder.build();</span>
+  }
+
+  /**
+   * Selects the correct {@code Authorization} header value based on the request URL.
+   *
+   * &lt;p&gt;OAuth endpoints ({@code /oauth/token}, {@code /oauth/introspect}, {@code /oauth/revoke})
+   * require HTTP Basic authentication using the integration's client ID and client secret. All
+   * other endpoints use the Bearer access token.
+   *
+   * @param url the full request URL
+   * @return the {@code Authorization} header value
+   * @throws IllegalStateException if the required credentials are not configured
+   */
+  private String resolveAuthHeader(String url) {
+<span class="fc bfc" id="L79" title="All 2 branches covered.">    if (isOAuthEndpoint(url)) {</span>
+<span class="fc" id="L80">      String basicHeader = authSettings.getOauthBasicHeader();</span>
+<span class="fc bfc" id="L81" title="All 2 branches covered.">      if (basicHeader == null) {</span>
+<span class="fc" id="L82">        throw new IllegalStateException(</span>
+            &quot;Client ID and Client Secret must be set for OAuth token exchange&quot;);
+      }
+<span class="fc" id="L85">      return basicHeader;</span>
+    }
+
+<span class="fc" id="L88">    String tokenHeader = authSettings.getTokenAuthHeader();</span>
+<span class="fc bfc" id="L89" title="All 2 branches covered.">    if (tokenHeader == null) {</span>
+<span class="fc" id="L90">      throw new IllegalStateException(&quot;Auth token for Notion API is missing&quot;);</span>
+    }
+<span class="fc" id="L92">    return tokenHeader;</span>
+  }
+
+  /**
+   * Checks whether the URL targets one of the OAuth endpoints that require Basic authentication.
+   *
+   * @param url the full request URL (e.g. {@code &quot;https://api.notion.com/v1/oauth/token&quot;})
+   * @return {@code true} if the URL path matches an OAuth endpoint
+   */
+  private static boolean isOAuthEndpoint(String url) {
+<span class="fc bfc" id="L102" title="All 2 branches covered.">    for (String path : OAUTH_PATHS) {</span>
+<span class="fc bfc" id="L103" title="All 2 branches covered.">      if (url.contains(path)) {</span>
+<span class="fc" id="L104">        return true;</span>
+      }
+<span class="fc" id="L106">    }</span>
+<span class="fc" id="L107">    return false;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

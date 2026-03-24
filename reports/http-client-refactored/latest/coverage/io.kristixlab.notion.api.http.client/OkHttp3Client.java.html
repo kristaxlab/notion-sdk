@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>OkHttp3Client.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">notion-sdk</a> &gt; <a href="index.source.html" class="el_package">io.kristixlab.notion.api.http.client</a> &gt; <span class="el_source">OkHttp3Client.java</span></div><h1>OkHttp3Client.java</h1><pre class="source lang-java linenums">package io.kristixlab.notion.api.http.client;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import okhttp3.*;
+import okio.BufferedSink;
+
+public class OkHttp3Client implements HttpClient {
+
+  private final OkHttpClient ok;
+
+  public OkHttp3Client() {
+<span class="nc" id="L17">    this(new OkHttpClient());</span>
+<span class="nc" id="L18">  }</span>
+
+<span class="fc" id="L20">  public OkHttp3Client(OkHttpClient ok) {</span>
+<span class="fc" id="L21">    this.ok = Objects.requireNonNull(ok, &quot;ok&quot;);</span>
+<span class="fc" id="L22">  }</span>
+
+  @Override
+  public HttpResponse send(HttpRequest request) throws IOException {
+<span class="nc" id="L26">    Objects.requireNonNull(request, &quot;request&quot;);</span>
+
+<span class="nc" id="L28">    Request okReq = toOkHttpRequest(request);</span>
+
+<span class="nc" id="L30">    try (Response okRes = ok.newCall(okReq).execute()) {</span>
+<span class="nc bnc" id="L31" title="All 2 branches missed.">      byte[] bytes = okRes.body() != null ? okRes.body().bytes() : null;</span>
+
+      // Convert to Map&lt;String, List&lt;String&gt;&gt;
+<span class="nc" id="L34">      Map&lt;String, List&lt;String&gt;&gt; headers = new LinkedHashMap&lt;&gt;();</span>
+<span class="nc" id="L35">      Headers h = okRes.headers();</span>
+<span class="nc bnc" id="L36" title="All 2 branches missed.">      for (String name : h.names()) {</span>
+<span class="nc" id="L37">        headers.put(name, h.values(name));</span>
+<span class="nc" id="L38">      }</span>
+
+<span class="nc" id="L40">      return new HttpResponse(okRes.code(), headers, bytes);</span>
+    }
+  }
+
+  private Request toOkHttpRequest(HttpRequest r) {
+<span class="nc" id="L45">    String url = Objects.requireNonNull(r.url(), &quot;url&quot;);</span>
+<span class="nc" id="L46">    HttpMethod method = Objects.requireNonNull(r.method(), &quot;method&quot;);</span>
+
+<span class="nc" id="L48">    Request.Builder b = new Request.Builder().url(url);</span>
+
+    // headers
+<span class="nc bnc" id="L51" title="All 2 branches missed.">    if (r.headers() != null) {</span>
+<span class="nc bnc" id="L52" title="All 2 branches missed.">      for (Map.Entry&lt;String, String&gt; e : r.headers().entrySet()) {</span>
+<span class="nc bnc" id="L53" title="All 4 branches missed.">        if (e.getKey() != null &amp;&amp; e.getValue() != null) {</span>
+<span class="nc" id="L54">          b.addHeader(e.getKey(), e.getValue());</span>
+        }
+<span class="nc" id="L56">      }</span>
+    }
+
+    // body
+<span class="nc" id="L60">    RequestBody okBody = toOkHttpBody(method, r.body());</span>
+
+    // Build with explicit method to allow DELETE-with-body etc.
+<span class="nc" id="L63">    b.method(method.name(), okBody);</span>
+
+<span class="nc" id="L65">    return b.build();</span>
+  }
+
+  private RequestBody toOkHttpBody(HttpMethod method, Body body) {
+    // GET should not have a body. For others, we may need an empty body.
+<span class="nc" id="L70">    boolean allowsBody = allowsRequestBody(method);</span>
+<span class="nc" id="L71">    boolean requiresBody = requiresRequestBody(method);</span>
+
+<span class="nc bnc" id="L73" title="All 2 branches missed.">    if (!allowsBody) {</span>
+<span class="nc" id="L74">      return null;</span>
+    }
+
+<span class="nc bnc" id="L77" title="All 2 branches missed.">    if (body == null) {</span>
+<span class="nc bnc" id="L78" title="All 2 branches missed.">      return requiresBody ? emptyBody() : null;</span>
+    }
+
+<span class="nc bnc" id="L81" title="All 2 branches missed.">    if (body instanceof EmptyBody) {</span>
+<span class="nc" id="L82">      return emptyBody();</span>
+    }
+
+<span class="nc bnc" id="L85" title="All 2 branches missed.">    if (body instanceof StringBody sb) {</span>
+<span class="nc" id="L86">      MediaType mt = mediaTypeOrThrow(sb.contentType());</span>
+      // OkHttp 3 signature: RequestBody.create(String, MediaType)
+<span class="nc" id="L88">      return RequestBody.create(sb.content(), mt);</span>
+    }
+
+<span class="nc bnc" id="L91" title="All 2 branches missed.">    if (body instanceof BytesBody bb) {</span>
+<span class="nc" id="L92">      MediaType mt = mediaTypeOrThrow(bb.contentType());</span>
+<span class="nc" id="L93">      return RequestBody.create(bb.bytes(), mt);</span>
+    }
+
+<span class="nc bnc" id="L96" title="All 2 branches missed.">    if (body instanceof FileBody fb) {</span>
+<span class="nc" id="L97">      MediaType mt = mediaTypeOrThrow(fb.contentType());</span>
+<span class="nc" id="L98">      return RequestBody.create(fb.file(), mt);</span>
+    }
+
+<span class="nc bnc" id="L101" title="All 2 branches missed.">    if (body instanceof InputStreamBody isb) {</span>
+<span class="nc" id="L102">      return streamingBody(isb.inputStream(), isb.contentLength(), isb.contentType());</span>
+    }
+
+<span class="nc bnc" id="L105" title="All 2 branches missed.">    if (body instanceof MultipartBody mb) {</span>
+      // Do NOT set Content-Type header manually; OkHttp will include boundary.
+<span class="nc" id="L107">      okhttp3.MultipartBody.Builder mp =</span>
+<span class="nc" id="L108">          new okhttp3.MultipartBody.Builder().setType(okhttp3.MultipartBody.FORM);</span>
+
+<span class="nc bnc" id="L110" title="All 2 branches missed.">      for (Part part : mb.parts()) {</span>
+<span class="nc bnc" id="L111" title="All 2 branches missed.">        if (part instanceof TextPart tp) {</span>
+<span class="nc" id="L112">          mp.addFormDataPart(tp.name(), tp.value());</span>
+<span class="nc bnc" id="L113" title="All 2 branches missed.">        } else if (part instanceof FilePart fp) {</span>
+<span class="nc" id="L114">          MediaType mt = mediaTypeOrThrow(fp.contentType());</span>
+<span class="nc" id="L115">          RequestBody partBody = RequestBody.create(fp.file(), mt);</span>
+<span class="nc" id="L116">          mp.addFormDataPart(fp.name(), fp.filename(), partBody);</span>
+<span class="nc bnc" id="L117" title="All 2 branches missed.">        } else if (part instanceof BytesPart bp) {</span>
+<span class="nc" id="L118">          MediaType mt = mediaTypeOrThrow(bp.contentType());</span>
+<span class="nc" id="L119">          RequestBody partBody = RequestBody.create(bp.bytes(), mt);</span>
+<span class="nc" id="L120">          mp.addFormDataPart(bp.name(), bp.filename(), partBody);</span>
+<span class="nc bnc" id="L121" title="All 2 branches missed.">        } else if (part instanceof InputStreamPart isp) {</span>
+<span class="nc" id="L122">          RequestBody partBody = streamingBody(isp.inputStream(), -1, isp.contentType());</span>
+<span class="nc" id="L123">          mp.addFormDataPart(isp.name(), isp.filename(), partBody);</span>
+<span class="nc" id="L124">        } else {</span>
+<span class="nc" id="L125">          throw new IllegalArgumentException(&quot;Unsupported multipart part: &quot; + part.getClass());</span>
+        }
+<span class="nc" id="L127">      }</span>
+
+<span class="nc" id="L129">      return mp.build();</span>
+    }
+
+<span class="nc" id="L132">    throw new IllegalArgumentException(&quot;Unsupported Body: &quot; + body.getClass());</span>
+  }
+
+  private static MediaType mediaTypeOrThrow(String contentType) {
+<span class="nc bnc" id="L136" title="All 4 branches missed.">    if (contentType == null || contentType.isBlank()) {</span>
+<span class="nc" id="L137">      throw new IllegalArgumentException(&quot;contentType is required&quot;);</span>
+    }
+<span class="nc" id="L139">    MediaType mt = MediaType.parse(contentType); // OkHttp 3</span>
+<span class="nc bnc" id="L140" title="All 2 branches missed.">    if (mt == null) throw new IllegalArgumentException(&quot;Invalid contentType: &quot; + contentType);</span>
+<span class="nc" id="L141">    return mt;</span>
+  }
+
+  /**
+   * Creates a streaming {@link RequestBody} that reads the {@link InputStream} in 8 KB chunks.
+   *
+   * @param inputStream the source stream (consumed once, then closed)
+   * @param contentLength the known length, or {@code -1} if unknown (chunked transfer)
+   * @param contentType the MIME type (must not be null/blank)
+   */
+  private static RequestBody streamingBody(
+      InputStream inputStream, long contentLength, String contentType) {
+<span class="nc" id="L153">    MediaType mt = mediaTypeOrThrow(contentType);</span>
+<span class="nc" id="L154">    return new RequestBody() {</span>
+      @Override
+      public MediaType contentType() {
+<span class="nc" id="L157">        return mt;</span>
+      }
+
+      @Override
+      public long contentLength() {
+<span class="nc" id="L162">        return contentLength;</span>
+      }
+
+      @Override
+      public void writeTo(BufferedSink sink) throws IOException {
+<span class="nc" id="L167">        try (inputStream) {</span>
+<span class="nc" id="L168">          byte[] buffer = new byte[8192];</span>
+          int bytesRead;
+<span class="nc bnc" id="L170" title="All 2 branches missed.">          while ((bytesRead = inputStream.read(buffer)) != -1) {</span>
+<span class="nc" id="L171">            sink.write(buffer, 0, bytesRead);</span>
+          }
+        }
+<span class="nc" id="L174">      }</span>
+    };
+  }
+
+  private static RequestBody emptyBody() {
+    // Some servers dislike truly empty bodies; but this is the usual approach.
+<span class="nc" id="L180">    return RequestBody.create(new byte[0], null);</span>
+  }
+
+  private static boolean allowsRequestBody(HttpMethod method) {
+<span class="nc bnc" id="L184" title="All 8 branches missed.">    return method == HttpMethod.POST</span>
+        || method == HttpMethod.PUT
+        || method == HttpMethod.PATCH
+        || method == HttpMethod.DELETE;
+  }
+
+  private static boolean requiresRequestBody(HttpMethod method) {
+<span class="nc bnc" id="L191" title="All 6 branches missed.">    return method == HttpMethod.POST || method == HttpMethod.PUT || method == HttpMethod.PATCH;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
