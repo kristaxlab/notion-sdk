@@ -104,7 +104,7 @@ public class ExchangeRecordingInterceptor implements HttpClientInterceptor {
   // Interceptor implementation
   // ==================================================================
 
-<span class="nc" id="L107">  private static final Logger LOGGER = LoggerFactory.getLogger(ExchangeRecordingInterceptor.class);</span>
+<span class="fc" id="L107">  private static final Logger LOGGER = LoggerFactory.getLogger(ExchangeRecordingInterceptor.class);</span>
 
   private final Path dir;
 
@@ -126,82 +126,145 @@ public class ExchangeRecordingInterceptor implements HttpClientInterceptor {
   @Override
   public HttpRequest beforeSend(HttpRequest request) {
 <span class="nc" id="L128">    String baseName =</span>
-<span class="nc" id="L129">        String.format(&quot;%d_%d&quot;, System.currentTimeMillis(), Thread.currentThread().getId());</span>
-<span class="nc" id="L130">    pendingBaseName.set(baseName);</span>
+<span class="nc" id="L129">        String.format(</span>
+            &quot;%d_%d_%s&quot;,
+<span class="nc" id="L131">            System.currentTimeMillis(),</span>
+<span class="nc" id="L132">            Thread.currentThread().getId(),</span>
+<span class="nc" id="L133">            serviceNameFrom(request.url(), request.method().name()));</span>
+<span class="nc" id="L134">    pendingBaseName.set(baseName);</span>
 
     RequestRecord record =
-<span class="nc" id="L133">        RequestRecord.builder()</span>
-<span class="nc" id="L134">            .method(request.method().name())</span>
-<span class="nc" id="L135">            .url(request.url())</span>
-<span class="nc" id="L136">            .requestHeaders(redactedHeaders(request.headers()))</span>
-<span class="nc" id="L137">            .requestBody(describeBody(request.body()))</span>
-<span class="nc" id="L138">            .build();</span>
+<span class="nc" id="L137">        RequestRecord.builder()</span>
+<span class="nc" id="L138">            .method(request.method().name())</span>
+<span class="nc" id="L139">            .url(request.url())</span>
+<span class="nc" id="L140">            .requestHeaders(redactedHeaders(request.headers()))</span>
+<span class="nc" id="L141">            .requestBody(describeBody(request.body()))</span>
+<span class="nc" id="L142">            .build();</span>
 
-<span class="nc" id="L140">    write(baseName + &quot;_rq.json&quot;, record);</span>
-<span class="nc" id="L141">    return request;</span>
+<span class="nc" id="L144">    write(baseName + &quot;_rq.json&quot;, record);</span>
+<span class="nc" id="L145">    return request;</span>
   }
 
   @Override
   public void afterReceive(HttpRequest request, HttpResponse response) {
-<span class="nc" id="L146">    String baseName = pendingBaseName.get();</span>
-<span class="nc" id="L147">    pendingBaseName.remove();</span>
+<span class="nc" id="L150">    String baseName = pendingBaseName.get();</span>
+<span class="nc" id="L151">    pendingBaseName.remove();</span>
 
-<span class="nc bnc" id="L149" title="All 2 branches missed.">    if (baseName == null) {</span>
-<span class="nc" id="L150">      baseName = String.format(&quot;%d_%d&quot;, System.currentTimeMillis(), Thread.currentThread().getId());</span>
+<span class="nc bnc" id="L153" title="All 2 branches missed.">    if (baseName == null) {</span>
+<span class="nc" id="L154">      baseName = String.format(&quot;%d_%d&quot;, System.currentTimeMillis(), Thread.currentThread().getId());</span>
     }
 
     ResponseRecord record =
-<span class="nc" id="L154">        ResponseRecord.builder()</span>
-<span class="nc" id="L155">            .statusCode(response.statusCode())</span>
-<span class="nc bnc" id="L156" title="All 2 branches missed.">            .responseHeaders(response.headers().isEmpty() ? null : response.headers())</span>
-<span class="nc" id="L157">            .responseBody(JsonConverter.getInstance().parseJson(response.bodyAsString()))</span>
-<span class="nc" id="L158">            .build();</span>
+<span class="nc" id="L158">        ResponseRecord.builder()</span>
+<span class="nc" id="L159">            .statusCode(response.statusCode())</span>
+<span class="nc bnc" id="L160" title="All 2 branches missed.">            .responseHeaders(response.headers().isEmpty() ? null : response.headers())</span>
+<span class="nc" id="L161">            .responseBody(JsonConverter.getInstance().parseJson(response.bodyAsString()))</span>
+<span class="nc" id="L162">            .build();</span>
 
-<span class="nc" id="L160">    write(baseName + &quot;_rs.json&quot;, record);</span>
-<span class="nc" id="L161">  }</span>
+<span class="nc" id="L164">    write(baseName + &quot;_rs.json&quot;, record);</span>
+<span class="nc" id="L165">  }</span>
 
   // ==================================================================
   // Helpers
   // ==================================================================
 
   private void write(String fileName, Object record) {
-<span class="nc" id="L168">    Path file = dir.resolve(fileName);</span>
+<span class="nc" id="L172">    Path file = dir.resolve(fileName);</span>
     try {
-<span class="nc" id="L170">      Files.writeString(file, JsonConverter.getInstance().toJson(record, true));</span>
-<span class="nc" id="L171">    } catch (IOException e) {</span>
-<span class="nc" id="L172">      LOGGER.warn(&quot;Failed to write exchange log to: {}&quot;, file, e);</span>
-<span class="nc" id="L173">    }</span>
-<span class="nc" id="L174">  }</span>
+<span class="nc" id="L174">      Files.writeString(file, JsonConverter.getInstance().toJson(record, true));</span>
+<span class="nc" id="L175">    } catch (IOException e) {</span>
+<span class="nc" id="L176">      LOGGER.warn(&quot;Failed to write exchange log to: {}&quot;, file, e);</span>
+<span class="nc" id="L177">    }</span>
+<span class="nc" id="L178">  }</span>
 
   private static Map&lt;String, String&gt; redactedHeaders(Map&lt;String, String&gt; headers) {
-<span class="nc bnc" id="L177" title="All 4 branches missed.">    if (headers == null || headers.isEmpty()) {</span>
-<span class="nc" id="L178">      return null;</span>
+<span class="nc bnc" id="L181" title="All 4 branches missed.">    if (headers == null || headers.isEmpty()) {</span>
+<span class="nc" id="L182">      return null;</span>
     }
-<span class="nc" id="L180">    Map&lt;String, String&gt; copy = new LinkedHashMap&lt;&gt;(headers);</span>
-<span class="nc" id="L181">    copy.computeIfPresent(&quot;Authorization&quot;, (k, v) -&gt; &quot;[redacted]&quot;);</span>
-<span class="nc" id="L182">    return copy;</span>
+<span class="nc" id="L184">    Map&lt;String, String&gt; copy = new LinkedHashMap&lt;&gt;(headers);</span>
+<span class="nc" id="L185">    copy.computeIfPresent(&quot;Authorization&quot;, (k, v) -&gt; &quot;[redacted]&quot;);</span>
+<span class="nc" id="L186">    return copy;</span>
   }
 
   private static Object describeBody(Body body) {
-<span class="nc bnc" id="L186" title="All 4 branches missed.">    if (body == null || body instanceof EmptyBody) {</span>
-<span class="nc" id="L187">      return null;</span>
+<span class="nc bnc" id="L190" title="All 4 branches missed.">    if (body == null || body instanceof EmptyBody) {</span>
+<span class="nc" id="L191">      return null;</span>
     }
-<span class="nc bnc" id="L189" title="All 2 branches missed.">    if (body instanceof StringBody sb) {</span>
-<span class="nc" id="L190">      return JsonConverter.getInstance().parseJson(sb.content());</span>
+<span class="nc bnc" id="L193" title="All 2 branches missed.">    if (body instanceof StringBody sb) {</span>
+<span class="nc" id="L194">      return JsonConverter.getInstance().parseJson(sb.content());</span>
     }
-<span class="nc bnc" id="L192" title="All 2 branches missed.">    if (body instanceof BytesBody bb) {</span>
-<span class="nc" id="L193">      return &quot;[bytes: &quot; + bb.bytes().length + &quot;]&quot;;</span>
+<span class="nc bnc" id="L196" title="All 2 branches missed.">    if (body instanceof BytesBody bb) {</span>
+<span class="nc" id="L197">      return &quot;[bytes: &quot; + bb.bytes().length + &quot;]&quot;;</span>
     }
-<span class="nc bnc" id="L195" title="All 2 branches missed.">    if (body instanceof MultipartBody mb) {</span>
-<span class="nc" id="L196">      return &quot;[multipart: &quot; + mb.parts().size() + &quot; parts]&quot;;</span>
+<span class="nc bnc" id="L199" title="All 2 branches missed.">    if (body instanceof MultipartBody mb) {</span>
+<span class="nc" id="L200">      return &quot;[multipart: &quot; + mb.parts().size() + &quot; parts]&quot;;</span>
     }
-<span class="nc bnc" id="L198" title="All 2 branches missed.">    if (body instanceof FileBody fb) {</span>
-<span class="nc" id="L199">      return &quot;[file: &quot; + fb.file().getName() + &quot;]&quot;;</span>
+<span class="nc bnc" id="L202" title="All 2 branches missed.">    if (body instanceof FileBody fb) {</span>
+<span class="nc" id="L203">      return &quot;[file: &quot; + fb.file().getName() + &quot;]&quot;;</span>
     }
-<span class="nc bnc" id="L201" title="All 2 branches missed.">    if (body instanceof InputStreamBody isb) {</span>
-<span class="nc" id="L202">      return &quot;[stream: &quot; + isb.contentLength() + &quot; bytes]&quot;;</span>
+<span class="nc bnc" id="L205" title="All 2 branches missed.">    if (body instanceof InputStreamBody isb) {</span>
+<span class="nc" id="L206">      return &quot;[stream: &quot; + isb.contentLength() + &quot; bytes]&quot;;</span>
     }
-<span class="nc" id="L204">    return &quot;[body]&quot;;</span>
+<span class="nc" id="L208">    return &quot;[body]&quot;;</span>
+  }
+
+  /**
+   * Derives a human-readable service name from the request URL and method.
+   *
+   * &lt;p&gt;Strategy: parse the URL path, strip the {@code /v1} prefix, discard UUID-looking segments
+   * (the dynamic ID values that replaced {@code {param}} placeholders), join the remaining segments
+   * with {@code _}, then append a method suffix.
+   *
+   * &lt;p&gt;Examples:
+   *
+   * &lt;ul&gt;
+   *   &lt;li&gt;{@code GET /v1/pages} → {@code pages_retrieve}
+   *   &lt;li&gt;{@code GET /v1/blocks/abc-123/children} → {@code blocks_children_retrieve}
+   *   &lt;li&gt;{@code POST /v1/databases/abc-123/query} → {@code databases_query_create}
+   *   &lt;li&gt;{@code PATCH /v1/pages/abc-123} → {@code pages_update}
+   *   &lt;li&gt;{@code DELETE /v1/blocks/abc-123} → {@code blocks_delete}
+   * &lt;/ul&gt;
+   */
+  static String serviceNameFrom(String url, String method) {
+    try {
+<span class="fc" id="L230">      String path = java.net.URI.create(url).getPath();</span>
+<span class="pc bpc" id="L231" title="1 of 2 branches missed.">      if (path.startsWith(&quot;/v1&quot;)) {</span>
+<span class="fc" id="L232">        path = path.substring(3);</span>
+      }
+
+<span class="fc" id="L235">      StringBuilder name = new StringBuilder();</span>
+<span class="fc bfc" id="L236" title="All 2 branches covered.">      for (String segment : path.split(&quot;/&quot;)) {</span>
+<span class="fc bfc" id="L237" title="All 4 branches covered.">        if (segment.isEmpty() || isLikelyId(segment)) {</span>
+<span class="fc" id="L238">          continue;</span>
+        }
+<span class="fc bfc" id="L240" title="All 2 branches covered.">        if (name.length() &gt; 0) {</span>
+<span class="fc" id="L241">          name.append('_');</span>
+        }
+<span class="fc" id="L243">        name.append(segment);</span>
+      }
+
+      String suffix =
+<span class="fc bfc" id="L247" title="All 5 branches covered.">          switch (method) {</span>
+<span class="fc" id="L248">            case &quot;GET&quot; -&gt; &quot;_retrieve&quot;;</span>
+<span class="fc" id="L249">            case &quot;POST&quot; -&gt; &quot;_create&quot;;</span>
+<span class="fc" id="L250">            case &quot;PATCH&quot; -&gt; &quot;_update&quot;;</span>
+<span class="fc" id="L251">            case &quot;DELETE&quot; -&gt; &quot;_delete&quot;;</span>
+<span class="fc" id="L252">            default -&gt; &quot;&quot;;</span>
+          };
+
+<span class="fc" id="L255">      return name.append(suffix).toString();</span>
+<span class="fc" id="L256">    } catch (Exception e) {</span>
+<span class="fc" id="L257">      return &quot;unknown&quot;;</span>
+    }
+  }
+
+  /**
+   * Returns {@code true} when {@code segment} looks like a Notion resource ID — a UUID with hyphens
+   * or a compact 32-character hex string — rather than a path keyword like {@code pages}.
+   */
+  private static boolean isLikelyId(String segment) {
+<span class="fc bfc" id="L266" title="All 2 branches covered.">    return segment.matches(&quot;[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}&quot;)</span>
+<span class="fc bfc" id="L267" title="All 2 branches covered.">        || segment.matches(&quot;[0-9a-f]{32}&quot;);</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

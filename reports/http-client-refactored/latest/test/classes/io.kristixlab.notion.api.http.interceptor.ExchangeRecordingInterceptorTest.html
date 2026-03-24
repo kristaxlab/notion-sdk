@@ -3,17 +3,17 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <meta http-equiv="x-ua-compatible" content="IE=edge"/>
-<title>Test results - SearchEndpointImplTest</title>
+<title>Test results - ExchangeRecordingInterceptorTest</title>
 <link href="../css/base-style.css" rel="stylesheet" type="text/css"/>
 <link href="../css/style.css" rel="stylesheet" type="text/css"/>
 <script src="../js/report.js" type="text/javascript"></script>
 </head>
 <body>
 <div id="content">
-<h1>SearchEndpointImplTest</h1>
+<h1>ExchangeRecordingInterceptorTest</h1>
 <div class="breadcrumbs">
 <a href="../index.html">all</a> &gt; 
-<a href="../packages/io.kristixlab.notion.api.endpoints.impl.html">io.kristixlab.notion.api.endpoints.impl</a> &gt; SearchEndpointImplTest</div>
+<a href="../packages/io.kristixlab.notion.api.http.interceptor.html">io.kristixlab.notion.api.http.interceptor</a> &gt; ExchangeRecordingInterceptorTest</div>
 <div id="summary">
 <table>
 <tr>
@@ -23,7 +23,7 @@
 <tr>
 <td>
 <div class="infoBox" id="tests">
-<div class="counter">13</div>
+<div class="counter">11</div>
 <p>tests</p>
 </div>
 </td>
@@ -41,7 +41,7 @@
 </td>
 <td>
 <div class="infoBox" id="duration">
-<div class="counter">0.011s</div>
+<div class="counter">0.007s</div>
 <p>duration</p>
 </div>
 </td>
@@ -70,86 +70,62 @@
 <thead>
 <tr>
 <th>Test</th>
-<th>Method name</th>
 <th>Duration</th>
 <th>Result</th>
 </tr>
 </thead>
 <tr>
-<td class="success">getAll()</td>
-<td class="success">getAll()</td>
-<td class="success">0s</td>
-<td class="success">passed</td>
-</tr>
-<tr>
-<td class="success">getAll_withPagination()</td>
-<td class="success">getAll_withPagination()</td>
-<td class="success">0.002s</td>
-<td class="success">passed</td>
-</tr>
-<tr>
-<td class="success">search()</td>
-<td class="success">search()</td>
+<td class="success">delete_resource()</td>
 <td class="success">0.001s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
-<td class="success">searchDataSources()</td>
-<td class="success">searchDataSources()</td>
+<td class="success">get_collectionEndpoint()</td>
+<td class="success">0s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">get_compactUuidStripped()</td>
+<td class="success">0s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">get_nestedCollection()</td>
 <td class="success">0.003s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
-<td class="success">searchPages()</td>
-<td class="success">searchPages()</td>
-<td class="success">0.001s</td>
-<td class="success">passed</td>
-</tr>
-<tr>
-<td class="success">search_rejectsNullRequest()</td>
-<td class="success">search_rejectsNullRequest()</td>
-<td class="success">0.001s</td>
-<td class="success">passed</td>
-</tr>
-<tr>
-<td class="success">[1] 0</td>
-<td class="success">search_rejectsPageSizeOutOfRange(int)[1]</td>
-<td class="success">0.001s</td>
-<td class="success">passed</td>
-</tr>
-<tr>
-<td class="success">[2] -1</td>
-<td class="success">search_rejectsPageSizeOutOfRange(int)[2]</td>
+<td class="success">get_resourceById()</td>
 <td class="success">0s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
-<td class="success">[3] 101</td>
-<td class="success">search_rejectsPageSizeOutOfRange(int)[3]</td>
+<td class="success">get_users_me()</td>
 <td class="success">0s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
-<td class="success">[4] 2147483647</td>
-<td class="success">search_rejectsPageSizeOutOfRange(int)[4]</td>
-<td class="success">0s</td>
-<td class="success">passed</td>
-</tr>
-<tr>
-<td class="success">search_withFilter()</td>
-<td class="success">search_withFilter()</td>
+<td class="success">malformedUrl_returnsUnknown()</td>
 <td class="success">0.001s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
-<td class="success">search_withPaginationInBody()</td>
-<td class="success">search_withPaginationInBody()</td>
+<td class="success">patch_update()</td>
+<td class="success">0.001s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">post_create()</td>
 <td class="success">0s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
-<td class="success">search_withSort()</td>
-<td class="success">search_withSort()</td>
+<td class="success">post_queryWithId()</td>
+<td class="success">0s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">unknownMethod_noSuffix()</td>
 <td class="success">0.001s</td>
 <td class="success">passed</td>
 </tr>

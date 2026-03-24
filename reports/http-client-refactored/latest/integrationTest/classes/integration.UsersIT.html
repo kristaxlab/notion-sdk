@@ -41,7 +41,7 @@
 </td>
 <td>
 <div class="infoBox" id="duration">
-<div class="counter">0.728s</div>
+<div class="counter">0.472s</div>
 <p>duration</p>
 </div>
 </td>
@@ -81,13 +81,13 @@
 <tr>
 <td class="success">[INT-25]: Users - Retrieve me and then retrieve this same user (me) by id</td>
 <td class="success">testGetUser()</td>
-<td class="success">0.497s</td>
+<td class="success">0.300s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">[INT-32]: Users - Retrieve list of all users</td>
 <td class="success">testListUsers()</td>
-<td class="success">0.231s</td>
+<td class="success">0.172s</td>
 <td class="success">passed</td>
 </tr>
 </table>
@@ -95,12 +95,12 @@
 <div class="tab">
 <h2>Standard output</h2>
 <span class="code">
-<pre>2026-03-24 19:51:04.181 [Test worker] DEBUG io.kristixlab.notion.api.http.interceptor.LoggingHttpInterceptor - [Notion] &gt;&gt; GET https://api.notion.com/v1/users | body: none
-2026-03-24 19:51:04.409 [Test worker] DEBUG io.kristixlab.notion.api.http.interceptor.LoggingHttpInterceptor - [Notion] &lt;&lt; GET https://api.notion.com/v1/users | status: 200 | body: {&quot;object&quot;:&quot;list&quot;,&quot;results&quot;:[{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;2e8d872b-594c-8197-b19f-000245c7469f&quot;,&quot;name&quot;:&quot;Notion SDK&quot;,&quot;avatar_url&quot;:&quot;https://lh3.googleusercontent.com/a/ACg8ocLI92G3npuAxEcx50qz8lw8csWU5Oz2hBrF4oDIQEYPnW3TMg=s100&quot;,&quot;type&quot;:&quot;person&quot;,&quot;person&quot;:{}},{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;,&quot;name&quot;:&quot;SDK Project - Internal Bot&quot;,&quot;avatar_url&quot;:&quot;https://s3-us-west-2.amazonaws.com/public.notion-static.com/4b1f8b01-ed6b-41c3-a845-eb795c0ef4e3/35f8a833-8f3b-40ea-bfef-a303db38340apng.png&quot;,&quot;type&quot;:&quot;bot&quot;,&quot;bot&quot;:{&quot;owner&quot;:{&quot;type&quot;:&quot;workspace&quot;,&quot;workspace&quot;:true},&quot;workspace_name&quot;:&quot;Notion SDK’s Space&quot;,&quot;workspace_id&quot;:&quot;74ecd6cf-1406-8114-a47c-000305deb73b&quot;,&quot;workspace_limits&quot;:{&quot;max_file_upload_size_in_bytes&quot;:5242880}}},{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;5bc643f4-4866-4b56-81b6-77b56f3fbe4f&quot;,&quot;name&quot;:&quot;SDK Project - Public Bot&quot;,&quot;avatar_url&quot;:&quot;https://s3-us-west-2.amazonaws.com/public.notion-static.com/6c0d23d0-73a5-406d-9112-5a0d9d0d9062/cc4fd512-b38c-4417-a7ca-bef2e827d2c9png.png&quot;,&quot;type&quot;:&quot;bot&quot;,&quot;bot&quot;:{}}],&quot;next_cursor&quot;:null,&quot;has_mo...[truncated]
-2026-03-24 19:51:04.414 [Test worker] DEBUG io.kristixlab.notion.api.http.interceptor.LoggingHttpInterceptor - [Notion] &gt;&gt; GET https://api.notion.com/v1/users/me | body: none
-2026-03-24 19:51:04.633 [Test worker] DEBUG io.kristixlab.notion.api.http.interceptor.LoggingHttpInterceptor - [Notion] &lt;&lt; GET https://api.notion.com/v1/users/me | status: 200 | body: {&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;,&quot;name&quot;:&quot;SDK Project - Internal Bot&quot;,&quot;avatar_url&quot;:&quot;https://s3-us-west-2.amazonaws.com/public.notion-static.com/4b1f8b01-ed6b-41c3-a845-eb795c0ef4e3/35f8a833-8f3b-40ea-bfef-a303db38340apng.png&quot;,&quot;type&quot;:&quot;bot&quot;,&quot;bot&quot;:{&quot;owner&quot;:{&quot;type&quot;:&quot;workspace&quot;,&quot;workspace&quot;:true},&quot;workspace_name&quot;:&quot;Notion SDK’s Space&quot;,&quot;workspace_id&quot;:&quot;74ecd6cf-1406-8114-a47c-000305deb73b&quot;,&quot;workspace_limits&quot;:{&quot;max_file_upload_size_in_bytes&quot;:5242880}},&quot;request_id&quot;:&quot;776f9b73-b008-4156-80fc-0c37a7156d2a&quot;}
-2026-03-24 19:51:04.634 [Test worker] DEBUG io.kristixlab.notion.api.http.interceptor.LoggingHttpInterceptor - [Notion] &gt;&gt; GET https://api.notion.com/v1/users/be59a966-190e-46f8-9864-9eefe5276dcc | body: none
-2026-03-24 19:51:04.908 [Test worker] DEBUG io.kristixlab.notion.api.http.interceptor.LoggingHttpInterceptor - [Notion] &lt;&lt; GET https://api.notion.com/v1/users/be59a966-190e-46f8-9864-9eefe5276dcc | status: 200 | body: {&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;,&quot;name&quot;:&quot;SDK Project - Internal Bot&quot;,&quot;avatar_url&quot;:&quot;https://s3-us-west-2.amazonaws.com/public.notion-static.com/4b1f8b01-ed6b-41c3-a845-eb795c0ef4e3/35f8a833-8f3b-40ea-bfef-a303db38340apng.png&quot;,&quot;type&quot;:&quot;bot&quot;,&quot;bot&quot;:{&quot;owner&quot;:{&quot;type&quot;:&quot;workspace&quot;,&quot;workspace&quot;:true},&quot;workspace_name&quot;:&quot;Notion SDK’s Space&quot;,&quot;workspace_id&quot;:&quot;74ecd6cf-1406-8114-a47c-000305deb73b&quot;,&quot;workspace_limits&quot;:{&quot;max_file_upload_size_in_bytes&quot;:5242880}},&quot;request_id&quot;:&quot;6d892204-808c-4219-956f-e623ac914766&quot;}
+<pre>2026-03-24 20:00:34.506 [Test worker] DEBUG io.kristixlab.notion.api.http.interceptor.LoggingHttpInterceptor - [Notion] &gt;&gt; GET https://api.notion.com/v1/users | body: none
+2026-03-24 20:00:34.675 [Test worker] DEBUG io.kristixlab.notion.api.http.interceptor.LoggingHttpInterceptor - [Notion] &lt;&lt; GET https://api.notion.com/v1/users | status: 200 | body: {&quot;object&quot;:&quot;list&quot;,&quot;results&quot;:[{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;2e8d872b-594c-8197-b19f-000245c7469f&quot;,&quot;name&quot;:&quot;Notion SDK&quot;,&quot;avatar_url&quot;:&quot;https://lh3.googleusercontent.com/a/ACg8ocLI92G3npuAxEcx50qz8lw8csWU5Oz2hBrF4oDIQEYPnW3TMg=s100&quot;,&quot;type&quot;:&quot;person&quot;,&quot;person&quot;:{}},{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;,&quot;name&quot;:&quot;SDK Project - Internal Bot&quot;,&quot;avatar_url&quot;:&quot;https://s3-us-west-2.amazonaws.com/public.notion-static.com/4b1f8b01-ed6b-41c3-a845-eb795c0ef4e3/35f8a833-8f3b-40ea-bfef-a303db38340apng.png&quot;,&quot;type&quot;:&quot;bot&quot;,&quot;bot&quot;:{&quot;owner&quot;:{&quot;type&quot;:&quot;workspace&quot;,&quot;workspace&quot;:true},&quot;workspace_name&quot;:&quot;Notion SDK’s Space&quot;,&quot;workspace_id&quot;:&quot;74ecd6cf-1406-8114-a47c-000305deb73b&quot;,&quot;workspace_limits&quot;:{&quot;max_file_upload_size_in_bytes&quot;:5242880}}},{&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;5bc643f4-4866-4b56-81b6-77b56f3fbe4f&quot;,&quot;name&quot;:&quot;SDK Project - Public Bot&quot;,&quot;avatar_url&quot;:&quot;https://s3-us-west-2.amazonaws.com/public.notion-static.com/6c0d23d0-73a5-406d-9112-5a0d9d0d9062/cc4fd512-b38c-4417-a7ca-bef2e827d2c9png.png&quot;,&quot;type&quot;:&quot;bot&quot;,&quot;bot&quot;:{}}],&quot;next_cursor&quot;:null,&quot;has_mo...[truncated]
+2026-03-24 20:00:34.679 [Test worker] DEBUG io.kristixlab.notion.api.http.interceptor.LoggingHttpInterceptor - [Notion] &gt;&gt; GET https://api.notion.com/v1/users/me | body: none
+2026-03-24 20:00:34.855 [Test worker] DEBUG io.kristixlab.notion.api.http.interceptor.LoggingHttpInterceptor - [Notion] &lt;&lt; GET https://api.notion.com/v1/users/me | status: 200 | body: {&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;,&quot;name&quot;:&quot;SDK Project - Internal Bot&quot;,&quot;avatar_url&quot;:&quot;https://s3-us-west-2.amazonaws.com/public.notion-static.com/4b1f8b01-ed6b-41c3-a845-eb795c0ef4e3/35f8a833-8f3b-40ea-bfef-a303db38340apng.png&quot;,&quot;type&quot;:&quot;bot&quot;,&quot;bot&quot;:{&quot;owner&quot;:{&quot;type&quot;:&quot;workspace&quot;,&quot;workspace&quot;:true},&quot;workspace_name&quot;:&quot;Notion SDK’s Space&quot;,&quot;workspace_id&quot;:&quot;74ecd6cf-1406-8114-a47c-000305deb73b&quot;,&quot;workspace_limits&quot;:{&quot;max_file_upload_size_in_bytes&quot;:5242880}},&quot;request_id&quot;:&quot;fbfa4e2c-0c4f-4fe1-8980-7f7466100a5a&quot;}
+2026-03-24 20:00:34.855 [Test worker] DEBUG io.kristixlab.notion.api.http.interceptor.LoggingHttpInterceptor - [Notion] &gt;&gt; GET https://api.notion.com/v1/users/be59a966-190e-46f8-9864-9eefe5276dcc | body: none
+2026-03-24 20:00:34.977 [Test worker] DEBUG io.kristixlab.notion.api.http.interceptor.LoggingHttpInterceptor - [Notion] &lt;&lt; GET https://api.notion.com/v1/users/be59a966-190e-46f8-9864-9eefe5276dcc | status: 200 | body: {&quot;object&quot;:&quot;user&quot;,&quot;id&quot;:&quot;be59a966-190e-46f8-9864-9eefe5276dcc&quot;,&quot;name&quot;:&quot;SDK Project - Internal Bot&quot;,&quot;avatar_url&quot;:&quot;https://s3-us-west-2.amazonaws.com/public.notion-static.com/4b1f8b01-ed6b-41c3-a845-eb795c0ef4e3/35f8a833-8f3b-40ea-bfef-a303db38340apng.png&quot;,&quot;type&quot;:&quot;bot&quot;,&quot;bot&quot;:{&quot;owner&quot;:{&quot;type&quot;:&quot;workspace&quot;,&quot;workspace&quot;:true},&quot;workspace_name&quot;:&quot;Notion SDK’s Space&quot;,&quot;workspace_id&quot;:&quot;74ecd6cf-1406-8114-a47c-000305deb73b&quot;,&quot;workspace_limits&quot;:{&quot;max_file_upload_size_in_bytes&quot;:5242880}},&quot;request_id&quot;:&quot;f77f8c20-cdf6-4733-a345-1527ca6fb23b&quot;}
 </pre>
 </span>
 </div>
@@ -112,7 +112,7 @@
 <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
 </label>
 </div>Generated by 
-<a href="https://www.gradle.org">Gradle 8.14.4</a> at Mar 24, 2026, 7:51:21 PM</p>
+<a href="https://www.gradle.org">Gradle 8.14.4</a> at Mar 24, 2026, 8:00:54 PM</p>
 </div>
 </div>
 </body>

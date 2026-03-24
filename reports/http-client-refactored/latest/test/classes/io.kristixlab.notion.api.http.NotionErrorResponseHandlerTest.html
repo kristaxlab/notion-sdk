@@ -41,7 +41,7 @@
 </td>
 <td>
 <div class="infoBox" id="duration">
-<div class="counter">0.145s</div>
+<div class="counter">0.116s</div>
 <p>duration</p>
 </div>
 </td>
@@ -81,7 +81,7 @@
 <tr>
 <td class="success">Empty body falls back gracefully</td>
 <td class="success">emptyBodyFallback()</td>
-<td class="success">0.015s</td>
+<td class="success">0.012s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
@@ -93,19 +93,19 @@
 <tr>
 <td class="success">Non-JSON body falls back to raw body as message</td>
 <td class="success">nonJsonBodyFallback()</td>
-<td class="success">0.016s</td>
+<td class="success">0.011s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">Null body bytes produce 'unknown error' message</td>
 <td class="success">nullBodyFallback()</td>
-<td class="success">0.031s</td>
+<td class="success">0.018s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">400 → ValidationException</td>
 <td class="success">status400()</td>
-<td class="success">0.064s</td>
+<td class="success">0.057s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
@@ -117,13 +117,13 @@
 <tr>
 <td class="success">403 → ForbiddenException</td>
 <td class="success">status403()</td>
-<td class="success">0.002s</td>
+<td class="success">0.001s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">404 → NotFoundException</td>
 <td class="success">status404()</td>
-<td class="success">0.001s</td>
+<td class="success">0s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
@@ -141,7 +141,7 @@
 <tr>
 <td class="success">500 → InternalServerException</td>
 <td class="success">status500()</td>
-<td class="success">0s</td>
+<td class="success">0.001s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
@@ -165,31 +165,31 @@
 <tr>
 <td class="success">status 200 passes through</td>
 <td class="success">successfulStatusDoesNotThrow(int)[1]</td>
-<td class="success">0.003s</td>
+<td class="success">0.004s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">status 201 passes through</td>
 <td class="success">successfulStatusDoesNotThrow(int)[2]</td>
-<td class="success">0s</td>
+<td class="success">0.001s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">status 204 passes through</td>
 <td class="success">successfulStatusDoesNotThrow(int)[3]</td>
-<td class="success">0s</td>
+<td class="success">0.001s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">status 302 passes through</td>
 <td class="success">successfulStatusDoesNotThrow(int)[4]</td>
-<td class="success">0.002s</td>
+<td class="success">0s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">Unmapped status (e.g. 418) → generic NotionApiException</td>
 <td class="success">unmappedStatus()</td>
-<td class="success">0.002s</td>
+<td class="success">0.001s</td>
 <td class="success">passed</td>
 </tr>
 </table>
@@ -197,8 +197,8 @@
 <div class="tab">
 <h2>Standard output</h2>
 <span class="code">
-<pre>2026-03-24 19:49:41.111 [Test worker] ERROR io.kristixlab.notion.api.json.JsonConverter - Error converting JSON to class io.kristixlab.notion.api.model.NotionError: argument &quot;content&quot; is null
-2026-03-24 19:49:41.114 [Test worker] DEBUG io.kristixlab.notion.api.http.error.NotionErrorResponseHandler - Failed to parse Notion error body, using raw body as message
+<pre>2026-03-24 19:58:53.734 [Test worker] ERROR io.kristixlab.notion.api.json.JsonConverter - Error converting JSON to class io.kristixlab.notion.api.model.NotionError: argument &quot;content&quot; is null
+2026-03-24 19:58:53.735 [Test worker] DEBUG io.kristixlab.notion.api.http.error.NotionErrorResponseHandler - Failed to parse Notion error body, using raw body as message
 java.lang.RuntimeException: java.lang.IllegalArgumentException: argument &quot;content&quot; is null
 	at io.kristixlab.notion.api.json.JsonConverter.toObject(JsonConverter.java:52) ~[main/:?]
 	at io.kristixlab.notion.api.http.error.NotionErrorResponseHandler.handle(NotionErrorResponseHandler.java:57) ~[main/:?]
@@ -301,9 +301,9 @@ Caused by: java.lang.IllegalArgumentException: argument &quot;content&quot; is n
 	at com.fasterxml.jackson.databind.ObjectMapper.readValue(ObjectMapper.java:3827) ~[jackson-databind-2.18.1.jar:2.18.1]
 	at io.kristixlab.notion.api.json.JsonConverter.toObject(JsonConverter.java:49) ~[main/:?]
 	... 95 more
-2026-03-24 19:49:41.148 [Test worker] ERROR io.kristixlab.notion.api.json.JsonConverter - Error converting JSON to class io.kristixlab.notion.api.model.NotionError: Unrecognized token 'Internal': was expecting (JSON String, Number, Array, Object or token 'null', 'true' or 'false')
+2026-03-24 19:58:53.757 [Test worker] ERROR io.kristixlab.notion.api.json.JsonConverter - Error converting JSON to class io.kristixlab.notion.api.model.NotionError: Unrecognized token 'Internal': was expecting (JSON String, Number, Array, Object or token 'null', 'true' or 'false')
  at [Source: REDACTED (`StreamReadFeature.INCLUDE_SOURCE_IN_LOCATION` disabled); line: 1, column: 9]
-2026-03-24 19:49:41.149 [Test worker] DEBUG io.kristixlab.notion.api.http.error.NotionErrorResponseHandler - Failed to parse Notion error body, using raw body as message
+2026-03-24 19:58:53.758 [Test worker] DEBUG io.kristixlab.notion.api.http.error.NotionErrorResponseHandler - Failed to parse Notion error body, using raw body as message
 java.lang.RuntimeException: com.fasterxml.jackson.core.JsonParseException: Unrecognized token 'Internal': was expecting (JSON String, Number, Array, Object or token 'null', 'true' or 'false')
  at [Source: REDACTED (`StreamReadFeature.INCLUDE_SOURCE_IN_LOCATION` disabled); line: 1, column: 9]
 	at io.kristixlab.notion.api.json.JsonConverter.toObject(JsonConverter.java:52) ~[main/:?]
@@ -419,9 +419,9 @@ Caused by: com.fasterxml.jackson.core.JsonParseException: Unrecognized token 'In
 	at com.fasterxml.jackson.databind.ObjectMapper.readValue(ObjectMapper.java:3828) ~[jackson-databind-2.18.1.jar:2.18.1]
 	at io.kristixlab.notion.api.json.JsonConverter.toObject(JsonConverter.java:49) ~[main/:?]
 	... 95 more
-2026-03-24 19:49:41.165 [Test worker] ERROR io.kristixlab.notion.api.json.JsonConverter - Error converting JSON to class io.kristixlab.notion.api.model.NotionError: No content to map due to end-of-input
+2026-03-24 19:58:53.768 [Test worker] ERROR io.kristixlab.notion.api.json.JsonConverter - Error converting JSON to class io.kristixlab.notion.api.model.NotionError: No content to map due to end-of-input
  at [Source: REDACTED (`StreamReadFeature.INCLUDE_SOURCE_IN_LOCATION` disabled); line: 1]
-2026-03-24 19:49:41.166 [Test worker] DEBUG io.kristixlab.notion.api.http.error.NotionErrorResponseHandler - Failed to parse Notion error body, using raw body as message
+2026-03-24 19:58:53.769 [Test worker] DEBUG io.kristixlab.notion.api.http.error.NotionErrorResponseHandler - Failed to parse Notion error body, using raw body as message
 java.lang.RuntimeException: com.fasterxml.jackson.databind.exc.MismatchedInputException: No content to map due to end-of-input
  at [Source: REDACTED (`StreamReadFeature.INCLUDE_SOURCE_IN_LOCATION` disabled); line: 1]
 	at io.kristixlab.notion.api.json.JsonConverter.toObject(JsonConverter.java:52) ~[main/:?]
@@ -540,7 +540,7 @@ Caused by: com.fasterxml.jackson.databind.exc.MismatchedInputException: No conte
 <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
 </label>
 </div>Generated by 
-<a href="https://www.gradle.org">Gradle 8.14.4</a> at Mar 24, 2026, 7:49:41 PM</p>
+<a href="https://www.gradle.org">Gradle 8.14.4</a> at Mar 24, 2026, 7:58:54 PM</p>
 </div>
 </div>
 </body>
