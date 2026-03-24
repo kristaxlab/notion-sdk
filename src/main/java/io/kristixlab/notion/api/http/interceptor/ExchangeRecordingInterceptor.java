@@ -126,7 +126,11 @@ public class ExchangeRecordingInterceptor implements HttpClientInterceptor {
   @Override
   public HttpRequest beforeSend(HttpRequest request) {
     String baseName =
-        String.format("%d_%d", System.currentTimeMillis(), Thread.currentThread().getId());
+        String.format(
+            "%d_%d_%s",
+            System.currentTimeMillis(),
+            Thread.currentThread().getId(),
+            serviceNameFrom(request.url(), request.method().name()));
     pendingBaseName.set(baseName);
 
     RequestRecord record =
@@ -202,5 +206,64 @@ public class ExchangeRecordingInterceptor implements HttpClientInterceptor {
       return "[stream: " + isb.contentLength() + " bytes]";
     }
     return "[body]";
+  }
+
+  /**
+   * Derives a human-readable service name from the request URL and method.
+   *
+   * <p>Strategy: parse the URL path, strip the {@code /v1} prefix, discard UUID-looking segments
+   * (the dynamic ID values that replaced {@code {param}} placeholders), join the remaining segments
+   * with {@code _}, then append a method suffix.
+   *
+   * <p>Examples:
+   *
+   * <ul>
+   *   <li>{@code GET /v1/pages} → {@code pages_retrieve}
+   *   <li>{@code GET /v1/blocks/abc-123/children} → {@code blocks_children_retrieve}
+   *   <li>{@code POST /v1/databases/abc-123/query} → {@code databases_query_create}
+   *   <li>{@code PATCH /v1/pages/abc-123} → {@code pages_update}
+   *   <li>{@code DELETE /v1/blocks/abc-123} → {@code blocks_delete}
+   * </ul>
+   */
+  static String serviceNameFrom(String url, String method) {
+    try {
+      String path = java.net.URI.create(url).getPath();
+      if (path.startsWith("/v1")) {
+        path = path.substring(3);
+      }
+
+      StringBuilder name = new StringBuilder();
+      for (String segment : path.split("/")) {
+        if (segment.isEmpty() || isLikelyId(segment)) {
+          continue;
+        }
+        if (name.length() > 0) {
+          name.append('_');
+        }
+        name.append(segment);
+      }
+
+      String suffix =
+          switch (method) {
+            case "GET" -> "_retrieve";
+            case "POST" -> "_create";
+            case "PATCH" -> "_update";
+            case "DELETE" -> "_delete";
+            default -> "";
+          };
+
+      return name.append(suffix).toString();
+    } catch (Exception e) {
+      return "unknown";
+    }
+  }
+
+  /**
+   * Returns {@code true} when {@code segment} looks like a Notion resource ID — a UUID with hyphens
+   * or a compact 32-character hex string — rather than a path keyword like {@code pages}.
+   */
+  private static boolean isLikelyId(String segment) {
+    return segment.matches("[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")
+        || segment.matches("[0-9a-f]{32}");
   }
 }
