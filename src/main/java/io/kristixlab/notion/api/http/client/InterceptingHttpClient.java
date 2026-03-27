@@ -49,15 +49,12 @@ public class InterceptingHttpClient implements HttpClient {
 
   @Override
   public HttpResponse send(HttpRequest request) throws IOException {
-    // before
     for (HttpClientInterceptor interceptor : interceptors) {
       request = interceptor.beforeSend(request);
     }
 
-    // delegate
     HttpResponse response = delegate.send(request);
 
-    // after
     for (HttpClientInterceptor interceptor : interceptors) {
       interceptor.afterReceive(request, response);
     }

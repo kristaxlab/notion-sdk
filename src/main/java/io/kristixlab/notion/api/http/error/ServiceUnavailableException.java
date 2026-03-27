@@ -1,8 +1,5 @@
 package io.kristixlab.notion.api.http.error;
 
-import lombok.EqualsAndHashCode;
-
-@EqualsAndHashCode(callSuper = true)
 public class ServiceUnavailableException extends NotionApiException {
 
   public ServiceUnavailableException(String code, String message, String requestId) {

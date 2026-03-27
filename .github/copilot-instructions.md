@@ -14,3 +14,4 @@ It should be thoroughly tested to ensure that it works correctly and efficiently
 Additionally, it should be regularly updated to keep up with changes to the Notion API and to address any bugs or issues
 that may arise.
 
+Comment blocks should not be used for describing a group of methods (expecially the once imitating dividers).  

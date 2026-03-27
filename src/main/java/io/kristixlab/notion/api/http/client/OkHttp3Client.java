@@ -30,7 +30,6 @@ public class OkHttp3Client implements HttpClient {
     try (Response okRes = ok.newCall(okReq).execute()) {
       byte[] bytes = okRes.body() != null ? okRes.body().bytes() : null;
 
-      // Convert to Map<String, List<String>>
       Map<String, List<String>> headers = new LinkedHashMap<>();
       Headers h = okRes.headers();
       for (String name : h.names()) {
@@ -47,7 +46,6 @@ public class OkHttp3Client implements HttpClient {
 
     Request.Builder b = new Request.Builder().url(url);
 
-    // headers
     if (r.headers() != null) {
       for (Map.Entry<String, String> e : r.headers().entrySet()) {
         if (e.getKey() != null && e.getValue() != null) {
@@ -56,17 +54,14 @@ public class OkHttp3Client implements HttpClient {
       }
     }
 
-    // body
     RequestBody okBody = toOkHttpBody(method, r.body());
 
-    // Build with explicit method to allow DELETE-with-body etc.
     b.method(method.name(), okBody);
 
     return b.build();
   }
 
   private RequestBody toOkHttpBody(HttpMethod method, Body body) {
-    // GET should not have a body. For others, we may need an empty body.
     boolean allowsBody = allowsRequestBody(method);
     boolean requiresBody = requiresRequestBody(method);
 
@@ -84,7 +79,6 @@ public class OkHttp3Client implements HttpClient {
 
     if (body instanceof StringBody sb) {
       MediaType mt = mediaTypeOrThrow(sb.contentType());
-      // OkHttp 3 signature: RequestBody.create(String, MediaType)
       return RequestBody.create(sb.content(), mt);
     }
 
@@ -103,7 +97,6 @@ public class OkHttp3Client implements HttpClient {
     }
 
     if (body instanceof MultipartBody mb) {
-      // Do NOT set Content-Type header manually; OkHttp will include boundary.
       okhttp3.MultipartBody.Builder mp =
           new okhttp3.MultipartBody.Builder().setType(okhttp3.MultipartBody.FORM);
 
@@ -176,7 +169,6 @@ public class OkHttp3Client implements HttpClient {
   }
 
   private static RequestBody emptyBody() {
-    // Some servers dislike truly empty bodies; but this is the usual approach.
     return RequestBody.create(new byte[0], null);
   }
 

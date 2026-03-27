@@ -78,11 +78,15 @@ public class JsonConverter {
    * <p>Returns {@code null} when {@code json} is {@code null} or blank.
    */
   public Object parseJson(String json) {
+    return parseJson(json, Object.class);
+  }
+
+  public Object parseJson(String json, Class<?> targetClass) {
     if (json == null || json.isBlank()) {
       return null;
     }
     try {
-      return regularMapper.readValue(json, Object.class);
+      return regularMapper.readValue(json, targetClass);
     } catch (JsonProcessingException e) {
       return json;
     }

@@ -3,7 +3,7 @@ package io.kristixlab.notion.api.endpoints.impl;
 import static org.junit.jupiter.api.Assertions.*;
 
 import io.kristixlab.notion.api.http.ApiClientStub;
-import io.kristixlab.notion.api.http.request.MultipartFormDataRequest;
+import io.kristixlab.notion.api.http.client.HttpClient.MultipartBody;
 import io.kristixlab.notion.api.model.files.FileUploadCreateParams;
 import io.kristixlab.notion.api.model.files.FileUploadSendParams;
 import java.io.ByteArrayInputStream;
@@ -107,7 +107,7 @@ class FileUploadsEndpointImplTest {
     assertEquals("POST", client.getLastMethod());
     assertEquals("/file_uploads/{file_upload_id}/send", client.getLastUrlInfo().getUrl());
     assertEquals("upload-id-1", client.getLastUrlInfo().getPathParams().get("file_upload_id"));
-    assertInstanceOf(MultipartFormDataRequest.class, client.getLastBody());
+    assertInstanceOf(MultipartBody.class, client.getLastBody());
   }
 
   @Test
@@ -122,7 +122,7 @@ class FileUploadsEndpointImplTest {
     assertEquals("POST", client.getLastMethod());
     assertEquals("/file_uploads/{file_upload_id}/send", client.getLastUrlInfo().getUrl());
     assertEquals("upload-id-1", client.getLastUrlInfo().getPathParams().get("file_upload_id"));
-    assertInstanceOf(MultipartFormDataRequest.class, client.getLastBody());
+    assertInstanceOf(MultipartBody.class, client.getLastBody());
   }
 
   @Test
@@ -137,7 +137,7 @@ class FileUploadsEndpointImplTest {
     assertEquals("POST", client.getLastMethod());
     assertEquals("/file_uploads/{file_upload_id}/send", client.getLastUrlInfo().getUrl());
     assertEquals("upload-id-1", client.getLastUrlInfo().getPathParams().get("file_upload_id"));
-    assertInstanceOf(MultipartFormDataRequest.class, client.getLastBody());
+    assertInstanceOf(MultipartBody.class, client.getLastBody());
   }
 
   @Test

@@ -13,9 +13,6 @@ import org.junit.jupiter.api.*;
 /** Unit tests for {@link InterceptingHttpClient}. */
 class InterceptingHttpClientTest {
 
-  // ------------------------------------------------------------------
-  // Helpers
-  // ------------------------------------------------------------------
 
   /** A fake HttpClient that records the request it received and returns a fixed response. */
   private static class FakeHttpClient implements HttpClient {
@@ -70,9 +67,6 @@ class InterceptingHttpClientTest {
     return HttpRequest.builder().url(url).method(HttpMethod.GET).build();
   }
 
-  // ------------------------------------------------------------------
-  // Tests
-  // ------------------------------------------------------------------
 
   @Test
   @DisplayName("Delegates to wrapped client when no interceptors")

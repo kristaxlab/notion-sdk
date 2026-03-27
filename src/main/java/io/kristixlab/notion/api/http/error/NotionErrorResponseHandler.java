@@ -41,31 +41,6 @@ public class NotionErrorResponseHandler implements ErrorResponseHandler {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(NotionErrorResponseHandler.class);
 
-  @Override
-  public void handle(HttpRequest request, HttpResponse response) {
-    if (response.statusCode() < 400) {
-      return;
-    }
-
-    String bodyString = response.bodyAsString();
-    String message;
-    String code = null;
-    String requestId = null;
-
-    try {
-      NotionError error =
-          JsonConverter.getInstance().toObject(bodyString, NotionError.class, false);
-      message = error.getMessage();
-      code = error.getCode() != null ? error.getCode() : error.getError();
-      requestId = error.getRequestId();
-    } catch (Exception e) {
-      LOGGER.debug("Failed to parse Notion error body, using raw body as message", e);
-      message = bodyString != null ? bodyString : "unknown error";
-    }
-
-    throw toException(response.statusCode(), code, message, requestId);
-  }
-
   /**
    * Maps an HTTP status code to the corresponding {@link NotionApiException} subclass.
    *
@@ -101,5 +76,30 @@ public class NotionErrorResponseHandler implements ErrorResponseHandler {
       default:
         return new NotionApiException(status, code, message, requestId);
     }
+  }
+
+  @Override
+  public void handle(HttpRequest request, HttpResponse response) {
+    if (response.statusCode() < 400) {
+      return;
+    }
+
+    String bodyString = response.bodyAsString();
+    String message;
+    String code = null;
+    String requestId = null;
+
+    try {
+      NotionError error =
+          JsonConverter.getInstance().toObject(bodyString, NotionError.class, false);
+      message = error.getMessage();
+      code = error.getCode() != null ? error.getCode() : error.getError();
+      requestId = error.getRequestId();
+    } catch (Exception e) {
+      LOGGER.debug("Failed to parse Notion error body, using raw body as message", e);
+      message = bodyString != null ? bodyString : "unknown error";
+    }
+
+    throw toException(response.statusCode(), code, message, requestId);
   }
 }

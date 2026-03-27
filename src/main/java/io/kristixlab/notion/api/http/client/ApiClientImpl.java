@@ -2,7 +2,6 @@ package io.kristixlab.notion.api.http.client;
 
 import io.kristixlab.notion.api.http.config.ApiClientConfig;
 import io.kristixlab.notion.api.http.request.ApiPath;
-import io.kristixlab.notion.api.http.request.ApiPathUtil;
 import io.kristixlab.notion.api.http.request.HttpBodyFactory;
 import io.kristixlab.notion.api.json.JsonConverter;
 import java.io.IOException;
@@ -17,8 +16,8 @@ import java.util.Objects;
  * <p>Responsibilities:
  *
  * <ol>
- *   <li>URL building — uses {@link ApiPathUtil} to merge base URL + {@link ApiPath} path/query
- *       params
+ *   <li>URL building — resolves base URL + {@link ApiPath} path/query params via {@link
+ *       ApiPath#resolve(String)}
  *   <li>Body serialization — delegates to {@link HttpBodyFactory}
  *   <li>Request dispatch — delegates to the injected {@link HttpClient}
  *   <li>Response deserialization — converts the raw response body to a typed object via {@link
@@ -75,9 +74,6 @@ public class ApiClientImpl implements ApiClient {
     this.config = config != null ? config : defaultConfig();
   }
 
-  // ==================================================================
-  // ApiClient implementation
-  // ==================================================================
 
   @Override
   public <T> T call(String method, ApiPath apiPath, Class<T> responseType) {
@@ -97,7 +93,7 @@ public class ApiClientImpl implements ApiClient {
       Object body,
       Class<T> responseType) {
 
-    String url = ApiPathUtil.toUrlString(baseUrl, apiPath);
+    String url = apiPath.resolve(baseUrl);
     HttpClient.Body requestBody = HttpBodyFactory.create(body);
 
     HttpClient.HttpRequest.Builder builder =
@@ -115,9 +111,6 @@ public class ApiClientImpl implements ApiClient {
     return deserialize(response.bodyAsString(), responseType);
   }
 
-  // ==================================================================
-  // Internals
-  // ==================================================================
 
   private HttpClient.HttpResponse send(HttpClient.HttpRequest request) {
     try {
@@ -132,7 +125,7 @@ public class ApiClientImpl implements ApiClient {
       return responseType.cast(body);
     }
     return JsonConverter.getInstance()
-        .toObject(body, responseType, config.isJsonFailOnUnknownProperties());
+        .toObject(body, responseType, config.getOrDefault(ApiClientConfig.JSON_FAIL_ON_UNKNOWN, false));
   }
 
   private static HttpClient.HttpMethod toHttpMethod(String method) {
@@ -152,6 +145,6 @@ public class ApiClientImpl implements ApiClient {
   }
 
   private static ApiClientConfig defaultConfig() {
-    return ApiClientConfig.builder().jsonFailOnUnknownProperties(false).build();
+    return ApiClientConfig.defaults();
   }
 }

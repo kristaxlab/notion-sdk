@@ -13,9 +13,6 @@ class NotionAuthInterceptorTest {
   private static final String VERSION = "2026-03-11";
   private static final String BASE = "https://api.notion.com/v1";
 
-  // ------------------------------------------------------------------
-  // Helpers
-  // ------------------------------------------------------------------
 
   private static NotionAuthSettings tokenAuth(String accessToken) {
     NotionAuthSettings s = new NotionAuthSettings();
@@ -40,9 +37,6 @@ class NotionAuthInterceptorTest {
     return HttpRequest.builder().url(url).method(HttpMethod.POST).build();
   }
 
-  // ------------------------------------------------------------------
-  // Constructor validation
-  // ------------------------------------------------------------------
 
   @Test
   @DisplayName("Rejects null authSettings")
@@ -57,9 +51,6 @@ class NotionAuthInterceptorTest {
         NullPointerException.class, () -> new NotionAuthInterceptor(tokenAuth("tok"), null));
   }
 
-  // ------------------------------------------------------------------
-  // Standard API calls — Bearer token
-  // ------------------------------------------------------------------
 
   @Test
   @DisplayName("Adds Notion-Version, Accept, and Bearer Authorization for regular endpoints")
@@ -83,9 +74,6 @@ class NotionAuthInterceptorTest {
     assertEquals("Bearer secret_xyz", result.headers().get("Authorization"));
   }
 
-  // ------------------------------------------------------------------
-  // OAuth endpoints — Basic auth
-  // ------------------------------------------------------------------
 
   @Test
   @DisplayName("/oauth/token uses Basic auth")
@@ -117,9 +105,6 @@ class NotionAuthInterceptorTest {
     assertTrue(result.headers().get("Authorization").startsWith("Basic "));
   }
 
-  // ------------------------------------------------------------------
-  // Pre-existing Authorization header — not overwritten
-  // ------------------------------------------------------------------
 
   @Test
   @DisplayName("Does not overwrite an existing Authorization header")
@@ -136,14 +121,10 @@ class NotionAuthInterceptorTest {
     HttpRequest result = interceptor.beforeSend(request);
 
     assertEquals("Bearer custom_token", result.headers().get("Authorization"));
-    // Other headers are still added
     assertEquals(VERSION, result.headers().get("Notion-Version"));
     assertEquals("application/json", result.headers().get("Accept"));
   }
 
-  // ------------------------------------------------------------------
-  // Missing credentials — fail-fast
-  // ------------------------------------------------------------------
 
   @Test
   @DisplayName("Throws if Bearer token is missing for regular endpoint")
@@ -170,9 +151,6 @@ class NotionAuthInterceptorTest {
     assertTrue(ex.getMessage().contains("Client ID"));
   }
 
-  // ------------------------------------------------------------------
-  // Immutability — original request is not modified
-  // ------------------------------------------------------------------
 
   @Test
   @DisplayName("Original request is not mutated")

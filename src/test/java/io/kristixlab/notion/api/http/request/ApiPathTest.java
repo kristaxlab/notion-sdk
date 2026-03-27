@@ -3,7 +3,6 @@ package io.kristixlab.notion.api.http.request;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.List;
-import java.util.Map;
 import org.junit.jupiter.api.Test;
 
 class ApiPathTest {
@@ -25,57 +24,6 @@ class ApiPathTest {
     assertTrue(urlInfo.getQueryParams().isEmpty());
   }
 
-  // ── query params ─────────────────────────────────────────────────────────────
-
-  @Test
-  void builder_withBothPaginationParams() {
-    ApiPath urlInfo = ApiPath.builder("/pages", "cursor-abc", 25).build();
-
-    assertEquals("/pages", urlInfo.getUrl());
-    assertEquals(List.of("cursor-abc"), urlInfo.getQueryParams().get("start_cursor"));
-    assertEquals(List.of("25"), urlInfo.getQueryParams().get("page_size"));
-  }
-
-  @Test
-  void builder_withStartCursorOnly() {
-    ApiPath urlInfo = ApiPath.builder("/pages", "cursor-abc", null).build();
-
-    assertEquals(List.of("cursor-abc"), urlInfo.getQueryParams().get("start_cursor"));
-    assertFalse(urlInfo.getQueryParams().containsKey("page_size"));
-  }
-
-  @Test
-  void builder_withPageSizeOnly() {
-    ApiPath urlInfo = ApiPath.builder("/pages", null, 50).build();
-
-    assertEquals(List.of("50"), urlInfo.getQueryParams().get("page_size"));
-    assertFalse(urlInfo.getQueryParams().containsKey("start_cursor"));
-  }
-
-  @Test
-  void builder_withNullPaginationParams() {
-    ApiPath urlInfo = ApiPath.builder("/pages", null, null).build();
-
-    assertTrue(urlInfo.getQueryParams().isEmpty());
-  }
-
-  @Test
-  void builder_withPathParamAndQueryParamAndPagination() {
-    ApiPath urlInfo =
-        ApiPath.builder("/blocks/{block_id}/children", "cursor-abc", 10)
-            .pathParam("block_id", "block-id-1")
-            .queryParam("filter", "active")
-            .build();
-
-    assertEquals("/blocks/{block_id}/children", urlInfo.getUrl());
-    assertEquals("block-id-1", urlInfo.getPathParams().get("block_id"));
-    assertEquals(List.of("active"), urlInfo.getQueryParams().get("filter"));
-    assertEquals(List.of("cursor-abc"), urlInfo.getQueryParams().get("start_cursor"));
-    assertEquals(List.of("10"), urlInfo.getQueryParams().get("page_size"));
-  }
-
-  // ── pathParam ─────────────────────────────────────────────────────────────
-
   @Test
   void pathParam_storesValue() {
     ApiPath urlInfo = ApiPath.builder("/pages/{page_id}").pathParam("page_id", "abc-123").build();
@@ -85,18 +33,6 @@ class ApiPathTest {
   }
 
   @Test
-  void pathParams_storesAllEntries() {
-    ApiPath urlInfo =
-        ApiPath.builder("/a/{x}/b/{y}").pathParams(Map.of("x", "val-x", "y", "val-y")).build();
-
-    assertEquals("val-x", urlInfo.getPathParams().get("x"));
-    assertEquals("val-y", urlInfo.getPathParams().get("y"));
-    assertTrue(urlInfo.getQueryParams().isEmpty());
-  }
-
-  // ── queryParam ────────────────────────────────────────────────────────────
-
-  @Test
   void queryParam_storesStringValueAsSingleElementList() {
     ApiPath urlInfo = ApiPath.builder("/pages").queryParam("filter", "active").build();
 
@@ -104,8 +40,8 @@ class ApiPathTest {
   }
 
   @Test
-  void queryParam_withObject_usesToString() {
-    ApiPath urlInfo = ApiPath.builder("/pages").queryParam("page_size", 42).build();
+  void queryParam_storesStringifiedNumber() {
+    ApiPath urlInfo = ApiPath.builder("/pages").queryParam("page_size", String.valueOf(42)).build();
 
     assertEquals(List.of("42"), urlInfo.getQueryParams().get("page_size"));
   }
@@ -137,34 +73,80 @@ class ApiPathTest {
     assertEquals(List.of("a", "b", "c"), urlInfo.getQueryParams().get("tag"));
   }
 
-  // ── queryParams (map variants) ────────────────────────────────────────────
-
   @Test
-  void queryParams_fromStringMap_storesEachValueAsSingleElementList() {
-    ApiPath urlInfo = ApiPath.builder("/pages").queryParams(Map.of("foo", "1", "bar", "2")).build();
-
-    assertEquals(List.of("1"), urlInfo.getQueryParams().get("foo"));
-    assertEquals(List.of("2"), urlInfo.getQueryParams().get("bar"));
+  void resolve_relativeUrl_prependsBaseUrl() {
+    ApiPath path = ApiPath.from("/pages");
+    assertEquals("https://api.notion.com/v1/pages", path.resolve("https://api.notion.com/v1"));
   }
 
   @Test
-  void queryParamsArrays_convertsArraysToLists() {
-    ApiPath urlInfo =
-        ApiPath.builder("/pages")
-            .queryParamsArrays(Map.of("ids", new String[] {"id-1", "id-2"}))
-            .build();
-
-    assertEquals(List.of("id-1", "id-2"), urlInfo.getQueryParams().get("ids"));
+  void resolve_absoluteUrl_ignoresBaseUrl() {
+    ApiPath path = ApiPath.from("https://other.host/upload");
+    assertEquals("https://other.host/upload", path.resolve("https://api.notion.com/v1"));
   }
 
   @Test
-  void queryParamsLists_storesAllLists() {
-    ApiPath urlInfo =
-        ApiPath.builder("/pages")
-            .queryParamsLists(Map.of("ids", List.of("id-1", "id-2"), "tags", List.of("x")))
-            .build();
+  void resolve_emptyPath_returnsBaseUrl() {
+    ApiPath path = ApiPath.from("");
+    assertEquals("https://api.notion.com/v1", path.resolve("https://api.notion.com/v1"));
+  }
 
-    assertEquals(List.of("id-1", "id-2"), urlInfo.getQueryParams().get("ids"));
-    assertEquals(List.of("x"), urlInfo.getQueryParams().get("tags"));
+  @Test
+  void resolve_withPathParam_substitutesValue() {
+    ApiPath path = ApiPath.builder("/pages/{page_id}").pathParam("page_id", "abc-123").build();
+    assertEquals(
+        "https://api.notion.com/v1/pages/abc-123", path.resolve("https://api.notion.com/v1"));
+  }
+
+  @Test
+  void resolve_withPathParamSpecialChars_encodesValue() {
+    ApiPath path = ApiPath.builder("/pages/{page_id}").pathParam("page_id", "hello world").build();
+    assertEquals(
+        "https://api.notion.com/v1/pages/hello%20world",
+        path.resolve("https://api.notion.com/v1"));
+  }
+
+  @Test
+  void resolve_withQueryParam_appendsQueryString() {
+    ApiPath path = ApiPath.builder("/pages").queryParam("filter", "active").build();
+    assertEquals(
+        "https://api.notion.com/v1/pages?filter=active",
+        path.resolve("https://api.notion.com/v1"));
+  }
+
+  @Test
+  void resolve_withMultipleQueryParams_appendsAll() {
+    ApiPath path =
+        ApiPath.builder("/pages").queryParam("filter", "active").queryParam("page_size", "10").build();
+    String result = path.resolve("https://api.notion.com/v1");
+    assertTrue(result.startsWith("https://api.notion.com/v1/pages?"));
+    assertTrue(result.contains("filter=active"));
+    assertTrue(result.contains("page_size=10"));
+  }
+
+  @Test
+  void resolve_withMultiValueQueryParam_appendsAllValues() {
+    ApiPath path = ApiPath.builder("/pages").queryParam("ids", List.of("id-1", "id-2")).build();
+    assertEquals(
+        "https://api.notion.com/v1/pages?ids=id-1&ids=id-2",
+        path.resolve("https://api.notion.com/v1"));
+  }
+
+  @Test
+  void resolve_withPathAndQueryParams_combined() {
+    ApiPath path =
+        ApiPath.builder("/blocks/{block_id}/children")
+            .pathParam("block_id", "block-1")
+            .queryParam("page_size", "10")
+            .build();
+    assertEquals(
+        "https://api.notion.com/v1/blocks/block-1/children?page_size=10",
+        path.resolve("https://api.notion.com/v1"));
+  }
+
+  @Test
+  void resolve_noArg_worksForAbsoluteUrl() {
+    ApiPath path = ApiPath.from("https://api.notion.com/v1/pages");
+    assertEquals("https://api.notion.com/v1/pages", path.resolve());
   }
 }

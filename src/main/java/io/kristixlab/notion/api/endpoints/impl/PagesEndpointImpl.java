@@ -2,6 +2,8 @@ package io.kristixlab.notion.api.endpoints.impl;
 
 import io.kristixlab.notion.api.endpoints.PagesEndpoint;
 import io.kristixlab.notion.api.http.client.ApiClient;
+import static io.kristixlab.notion.api.endpoints.util.PaginationHelper.paginatedPath;
+
 import io.kristixlab.notion.api.http.request.ApiPath;
 import io.kristixlab.notion.api.model.common.Parent;
 import io.kristixlab.notion.api.model.pages.*;
@@ -57,7 +59,7 @@ public class PagesEndpointImpl implements PagesEndpoint {
     ApiPath urlInfo =
         ApiPath.builder("/pages/{page_id}/markdown")
             .pathParam(PAGE_ID, pageId)
-            .queryParam("include_transcript", includeTranscript)
+            .queryParam("include_transcript", String.valueOf(includeTranscript))
             .build();
     return client.call("GET", urlInfo, PageAsMarkdown.class);
   }
@@ -95,7 +97,7 @@ public class PagesEndpointImpl implements PagesEndpoint {
     validatePageId(pageId);
     validatePropertyId(propertyId);
     ApiPath.Builder urlInfo =
-        ApiPath.builder("/pages/{page_id}/properties/{property_id}", startCursor, pageSize)
+        paginatedPath("/pages/{page_id}/properties/{property_id}", startCursor, pageSize)
             .pathParam(PAGE_ID, pageId)
             .pathParam(PROPERTY_ID, URLDecoder.decode(propertyId, StandardCharsets.UTF_8));
     return client.call("GET", urlInfo.build(), PageProperty.class);

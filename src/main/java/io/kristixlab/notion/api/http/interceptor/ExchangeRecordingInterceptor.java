@@ -55,9 +55,6 @@ import org.slf4j.LoggerFactory;
  */
 public class ExchangeRecordingInterceptor implements HttpClientInterceptor {
 
-  // ==================================================================
-  // Nested record types
-  // ==================================================================
 
   /** Immutable snapshot of the request side of an HTTP exchange. */
   @Value
@@ -100,9 +97,6 @@ public class ExchangeRecordingInterceptor implements HttpClientInterceptor {
     Object responseBody;
   }
 
-  // ==================================================================
-  // Interceptor implementation
-  // ==================================================================
 
   private static final Logger LOGGER = LoggerFactory.getLogger(ExchangeRecordingInterceptor.class);
 
@@ -164,9 +158,6 @@ public class ExchangeRecordingInterceptor implements HttpClientInterceptor {
     write(baseName + "_rs.json", record);
   }
 
-  // ==================================================================
-  // Helpers
-  // ==================================================================
 
   private void write(String fileName, Object record) {
     Path file = dir.resolve(fileName);

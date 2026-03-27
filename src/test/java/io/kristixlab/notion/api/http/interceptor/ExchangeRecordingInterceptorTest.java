@@ -10,8 +10,6 @@ class ExchangeRecordingInterceptorTest {
   private static final String BASE = "https://api.notion.com/v1";
   private static final String UUID = "abc12345-1234-1234-1234-abcdef012345";
 
-  // ── GET ──────────────────────────────────────────────────────────────────
-
   @Test
   void get_collectionEndpoint() {
     assertEquals("pages_retrieve", name(BASE + "/pages", "GET"));
@@ -32,8 +30,6 @@ class ExchangeRecordingInterceptorTest {
     assertEquals("users_me_retrieve", name(BASE + "/users/me", "GET"));
   }
 
-  // ── POST ─────────────────────────────────────────────────────────────────
-
   @Test
   void post_create() {
     assertEquals("pages_create", name(BASE + "/pages", "POST"));
@@ -44,28 +40,20 @@ class ExchangeRecordingInterceptorTest {
     assertEquals("databases_query_create", name(BASE + "/databases/" + UUID + "/query", "POST"));
   }
 
-  // ── PATCH ────────────────────────────────────────────────────────────────
-
   @Test
   void patch_update() {
     assertEquals("pages_update", name(BASE + "/pages/" + UUID, "PATCH"));
   }
-
-  // ── DELETE ───────────────────────────────────────────────────────────────
 
   @Test
   void delete_resource() {
     assertEquals("blocks_delete", name(BASE + "/blocks/" + UUID, "DELETE"));
   }
 
-  // ── Compact UUID (32 hex chars, no hyphens) ───────────────────────────────
-
   @Test
   void get_compactUuidStripped() {
     assertEquals("pages_retrieve", name(BASE + "/pages/abc123def456abc123def456abc123de", "GET"));
   }
-
-  // ── Edge cases ────────────────────────────────────────────────────────────
 
   @Test
   void unknownMethod_noSuffix() {
@@ -76,8 +64,6 @@ class ExchangeRecordingInterceptorTest {
   void malformedUrl_returnsUnknown() {
     assertEquals("unknown", name("not a url %%", "GET"));
   }
-
-  // ── Helper ────────────────────────────────────────────────────────────────
 
   private static String name(String url, String method) {
     return ExchangeRecordingInterceptor.serviceNameFrom(url, method);

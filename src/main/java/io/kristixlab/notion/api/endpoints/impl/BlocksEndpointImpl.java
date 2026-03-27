@@ -2,6 +2,8 @@ package io.kristixlab.notion.api.endpoints.impl;
 
 import io.kristixlab.notion.api.endpoints.BlocksEndpoint;
 import io.kristixlab.notion.api.http.client.ApiClient;
+import static io.kristixlab.notion.api.endpoints.util.PaginationHelper.paginatedPath;
+
 import io.kristixlab.notion.api.http.request.ApiPath;
 import io.kristixlab.notion.api.model.blocks.AppendBlockChildrenParams;
 import io.kristixlab.notion.api.model.blocks.Block;
@@ -57,7 +59,7 @@ public class BlocksEndpointImpl implements BlocksEndpoint {
     validateBlockId(blockId);
 
     ApiPath.Builder urlInfo =
-        ApiPath.builder("/blocks/{block_id}/children", startCursor, pageSize)
+        paginatedPath("/blocks/{block_id}/children", startCursor, pageSize)
             .pathParam(BLOCK_ID, blockId);
 
     return client.call("GET", urlInfo.build(), BlockList.class);

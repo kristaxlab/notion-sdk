@@ -2,8 +2,15 @@ package io.kristixlab.notion.api.endpoints.impl;
 
 import io.kristixlab.notion.api.endpoints.FileUploadsEndpoint;
 import io.kristixlab.notion.api.http.client.ApiClient;
+import io.kristixlab.notion.api.http.client.HttpClient.BytesPart;
+import io.kristixlab.notion.api.http.client.HttpClient.FilePart;
+import io.kristixlab.notion.api.http.client.HttpClient.InputStreamPart;
+import io.kristixlab.notion.api.http.client.HttpClient.MultipartBody;
+import io.kristixlab.notion.api.http.client.HttpClient.Part;
+import io.kristixlab.notion.api.http.client.HttpClient.TextPart;
+import static io.kristixlab.notion.api.endpoints.util.PaginationHelper.paginatedPath;
+
 import io.kristixlab.notion.api.http.request.ApiPath;
-import io.kristixlab.notion.api.http.request.MultipartFormDataRequest;
 import io.kristixlab.notion.api.model.files.*;
 
 /**
@@ -53,21 +60,18 @@ public class FileUploadsEndpointImpl implements FileUploadsEndpoint {
             .pathParam(FILE_UPLOAD_ID, fileUploadId)
             .build();
 
-    MultipartFormDataRequest multipartRq = new MultipartFormDataRequest();
+    java.util.List<Part> parts = new java.util.ArrayList<>();
     if (request.getFile() != null) {
-      multipartRq.addFilePart(
-          "file", request.getFile(), request.getFileName(), request.getContentType());
+      parts.add(new FilePart("file", request.getFileName(), request.getFile(), request.getContentType()));
     } else if (request.getBytes() != null) {
-      multipartRq.addByteArrayPart(
-          "file", request.getBytes(), request.getFileName(), request.getContentType());
+      parts.add(new BytesPart("file", request.getFileName(), request.getBytes(), request.getContentType()));
     } else if (request.getInputStream() != null) {
-      multipartRq.addInputStreamPart(
-          "file", request.getInputStream(), request.getFileName(), request.getContentType());
+      parts.add(new InputStreamPart("file", request.getFileName(), request.getInputStream(), request.getContentType()));
     }
     if (request.getPartNumber() != null) {
-      multipartRq.addPart("part_number", request.getPartNumber().toString());
+      parts.add(new TextPart("part_number", request.getPartNumber().toString()));
     }
-    return client.call("POST", urlInfo, multipartRq, FileUpload.class);
+    return client.call("POST", urlInfo, new MultipartBody(parts), FileUpload.class);
   }
 
   /**
@@ -144,7 +148,7 @@ public class FileUploadsEndpointImpl implements FileUploadsEndpoint {
    * @return FileUploadListResponse containing the paginated list of file uploads
    */
   public FileUploadList listFileUploads(String status, String startCursor, Integer pageSize) {
-    ApiPath.Builder urlInfo = ApiPath.builder("/file_uploads", startCursor, pageSize);
+    ApiPath.Builder urlInfo = paginatedPath("/file_uploads", startCursor, pageSize);
     if (status != null && !status.trim().isEmpty()) {
       urlInfo.queryParam(STATUS, status);
     }

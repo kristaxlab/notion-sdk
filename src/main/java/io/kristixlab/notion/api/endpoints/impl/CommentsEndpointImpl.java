@@ -2,6 +2,8 @@ package io.kristixlab.notion.api.endpoints.impl;
 
 import io.kristixlab.notion.api.endpoints.CommentsEndpoint;
 import io.kristixlab.notion.api.http.client.ApiClient;
+import static io.kristixlab.notion.api.endpoints.util.PaginationHelper.paginatedPath;
+
 import io.kristixlab.notion.api.http.request.ApiPath;
 import io.kristixlab.notion.api.model.comments.Comment;
 import io.kristixlab.notion.api.model.comments.CommentList;
@@ -68,7 +70,7 @@ public class CommentsEndpointImpl implements CommentsEndpoint {
     validateBlockId(blockId);
 
     ApiPath.Builder urlInfo =
-        ApiPath.builder("/comments", startCursor, pageSize).queryParam(BLOCK_ID, blockId);
+        paginatedPath("/comments", startCursor, pageSize).queryParam(BLOCK_ID, blockId);
 
     return client.call("GET", urlInfo.build(), CommentList.class);
   }

@@ -62,9 +62,6 @@ public class LoggingHttpInterceptor implements HttpClientInterceptor {
     }
   }
 
-  // ------------------------------------------------------------------
-  // Helpers
-  // ------------------------------------------------------------------
 
   private static String describeBody(Body body) {
     if (body == null) return "none";

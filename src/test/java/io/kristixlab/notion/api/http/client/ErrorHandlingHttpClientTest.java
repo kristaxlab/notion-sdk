@@ -13,9 +13,6 @@ import org.junit.jupiter.api.*;
 /** Unit tests for {@link ErrorHandlingHttpClient} and {@link ErrorResponseHandler}. */
 class ErrorHandlingHttpClientTest {
 
-  // ------------------------------------------------------------------
-  // Helpers
-  // ------------------------------------------------------------------
 
   /** A fake HttpClient that returns a fixed response. */
   private static class FakeHttpClient implements HttpClient {
@@ -57,9 +54,6 @@ class ErrorHandlingHttpClientTest {
     return new HttpResponse(status, Map.of(), body.getBytes());
   }
 
-  // ------------------------------------------------------------------
-  // Tests
-  // ------------------------------------------------------------------
 
   @Test
   @DisplayName("Constructor rejects null delegate")
@@ -168,7 +162,6 @@ class ErrorHandlingHttpClientTest {
     var fake = new FakeHttpClient(responseWithStatus(401, "{\"code\": \"unauthorized\"}"));
     List<String> log = new ArrayList<>();
 
-    // Interceptor that records afterReceive
     HttpClientInterceptor loggingInterceptor =
         new HttpClientInterceptor() {
           @Override
@@ -190,7 +183,6 @@ class ErrorHandlingHttpClientTest {
 
     assertThrows(TestApiException.class, () -> safe.send(simpleGet("https://example.com")));
 
-    // Logging interceptor fires BEFORE error handler throws
     assertEquals(List.of("logged:401", "error:401"), log);
   }
 

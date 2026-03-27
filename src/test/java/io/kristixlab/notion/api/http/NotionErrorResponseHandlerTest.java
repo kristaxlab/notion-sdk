@@ -16,9 +16,6 @@ class NotionErrorResponseHandlerTest {
 
   private final NotionErrorResponseHandler handler = new NotionErrorResponseHandler();
 
-  // ------------------------------------------------------------------
-  // Helpers
-  // ------------------------------------------------------------------
 
   private static HttpRequest anyRequest() {
     return HttpRequest.builder()
@@ -41,9 +38,6 @@ class NotionErrorResponseHandlerTest {
     return JsonConverter.getInstance().toJson(error);
   }
 
-  // ------------------------------------------------------------------
-  // 2xx — no exception
-  // ------------------------------------------------------------------
 
   @ParameterizedTest(name = "status {0} passes through")
   @CsvSource({"200", "201", "204", "302"})
@@ -52,9 +46,6 @@ class NotionErrorResponseHandlerTest {
     assertDoesNotThrow(() -> handler.handle(anyRequest(), response));
   }
 
-  // ------------------------------------------------------------------
-  // Status → specific exception type
-  // ------------------------------------------------------------------
 
   @Test
   @DisplayName("400 → ValidationException")
@@ -152,15 +143,11 @@ class NotionErrorResponseHandlerTest {
     NotionApiException ex =
         assertThrows(
             NotionApiException.class, () -> handler.handle(anyRequest(), responseOf(418, body)));
-    // Must be the base class, not a subclass
     assertEquals(NotionApiException.class, ex.getClass());
     assertEquals(418, ex.getStatus());
     assertEquals("teapot", ex.getCode());
   }
 
-  // ------------------------------------------------------------------
-  // code vs error field fallback
-  // ------------------------------------------------------------------
 
   @Test
   @DisplayName("Falls back to 'error' field when 'code' is null")
@@ -179,9 +166,6 @@ class NotionErrorResponseHandlerTest {
     assertEquals("unauthorized", ex.getCode());
   }
 
-  // ------------------------------------------------------------------
-  // Malformed / non-JSON body
-  // ------------------------------------------------------------------
 
   @Test
   @DisplayName("Non-JSON body falls back to raw body as message")
@@ -210,7 +194,6 @@ class NotionErrorResponseHandlerTest {
     HttpResponse response = new HttpResponse(503, Map.of(), null);
     NotionApiException ex =
         assertThrows(NotionApiException.class, () -> handler.handle(anyRequest(), response));
-    // bodyAsString() returns null → fallback message
     assertNotNull(ex.getMessage());
   }
 }
