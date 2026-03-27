@@ -9,6 +9,12 @@ import java.util.Objects;
 import okhttp3.*;
 import okio.BufferedSink;
 
+/**
+ * {@link HttpClient} implementation backed by OkHttp 3.x.
+ *
+ * <p>Maps the library-agnostic {@link HttpRequest}/{@link Body} model to OkHttp types and converts
+ * the OkHttp response back into an {@link HttpResponse}.
+ */
 public class OkHttp3Client implements HttpClient {
 
   private final OkHttpClient ok;
@@ -134,13 +140,7 @@ public class OkHttp3Client implements HttpClient {
     return mt;
   }
 
-  /**
-   * Creates a streaming {@link RequestBody} that reads the {@link InputStream} in 8 KB chunks.
-   *
-   * @param inputStream the source stream (consumed once, then closed)
-   * @param contentLength the known length, or {@code -1} if unknown (chunked transfer)
-   * @param contentType the MIME type (must not be null/blank)
-   */
+  /** Creates a streaming {@link RequestBody} that reads the source in 8 KB chunks. */
   private static RequestBody streamingBody(
       InputStream inputStream, long contentLength, String contentType) {
     MediaType mt = mediaTypeOrThrow(contentType);

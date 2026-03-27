@@ -23,33 +23,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Interceptor that writes each HTTP exchange as two pretty-printed JSON files into a
- * caller-supplied directory:
+ * Writes each HTTP exchange as a pair of JSON files ({@code *_rq.json} / {@code *_rs.json}) into a
+ * caller-supplied directory.
  *
- * <ul>
- *   <li>{@code <epoch_ms>_<thread_id>_rq.json} — written in {@link #beforeSend}
- *   <li>{@code <epoch_ms>_<thread_id>_rs.json} — written in {@link #afterReceive}
- * </ul>
- *
- * <p>The two files share the same {@code <epoch_ms>_<thread_id>} prefix so they can always be
- * associated. The prefix is generated once in {@code beforeSend} and carried to {@code
- * afterReceive} via a {@link ThreadLocal}.
- *
- * <p>The target directory is created eagerly at construction time. Write failures are logged at
- * {@code WARN} level and never propagate to the caller.
- *
- * <p><b>Typical test usage:</b>
- *
- * <pre>{@code
- * Path dir = Paths.get("exchanges", testClass, testMethod);
- * NotionClient notion = NotionClient.builder()
- *     .auth(token)
- *     .recordExchanges(dir)
- *     .build();
- * }</pre>
- *
- * @see RequestRecord
- * @see ResponseRecord
+ * <p>Both files share a {@code <epoch_ms>_<thread_id>_<service>} prefix generated in {@link
+ * #beforeSend} and carried to {@link #afterReceive} via a {@link ThreadLocal}. The target directory
+ * is created eagerly; write failures are logged at WARN level and never propagate.
  */
 public class ExchangeRecordingInterceptor implements HttpClientInterceptor {
 
@@ -66,10 +45,8 @@ public class ExchangeRecordingInterceptor implements HttpClientInterceptor {
   private final ThreadLocal<String> pendingBaseName = new ThreadLocal<>();
 
   /**
-   * Constructs an ExchangeRecordingInterceptor with a custom JsonSerializer.
-   *
-   * @param dir directory where exchange files are written; created eagerly if it does not exist
-   * @param serializer the serializer used to write exchange files
+   * @param dir directory for exchange files; created eagerly if absent
+   * @param serializer serializer used to write exchange files
    */
   public ExchangeRecordingInterceptor(Path dir, JsonSerializer serializer) {
     this.dir = Objects.requireNonNull(dir, "dir");
@@ -81,13 +58,6 @@ public class ExchangeRecordingInterceptor implements HttpClientInterceptor {
     }
   }
 
-  /**
-   * Intercepts the HTTP request before it is sent, records the request details, and writes them to
-   * a JSON file.
-   *
-   * @param request the HTTP request to be sent
-   * @return the (possibly modified) HTTP request
-   */
   @Override
   public HttpRequest beforeSend(HttpRequest request) {
     String baseName =
@@ -110,13 +80,6 @@ public class ExchangeRecordingInterceptor implements HttpClientInterceptor {
     return request;
   }
 
-  /**
-   * Intercepts the HTTP response after it is received, records the response details, and writes
-   * them to a JSON file.
-   *
-   * @param request the original HTTP request
-   * @param response the HTTP response received
-   */
   @Override
   public void afterReceive(HttpRequest request, HttpResponse response) {
     String baseName = pendingBaseName.get();
@@ -136,12 +99,6 @@ public class ExchangeRecordingInterceptor implements HttpClientInterceptor {
     write(baseName + "_rs.json", record);
   }
 
-  /**
-   * Writes the given record object as a pretty-printed JSON file in the configured directory.
-   *
-   * @param fileName the name of the file to write
-   * @param record the record object to serialize
-   */
   private void write(String fileName, Object record) {
     Path file = dir.resolve(fileName);
     try {
@@ -151,12 +108,6 @@ public class ExchangeRecordingInterceptor implements HttpClientInterceptor {
     }
   }
 
-  /**
-   * Returns a copy of the headers map with sensitive values (e.g., Authorization) redacted.
-   *
-   * @param headers the original headers map
-   * @return a copy of the headers map with sensitive values redacted, or null if headers are empty
-   */
   private static Map<String, String> redactedHeaders(Map<String, String> headers) {
     if (headers == null || headers.isEmpty()) {
       return null;
@@ -166,13 +117,6 @@ public class ExchangeRecordingInterceptor implements HttpClientInterceptor {
     return copy;
   }
 
-  /**
-   * Describes the HTTP request or response body for logging purposes.
-   *
-   * @param body the HTTP body
-   * @param serializer the JSON serializer
-   * @return a parsed JSON object, or a string description for non-JSON bodies
-   */
   private static Object describeBody(Body body, JsonSerializer serializer) {
     if (body == null || body instanceof EmptyBody) {
       return null;
@@ -196,15 +140,10 @@ public class ExchangeRecordingInterceptor implements HttpClientInterceptor {
   }
 
   /**
-   * Derives a human-readable service name from the request URL and method.
+   * Derives a human-readable service name from the request URL and HTTP method.
    *
-   * <p>Strategy: parse the URL path, strip the /v1 prefix, discard UUID-looking segments (the
-   * dynamic ID values that replaced {param} placeholders), join the remaining segments with _, then
-   * append a method suffix.
-   *
-   * @param url the request URL
-   * @param method the HTTP method
-   * @return a human-readable service name for the exchange log
+   * <p>Strips the {@code /v1} prefix, drops UUID-looking segments, and appends a method suffix
+   * (e.g. {@code GET /v1/blocks/abc-123/children} → {@code blocks_children_retrieve}).
    */
   static String serviceNameFrom(String url, String method) {
     try {
@@ -239,41 +178,18 @@ public class ExchangeRecordingInterceptor implements HttpClientInterceptor {
     }
   }
 
-  /**
-   * Returns {@code true} when {@code segment} looks like a Notion resource ID — a UUID with hyphens
-   * or a compact 32-character hex string — rather than a path keyword like {@code pages}.
-   */
-  /**
-   * Returns true when the segment looks like a Notion resource ID — a UUID with hyphens or a
-   * compact 32-character hex string — rather than a path keyword like pages.
-   *
-   * @param segment the path segment to check
-   * @return true if the segment is likely a Notion resource ID
-   */
+  /** Returns {@code true} when the segment looks like a UUID (hyphenated or compact 32-hex). */
   private static boolean isLikelyId(String segment) {
     return UUID_WITH_HYPHENS_PATTERN.matcher(segment).matches()
         || UUID_COMPACT_PATTERN.matcher(segment).matches();
   }
 
-  /**
-   * Record representing an HTTP request for exchange logging.
-   *
-   * @param method HTTP method (e.g., GET, POST)
-   * @param url Request URL
-   * @param requestHeaders Map of request headers (with sensitive values redacted)
-   * @param requestBody Request body, parsed or described as appropriate
-   */
+  /** Recorded HTTP request (written to {@code *_rq.json}). */
   @Builder
   public record RequestRecord(
       String method, String url, Map<String, String> requestHeaders, Object requestBody) {}
 
-  /**
-   * Record representing an HTTP response for exchange logging.
-   *
-   * @param statusCode HTTP status code
-   * @param responseHeaders Map of response headers
-   * @param responseBody Response body, parsed as JSON if possible
-   */
+  /** Recorded HTTP response (written to {@code *_rs.json}). */
   @Builder
   public record ResponseRecord(
       Integer statusCode, Map<String, List<String>> responseHeaders, Object responseBody) {}

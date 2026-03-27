@@ -10,30 +10,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Notion-specific implementation of {@link ErrorResponseHandler} that maps HTTP error responses to
- * domain-specific {@link NotionApiException} subclasses.
+ * Maps Notion API error responses to domain-specific {@link NotionApiException} subclasses.
  *
- * <p>This handler maps HTTP error responses to domain-specific {@link NotionApiException}
- * subclasses. It deserializes the response body into a {@link NotionError}, extracts the error
- * code, message, and request ID, then throws the appropriate exception based on the HTTP status
- * code.
- *
- * <p>Status code mapping:
- *
- * <table>
- *   <tr><th>Status</th><th>Exception</th></tr>
- *   <tr><td>400</td><td>{@link ValidationException}</td></tr>
- *   <tr><td>401</td><td>{@link UnauthorizedException}</td></tr>
- *   <tr><td>403</td><td>{@link ForbiddenException}</td></tr>
- *   <tr><td>404</td><td>{@link NotFoundException}</td></tr>
- *   <tr><td>409</td><td>{@link ConflictException}</td></tr>
- *   <tr><td>429</td><td>{@link TooManyRequestsException}</td></tr>
- *   <tr><td>500</td><td>{@link InternalServerException}</td></tr>
- *   <tr><td>502</td><td>{@link BadGatewayException}</td></tr>
- *   <tr><td>503</td><td>{@link ServiceUnavailableException}</td></tr>
- *   <tr><td>504</td><td>{@link GatewayTimeoutException}</td></tr>
- *   <tr><td>other</td><td>{@link NotionApiException}</td></tr>
- * </table>
+ * <p>Deserializes the response body into a {@link NotionError}, extracts the error code, message,
+ * and request ID, then throws the appropriate exception based on the HTTP status code (400 →
+ * {@link ValidationException}, 401 → {@link UnauthorizedException}, etc.).
  *
  * @see ErrorResponseHandler
  * @see io.kristixlab.notion.api.http.client.ErrorHandlingHttpClient
@@ -44,22 +25,10 @@ public class NotionErrorResponseHandler implements ErrorResponseHandler {
 
   private final JsonSerializer json;
 
-  /**
-   * @param json the serializer used to parse error response bodies
-   */
   public NotionErrorResponseHandler(JsonSerializer json) {
     this.json = Objects.requireNonNull(json, "json");
   }
 
-  /**
-   * Maps an HTTP status code to the corresponding {@link NotionApiException} subclass.
-   *
-   * @param status the HTTP status code
-   * @param code the Notion error code (e.g. {@code "validation_error"})
-   * @param message the human-readable error message
-   * @param requestId the Notion request ID for support inquiries
-   * @return the mapped exception (never {@code null})
-   */
   private static NotionApiException toException(
       int status, String code, String message, String requestId) {
     return switch (status) {

@@ -7,12 +7,10 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Library-agnostic HTTP client interface. No okhttp3 types here, so you can swap implementations
- * later.
- */
+/** Library-agnostic HTTP transport interface. Implementations bridge to a concrete HTTP library. */
 public interface HttpClient {
 
+  /** Sends the request and blocks until the full response (including body) is available. */
   HttpResponse send(HttpRequest request) throws IOException;
 
   enum HttpMethod {
@@ -85,13 +83,11 @@ public interface HttpClient {
     }
   }
 
-  /**
-   * Request body models. Keep these small; implementations can map them to the underlying library.
-   */
+  /** Sealed body hierarchy — implementations map these to the underlying HTTP library. */
   sealed interface Body
       permits EmptyBody, StringBody, BytesBody, FileBody, InputStreamBody, MultipartBody {}
 
-  /** Explicit "no body" body (useful for POST/PUT/PATCH with empty body). */
+  /** Explicit empty body for POST/PUT/PATCH requests that require a body but carry no content. */
   record EmptyBody() implements Body {}
 
   /** A string body with an explicit content-type (e.g., JSON). */
@@ -100,10 +96,10 @@ public interface HttpClient {
   /** Raw bytes body with an explicit content-type. */
   record BytesBody(byte[] bytes, String contentType) implements Body {}
 
-  /** Send a file as the full request body. */
+  /** File-backed request body. */
   record FileBody(File file, String contentType) implements Body {}
 
-  /** Stream an {@link InputStream} as the full request body. The stream is consumed once. */
+  /** Streaming request body. The stream is consumed once and is not re-readable. */
   record InputStreamBody(InputStream inputStream, long contentLength, String contentType)
       implements Body {}
 
@@ -119,10 +115,7 @@ public interface HttpClient {
   record BytesPart(String name, String filename, byte[] bytes, String contentType)
       implements Part {}
 
-  /**
-   * A multipart part backed by an {@link InputStream}. The stream is consumed once during the
-   * request and is <b>not</b> re-readable.
-   */
+  /** Streaming multipart part. The stream is consumed once and is not re-readable. */
   record InputStreamPart(String name, String filename, InputStream inputStream, String contentType)
       implements Part {}
 }

@@ -6,12 +6,8 @@ import java.util.*;
 import lombok.Getter;
 
 /**
- * Immutable representation of an API path with optional path and query parameters.
- *
- * <p>Instances are created via the fluent {@link Builder} or the convenience factories {@link
- * #from(String)} and {@link #builder(String)}. Once built, an {@code ApiPath} cannot be modified.
- *
- * @see Builder
+ * Immutable API path with optional path and query parameters. Created via {@link #from(String)} or
+ * the fluent {@link Builder}.
  */
 @Getter
 public final class ApiPath {
@@ -43,32 +39,14 @@ public final class ApiPath {
     return new Builder().url(url).build();
   }
 
-  /**
-   * Resolves this path to a full URL string using no base URL.
-   *
-   * <p>Useful when the URL stored in this path is already absolute. Path and query parameters are
-   * still applied.
-   *
-   * @return the fully resolved URL string
-   */
+  /** Resolves to a full URL assuming the path is already absolute. */
   public String resolve() {
     return resolve("");
   }
 
   /**
-   * Resolves this path against the given base URL.
-   *
-   * <ul>
-   *   <li>If this path's URL is already absolute ({@code http://} or {@code https://}), {@code
-   *       baseUrl} is ignored.
-   *   <li>Otherwise {@code baseUrl} is prepended.
-   * </ul>
-   *
-   * <p>Path parameter placeholders ({@code {name}}) are percent-encoded and substituted. Query
-   * parameters are appended as a properly percent-encoded query string.
-   *
-   * @param baseUrl base URL to prepend for relative paths
-   * @return the fully resolved URL string
+   * Resolves against the given base URL, substitutes path parameters, and appends query parameters.
+   * If this path is already absolute, {@code baseUrl} is ignored.
    */
   public String resolve(String baseUrl) {
     String resolved = buildBase(baseUrl, url);

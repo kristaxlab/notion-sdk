@@ -5,6 +5,7 @@ import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
 
+/** Token-bucket rate limiter backed by Bucket4j. Keyed by API name. */
 public class RateLimiter {
 
   private final Map<String, Bucket> rateLimiters = new HashMap<>();

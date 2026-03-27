@@ -1,5 +1,9 @@
 package io.kristixlab.notion.api.http.error;
 
+/**
+ * Base exception for all Notion API errors. Carries the HTTP status, Notion error code, and request
+ * ID for diagnostics.
+ */
 public class NotionApiException extends RuntimeException {
 
   private final int status;

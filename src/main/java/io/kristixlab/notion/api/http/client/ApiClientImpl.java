@@ -2,15 +2,21 @@ package io.kristixlab.notion.api.http.client;
 
 import io.kristixlab.notion.api.http.config.ApiClientConfig;
 import io.kristixlab.notion.api.http.request.ApiPath;
-import io.kristixlab.notion.api.http.request.HttpBodyFactory;
 import io.kristixlab.notion.api.json.JsonSerializer;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.util.Map;
 import java.util.Objects;
 
+/**
+ * Standard {@link ApiClient} implementation backed by a fully-composed {@link HttpClient} pipeline.
+ *
+ * <p>For production use, prefer {@link io.kristixlab.notion.api.NotionClient#builder()} which wires
+ * the full pipeline automatically.
+ */
 public class ApiClientImpl implements ApiClient {
 
+  private static final String APPLICATION_JSON = "application/json";
   private final HttpClient httpClient;
   private final String baseUrl;
   private final JsonSerializer serializer;
@@ -40,13 +46,13 @@ public class ApiClientImpl implements ApiClient {
       Class<T> responseType) {
 
     String url = apiPath.resolve(baseUrl);
-    HttpClient.Body requestBody = HttpBodyFactory.create(body, serializer);
+    HttpClient.Body httpBody = serializeBody(body);
 
     HttpClient.HttpRequest.Builder builder =
-        HttpClient.HttpRequest.builder().url(url).method(toHttpMethod(method)).body(requestBody);
+        HttpClient.HttpRequest.builder().url(url).method(toHttpMethod(method)).body(httpBody);
 
-    if (HttpBodyFactory.requiresJsonContentType(body)) {
-      builder.header("Content-Type", "application/json");
+    if (body != null && !(body instanceof HttpClient.Body)) {
+      builder.header("Content-Type", APPLICATION_JSON);
     }
 
     if (extraHeaders != null) {
@@ -57,6 +63,7 @@ public class ApiClientImpl implements ApiClient {
     return deserialize(response.bodyAsString(), responseType);
   }
 
+  /** Sends the request through the pipeline. */
   private HttpClient.HttpResponse send(HttpClient.HttpRequest request) {
     try {
       return httpClient.send(request);
@@ -65,6 +72,14 @@ public class ApiClientImpl implements ApiClient {
     }
   }
 
+  /** Serializes the body object into an HttpClient.Body if necessary */
+  private HttpClient.Body serializeBody(Object body) {
+    if (body == null) return null;
+    if (body instanceof HttpClient.Body b) return b;
+    return new HttpClient.StringBody(serializer.toJson(body), APPLICATION_JSON);
+  }
+
+  /** Deserializes the response body string into the target type. */
   private <T> T deserialize(String body, Class<T> responseType) {
     if (responseType == String.class) {
       return responseType.cast(body);
@@ -80,7 +95,7 @@ public class ApiClientImpl implements ApiClient {
     }
   }
 
-  /** Strips a trailing slash (except for bare protocol strings like {@code https://}). */
+  /** Strips a trailing slash unless the URL is a bare protocol root. */
   private static String normalizeBaseUrl(String baseUrl) {
     if (baseUrl == null || baseUrl.isBlank()) {
       return "";

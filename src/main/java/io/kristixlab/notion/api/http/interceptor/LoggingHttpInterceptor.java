@@ -6,14 +6,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Library-agnostic logging interceptor for the {@link HttpClient} pipeline.
- *
- * <p>Logs request method/URL/body-type and response status/body at {@code DEBUG} level via SLF4J.
- * Non-2xx responses are additionally logged at {@code WARN} level.
- *
- * <p>This interceptor is intentionally simple — it does <b>not</b> depend on OkHttp, {@code
- * ExchangeContext}, or {@code ExchangeLogger}. File-based exchange logging can be added as a
- * separate interceptor when needed.
+ * Logs request method/URL/body-type and response status at {@code DEBUG} level via SLF4J. Non-2xx
+ * responses are additionally logged at {@code WARN}.
  */
 public class LoggingHttpInterceptor implements HttpClientInterceptor {
 
@@ -21,9 +15,7 @@ public class LoggingHttpInterceptor implements HttpClientInterceptor {
 
   private final String apiName;
 
-  /**
-   * @param apiName human-readable API name used in log messages (e.g. {@code "Notion"})
-   */
+  /** @param apiName label used in log messages (e.g. {@code "Notion"}) */
   public LoggingHttpInterceptor(String apiName) {
     this.apiName = apiName;
   }
