@@ -11,57 +11,15 @@ import io.kristixlab.notion.api.http.interceptor.LoggingHttpInterceptor;
 import io.kristixlab.notion.api.http.interceptor.NotionAuthInterceptor;
 import io.kristixlab.notion.api.http.interceptor.RateLimitHttpInterceptor;
 import io.kristixlab.notion.api.http.interceptor.RateLimiter;
+import io.kristixlab.notion.api.json.JacksonSerializer;
+import io.kristixlab.notion.api.json.JsonSerializer;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import okhttp3.OkHttpClient;
 
-/**
- * Primary entry point for the Notion SDK.
- *
- * <p>Holds an {@link ApiClient} reference and all endpoint implementations. The {@link ApiClient}
- * is constructed once and injected into every endpoint — endpoints carry no transport knowledge
- * beyond calling {@code client.call(...)}.
- *
- * <p><b>Typical usage (private integration / internal token):</b>
- *
- * <pre>{@code
- * NotionClient notion = NotionClient.forToken("secret_xxx");
- * User me = notion.users().me();
- * Page page = notion.pages().retrieve("page-id");
- * }</pre>
- *
- * <p><b>Fluent builder (full control):</b>
- *
- * <pre>{@code
- * NotionClient notion = NotionClient.builder()
- *     .auth(authSettings)                  // required
- *     .version("2026-03-11")               // optional — Notion-Version header
- *     .baseUrl("https://api.notion.com/v1") // optional
- *     .rawHttpClient(customOkHttp3Client)  // optional — inject a custom HTTP client
- *     .rateLimiter(myRateLimiter)          // optional
- *     .jsonFailOnUnknownProperties(true)   // optional, default false
- *     .build();
- * }</pre>
- *
- * <p>The builder wires the full Notion-specific pipeline automatically:
- *
- * <pre>
- *   ErrorHandlingHttpClient (NotionErrorResponseHandler)
- *     └─ InterceptingHttpClient
- *          ├─ RateLimitHttpInterceptor
- *          ├─ NotionAuthInterceptor  (adds Bearer/Basic + Notion-Version + Accept)
- *          └─ LoggingHttpInterceptor
- *               └─ OkHttp3Client (or custom HttpClient)
- * </pre>
- *
- * @see ApiClient
- * @see ApiClientImpl
- * @see Builder
- */
 public class NotionClient {
-
-  private final ApiClient apiClient;
 
   private final AuthorizationEndpoint authorization;
   private final BlocksEndpoint blocks;
@@ -74,7 +32,6 @@ public class NotionClient {
   private final UsersEndpoint users;
 
   private NotionClient(ApiClient apiClient, NotionAuthSettings authSettings) {
-    this.apiClient = apiClient;
     this.authorization = new AuthorizationEndpointImpl(authSettings, apiClient);
     this.blocks = new BlocksEndpointImpl(apiClient);
     this.comments = new CommentsEndpointImpl(apiClient);
@@ -189,7 +146,7 @@ public class NotionClient {
     /** {@code null} → a default {@link RateLimiter} is created. */
     private RateLimiter rateLimiter;
 
-    private boolean jsonFailOnUnknownProperties = false;
+    private JsonSerializer jsonSerializer;
 
     /**
      * When non-{@code null}, an {@link ExchangeRecordingInterceptor} writes files to this
@@ -205,6 +162,11 @@ public class NotionClient {
      */
     public Builder auth(NotionAuthSettings authSettings) {
       this.authSettings = authSettings;
+      return this;
+    }
+
+    public Builder jsonSerializer(JsonSerializer jsonSerializer) {
+      this.jsonSerializer = jsonSerializer;
       return this;
     }
 
@@ -260,15 +222,6 @@ public class NotionClient {
     }
 
     /**
-     * Controls whether unknown JSON properties in responses cause deserialization to fail. Defaults
-     * to {@code false} (unknown properties are silently ignored).
-     */
-    public Builder jsonFailOnUnknownProperties(boolean fail) {
-      this.jsonFailOnUnknownProperties = fail;
-      return this;
-    }
-
-    /**
      * Enables file-based exchange logging via {@link ExchangeRecordingInterceptor}.
      *
      * <p>Each HTTP exchange (request + response) is written as a pretty-printed JSON file into
@@ -285,7 +238,7 @@ public class NotionClient {
      *
      * @param dir target directory; {@code null} disables exchange logging
      */
-    public Builder exchangeLogging(java.nio.file.Path dir) {
+    public Builder exchangeLogging(Path dir) {
       this.rqRsCatchDir = dir;
       return this;
     }
@@ -301,26 +254,27 @@ public class NotionClient {
 
       HttpClient raw = rawHttpClient != null ? rawHttpClient : defaultOkHttp3Client();
       RateLimiter limiter = rateLimiter != null ? rateLimiter : new RateLimiter();
+      JsonSerializer serializer =
+          jsonSerializer != null ? jsonSerializer : JacksonSerializer.withDefaults();
       String apiLabel = "Notion";
 
       List<HttpClientInterceptor> interceptors = new java.util.ArrayList<>();
       interceptors.add(new RateLimitHttpInterceptor(limiter, apiLabel));
       interceptors.add(new NotionAuthInterceptor(authSettings, version));
       if (rqRsCatchDir != null) {
-        interceptors.add(new ExchangeRecordingInterceptor(rqRsCatchDir));
+        interceptors.add(
+            new ExchangeRecordingInterceptor(rqRsCatchDir, JacksonSerializer.pretty()));
       }
       interceptors.add(new LoggingHttpInterceptor(apiLabel));
 
       HttpClient pipeline =
           new ErrorHandlingHttpClient(
-              new InterceptingHttpClient(raw, interceptors), new NotionErrorResponseHandler());
+              new InterceptingHttpClient(raw, interceptors),
+              new NotionErrorResponseHandler(serializer));
 
-      ApiClientConfig cfg =
-          ApiClientConfig.builder()
-              .jsonFailOnUnknownProperties(jsonFailOnUnknownProperties)
-              .build();
+      ApiClientConfig cfg = ApiClientConfig.builder().apiBaseUrl(baseUrl).build();
 
-      ApiClientImpl apiClient = new ApiClientImpl(pipeline, baseUrl, cfg);
+      ApiClientImpl apiClient = new ApiClientImpl(pipeline, cfg, serializer);
       return new NotionClient(apiClient, authSettings);
     }
 

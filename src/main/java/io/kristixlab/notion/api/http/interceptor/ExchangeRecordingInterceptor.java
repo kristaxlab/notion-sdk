@@ -1,7 +1,5 @@
 package io.kristixlab.notion.api.http.interceptor;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import io.kristixlab.notion.api.http.client.HttpClient.Body;
 import io.kristixlab.notion.api.http.client.HttpClient.BytesBody;
 import io.kristixlab.notion.api.http.client.HttpClient.EmptyBody;
@@ -11,7 +9,7 @@ import io.kristixlab.notion.api.http.client.HttpClient.HttpResponse;
 import io.kristixlab.notion.api.http.client.HttpClient.InputStreamBody;
 import io.kristixlab.notion.api.http.client.HttpClient.MultipartBody;
 import io.kristixlab.notion.api.http.client.HttpClient.StringBody;
-import io.kristixlab.notion.api.json.JsonConverter;
+import io.kristixlab.notion.api.json.JsonSerializer;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -19,8 +17,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.regex.Pattern;
 import lombok.Builder;
-import lombok.Value;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -55,61 +53,27 @@ import org.slf4j.LoggerFactory;
  */
 public class ExchangeRecordingInterceptor implements HttpClientInterceptor {
 
-
-  /** Immutable snapshot of the request side of an HTTP exchange. */
-  @Value
-  @Builder
-  @JsonInclude(JsonInclude.Include.NON_NULL)
-  public static class RequestRecord {
-
-    @JsonProperty("method")
-    String method;
-
-    @JsonProperty("url")
-    String url;
-
-    /** {@code Authorization} header value is always replaced with {@code "[redacted]"}. */
-    @JsonProperty("request_headers")
-    Map<String, String> requestHeaders;
-
-    /**
-     * JSON bodies are stored as a parsed object; binary/multipart bodies as a short string
-     * descriptor.
-     */
-    @JsonProperty("request_body")
-    Object requestBody;
-  }
-
-  /** Immutable snapshot of the response side of an HTTP exchange. */
-  @Value
-  @Builder
-  @JsonInclude(JsonInclude.Include.NON_NULL)
-  public static class ResponseRecord {
-
-    @JsonProperty("status_code")
-    Integer statusCode;
-
-    @JsonProperty("response_headers")
-    Map<String, List<String>> responseHeaders;
-
-    /** Parsed as a JSON object when the response body is valid JSON, raw string otherwise. */
-    @JsonProperty("response_body")
-    Object responseBody;
-  }
-
+  private static final Pattern UUID_WITH_HYPHENS_PATTERN =
+      Pattern.compile("[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}");
+  private static final Pattern UUID_COMPACT_PATTERN = Pattern.compile("[0-9a-f]{32}");
 
   private static final Logger LOGGER = LoggerFactory.getLogger(ExchangeRecordingInterceptor.class);
 
   private final Path dir;
+  private final JsonSerializer serializer;
 
   /** Carries the base filename prefix from {@link #beforeSend} to {@link #afterReceive}. */
   private final ThreadLocal<String> pendingBaseName = new ThreadLocal<>();
 
   /**
+   * Constructs an ExchangeRecordingInterceptor with a custom JsonSerializer.
+   *
    * @param dir directory where exchange files are written; created eagerly if it does not exist
+   * @param serializer the serializer used to write exchange files
    */
-  public ExchangeRecordingInterceptor(Path dir) {
+  public ExchangeRecordingInterceptor(Path dir, JsonSerializer serializer) {
     this.dir = Objects.requireNonNull(dir, "dir");
+    this.serializer = Objects.requireNonNull(serializer, "json");
     try {
       Files.createDirectories(dir);
     } catch (IOException e) {
@@ -117,6 +81,13 @@ public class ExchangeRecordingInterceptor implements HttpClientInterceptor {
     }
   }
 
+  /**
+   * Intercepts the HTTP request before it is sent, records the request details, and writes them to
+   * a JSON file.
+   *
+   * @param request the HTTP request to be sent
+   * @return the (possibly modified) HTTP request
+   */
   @Override
   public HttpRequest beforeSend(HttpRequest request) {
     String baseName =
@@ -132,13 +103,20 @@ public class ExchangeRecordingInterceptor implements HttpClientInterceptor {
             .method(request.method().name())
             .url(request.url())
             .requestHeaders(redactedHeaders(request.headers()))
-            .requestBody(describeBody(request.body()))
+            .requestBody(describeBody(request.body(), serializer))
             .build();
 
     write(baseName + "_rq.json", record);
     return request;
   }
 
+  /**
+   * Intercepts the HTTP response after it is received, records the response details, and writes
+   * them to a JSON file.
+   *
+   * @param request the original HTTP request
+   * @param response the HTTP response received
+   */
   @Override
   public void afterReceive(HttpRequest request, HttpResponse response) {
     String baseName = pendingBaseName.get();
@@ -152,22 +130,33 @@ public class ExchangeRecordingInterceptor implements HttpClientInterceptor {
         ResponseRecord.builder()
             .statusCode(response.statusCode())
             .responseHeaders(response.headers().isEmpty() ? null : response.headers())
-            .responseBody(JsonConverter.getInstance().parseJson(response.bodyAsString()))
+            .responseBody(serializer.toObject(response.bodyAsString(), Object.class))
             .build();
 
     write(baseName + "_rs.json", record);
   }
 
-
+  /**
+   * Writes the given record object as a pretty-printed JSON file in the configured directory.
+   *
+   * @param fileName the name of the file to write
+   * @param record the record object to serialize
+   */
   private void write(String fileName, Object record) {
     Path file = dir.resolve(fileName);
     try {
-      Files.writeString(file, JsonConverter.getInstance().toJson(record, true));
+      Files.writeString(file, serializer.toJson(record));
     } catch (IOException e) {
       LOGGER.warn("Failed to write exchange log to: {}", file, e);
     }
   }
 
+  /**
+   * Returns a copy of the headers map with sensitive values (e.g., Authorization) redacted.
+   *
+   * @param headers the original headers map
+   * @return a copy of the headers map with sensitive values redacted, or null if headers are empty
+   */
   private static Map<String, String> redactedHeaders(Map<String, String> headers) {
     if (headers == null || headers.isEmpty()) {
       return null;
@@ -177,12 +166,19 @@ public class ExchangeRecordingInterceptor implements HttpClientInterceptor {
     return copy;
   }
 
-  private static Object describeBody(Body body) {
+  /**
+   * Describes the HTTP request or response body for logging purposes.
+   *
+   * @param body the HTTP body
+   * @param serializer the JSON serializer
+   * @return a parsed JSON object, or a string description for non-JSON bodies
+   */
+  private static Object describeBody(Body body, JsonSerializer serializer) {
     if (body == null || body instanceof EmptyBody) {
       return null;
     }
     if (body instanceof StringBody sb) {
-      return JsonConverter.getInstance().parseJson(sb.content());
+      return serializer.toObject(sb.content(), Object.class);
     }
     if (body instanceof BytesBody bb) {
       return "[bytes: " + bb.bytes().length + "]";
@@ -202,19 +198,13 @@ public class ExchangeRecordingInterceptor implements HttpClientInterceptor {
   /**
    * Derives a human-readable service name from the request URL and method.
    *
-   * <p>Strategy: parse the URL path, strip the {@code /v1} prefix, discard UUID-looking segments
-   * (the dynamic ID values that replaced {@code {param}} placeholders), join the remaining segments
-   * with {@code _}, then append a method suffix.
+   * <p>Strategy: parse the URL path, strip the /v1 prefix, discard UUID-looking segments (the
+   * dynamic ID values that replaced {param} placeholders), join the remaining segments with _, then
+   * append a method suffix.
    *
-   * <p>Examples:
-   *
-   * <ul>
-   *   <li>{@code GET /v1/pages} → {@code pages_retrieve}
-   *   <li>{@code GET /v1/blocks/abc-123/children} → {@code blocks_children_retrieve}
-   *   <li>{@code POST /v1/databases/abc-123/query} → {@code databases_query_create}
-   *   <li>{@code PATCH /v1/pages/abc-123} → {@code pages_update}
-   *   <li>{@code DELETE /v1/blocks/abc-123} → {@code blocks_delete}
-   * </ul>
+   * @param url the request URL
+   * @param method the HTTP method
+   * @return a human-readable service name for the exchange log
    */
   static String serviceNameFrom(String url, String method) {
     try {
@@ -253,8 +243,38 @@ public class ExchangeRecordingInterceptor implements HttpClientInterceptor {
    * Returns {@code true} when {@code segment} looks like a Notion resource ID — a UUID with hyphens
    * or a compact 32-character hex string — rather than a path keyword like {@code pages}.
    */
+  /**
+   * Returns true when the segment looks like a Notion resource ID — a UUID with hyphens or a
+   * compact 32-character hex string — rather than a path keyword like pages.
+   *
+   * @param segment the path segment to check
+   * @return true if the segment is likely a Notion resource ID
+   */
   private static boolean isLikelyId(String segment) {
-    return segment.matches("[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")
-        || segment.matches("[0-9a-f]{32}");
+    return UUID_WITH_HYPHENS_PATTERN.matcher(segment).matches()
+        || UUID_COMPACT_PATTERN.matcher(segment).matches();
   }
+
+  /**
+   * Record representing an HTTP request for exchange logging.
+   *
+   * @param method HTTP method (e.g., GET, POST)
+   * @param url Request URL
+   * @param requestHeaders Map of request headers (with sensitive values redacted)
+   * @param requestBody Request body, parsed or described as appropriate
+   */
+  @Builder
+  public record RequestRecord(
+      String method, String url, Map<String, String> requestHeaders, Object requestBody) {}
+
+  /**
+   * Record representing an HTTP response for exchange logging.
+   *
+   * @param statusCode HTTP status code
+   * @param responseHeaders Map of response headers
+   * @param responseBody Response body, parsed as JSON if possible
+   */
+  @Builder
+  public record ResponseRecord(
+      Integer statusCode, Map<String, List<String>> responseHeaders, Object responseBody) {}
 }

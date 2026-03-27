@@ -1,8 +1,21 @@
 package io.kristixlab.notion.api.http.interceptor;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import io.kristixlab.notion.api.http.client.HttpClient.HttpMethod;
+import io.kristixlab.notion.api.http.client.HttpClient.HttpRequest;
+import io.kristixlab.notion.api.http.client.HttpClient.HttpResponse;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.List;
+import java.util.Map;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
+import util.TestSerializer;
 
 /** Unit tests for {@link ExchangeRecordingInterceptor#serviceNameFrom}. */
 class ExchangeRecordingInterceptorTest {
@@ -67,5 +80,39 @@ class ExchangeRecordingInterceptorTest {
 
   private static String name(String url, String method) {
     return ExchangeRecordingInterceptor.serviceNameFrom(url, method);
+  }
+
+  @Test
+  void writesRequestAndResponseFiles_andRedactsAuthorization(@TempDir Path tempDir) throws IOException {
+    ExchangeRecordingInterceptor interceptor =
+        new ExchangeRecordingInterceptor(tempDir, new TestSerializer());
+    HttpRequest request =
+        HttpRequest.builder()
+            .url(BASE + "/pages")
+            .method(HttpMethod.POST)
+            .headers(Map.of("Authorization", "Bearer secret-token", "X-Test", "yes"))
+            .build();
+    HttpResponse response =
+        new HttpResponse(200, Map.of("X-Server", List.of("ok")), "{\"ok\":true}".getBytes());
+
+    interceptor.beforeSend(request);
+    interceptor.afterReceive(request, response);
+
+    List<Path> files = Files.list(tempDir).toList();
+    assertEquals(2, files.size());
+
+    Path requestFile = files.stream().filter(p -> p.getFileName().toString().endsWith("_rq.json")).findFirst().orElse(null);
+    Path responseFile = files.stream().filter(p -> p.getFileName().toString().endsWith("_rs.json")).findFirst().orElse(null);
+    assertNotNull(requestFile);
+    assertNotNull(responseFile);
+
+    String requestJson = Files.readString(requestFile);
+    String responseJson = Files.readString(responseFile);
+
+    assertTrue(requestJson.contains("\"request_headers\""));
+    assertTrue(requestJson.contains("\"Authorization\" : \"[redacted]\""));
+    assertFalse(requestJson.contains("secret-token"));
+    assertTrue(responseJson.contains("\"status_code\" : 200"));
+    assertTrue(responseJson.contains("\"response_body\""));
   }
 }

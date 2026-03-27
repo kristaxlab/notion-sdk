@@ -2,6 +2,8 @@ package integration;
 
 import io.kristixlab.notion.NotionSdkSettings;
 import io.kristixlab.notion.api.NotionClient;
+import util.TestSerializer;
+
 import java.nio.file.Path;
 
 public class NotionClientProvider {
@@ -32,7 +34,7 @@ public class NotionClientProvider {
 
     return NotionClient.builder()
         .auth(apiKey)
-        .jsonFailOnUnknownProperties(jsonStrict)
+        .jsonSerializer(new TestSerializer())
         .exchangeLogging(exchangeLogDir)
         .build();
   }

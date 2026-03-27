@@ -13,7 +13,6 @@ import org.junit.jupiter.api.*;
 /** Unit tests for {@link ErrorHandlingHttpClient} and {@link ErrorResponseHandler}. */
 class ErrorHandlingHttpClientTest {
 
-
   /** A fake HttpClient that returns a fixed response. */
   private static class FakeHttpClient implements HttpClient {
     HttpRequest lastRequest;
@@ -53,7 +52,6 @@ class ErrorHandlingHttpClientTest {
   private static HttpResponse responseWithStatus(int status, String body) {
     return new HttpResponse(status, Map.of(), body.getBytes());
   }
-
 
   @Test
   @DisplayName("Constructor rejects null delegate")

@@ -12,29 +12,10 @@ import java.util.Optional;
  * <p>Settings are stored as typed key/value pairs keyed by {@link ConfigKey} instances. Well-known
  * SDK settings are exposed as {@code public static final} key constants on this class. External
  * projects can define and attach their own settings without modifying this class:
- *
- * <pre>{@code
- * // Defined once in your project as a static constant:
- * public static final ConfigKey<Duration> CONNECT_TIMEOUT = ConfigKey.of("connectTimeout");
- *
- * ApiClientConfig config = ApiClientConfig.builder()
- *     .jsonFailOnUnknownProperties(false)
- *     .set(CONNECT_TIMEOUT, Duration.ofSeconds(10))
- *     .build();
- *
- * Duration timeout = config.getOrDefault(CONNECT_TIMEOUT, Duration.ofSeconds(30));
- * }</pre>
- *
- * <p>Key equality is identity-based — always hold keys as {@code static final} constants.
  */
 public final class ApiClientConfig {
 
-  /**
-   * When {@code true}, JSON deserialization fails if the response contains properties not mapped to
-   * the target class. Default: {@code false}.
-   */
-  public static final ConfigKey<Boolean> JSON_FAIL_ON_UNKNOWN =
-      ConfigKey.of("jsonFailOnUnknownProperties");
+  public static final ConfigKey<String> API_BASE_URL = ConfigKey.of("apiBaseUrl");
 
   private final Map<ConfigKey<?>, Object> values;
 
@@ -102,17 +83,10 @@ public final class ApiClientConfig {
       return this;
     }
 
-    /**
-     * Convenience setter for {@link ApiClientConfig#JSON_FAIL_ON_UNKNOWN}.
-     *
-     * @param fail {@code true} to fail on unknown JSON properties
-     * @return this builder
-     */
-    public Builder jsonFailOnUnknownProperties(boolean fail) {
-      return set(JSON_FAIL_ON_UNKNOWN, fail);
+    public Builder apiBaseUrl(String apiBaseUrl) {
+      return set(API_BASE_URL, apiBaseUrl);
     }
 
-    /** Builds an immutable {@link ApiClientConfig}. */
     public ApiClientConfig build() {
       return new ApiClientConfig(values);
     }

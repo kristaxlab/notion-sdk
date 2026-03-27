@@ -3,77 +3,23 @@ package io.kristixlab.notion.api.http.client;
 import io.kristixlab.notion.api.http.config.ApiClientConfig;
 import io.kristixlab.notion.api.http.request.ApiPath;
 import io.kristixlab.notion.api.http.request.HttpBodyFactory;
-import io.kristixlab.notion.api.json.JsonConverter;
+import io.kristixlab.notion.api.json.JsonSerializer;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.util.Map;
 import java.util.Objects;
 
-/**
- * Standard implementation of {@link ApiClient} that sits on top of a fully-composed {@link
- * HttpClient} pipeline.
- *
- * <p>Responsibilities:
- *
- * <ol>
- *   <li>URL building — resolves base URL + {@link ApiPath} path/query params via {@link
- *       ApiPath#resolve(String)}
- *   <li>Body serialization — delegates to {@link HttpBodyFactory}
- *   <li>Request dispatch — delegates to the injected {@link HttpClient}
- *   <li>Response deserialization — converts the raw response body to a typed object via {@link
- *       JsonConverter}
- * </ol>
- *
- * <p>All cross-cutting concerns (authentication, rate-limiting, logging, error mapping) must be
- * handled by the {@link HttpClient} pipeline passed in at construction time. This class contains no
- * Notion-specific logic.
- *
- * <p>Construct directly for tests or custom pipelines:
- *
- * <pre>{@code
- * HttpClient pipeline = new ErrorHandlingHttpClient(
- *     new InterceptingHttpClient(new OkHttp3Client(), interceptors),
- *     errorHandler);
- *
- * ApiClient client = new ApiClientImpl(pipeline, "https://api.notion.com/v1");
- * }</pre>
- *
- * <p>For production use, prefer {@link io.kristixlab.notion.api.NotionClient#builder()} which wires
- * the full Notion pipeline automatically.
- *
- * @see ApiClient
- * @see io.kristixlab.notion.api.NotionClient
- */
 public class ApiClientImpl implements ApiClient {
 
   private final HttpClient httpClient;
   private final String baseUrl;
-  private final ApiClientConfig config;
+  private final JsonSerializer serializer;
 
-  /**
-   * Constructs an {@code ApiClientImpl} with default transport config ({@code
-   * jsonFailOnUnknownProperties=false}).
-   *
-   * @param httpClient the fully-composed HTTP pipeline to delegate to
-   * @param baseUrl the base URL prepended to all relative paths (e.g. {@code
-   *     "https://api.notion.com/v1"})
-   */
-  public ApiClientImpl(HttpClient httpClient, String baseUrl) {
-    this(httpClient, baseUrl, null);
-  }
-
-  /**
-   * @param httpClient the fully-composed HTTP pipeline to delegate to
-   * @param baseUrl the base URL prepended to all relative paths
-   * @param config transport configuration controlling JSON strictness; {@code null} uses sensible
-   *     defaults
-   */
-  public ApiClientImpl(HttpClient httpClient, String baseUrl, ApiClientConfig config) {
+  public ApiClientImpl(HttpClient httpClient, ApiClientConfig config, JsonSerializer serializer) {
     this.httpClient = Objects.requireNonNull(httpClient, "httpClient");
-    this.baseUrl = normalizeBaseUrl(Objects.requireNonNull(baseUrl, "baseUrl"));
-    this.config = config != null ? config : defaultConfig();
+    this.baseUrl = normalizeBaseUrl(config.get(ApiClientConfig.API_BASE_URL).get());
+    this.serializer = Objects.requireNonNull(serializer, "serializer");
   }
-
 
   @Override
   public <T> T call(String method, ApiPath apiPath, Class<T> responseType) {
@@ -94,7 +40,7 @@ public class ApiClientImpl implements ApiClient {
       Class<T> responseType) {
 
     String url = apiPath.resolve(baseUrl);
-    HttpClient.Body requestBody = HttpBodyFactory.create(body);
+    HttpClient.Body requestBody = HttpBodyFactory.create(body, serializer);
 
     HttpClient.HttpRequest.Builder builder =
         HttpClient.HttpRequest.builder().url(url).method(toHttpMethod(method)).body(requestBody);
@@ -111,7 +57,6 @@ public class ApiClientImpl implements ApiClient {
     return deserialize(response.bodyAsString(), responseType);
   }
 
-
   private HttpClient.HttpResponse send(HttpClient.HttpRequest request) {
     try {
       return httpClient.send(request);
@@ -124,8 +69,7 @@ public class ApiClientImpl implements ApiClient {
     if (responseType == String.class) {
       return responseType.cast(body);
     }
-    return JsonConverter.getInstance()
-        .toObject(body, responseType, config.getOrDefault(ApiClientConfig.JSON_FAIL_ON_UNKNOWN, false));
+    return serializer.toObject(body, responseType);
   }
 
   private static HttpClient.HttpMethod toHttpMethod(String method) {
@@ -138,13 +82,12 @@ public class ApiClientImpl implements ApiClient {
 
   /** Strips a trailing slash (except for bare protocol strings like {@code https://}). */
   private static String normalizeBaseUrl(String baseUrl) {
+    if (baseUrl == null || baseUrl.isBlank()) {
+      return "";
+    }
     if (baseUrl.endsWith("/") && !baseUrl.equals("https://") && !baseUrl.equals("http://")) {
       return baseUrl.substring(0, baseUrl.length() - 1);
     }
     return baseUrl;
-  }
-
-  private static ApiClientConfig defaultConfig() {
-    return ApiClientConfig.defaults();
   }
 }

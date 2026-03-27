@@ -38,5 +38,3 @@ class ConfigKeyTest {
     assertThrows(NullPointerException.class, () -> ConfigKey.of(null));
   }
 }
-
-

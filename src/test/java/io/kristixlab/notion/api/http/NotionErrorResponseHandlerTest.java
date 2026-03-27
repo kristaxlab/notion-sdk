@@ -4,18 +4,18 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import io.kristixlab.notion.api.http.client.HttpClient.*;
 import io.kristixlab.notion.api.http.error.*;
-import io.kristixlab.notion.api.json.JsonConverter;
 import io.kristixlab.notion.api.model.NotionError;
 import java.util.Map;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import util.TestSerializer;
 
 /** Unit tests for {@link NotionErrorResponseHandler}. */
 class NotionErrorResponseHandlerTest {
 
-  private final NotionErrorResponseHandler handler = new NotionErrorResponseHandler();
-
+  private final NotionErrorResponseHandler handler =
+      new NotionErrorResponseHandler(new TestSerializer());
 
   private static HttpRequest anyRequest() {
     return HttpRequest.builder()
@@ -35,9 +35,8 @@ class NotionErrorResponseHandlerTest {
     error.setMessage(message);
     error.setRequestId(requestId);
     error.setStatus(400); // status in the body isn't used for mapping
-    return JsonConverter.getInstance().toJson(error);
+    return new TestSerializer().toJson(error);
   }
-
 
   @ParameterizedTest(name = "status {0} passes through")
   @CsvSource({"200", "201", "204", "302"})
@@ -45,7 +44,6 @@ class NotionErrorResponseHandlerTest {
     HttpResponse response = responseOf(status, "{\"object\": \"page\"}");
     assertDoesNotThrow(() -> handler.handle(anyRequest(), response));
   }
-
 
   @Test
   @DisplayName("400 → ValidationException")
@@ -148,7 +146,6 @@ class NotionErrorResponseHandlerTest {
     assertEquals("teapot", ex.getCode());
   }
 
-
   @Test
   @DisplayName("Falls back to 'error' field when 'code' is null")
   void fallsBackToErrorField() {
@@ -158,14 +155,13 @@ class NotionErrorResponseHandlerTest {
     error.setCode(null);
     error.setMessage("Token expired");
     error.setRequestId("req-012");
-    String body = JsonConverter.getInstance().toJson(error);
+    String body = new TestSerializer().toJson(error);
 
     UnauthorizedException ex =
         assertThrows(
             UnauthorizedException.class, () -> handler.handle(anyRequest(), responseOf(401, body)));
     assertEquals("unauthorized", ex.getCode());
   }
-
 
   @Test
   @DisplayName("Non-JSON body falls back to raw body as message")

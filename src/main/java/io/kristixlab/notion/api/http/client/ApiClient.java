@@ -9,22 +9,9 @@ import java.util.Map;
  *
  * <p>Implementations handle:
  *
- * <ul>
- *   <li>Merging {@code baseUrl} + {@link ApiPath} path/query params into a final request URL
- *   <li>Serializing the request body (JSON or multipart/form-data)
- *   <li>Delegating to an underlying {@link HttpClient} pipeline
- *   <li>Deserializing the response body into a typed object via {@link
- *       io.kristixlab.notion.api.json.JsonConverter}
- * </ul>
- *
  * <p>All cross-cutting concerns (authentication, rate-limiting, logging, error mapping) are
  * supposed to be handled by the decorators and interceptors in the underlying {@link HttpClient}
- * pipeline injected into the implementation — not by this interface.
- *
- * <p>Use {@link ApiClientImpl} as the standard implementation, or provide a test double that
- * implements this interface directly (e.g. {@code ApiClientStub}).
- *
- * @see ApiClientImpl
+ * implementation pipeline injected into the implementation — not by this interface.
  */
 public interface ApiClient {
 

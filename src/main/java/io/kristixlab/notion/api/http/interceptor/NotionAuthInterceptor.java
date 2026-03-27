@@ -2,6 +2,7 @@ package io.kristixlab.notion.api.http.interceptor;
 
 import io.kristixlab.notion.api.NotionAuthSettings;
 import io.kristixlab.notion.api.http.client.HttpClient.HttpRequest;
+import java.net.URI;
 import java.util.Objects;
 import java.util.Set;
 
@@ -99,11 +100,12 @@ public class NotionAuthInterceptor implements HttpClientInterceptor {
    * @return {@code true} if the URL path matches an OAuth endpoint
    */
   private static boolean isOAuthEndpoint(String url) {
-    for (String path : OAUTH_PATHS) {
-      if (url.contains(path)) {
-        return true;
-      }
+    String path;
+    try {
+      path = URI.create(url).getPath();
+    } catch (Exception e) {
+      return false;
     }
-    return false;
+    return OAUTH_PATHS.contains(path);
   }
 }
