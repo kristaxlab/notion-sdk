@@ -1,10 +1,10 @@
 package io.kristixlab.notion.api.endpoints.impl;
 
-import io.kristixlab.notion.api.endpoints.BlocksEndpoint;
-import io.kristixlab.notion.api.http.client.ApiClient;
 import static io.kristixlab.notion.api.endpoints.util.PaginationHelper.paginatedPath;
 
-import io.kristixlab.notion.api.http.request.ApiPath;
+import io.kristixlab.notion.api.endpoints.BlocksEndpoint;
+import io.kristixlab.notion.api.http.base.client.ApiClient;
+import io.kristixlab.notion.api.http.base.request.ApiPath;
 import io.kristixlab.notion.api.model.blocks.AppendBlockChildrenParams;
 import io.kristixlab.notion.api.model.blocks.Block;
 import io.kristixlab.notion.api.model.blocks.BlockList;

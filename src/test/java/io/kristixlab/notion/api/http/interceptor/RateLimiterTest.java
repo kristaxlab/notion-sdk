@@ -48,4 +48,3 @@ class RateLimiterTest {
     assertDoesNotThrow(() -> limiter.tryConsume(null));
   }
 }
-

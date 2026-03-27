@@ -1,6 +1,6 @@
 package io.kristixlab.notion.api.endpoints.util;
 
-import io.kristixlab.notion.api.http.request.ApiPath;
+import io.kristixlab.notion.api.http.base.request.ApiPath;
 
 /**
  * Notion-specific pagination helper for building {@link ApiPath} instances with optional {@code

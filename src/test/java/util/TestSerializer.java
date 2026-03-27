@@ -1,7 +1,7 @@
 package util;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
-import io.kristixlab.notion.api.json.JacksonSerializer;
+import io.kristixlab.notion.api.http.base.json.JacksonSerializer;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;

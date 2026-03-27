@@ -1,7 +1,7 @@
 package io.kristixlab.notion.api.http.interceptor;
 
-import io.kristixlab.notion.api.http.client.HttpClient;
-import io.kristixlab.notion.api.http.client.HttpClient.HttpRequest;
+import io.kristixlab.notion.api.http.base.client.HttpClient.HttpRequest;
+import io.kristixlab.notion.api.http.base.interceptor.HttpClientInterceptor;
 
 /**
  * Rate-limiting interceptor. Delegates to {@link RateLimiter} — if the limit is exceeded, the

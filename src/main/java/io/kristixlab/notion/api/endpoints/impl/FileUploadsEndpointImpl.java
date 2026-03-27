@@ -1,16 +1,16 @@
 package io.kristixlab.notion.api.endpoints.impl;
 
-import io.kristixlab.notion.api.endpoints.FileUploadsEndpoint;
-import io.kristixlab.notion.api.http.client.ApiClient;
-import io.kristixlab.notion.api.http.client.HttpClient.BytesPart;
-import io.kristixlab.notion.api.http.client.HttpClient.FilePart;
-import io.kristixlab.notion.api.http.client.HttpClient.InputStreamPart;
-import io.kristixlab.notion.api.http.client.HttpClient.MultipartBody;
-import io.kristixlab.notion.api.http.client.HttpClient.Part;
-import io.kristixlab.notion.api.http.client.HttpClient.TextPart;
 import static io.kristixlab.notion.api.endpoints.util.PaginationHelper.paginatedPath;
 
-import io.kristixlab.notion.api.http.request.ApiPath;
+import io.kristixlab.notion.api.endpoints.FileUploadsEndpoint;
+import io.kristixlab.notion.api.http.base.client.ApiClient;
+import io.kristixlab.notion.api.http.base.client.HttpClient.BytesPart;
+import io.kristixlab.notion.api.http.base.client.HttpClient.FilePart;
+import io.kristixlab.notion.api.http.base.client.HttpClient.InputStreamPart;
+import io.kristixlab.notion.api.http.base.client.HttpClient.MultipartBody;
+import io.kristixlab.notion.api.http.base.client.HttpClient.Part;
+import io.kristixlab.notion.api.http.base.client.HttpClient.TextPart;
+import io.kristixlab.notion.api.http.base.request.ApiPath;
 import io.kristixlab.notion.api.model.files.*;
 
 /**
@@ -62,11 +62,16 @@ public class FileUploadsEndpointImpl implements FileUploadsEndpoint {
 
     java.util.List<Part> parts = new java.util.ArrayList<>();
     if (request.getFile() != null) {
-      parts.add(new FilePart("file", request.getFileName(), request.getFile(), request.getContentType()));
+      parts.add(
+          new FilePart("file", request.getFileName(), request.getFile(), request.getContentType()));
     } else if (request.getBytes() != null) {
-      parts.add(new BytesPart("file", request.getFileName(), request.getBytes(), request.getContentType()));
+      parts.add(
+          new BytesPart(
+              "file", request.getFileName(), request.getBytes(), request.getContentType()));
     } else if (request.getInputStream() != null) {
-      parts.add(new InputStreamPart("file", request.getFileName(), request.getInputStream(), request.getContentType()));
+      parts.add(
+          new InputStreamPart(
+              "file", request.getFileName(), request.getInputStream(), request.getContentType()));
     }
     if (request.getPartNumber() != null) {
       parts.add(new TextPart("part_number", request.getPartNumber().toString()));

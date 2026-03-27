@@ -1,8 +1,8 @@
 package io.kristixlab.notion.api.endpoints.impl;
 
 import io.kristixlab.notion.api.endpoints.SearchEndpoint;
-import io.kristixlab.notion.api.http.client.ApiClient;
-import io.kristixlab.notion.api.http.request.ApiPath;
+import io.kristixlab.notion.api.http.base.client.ApiClient;
+import io.kristixlab.notion.api.http.base.request.ApiPath;
 import io.kristixlab.notion.api.model.search.SearchFilter;
 import io.kristixlab.notion.api.model.search.SearchQuery;
 import io.kristixlab.notion.api.model.search.SearchResult;

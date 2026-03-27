@@ -2,7 +2,7 @@ package io.kristixlab.notion.api.endpoints.impl;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import io.kristixlab.notion.api.http.ApiClientStub;
+import io.kristixlab.notion.api.http.base.client.ApiClientStub;
 import io.kristixlab.notion.api.model.comments.CreateCommentParams;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;

@@ -2,9 +2,8 @@ package integration;
 
 import io.kristixlab.notion.NotionSdkSettings;
 import io.kristixlab.notion.api.NotionClient;
-import util.TestSerializer;
-
 import java.nio.file.Path;
+import util.TestSerializer;
 
 public class NotionClientProvider {
 

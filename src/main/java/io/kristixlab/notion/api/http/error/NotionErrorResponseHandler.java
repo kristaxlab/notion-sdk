@@ -1,9 +1,10 @@
 package io.kristixlab.notion.api.http.error;
 
-import io.kristixlab.notion.api.http.client.ErrorResponseHandler;
-import io.kristixlab.notion.api.http.client.HttpClient.HttpRequest;
-import io.kristixlab.notion.api.http.client.HttpClient.HttpResponse;
-import io.kristixlab.notion.api.json.JsonSerializer;
+import io.kristixlab.notion.api.http.base.client.ErrorHandlingHttpClient;
+import io.kristixlab.notion.api.http.base.client.ErrorResponseHandler;
+import io.kristixlab.notion.api.http.base.client.HttpClient.HttpRequest;
+import io.kristixlab.notion.api.http.base.client.HttpClient.HttpResponse;
+import io.kristixlab.notion.api.http.base.json.JsonSerializer;
 import io.kristixlab.notion.api.model.NotionError;
 import java.util.Objects;
 import org.slf4j.Logger;
@@ -13,11 +14,11 @@ import org.slf4j.LoggerFactory;
  * Maps Notion API error responses to domain-specific {@link NotionApiException} subclasses.
  *
  * <p>Deserializes the response body into a {@link NotionError}, extracts the error code, message,
- * and request ID, then throws the appropriate exception based on the HTTP status code (400 →
- * {@link ValidationException}, 401 → {@link UnauthorizedException}, etc.).
+ * and request ID, then throws the appropriate exception based on the HTTP status code (400 → {@link
+ * ValidationException}, 401 → {@link UnauthorizedException}, etc.).
  *
  * @see ErrorResponseHandler
- * @see io.kristixlab.notion.api.http.client.ErrorHandlingHttpClient
+ * @see ErrorHandlingHttpClient
  */
 public class NotionErrorResponseHandler implements ErrorResponseHandler {
 

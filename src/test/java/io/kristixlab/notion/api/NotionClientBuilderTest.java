@@ -2,7 +2,7 @@ package io.kristixlab.notion.api;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import io.kristixlab.notion.api.http.client.HttpClient;
+import io.kristixlab.notion.api.http.base.client.HttpClient;
 import java.util.Map;
 import org.junit.jupiter.api.*;
 

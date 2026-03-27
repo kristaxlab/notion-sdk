@@ -1,7 +1,8 @@
 package io.kristixlab.notion.api.http.interceptor;
 
 import io.kristixlab.notion.api.NotionAuthSettings;
-import io.kristixlab.notion.api.http.client.HttpClient.HttpRequest;
+import io.kristixlab.notion.api.http.base.client.HttpClient.HttpRequest;
+import io.kristixlab.notion.api.http.base.interceptor.HttpClientInterceptor;
 import java.net.URI;
 import java.util.Objects;
 import java.util.Set;
@@ -33,10 +34,7 @@ public class NotionAuthInterceptor implements HttpClientInterceptor {
 
   @Override
   public HttpRequest beforeSend(HttpRequest request) {
-    HttpRequest.Builder builder =
-        request.toBuilder()
-            .header("Notion-Version", notionVersion)
-            .header("Accept", "application/json");
+    HttpRequest.Builder builder = request.toBuilder().header("Notion-Version", notionVersion);
 
     if (!request.headers().containsKey("Authorization")) {
       builder.header("Authorization", resolveAuthHeader(request.url()));

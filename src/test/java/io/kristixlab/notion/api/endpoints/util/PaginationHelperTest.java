@@ -3,7 +3,7 @@ package io.kristixlab.notion.api.endpoints.util;
 import static io.kristixlab.notion.api.endpoints.util.PaginationHelper.paginatedPath;
 import static org.junit.jupiter.api.Assertions.*;
 
-import io.kristixlab.notion.api.http.request.ApiPath;
+import io.kristixlab.notion.api.http.base.request.ApiPath;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 

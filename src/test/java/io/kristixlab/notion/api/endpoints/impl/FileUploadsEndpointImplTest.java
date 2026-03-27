@@ -2,8 +2,8 @@ package io.kristixlab.notion.api.endpoints.impl;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import io.kristixlab.notion.api.http.ApiClientStub;
-import io.kristixlab.notion.api.http.client.HttpClient.MultipartBody;
+import io.kristixlab.notion.api.http.base.client.ApiClientStub;
+import io.kristixlab.notion.api.http.base.client.HttpClient.MultipartBody;
 import io.kristixlab.notion.api.model.files.FileUploadCreateParams;
 import io.kristixlab.notion.api.model.files.FileUploadSendParams;
 import java.io.ByteArrayInputStream;
