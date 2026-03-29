@@ -13,7 +13,6 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
-
 import okhttp3.OkHttpClient;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
@@ -111,11 +110,12 @@ class OkHttp3ClientTest {
       server.enqueue(new MockResponse().setResponseCode(204));
       server.start();
       OkHttp3Client client = new OkHttp3Client(new OkHttpClient());
-      HttpRequest request = HttpRequest.builder()
-          .url(server.url("/put").toString())
-          .method(HttpMethod.PUT)
-          .body(new EmptyBody())
-          .build();
+      HttpRequest request =
+          HttpRequest.builder()
+              .url(server.url("/put").toString())
+              .method(HttpMethod.PUT)
+              .body(new EmptyBody())
+              .build();
       HttpResponse response = client.send(request);
       RecordedRequest recorded = server.takeRequest();
       assertEquals(204, response.statusCode());
@@ -132,11 +132,12 @@ class OkHttp3ClientTest {
       server.start();
       OkHttp3Client client = new OkHttp3Client(new OkHttpClient());
       byte[] bytes = "patch-bytes".getBytes(StandardCharsets.UTF_8);
-      HttpRequest request = HttpRequest.builder()
-          .url(server.url("/patch").toString())
-          .method(HttpMethod.PATCH)
-          .body(new BytesBody(bytes, "application/octet-stream"))
-          .build();
+      HttpRequest request =
+          HttpRequest.builder()
+              .url(server.url("/patch").toString())
+              .method(HttpMethod.PATCH)
+              .body(new BytesBody(bytes, "application/octet-stream"))
+              .build();
       client.send(request);
       RecordedRequest recorded = server.takeRequest();
       assertEquals("PATCH", recorded.getMethod());
@@ -152,10 +153,11 @@ class OkHttp3ClientTest {
       server.enqueue(new MockResponse().setResponseCode(204));
       server.start();
       OkHttp3Client client = new OkHttp3Client(new OkHttpClient());
-      HttpRequest request = HttpRequest.builder()
-          .url(server.url("/delete").toString())
-          .method(HttpMethod.DELETE)
-          .build();
+      HttpRequest request =
+          HttpRequest.builder()
+              .url(server.url("/delete").toString())
+              .method(HttpMethod.DELETE)
+              .build();
       client.send(request);
       RecordedRequest recorded = server.takeRequest();
       assertEquals("DELETE", recorded.getMethod());
@@ -176,11 +178,12 @@ class OkHttp3ClientTest {
         fos.write(content.getBytes(StandardCharsets.UTF_8));
       }
       OkHttp3Client client = new OkHttp3Client(new OkHttpClient());
-      HttpRequest request = HttpRequest.builder()
-          .url(server.url("/file").toString())
-          .method(HttpMethod.POST)
-          .body(new FileBody(temp, "text/plain"))
-          .build();
+      HttpRequest request =
+          HttpRequest.builder()
+              .url(server.url("/file").toString())
+              .method(HttpMethod.POST)
+              .body(new FileBody(temp, "text/plain"))
+              .build();
       client.send(request);
       RecordedRequest recorded = server.takeRequest();
       assertEquals("POST", recorded.getMethod());
@@ -198,11 +201,12 @@ class OkHttp3ClientTest {
       String content = "input-stream-body";
       ByteArrayInputStream in = new ByteArrayInputStream(content.getBytes(StandardCharsets.UTF_8));
       OkHttp3Client client = new OkHttp3Client(new OkHttpClient());
-      HttpRequest request = HttpRequest.builder()
-          .url(server.url("/stream").toString())
-          .method(HttpMethod.POST)
-          .body(new InputStreamBody(in, content.length(), "text/plain"))
-          .build();
+      HttpRequest request =
+          HttpRequest.builder()
+              .url(server.url("/stream").toString())
+              .method(HttpMethod.POST)
+              .body(new InputStreamBody(in, content.length(), "text/plain"))
+              .build();
       client.send(request);
       RecordedRequest recorded = server.takeRequest();
       assertEquals("POST", recorded.getMethod());
@@ -228,19 +232,22 @@ class OkHttp3ClientTest {
       byte[] bytes = "bytes-part-content".getBytes(StandardCharsets.UTF_8);
       // InputStream part
       String isContent = "is-part-content";
-      ByteArrayInputStream is = new ByteArrayInputStream(isContent.getBytes(StandardCharsets.UTF_8));
-      MultipartBody multipart = new MultipartBody(List.of(
-          new TextPart("field1", "value1"),
-          new FilePart("file1", "file.txt", temp, "text/plain"),
-          new BytesPart("bytes1", "bytes.bin", bytes, "application/octet-stream"),
-          new InputStreamPart("is1", "is.txt", is, "text/plain")
-      ));
+      ByteArrayInputStream is =
+          new ByteArrayInputStream(isContent.getBytes(StandardCharsets.UTF_8));
+      MultipartBody multipart =
+          new MultipartBody(
+              List.of(
+                  new TextPart("field1", "value1"),
+                  new FilePart("file1", "file.txt", temp, "text/plain"),
+                  new BytesPart("bytes1", "bytes.bin", bytes, "application/octet-stream"),
+                  new InputStreamPart("is1", "is.txt", is, "text/plain")));
       OkHttp3Client client = new OkHttp3Client(new OkHttpClient());
-      HttpRequest request = HttpRequest.builder()
-          .url(server.url("/multipart").toString())
-          .method(HttpMethod.POST)
-          .body(multipart)
-          .build();
+      HttpRequest request =
+          HttpRequest.builder()
+              .url(server.url("/multipart").toString())
+              .method(HttpMethod.POST)
+              .body(multipart)
+              .build();
       client.send(request);
       RecordedRequest recorded = server.takeRequest();
       String body = recorded.getBody().readUtf8();
@@ -262,12 +269,14 @@ class OkHttp3ClientTest {
   @DisplayName("send() throws if contentType is missing or blank for StringBody")
   void send_stringBodyMissingContentType_throws() {
     OkHttp3Client client = new OkHttp3Client(new OkHttpClient());
-    HttpRequest request = HttpRequest.builder()
-        .url("http://localhost/ct")
-        .method(HttpMethod.POST)
-        .body(new StringBody("abc", " "))
-        .build();
-    IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () -> client.send(request));
+    HttpRequest request =
+        HttpRequest.builder()
+            .url("http://localhost/ct")
+            .method(HttpMethod.POST)
+            .body(new StringBody("abc", " "))
+            .build();
+    IllegalArgumentException ex =
+        assertThrows(IllegalArgumentException.class, () -> client.send(request));
     assertTrue(ex.getMessage().contains("contentType is required"));
   }
 
@@ -275,12 +284,14 @@ class OkHttp3ClientTest {
   @DisplayName("send() throws if contentType is invalid for StringBody")
   void send_stringBodyInvalidContentType_throws() {
     OkHttp3Client client = new OkHttp3Client(new OkHttpClient());
-    HttpRequest request = HttpRequest.builder()
-        .url("http://localhost/ct")
-        .method(HttpMethod.POST)
-        .body(new StringBody("abc", "invalid/type;\u0000"))
-        .build();
-    IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () -> client.send(request));
+    HttpRequest request =
+        HttpRequest.builder()
+            .url("http://localhost/ct")
+            .method(HttpMethod.POST)
+            .body(new StringBody("abc", "invalid/type;\u0000"))
+            .build();
+    IllegalArgumentException ex =
+        assertThrows(IllegalArgumentException.class, () -> client.send(request));
     assertTrue(ex.getMessage().contains("Invalid contentType"));
   }
 
