@@ -48,6 +48,7 @@ class ApiClientImplTest {
     assertEquals(requestBody, ((HttpClient.StringBody) sent.body()).content());
   }
 
+  @Test
   @DisplayName("call() resolves baseUrl correctly: empty, ends with /, no trailing slash")
   void call_resolvesBaseUrl_variants() {
     String requestPath = "/v1/test";

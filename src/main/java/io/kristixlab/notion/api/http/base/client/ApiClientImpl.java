@@ -58,7 +58,8 @@ public class ApiClientImpl implements ApiClient {
     }
 
     HttpClient.HttpResponse response = send(builder.build());
-    return deserialize(response.bodyAsString(), responseType);
+    String bodyStr = response.bodyAsString();
+    return bodyStr == null ? null : deserialize(response.bodyAsString(), responseType);
   }
 
   /** Sends the request through the pipeline. */

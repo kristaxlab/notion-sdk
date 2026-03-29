@@ -89,11 +89,12 @@ public class ExchangeRecordingInterceptor implements HttpClientInterceptor {
       baseName = String.format("%d_%d", System.currentTimeMillis(), Thread.currentThread().getId());
     }
 
+    String body = response.bodyAsString();
     ResponseRecord record =
         ResponseRecord.builder()
             .statusCode(response.statusCode())
             .responseHeaders(response.headers().isEmpty() ? null : response.headers())
-            .responseBody(serializer.toObject(response.bodyAsString(), Object.class))
+            .responseBody(body != null ? serializer.toObject(body, Object.class) : null)
             .build();
 
     write(baseName + "_rs.json", record);
