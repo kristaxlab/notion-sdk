@@ -10,9 +10,6 @@ import java.util.Objects;
 
 /**
  * Standard {@link ApiClient} implementation backed by a fully-composed {@link HttpClient} pipeline.
- *
- * <p>For production use, prefer {@link io.kristixlab.notion.api.NotionClient#builder()} which wires
- * the full pipeline automatically.
  */
 public class ApiClientImpl implements ApiClient {
 
@@ -23,7 +20,8 @@ public class ApiClientImpl implements ApiClient {
 
   public ApiClientImpl(HttpClient httpClient, ApiClientConfig config, JsonSerializer serializer) {
     this.httpClient = Objects.requireNonNull(httpClient, "httpClient");
-    this.baseUrl = normalizeBaseUrl(config.get(ApiClientConfig.API_BASE_URL).get());
+    String baseUrl = config.getOrDefault(ApiClientConfig.API_BASE_URL, "");
+    this.baseUrl = normalizeBaseUrl(baseUrl);
     this.serializer = Objects.requireNonNull(serializer, "serializer");
   }
 

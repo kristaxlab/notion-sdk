@@ -1,6 +1,13 @@
 plugins {
     id 'java'
+    id 'jacoco'
     id 'com.diffplug.spotless' version '7.2.1'
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
 }
 
 group = 'io.github.kristixlab'
@@ -25,10 +32,7 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter'
     testImplementation 'org.projectlombok:lombok:1.18.32'
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.32'
-}
-
-test {
-    useJUnitPlatform()
+    testImplementation 'com.squareup.okhttp3:mockwebserver:5.1.0'
 }
 
 spotless {
@@ -38,4 +42,22 @@ spotless {
         trimTrailingWhitespace()
         endWithNewline()
     }
+}
+
+test {
+    finalizedBy jacocoTestReport
+
+    useJUnitPlatform {
+        excludeTags("integration", "examples")
+    }
+
+    jacoco {
+        excludes += ['**/*$Generated*']
+        excludes += ['**/*$$*']
+    }
+}
+
+jacoco {
+    toolVersion = "0.8.11"
+    jacocoTestReport.reports.xml.required = true
 }
