@@ -1,6 +1,13 @@
 plugins {
     id 'java'
+    id 'jacoco'
     id 'com.diffplug.spotless' version '7.2.1'
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
 }
 
 group = 'io.github.kristixlab'
@@ -16,14 +23,16 @@ dependencies {
     implementation 'org.projectlombok:lombok:1.18.32'
     annotationProcessor 'org.projectlombok:lombok:1.18.32'
 
+    implementation 'org.slf4j:slf4j-api:2.0.17'
+    implementation 'org.apache.logging.log4j:log4j-core:2.20.0'
+    implementation 'org.apache.logging.log4j:log4j-slf4j2-impl:2.20.0'
+    implementation 'com.squareup.okhttp3:okhttp:5.1.0'
+
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
     testImplementation 'org.projectlombok:lombok:1.18.32'
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.32'
-}
-
-test {
-    useJUnitPlatform()
+    testImplementation 'com.squareup.okhttp3:mockwebserver:5.1.0'
 }
 
 spotless {
@@ -33,4 +42,22 @@ spotless {
         trimTrailingWhitespace()
         endWithNewline()
     }
+}
+
+test {
+    finalizedBy jacocoTestReport
+
+    useJUnitPlatform {
+        excludeTags("integration", "examples")
+    }
+
+    jacoco {
+        excludes += ['**/*$Generated*']
+        excludes += ['**/*$$*']
+    }
+}
+
+jacoco {
+    toolVersion = "0.8.11"
+    jacocoTestReport.reports.xml.required = true
 }
