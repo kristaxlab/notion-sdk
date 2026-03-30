@@ -2,20 +2,18 @@ package io.kristixlab.notion.api.http.interceptor;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import io.kristixlab.notion.api.auth.FixedTokenProvider;
 import io.kristixlab.notion.api.http.base.client.HttpClient;
 import io.kristixlab.notion.api.http.base.client.HttpClient.HttpRequest;
 import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-class NotionAuthInterceptorTest {
+class NotionVersionInterceptorTest {
 
   @Test
-  @DisplayName("beforeSend adds Authorization if missing")
-  void beforeSend_addsAuthorizationIfMissing() {
-    NotionAuthInterceptor interceptor =
-        new NotionAuthInterceptor(new FixedTokenProvider("test-token"));
+  @DisplayName("beforeSend adds Notion-Version header")
+  void beforeSend_addsNotionVersionHeader() {
+    NotionVersionInterceptor interceptor = new NotionVersionInterceptor("2026-03-11");
     HttpRequest req =
         HttpRequest.builder()
             .url("https://api.notion.com/v1/pages")
@@ -23,29 +21,27 @@ class NotionAuthInterceptorTest {
             .headers(Map.of())
             .build();
     HttpRequest result = interceptor.beforeSend(req);
-    assertEquals("Bearer test-token", result.headers().get("Authorization"));
+    assertEquals("2026-03-11", result.headers().get("Notion-Version"));
   }
 
   @Test
-  @DisplayName("beforeSend does not overwrite existing Authorization header")
-  void beforeSend_doesNotOverwriteAuthorization() {
-    NotionAuthInterceptor interceptor =
-        new NotionAuthInterceptor(new FixedTokenProvider("Bearer test-token"));
+  @DisplayName("beforeSend overwrites existing Notion-Version header")
+  void beforeSend_overwritesExistingNotionVersion() {
+    NotionVersionInterceptor interceptor = new NotionVersionInterceptor("2026-03-11");
     HttpRequest req =
         HttpRequest.builder()
             .url("https://api.notion.com/v1/pages")
             .method(HttpClient.HttpMethod.GET)
-            .headers(Map.of("Authorization", "Basic abc123"))
+            .headers(Map.of("Notion-Version", "old-version"))
             .build();
     HttpRequest result = interceptor.beforeSend(req);
-    assertEquals("Basic abc123", result.headers().get("Authorization"));
+    assertEquals("2026-03-11", result.headers().get("Notion-Version"));
   }
 
   @Test
   @DisplayName("beforeSend preserves other headers")
   void beforeSend_preservesOtherHeaders() {
-    NotionAuthInterceptor interceptor =
-        new NotionAuthInterceptor(new FixedTokenProvider("test-token"));
+    NotionVersionInterceptor interceptor = new NotionVersionInterceptor("2026-03-11");
     HttpRequest req =
         HttpRequest.builder()
             .url("https://api.notion.com/v1/pages")
@@ -54,6 +50,6 @@ class NotionAuthInterceptorTest {
             .build();
     HttpRequest result = interceptor.beforeSend(req);
     assertEquals("foo", result.headers().get("X-Custom"));
-    assertEquals("Bearer test-token", result.headers().get("Authorization"));
+    assertEquals("2026-03-11", result.headers().get("Notion-Version"));
   }
 }

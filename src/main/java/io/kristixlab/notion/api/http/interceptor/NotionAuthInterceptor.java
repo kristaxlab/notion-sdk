@@ -1,5 +1,6 @@
 package io.kristixlab.notion.api.http.interceptor;
 
+import io.kristixlab.notion.api.auth.AuthTokenProvider;
 import io.kristixlab.notion.api.http.base.client.HttpClient.HttpRequest;
 import io.kristixlab.notion.api.http.base.interceptor.HttpClientInterceptor;
 import java.util.Objects;
@@ -13,26 +14,23 @@ import java.util.Objects;
  */
 public class NotionAuthInterceptor implements HttpClientInterceptor {
 
-  private final String authBearerHeader;
-  private final String notionVersion;
+  private final AuthTokenProvider authTokenProvider;
 
   /**
-   * @param authBearerHeader auth token
-   * @param notionVersion Notion API version header value (e.g. {@code "2026-03-11"})
+   * @param authTokenProvider auth token provider
    */
-  public NotionAuthInterceptor(String authBearerHeader, String notionVersion) {
-    this.authBearerHeader = Objects.requireNonNull(authBearerHeader, "authBearerHeader");
-    this.notionVersion = Objects.requireNonNull(notionVersion, "notionVersion");
+  public NotionAuthInterceptor(AuthTokenProvider authTokenProvider) {
+    this.authTokenProvider = Objects.requireNonNull(authTokenProvider, "authTokenProvider");
   }
 
   @Override
   public HttpRequest beforeSend(HttpRequest request) {
-    HttpRequest.Builder builder = request.toBuilder().header("Notion-Version", notionVersion);
-
     if (!request.headers().containsKey("Authorization")) {
-      builder.header("Authorization", authBearerHeader);
+      return request.toBuilder()
+          .header("Authorization", "Bearer " + authTokenProvider.getAuthToken())
+          .build();
     }
 
-    return builder.build();
+    return request;
   }
 }
