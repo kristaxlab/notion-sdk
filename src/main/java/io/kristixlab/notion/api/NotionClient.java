@@ -1,0 +1,46 @@
+package io.kristixlab.notion.api;
+
+import io.kristixlab.notion.api.http.NotionHttpClient;
+import io.kristixlab.notion.api.http.base.client.*;
+
+public class NotionClient {
+
+  private final NotionHttpClient httpClient;
+
+  NotionClient(NotionHttpClient httpClient) {
+    this.httpClient = httpClient;
+  }
+
+  public NotionHttpClient getHttpClient() {
+    return httpClient;
+  }
+
+  /**
+   * Creates a {@link NotionClient} for a private integration token with all Notion defaults.
+   *
+   * <p>Equivalent to:
+   *
+   * <pre>{@code
+   * NotionAuthSettings auth = new NotionAuthSettings();
+   * auth.setAccessToken(token);
+   * NotionClient.builder().auth(auth).build();
+   * }</pre>
+   *
+   * @param token the Notion integration token (e.g. {@code "secret_xxx"}); must not be blank
+   * @return a fully-wired {@link NotionClient}
+   */
+  public static NotionClient forToken(String token) {
+    if (token == null || token.isBlank()) {
+      throw new IllegalArgumentException("Token must not be null or blank");
+    }
+    return builder().authToken(token).build();
+  }
+
+  /**
+   * Returns a {@link NotionClientBuilder} pre-configured with Notion API defaults (version {@code
+   * "2026-03-11"}, base URL {@code "https://api.notion.com/v1"}, 30 s OkHttp timeouts).
+   */
+  public static NotionClientBuilder builder() {
+    return new NotionClientBuilder();
+  }
+}
