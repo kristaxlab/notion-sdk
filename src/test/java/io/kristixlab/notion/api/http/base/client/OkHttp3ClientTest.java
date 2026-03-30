@@ -266,7 +266,7 @@ class OkHttp3ClientTest {
   }
 
   @Test
-  @DisplayName("send() throws if contentType is missing or blank for StringBody")
+  @DisplayName("send() throws exception if contentType is missing or blank for StringBody")
   void send_stringBodyMissingContentType_throws() {
     OkHttp3Client client = new OkHttp3Client(new OkHttpClient());
     HttpRequest request =
@@ -281,7 +281,7 @@ class OkHttp3ClientTest {
   }
 
   @Test
-  @DisplayName("send() throws if contentType is invalid for StringBody")
+  @DisplayName("send() throws exception if contentType is invalid for StringBody")
   void send_stringBodyInvalidContentType_throws() {
     OkHttp3Client client = new OkHttp3Client(new OkHttpClient());
     HttpRequest request =
@@ -296,14 +296,14 @@ class OkHttp3ClientTest {
   }
 
   @Test
-  @DisplayName("send() throws if request is null")
+  @DisplayName("send() throws exception if request is null")
   void send_nullRequest_throws() {
     OkHttp3Client client = new OkHttp3Client(new OkHttpClient());
     assertThrows(NullPointerException.class, () -> client.send(null));
   }
 
   @Test
-  @DisplayName("HttpRequest.Builder throws if url or method is null")
+  @DisplayName("HttpRequest.Builder throws exception if url or method is null")
   void httpRequestBuilder_nullUrlOrMethod_throws() {
     // url null
     HttpRequest.Builder builder = HttpRequest.builder().method(HttpMethod.POST);
