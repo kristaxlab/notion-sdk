@@ -1,8 +1,7 @@
-package io.kristixlab.notion.api.http.interceptor;
+package io.kristixlab.notion.api.auth;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import io.kristixlab.notion.api.auth.FixedTokenProvider;
 import io.kristixlab.notion.api.http.base.client.HttpClient;
 import io.kristixlab.notion.api.http.base.client.HttpClient.HttpRequest;
 import java.util.Map;

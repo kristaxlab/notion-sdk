@@ -44,7 +44,7 @@ class ApiClientImplTest {
     assertEquals(HttpClient.HttpMethod.POST, sent.method());
     assertEquals("application/json", sent.headers().get("Content-Type"));
     assertEquals("true", sent.headers().get("X-Test"));
-    assertTrue(sent.body() instanceof HttpClient.StringBody);
+    assertInstanceOf(HttpClient.StringBody.class, sent.body());
     assertEquals(requestBody, ((HttpClient.StringBody) sent.body()).content());
   }
 

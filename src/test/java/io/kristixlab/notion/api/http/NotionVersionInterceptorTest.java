@@ -1,4 +1,4 @@
-package io.kristixlab.notion.api.http.interceptor;
+package io.kristixlab.notion.api.http;
 
 import static org.junit.jupiter.api.Assertions.*;
 

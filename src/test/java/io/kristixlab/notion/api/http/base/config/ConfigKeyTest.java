@@ -32,13 +32,6 @@ class ConfigKeyTest {
   }
 
   @Test
-  @DisplayName("same instance is equal to itself")
-  void sameInstance_isEqualToItself() {
-    ConfigKey<String> key = ConfigKey.of("k");
-    assertSame(key, key); // identity equality: a key is always the same object as itself
-  }
-
-  @Test
   @DisplayName("of() with null name throws")
   void of_nullName_throws() {
     assertThrows(NullPointerException.class, () -> ConfigKey.of(null));

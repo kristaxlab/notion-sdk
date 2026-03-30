@@ -1,6 +1,5 @@
-package io.kristixlab.notion.api.http.interceptor;
+package io.kristixlab.notion.api.auth;
 
-import io.kristixlab.notion.api.auth.AuthTokenProvider;
 import io.kristixlab.notion.api.http.base.client.HttpClient.HttpRequest;
 import io.kristixlab.notion.api.http.base.interceptor.HttpClientInterceptor;
 import java.util.Objects;
