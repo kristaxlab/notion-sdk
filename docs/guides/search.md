@@ -1,0 +1,2 @@
+# Search
+> **Status: Planned**
