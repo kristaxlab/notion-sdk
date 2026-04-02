@@ -8,9 +8,7 @@ import io.kristixlab.notion.api.http.base.request.ApiPath;
 import io.kristixlab.notion.api.model.users.User;
 import io.kristixlab.notion.api.model.users.UserList;
 
-/**
- * Provides access to Notion user resources for retrieving individual users and user listings.
- */
+/** Provides access to Notion user resources for retrieving individual users and user listings. */
 public class UsersEndpointImpl extends BaseEndpointImpl implements UsersEndpoint {
 
   private static final String USER_ID = "user_id";
@@ -67,5 +65,4 @@ public class UsersEndpointImpl extends BaseEndpointImpl implements UsersEndpoint
   public User me() {
     return getClient().call(GET, ApiPath.from("/users/me"), User.class);
   }
-
 }

@@ -3,9 +3,7 @@ package io.kristixlab.notion.api.endpoints.impl;
 import io.kristixlab.notion.api.http.base.client.ApiClient;
 import io.kristixlab.notion.api.http.base.request.ApiPath;
 
-/**
- * Provides shared HTTP client access and common request helpers for endpoint implementations.
- */
+/** Provides shared HTTP client access and common request helpers for endpoint implementations. */
 public abstract class BaseEndpointImpl {
 
   private final ApiClient client;
@@ -52,5 +50,4 @@ public abstract class BaseEndpointImpl {
     }
     return builder;
   }
-
 }
