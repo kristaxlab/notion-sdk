@@ -9,16 +9,15 @@ import lombok.Getter;
  * Immutable API path with optional path and query parameters. Created via {@link #from(String)} or
  * the fluent {@link Builder}.
  */
-@Getter
 public final class ApiPath {
 
-  private final String url;
+  @Getter private final String url;
 
   /** Unmodifiable map of path parameters. */
-  private final Map<String, String> pathParams;
+  @Getter private final Map<String, String> pathParams;
 
   /** Unmodifiable map of query parameters. */
-  private final Map<String, List<String>> queryParams;
+  @Getter private final Map<String, List<String>> queryParams;
 
   private ApiPath(
       String url, Map<String, String> pathParams, Map<String, List<String>> queryParams) {
