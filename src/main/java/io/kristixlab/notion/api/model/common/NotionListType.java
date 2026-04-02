@@ -11,7 +11,7 @@ public class NotionListType<T> extends BaseNotionObject {
 
   private String type;
 
-  private boolean hasMore;
+  private Boolean hasMore;
 
   private String nextCursor;
 }
