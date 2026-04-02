@@ -37,11 +37,14 @@ public class ValidatorTest {
   void checkNotNull_shouldThrowException_whenValueIsNull() {
     String valueName = "testValue";
 
-    assertThrows(
-        IllegalArgumentException.class,
-        () -> {
-          Validator.checkNotNull(null, valueName);
-        });
+    IllegalArgumentException exception =
+        assertThrows(
+            IllegalArgumentException.class,
+            () -> {
+              Validator.checkNotNull(null, valueName);
+            });
+
+    assertEquals("testValue cannot be null", exception.getMessage());
   }
 
   @Test
