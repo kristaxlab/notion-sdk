@@ -40,7 +40,7 @@ public class ValidatorTest {
     assertThrows(
         IllegalArgumentException.class,
         () -> {
-          Validator.checkNotNullOrEmpty(null, valueName);
+          Validator.checkNotNull(null, valueName);
         });
   }
 
