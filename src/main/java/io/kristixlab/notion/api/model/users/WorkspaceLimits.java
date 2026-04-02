@@ -3,7 +3,7 @@ package io.kristixlab.notion.api.model.users;
 import lombok.Data;
 
 @Data
-public class Person {
+public class WorkspaceLimits {
 
-  private String email;
+  private Long maxFileUploadSizeInBytes;
 }
