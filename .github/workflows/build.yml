@@ -11,6 +11,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    environment: ${{ github.ref_name == 'main' && 'production' || 'dev' }}
 
     steps:
       # 1
@@ -36,3 +37,10 @@ jobs:
       # 5
       - name: 5. Build with Gradle
         run: ./gradlew build
+
+      #5a
+      - name: 5a. Run Integration Tests
+        if: success() || failure()  # Run even if unit tests fail
+        env:
+          NOTION_TEST_AUTH_TOKEN: ${{ secrets.NOTION_TEST_AUTH_TOKEN }}
+        run: ./gradlew integrationTest

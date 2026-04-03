@@ -57,7 +57,38 @@ test {
     }
 }
 
+
+tasks.register('integrationTest', Test) {
+    description = 'Runs integration tests'
+    group = 'verification'
+
+    testClassesDirs = sourceSets.test.output.classesDirs
+    classpath = sourceSets.test.runtimeClasspath
+
+    // Load .env files in order — later files override earlier ones
+    loadEnvFiles(it, ['.env.test', '.env.test.local'])
+
+    useJUnitPlatform {
+        excludeTags 'paid', 'examples'
+        includeTags 'integration'
+    }
+}
+
 jacoco {
     toolVersion = "0.8.11"
     jacocoTestReport.reports.xml.required = true
+}
+
+void loadEnvFiles(Test task, List envFiles) {
+    envFiles.each { fileName ->
+        def envFile = rootProject.file(fileName)
+        if (envFile.exists()) {
+            envFile.eachLine { line ->
+                if (line && !line.startsWith('#')) {
+                    def (key, value) = line.tokenize('=')
+                    task.environment key.trim(), value.trim()
+                }
+            }
+        }
+    }
 }

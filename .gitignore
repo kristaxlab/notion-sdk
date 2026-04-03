@@ -4,3 +4,5 @@ src/test/.DS_Store
 /.idea
 /.idea
 /.gradle/
+/exchanges
+.env.test.local
