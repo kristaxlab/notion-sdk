@@ -1,9 +1,11 @@
 package io.kristixlab.notion.api.model;
 
 import java.util.List;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 public class NotionError extends BaseNotionObject {
 
   private String error;
@@ -16,7 +18,8 @@ public class NotionError extends BaseNotionObject {
 
   private AdditionalData additionalData;
 
-  @Data
+  @Getter
+  @Setter
   public static class AdditionalData {
 
     private String errorType;

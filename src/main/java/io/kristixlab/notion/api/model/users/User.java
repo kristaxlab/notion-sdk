@@ -1,9 +1,11 @@
 package io.kristixlab.notion.api.model.users;
 
 import io.kristixlab.notion.api.model.BaseNotionObject;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 public class User extends BaseNotionObject {
 
   private String id;
