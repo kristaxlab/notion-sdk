@@ -1,5 +1,7 @@
 package io.kristixlab.notion.api;
 
+import io.kristixlab.notion.api.endpoints.UsersEndpoint;
+import io.kristixlab.notion.api.endpoints.impl.UsersEndpointImpl;
 import io.kristixlab.notion.api.http.NotionHttpClient;
 import io.kristixlab.notion.api.http.base.client.*;
 
@@ -7,12 +9,19 @@ public class NotionClient {
 
   private final NotionHttpClient httpClient;
 
+  private UsersEndpoint usersEndpoint;
+
   NotionClient(NotionHttpClient httpClient) {
     this.httpClient = httpClient;
+    this.usersEndpoint = new UsersEndpointImpl(httpClient);
   }
 
   public NotionHttpClient getHttpClient() {
     return httpClient;
+  }
+
+  public UsersEndpoint users() {
+    return usersEndpoint;
   }
 
   /**
