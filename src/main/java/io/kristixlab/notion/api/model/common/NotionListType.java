@@ -2,9 +2,11 @@ package io.kristixlab.notion.api.model.common;
 
 import io.kristixlab.notion.api.model.BaseNotionObject;
 import java.util.List;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 public class NotionListType<T> extends BaseNotionObject {
 
   private List<T> results;
