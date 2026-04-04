@@ -2,7 +2,6 @@ package integration;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import io.kristixlab.notion.api.BaseIntegrationTest;
 import io.kristixlab.notion.api.model.users.User;
 import io.kristixlab.notion.api.model.users.UserList;
 import org.junit.jupiter.api.DisplayName;
