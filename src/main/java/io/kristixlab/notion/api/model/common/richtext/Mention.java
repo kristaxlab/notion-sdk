@@ -20,7 +20,7 @@ public class Mention {
 
   private DateData date;
 
-  private CustomEmoji customEmoji;
+  private CustomEmojiRef customEmoji;
 
   /**
    * @deprecated outdated (only may return in response for blocks created with older Notion
@@ -60,7 +60,7 @@ public class Mention {
 
   @Getter
   @Setter
-  public static class CustomEmoji {
+  public static class CustomEmojiRef {
 
     private String id;
   }

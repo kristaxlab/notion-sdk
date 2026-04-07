@@ -49,6 +49,9 @@ public class BlockWithChildren {
      * @return the populated content object
      */
     protected <C extends BlockWithChildren> C buildContent(C content) {
+      if (richText == null || richText.isEmpty()) {
+        richText = RichText.of("");
+      }
       content.setRichText(richText);
       if (blockColor != null) {
         content.setColor(blockColor);

@@ -15,7 +15,7 @@ public class Parent {
 
   private String databaseId;
 
-  private String datasourceId;
+  private String dataSourceId;
 
   private Boolean workspace;
 
@@ -43,7 +43,7 @@ public class Parent {
   public static Parent datasourceParent(String dataSourceId) {
     Parent parent = new Parent();
     parent.setType("data_source_id");
-    parent.setDatasourceId(dataSourceId);
+    parent.setDataSourceId(dataSourceId);
     return parent;
   }
 
