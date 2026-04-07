@@ -14,4 +14,10 @@ public class AudioBlock extends Block {
     setType("audio");
     audio = new FileData();
   }
+
+  public static AudioBlock of(FileData fileData) {
+    AudioBlock audioBlock = new AudioBlock();
+    audioBlock.setAudio(fileData);
+    return audioBlock;
+  }
 }

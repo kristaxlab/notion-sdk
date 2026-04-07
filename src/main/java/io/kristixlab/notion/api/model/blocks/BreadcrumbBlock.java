@@ -13,4 +13,8 @@ public class BreadcrumbBlock extends Block {
     setType("breadcrumb");
     breadcrumb = new Object();
   }
+
+  public static BreadcrumbBlock of() {
+    return new BreadcrumbBlock();
+  }
 }

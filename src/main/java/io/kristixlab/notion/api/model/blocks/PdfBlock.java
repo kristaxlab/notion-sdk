@@ -14,4 +14,10 @@ public class PdfBlock extends Block {
     setType("pdf");
     pdf = new FileData();
   }
+
+  public static PdfBlock of(FileData fileData) {
+    PdfBlock pdfBlock = new PdfBlock();
+    pdfBlock.setPdf(fileData);
+    return pdfBlock;
+  }
 }

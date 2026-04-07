@@ -19,4 +19,10 @@ public class EquationBlock extends Block {
 
     private String expression;
   }
+
+  public static EquationBlock of(String expression) {
+    EquationBlock block = new EquationBlock();
+    block.getEquation().setExpression(expression);
+    return block;
+  }
 }
