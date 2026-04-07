@@ -7,14 +7,13 @@ import lombok.Setter;
 
 @Getter
 @Setter
-// TODO check if I should do a separation for blocks the way it is done for pages (icon/iconparams)
 public class FileData {
 
+  /** "file", "external", "file_upload" */
   private String type;
 
   private ExternalFile external;
 
-  /** TODO check if file and file_upload are mutually exclusive */
   private File file;
 
   private FileUploadRef fileUpload;
@@ -23,25 +22,18 @@ public class FileData {
 
   private String name;
 
-  public static FileData external(String url, String fileName) {
+  public static FileData external(String url) {
     FileData fileData = new FileData();
     fileData.setType("external");
-    fileData.setName(fileName);
     ExternalFile external = new ExternalFile();
     external.setUrl(url);
     fileData.setExternal(external);
     return fileData;
   }
 
-  public static FileData external(String url) {
-    return external(url, "file");
-  }
-
-  public static FileData file(String url) {
+  public static FileData file(File file) {
     FileData fileData = new FileData();
     fileData.setType("file");
-    File file = new File();
-    file.setUrl(url);
     fileData.setFile(file);
     return fileData;
   }
@@ -53,5 +45,61 @@ public class FileData {
     fileUpload.setId(id);
     fileData.setFileUpload(fileUpload);
     return fileData;
+  }
+
+  public static Builder builder() {
+    return new Builder();
+  }
+
+  public static class Builder {
+    private String type;
+    private ExternalFile external;
+    private File file;
+    private FileUploadRef fileUpload;
+    private List<RichText> caption;
+    private String name;
+
+    public Builder type(String type) {
+      this.type = type;
+      return this;
+    }
+
+    public Builder external(String url) {
+      this.external = new ExternalFile();
+      this.external.setUrl(url);
+      return this;
+    }
+
+    public Builder file(File file) {
+      this.file = file;
+      return this;
+    }
+
+    public Builder fileUpload(String fileUploadId) {
+      this.fileUpload = new FileUploadRef();
+      this.fileUpload.setId(fileUploadId);
+      return this;
+    }
+
+    public Builder caption(List<RichText> caption) {
+      this.caption = caption;
+      return this;
+    }
+
+    public Builder name(String name) {
+      this.name = name;
+      return this;
+    }
+
+    public FileData build() {
+      FileData fileData = new FileData();
+      fileData.setType(type);
+      fileData.setExternal(external);
+      fileData.setFile(file);
+      fileData.setFileUpload(fileUpload);
+      fileData.setCaption(caption);
+      fileData.setName(name);
+      return fileData;
+    }
   }
 }

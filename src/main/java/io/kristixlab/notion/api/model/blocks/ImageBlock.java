@@ -14,4 +14,10 @@ public class ImageBlock extends Block {
     setType("image");
     image = new FileData();
   }
+
+  public static ImageBlock of(FileData fileData) {
+    ImageBlock imageBlock = new ImageBlock();
+    imageBlock.setImage(fileData);
+    return imageBlock;
+  }
 }
