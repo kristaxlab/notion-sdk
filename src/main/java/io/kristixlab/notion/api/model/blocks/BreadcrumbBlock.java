@@ -1,14 +1,16 @@
 package io.kristixlab.notion.api.model.blocks;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
-@EqualsAndHashCode(callSuper = true)
-@JsonInclude(JsonInclude.Include.NON_NULL)
+@Getter
+@Setter
 public class BreadcrumbBlock extends Block {
-  @JsonProperty("breadcrumb")
-  private Object breadcrumb = new Object(); // Notion returns an empty object
+
+  private Object breadcrumb; // Notion returns an empty object
+
+  public BreadcrumbBlock() {
+    setType("breadcrumb");
+    breadcrumb = new Object();
+  }
 }

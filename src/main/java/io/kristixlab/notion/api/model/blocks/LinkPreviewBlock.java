@@ -1,20 +1,23 @@
 package io.kristixlab.notion.api.model.blocks;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@Data
-@EqualsAndHashCode(callSuper = true)
+@Getter
+@Setter
 public class LinkPreviewBlock extends Block {
-  @JsonProperty("link_preview")
+
   private LinkPreview linkPreview;
 
-  @Data
+  public LinkPreviewBlock() {
+    setType("link_preview");
+    linkPreview = new LinkPreview();
+  }
+
+  @Getter
+  @Setter
   public static class LinkPreview {
-    @JsonProperty("url")
+
     private String url;
   }
 }

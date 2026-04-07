@@ -1,28 +1,53 @@
 package io.kristixlab.notion.api.model.blocks;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import io.kristixlab.notion.api.model.common.RichText;
-import java.util.List;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import io.kristixlab.notion.api.model.common.richtext.RichText;
+import lombok.Getter;
+import lombok.Setter;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@Data
-@EqualsAndHashCode(callSuper = true)
+/**
+ * A Notion numbered list item block.
+ *
+ * <p>Simple construction via {@link #of(String)}. For rich text formatting, nested children, or
+ * block color use {@link #builder()}.
+ */
+@Getter
+@Setter
 public class NumberedListItemBlock extends Block {
-  @JsonProperty("numbered_list_item")
+
   private NumberedListItem numberedListItem;
 
-  @Data
-  public static class NumberedListItem {
-    @JsonProperty("rich_text")
-    private List<RichText> richText;
-
-    @JsonProperty("color")
-    private String color;
-
-    @JsonProperty("children")
-    private List<Block> children;
+  public NumberedListItemBlock() {
+    setType("numbered_list_item");
+    numberedListItem = new NumberedListItem();
   }
+
+  public static NumberedListItemBlock of(String text) {
+    NumberedListItemBlock block = new NumberedListItemBlock();
+    block.getNumberedListItem().setRichText(RichText.of(text));
+    return block;
+  }
+
+  /**
+   * Returns a new builder for constructing a {@link NumberedListItemBlock} with rich text
+   * formatting, block-level color, and/or nested children.
+   */
+  public static Builder builder() {
+    return new Builder();
+  }
+
+  public static class Builder extends BlockWithChildren.Builder<Builder, NumberedListItemBlock> {
+
+    private Builder() {}
+
+    @Override
+    public NumberedListItemBlock build() {
+      NumberedListItemBlock block = new NumberedListItemBlock();
+      buildContent(block.getNumberedListItem());
+      return block;
+    }
+  }
+
+  @Getter
+  @Setter
+  public static class NumberedListItem extends BlockWithChildren {}
 }

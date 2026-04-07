@@ -1,20 +1,23 @@
 package io.kristixlab.notion.api.model.blocks;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@Data
-@EqualsAndHashCode(callSuper = true)
+@Getter
+@Setter
 public class ChildDatabaseBlock extends Block {
-  @JsonProperty("child_database")
+
   private ChildDatabase childDatabase;
 
-  @Data
+  public ChildDatabaseBlock() {
+    setType("child_database");
+    childDatabase = new ChildDatabase();
+  }
+
+  @Getter
+  @Setter
   public static class ChildDatabase {
-    @JsonProperty("title")
+
     private String title;
   }
 }

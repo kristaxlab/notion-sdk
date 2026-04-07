@@ -5,11 +5,11 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class Icon {
+public class DateData {
 
-  private String type;
+  private String start;
 
-  private String emoji;
+  private String end;
 
-  private FileData file;
+  private String timeZone;
 }

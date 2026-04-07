@@ -1,29 +1,53 @@
 package io.kristixlab.notion.api.model.blocks;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import io.kristixlab.notion.api.model.common.RichText;
-import java.util.List;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import io.kristixlab.notion.api.model.common.richtext.RichText;
+import lombok.Getter;
+import lombok.Setter;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@Data
-@EqualsAndHashCode(callSuper = true)
+/**
+ * A Notion quote block.
+ *
+ * <p>Simple construction via {@link #of(String)}. For rich text formatting, nested children, or
+ * block color use {@link #builder()}.
+ */
+@Getter
+@Setter
 public class QuoteBlock extends Block {
 
-  @JsonProperty("quote")
   private Quote quote;
 
-  @Data
-  public static class Quote {
-    @JsonProperty("rich_text")
-    private List<RichText> richText;
-
-    @JsonProperty("color")
-    private String color;
-
-    @JsonProperty("children")
-    private List<Block> children;
+  public QuoteBlock() {
+    setType("quote");
+    quote = new Quote();
   }
+
+  public static QuoteBlock of(String text) {
+    QuoteBlock block = new QuoteBlock();
+    block.getQuote().setRichText(RichText.of(text));
+    return block;
+  }
+
+  /**
+   * Returns a new builder for constructing a {@link QuoteBlock} with rich text formatting,
+   * block-level color, and/or nested children.
+   */
+  public static Builder builder() {
+    return new Builder();
+  }
+
+  public static class Builder extends BlockWithChildren.Builder<Builder, QuoteBlock> {
+
+    private Builder() {}
+
+    @Override
+    public QuoteBlock build() {
+      QuoteBlock block = new QuoteBlock();
+      buildContent(block.getQuote());
+      return block;
+    }
+  }
+
+  @Getter
+  @Setter
+  public static class Quote extends BlockWithChildren {}
 }

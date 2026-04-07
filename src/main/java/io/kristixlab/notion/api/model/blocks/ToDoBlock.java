@@ -1,31 +1,67 @@
 package io.kristixlab.notion.api.model.blocks;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import io.kristixlab.notion.api.model.common.RichText;
-import java.util.List;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import io.kristixlab.notion.api.model.common.richtext.RichText;
+import lombok.Getter;
+import lombok.Setter;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@Data
-@EqualsAndHashCode(callSuper = true)
+/**
+ * A Notion to-do block.
+ *
+ * <p>Simple construction via {@link #of(String)}. For rich text formatting, checked state, nested
+ * children, or block color use {@link #builder()}.
+ */
+@Getter
+@Setter
 public class ToDoBlock extends Block {
-  @JsonProperty("to_do")
+
   private ToDo toDo;
 
-  @Data
-  public static class ToDo {
-    @JsonProperty("rich_text")
-    private List<RichText> richText;
+  public ToDoBlock() {
+    setType("to_do");
+    toDo = new ToDo();
+  }
 
-    @JsonProperty("checked")
+  public static ToDoBlock of(String text) {
+    ToDoBlock block = new ToDoBlock();
+    block.getToDo().setRichText(RichText.of(text));
+    return block;
+  }
+
+  /**
+   * Returns a new builder for constructing a {@link ToDoBlock} with rich text formatting, checked
+   * state, block-level color, and/or nested children.
+   */
+  public static Builder builder() {
+    return new Builder();
+  }
+
+  public static class Builder extends BlockWithChildren.Builder<Builder, ToDoBlock> {
+
     private Boolean checked;
 
-    @JsonProperty("color")
-    private String color;
+    private Builder() {}
 
-    @JsonProperty("children")
-    private List<Block> children;
+    /** Sets the checked state of the to-do item. */
+    public Builder checked(boolean checked) {
+      this.checked = checked;
+      return self();
+    }
+
+    @Override
+    public ToDoBlock build() {
+      ToDoBlock block = new ToDoBlock();
+      buildContent(block.getToDo());
+      if (checked != null) {
+        block.getToDo().setChecked(checked);
+      }
+      return block;
+    }
+  }
+
+  @Getter
+  @Setter
+  public static class ToDo extends BlockWithChildren {
+
+    private Boolean checked;
   }
 }

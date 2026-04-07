@@ -1,14 +1,18 @@
 package io.kristixlab.notion.api.model.blocks;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@Data
-@EqualsAndHashCode(callSuper = true)
+@Getter
+@Setter
 public class UnsupportedBlock extends Block {
-  @JsonProperty("unsupported")
-  private Object unsupported = new Object(); // No properties for unsupported
+
+  private Unsupported unsupported;
+
+  @Getter
+  @Setter
+  public class Unsupported {
+
+    private String blockType;
+  }
 }

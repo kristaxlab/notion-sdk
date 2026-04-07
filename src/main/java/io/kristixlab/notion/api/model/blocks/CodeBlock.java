@@ -1,28 +1,100 @@
 package io.kristixlab.notion.api.model.blocks;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import io.kristixlab.notion.api.model.common.RichText;
+import io.kristixlab.notion.api.model.common.richtext.RichText;
 import java.util.List;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import java.util.function.Consumer;
+import lombok.Getter;
+import lombok.Setter;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@Data
-@EqualsAndHashCode(callSuper = true)
+@Getter
+@Setter
 public class CodeBlock extends Block {
-  @JsonProperty("code")
+
   private Code code;
 
-  @Data
+  public CodeBlock() {
+    setType("code");
+    code = new Code();
+  }
+
+  /**
+   * Creates a code block with the given content and language.
+   *
+   * @param content the code content
+   * @param language the programming language (e.g., "java", "python", "javascript")
+   * @return a new CodeBlock
+   */
+  public static CodeBlock of(String content, String language) {
+    CodeBlock block = new CodeBlock();
+    block.getCode().setRichText(RichText.of(content));
+    block.getCode().setLanguage(language);
+    return block;
+  }
+
+  public static Builder builder() {
+    return new Builder();
+  }
+
+  @Getter
+  @Setter
   public static class Code {
-    @JsonProperty("rich_text")
+
     private List<RichText> richText;
 
-    @JsonProperty("language")
     private String language;
 
-    @JsonProperty("caption")
     private List<RichText> caption;
+  }
+
+  public static class Builder {
+    private List<RichText> richText;
+
+    private String language;
+
+    private List<RichText> caption;
+
+    private Builder() {}
+
+    public Builder text(String text) {
+      this.richText = RichText.of(text);
+      return this;
+    }
+
+    public Builder richText(List<RichText> richText) {
+      this.richText = richText;
+      return this;
+    }
+
+    public Builder richText(Consumer<RichText.Builder> consumer) {
+      RichText.Builder builder = RichText.builder();
+      consumer.accept(builder);
+      this.richText = builder.buildList();
+      return this;
+    }
+
+    public Builder language(String language) {
+      this.language = language;
+      return this;
+    }
+
+    public Builder caption(List<RichText> caption) {
+      this.caption = caption;
+      return this;
+    }
+
+    public Builder caption(Consumer<RichText.Builder> consumer) {
+      RichText.Builder builder = RichText.builder();
+      consumer.accept(builder);
+      this.caption = builder.buildList();
+      return this;
+    }
+
+    public CodeBlock build() {
+      CodeBlock block = new CodeBlock();
+      block.getCode().setRichText(richText);
+      block.getCode().setLanguage(language);
+      block.getCode().setCaption(caption);
+      return block;
+    }
   }
 }

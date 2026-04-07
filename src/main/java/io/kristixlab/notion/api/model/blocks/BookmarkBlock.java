@@ -1,25 +1,39 @@
 package io.kristixlab.notion.api.model.blocks;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import io.kristixlab.notion.api.model.common.RichText;
+import io.kristixlab.notion.api.model.common.richtext.RichText;
 import java.util.List;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@Data
-@EqualsAndHashCode(callSuper = true)
+@Getter
+@Setter
 public class BookmarkBlock extends Block {
-  @JsonProperty("bookmark")
+
   private Bookmark bookmark;
 
-  @Data
+  public BookmarkBlock() {
+    setType("bookmark");
+    bookmark = new Bookmark();
+  }
+
+  /**
+   * Creates a bookmark block with the given URL.
+   *
+   * @param url the URL to bookmark
+   * @return a new BookmarkBlock
+   */
+  public static BookmarkBlock of(String url) {
+    BookmarkBlock block = new BookmarkBlock();
+    block.getBookmark().setUrl(url);
+    return block;
+  }
+
+  @Getter
+  @Setter
   public static class Bookmark {
-    @JsonProperty("url")
+
     private String url;
 
-    @JsonProperty("caption")
     private List<RichText> caption;
   }
 }
