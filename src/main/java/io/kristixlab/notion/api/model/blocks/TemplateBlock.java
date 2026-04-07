@@ -11,7 +11,6 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-@Deprecated
 public class TemplateBlock extends Block {
 
   private Template template;
