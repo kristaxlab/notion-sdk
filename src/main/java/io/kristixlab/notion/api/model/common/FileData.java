@@ -7,33 +7,40 @@ import lombok.Setter;
 
 @Getter
 @Setter
+// TODO check if I should do a separation for blocks the way it is done for pages (icon/iconparams)
 public class FileData {
 
   private String type;
 
-  private FileData.External external;
+  private ExternalFile external;
 
-  private FileData.File file;
+  /** TODO check if file and file_upload are mutually exclusive */
+  private File file;
 
-  private FileData.FileUpload fileUpload;
+  private FileUploadRef fileUpload;
 
   private List<RichText> caption;
 
   private String name;
 
-  public static FileData external(String url) {
+  public static FileData external(String url, String fileName) {
     FileData fileData = new FileData();
     fileData.setType("external");
-    FileData.External external = new FileData.External();
+    fileData.setName(fileName);
+    ExternalFile external = new ExternalFile();
     external.setUrl(url);
     fileData.setExternal(external);
     return fileData;
   }
 
+  public static FileData external(String url) {
+    return external(url, "file");
+  }
+
   public static FileData file(String url) {
     FileData fileData = new FileData();
     fileData.setType("file");
-    FileData.File file = new FileData.File();
+    File file = new File();
     file.setUrl(url);
     fileData.setFile(file);
     return fileData;
@@ -42,32 +49,9 @@ public class FileData {
   public static FileData fileUpload(String id) {
     FileData fileData = new FileData();
     fileData.setType("file_upload");
-    FileData.FileUpload fileUpload = new FileData.FileUpload();
+    FileUploadRef fileUpload = new FileUploadRef();
     fileUpload.setId(id);
     fileData.setFileUpload(fileUpload);
     return fileData;
-  }
-
-  @Getter
-  @Setter
-  public static class External {
-
-    private String url;
-  }
-
-  @Getter
-  @Setter
-  public static class File {
-
-    private String url;
-
-    private String expiryTime;
-  }
-
-  @Getter
-  @Setter
-  public static class FileUpload {
-
-    private String id;
   }
 }

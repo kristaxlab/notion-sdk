@@ -1,5 +1,6 @@
 package io.kristixlab.notion.api.model.blocks;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.kristixlab.notion.api.model.common.richtext.RichText;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,6 +15,7 @@ import lombok.Setter;
 @Setter
 public class HeadingThreeBlock extends Block {
 
+  @JsonProperty("heading_3")
   private Heading heading3;
 
   public HeadingThreeBlock() {
