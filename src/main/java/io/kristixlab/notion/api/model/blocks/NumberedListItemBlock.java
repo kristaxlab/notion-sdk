@@ -21,12 +21,6 @@ public class NumberedListItemBlock extends Block {
     numberedListItem = new NumberedListItem();
   }
 
-  /**
-   * Creates a numbered list item block with plain text content.
-   *
-   * @param text the list item text
-   * @return a new NumberedListItemBlock
-   */
   public static NumberedListItemBlock of(String text) {
     NumberedListItemBlock block = new NumberedListItemBlock();
     block.getNumberedListItem().setRichText(RichText.of(text));
@@ -36,14 +30,11 @@ public class NumberedListItemBlock extends Block {
   /**
    * Returns a new builder for constructing a {@link NumberedListItemBlock} with rich text
    * formatting, block-level color, and/or nested children.
-   *
-   * @return a new builder
    */
   public static Builder builder() {
     return new Builder();
   }
 
-  /** Builder for {@link NumberedListItemBlock}. */
   public static class Builder extends BlockWithChildren.Builder<Builder, NumberedListItemBlock> {
 
     private Builder() {}
@@ -56,7 +47,6 @@ public class NumberedListItemBlock extends Block {
     }
   }
 
-  /** The inner content object of a numbered list item block. */
   @Getter
   @Setter
   public static class NumberedListItem extends BlockWithChildren {}

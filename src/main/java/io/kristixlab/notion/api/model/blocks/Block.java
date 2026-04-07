@@ -14,11 +14,12 @@ import lombok.Setter;
  * or other structured content. This class serves as the base for all specific block types and
  * provides common properties and functionality.
  *
- * <p>The class uses Jackson {@code @JsonTypeInfo} for polymorphic deserialization, resolving each
- * JSON object to the concrete block subtype based on the {@code type} field. Unrecognized types
- * fall back to {@link UnknownBlock}.
+ * <p>The class uses Jackson annotations for JSON serialization/deserialization and includes type
+ * information to properly deserialize to specific block subtypes based on the 'type' field.
  *
+ * @author KristaxLab
  * @see NotionObject
+ * @since 1.0
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonTypeInfo(
@@ -33,7 +34,6 @@ import lombok.Setter;
   @JsonSubTypes.Type(value = HeadingOneBlock.class, name = "heading_1"),
   @JsonSubTypes.Type(value = HeadingTwoBlock.class, name = "heading_2"),
   @JsonSubTypes.Type(value = HeadingThreeBlock.class, name = "heading_3"),
-  @JsonSubTypes.Type(value = HeadingFourBlock.class, name = "heading_4"),
   @JsonSubTypes.Type(value = ToDoBlock.class, name = "to_do"),
   @JsonSubTypes.Type(value = BulletedListItemBlock.class, name = "bulleted_list_item"),
   @JsonSubTypes.Type(value = NumberedListItemBlock.class, name = "numbered_list_item"),
@@ -42,11 +42,10 @@ import lombok.Setter;
   @JsonSubTypes.Type(value = CodeBlock.class, name = "code"),
   @JsonSubTypes.Type(value = ToggleBlock.class, name = "toggle"),
   @JsonSubTypes.Type(value = DividerBlock.class, name = "divider"),
-  @JsonSubTypes.Type(value = ColumnBlock.class, name = "column"),
   @JsonSubTypes.Type(value = ColumnListBlock.class, name = "column_list"),
   @JsonSubTypes.Type(value = BookmarkBlock.class, name = "bookmark"),
-  @JsonSubTypes.Type(value = ChildPageBlock.class, name = "child_page"), // read-only
-  @JsonSubTypes.Type(value = ChildDatabaseBlock.class, name = "child_database"), // read-only
+  @JsonSubTypes.Type(value = ChildPageBlock.class, name = "child_page"),
+  @JsonSubTypes.Type(value = ChildDatabaseBlock.class, name = "child_database"),
   @JsonSubTypes.Type(value = EmbedBlock.class, name = "embed"),
   @JsonSubTypes.Type(value = ImageBlock.class, name = "image"),
   @JsonSubTypes.Type(value = PdfBlock.class, name = "pdf"),
@@ -57,22 +56,19 @@ import lombok.Setter;
   @JsonSubTypes.Type(value = TableRowBlock.class, name = "table_row"),
   @JsonSubTypes.Type(value = TableOfContentsBlock.class, name = "table_of_contents"),
   @JsonSubTypes.Type(value = LinkToPageBlock.class, name = "link_to_page"),
-  @JsonSubTypes.Type(value = LinkPreviewBlock.class, name = "link_preview"), // read-only
+  @JsonSubTypes.Type(value = LinkPreviewBlock.class, name = "link_preview"),
   @JsonSubTypes.Type(value = SyncedBlock.class, name = "synced_block"),
-  @JsonSubTypes.Type(value = TemplateBlock.class, name = "template"), // read-only
+  @JsonSubTypes.Type(value = TemplateBlock.class, name = "template"),
   @JsonSubTypes.Type(value = EquationBlock.class, name = "equation"),
-  @JsonSubTypes.Type(value = UnsupportedBlock.class, name = "unsupported") // read-only
+  @JsonSubTypes.Type(value = UnsupportedBlock.class, name = "unsupported")
 })
 @Getter
 @Setter
 public class Block extends NotionObject {
 
-  /**
-   * The block type identifier (e.g., {@code "paragraph"}, {@code "heading_1"}, {@code "image"}).
-   */
+  /** The type of the block (e.g., "paragraph", "heading_1", "image", etc.) */
   private String type;
 
-  /** Whether this block has nested child blocks. */
   private Boolean hasChildren;
 
   /**
@@ -203,16 +199,6 @@ public class Block extends NotionObject {
    */
   public DividerBlock asDivider() {
     return (DividerBlock) this;
-  }
-
-  /**
-   * Casts this block to a ColumnBlock.
-   *
-   * @return this block cast to ColumnBlock
-   * @throws ClassCastException if this block is not a ColumnBlock
-   */
-  public ColumnBlock asColumn() {
-    return (ColumnBlock) this;
   }
 
   /**

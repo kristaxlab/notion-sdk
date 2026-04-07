@@ -40,6 +40,4 @@ public class NotionObject extends BaseNotionObject {
 
   /* TODO missing for Comments */
   private Boolean inTrash;
-
-  @Deprecated private Boolean isArchived;
 }

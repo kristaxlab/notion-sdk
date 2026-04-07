@@ -3,10 +3,6 @@ package io.kristixlab.notion.api.model.blocks;
 import lombok.Getter;
 import lombok.Setter;
 
-/**
- * A read-only Notion child database block. Returned by the API to represent a nested database
- * reference; cannot be created via the API.
- */
 @Getter
 @Setter
 public class ChildDatabaseBlock extends Block {
@@ -18,7 +14,6 @@ public class ChildDatabaseBlock extends Block {
     childDatabase = new ChildDatabase();
   }
 
-  /** The inner content object of a child database block. */
   @Getter
   @Setter
   public static class ChildDatabase {

@@ -72,7 +72,7 @@ public enum Color {
    * @return the Color enum constant with the matching value
    * @throws IllegalArgumentException if no Color constant is found with the given value
    */
-  public static Color fromValue(String value) {
+  public Color fromValue(String value) {
     for (Color color : Color.values()) {
       if (color.value.equals(value)) {
         return color;

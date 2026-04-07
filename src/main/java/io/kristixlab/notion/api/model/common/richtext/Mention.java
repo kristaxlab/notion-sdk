@@ -20,13 +20,13 @@ public class Mention {
 
   private DateData date;
 
-  private CustomEmojiRef customEmoji;
+  private CustomEmoji customEmoji;
 
   /**
    * @deprecated outdated (only may return in response for blocks created with older Notion
    *     versions)
    */
-  @Deprecated private LinkMention linkMention;
+  private LinkMention linkMention;
 
   /*
    * Read only, the link_preview block can only be returned as part of a response.
@@ -60,7 +60,7 @@ public class Mention {
 
   @Getter
   @Setter
-  public static class CustomEmojiRef {
+  public static class CustomEmoji {
 
     private String id;
   }

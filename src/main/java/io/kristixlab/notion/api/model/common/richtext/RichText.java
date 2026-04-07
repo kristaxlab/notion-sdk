@@ -66,48 +66,45 @@ public class RichText {
 
   public static class Builder {
     private List<RichText> richTexts = new ArrayList<>();
+    private RichText currentRichText;
 
-    private Builder() {}
+    private Builder() {
+      currentRichText = new RichText();
+    }
 
     public List<RichText> buildList() {
-      return new ArrayList<>(richTexts);
+      List<RichText> readyRichTexts = new ArrayList<>(richTexts);
+      readyRichTexts.add(currentRichText);
+      richTexts = null;
+      return readyRichTexts;
     }
 
     public RichText build() {
-      if (richTexts.isEmpty()) {
-        throw new IllegalStateException("There is no rich text item defined in the builder");
-      }
-      if (richTexts.size() > 1) {
-        throw new IllegalStateException(
-            "The builder contains more than one rich text item, use buildList() instead");
-      }
-      return richTexts.get(0);
+      RichText readyRichText = currentRichText;
+      return readyRichText;
     }
 
-    private RichText newRichText() {
-      RichText newRichText = new RichText();
-      richTexts.add(newRichText);
-      return newRichText;
-    }
-
-    private RichText getLast() {
-      if (richTexts.isEmpty()) {
-        throw new IllegalStateException(
-            "There is no rich text item defined in the builder, start with text(), url(), etc.");
+    private RichText another() {
+      if (currentRichText != null) {
+        richTexts.add(currentRichText);
       }
-      return richTexts.get(richTexts.size() - 1);
+      currentRichText = new RichText();
+      return currentRichText;
     }
 
     private Annotations currentStyle() {
-      RichText last = getLast();
-      if (last.getAnnotations() == null) {
-        last.setAnnotations(new Annotations());
+      if (currentRichText == null) {
+        throw new IllegalStateException(
+            "No current rich text segment, start with text(), url(), etc.");
       }
-      return last.getAnnotations();
+      if (currentRichText.getAnnotations() == null) {
+        currentRichText.setAnnotations(new Annotations());
+      }
+      return currentRichText.getAnnotations();
     }
 
     public Builder text(String plainText) {
-      RichText rt = newRichText();
+      RichText rt = another();
       rt.setPlainText(plainText);
       rt.setType(RichTextType.TEXT.getValue());
 
@@ -119,7 +116,7 @@ public class RichText {
     }
 
     public Builder expression(String expression) {
-      RichText rt = newRichText();
+      RichText rt = another();
       rt.setPlainText(expression);
       rt.setType(RichTextType.EQUATION.getValue());
       rt.setEquation(Equation.of(expression));
@@ -127,7 +124,7 @@ public class RichText {
     }
 
     public Builder url(String url) {
-      RichText rt = newRichText();
+      RichText rt = another();
       rt.setPlainText(url);
       rt.setHref(url);
       rt.setType(RichTextType.TEXT.getValue());
@@ -152,7 +149,7 @@ public class RichText {
     }
 
     public Builder dateMention(String dateFrom, String dateTo, String timeZone) {
-      RichText rt = newRichText();
+      RichText rt = another();
       rt.setType(RichTextType.MENTION.getValue());
 
       Mention mentionObj = new Mention();
@@ -171,7 +168,7 @@ public class RichText {
     }
 
     public Builder userMention(String userId) {
-      RichText rt = newRichText();
+      RichText rt = another();
       rt.setType(RichTextType.MENTION.getValue());
 
       Mention mentionObj = new Mention();
@@ -185,7 +182,7 @@ public class RichText {
     }
 
     public Builder blockMention(String id) {
-      RichText rt = newRichText();
+      RichText rt = another();
       rt.setType(RichTextType.MENTION.getValue());
       Mention mentionObj = new Mention();
       rt.setMention(mentionObj);
@@ -199,13 +196,13 @@ public class RichText {
     }
 
     public Builder customEmoji(String id) {
-      RichText rt = newRichText();
+      RichText rt = another();
       rt.setType(RichTextType.MENTION.getValue());
       Mention mentionObj = new Mention();
       mentionObj.setType(MentionType.CUSTOM_EMOJI.getValue());
       rt.setMention(mentionObj);
 
-      mentionObj.setCustomEmoji(new Mention.CustomEmojiRef());
+      mentionObj.setCustomEmoji(new Mention.CustomEmoji());
       mentionObj.getCustomEmoji().setId(id);
 
       return this;

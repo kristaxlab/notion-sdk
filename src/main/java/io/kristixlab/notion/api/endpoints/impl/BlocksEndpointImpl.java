@@ -1,8 +1,5 @@
 package io.kristixlab.notion.api.endpoints.impl;
 
-import static io.kristixlab.notion.api.endpoints.util.Validator.checkNotNull;
-import static io.kristixlab.notion.api.endpoints.util.Validator.checkNotNullOrEmpty;
-
 import io.kristixlab.notion.api.endpoints.BlocksEndpoint;
 import io.kristixlab.notion.api.http.base.client.ApiClient;
 import io.kristixlab.notion.api.http.base.request.ApiPath;
@@ -29,8 +26,7 @@ public class BlocksEndpointImpl extends BaseEndpointImpl implements BlocksEndpoi
    * @return The block object
    */
   public Block retrieve(String blockId) {
-    checkNotNullOrEmpty(blockId, "blockId");
-
+    validateBlockId(blockId);
     ApiPath urlInfo = ApiPath.builder("/blocks/{block_id}").pathParam("block_id", blockId).build();
     return getClient().call("GET", urlInfo, Block.class);
   }
@@ -54,7 +50,7 @@ public class BlocksEndpointImpl extends BaseEndpointImpl implements BlocksEndpoi
    * @return BlocksResponse containing the child blocks
    */
   public BlockList retrieveChildren(String blockId, String startCursor, Integer pageSize) {
-    checkNotNullOrEmpty(blockId, "blockId");
+    validateBlockId(blockId);
 
     ApiPath.Builder urlInfo =
         paginatedPath("/blocks/{block_id}/children", startCursor, pageSize)
@@ -125,8 +121,8 @@ public class BlocksEndpointImpl extends BaseEndpointImpl implements BlocksEndpoi
    * @return BlocksResponse containing the appended blocks
    */
   public BlockList appendChildren(String parentBlockId, AppendBlockChildrenParams request) {
-    checkNotNullOrEmpty(parentBlockId, "blockId");
-    checkNotNull(request, "request");
+    validateBlockId(parentBlockId);
+    validateRequest(request);
 
     ApiPath urlInfo =
         ApiPath.builder("/blocks/{block_id}/children").pathParam("block_id", parentBlockId).build();
@@ -142,8 +138,8 @@ public class BlocksEndpointImpl extends BaseEndpointImpl implements BlocksEndpoi
    * @return The updated block
    */
   public Block update(String blockId, Block request) {
-    checkNotNullOrEmpty(blockId, "blockId");
-    checkNotNull(request, "request");
+    validateBlockId(blockId);
+    validateRequest(request);
 
     ApiPath urlInfo = ApiPath.builder("/blocks/{block_id}").pathParam("block_id", blockId).build();
 
@@ -157,7 +153,7 @@ public class BlocksEndpointImpl extends BaseEndpointImpl implements BlocksEndpoi
    * @return The deleted block (marked as archived)
    */
   public Block delete(String blockId) {
-    checkNotNullOrEmpty(blockId, "blockId");
+    validateBlockId(blockId);
     ApiPath urlInfo = ApiPath.builder("/blocks/{block_id}").pathParam("block_id", blockId).build();
     return getClient().call("DELETE", urlInfo, Block.class);
   }
@@ -169,10 +165,32 @@ public class BlocksEndpointImpl extends BaseEndpointImpl implements BlocksEndpoi
    * @return The deleted block (marked as archived)
    */
   public Block restore(String blockId) {
-    checkNotNullOrEmpty(blockId, "blockId");
-
     Block body = new Block();
     body.setInTrash(false);
     return update(blockId, body);
+  }
+
+  /**
+   * Validates the block ID.
+   *
+   * @param blockId The block ID to validate
+   * @throws IllegalArgumentException if the block ID is null or empty
+   */
+  private void validateBlockId(String blockId) {
+    if (blockId == null || blockId.trim().isEmpty()) {
+      throw new IllegalArgumentException("Block ID cannot be null or empty");
+    }
+  }
+
+  /**
+   * Validates the request object.
+   *
+   * @param request The request object to validate
+   * @throws IllegalArgumentException if the request is null
+   */
+  private void validateRequest(Object request) {
+    if (request == null) {
+      throw new IllegalArgumentException("Request cannot be null");
+    }
   }
 }

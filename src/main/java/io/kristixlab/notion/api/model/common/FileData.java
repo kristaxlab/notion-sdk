@@ -9,14 +9,13 @@ import lombok.Setter;
 @Setter
 public class FileData {
 
-  /** "file", "external", "file_upload" */
   private String type;
 
-  private ExternalFile external;
+  private FileData.External external;
 
-  private File file;
+  private FileData.File file;
 
-  private FileUploadRef fileUpload;
+  private FileData.FileUpload fileUpload;
 
   private List<RichText> caption;
 
@@ -25,15 +24,17 @@ public class FileData {
   public static FileData external(String url) {
     FileData fileData = new FileData();
     fileData.setType("external");
-    ExternalFile external = new ExternalFile();
+    FileData.External external = new FileData.External();
     external.setUrl(url);
     fileData.setExternal(external);
     return fileData;
   }
 
-  public static FileData file(File file) {
+  public static FileData file(String url) {
     FileData fileData = new FileData();
     fileData.setType("file");
+    FileData.File file = new FileData.File();
+    file.setUrl(url);
     fileData.setFile(file);
     return fileData;
   }
@@ -41,65 +42,32 @@ public class FileData {
   public static FileData fileUpload(String id) {
     FileData fileData = new FileData();
     fileData.setType("file_upload");
-    FileUploadRef fileUpload = new FileUploadRef();
+    FileData.FileUpload fileUpload = new FileData.FileUpload();
     fileUpload.setId(id);
     fileData.setFileUpload(fileUpload);
     return fileData;
   }
 
-  public static Builder builder() {
-    return new Builder();
+  @Getter
+  @Setter
+  public static class External {
+
+    private String url;
   }
 
-  public static class Builder {
-    private String type;
-    private ExternalFile external;
-    private File file;
-    private FileUploadRef fileUpload;
-    private List<RichText> caption;
-    private String name;
+  @Getter
+  @Setter
+  public static class File {
 
-    public Builder type(String type) {
-      this.type = type;
-      return this;
-    }
+    private String url;
 
-    public Builder external(String url) {
-      this.external = new ExternalFile();
-      this.external.setUrl(url);
-      return this;
-    }
+    private String expiryTime;
+  }
 
-    public Builder file(File file) {
-      this.file = file;
-      return this;
-    }
+  @Getter
+  @Setter
+  public static class FileUpload {
 
-    public Builder fileUpload(String fileUploadId) {
-      this.fileUpload = new FileUploadRef();
-      this.fileUpload.setId(fileUploadId);
-      return this;
-    }
-
-    public Builder caption(List<RichText> caption) {
-      this.caption = caption;
-      return this;
-    }
-
-    public Builder name(String name) {
-      this.name = name;
-      return this;
-    }
-
-    public FileData build() {
-      FileData fileData = new FileData();
-      fileData.setType(type);
-      fileData.setExternal(external);
-      fileData.setFile(file);
-      fileData.setFileUpload(fileUpload);
-      fileData.setCaption(caption);
-      fileData.setName(name);
-      return fileData;
-    }
+    private String id;
   }
 }
