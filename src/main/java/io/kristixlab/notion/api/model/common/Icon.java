@@ -11,5 +11,17 @@ public class Icon {
 
   private String emoji;
 
-  private FileData file;
+  private CustomEmoji customEmoji;
+
+  private ExternalFile external;
+
+  private File file;
+
+  // TODO
+  public static Icon emoji(String emoji) {
+    Icon icon = new Icon();
+    icon.setType("emoji");
+    icon.setEmoji(emoji);
+    return icon;
+  }
 }

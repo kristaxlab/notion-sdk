@@ -1,6 +1,7 @@
 package io.kristixlab.notion.api.model.blocks;
 
 import io.kristixlab.notion.api.model.common.Color;
+import io.kristixlab.notion.api.model.common.Icon;
 import io.kristixlab.notion.api.model.common.richtext.RichText;
 import java.util.List;
 import lombok.Getter;
@@ -58,17 +59,28 @@ public class ParagraphBlock extends Block {
 
   public static class Builder extends BlockWithChildren.Builder<Builder, ParagraphBlock> {
 
+    private Icon icon;
+
     private Builder() {}
 
     @Override
     public ParagraphBlock build() {
       ParagraphBlock block = new ParagraphBlock();
       buildContent(block.getParagraph());
+      block.getParagraph().setIcon(icon);
       return block;
+    }
+
+    public Builder icon(Icon icon) {
+      this.icon = icon;
+      return self();
     }
   }
 
   @Getter
   @Setter
-  public static class Paragraph extends BlockWithChildren {}
+  public static class Paragraph extends BlockWithChildren {
+
+    private Icon icon;
+  }
 }
