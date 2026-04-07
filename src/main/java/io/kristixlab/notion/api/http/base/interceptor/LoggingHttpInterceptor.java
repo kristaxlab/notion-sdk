@@ -46,7 +46,7 @@ public class LoggingHttpInterceptor implements HttpClientInterceptor {
           request.method(),
           request.url(),
           status,
-          body != null ? truncate(body, 1024) : "[empty]");
+          body != null ? truncate(body, null) : "[empty]");
     }
 
     if (status >= 400) {
@@ -70,7 +70,10 @@ public class LoggingHttpInterceptor implements HttpClientInterceptor {
     return body.getClass().getSimpleName();
   }
 
-  private static String truncate(String s, int maxLength) {
+  private static String truncate(String s, Integer maxLength) {
+    if (maxLength == null || s.length() <= maxLength) {
+      return s;
+    }
     return s.length() <= maxLength ? s : s.substring(0, maxLength) + "...[truncated]";
   }
 }
