@@ -14,4 +14,10 @@ public class VideoBlock extends Block {
     setType("video");
     video = new FileData();
   }
+
+  public static VideoBlock of(FileData fileData) {
+    VideoBlock videoBlock = new VideoBlock();
+    videoBlock.setVideo(fileData);
+    return videoBlock;
+  }
 }
