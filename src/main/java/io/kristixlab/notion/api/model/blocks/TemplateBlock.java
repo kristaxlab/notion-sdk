@@ -5,8 +5,13 @@ import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * Read--only block for old template page blocks (deprecated by Notion, not related to database
+ * templates)
+ */
 @Getter
 @Setter
+@Deprecated
 public class TemplateBlock extends Block {
 
   private Template template;
