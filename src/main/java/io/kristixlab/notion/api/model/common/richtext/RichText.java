@@ -68,9 +68,7 @@ public class RichText {
     private List<RichText> richTexts = new ArrayList<>();
     private RichText currentRichText;
 
-    private Builder() {
-      currentRichText = new RichText();
-    }
+    private Builder() {}
 
     public List<RichText> buildList() {
       List<RichText> readyRichTexts = new ArrayList<>(richTexts);
@@ -202,7 +200,7 @@ public class RichText {
       mentionObj.setType(MentionType.CUSTOM_EMOJI.getValue());
       rt.setMention(mentionObj);
 
-      mentionObj.setCustomEmoji(new Mention.CustomEmoji());
+      mentionObj.setCustomEmoji(new Mention.CustomEmojiRef());
       mentionObj.getCustomEmoji().setId(id);
 
       return this;
