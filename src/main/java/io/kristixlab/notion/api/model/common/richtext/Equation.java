@@ -8,4 +8,10 @@ import lombok.Setter;
 public class Equation {
 
   private String expression;
+
+  public static Equation of(String expression) {
+    Equation equation = new Equation();
+    equation.setExpression(expression);
+    return equation;
+  }
 }
