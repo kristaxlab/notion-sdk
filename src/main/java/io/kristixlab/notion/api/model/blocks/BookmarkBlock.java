@@ -28,6 +28,10 @@ public class BookmarkBlock extends Block {
     return block;
   }
 
+  public static Builder builder() {
+    return new Builder();
+  }
+
   @Getter
   @Setter
   public static class Bookmark {
@@ -35,5 +39,35 @@ public class BookmarkBlock extends Block {
     private String url;
 
     private List<RichText> caption;
+  }
+
+  public static class Builder {
+    private String url;
+
+    private List<RichText> caption;
+
+    private Builder() {}
+
+    public Builder url(String url) {
+      this.url = url;
+      return this;
+    }
+
+    public Builder caption(String caption) {
+      this.caption = RichText.of(caption);
+      return this;
+    }
+
+    public Builder caption(List<RichText> caption) {
+      this.caption = caption;
+      return this;
+    }
+
+    public BookmarkBlock build() {
+      BookmarkBlock block = new BookmarkBlock();
+      block.getBookmark().setUrl(url);
+      block.getBookmark().setCaption(caption);
+      return block;
+    }
   }
 }

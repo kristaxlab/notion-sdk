@@ -24,6 +24,27 @@ public class LinkToPageBlock extends Block {
 
     private String databaseId;
 
-    private Boolean workspace;
+    private String commentId;
+  }
+
+  public static LinkToPageBlock pageLink(String id) {
+    LinkToPageBlock block = new LinkToPageBlock();
+    block.getLinkToPage().setType("page_id");
+    block.getLinkToPage().setPageId(id);
+    return block;
+  }
+
+  public static LinkToPageBlock databaseLink(String id) {
+    LinkToPageBlock block = new LinkToPageBlock();
+    block.getLinkToPage().setType("database_id");
+    block.getLinkToPage().setDatabaseId(id);
+    return block;
+  }
+
+  public static LinkToPageBlock commentLink(String id) {
+    LinkToPageBlock block = new LinkToPageBlock();
+    block.getLinkToPage().setType("comment_id");
+    block.getLinkToPage().setCommentId(id);
+    return block;
   }
 }

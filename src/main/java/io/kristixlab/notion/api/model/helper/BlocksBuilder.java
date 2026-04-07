@@ -1,6 +1,8 @@
 package io.kristixlab.notion.api.model.helper;
 
 import io.kristixlab.notion.api.model.blocks.*;
+import io.kristixlab.notion.api.model.common.Color;
+import io.kristixlab.notion.api.model.common.FileData;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -136,6 +138,18 @@ public class BlocksBuilder {
     return this;
   }
 
+  public BlocksBuilder heading4(String text) {
+    blocks.add(HeadingFourBlock.of(text));
+    return this;
+  }
+
+  public BlocksBuilder heading4(Consumer<HeadingFourBlock.Builder> consumer) {
+    HeadingFourBlock.Builder builder = HeadingFourBlock.builder();
+    consumer.accept(builder);
+    blocks.add(builder.build());
+    return this;
+  }
+
   public BlocksBuilder bulletedListItem(String text) {
     blocks.add(BulletedListItemBlock.of(text));
     return this;
@@ -230,18 +244,134 @@ public class BlocksBuilder {
     return this;
   }
 
+  public BlocksBuilder image(FileData imageData) {
+    blocks.add(ImageBlock.of(imageData));
+    return this;
+  }
+
+  public BlocksBuilder image(Consumer<FileData.Builder> consumer) {
+    FileData.Builder builder = FileData.builder();
+    consumer.accept(builder);
+    ImageBlock block = ImageBlock.of(builder.build());
+    blocks.add(block);
+    return this;
+  }
+
+  public BlocksBuilder video(FileData videoData) {
+    blocks.add(VideoBlock.of(videoData));
+    return this;
+  }
+
+  public BlocksBuilder video(Consumer<FileData.Builder> consumer) {
+    FileData.Builder builder = FileData.builder();
+    consumer.accept(builder);
+    VideoBlock block = VideoBlock.of(builder.build());
+    blocks.add(block);
+    return this;
+  }
+
+  public BlocksBuilder pdf(FileData pdfData) {
+    blocks.add(PdfBlock.of(pdfData));
+    return this;
+  }
+
+  public BlocksBuilder pdf(Consumer<FileData.Builder> consumer) {
+    FileData.Builder builder = FileData.builder();
+    consumer.accept(builder);
+    PdfBlock block = PdfBlock.of(builder.build());
+    blocks.add(block);
+    return this;
+  }
+
+  public BlocksBuilder audio(FileData ausioData) {
+    blocks.add(AudioBlock.of(ausioData));
+    return this;
+  }
+
+  public BlocksBuilder audio(Consumer<FileData.Builder> consumer) {
+    FileData.Builder builder = FileData.builder();
+    consumer.accept(builder);
+    AudioBlock block = AudioBlock.of(builder.build());
+    blocks.add(block);
+    return this;
+  }
+
+  public BlocksBuilder file(FileData pdfData) {
+    blocks.add(FileBlock.of(pdfData));
+    return this;
+  }
+
+  public BlocksBuilder file(Consumer<FileData.Builder> consumer) {
+    FileData.Builder builder = FileData.builder();
+    consumer.accept(builder);
+    FileBlock block = FileBlock.of(builder.build());
+    blocks.add(block);
+    return this;
+  }
+
+  public BlocksBuilder embed(String url) {
+    blocks.add(EmbedBlock.of(url));
+    return this;
+  }
+
+  public BlocksBuilder embed(Consumer<EmbedBlock.Builder> consumer) {
+    EmbedBlock.Builder builder = EmbedBlock.builder();
+    consumer.accept(builder);
+    blocks.add(builder.build());
+    return this;
+  }
+
   public BlocksBuilder bookmark(String url) {
     blocks.add(BookmarkBlock.of(url));
     return this;
   }
 
+  public BlocksBuilder bookmark(Consumer<BookmarkBlock.Builder> consumer) {
+    BookmarkBlock.Builder builder = BookmarkBlock.builder();
+    consumer.accept(builder);
+    blocks.add(builder.build());
+    return this;
+  }
+
   public BlocksBuilder breadcrumb() {
-    blocks.add(new BreadcrumbBlock());
+    blocks.add(BreadcrumbBlock.of());
+    return this;
+  }
+
+  public BlocksBuilder equation(String expression) {
+    blocks.add(EquationBlock.of(expression));
+    return this;
+  }
+
+  public BlocksBuilder linkToPage(String pageId) {
+    blocks.add(LinkToPageBlock.pageLink(pageId));
+    return this;
+  }
+
+  public BlocksBuilder linkToDatabase(String databaseId) {
+    blocks.add(LinkToPageBlock.databaseLink(databaseId));
+    return this;
+  }
+
+  public BlocksBuilder linkToComment(String commentId) {
+    blocks.add(LinkToPageBlock.commentLink(commentId));
+    return this;
+  }
+
+  public BlocksBuilder linkToPage(Consumer<LinkToPageBlock> consumer) {
+    LinkToPageBlock block = new LinkToPageBlock();
+    consumer.accept(block);
+    blocks.add(block);
     return this;
   }
 
   public BlocksBuilder tableOfContents() {
-    blocks.add(new TableOfContentsBlock());
+    blocks.add(TableOfContentsBlock.of());
+    return this;
+  }
+
+  public BlocksBuilder tableOfContents(String color) {
+    blocks.add(TableOfContentsBlock.of(Color.fromValue(color)));
     return this;
   }
 }

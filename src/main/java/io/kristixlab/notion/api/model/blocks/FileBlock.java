@@ -14,4 +14,10 @@ public class FileBlock extends Block {
     setType("file");
     file = new FileData();
   }
+
+  public static FileBlock of(FileData fileData) {
+    FileBlock fileBlock = new FileBlock();
+    fileBlock.setFile(fileData);
+    return fileBlock;
+  }
 }

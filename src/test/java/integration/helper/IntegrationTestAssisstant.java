@@ -5,8 +5,11 @@ import static org.junit.jupiter.api.Assertions.fail;
 import io.kristixlab.notion.api.NotionClient;
 import io.kristixlab.notion.api.model.blocks.BlockList;
 import io.kristixlab.notion.api.model.common.Parent;
+import io.kristixlab.notion.api.model.page.CreatePageParams;
+import io.kristixlab.notion.api.model.page.property.TitleProperty;
 import java.io.File;
 import java.net.URL;
+import java.util.HashMap;
 
 public class IntegrationTestAssisstant {
 
@@ -80,12 +83,11 @@ public class IntegrationTestAssisstant {
   }
 
   public static String createPageForTests(String name, Parent parent) {
-    //    CreatePageParams createPageParams = new CreatePageParams();
-    //    createPageParams.setParent(parent);
-    //    createPageParams.setProperties(new HashMap<>());
-    //    createPageParams.getProperties().put(TitleProperty.NAME, TitleProperty.of(name));
-    //    return getNotion().pages().create(createPageParams).getId();
-    return null;
+    CreatePageParams createPageParams = new CreatePageParams();
+    createPageParams.setParent(parent);
+    createPageParams.setProperties(new HashMap<>());
+    createPageParams.getProperties().put(TitleProperty.NAME, TitleProperty.of(name));
+    return getNotion().pages().create(createPageParams).getId();
   }
 
   private String getTestPageId() {
