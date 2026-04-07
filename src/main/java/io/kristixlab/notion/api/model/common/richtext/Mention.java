@@ -26,7 +26,7 @@ public class Mention {
    * @deprecated outdated (only may return in response for blocks created with older Notion
    *     versions)
    */
-  private LinkMention linkMention;
+  @Deprecated private LinkMention linkMention;
 
   /*
    * Read only, the link_preview block can only be returned as part of a response.
