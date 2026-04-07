@@ -1,26 +1,22 @@
 package io.kristixlab.notion.api.model.blocks;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@EqualsAndHashCode(callSuper = true)
+@Getter
+@Setter
 public class EquationBlock extends Block {
-  @JsonProperty("equation")
+
   private Equation equation;
 
-  @Data
-  @NoArgsConstructor
-  @AllArgsConstructor
-  public static class Equation {
-    @JsonProperty("expression")
+  public EquationBlock() {
+    setType("equation");
+    equation = new Equation();
+  }
+
+  @Getter
+  @Setter
+  public class Equation {
+
     private String expression;
   }
 }

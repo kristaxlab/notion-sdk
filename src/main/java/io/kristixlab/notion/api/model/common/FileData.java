@@ -1,50 +1,73 @@
 package io.kristixlab.notion.api.model.common;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import io.kristixlab.notion.api.model.common.richtext.RichText;
 import java.util.List;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 public class FileData {
 
-  @JsonProperty("type")
   private String type;
 
-  @JsonProperty("external")
   private FileData.External external;
 
-  @JsonProperty("file")
   private FileData.File file;
 
-  @JsonProperty("file_upload")
   private FileData.FileUpload fileUpload;
 
-  @JsonProperty("caption")
   private List<RichText> caption;
 
-  @JsonProperty("name")
   private String name;
 
-  @Data
+  public static FileData external(String url) {
+    FileData fileData = new FileData();
+    fileData.setType("external");
+    FileData.External external = new FileData.External();
+    external.setUrl(url);
+    fileData.setExternal(external);
+    return fileData;
+  }
+
+  public static FileData file(String url) {
+    FileData fileData = new FileData();
+    fileData.setType("file");
+    FileData.File file = new FileData.File();
+    file.setUrl(url);
+    fileData.setFile(file);
+    return fileData;
+  }
+
+  public static FileData fileUpload(String id) {
+    FileData fileData = new FileData();
+    fileData.setType("file_upload");
+    FileData.FileUpload fileUpload = new FileData.FileUpload();
+    fileUpload.setId(id);
+    fileData.setFileUpload(fileUpload);
+    return fileData;
+  }
+
+  @Getter
+  @Setter
   public static class External {
-    @JsonProperty("url")
+
     private String url;
   }
 
-  @Data
+  @Getter
+  @Setter
   public static class File {
 
-    @JsonProperty("url")
     private String url;
 
-    @JsonProperty("expiry_time")
     private String expiryTime;
   }
 
-  @Data
+  @Getter
+  @Setter
   public static class FileUpload {
 
-    @JsonProperty("id")
     private String id;
   }
 }

@@ -1,28 +1,53 @@
 package io.kristixlab.notion.api.model.blocks;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import io.kristixlab.notion.api.model.common.RichText;
-import java.util.List;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import io.kristixlab.notion.api.model.common.richtext.RichText;
+import lombok.Getter;
+import lombok.Setter;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@Data
-@EqualsAndHashCode(callSuper = true)
+/**
+ * A Notion toggle block.
+ *
+ * <p>Simple construction via {@link #of(String)}. For rich text formatting, nested children, or
+ * block color use {@link #builder()}.
+ */
+@Getter
+@Setter
 public class ToggleBlock extends Block {
-  @JsonProperty("toggle")
+
   private Toggle toggle;
 
-  @Data
-  public static class Toggle {
-    @JsonProperty("rich_text")
-    private List<RichText> richText;
+  public ToggleBlock() {
+    setType("toggle");
+    toggle = new Toggle();
+  }
 
-    @JsonProperty("color")
-    private String color;
+  public static ToggleBlock of(String text) {
+    ToggleBlock block = new ToggleBlock();
+    block.getToggle().setRichText(RichText.of(text));
+    return block;
+  }
 
-    @JsonProperty("children")
-    private List<Block> children;
+  /**
+   * Returns a new builder for constructing a {@link ToggleBlock} with rich text formatting,
+   * block-level color, and/or nested children.
+   */
+  public static Builder builder() {
+    return new Builder();
+  }
+
+  @Getter
+  @Setter
+  public static class Toggle extends BlockWithChildren {}
+
+  public static class Builder extends BlockWithChildren.Builder<Builder, ToggleBlock> {
+
+    private Builder() {}
+
+    @Override
+    public ToggleBlock build() {
+      ToggleBlock block = new ToggleBlock();
+      buildContent(block.getToggle());
+      return block;
+    }
   }
 }

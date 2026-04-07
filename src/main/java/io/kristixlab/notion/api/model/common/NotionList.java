@@ -7,7 +7,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class NotionListType<T> extends BaseNotionObject {
+public class NotionList<T> extends BaseNotionObject {
 
   private List<T> results;
 

@@ -1,18 +1,21 @@
 package io.kristixlab.notion.api.model.blocks;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@Data
-@EqualsAndHashCode(callSuper = true)
+@Getter
+@Setter
 public class ColumnBlock extends Block {
-  @JsonProperty("column")
+
   private Column column;
 
-  @Data
+  public ColumnBlock() {
+    setType("column");
+    column = new Column();
+  }
+
+  @Getter
+  @Setter
   public static class Column {
     // No properties, just an empty object
   }

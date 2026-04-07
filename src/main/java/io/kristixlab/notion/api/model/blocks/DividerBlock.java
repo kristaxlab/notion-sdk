@@ -1,14 +1,16 @@
 package io.kristixlab.notion.api.model.blocks;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@Data
-@EqualsAndHashCode(callSuper = true)
+@Getter
+@Setter
 public class DividerBlock extends Block {
-  @JsonProperty("divider")
-  private Object divider = new Object(); // Notion API: divider has no properties
+
+  private Object divider;
+
+  public DividerBlock() {
+    setType("divider");
+    divider = new Object();
+  }
 }

@@ -1,66 +1,88 @@
 package io.kristixlab.notion.api.model.blocks;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import io.kristixlab.notion.api.model.common.RichText;
-import java.util.List;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import io.kristixlab.notion.api.model.common.Icon;
+import io.kristixlab.notion.api.model.common.richtext.RichText;
+import lombok.Getter;
+import lombok.Setter;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@Data
-@EqualsAndHashCode(callSuper = true)
+/**
+ * A Notion callout block.
+ *
+ * <p>Simple construction via {@link #of(String, String)}. For rich text formatting, custom icons,
+ * nested children, or block color use {@link #builder()}.
+ */
+@Getter
+@Setter
 public class CalloutBlock extends Block {
 
-  @JsonProperty("callout")
   private Callout callout;
 
-  @Data
-  public static class Callout {
-    @JsonProperty("rich_text")
-    private List<RichText> richText;
+  public CalloutBlock() {
+    setType("callout");
+    callout = new Callout();
+  }
 
-    @JsonProperty("icon")
+  /**
+   * Creates a callout block with an emoji icon and text.
+   *
+   * @param emoji the emoji character for the callout icon
+   * @param text the callout text content
+   * @return a new CalloutBlock
+   */
+  public static CalloutBlock of(String emoji, String text) {
+    CalloutBlock block = new CalloutBlock();
+    block.getCallout().setRichText(RichText.of(text));
+    Icon icon = new Icon();
+    icon.setType("emoji");
+    icon.setEmoji(emoji);
+    block.getCallout().setIcon(icon);
+    return block;
+  }
+
+  /**
+   * Returns a new builder for constructing a {@link CalloutBlock} with rich text formatting, custom
+   * icon, block-level color, and/or nested children.
+   */
+  public static Builder builder() {
+    return new Builder();
+  }
+
+  public static class Builder extends BlockWithChildren.Builder<Builder, CalloutBlock> {
+
     private Icon icon;
 
-    @JsonProperty("color")
-    private String color;
+    private Builder() {}
 
-    @JsonProperty("children")
-    private List<Block> children;
+    /** Sets the callout icon to an emoji character. */
+    public Builder emoji(String emoji) {
+      Icon emojiIcon = new Icon();
+      emojiIcon.setType("emoji");
+      emojiIcon.setEmoji(emoji);
+      this.icon = emojiIcon;
+      return self();
+    }
+
+    /** Sets the callout icon directly. */
+    public Builder icon(Icon icon) {
+      this.icon = icon;
+      return self();
+    }
+
+    @Override
+    public CalloutBlock build() {
+      CalloutBlock block = new CalloutBlock();
+      buildContent(block.getCallout());
+      if (icon != null) {
+        block.getCallout().setIcon(icon);
+      }
+      return block;
+    }
   }
 
-  @Data
-  public static class Icon {
-    @JsonProperty("type")
-    private String type;
+  @Getter
+  @Setter
+  public static class Callout extends BlockWithChildren {
 
-    @JsonProperty("emoji")
-    private String emoji;
-
-    @JsonProperty("external")
-    private External external;
-
-    @JsonProperty("file")
-    private File file;
-  }
-
-  @Data
-  public static class External {
-    @JsonProperty("url")
-    private String url;
-  }
-
-  @Data
-  @NoArgsConstructor
-  @AllArgsConstructor
-  public static class File {
-    @JsonProperty("url")
-    private String url;
-
-    @JsonProperty("expiry_time")
-    private String expiryTime;
+    private Icon icon;
   }
 }
