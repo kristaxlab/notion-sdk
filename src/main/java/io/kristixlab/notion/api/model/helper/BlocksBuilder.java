@@ -388,8 +388,34 @@ public class BlocksBuilder {
     return this;
   }
 
+  public BlocksBuilder columns(int numberOfColumns) {
+    if (numberOfColumns < 2) {
+      throw new IllegalArgumentException("Number of columns must be at least 2");
+    }
+    ColumnBlock.Builder builder = ColumnBlock.builder();
+    for (int i = 0; i < numberOfColumns; i++) {
+      builder.emptyColumn();
+    }
+    ColumnListBlock columnList = ColumnListBlock.builder().children(builder.buildList()).build();
+    blocks.add(columnList);
+    return this;
+  }
+
+  public BlocksBuilder columns(Consumer<ColumnBlock.Builder> consumer) {
+    ColumnBlock.Builder builder = ColumnBlock.builder();
+    consumer.accept(builder);
+    ColumnListBlock block = ColumnListBlock.builder().children(builder.buildList()).build();
+    blocks.add(block);
+    return this;
+  }
+
+  public BlocksBuilder tableOfContents(Color color) {
+    blocks.add(TableOfContentsBlock.of(color));
+    return this;
+  }
+
   public BlocksBuilder tableOfContents(String color) {
     blocks.add(TableOfContentsBlock.of(Color.fromValue(color)));
-    return this;
+    return tableOfContents(Color.fromValue(color));
   }
 }

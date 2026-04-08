@@ -30,70 +30,77 @@ public class TableRowBlock extends Block {
     tableRow = new TableRow();
   }
 
-  /** Returns a new builder for constructing a {@link TableRowBlock}. */
+  @Getter
+  @Setter
+  public static class TableRow {
+
+    /** Each inner list represents a separate cell. */
+    private List<List<RichText>> cells = new ArrayList<>();
+  }
+
+  /**
+   * Fluent builder for constructing a single {@link TableRowBlock} or a list of {@link
+   * TableRowBlock}s.
+   */
   public static Builder builder() {
     return new Builder();
   }
 
   public static class Builder {
 
-    private final List<List<RichText>> cells = new ArrayList<>();
+    private final List<TableRowBlock> rows = new ArrayList<>();
 
     private Builder() {}
 
-    /** Populates cells using a {@link CellsBuilder} lambda. Each call adds one cell to the row. */
-    public Builder cells(Consumer<CellsBuilder> cellsConsumer) {
-      CellsBuilder builder = new CellsBuilder();
-      cellsConsumer.accept(builder);
-      this.cells.addAll(builder.cells);
+    public Builder row() {
+      rows.add(new TableRowBlock());
       return this;
     }
 
-    public TableRowBlock build() {
-      TableRowBlock block = new TableRowBlock();
-      block.getTableRow().setCells(new ArrayList<>(cells));
-      return block;
-    }
-  }
-
-  /**
-   * Fluent builder for the cells of a table row. Each method appends one cell.
-   *
-   * <p>{@link #cell(String)} is the shorthand for a plain-text cell; {@link #cell(Consumer)}
-   * supports full rich-text formatting within a cell.
-   */
-  public static class CellsBuilder {
-
-    private final List<List<RichText>> cells = new ArrayList<>();
-
-    private CellsBuilder() {}
-
     /** Adds a cell containing a single plain-text run. */
-    public CellsBuilder cell(String text) {
-      cells.add(RichText.of(text));
+    public Builder cell(String text) {
+      getLastRowCells().add(RichText.of(text));
       return this;
     }
 
     /** Adds a formatted cell via a {@link RichText.Builder} consumer. */
-    public CellsBuilder cell(Consumer<RichText.Builder> richTextConsumer) {
+    public Builder cell(Consumer<RichText.Builder> richTextConsumer) {
       RichText.Builder builder = RichText.builder();
       richTextConsumer.accept(builder);
-      cells.add(builder.buildList());
+      getLastRowCells().add(builder.buildList());
       return this;
     }
 
     /** Adds a cell from a pre-built list of rich text. */
-    public CellsBuilder cell(List<RichText> richText) {
-      cells.add(richText);
+    public Builder cell(List<RichText> richText) {
+      getLastRowCells().add(richText);
       return this;
     }
-  }
 
-  @Getter
-  @Setter
-  public static class TableRow {
+    private List<List<RichText>> getLastRowCells() {
+      if (rows.isEmpty()) {
+        throw new IllegalStateException("There is no row defined in the builder");
+      }
+      TableRowBlock row = rows.get(rows.size() - 1);
+      if (row.getTableRow().getCells() == null) {
+        row.getTableRow().setCells(new ArrayList<>());
+      }
+      return row.getTableRow().getCells();
+    }
 
-    /** Each inner list represents a separate cell. */
-    private List<List<RichText>> cells;
+    public TableRowBlock build() {
+      if (rows.isEmpty()) {
+        throw new IllegalStateException("There is no row defined in the builder");
+      }
+      if (rows.size() > 1) {
+        throw new IllegalStateException(
+            "The builder contains more than one row, use buildList() instead");
+      }
+      return rows.get(0);
+    }
+
+    public List<TableRowBlock> buildList() {
+      return new ArrayList<>(rows);
+    }
   }
 }
