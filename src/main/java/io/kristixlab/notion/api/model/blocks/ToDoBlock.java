@@ -21,6 +21,12 @@ public class ToDoBlock extends Block {
     toDo = new ToDo();
   }
 
+  /**
+   * Creates an unchecked to-do block with plain text content.
+   *
+   * @param text the to-do item text
+   * @return a new ToDoBlock
+   */
   public static ToDoBlock of(String text) {
     ToDoBlock block = new ToDoBlock();
     block.getToDo().setRichText(RichText.of(text));
@@ -30,23 +36,35 @@ public class ToDoBlock extends Block {
   /**
    * Returns a new builder for constructing a {@link ToDoBlock} with rich text formatting, checked
    * state, block-level color, and/or nested children.
+   *
+   * @return a new builder
    */
   public static Builder builder() {
     return new Builder();
   }
 
+  /** Builder for {@link ToDoBlock}. */
   public static class Builder extends BlockWithChildren.Builder<Builder, ToDoBlock> {
 
     private Boolean checked;
 
     private Builder() {}
 
-    /** Sets the checked state of the to-do item to true. */
+    /**
+     * Marks the to-do item as checked. Equivalent to {@code checked(true)}.
+     *
+     * @return this builder
+     */
     public Builder checked() {
       return checked(true);
     }
 
-    /** Sets the checked state of the to-do item. */
+    /**
+     * Sets the checked state of the to-do item.
+     *
+     * @param checked {@code true} for checked, {@code false} for unchecked
+     * @return this builder
+     */
     public Builder checked(boolean checked) {
       this.checked = checked;
       return self();
@@ -63,6 +81,7 @@ public class ToDoBlock extends Block {
     }
   }
 
+  /** The inner content object of a to-do block. */
   @Getter
   @Setter
   public static class ToDo extends BlockWithChildren {

@@ -6,8 +6,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * Read--only block for old template page blocks (deprecated by Notion, not related to database
- * templates)
+ * A read-only Notion template block. Represents legacy template button blocks that have been
+ * deprecated by Notion (unrelated to database templates).
  */
 @Getter
 @Setter
@@ -20,6 +20,7 @@ public class TemplateBlock extends Block {
     template = new Template();
   }
 
+  /** The inner content object of a template block. */
   @Getter
   @Setter
   public static class Template {
