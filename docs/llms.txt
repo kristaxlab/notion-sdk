@@ -1,0 +1,153 @@
+# Notion SDK for Java
+
+> A typed Java client for the Notion API with a composable interceptor pipeline, automatic error mapping, and first-class support for every block type.
+
+Java 17+ | Notion API 2026-03-11 | OkHttp + Jackson
+
+---
+
+## Authentication & Credentials
+
+To use the Notion API, you need an **access token** (for internal integrations, this is called an Integration Secret) or an **OAuth access token** (for public integrations). Obtain these from the [Notion integrations dashboard](https://www.notion.so/my-integrations) after creating your integration. For OAuth, you will also need:
+
+- **Client ID** and **Client Secret** (from the dashboard)
+- **Redirect URIs** (set in your integration settings)
+
+---
+
+## Documentation
+
+- [Getting Started](getting-started.md): Installation, client creation, first API call
+- [Configuration](configuration.md): All builder options with defaults and examples
+- [Pages Guide](guides/pages.md): Create, read, update, archive pages
+- [Databases Guide](guides/databases.md): Create, query, update databases and schemas; filter and sort reference
+- [Blocks Guide](guides/blocks.md): All 30+ block types, append/read/update/delete content
+- [Users Guide](guides/users.md): List users, retrieve bot info
+- [Search Guide](guides/search.md): Full-text search with filters and sorting
+- [Comments Guide](guides/comments.md): Create and read page/block comments
+- [Files & Media Guide](guides/files-and-media.md): Images, videos, PDFs, file attachments
+- [Rich Text Guide](guides/rich-text.md): Compose and parse rich text with annotations, mentions, equations
+- [Pagination Guide](guides/pagination.md): Cursor-based pagination for all list endpoints
+- [Error Handling](advanced/error-handling.md): Exception hierarchy (10 typed exceptions), retry strategies
+- [Interceptor Pipeline](advanced/interceptors.md): Architecture, built-in interceptors, writing custom ones
+- [Exchange Logging](advanced/exchange-logging.md): Debug with request/response JSON files
+- [Custom HTTP Client](advanced/custom-http-client.md): Replace OkHttp, MockWebServer testing
+- [Notion Http Client](advanced/notion-http-client.md): Use NotionHttpClient.call() for direct endpoint access
+- [Serialization](advanced/serialization.md): Jackson configuration, custom serializers
+- [Sync External Data](recipes/sync-external-to-notion.md): Push CRM/issue tracker data into Notion
+- [Notion as CMS](recipes/notion-as-cms.md): Read Notion content to power a website
+- [Task Automation](recipes/task-automation.md): Automate project management workflows
+- [Bulk Operations](recipes/bulk-operations.md): CSV import, database export, batch updates
+- [Webhooks](recipes/webhooks.md): React to Notion changes in real-time
+- [Development Setup](contributing/development-setup.md): Build, test, format commands
+- [Architecture](contributing/architecture.md): Package design, pipeline, extension points
+- [Testing Guide](contributing/testing-guide.md): Test doubles, MockWebServer, coverage
+- [Release Process](contributing/release-process.md): Versioning, publishing, changelog
+
+## Quick Reference
+
+### Create a client from an auth header
+```java
+// Using a Bearer token from an HTTP header
+NotionClient client = NotionClient.forToken("secret_abc123...");
+// Or with the builder
+NotionClient client = NotionClient.builder()
+    .authToken("secret_abc123...")
+    .build();
+```
+
+> **Note:** The Notion API expects a Bearer authentication header of the form `Bearer <token>`, where `<token>` is your **access token** (for internal integrations) or **OAuth access token** (for public integrations).
+
+### Placeholder: Handling Notion OAuth Flow
+
+<!-- TODO: Add a detailed chapter on implementing the OAuth 2.0 flow, obtaining/refreshing tokens, and using them with NotionClient. -->
+
+### Make API calls (current low-level API)
+```java
+// GET
+String json = client.getHttpClient().call("GET",
+    ApiPath.builder("/pages/{id}").pathParam("id", pageId).build(),
+    String.class);
+
+// POST with body
+Map<String, Object> body = Map.of("query", "search term");
+String json = client.getHttpClient().call("POST",
+    ApiPath.from("/search"), body, String.class);
+
+// PATCH
+Map<String, Object> update = Map.of("properties", Map.of(...));
+String json = client.getHttpClient().call("PATCH",
+    ApiPath.builder("/pages/{id}").pathParam("id", pageId).build(),
+    update, String.class);
+```
+
+### Handle errors
+```java
+try {
+    client.getHttpClient().call("GET", path, String.class);
+} catch (NotFoundException e) {
+    // 404 -- resource not found or not shared with integration
+} catch (TooManyRequestsException e) {
+    // 429 -- rate limited, retry after backoff
+} catch (ValidationException e) {
+    // 400 -- invalid request
+} catch (NotionApiException e) {
+    // any other Notion API error
+    // e.getStatus(), e.getCode(), e.getMessage(), e.getRequestId()
+} catch (UncheckedIOException e) {
+    // network-level failure
+}
+```
+
+### Exception hierarchy
+- NotionApiException (base)
+  - ValidationException (400)
+  - UnauthorizedException (401)
+  - ForbiddenException (403)
+  - NotFoundException (404)
+  - ConflictException (409)
+  - TooManyRequestsException (429)
+  - InternalServerException (500)
+  - BadGatewayException (502)
+  - ServiceUnavailableException (503)
+  - GatewayTimeoutException (504)
+
+### Builder options
+| Option | Default | Description |
+|---|---|---|
+| authToken(String) | required | Notion integration token |
+| version(String) | "2026-03-11" | Notion-Version header |
+| baseUrl(String) | "https://api.notion.com/v1" | API base URL |
+| rawHttpClient(HttpClient) | OkHttp, 30s timeouts | Custom HTTP transport |
+| jsonSerializer(JsonSerializer) | JacksonSerializer.withDefaults() | Custom serializer |
+| exchangeLogging(Path) | disabled | Write exchanges to disk |
+
+### Key classes
+- `NotionClient` -- entry point (forToken, builder)
+- `NotionClientBuilder` -- fluent configuration
+- `NotionHttpClient` -- typed HTTP client interface
+- `ApiPath` -- URL template with path/query params
+- `HttpClient` -- transport interface (HttpRequest, HttpResponse, Body types)
+- `HttpClientInterceptor` -- beforeSend/afterReceive hooks
+- `JsonSerializer` -- toJson/toObject interface
+- `JacksonSerializer` -- Jackson implementation (withDefaults, pretty)
+- `Block` -- base class for 30+ block subtypes
+- `RichText` -- structured text with annotations
+- `User`, `Person` -- user models
+- `NotionApiException` -- base error with status, code, message, requestId
+
+### Package structure
+- `io.kristixlab.notion.api` -- NotionClient, NotionClientBuilder
+- `io.kristixlab.notion.api.auth` -- token providers, auth interceptor
+- `io.kristixlab.notion.api.http` -- Notion HTTP client, version interceptor
+- `io.kristixlab.notion.api.http.base.client` -- HttpClient, ApiClient, OkHttp3Client
+- `io.kristixlab.notion.api.http.base.config` -- ApiClientConfig, ConfigKey
+- `io.kristixlab.notion.api.http.base.interceptor` -- interceptor interface, logging, recording
+- `io.kristixlab.notion.api.http.base.json` -- JsonSerializer, JacksonSerializer
+- `io.kristixlab.notion.api.http.base.request` -- ApiPath
+- `io.kristixlab.notion.api.http.error` -- NotionApiException hierarchy
+- `io.kristixlab.notion.api.model` -- BaseNotionObject, NotionError
+- `io.kristixlab.notion.api.model.blocks` -- Block + 30 subtypes
+- `io.kristixlab.notion.api.model.common` -- RichText, Parent, Icon, FileData
+- `io.kristixlab.notion.api.model.page` -- PageRequest
+- `io.kristixlab.notion.api.model.users` -- User, Person
