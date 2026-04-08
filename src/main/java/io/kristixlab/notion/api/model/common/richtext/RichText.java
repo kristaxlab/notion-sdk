@@ -66,43 +66,48 @@ public class RichText {
 
   public static class Builder {
     private List<RichText> richTexts = new ArrayList<>();
-    private RichText currentRichText;
 
     private Builder() {}
 
     public List<RichText> buildList() {
-      List<RichText> readyRichTexts = new ArrayList<>(richTexts);
-      readyRichTexts.add(currentRichText);
-      richTexts = null;
-      return readyRichTexts;
+      return new ArrayList<>(richTexts);
     }
 
     public RichText build() {
-      RichText readyRichText = currentRichText;
-      return readyRichText;
+      if (richTexts.isEmpty()) {
+        throw new IllegalStateException("There is no rich text item defined in the builder");
+      }
+      if (richTexts.size() > 1) {
+        throw new IllegalStateException(
+            "The builder contains more than one rich text item, use buildList() instead");
+      }
+      return richTexts.get(0);
     }
 
-    private RichText another() {
-      if (currentRichText != null) {
-        richTexts.add(currentRichText);
+    private RichText newRichText() {
+      RichText newRichText = new RichText();
+      richTexts.add(newRichText);
+      return newRichText;
+    }
+
+    private RichText getLast() {
+      if (richTexts.isEmpty()) {
+        throw new IllegalStateException(
+            "There is no rich text item defined in the builder, start with text(), url(), etc.");
       }
-      currentRichText = new RichText();
-      return currentRichText;
+      return richTexts.get(richTexts.size() - 1);
     }
 
     private Annotations currentStyle() {
-      if (currentRichText == null) {
-        throw new IllegalStateException(
-            "No current rich text segment, start with text(), url(), etc.");
+      RichText last = getLast();
+      if (last.getAnnotations() == null) {
+        last.setAnnotations(new Annotations());
       }
-      if (currentRichText.getAnnotations() == null) {
-        currentRichText.setAnnotations(new Annotations());
-      }
-      return currentRichText.getAnnotations();
+      return last.getAnnotations();
     }
 
     public Builder text(String plainText) {
-      RichText rt = another();
+      RichText rt = newRichText();
       rt.setPlainText(plainText);
       rt.setType(RichTextType.TEXT.getValue());
 
@@ -114,7 +119,7 @@ public class RichText {
     }
 
     public Builder expression(String expression) {
-      RichText rt = another();
+      RichText rt = newRichText();
       rt.setPlainText(expression);
       rt.setType(RichTextType.EQUATION.getValue());
       rt.setEquation(Equation.of(expression));
@@ -122,7 +127,7 @@ public class RichText {
     }
 
     public Builder url(String url) {
-      RichText rt = another();
+      RichText rt = newRichText();
       rt.setPlainText(url);
       rt.setHref(url);
       rt.setType(RichTextType.TEXT.getValue());
@@ -147,7 +152,7 @@ public class RichText {
     }
 
     public Builder dateMention(String dateFrom, String dateTo, String timeZone) {
-      RichText rt = another();
+      RichText rt = newRichText();
       rt.setType(RichTextType.MENTION.getValue());
 
       Mention mentionObj = new Mention();
@@ -166,7 +171,7 @@ public class RichText {
     }
 
     public Builder userMention(String userId) {
-      RichText rt = another();
+      RichText rt = newRichText();
       rt.setType(RichTextType.MENTION.getValue());
 
       Mention mentionObj = new Mention();
@@ -180,7 +185,7 @@ public class RichText {
     }
 
     public Builder blockMention(String id) {
-      RichText rt = another();
+      RichText rt = newRichText();
       rt.setType(RichTextType.MENTION.getValue());
       Mention mentionObj = new Mention();
       rt.setMention(mentionObj);
@@ -194,7 +199,7 @@ public class RichText {
     }
 
     public Builder customEmoji(String id) {
-      RichText rt = another();
+      RichText rt = newRichText();
       rt.setType(RichTextType.MENTION.getValue());
       Mention mentionObj = new Mention();
       mentionObj.setType(MentionType.CUSTOM_EMOJI.getValue());
