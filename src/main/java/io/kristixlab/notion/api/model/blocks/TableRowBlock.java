@@ -10,12 +10,12 @@ import lombok.Setter;
 /**
  * A Notion table row block.
  *
- * <p>Typically constructed inline via {@link TableBlock.TableRowListBuilder#row(Consumer)}. For
- * standalone use:
+ * <p>Typically constructed via {@link TableBlock.Builder#children(Consumer)}. For standalone use:
  *
  * <pre>{@code
  * TableRowBlock row = TableRowBlock.builder()
- *     .cells(c -> c.cell("Monday").cell("Tuesday").cell("Wednesday"))
+ *     .row()
+ *     .cell("Monday").cell("Tuesday").cell("Wednesday")
  *     .build();
  * }</pre>
  */
@@ -30,6 +30,7 @@ public class TableRowBlock extends Block {
     tableRow = new TableRow();
   }
 
+  /** The inner content object of a table row block. */
   @Getter
   @Setter
   public static class TableRow {
@@ -39,19 +40,31 @@ public class TableRowBlock extends Block {
   }
 
   /**
-   * Fluent builder for constructing a single {@link TableRowBlock} or a list of {@link
-   * TableRowBlock}s.
+   * Returns a new builder for constructing a single {@link TableRowBlock} or a list of rows.
+   *
+   * @return a new builder
    */
   public static Builder builder() {
     return new Builder();
   }
 
+  /**
+   * Builder for constructing one or more {@link TableRowBlock} instances.
+   *
+   * <p>Call {@link #build()} when exactly one row has been defined, or {@link #buildList()} to
+   * retrieve all accumulated rows.
+   */
   public static class Builder {
 
     private final List<TableRowBlock> rows = new ArrayList<>();
 
     private Builder() {}
 
+    /**
+     * Starts a new row. Subsequent {@link #cell} calls add cells to this row.
+     *
+     * @return this builder
+     */
     public Builder row() {
       rows.add(new TableRowBlock());
       return this;
@@ -88,6 +101,12 @@ public class TableRowBlock extends Block {
       return row.getTableRow().getCells();
     }
 
+    /**
+     * Builds a single {@link TableRowBlock}. Use this when exactly one row has been defined.
+     *
+     * @return the single row block
+     * @throws IllegalStateException if no rows have been defined, or more than one row exists
+     */
     public TableRowBlock build() {
       if (rows.isEmpty()) {
         throw new IllegalStateException("There is no row defined in the builder");
@@ -99,6 +118,11 @@ public class TableRowBlock extends Block {
       return rows.get(0);
     }
 
+    /**
+     * Builds the list of all accumulated {@link TableRowBlock} instances.
+     *
+     * @return a new list containing all rows
+     */
     public List<TableRowBlock> buildList() {
       return new ArrayList<>(rows);
     }

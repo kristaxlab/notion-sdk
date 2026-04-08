@@ -42,18 +42,26 @@ public class CalloutBlock extends Block {
   /**
    * Returns a new builder for constructing a {@link CalloutBlock} with rich text formatting, custom
    * icon, block-level color, and/or nested children.
+   *
+   * @return a new builder
    */
   public static Builder builder() {
     return new Builder();
   }
 
+  /** Builder for {@link CalloutBlock}. */
   public static class Builder extends BlockWithChildren.Builder<Builder, CalloutBlock> {
 
     private Icon icon;
 
     private Builder() {}
 
-    /** Sets the callout icon to an emoji character. */
+    /**
+     * Sets the callout icon to an emoji character.
+     *
+     * @param emoji the emoji string (e.g., {@code "💡"})
+     * @return this builder
+     */
     public Builder emoji(String emoji) {
       Icon emojiIcon = new Icon();
       emojiIcon.setType("emoji");
@@ -62,7 +70,12 @@ public class CalloutBlock extends Block {
       return self();
     }
 
-    /** Sets the callout icon directly. */
+    /**
+     * Sets the callout icon directly.
+     *
+     * @param icon the icon to display
+     * @return this builder
+     */
     public Builder icon(Icon icon) {
       this.icon = icon;
       return self();
@@ -79,6 +92,7 @@ public class CalloutBlock extends Block {
     }
   }
 
+  /** The inner content object of a callout block. */
   @Getter
   @Setter
   public static class Callout extends BlockWithChildren {

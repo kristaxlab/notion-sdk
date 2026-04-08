@@ -21,6 +21,12 @@ public class BulletedListItemBlock extends Block {
     bulletedListItem = new BulletedListItem();
   }
 
+  /**
+   * Creates a bulleted list item block with plain text content.
+   *
+   * @param text the list item text
+   * @return a new BulletedListItemBlock
+   */
   public static BulletedListItemBlock of(String text) {
     BulletedListItemBlock block = new BulletedListItemBlock();
     block.getBulletedListItem().setRichText(RichText.of(text));
@@ -30,11 +36,14 @@ public class BulletedListItemBlock extends Block {
   /**
    * Returns a new builder for constructing a {@link BulletedListItemBlock} with rich text
    * formatting, block-level color, and/or nested children.
+   *
+   * @return a new builder
    */
   public static Builder builder() {
     return new Builder();
   }
 
+  /** Builder for {@link BulletedListItemBlock}. */
   public static class Builder extends BlockWithChildren.Builder<Builder, BulletedListItemBlock> {
 
     private Builder() {}
@@ -47,6 +56,7 @@ public class BulletedListItemBlock extends Block {
     }
   }
 
+  /** The inner content object of a bulleted list item block. */
   @Getter
   @Setter
   public static class BulletedListItem extends BlockWithChildren {}

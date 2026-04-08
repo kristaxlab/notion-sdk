@@ -14,12 +14,11 @@ import lombok.Setter;
  * or other structured content. This class serves as the base for all specific block types and
  * provides common properties and functionality.
  *
- * <p>The class uses Jackson annotations for JSON serialization/deserialization and includes type
- * information to properly deserialize to specific block subtypes based on the 'type' field.
+ * <p>The class uses Jackson {@code @JsonTypeInfo} for polymorphic deserialization, resolving each
+ * JSON object to the concrete block subtype based on the {@code type} field. Unrecognized types
+ * fall back to {@link UnknownBlock}.
  *
- * @author KristaxLab
  * @see NotionObject
- * @since 1.0
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonTypeInfo(
@@ -68,9 +67,12 @@ import lombok.Setter;
 @Setter
 public class Block extends NotionObject {
 
-  /** The type of the block (e.g., "paragraph", "heading_1", "image", etc.) */
+  /**
+   * The block type identifier (e.g., {@code "paragraph"}, {@code "heading_1"}, {@code "image"}).
+   */
   private String type;
 
+  /** Whether this block has nested child blocks. */
   private Boolean hasChildren;
 
   /**
