@@ -283,8 +283,8 @@ public class BlocksBuilder {
     return this;
   }
 
-  public BlocksBuilder audio(FileData ausioData) {
-    blocks.add(AudioBlock.of(ausioData));
+  public BlocksBuilder audio(FileData audioData) {
+    blocks.add(AudioBlock.of(audioData));
     return this;
   }
 
@@ -416,6 +416,6 @@ public class BlocksBuilder {
 
   public BlocksBuilder tableOfContents(String color) {
     blocks.add(TableOfContentsBlock.of(Color.fromValue(color)));
-    return tableOfContents(Color.fromValue(color));
+    return this;
   }
 }

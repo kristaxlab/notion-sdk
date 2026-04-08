@@ -3,7 +3,10 @@ package io.kristixlab.notion.api.model.blocks;
 import lombok.Getter;
 import lombok.Setter;
 
-/** TODO looks like it only can return in response but is not allowed in request */
+/**
+ * Readonly block object for child page block. Can only return in response from Notion API and is
+ * not allowed in request
+ */
 @Getter
 @Setter
 public class ChildPageBlock extends Block {

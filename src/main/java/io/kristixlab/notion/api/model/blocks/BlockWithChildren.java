@@ -3,6 +3,7 @@ package io.kristixlab.notion.api.model.blocks;
 import io.kristixlab.notion.api.model.common.Color;
 import io.kristixlab.notion.api.model.common.richtext.RichText;
 import io.kristixlab.notion.api.model.helper.BlocksBuilder;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 import lombok.Getter;
@@ -108,7 +109,7 @@ public class BlockWithChildren {
 
     /** Sets the child blocks directly. */
     public B children(List<Block> children) {
-      this.childBlocks = children;
+      getChildren().addAll(children);
       return self();
     }
 
@@ -119,8 +120,15 @@ public class BlockWithChildren {
       }
       BlocksBuilder builder = BlocksBuilder.of();
       childrenBuilder.accept(builder);
-      this.childBlocks = builder.build();
+      getChildren().addAll(builder.build());
       return self();
+    }
+
+    private List<Block> getChildren() {
+      if (childBlocks == null) {
+        childBlocks = new ArrayList<>();
+      }
+      return childBlocks;
     }
 
     public B bold() {
