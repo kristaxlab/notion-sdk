@@ -85,7 +85,7 @@ public class BlocksBuilder {
    * @return an unmodifiable list of blocks
    */
   public List<Block> build() {
-    return List.copyOf(blocks);
+    return new ArrayList<>(blocks);
   }
 
   // Paragraph
@@ -367,6 +367,24 @@ public class BlocksBuilder {
 
   public BlocksBuilder tableOfContents() {
     blocks.add(TableOfContentsBlock.of());
+    return this;
+  }
+
+  public BlocksBuilder table(int tableWidth, boolean hasColumnHeader, boolean hasRowHeader) {
+    TableBlock block =
+        TableBlock.builder()
+            .tableWidth(tableWidth)
+            .hasColumnHeader(hasColumnHeader)
+            .hasRowHeader(hasRowHeader)
+            .build();
+    blocks.add(block);
+    return this;
+  }
+
+  public BlocksBuilder table(Consumer<TableBlock.Builder> consumer) {
+    TableBlock.Builder builder = TableBlock.builder();
+    consumer.accept(builder);
+    blocks.add(builder.build());
     return this;
   }
 
