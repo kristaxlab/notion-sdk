@@ -1,23 +1,11 @@
 package io.kristixlab.notion.api.model.blocks;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 import lombok.Getter;
 import lombok.Setter;
 
-/**
- * A Notion table block.
- *
- * <pre>{@code
- * TableBlock table = TableBlock.builder()
- *     .tableWidth(3)
- *     .hasColumnHeader(true)
- *     .children(rows -> rows
- *         .row(c -> c.cell("Mon").cell("Tue").cell("Wed"))
- *         .row(c -> c.cell("gym").cell("run").cell("bike")))
- *     .build();
- * }</pre>
- */
 @Getter
 @Setter
 public class TableBlock extends Block {
@@ -73,13 +61,20 @@ public class TableBlock extends Block {
     public Builder children(Consumer<TableRowBlock.Builder> rowsConsumer) {
       TableRowBlock.Builder builder = TableRowBlock.builder();
       rowsConsumer.accept(builder);
-      tableBlock.getTable().setChildren(builder.buildList());
+      getChildren().addAll(builder.buildList());
       return this;
     }
 
     public Builder children(List<TableRowBlock> rows) {
-      tableBlock.getTable().setChildren(rows);
+      getChildren().addAll(rows);
       return this;
+    }
+
+    private List<TableRowBlock> getChildren() {
+      if (tableBlock.getTable().getChildren() == null) {
+        tableBlock.getTable().setChildren(new ArrayList<>());
+      }
+      return tableBlock.getTable().getChildren();
     }
 
     public TableBlock build() {

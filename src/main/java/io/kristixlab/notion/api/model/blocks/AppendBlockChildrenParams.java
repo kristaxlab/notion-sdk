@@ -46,19 +46,7 @@ public class AppendBlockChildrenParams {
    */
   public static AppendBlockChildrenParams of(List<Block> children) {
     AppendBlockChildrenParams params = new AppendBlockChildrenParams();
-    params.setChildren(List.copyOf(children));
-    return params;
-  }
-
-  /**
-   * Creates params with multiple child blocks and no position.
-   *
-   * @param children the blocks to append
-   * @return params ready for use
-   */
-  public static AppendBlockChildrenParams of(Block... children) {
-    AppendBlockChildrenParams params = new AppendBlockChildrenParams();
-    params.setChildren(List.of(children));
+    params.setChildren(new ArrayList<>(children));
     return params;
   }
 
@@ -85,7 +73,8 @@ public class AppendBlockChildrenParams {
      * @return this builder
      */
     public Builder children(Block child) {
-      return children(new ArrayList<>(List.of(child)));
+      this.children.add(child);
+      return this;
     }
 
     /**
@@ -95,7 +84,7 @@ public class AppendBlockChildrenParams {
      * @return this builder
      */
     public Builder children(List<Block> children) {
-      this.children = children;
+      this.children.addAll(children);
       return this;
     }
 

@@ -26,6 +26,8 @@ Key principles:
   enables the retrieve → modify → update workflow that SDK users expect.
 - **Endpoint overloads** should accept the most natural type directly (e.g., `Block`, `List<Block>`)
   so users rarely need to construct params objects at all.
+- prefer new ArrayList<>() and new HashMap<>() over fluent builders for immutable collections where immutability is not
+  explicitly requested.
 
 ## Code Quality
 
