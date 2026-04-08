@@ -42,6 +42,33 @@ public class SyncedBlock extends Block {
     syncedBlock = new Synced();
   }
 
+  /** Represents the inner content object of a synced block. */
+  @Getter
+  @Setter
+  public static class Synced {
+
+    /**
+     * For original blocks this is {@code null}. For copies it identifies the original block. Always
+     * included to avoid VALIDATION_ERROR from Notion API.
+     */
+    @JsonInclude(JsonInclude.Include.ALWAYS)
+    private SyncedFrom syncedFrom;
+
+    /** The content blocks. Populated only on original blocks; {@code null} on copies. */
+    private List<Block> children;
+  }
+
+  /** Identifies the original block that a synced copy references. */
+  @Getter
+  @Setter
+  public static class SyncedFrom {
+
+    private String type;
+
+    /** The ID of the original synced block. */
+    private String blockId;
+  }
+
   /**
    * Creates an original synced block whose content is defined by a {@link BlocksBuilder} consumer.
    * The {@code synced_from} field is left {@code null}, as required by the Notion API for original
@@ -86,6 +113,12 @@ public class SyncedBlock extends Block {
 
     private Builder() {}
 
+    /**
+     * Adds child blocks from a pre-built list, making this block an <em>original</em>.
+     *
+     * @param children the child blocks to add
+     * @return this builder
+     */
     public Builder children(List<Block> children) {
       getChildren().addAll(children);
       return this;
@@ -141,32 +174,5 @@ public class SyncedBlock extends Block {
       }
       return block;
     }
-  }
-
-  /** Represents the inner content object of a synced block. */
-  @Getter
-  @Setter
-  public static class Synced {
-
-    /**
-     * For original blocks this is {@code null}. For copies it identifies the original block.Always
-     * included to avoid VALIDATION_ERROR from Notion API
-     */
-    @JsonInclude(JsonInclude.Include.ALWAYS)
-    private SyncedFrom syncedFrom;
-
-    /** The content blocks. Populated only on original blocks; {@code null} on copies. */
-    private List<Block> children;
-  }
-
-  /** Identifies the original block that a synced copy references. */
-  @Getter
-  @Setter
-  public static class SyncedFrom {
-
-    private String type;
-
-    /** The ID of the original synced block. */
-    private String blockId;
   }
 }
