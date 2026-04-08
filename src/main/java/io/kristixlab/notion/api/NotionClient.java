@@ -1,6 +1,8 @@
 package io.kristixlab.notion.api;
 
+import io.kristixlab.notion.api.endpoints.FileUploadsEndpoint;
 import io.kristixlab.notion.api.endpoints.UsersEndpoint;
+import io.kristixlab.notion.api.endpoints.impl.FileUploadsEndpointImpl;
 import io.kristixlab.notion.api.endpoints.impl.UsersEndpointImpl;
 import io.kristixlab.notion.api.http.NotionHttpClient;
 import io.kristixlab.notion.api.http.base.client.*;
@@ -11,9 +13,12 @@ public class NotionClient {
 
   private UsersEndpoint usersEndpoint;
 
+  private FileUploadsEndpoint fileUploadsEndpoint;
+
   NotionClient(NotionHttpClient httpClient) {
     this.httpClient = httpClient;
     this.usersEndpoint = new UsersEndpointImpl(httpClient);
+    this.fileUploadsEndpoint = new FileUploadsEndpointImpl(httpClient);
   }
 
   public NotionHttpClient getHttpClient() {
@@ -22,6 +27,10 @@ public class NotionClient {
 
   public UsersEndpoint users() {
     return usersEndpoint;
+  }
+
+  public FileUploadsEndpoint fileUploads() {
+    return fileUploadsEndpoint;
   }
 
   /**
