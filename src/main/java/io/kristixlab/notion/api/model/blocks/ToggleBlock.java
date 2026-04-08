@@ -21,6 +21,12 @@ public class ToggleBlock extends Block {
     toggle = new Toggle();
   }
 
+  /**
+   * Creates a toggle block with plain text content.
+   *
+   * @param text the toggle label text
+   * @return a new ToggleBlock
+   */
   public static ToggleBlock of(String text) {
     ToggleBlock block = new ToggleBlock();
     block.getToggle().setRichText(RichText.of(text));
@@ -30,15 +36,19 @@ public class ToggleBlock extends Block {
   /**
    * Returns a new builder for constructing a {@link ToggleBlock} with rich text formatting,
    * block-level color, and/or nested children.
+   *
+   * @return a new builder
    */
   public static Builder builder() {
     return new Builder();
   }
 
+  /** The inner content object of a toggle block. */
   @Getter
   @Setter
   public static class Toggle extends BlockWithChildren {}
 
+  /** Builder for {@link ToggleBlock}. */
   public static class Builder extends BlockWithChildren.Builder<Builder, ToggleBlock> {
 
     private Builder() {}
