@@ -41,6 +41,11 @@ public class ToDoBlock extends Block {
 
     private Builder() {}
 
+    /** Sets the checked state of the to-do item to true. */
+    public Builder checked() {
+      return checked(true);
+    }
+
     /** Sets the checked state of the to-do item. */
     public Builder checked(boolean checked) {
       this.checked = checked;

@@ -1,5 +1,6 @@
 package io.kristixlab.notion.api.model.blocks;
 
+import io.kristixlab.notion.api.model.common.Color;
 import io.kristixlab.notion.api.model.common.richtext.RichText;
 import io.kristixlab.notion.api.model.helper.BlocksBuilder;
 import java.util.List;
@@ -67,6 +68,14 @@ public class BlockWithChildren {
      * correct block type.
      */
     public abstract R build();
+
+    /** Sets the block-level color (background or foreground for the entire block). */
+    public B color(Color color) {
+      if (color == null) {
+        throw new IllegalArgumentException("Color cannot be null");
+      }
+      return color(color.getValue());
+    }
 
     /** Sets the block-level color (background or foreground for the entire block). */
     public B color(String color) {

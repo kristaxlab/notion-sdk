@@ -1,6 +1,5 @@
 package io.kristixlab.notion.api.model.blocks;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 import lombok.Getter;
@@ -71,11 +70,10 @@ public class TableBlock extends Block {
       return this;
     }
 
-    /** Sets rows using a {@link TableRowListBuilder} lambda. */
-    public Builder children(Consumer<TableRowListBuilder> rowsConsumer) {
-      TableRowListBuilder builder = new TableRowListBuilder();
+    public Builder children(Consumer<TableRowBlock.Builder> rowsConsumer) {
+      TableRowBlock.Builder builder = TableRowBlock.builder();
       rowsConsumer.accept(builder);
-      tableBlock.getTable().setChildren(builder.build());
+      tableBlock.getTable().setChildren(builder.buildList());
       return this;
     }
 
@@ -86,30 +84,6 @@ public class TableBlock extends Block {
 
     public TableBlock build() {
       return tableBlock;
-    }
-  }
-
-  /** Fluent builder for accumulating rows of a {@link TableBlock}. */
-  public static class TableRowListBuilder {
-
-    private final List<TableRowBlock> rows = new ArrayList<>();
-
-    private TableRowListBuilder() {}
-
-    /** Adds a row defined by its cells inline. */
-    public TableRowListBuilder row(Consumer<TableRowBlock.CellsBuilder> cellsConsumer) {
-      rows.add(TableRowBlock.builder().cells(cellsConsumer).build());
-      return this;
-    }
-
-    /** Adds a pre-built row. */
-    public TableRowListBuilder add(TableRowBlock row) {
-      rows.add(row);
-      return this;
-    }
-
-    public List<TableRowBlock> build() {
-      return List.copyOf(rows);
     }
   }
 }
