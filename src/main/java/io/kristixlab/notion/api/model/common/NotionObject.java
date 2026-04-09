@@ -17,6 +17,9 @@ import lombok.Setter;
     visible = true)
 @JsonSubTypes({
   @JsonSubTypes.Type(value = Page.class, name = "page"),
+  // @JsonSubTypes.Type(value = Database.class, name = "database"),
+  // @JsonSubTypes.Type(value = DataSource.class, name = "data_source"),
+  // @JsonSubTypes.Type(value = Comment.class, name = "comment"),
   @JsonSubTypes.Type(value = FileUpload.class, name = "file_upload"),
   @JsonSubTypes.Type(value = Block.class, name = "block")
 })
@@ -33,8 +36,10 @@ public class NotionObject extends BaseNotionObject {
 
   private String lastEditedTime;
 
+  /* TODO missing for Databases */
   private User createdBy;
 
+  /* TODO missing for Databases? */
   /** Always null for Comments, Databases, File Uploads */
   private User lastEditedBy;
 
