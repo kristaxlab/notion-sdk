@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import integration.helper.IntegrationTestAssisstant;
 import io.kristixlab.notion.api.http.error.ValidationException;
-import io.kristixlab.notion.api.model.blocks.*;
+import io.kristixlab.notion.api.model.block.*;
 import io.kristixlab.notion.api.model.common.*;
 import io.kristixlab.notion.api.model.common.richtext.RichText;
 import io.kristixlab.notion.api.model.helper.BlocksBuilder;

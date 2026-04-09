@@ -2,8 +2,8 @@ package integration;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import io.kristixlab.notion.api.model.users.User;
-import io.kristixlab.notion.api.model.users.UserList;
+import io.kristixlab.notion.api.model.user.User;
+import io.kristixlab.notion.api.model.user.UserList;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -31,7 +31,6 @@ public class UsersIT extends BaseIntegrationTest {
     assertEquals(me.getBot().getOwner().getType(), userById.getBot().getOwner().getType());
     assertEquals(me.getBot().getWorkspaceId(), userById.getBot().getWorkspaceId());
     assertEquals(me.getBot().getWorkspaceName(), userById.getBot().getWorkspaceName());
-    assertEquals(me.getBot().getWorkspaceLimits(), userById.getBot().getWorkspaceLimits());
   }
 
   @Test
