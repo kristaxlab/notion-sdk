@@ -1,8 +1,10 @@
 package io.kristixlab.notion.api.model.users;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 public class WorkspaceLimits {
 
   private Long maxFileUploadSizeInBytes;
