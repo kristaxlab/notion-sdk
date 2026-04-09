@@ -1,6 +1,6 @@
 package io.kristixlab.notion.api.model.helper;
 
-import io.kristixlab.notion.api.model.blocks.*;
+import io.kristixlab.notion.api.model.block.*;
 import io.kristixlab.notion.api.model.common.Color;
 import io.kristixlab.notion.api.model.common.FileData;
 import java.util.ArrayList;
