@@ -5,8 +5,8 @@ import static io.kristixlab.notion.api.endpoints.util.Validator.*;
 import io.kristixlab.notion.api.endpoints.UsersEndpoint;
 import io.kristixlab.notion.api.http.base.client.ApiClient;
 import io.kristixlab.notion.api.http.base.request.ApiPath;
-import io.kristixlab.notion.api.model.users.User;
-import io.kristixlab.notion.api.model.users.UserList;
+import io.kristixlab.notion.api.model.user.User;
+import io.kristixlab.notion.api.model.user.UserList;
 
 /** Provides access to Notion user resources for retrieving individual users and user listings. */
 public class UsersEndpointImpl extends BaseEndpointImpl implements UsersEndpoint {

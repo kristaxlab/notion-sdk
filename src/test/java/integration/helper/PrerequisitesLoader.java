@@ -1,13 +1,13 @@
 package integration.helper;
 
 import io.kristixlab.notion.api.NotionClient;
-import io.kristixlab.notion.api.model.blocks.Block;
-import io.kristixlab.notion.api.model.blocks.BlockList;
+import io.kristixlab.notion.api.model.block.Block;
+import io.kristixlab.notion.api.model.block.BlockList;
 import io.kristixlab.notion.api.model.file.FileUpload;
 import io.kristixlab.notion.api.model.file.FileUploadCreateParams;
 import io.kristixlab.notion.api.model.file.FileUploadList;
 import io.kristixlab.notion.api.model.file.FileUploadSendParams;
-import io.kristixlab.notion.api.model.users.User;
+import io.kristixlab.notion.api.model.user.User;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;

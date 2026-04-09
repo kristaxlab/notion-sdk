@@ -1,6 +1,6 @@
 package io.kristixlab.notion.api.model.page;
 
-import io.kristixlab.notion.api.model.blocks.Block;
+import io.kristixlab.notion.api.model.block.Block;
 import io.kristixlab.notion.api.model.common.*;
 import io.kristixlab.notion.api.model.helper.BlocksBuilder;
 import io.kristixlab.notion.api.model.page.property.*;

@@ -1,7 +1,7 @@
 package io.kristixlab.notion.api.endpoints;
 
-import io.kristixlab.notion.api.model.users.User;
-import io.kristixlab.notion.api.model.users.UserList;
+import io.kristixlab.notion.api.model.user.User;
+import io.kristixlab.notion.api.model.user.UserList;
 
 /**
  * Defines operations for reading users from the Notion API.

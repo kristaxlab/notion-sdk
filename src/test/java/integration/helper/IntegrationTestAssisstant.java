@@ -3,7 +3,7 @@ package integration.helper;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import io.kristixlab.notion.api.NotionClient;
-import io.kristixlab.notion.api.model.blocks.BlockList;
+import io.kristixlab.notion.api.model.block.BlockList;
 import io.kristixlab.notion.api.model.common.Parent;
 import io.kristixlab.notion.api.model.page.CreatePageParams;
 import io.kristixlab.notion.api.model.page.property.TitleProperty;

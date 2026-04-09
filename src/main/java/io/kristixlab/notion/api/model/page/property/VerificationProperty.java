@@ -1,7 +1,7 @@
 package io.kristixlab.notion.api.model.page.property;
 
 import io.kristixlab.notion.api.model.common.DateData;
-import io.kristixlab.notion.api.model.users.User;
+import io.kristixlab.notion.api.model.user.User;
 import lombok.Getter;
 import lombok.Setter;
 

@@ -1,7 +1,7 @@
 package io.kristixlab.notion.api.model.common.richtext;
 
 import io.kristixlab.notion.api.model.common.*;
-import io.kristixlab.notion.api.model.users.User;
+import io.kristixlab.notion.api.model.user.User;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.Getter;
