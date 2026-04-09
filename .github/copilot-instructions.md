@@ -75,6 +75,8 @@ Key principles for builders:
   common for users to want to build a single instance and wrap it in a list.
   In such cases, builders should provide both `build()` (returns the single instance) and `buildList()` (returns a list
   containing the single instance).
+- **build() and buildList()** should always return new instances (never cached or static instances) to avoid unintended
+  side effects from mutability.
 - **Exceptional cases** Sometimes builder methods should implement additional methods to support the most common use
   cases. For example, `ParagraphBlock.Builder` has a `text(String)` method that is a shortcut for setting a single text
   item in the content list even though the underlying model is `List<RichText>`. This is an example of a builder method
