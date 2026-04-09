@@ -84,6 +84,36 @@ Key principles for builders:
   case. We should assess such cases for every builder method and implement them when they significantly improve the
   developer experience without introducing confusion.
 
+### Builder API Design
+
+When implementing a builder, think at two levels:
+
+#### 1. Structure (what you usually get right)
+- Accumulate entries in a list when the model is used as a list.
+- Provide `build()` (single entry, throws if 0 or >1) and `buildList()` (all entries).
+- Both always return new instances (defensive copy).
+
+#### 2. API / DSL (what to focus on more)
+- **Design for readability at the call site, not for structural symmetry with the model.**
+  Ask: "How would a developer naturally describe this operation in plain English?"
+  Then name the methods after that description.
+  Example: `from("old").to("new")` reads as a sentence; `update("old", "new")` reads as a constructor.
+
+- **Split multi-field entries into one method per field** so each step can be chained individually.
+  Prefer `from(x).to(y)` over `update(x, y)`.
+
+- **Prefer named intent methods over boolean parameters.**
+  Prefer `replaceAll()` / `replaceFirst()` over `replaceAllMatches(boolean)`.
+  Boolean parameters are harder to read at the call site: `.replaceAllMatches(false)` vs `.replaceFirst()`.
+
+- **Provide an explicit transition method (`and()`, `next()`, etc.) to start a new entry.**
+    - Validate the previous entry is complete before starting the next one.
+    - This makes the separator visible and self-documenting in the chain.
+
+- **Pre-initialize the builder with one entry** so the user can start setting fields immediately
+  without needing a separate "start" method.
+
+
 ## Java doc principles
 
 ### 1. Start with a summary
