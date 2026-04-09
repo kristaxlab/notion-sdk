@@ -11,8 +11,6 @@ import io.kristixlab.notion.api.model.users.UserList;
 /** Provides access to Notion user resources for retrieving individual users and user listings. */
 public class UsersEndpointImpl extends BaseEndpointImpl implements UsersEndpoint {
 
-  private static final String USER_ID = "user_id";
-
   /**
    * Creates a users endpoint backed by the provided API client.
    *
@@ -32,7 +30,7 @@ public class UsersEndpointImpl extends BaseEndpointImpl implements UsersEndpoint
   public User retrieve(String userId) {
     checkNotNullOrEmpty(userId, "userId");
 
-    ApiPath urlInfo = ApiPath.builder("/users/{user_id}").pathParam(USER_ID, userId).build();
+    ApiPath urlInfo = ApiPath.builder("/users/{user_id}").pathParam("user_id", userId).build();
     return getClient().call(GET, urlInfo, User.class);
   }
 

@@ -8,13 +8,13 @@ import io.kristixlab.notion.api.model.file.*;
  * @see <a href="https://developers.notion.com/reference/file-uploads">Notion File Uploads API</a>
  */
 public interface FileUploadsEndpoint {
-  FileUpload createFileUpload(FileUploadCreateParams request);
+  FileUpload create(FileUploadCreateParams request);
 
-  FileUpload sendFileContent(String fileUploadId, FileUploadSendParams request);
+  FileUpload upload(String fileUploadId, FileUploadSendParams request);
 
-  FileUpload completeFileUpload(String fileUploadId);
+  FileUpload complete(String fileUploadId);
 
-  FileUpload retrieveFileUpload(String fileUploadId);
+  FileUpload retrieve(String fileUploadId);
 
   FileUploadList listFileUploads();
 

@@ -26,34 +26,21 @@ public class FileUploadSendParams {
   private String contentType;
 
   /** Filename */
-  private String fileName;
+  private String filename;
 
   /** Part number of the file being uploaded. Optional */
   private Integer partNumber;
 
-  public static FileUploadSendParams of(
-      InputStream inputStream, String contentType, String fileName) {
-    FileUploadSendParams params = new FileUploadSendParams();
-    params.setInputStream(inputStream);
-    params.setContentType(contentType);
-    params.setFileName(fileName);
-    return params;
+  public static FileUploadSendParams of(InputStream inputStream, String contentType) {
+    return builder().inputStream(inputStream).contentType(contentType).build();
   }
 
-  public static FileUploadSendParams of(byte[] bytes, String contentType, String fileName) {
-    FileUploadSendParams params = new FileUploadSendParams();
-    params.setBytes(bytes);
-    params.setContentType(contentType);
-    params.setFileName(fileName);
-    return params;
+  public static FileUploadSendParams of(byte[] bytes, String contentType) {
+    return builder().bytes(bytes).contentType(contentType).build();
   }
 
-  public static FileUploadSendParams of(File file, String contentType, String fileName) {
-    FileUploadSendParams params = new FileUploadSendParams();
-    params.setFile(file);
-    params.setContentType(contentType);
-    params.setFileName(fileName);
-    return params;
+  public static FileUploadSendParams of(File file, String contentType) {
+    return builder().file(file).contentType(contentType).build();
   }
 
   public static Builder builder() {
@@ -65,7 +52,7 @@ public class FileUploadSendParams {
     private byte[] bytes;
     private File file;
     private String contentType;
-    private String fileName;
+    private String filename;
     private Integer partNumber;
 
     public Builder inputStream(InputStream inputStream) {
@@ -109,8 +96,8 @@ public class FileUploadSendParams {
       return this;
     }
 
-    public Builder fileName(String fileName) {
-      this.fileName = fileName;
+    public Builder filename(String filename) {
+      this.filename = filename;
       return this;
     }
 
@@ -119,13 +106,23 @@ public class FileUploadSendParams {
       return this;
     }
 
+    /**
+     * Builds a new {@link FileUploadSendParams} instance.
+     *
+     * @return a new params instance
+     * @throws IllegalStateException if none of inputStream, bytes, or file has been set
+     */
     public FileUploadSendParams build() {
+      if (inputStream == null && bytes == null && file == null) {
+        throw new IllegalStateException(
+            "One of inputStream, bytes, or file must be set before calling build()");
+      }
       FileUploadSendParams params = new FileUploadSendParams();
       params.setInputStream(inputStream);
       params.setBytes(bytes);
       params.setFile(file);
       params.setContentType(contentType);
-      params.setFileName(fileName);
+      params.setFilename(filename);
       params.setPartNumber(partNumber);
       return params;
     }

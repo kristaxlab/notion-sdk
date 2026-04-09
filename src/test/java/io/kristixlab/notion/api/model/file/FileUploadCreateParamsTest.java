@@ -196,18 +196,29 @@ class FileUploadCreateParamsTest {
     }
 
     @Test
-    void mutatingParamsAfterBuild_doesNotAffectBuilder() {
+    void buildReturnsNewInstanceEachCall() {
       FileUploadCreateParams.Builder builder =
           FileUploadCreateParams.builder().mode("single_part").filename("original.txt");
 
-      FileUploadCreateParams params = builder.build();
-      params.setFilename("modified.txt");
+      FileUploadCreateParams first = builder.build();
+      FileUploadCreateParams second = builder.build();
 
-      // Builder holds a reference to the same params, so build() again returns that same object.
-      // This is the current behaviour — documenting it:
-      FileUploadCreateParams secondBuild = builder.build();
-      assertSame(params, secondBuild);
-      assertEquals("modified.txt", secondBuild.getFilename());
+      assertNotSame(first, second);
+      assertEquals("original.txt", first.getFilename());
+      assertEquals("original.txt", second.getFilename());
+    }
+
+    @Test
+    void mutatingParamsAfterBuild_doesNotAffectSubsequentBuild() {
+      FileUploadCreateParams.Builder builder =
+          FileUploadCreateParams.builder().mode("single_part").filename("original.txt");
+
+      FileUploadCreateParams first = builder.build();
+      first.setFilename("modified.txt");
+
+      FileUploadCreateParams second = builder.build();
+      assertEquals("modified.txt", first.getFilename());
+      assertEquals("original.txt", second.getFilename());
     }
   }
 }

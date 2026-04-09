@@ -28,10 +28,10 @@ class FileUploadsEndpointImplTest {
   }
 
   @Test
-  void createFileUpload() {
+  void create() {
     FileUploadCreateParams request = singlePartRequest();
 
-    endpoint.createFileUpload(request);
+    endpoint.create(request);
 
     assertEquals("POST", client.getLastMethod());
     assertEquals("/file_uploads", client.getLastUrlInfo().getUrl());
@@ -39,71 +39,71 @@ class FileUploadsEndpointImplTest {
   }
 
   @Test
-  void createFileUpload_rejectsNullRequest() {
-    assertThrows(IllegalArgumentException.class, () -> endpoint.createFileUpload(null));
+  void create_rejectsNullRequest() {
+    assertThrows(IllegalArgumentException.class, () -> endpoint.create(null));
   }
 
   @ParameterizedTest
   @NullAndEmptySource
   @ValueSource(strings = {"   "})
-  void createFileUpload_rejectsBlankOrNullMode(String mode) {
+  void create_rejectsBlankOrNullMode(String mode) {
     FileUploadCreateParams request = new FileUploadCreateParams();
     request.setMode(mode);
 
-    assertThrows(IllegalArgumentException.class, () -> endpoint.createFileUpload(request));
+    assertThrows(IllegalArgumentException.class, () -> endpoint.create(request));
   }
 
   @ParameterizedTest
   @ValueSource(strings = {"invalid", "SINGLE_PART"})
-  void createFileUpload_rejectsUnknownMode(String mode) {
+  void create_rejectsUnknownMode(String mode) {
     FileUploadCreateParams request = new FileUploadCreateParams();
     request.setMode(mode);
 
-    assertThrows(IllegalArgumentException.class, () -> endpoint.createFileUpload(request));
+    assertThrows(IllegalArgumentException.class, () -> endpoint.create(request));
   }
 
   @Test
-  void createFileUpload_multiPartMode_requiresFilename() {
+  void create_multiPartMode_requiresFilename() {
     FileUploadCreateParams request = new FileUploadCreateParams();
     request.setMode("multi_part");
 
-    assertThrows(IllegalArgumentException.class, () -> endpoint.createFileUpload(request));
+    assertThrows(IllegalArgumentException.class, () -> endpoint.create(request));
   }
 
   @Test
-  void createFileUpload_externalUrlMode_requiresFilename() {
+  void create_externalUrlMode_requiresFilename() {
     FileUploadCreateParams request = new FileUploadCreateParams();
     request.setMode("external_url");
     request.setExternalUrl("https://example.com/file.pdf");
 
-    assertThrows(IllegalArgumentException.class, () -> endpoint.createFileUpload(request));
+    assertThrows(IllegalArgumentException.class, () -> endpoint.create(request));
   }
 
   @ParameterizedTest
   @ValueSource(ints = {0, -1, 1001})
-  void createFileUpload_multiPartMode_rejectsNumberOfPartsOutOfRange(int numberOfParts) {
+  void create_multiPartMode_rejectsNumberOfPartsOutOfRange(int numberOfParts) {
     FileUploadCreateParams request = new FileUploadCreateParams();
     request.setMode("multi_part");
     request.setFilename("file.pdf");
     request.setNumberOfParts(numberOfParts);
 
-    assertThrows(IllegalArgumentException.class, () -> endpoint.createFileUpload(request));
+    assertThrows(IllegalArgumentException.class, () -> endpoint.create(request));
   }
 
   @Test
-  void createFileUpload_externalUrlMode_requiresExternalUrl() {
+  void create_externalUrlMode_requiresExternalUrl() {
     FileUploadCreateParams request = new FileUploadCreateParams();
     request.setMode("external_url");
     request.setFilename("file.pdf");
 
-    assertThrows(IllegalArgumentException.class, () -> endpoint.createFileUpload(request));
+    assertThrows(IllegalArgumentException.class, () -> endpoint.create(request));
   }
 
   @Test
-  void sendFileContent() {
+  void upload() {
     FileUploadSendParams request = bytesRequest();
 
-    endpoint.sendFileContent("upload-id-1", request);
+    endpoint.upload("upload-id-1", request);
 
     assertEquals("POST", client.getLastMethod());
     assertEquals("/file_uploads/{file_upload_id}/send", client.getLastUrlInfo().getUrl());
@@ -115,10 +115,10 @@ class FileUploadsEndpointImplTest {
   void sendFileContent_withFile() {
     FileUploadSendParams request = new FileUploadSendParams();
     request.setFile(new File("file.pdf"));
-    request.setFileName("file.pdf");
+    request.setFilename("file.pdf");
     request.setContentType("application/pdf");
 
-    endpoint.sendFileContent("upload-id-1", request);
+    endpoint.upload("upload-id-1", request);
 
     assertEquals("POST", client.getLastMethod());
     assertEquals("/file_uploads/{file_upload_id}/send", client.getLastUrlInfo().getUrl());
@@ -127,13 +127,13 @@ class FileUploadsEndpointImplTest {
   }
 
   @Test
-  void sendFileContent_withInputStream() {
+  void upload_withInputStream() {
     FileUploadSendParams request = new FileUploadSendParams();
     request.setInputStream(new ByteArrayInputStream(new byte[] {1, 2, 3}));
-    request.setFileName("file.pdf");
+    request.setFilename("file.pdf");
     request.setContentType("application/pdf");
 
-    endpoint.sendFileContent("upload-id-1", request);
+    endpoint.upload("upload-id-1", request);
 
     assertEquals("POST", client.getLastMethod());
     assertEquals("/file_uploads/{file_upload_id}/send", client.getLastUrlInfo().getUrl());
@@ -142,11 +142,11 @@ class FileUploadsEndpointImplTest {
   }
 
   @Test
-  void sendFileContent_withPartNumber() {
+  void upload_withPartNumber() {
     FileUploadSendParams request = bytesRequest();
     request.setPartNumber(3);
 
-    endpoint.sendFileContent("upload-id-1", request);
+    endpoint.upload("upload-id-1", request);
 
     assertEquals("POST", client.getLastMethod());
     assertEquals("/file_uploads/{file_upload_id}/send", client.getLastUrlInfo().getUrl());
@@ -165,10 +165,10 @@ class FileUploadsEndpointImplTest {
   }
 
   @Test
-  void sendFileContent_withoutPartNumber_omitsPartNumberPart() {
+  void upload_withoutPartNumber_omitsPartNumberPart() {
     FileUploadSendParams request = bytesRequest();
 
-    endpoint.sendFileContent("upload-id-1", request);
+    endpoint.upload("upload-id-1", request);
 
     MultipartBody body = assertInstanceOf(MultipartBody.class, client.getLastBody());
     boolean hasPartNumber =
@@ -180,13 +180,12 @@ class FileUploadsEndpointImplTest {
   }
 
   @Test
-  void sendFileContent_rejectsRequestWithNoFileContent() {
+  void upload_rejectsRequestWithNoFileContent() {
     FileUploadSendParams request = new FileUploadSendParams();
-    request.setFileName("file.pdf");
+    request.setFilename("file.pdf");
     request.setContentType("application/pdf");
 
-    assertThrows(
-        IllegalArgumentException.class, () -> endpoint.sendFileContent("upload-id-1", request));
+    assertThrows(IllegalArgumentException.class, () -> endpoint.upload("upload-id-1", request));
   }
 
   @Test
@@ -195,23 +194,21 @@ class FileUploadsEndpointImplTest {
     request.setBytes(new byte[] {1});
     request.setContentType("application/pdf");
 
-    assertThrows(
-        IllegalArgumentException.class, () -> endpoint.sendFileContent("upload-id-1", request));
+    assertThrows(IllegalArgumentException.class, () -> endpoint.upload("upload-id-1", request));
   }
 
   @Test
-  void sendFileContent_rejectsNullContentType() {
+  void uploadType() {
     FileUploadSendParams request = new FileUploadSendParams();
     request.setBytes(new byte[] {1});
-    request.setFileName("file.pdf");
+    request.setFilename("file.pdf");
 
-    assertThrows(
-        IllegalArgumentException.class, () -> endpoint.sendFileContent("upload-id-1", request));
+    assertThrows(IllegalArgumentException.class, () -> endpoint.upload("upload-id-1", request));
   }
 
   @Test
-  void completeFileUpload() {
-    endpoint.completeFileUpload("upload-id-1");
+  void complete() {
+    endpoint.complete("upload-id-1");
 
     assertEquals("POST", client.getLastMethod());
     assertEquals("/file_uploads/{file_upload_id}/complete", client.getLastUrlInfo().getUrl());
@@ -221,13 +218,13 @@ class FileUploadsEndpointImplTest {
   @ParameterizedTest
   @NullAndEmptySource
   @ValueSource(strings = {"   "})
-  void completeFileUpload_rejectsBlankOrNullFileUploadId(String fileUploadId) {
-    assertThrows(IllegalArgumentException.class, () -> endpoint.completeFileUpload(fileUploadId));
+  void completeFileUpload_rejectsBlankOrNullId(String fileUploadId) {
+    assertThrows(IllegalArgumentException.class, () -> endpoint.complete(fileUploadId));
   }
 
   @Test
-  void retrieveFileUpload() {
-    endpoint.retrieveFileUpload("upload-id-1");
+  void retrieve() {
+    endpoint.retrieve("upload-id-1");
 
     assertEquals("GET", client.getLastMethod());
     assertEquals("/file_uploads/{file_upload_id}", client.getLastUrlInfo().getUrl());
@@ -237,8 +234,8 @@ class FileUploadsEndpointImplTest {
   @ParameterizedTest
   @NullAndEmptySource
   @ValueSource(strings = {"   "})
-  void retrieveFileUpload_rejectsBlankOrNullFileUploadId(String fileUploadId) {
-    assertThrows(IllegalArgumentException.class, () -> endpoint.retrieveFileUpload(fileUploadId));
+  void retrieveFileUpload_rejectsBlankOrNullId(String fileUploadId) {
+    assertThrows(IllegalArgumentException.class, () -> endpoint.retrieve(fileUploadId));
   }
 
   // ── listFileUploads ───────────────────────────────────────────────────────
@@ -316,7 +313,7 @@ class FileUploadsEndpointImplTest {
   private static FileUploadSendParams bytesRequest() {
     FileUploadSendParams request = new FileUploadSendParams();
     request.setBytes(new byte[] {1, 2, 3});
-    request.setFileName("file.pdf");
+    request.setFilename("file.pdf");
     request.setContentType("application/pdf");
     return request;
   }

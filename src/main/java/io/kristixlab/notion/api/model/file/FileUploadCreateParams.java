@@ -60,38 +60,44 @@ public class FileUploadCreateParams {
   }
 
   public static class Builder {
-    private final FileUploadCreateParams params;
-
-    public Builder() {
-      this.params = new FileUploadCreateParams();
-    }
+    private String mode;
+    private String filename;
+    private String contentType;
+    private Integer numberOfParts;
+    private String externalUrl;
 
     public Builder mode(String mode) {
-      params.setMode(mode);
+      this.mode = mode;
       return this;
     }
 
     public Builder filename(String filename) {
-      params.setFilename(filename);
+      this.filename = filename;
       return this;
     }
 
     public Builder contentType(String contentType) {
-      params.setContentType(contentType);
+      this.contentType = contentType;
       return this;
     }
 
     public Builder numberOfParts(Integer numberOfParts) {
-      params.setNumberOfParts(numberOfParts);
+      this.numberOfParts = numberOfParts;
       return this;
     }
 
     public Builder externalUrl(String externalUrl) {
-      params.setExternalUrl(externalUrl);
+      this.externalUrl = externalUrl;
       return this;
     }
 
     public FileUploadCreateParams build() {
+      FileUploadCreateParams params = new FileUploadCreateParams();
+      params.setMode(mode);
+      params.setFilename(filename);
+      params.setContentType(contentType);
+      params.setNumberOfParts(numberOfParts);
+      params.setExternalUrl(externalUrl);
       return params;
     }
   }
