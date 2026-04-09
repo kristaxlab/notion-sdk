@@ -3,10 +3,10 @@ package io.kristixlab.notion.api.model.common;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import io.kristixlab.notion.api.model.BaseNotionObject;
-import io.kristixlab.notion.api.model.blocks.Block;
+import io.kristixlab.notion.api.model.block.Block;
 import io.kristixlab.notion.api.model.file.FileUpload;
 import io.kristixlab.notion.api.model.page.Page;
-import io.kristixlab.notion.api.model.users.User;
+import io.kristixlab.notion.api.model.user.User;
 import lombok.Getter;
 import lombok.Setter;
 

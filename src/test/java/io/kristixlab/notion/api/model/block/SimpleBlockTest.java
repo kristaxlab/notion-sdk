@@ -1,4 +1,4 @@
-package io.kristixlab.notion.api.model.blocks;
+package io.kristixlab.notion.api.model.block;
 
 import static org.junit.jupiter.api.Assertions.*;
 

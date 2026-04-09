@@ -3,9 +3,9 @@ package io.kristixlab.notion.api.endpoints.impl;
 import static org.junit.jupiter.api.Assertions.*;
 
 import io.kristixlab.notion.api.http.base.client.ApiClientStub;
-import io.kristixlab.notion.api.model.blocks.AppendBlockChildrenParams;
-import io.kristixlab.notion.api.model.blocks.Block;
-import io.kristixlab.notion.api.model.blocks.BlockList;
+import io.kristixlab.notion.api.model.block.AppendBlockChildrenParams;
+import io.kristixlab.notion.api.model.block.Block;
+import io.kristixlab.notion.api.model.block.BlockList;
 import io.kristixlab.notion.api.model.common.Position;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
