@@ -3,7 +3,6 @@ package io.kristixlab.notion.api.model.page.property;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import io.kristixlab.notion.api.model.common.NotionList;
-import io.kristixlab.notion.api.model.page.property.list.ListedPageProperty;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -24,7 +23,7 @@ import lombok.Setter;
 })
 @Getter
 @Setter
-public abstract class PageProperty extends NotionList<ListedPageProperty> {
+public abstract class PageProperty extends NotionList<PageProperty> {
 
   private String id;
 
