@@ -3,6 +3,7 @@ package io.kristixlab.notion.api.model.block;
 import static org.junit.jupiter.api.Assertions.*;
 
 import io.kristixlab.notion.api.model.common.Color;
+import io.kristixlab.notion.api.model.helper.NotionBlocks;
 import org.junit.jupiter.api.Test;
 
 class ToggleBlockTest {
@@ -16,8 +17,8 @@ class ToggleBlockTest {
   }
 
   @Test
-  void of_setsRichText() {
-    ToggleBlock block = ToggleBlock.of("Click to expand");
+  void toggle_setsRichText() {
+    ToggleBlock block = NotionBlocks.toggle("Click to expand");
 
     assertEquals("toggle", block.getType());
     assertEquals(1, block.getToggle().getRichText().size());
@@ -33,7 +34,7 @@ class ToggleBlockTest {
 
   @Test
   void builder_withColor() {
-    ToggleBlock block = ToggleBlock.builder().text("Colored").color(Color.BROWN).build();
+    ToggleBlock block = ToggleBlock.builder().text("Colored").blockColor(Color.BROWN).build();
 
     assertEquals("brown", block.getToggle().getColor());
   }
@@ -43,18 +44,10 @@ class ToggleBlockTest {
     ToggleBlock block =
         ToggleBlock.builder()
             .text("Parent")
-            .children(c -> c.paragraph("Hidden content").bulletedListItem("Item"))
+            .children(c -> c.paragraph("Hidden content").bullet("Item"))
             .build();
 
     assertNotNull(block.getToggle().getChildren());
     assertEquals(2, block.getToggle().getChildren().size());
-  }
-
-  @Test
-  void builder_withAnnotations() {
-    ToggleBlock block = ToggleBlock.builder().text("Styled").bold().italic().build();
-
-    assertTrue(block.getToggle().getRichText().get(0).getAnnotations().getBold());
-    assertTrue(block.getToggle().getRichText().get(0).getAnnotations().getItalic());
   }
 }

@@ -2,7 +2,9 @@ package io.kristixlab.notion.api.model.page;
 
 import io.kristixlab.notion.api.model.block.Block;
 import io.kristixlab.notion.api.model.common.*;
-import io.kristixlab.notion.api.model.helper.BlocksBuilder;
+import io.kristixlab.notion.api.model.helper.NotionBlocks;
+import io.kristixlab.notion.api.model.helper.NotionBlocksBuilder;
+import io.kristixlab.notion.api.model.helper.NotionProperties;
 import io.kristixlab.notion.api.model.page.property.*;
 import io.kristixlab.notion.api.model.page.templates.TemplateParams;
 import java.util.*;
@@ -18,9 +20,9 @@ public class CreatePageParams {
 
   private Map<String, PageProperty> properties;
 
-  private IconParams icon;
+  private Icon icon;
 
-  private CoverParams cover;
+  private Cover cover;
 
   private List<Block> children;
 
@@ -35,7 +37,7 @@ public class CreatePageParams {
   }
 
   public static CreatePageParams of(Parent parent, String title, String markdown) {
-    return CreatePageParams.builder().parent(parent).title(title).build();
+    return CreatePageParams.builder().parent(parent).title(title).markdown(markdown).build();
   }
 
   public static Builder builder() {
@@ -47,8 +49,8 @@ public class CreatePageParams {
     private Parent parent;
     private final Map<String, PageProperty> properties = new LinkedHashMap<>();
     private List<Block> children = new ArrayList<>();
-    private IconParams icon;
-    private CoverParams cover;
+    private Icon icon;
+    private Cover cover;
     private String markdown;
     private TemplateParams templateParams;
 
@@ -70,7 +72,7 @@ public class CreatePageParams {
 
     /** Sets the title property. */
     public Builder title(String text) {
-      return property(TitleProperty.NAME, TitleProperty.of(text));
+      return property(NotionProperties.TITLE, NotionProperties.title(text));
     }
 
     /**
@@ -94,10 +96,18 @@ public class CreatePageParams {
     }
 
     /** Sets the page body blocks from a list. */
-    public Builder children(Consumer<BlocksBuilder> consumer) {
-      BlocksBuilder blocksBuilder = BlocksBuilder.of();
+    public Builder children(Consumer<NotionBlocksBuilder> consumer) {
+      NotionBlocksBuilder blocksBuilder = NotionBlocks.blocksBuilder();
       consumer.accept(blocksBuilder);
       this.children.addAll(blocksBuilder.build());
+      return this;
+    }
+
+    /** Adds page body blocks from multiple lists (e.g., from several {@code buildList()} calls). */
+    public Builder childrenAll(List<List<Block>> blocksList) {
+      for (List<Block> blocks : blocksList) {
+        this.children.addAll(new ArrayList<>(blocks));
+      }
       return this;
     }
 
@@ -112,13 +122,13 @@ public class CreatePageParams {
     }
 
     /** Sets the page icon. */
-    public Builder icon(IconParams icon) {
+    public Builder icon(Icon icon) {
       this.icon = icon;
       return this;
     }
 
     /** Sets the page cover. */
-    public Builder cover(CoverParams cover) {
+    public Builder cover(Cover cover) {
       this.cover = cover;
       return this;
     }

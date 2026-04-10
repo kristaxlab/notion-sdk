@@ -1,7 +1,10 @@
 package io.kristixlab.notion.api.model.block;
 
 import io.kristixlab.notion.api.model.common.richtext.RichText;
+import io.kristixlab.notion.api.model.helper.NotionText;
+import io.kristixlab.notion.api.model.helper.NotionTextBuilder;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
 import lombok.Getter;
@@ -10,7 +13,7 @@ import lombok.Setter;
 /**
  * A Notion table row block.
  *
- * <p>Typically constructed via {@link TableBlock.Builder#children(Consumer)}. For standalone use:
+ * <p>Typically constructed via {@link TableBlock.Builder#rows(Consumer)}. For standalone use:
  *
  * <pre>{@code
  * TableRowBlock row = TableRowBlock.builder()
@@ -70,17 +73,36 @@ public class TableRowBlock extends Block {
       return this;
     }
 
-    /** Adds a cell containing a single plain-text run. */
-    public Builder cell(String text) {
-      getLastRowCells().add(RichText.of(text));
+    /**
+     * Starts a new row pre-populated with the given plain-text cells.
+     *
+     * @param cellsContent the text content of each cell
+     * @return this builder
+     */
+    public Builder row(String... cellsContent) {
+      TableRowBlock row = new TableRowBlock();
+      for (String cellContent : cellsContent) {
+        row.getTableRow().getCells().add(NotionText.plainText(cellContent).asList());
+      }
+      rows.add(row);
       return this;
     }
 
-    /** Adds a formatted cell via a {@link RichText.Builder} consumer. */
-    public Builder cell(Consumer<RichText.Builder> richTextConsumer) {
-      RichText.Builder builder = RichText.builder();
+    /** Adds a cell containing a single plain-text run. */
+    public Builder cell(String text) {
+      getLastRowCells().add(NotionText.plainText(text).asList());
+      return this;
+    }
+
+    /** Adds a cell from a pre-built list of rich text. */
+    public Builder cell(RichText... richText) {
+      return cell(Arrays.asList(richText));
+    }
+
+    public Builder cell(Consumer<NotionTextBuilder> richTextConsumer) {
+      NotionTextBuilder builder = NotionText.textBuilder();
       richTextConsumer.accept(builder);
-      getLastRowCells().add(builder.buildList());
+      getLastRowCells().add(builder.build());
       return this;
     }
 

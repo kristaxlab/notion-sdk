@@ -2,11 +2,7 @@ package io.kristixlab.notion.api.model.block;
 
 import lombok.*;
 
-/**
- * A Notion equation block that renders a KaTeX mathematical expression.
- *
- * <p>Simple construction via {@link #of(String)}.
- */
+/** A Notion equation block that renders a KaTeX mathematical expression. */
 @Getter
 @Setter
 public class EquationBlock extends Block {
@@ -24,17 +20,5 @@ public class EquationBlock extends Block {
   public class Equation {
 
     private String expression;
-  }
-
-  /**
-   * Creates an equation block with the given KaTeX expression.
-   *
-   * @param expression the KaTeX expression string
-   * @return a new EquationBlock
-   */
-  public static EquationBlock of(String expression) {
-    EquationBlock block = new EquationBlock();
-    block.getEquation().setExpression(expression);
-    return block;
   }
 }

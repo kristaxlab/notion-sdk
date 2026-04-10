@@ -1,14 +1,14 @@
 package io.kristixlab.notion.api.model.block;
 
-import io.kristixlab.notion.api.model.common.richtext.RichText;
+import io.kristixlab.notion.api.model.helper.NotionBlocks;
 import lombok.Getter;
 import lombok.Setter;
 
 /**
  * A Notion to-do block.
  *
- * <p>Simple construction via {@link #of(String)}. For rich text formatting, checked state, nested
- * children, or block color use {@link #builder()}.
+ * <p>Simple construction via {@link NotionBlocks#todo(String) Blocks.todo(...)}. For rich text
+ * formatting, checked state, nested children, or block color use {@link #builder()}.
  */
 @Getter
 @Setter
@@ -19,18 +19,6 @@ public class ToDoBlock extends Block {
   public ToDoBlock() {
     setType("to_do");
     toDo = new ToDo();
-  }
-
-  /**
-   * Creates an unchecked to-do block with plain text content.
-   *
-   * @param text the to-do item text
-   * @return a new ToDoBlock
-   */
-  public static ToDoBlock of(String text) {
-    ToDoBlock block = new ToDoBlock();
-    block.getToDo().setRichText(RichText.of(text));
-    return block;
   }
 
   /**
@@ -84,7 +72,7 @@ public class ToDoBlock extends Block {
   /** The inner content object of a to-do block. */
   @Getter
   @Setter
-  public static class ToDo extends BlockWithChildren {
+  public static final class ToDo extends BlockWithChildren {
 
     private Boolean checked;
   }

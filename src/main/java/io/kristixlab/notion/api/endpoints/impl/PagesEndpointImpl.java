@@ -6,7 +6,9 @@ import static io.kristixlab.notion.api.endpoints.util.Validator.checkNotNullOrEm
 import io.kristixlab.notion.api.endpoints.PagesEndpoint;
 import io.kristixlab.notion.api.http.base.client.ApiClient;
 import io.kristixlab.notion.api.http.base.request.ApiPath;
+import io.kristixlab.notion.api.model.block.Block;
 import io.kristixlab.notion.api.model.common.Parent;
+import io.kristixlab.notion.api.model.helper.NotionBlocksBuilder;
 import io.kristixlab.notion.api.model.page.*;
 import io.kristixlab.notion.api.model.page.markdown.ContentUpdate;
 import io.kristixlab.notion.api.model.page.markdown.UpdatePageAsMarkdownParams;
@@ -14,6 +16,7 @@ import io.kristixlab.notion.api.model.page.property.PageProperty;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.function.Consumer;
 
 /**
  * API for interacting with Notion Pages endpoints. Provides methods to retrieve, create, and update
@@ -28,14 +31,62 @@ public class PagesEndpointImpl extends BaseEndpointImpl implements PagesEndpoint
   /**
    * Create a new page.
    *
-   * @param request The request containing page data
-   * @return The created page
+   * @param request the request containing page data
+   * @return the created page
    */
   public Page create(CreatePageParams request) {
     checkNotNull(request, "request");
 
     ApiPath urlInfo = ApiPath.from("/pages");
     return getClient().call("POST", urlInfo, request, Page.class);
+  }
+
+  /**
+   * Creates a blank page with a title under the given parent.
+   *
+   * @param parent the parent page or datasource
+   * @param title the page title
+   * @return the created page
+   */
+  public Page create(Parent parent, String title) {
+    return create(CreatePageParams.of(parent, title));
+  }
+
+  /**
+   * Creates a page with a title and markdown body under the given parent.
+   *
+   * @param parent the parent page or datasource
+   * @param title the page title
+   * @param markdownContent the page body as a markdown string
+   * @return the created page
+   */
+  public Page create(Parent parent, String title, String markdownContent) {
+    return create(CreatePageParams.of(parent, title, markdownContent));
+  }
+
+  /**
+   * Creates a page with a title and pre-built block content under the given parent.
+   *
+   * @param parent the parent page or datasource
+   * @param title the page title
+   * @param content the page body as a list of blocks
+   * @return the created page
+   */
+  public Page create(Parent parent, String title, List<Block> content) {
+    return create(CreatePageParams.builder().parent(parent).title(title).children(content).build());
+  }
+
+  /**
+   * Creates a page with a title and inline content defined via the {@link NotionBlocksBuilder} DSL.
+   *
+   * @param parent the parent page or datasource
+   * @param title the page title
+   * @param consumer a consumer that populates the content builder
+   * @return the created page
+   */
+  public Page create(Parent parent, String title, Consumer<NotionBlocksBuilder> consumer) {
+    return create(
+        CreatePageParams.builder().parent(parent).title(title).children(consumer).build());
   }
 
   /**

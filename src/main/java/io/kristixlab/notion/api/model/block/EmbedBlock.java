@@ -1,7 +1,12 @@
 package io.kristixlab.notion.api.model.block;
 
 import io.kristixlab.notion.api.model.common.richtext.RichText;
+import io.kristixlab.notion.api.model.helper.NotionText;
+import io.kristixlab.notion.api.model.helper.NotionTextBuilder;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.function.Consumer;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -31,18 +36,6 @@ public class EmbedBlock extends Block {
   }
 
   /**
-   * Creates an embed block with the given URL.
-   *
-   * @param url the URL to embed
-   * @return a new EmbedBlock
-   */
-  public static EmbedBlock of(String url) {
-    EmbedBlock block = new EmbedBlock();
-    block.getEmbed().setUrl(url);
-    return block;
-  }
-
-  /**
    * Returns a new builder for constructing an {@link EmbedBlock} with URL and optional caption.
    *
    * @return a new builder
@@ -56,7 +49,7 @@ public class EmbedBlock extends Block {
 
     private String url;
 
-    private List<RichText> caption;
+    private List<RichText> caption = new ArrayList<>();
 
     private Builder() {}
 
@@ -71,25 +64,24 @@ public class EmbedBlock extends Block {
       return this;
     }
 
-    /**
-     * Sets the caption from a plain text string.
-     *
-     * @param caption the caption text
-     * @return this builder
-     */
     public Builder caption(String caption) {
-      this.caption = RichText.of(caption);
+      this.caption.add(NotionText.plainText(caption));
       return this;
     }
 
-    /**
-     * Sets the caption from a pre-built rich text list.
-     *
-     * @param caption the caption rich text elements
-     * @return this builder
-     */
+    public Builder caption(RichText... caption) {
+      return caption(Arrays.asList(caption));
+    }
+
     public Builder caption(List<RichText> caption) {
-      this.caption = caption;
+      this.caption.addAll(caption);
+      return this;
+    }
+
+    public Builder caption(Consumer<NotionTextBuilder> consumer) {
+      NotionTextBuilder builder = new NotionTextBuilder();
+      consumer.accept(builder);
+      this.caption.addAll(builder.build());
       return this;
     }
 
@@ -101,7 +93,9 @@ public class EmbedBlock extends Block {
     public EmbedBlock build() {
       EmbedBlock block = new EmbedBlock();
       block.getEmbed().setUrl(url);
-      block.getEmbed().setCaption(caption);
+      if (caption != null && !caption.isEmpty()) {
+        block.getEmbed().setCaption(new ArrayList<>(caption));
+      }
       return block;
     }
   }

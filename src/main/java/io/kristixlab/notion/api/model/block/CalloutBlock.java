@@ -1,7 +1,6 @@
 package io.kristixlab.notion.api.model.block;
 
 import io.kristixlab.notion.api.model.common.Icon;
-import io.kristixlab.notion.api.model.common.richtext.RichText;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -22,21 +21,12 @@ public class CalloutBlock extends Block {
     callout = new Callout();
   }
 
-  /**
-   * Creates a callout block with an emoji icon and text.
-   *
-   * @param emoji the emoji character for the callout icon
-   * @param text the callout text content
-   * @return a new CalloutBlock
-   */
-  public static CalloutBlock of(String emoji, String text) {
-    CalloutBlock block = new CalloutBlock();
-    block.getCallout().setRichText(RichText.of(text));
-    Icon icon = new Icon();
-    icon.setType("emoji");
-    icon.setEmoji(emoji);
-    block.getCallout().setIcon(icon);
-    return block;
+  /** The inner content object of a callout block. */
+  @Getter
+  @Setter
+  public static final class Callout extends BlockWithChildren {
+
+    private Icon icon;
   }
 
   /**
@@ -62,7 +52,29 @@ public class CalloutBlock extends Block {
      * @param emoji the emoji string (e.g., {@code "💡"})
      * @return this builder
      */
+    public Builder emoji(Icon emoji) {
+      if (emoji == null) {
+        this.icon = null;
+        return self();
+      }
+      Icon emojiIcon = new Icon();
+      emojiIcon.setType("emoji");
+      emojiIcon.setEmoji(emoji.getEmoji());
+      this.icon = emojiIcon;
+      return self();
+    }
+
+    /**
+     * Sets the callout icon to an emoji character.
+     *
+     * @param emoji the emoji string (e.g., {@code "💡"})
+     * @return this builder
+     */
     public Builder emoji(String emoji) {
+      if (emoji == null) {
+        this.icon = null;
+        return self();
+      }
       Icon emojiIcon = new Icon();
       emojiIcon.setType("emoji");
       emojiIcon.setEmoji(emoji);
@@ -90,13 +102,5 @@ public class CalloutBlock extends Block {
       }
       return block;
     }
-  }
-
-  /** The inner content object of a callout block. */
-  @Getter
-  @Setter
-  public static class Callout extends BlockWithChildren {
-
-    private Icon icon;
   }
 }

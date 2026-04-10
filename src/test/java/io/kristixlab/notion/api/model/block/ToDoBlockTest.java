@@ -3,6 +3,7 @@ package io.kristixlab.notion.api.model.block;
 import static org.junit.jupiter.api.Assertions.*;
 
 import io.kristixlab.notion.api.model.common.Color;
+import io.kristixlab.notion.api.model.helper.NotionBlocks;
 import org.junit.jupiter.api.Test;
 
 class ToDoBlockTest {
@@ -16,8 +17,8 @@ class ToDoBlockTest {
   }
 
   @Test
-  void of_setsRichText() {
-    ToDoBlock block = ToDoBlock.of("Buy groceries");
+  void todo_setsRichText() {
+    ToDoBlock block = NotionBlocks.todo("Buy groceries");
 
     assertEquals("to_do", block.getType());
     assertEquals(1, block.getToDo().getRichText().size());
@@ -63,7 +64,7 @@ class ToDoBlockTest {
 
   @Test
   void builder_withColor() {
-    ToDoBlock block = ToDoBlock.builder().text("Colored").color(Color.YELLOW).build();
+    ToDoBlock block = ToDoBlock.builder().text("Colored").blockColor(Color.YELLOW).build();
 
     assertEquals("yellow", block.getToDo().getColor());
   }
@@ -75,14 +76,6 @@ class ToDoBlockTest {
 
     assertNotNull(block.getToDo().getChildren());
     assertEquals(1, block.getToDo().getChildren().size());
-  }
-
-  @Test
-  void builder_withAnnotations() {
-    ToDoBlock block = ToDoBlock.builder().text("Important").bold().underline().build();
-
-    assertTrue(block.getToDo().getRichText().get(0).getAnnotations().getBold());
-    assertTrue(block.getToDo().getRichText().get(0).getAnnotations().getUnderline());
   }
 
   @Test

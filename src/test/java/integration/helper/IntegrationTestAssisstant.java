@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 import io.kristixlab.notion.api.NotionClient;
 import io.kristixlab.notion.api.model.block.BlockList;
 import io.kristixlab.notion.api.model.common.Parent;
+import io.kristixlab.notion.api.model.helper.NotionProperties;
 import io.kristixlab.notion.api.model.page.CreatePageParams;
 import io.kristixlab.notion.api.model.page.property.TitleProperty;
 import java.io.File;
@@ -86,7 +87,7 @@ public class IntegrationTestAssisstant {
     CreatePageParams createPageParams = new CreatePageParams();
     createPageParams.setParent(parent);
     createPageParams.setProperties(new HashMap<>());
-    createPageParams.getProperties().put(TitleProperty.NAME, TitleProperty.of(name));
+    createPageParams.getProperties().put(TitleProperty.NAME, NotionProperties.title(name));
     return getNotion().pages().create(createPageParams).getId();
   }
 

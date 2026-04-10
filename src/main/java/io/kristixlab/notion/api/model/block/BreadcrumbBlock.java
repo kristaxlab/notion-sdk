@@ -18,13 +18,4 @@ public class BreadcrumbBlock extends Block {
     setType("breadcrumb");
     breadcrumb = new Object();
   }
-
-  /**
-   * Creates a new breadcrumb block.
-   *
-   * @return a new BreadcrumbBlock
-   */
-  public static BreadcrumbBlock of() {
-    return new BreadcrumbBlock();
-  }
 }

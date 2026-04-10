@@ -1,15 +1,16 @@
 package io.kristixlab.notion.api.model.block;
 
 import io.kristixlab.notion.api.model.common.richtext.RichText;
+import io.kristixlab.notion.api.model.helper.NotionText;
+import io.kristixlab.notion.api.model.helper.NotionTextBuilder;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.function.Consumer;
 import lombok.Getter;
 import lombok.Setter;
 
-/**
- * A Notion bookmark block that displays a link preview for a URL.
- *
- * <p>Simple construction via {@link #of(String)}. For adding a caption use {@link #builder()}.
- */
+/** A Notion bookmark block that displays a link preview for a URL. */
 @Getter
 @Setter
 public class BookmarkBlock extends Block {
@@ -19,18 +20,6 @@ public class BookmarkBlock extends Block {
   public BookmarkBlock() {
     setType("bookmark");
     bookmark = new Bookmark();
-  }
-
-  /**
-   * Creates a bookmark block with the given URL.
-   *
-   * @param url the URL to bookmark
-   * @return a new BookmarkBlock
-   */
-  public static BookmarkBlock of(String url) {
-    BookmarkBlock block = new BookmarkBlock();
-    block.getBookmark().setUrl(url);
-    return block;
   }
 
   /**
@@ -56,7 +45,7 @@ public class BookmarkBlock extends Block {
   public static class Builder {
     private String url;
 
-    private List<RichText> caption;
+    private List<RichText> caption = new ArrayList<>();
 
     private Builder() {}
 
@@ -71,25 +60,24 @@ public class BookmarkBlock extends Block {
       return this;
     }
 
-    /**
-     * Sets the caption from a plain text string.
-     *
-     * @param caption the caption text
-     * @return this builder
-     */
     public Builder caption(String caption) {
-      this.caption = RichText.of(caption);
+      this.caption.add(NotionText.plainText(caption));
       return this;
     }
 
-    /**
-     * Sets the caption from a pre-built rich text list.
-     *
-     * @param caption the caption rich text elements
-     * @return this builder
-     */
+    public Builder caption(RichText... caption) {
+      return caption(Arrays.asList(caption));
+    }
+
     public Builder caption(List<RichText> caption) {
-      this.caption = caption;
+      this.caption.addAll(caption);
+      return this;
+    }
+
+    public Builder caption(Consumer<NotionTextBuilder> consumer) {
+      NotionTextBuilder builder = new NotionTextBuilder();
+      consumer.accept(builder);
+      this.caption.addAll(builder.build());
       return this;
     }
 
@@ -99,9 +87,14 @@ public class BookmarkBlock extends Block {
      * @return a new BookmarkBlock
      */
     public BookmarkBlock build() {
+      if (url == null || url.isEmpty()) {
+        throw new IllegalStateException("Bookmark URL cannot be null or empty");
+      }
       BookmarkBlock block = new BookmarkBlock();
       block.getBookmark().setUrl(url);
-      block.getBookmark().setCaption(caption);
+      if (caption != null && !caption.isEmpty()) {
+        block.getBookmark().setCaption(caption);
+      }
       return block;
     }
   }

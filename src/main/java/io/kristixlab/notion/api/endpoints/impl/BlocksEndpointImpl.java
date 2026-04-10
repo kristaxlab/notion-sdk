@@ -4,13 +4,18 @@ import static io.kristixlab.notion.api.endpoints.util.Validator.checkNotNull;
 import static io.kristixlab.notion.api.endpoints.util.Validator.checkNotNullOrEmpty;
 
 import io.kristixlab.notion.api.endpoints.BlocksEndpoint;
+import io.kristixlab.notion.api.endpoints.util.Validator;
 import io.kristixlab.notion.api.http.base.client.ApiClient;
 import io.kristixlab.notion.api.http.base.request.ApiPath;
 import io.kristixlab.notion.api.model.block.AppendBlockChildrenParams;
 import io.kristixlab.notion.api.model.block.Block;
 import io.kristixlab.notion.api.model.block.BlockList;
 import io.kristixlab.notion.api.model.common.Position;
+import io.kristixlab.notion.api.model.helper.NotionBlocks;
+import io.kristixlab.notion.api.model.helper.NotionBlocksBuilder;
 import java.util.List;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 /**
  * API for interacting with Notion Blocks endpoints. Provides methods to retrieve, create, update,
@@ -97,8 +102,35 @@ public class BlocksEndpointImpl extends BaseEndpointImpl implements BlocksEndpoi
    * @return BlocksResponse containing the appended blocks
    */
   @Override
-  public BlockList appendChildren(String parentBlockId, List<Block> children) {
+  public BlockList appendChildren(String parentBlockId, List<? extends Block> children) {
     return appendChildren(parentBlockId, children, null);
+  }
+
+  @Override
+  public BlockList appendChildren(String parentBlockId, Consumer<NotionBlocksBuilder> consumer) {
+
+    return appendChildren(parentBlockId, consumer, null);
+  }
+
+  @Override
+  public BlockList appendChildren(
+      String parentBlockId, Consumer<NotionBlocksBuilder> consumer, Position position) {
+    checkNotNull(consumer, "consumer");
+    NotionBlocksBuilder builder = NotionBlocks.blocksBuilder();
+    consumer.accept(builder);
+    return appendChildren(parentBlockId, builder.build(), position);
+  }
+
+  @Override
+  public BlockList appendChildren(String parentBlockId, Supplier<List<? extends Block>> supplier) {
+    return appendChildren(parentBlockId, supplier, null);
+  }
+
+  @Override
+  public BlockList appendChildren(
+      String parentBlockId, Supplier<List<? extends Block>> supplier, Position position) {
+    checkNotNull(supplier, "supplier");
+    return appendChildren(parentBlockId, supplier.get(), position);
   }
 
   /**
@@ -111,9 +143,12 @@ public class BlocksEndpointImpl extends BaseEndpointImpl implements BlocksEndpoi
    */
   @Override
   public BlockList appendChildren(
-      String parentBlockId, java.util.List<Block> block, Position position) {
+      String parentBlockId, List<? extends Block> block, Position position) {
+    Validator.checkNotNullOrEmpty(parentBlockId, "parentBlockId");
+
     AppendBlockChildrenParams request =
         AppendBlockChildrenParams.builder().children(block).position(position).build();
+
     return appendChildren(parentBlockId, request);
   }
 
@@ -125,7 +160,7 @@ public class BlocksEndpointImpl extends BaseEndpointImpl implements BlocksEndpoi
    * @return BlocksResponse containing the appended blocks
    */
   public BlockList appendChildren(String parentBlockId, AppendBlockChildrenParams request) {
-    checkNotNullOrEmpty(parentBlockId, "blockId");
+    checkNotNullOrEmpty(parentBlockId, "parentBlockId");
     checkNotNull(request, "request");
 
     ApiPath urlInfo =

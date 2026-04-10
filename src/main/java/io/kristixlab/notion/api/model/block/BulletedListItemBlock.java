@@ -1,6 +1,5 @@
 package io.kristixlab.notion.api.model.block;
 
-import io.kristixlab.notion.api.model.common.richtext.RichText;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,17 +20,10 @@ public class BulletedListItemBlock extends Block {
     bulletedListItem = new BulletedListItem();
   }
 
-  /**
-   * Creates a bulleted list item block with plain text content.
-   *
-   * @param text the list item text
-   * @return a new BulletedListItemBlock
-   */
-  public static BulletedListItemBlock of(String text) {
-    BulletedListItemBlock block = new BulletedListItemBlock();
-    block.getBulletedListItem().setRichText(RichText.of(text));
-    return block;
-  }
+  /** The inner content object of a bulleted list item block. */
+  @Getter
+  @Setter
+  public static final class BulletedListItem extends BlockWithChildren {}
 
   /**
    * Returns a new builder for constructing a {@link BulletedListItemBlock} with rich text
@@ -55,9 +47,4 @@ public class BulletedListItemBlock extends Block {
       return block;
     }
   }
-
-  /** The inner content object of a bulleted list item block. */
-  @Getter
-  @Setter
-  public static class BulletedListItem extends BlockWithChildren {}
 }

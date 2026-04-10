@@ -14,39 +14,6 @@ class LinkToPageBlockTest {
     assertNotNull(block.getLinkToPage());
   }
 
-  @Test
-  void pageLink_setsTypeAndPageId() {
-    LinkToPageBlock block = LinkToPageBlock.pageLink("page-abc-123");
-
-    assertEquals("link_to_page", block.getType());
-    assertEquals("page_id", block.getLinkToPage().getType());
-    assertEquals("page-abc-123", block.getLinkToPage().getPageId());
-    assertNull(block.getLinkToPage().getDatabaseId());
-    assertNull(block.getLinkToPage().getCommentId());
-  }
-
-  @Test
-  void databaseLink_setsTypeAndDatabaseId() {
-    LinkToPageBlock block = LinkToPageBlock.databaseLink("db-xyz-456");
-
-    assertEquals("link_to_page", block.getType());
-    assertEquals("database_id", block.getLinkToPage().getType());
-    assertEquals("db-xyz-456", block.getLinkToPage().getDatabaseId());
-    assertNull(block.getLinkToPage().getPageId());
-    assertNull(block.getLinkToPage().getCommentId());
-  }
-
-  @Test
-  void commentLink_setsTypeAndCommentId() {
-    LinkToPageBlock block = LinkToPageBlock.commentLink("comment-789");
-
-    assertEquals("link_to_page", block.getType());
-    assertEquals("comment_id", block.getLinkToPage().getType());
-    assertEquals("comment-789", block.getLinkToPage().getCommentId());
-    assertNull(block.getLinkToPage().getPageId());
-    assertNull(block.getLinkToPage().getDatabaseId());
-  }
-
   // LinkToPage inner class
 
   @Test

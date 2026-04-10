@@ -2,33 +2,12 @@ package io.kristixlab.notion.api.model.block;
 
 import io.kristixlab.notion.api.model.common.Position;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 
-/**
- * Parameters for appending child blocks to a parent block.
- *
- * <p>Use the static {@code of(...)} factories for simple cases, or {@code builder()} when you need
- * to set a position or accumulate children incrementally:
- *
- * <pre>{@code
- * // Simple — single block
- * AppendBlockChildrenParams.of(ParagraphBlock.of("Hello"))
- *
- * // Simple — multiple blocks
- * AppendBlockChildrenParams.of(
- *     ParagraphBlock.of("Line 1"),
- *     ParagraphBlock.of("Line 2")
- * )
- *
- * // With position — use the builder
- * AppendBlockChildrenParams.builder()
- *     .child(ParagraphBlock.of("Inserted after"))
- *     .position(Position.afterBlock("some-block-id"))
- *     .build()
- * }</pre>
- */
+/** Parameters for appending child blocks to a parent block. */
 @Getter
 @Setter
 public class AppendBlockChildrenParams {
@@ -37,18 +16,6 @@ public class AppendBlockChildrenParams {
   private Position position;
 
   public AppendBlockChildrenParams() {}
-
-  /**
-   * Creates params with multiple child blocks and no position.
-   *
-   * @param children the blocks to append
-   * @return params ready for use
-   */
-  public static AppendBlockChildrenParams of(List<Block> children) {
-    AppendBlockChildrenParams params = new AppendBlockChildrenParams();
-    params.setChildren(new ArrayList<>(children));
-    return params;
-  }
 
   /**
    * Returns a new builder for constructing params with optional position or incremental child
@@ -83,7 +50,18 @@ public class AppendBlockChildrenParams {
      * @param children the blocks to add
      * @return this builder
      */
-    public Builder children(List<Block> children) {
+    public Builder children(Block... children) {
+      this.children.addAll(Arrays.asList(children));
+      return this;
+    }
+
+    /**
+     * Adds multiple child blocks.
+     *
+     * @param children the blocks to add
+     * @return this builder
+     */
+    public Builder children(List<? extends Block> children) {
       this.children.addAll(children);
       return this;
     }

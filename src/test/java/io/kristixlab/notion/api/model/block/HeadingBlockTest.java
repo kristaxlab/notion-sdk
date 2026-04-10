@@ -3,6 +3,7 @@ package io.kristixlab.notion.api.model.block;
 import static org.junit.jupiter.api.Assertions.*;
 
 import io.kristixlab.notion.api.model.common.Color;
+import io.kristixlab.notion.api.model.helper.NotionBlocks;
 import org.junit.jupiter.api.Test;
 
 class HeadingBlockTest {
@@ -18,8 +19,8 @@ class HeadingBlockTest {
   }
 
   @Test
-  void headingOne_of_setsRichText() {
-    HeadingOneBlock block = HeadingOneBlock.of("Title");
+  void headingOne_factory_setsRichText() {
+    HeadingOneBlock block = NotionBlocks.heading1("Title");
 
     assertEquals("heading_1", block.getType());
     assertEquals(1, block.getHeading1().getRichText().size());
@@ -51,7 +52,7 @@ class HeadingBlockTest {
 
   @Test
   void headingOne_builder_withColor() {
-    HeadingOneBlock block = HeadingOneBlock.builder().text("Colored").color(Color.RED).build();
+    HeadingOneBlock block = HeadingOneBlock.builder().text("Colored").blockColor(Color.RED).build();
 
     assertEquals("red", block.getHeading1().getColor());
   }
@@ -79,8 +80,8 @@ class HeadingBlockTest {
   }
 
   @Test
-  void headingTwo_of_setsRichText() {
-    HeadingTwoBlock block = HeadingTwoBlock.of("Subtitle");
+  void headingTwo_factory_setsRichText() {
+    HeadingTwoBlock block = NotionBlocks.heading2("Subtitle");
 
     assertEquals("heading_2", block.getType());
     assertEquals("Subtitle", block.getHeading2().getRichText().get(0).getPlainText());
@@ -96,7 +97,8 @@ class HeadingBlockTest {
 
   @Test
   void headingTwo_builder_withColor() {
-    HeadingTwoBlock block = HeadingTwoBlock.builder().text("Blue H2").color(Color.BLUE).build();
+    HeadingTwoBlock block =
+        HeadingTwoBlock.builder().text("Blue H2").blockColor(Color.BLUE).build();
 
     assertEquals("blue", block.getHeading2().getColor());
   }
@@ -112,8 +114,8 @@ class HeadingBlockTest {
   }
 
   @Test
-  void headingThree_of_setsRichText() {
-    HeadingThreeBlock block = HeadingThreeBlock.of("Section");
+  void headingThree_factory_setsRichText() {
+    HeadingThreeBlock block = NotionBlocks.heading3("Section");
 
     assertEquals("heading_3", block.getType());
     assertEquals("Section", block.getHeading3().getRichText().get(0).getPlainText());
@@ -139,8 +141,8 @@ class HeadingBlockTest {
   }
 
   @Test
-  void headingFour_of_setsRichText() {
-    HeadingFourBlock block = HeadingFourBlock.of("Sub-section");
+  void headingFour_factory_setsRichText() {
+    HeadingFourBlock block = NotionBlocks.heading4("Sub-section");
 
     assertEquals("heading_4", block.getType());
     assertEquals("Sub-section", block.getHeading4().getRichText().get(0).getPlainText());
@@ -155,13 +157,11 @@ class HeadingBlockTest {
   }
 
   @Test
-  void headingFour_builder_withColorAndAnnotations() {
+  void headingFour_builder_withColor() {
     HeadingFourBlock block =
-        HeadingFourBlock.builder().text("Styled H4").color(Color.PURPLE).bold().italic().build();
+        HeadingFourBlock.builder().text("Styled H4").blockColor(Color.PURPLE).build();
 
     assertEquals("purple", block.getHeading4().getColor());
-    assertTrue(block.getHeading4().getRichText().get(0).getAnnotations().getBold());
-    assertTrue(block.getHeading4().getRichText().get(0).getAnnotations().getItalic());
   }
 
   // Heading inner class

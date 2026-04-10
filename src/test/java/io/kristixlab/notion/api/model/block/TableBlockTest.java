@@ -2,7 +2,6 @@ package io.kristixlab.notion.api.model.block;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import io.kristixlab.notion.api.model.common.richtext.RichText;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 
@@ -47,7 +46,7 @@ class TableBlockTest {
         TableBlock.builder()
             .tableWidth(3)
             .hasColumnHeader(true)
-            .children(
+            .rows(
                 rows ->
                     rows.row().cell("A").cell("B").cell("C").row().cell("1").cell("2").cell("3"))
             .build();
@@ -69,7 +68,7 @@ class TableBlockTest {
   void builder_withChildrenList() {
     TableRowBlock row = TableRowBlock.builder().row().cell("X").cell("Y").build();
 
-    TableBlock block = TableBlock.builder().tableWidth(2).children(List.of(row)).build();
+    TableBlock block = TableBlock.builder().tableWidth(2).rows(List.of(row)).build();
 
     assertEquals(1, block.getTable().getChildren().size());
     assertSame(row, block.getTable().getChildren().get(0));
@@ -82,7 +81,7 @@ class TableBlockTest {
             .tableWidth(3)
             .hasColumnHeader(true)
             .hasRowHeader(false)
-            .children(
+            .rows(
                 rows ->
                     rows.row()
                         .cell("Mon")
@@ -143,20 +142,11 @@ class TableBlockTest {
 
   @Test
   void tableRowBuilder_singleRow_withRichTextConsumer() {
-    TableRowBlock row = TableRowBlock.builder().row().cell(rt -> rt.text("Bold").bold()).build();
+    TableRowBlock row =
+        TableRowBlock.builder().row().cell(rt -> rt.plainText("Bold").bold()).build();
 
     assertEquals(1, row.getTableRow().getCells().size());
     assertTrue(row.getTableRow().getCells().get(0).get(0).getAnnotations().getBold());
-  }
-
-  @Test
-  void tableRowBuilder_singleRow_withRichTextList() {
-    List<RichText> cellContent = RichText.of("Pre-built");
-
-    TableRowBlock row = TableRowBlock.builder().row().cell(cellContent).build();
-
-    assertEquals(1, row.getTableRow().getCells().size());
-    assertSame(cellContent, row.getTableRow().getCells().get(0));
   }
 
   // TableRowBlock.Builder - multiple rows

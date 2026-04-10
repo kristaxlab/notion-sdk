@@ -18,7 +18,6 @@ public class ChildDatabaseBlock extends Block {
     childDatabase = new ChildDatabase();
   }
 
-  /** The inner content object of a child database block. */
   @Getter
   @Setter
   public static class ChildDatabase {

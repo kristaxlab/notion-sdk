@@ -14,7 +14,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class Heading extends BlockWithChildren {
+public final class Heading extends BlockWithChildren {
 
   /** Whether the heading acts as a toggle that can reveal or hide child blocks. */
   private Boolean isToggleable;

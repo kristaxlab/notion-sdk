@@ -1,15 +1,15 @@
 package io.kristixlab.notion.api.model.block;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.kristixlab.notion.api.model.common.richtext.RichText;
+import io.kristixlab.notion.api.model.helper.NotionBlocks;
 import lombok.Getter;
 import lombok.Setter;
 
 /**
  * A Notion heading 2 block.
  *
- * <p>Simple construction via {@link #of(String)}. For rich text formatting, toggleable state, or
- * block color use {@link #builder()}.
+ * <p>Simple construction via {@link NotionBlocks#heading2(String) Blocks.heading2(...)}. For rich
+ * text formatting, toggleable state, or block color use {@link #builder()}.
  */
 @Getter
 @Setter
@@ -21,18 +21,6 @@ public class HeadingTwoBlock extends Block {
   public HeadingTwoBlock() {
     setType("heading_2");
     heading2 = new Heading();
-  }
-
-  /**
-   * Creates a heading 2 block with plain text content.
-   *
-   * @param text the heading text
-   * @return a new HeadingTwoBlock
-   */
-  public static HeadingTwoBlock of(String text) {
-    HeadingTwoBlock block = new HeadingTwoBlock();
-    block.getHeading2().setRichText(RichText.of(text));
-    return block;
   }
 
   /**

@@ -1,7 +1,8 @@
 package io.kristixlab.notion.api.model.page;
 
-import io.kristixlab.notion.api.model.common.CoverParams;
-import io.kristixlab.notion.api.model.common.IconParams;
+import io.kristixlab.notion.api.model.common.Cover;
+import io.kristixlab.notion.api.model.common.Icon;
+import io.kristixlab.notion.api.model.helper.NotionProperties;
 import io.kristixlab.notion.api.model.page.property.*;
 import io.kristixlab.notion.api.model.page.templates.TemplateParams;
 import java.util.*;
@@ -14,9 +15,9 @@ public class UpdatePageParams {
 
   private Map<String, PageProperty> properties;
 
-  private IconParams icon;
+  private Icon icon;
 
-  private CoverParams cover;
+  private Cover cover;
 
   private Boolean inTrash;
 
@@ -33,14 +34,14 @@ public class UpdatePageParams {
   public static class Builder {
 
     private final Map<String, PageProperty> properties = new LinkedHashMap<>();
-    private IconParams icon;
-    private CoverParams cover;
+    private Icon icon;
+    private Cover cover;
     private Boolean inTrash;
     private Boolean isLocked;
 
     /** Sets the title property. */
     public Builder title(String text) {
-      return property(TitleProperty.NAME, TitleProperty.of(text));
+      return property(NotionProperties.TITLE, NotionProperties.title(text));
     }
 
     /**
@@ -65,13 +66,13 @@ public class UpdatePageParams {
     }
 
     /** Sets the page icon. */
-    public Builder icon(IconParams icon) {
+    public Builder icon(Icon icon) {
       this.icon = icon;
       return this;
     }
 
     /** Sets the page cover. */
-    public Builder cover(CoverParams cover) {
+    public Builder cover(Cover cover) {
       this.cover = cover;
       return this;
     }

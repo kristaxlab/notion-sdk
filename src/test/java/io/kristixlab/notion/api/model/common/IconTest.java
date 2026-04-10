@@ -42,13 +42,11 @@ class IconTest {
 
   @Test
   void file_setsTypeAndFile() {
-    File fileObj = new File();
-    fileObj.setUrl("https://s3.notion.com/file.png");
+    Icon icon = Icon.fileUpload("file-upload-id-123");
 
-    Icon icon = Icon.file(fileObj);
-
-    assertEquals("file", icon.getType());
-    assertSame(fileObj, icon.getFile());
+    assertEquals("file_upload", icon.getType());
+    assertNotNull(icon.getFileUpload());
+    assertEquals("file-upload-id-123", icon.getFileUpload().getId());
     assertNull(icon.getEmoji());
     assertNull(icon.getExternal());
   }

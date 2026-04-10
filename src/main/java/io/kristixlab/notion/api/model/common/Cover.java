@@ -15,7 +15,11 @@ public class Cover {
 
   private ExternalFile external;
 
+  /** Only in requests */
   private FileUploadRef fileUpload;
+
+  /** Only in responses */
+  private File file;
 
   public static Cover external(String url) {
     Cover fileData = new Cover();

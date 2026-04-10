@@ -69,7 +69,7 @@ public class PrerequisitesLoader {
 
       } else if (matchHeading(block, "Image uploaded via UI")) {
         Block imageBlock = requireBlockAt(blocks, i + 1, "image");
-        prerequisites.setImageUploadedViaUI(imageBlock.asImage().getImage().getFile().getUrl());
+        prerequisites.setImageUploadedViaUI(imageBlock.asImage().getImage().getFile());
         prerequisites.setImageUploadedViaUIExpiryTime(
             imageBlock.asImage().getImage().getFile().getExpiryTime());
 

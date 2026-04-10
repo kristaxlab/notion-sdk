@@ -1,14 +1,14 @@
 package io.kristixlab.notion.api.model.block;
 
-import io.kristixlab.notion.api.model.common.richtext.RichText;
+import io.kristixlab.notion.api.model.helper.NotionBlocks;
 import lombok.Getter;
 import lombok.Setter;
 
 /**
  * A Notion toggle block.
  *
- * <p>Simple construction via {@link #of(String)}. For rich text formatting, nested children, or
- * block color use {@link #builder()}.
+ * <p>Simple construction via {@link NotionBlocks#toggle(String) Blocks.toggle(...)}. For rich text
+ * formatting, nested children, or block color use {@link #builder()}.
  */
 @Getter
 @Setter
@@ -19,18 +19,6 @@ public class ToggleBlock extends Block {
   public ToggleBlock() {
     setType("toggle");
     toggle = new Toggle();
-  }
-
-  /**
-   * Creates a toggle block with plain text content.
-   *
-   * @param text the toggle label text
-   * @return a new ToggleBlock
-   */
-  public static ToggleBlock of(String text) {
-    ToggleBlock block = new ToggleBlock();
-    block.getToggle().setRichText(RichText.of(text));
-    return block;
   }
 
   /**
@@ -46,7 +34,7 @@ public class ToggleBlock extends Block {
   /** The inner content object of a toggle block. */
   @Getter
   @Setter
-  public static class Toggle extends BlockWithChildren {}
+  public static final class Toggle extends BlockWithChildren {}
 
   /** Builder for {@link ToggleBlock}. */
   public static class Builder extends BlockWithChildren.Builder<Builder, ToggleBlock> {

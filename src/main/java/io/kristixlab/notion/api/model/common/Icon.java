@@ -13,9 +13,25 @@ public class Icon {
 
   private CustomEmoji customEmoji;
 
+  private NotionIcon icon;
+
   private ExternalFile external;
 
+  /** Only in request */
+  private FileUploadRef fileUpload;
+
+  /** Only in response */
   private File file;
+
+  public static Icon icon(String name, String color) {
+    Icon icon = new Icon();
+    icon.setType("icon");
+    NotionIcon notionIcon = new NotionIcon();
+    notionIcon.setName(name);
+    notionIcon.setColor(color);
+    icon.setIcon(notionIcon);
+    return icon;
+  }
 
   public static Icon emoji(String emoji) {
     Icon icon = new Icon();
@@ -43,10 +59,12 @@ public class Icon {
     return icon;
   }
 
-  public static Icon file(File file) {
+  public static Icon fileUpload(String fileUploadId) {
     Icon icon = new Icon();
-    icon.setType("file");
-    icon.setFile(file);
+    icon.setType("file_upload");
+    FileUploadRef fu = new FileUploadRef();
+    fu.setId(fileUploadId);
+    icon.setFileUpload(fu);
     return icon;
   }
 }

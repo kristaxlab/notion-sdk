@@ -1,5 +1,6 @@
 package io.kristixlab.notion.api.model.block;
 
+import static io.kristixlab.notion.api.model.helper.NotionBlocks.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import io.kristixlab.notion.api.model.common.Position;
@@ -8,35 +9,12 @@ import org.junit.jupiter.api.Test;
 
 class AppendBlockChildrenParamsTest {
 
-  // of(List<Block>)
-
-  @Test
-  void ofList_setsChildren() {
-    List<Block> blocks = List.of(ParagraphBlock.of("Hello"), ParagraphBlock.of("World"));
-
-    AppendBlockChildrenParams params = AppendBlockChildrenParams.of(blocks);
-
-    assertNotNull(params.getChildren());
-    assertEquals(2, params.getChildren().size());
-    assertNull(params.getPosition());
-  }
-
-  @Test
-  void ofList_returnsDefensiveCopy() {
-    List<Block> blocks = new java.util.ArrayList<>(List.of(ParagraphBlock.of("A")));
-
-    AppendBlockChildrenParams params = AppendBlockChildrenParams.of(blocks);
-
-    assertNotSame(blocks, params.getChildren());
-    assertEquals(1, params.getChildren().size());
-  }
-
   // Builder - children(Block)
 
   @Test
   void builder_childSingleBlock() {
     AppendBlockChildrenParams params =
-        AppendBlockChildrenParams.builder().children(ParagraphBlock.of("Single")).build();
+        AppendBlockChildrenParams.builder().children(paragraph("Single")).build();
 
     assertEquals(1, params.getChildren().size());
   }
@@ -45,7 +23,7 @@ class AppendBlockChildrenParamsTest {
 
   @Test
   void builder_childrenList() {
-    List<Block> blocks = List.of(ParagraphBlock.of("A"), ParagraphBlock.of("B"));
+    List<Block> blocks = paragraphList("A", "B");
 
     AppendBlockChildrenParams params = AppendBlockChildrenParams.builder().children(blocks).build();
 
@@ -60,7 +38,7 @@ class AppendBlockChildrenParamsTest {
 
     AppendBlockChildrenParams params =
         AppendBlockChildrenParams.builder()
-            .children(ParagraphBlock.of("Inserted"))
+            .children(paragraph("Inserted"))
             .position(position)
             .build();
 
@@ -72,7 +50,7 @@ class AppendBlockChildrenParamsTest {
   @Test
   void builder_noPosition_isNull() {
     AppendBlockChildrenParams params =
-        AppendBlockChildrenParams.builder().children(ParagraphBlock.of("No position")).build();
+        AppendBlockChildrenParams.builder().children(paragraph("No position")).build();
 
     assertNull(params.getPosition());
   }
@@ -102,7 +80,7 @@ class AppendBlockChildrenParamsTest {
   @Test
   void getterSetter_children() {
     AppendBlockChildrenParams params = new AppendBlockChildrenParams();
-    List<Block> blocks = List.of(ParagraphBlock.of("Test"));
+    List<Block> blocks = List.of(paragraph("Test"));
 
     params.setChildren(blocks);
 

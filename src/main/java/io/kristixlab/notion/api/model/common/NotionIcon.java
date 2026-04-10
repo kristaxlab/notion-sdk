@@ -5,7 +5,9 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class BlockReference {
+public class NotionIcon {
 
-  private String id;
+  private String name;
+
+  private String color;
 }

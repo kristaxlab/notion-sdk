@@ -1,5 +1,7 @@
 package integration;
 
+import static io.kristixlab.notion.api.model.helper.NotionBlocks.*;
+import static io.kristixlab.notion.api.model.helper.NotionText.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -8,7 +10,7 @@ import io.kristixlab.notion.api.http.error.ValidationException;
 import io.kristixlab.notion.api.model.block.*;
 import io.kristixlab.notion.api.model.common.*;
 import io.kristixlab.notion.api.model.common.richtext.RichText;
-import io.kristixlab.notion.api.model.helper.BlocksBuilder;
+import io.kristixlab.notion.api.model.helper.NotionBlocks;
 import java.util.List;
 import org.junit.jupiter.api.*;
 
@@ -33,20 +35,18 @@ public class BlocksIT extends BaseIntegrationTest {
   @Test
   @DisplayName("[IT-22]: Blocks - Creation / update / retrieval for a paragraph block")
   public void testBlockCreationUpdateRetrieval() {
-    // Step 1: Create a text block "IT-22 - testing text block" on a testing page
-    ParagraphBlock createBlockRq = ParagraphBlock.of("testing text block");
+    // Step 1: Create a text block
+    BlockList createResult =
+        getNotion().blocks().appendChildren(currTestPageId, paragraph("testing text block"));
 
-    BlockList createResult = getNotion().blocks().appendChildren(currTestPageId, createBlockRq);
-
-    assertNotNull(createResult);
-    assertNotNull(createResult.getResults());
     assertEquals(1, createResult.getResults().size());
+
     String blockId = createResult.getResults().get(0).getId();
 
     // Step 2: Update style to bold, blue
     ParagraphBlock updated1 =
-        ParagraphBlock.builder().text("updated text block").color(Color.BLUE).bold().build();
-
+        paragraph(
+            p -> p.text(t -> t.plainText("updated text block").bold()).blockColor(Color.BLUE));
     Block updatedBlockRs1 = getNotion().blocks().update(blockId, updated1);
 
     assertNotNull(updatedBlockRs1);
@@ -58,11 +58,7 @@ public class BlocksIT extends BaseIntegrationTest {
     assertTrue(updatedRichText.getAnnotations().getBold());
 
     // Step 3: Update block separating text into two parts: "Text - " (blue) and "updated" (yellow)
-    ParagraphBlock updated2 =
-        ParagraphBlock.builder()
-            .richText(b -> b.text("Text - ").color(Color.BLUE).text("updated").color(Color.YELLOW))
-            .build();
-
+    ParagraphBlock updated2 = paragraph(plainText("Text - ").blue(), plainText("updated").yellow());
     Block updatedBlockRs2 = getNotion().blocks().update(blockId, updated2);
 
     assertNotNull(updatedBlockRs2);
@@ -80,9 +76,8 @@ public class BlocksIT extends BaseIntegrationTest {
   @DisplayName("[IT-24]: Blocks - Delete and restore a block")
   public void testBlockDeleteAndRestore() {
     // Step 1: Create a block of type "list" with text "list block"
-    BulletedListItemBlock createRq = BulletedListItemBlock.of("bulleted list item");
-
-    BlockList createRs = getNotion().blocks().appendChildren(currTestPageId, createRq);
+    BlockList createRs =
+        getNotion().blocks().appendChildren(currTestPageId, bullet("bulleted list item"));
 
     assertNotNull(createRs);
     assertNotNull(createRs.getResults());
@@ -117,9 +112,9 @@ public class BlocksIT extends BaseIntegrationTest {
   @DisplayName("[IT-26]: Blocks - Create several blocks at once")
   public void testCreateSeveralBlocksAtOnce() {
     List<Block> blocks =
-        BlocksBuilder.of()
+        blocksBuilder()
             .paragraph("paragraph block")
-            .bulletedListItem("bulleted list block")
+            .bullet("bulleted list block")
             .toggle(
                 t -> t.text("toggle block").children(c -> c.paragraph("nested paragraph block")))
             .build();
@@ -152,11 +147,7 @@ public class BlocksIT extends BaseIntegrationTest {
   public void testBlockWithChildren() {
     ParagraphBlock createBlockRq =
         ParagraphBlock.builder()
-            .children(
-                b ->
-                    b.bulletedListItem("item 1")
-                        .bulletedListItem("item 2")
-                        .bulletedListItem("item 3"))
+            .children(b -> b.bullet("item 1").bullet("item 2").bullet("item 3"))
             .build();
 
     BlockList response = getNotion().blocks().appendChildren(currTestPageId, createBlockRq);
@@ -177,11 +168,11 @@ public class BlocksIT extends BaseIntegrationTest {
   @Test
   @DisplayName("[IT-30]: Blocks - Change block type (should be validation error)")
   public void testExceptionOnTypeChange() {
-    ParagraphBlock createBlockRq = ParagraphBlock.of("Text block");
+    ParagraphBlock createBlockRq = paragraph("Text block");
     BlockList createResult = getNotion().blocks().appendChildren(currTestPageId, createBlockRq);
     String blockId = createResult.getResults().get(0).getId();
 
-    HeadingThreeBlock headingBlock = HeadingThreeBlock.of("heading text");
+    HeadingThreeBlock headingBlock = heading3("heading text");
 
     assertThrowsExactly(
         ValidationException.class, () -> getNotion().blocks().update(blockId, headingBlock));
@@ -192,8 +183,9 @@ public class BlocksIT extends BaseIntegrationTest {
   public void testInsertToPosition() {
 
     AppendBlockChildrenParams initialRq =
-        AppendBlockChildrenParams.of(
-            List.of(ParagraphBlock.of("initial block 1"), ParagraphBlock.of("initial block 2")));
+        AppendBlockChildrenParams.builder()
+            .children(List.of(paragraph("initial block 1"), paragraph("initial block 2")))
+            .build();
 
     BlockList createResult = getNotion().blocks().appendChildren(currTestPageId, initialRq);
     String firstInitialBlockId = createResult.getResults().get(0).getId();
@@ -201,7 +193,7 @@ public class BlocksIT extends BaseIntegrationTest {
 
     AppendBlockChildrenParams insertRq =
         AppendBlockChildrenParams.builder()
-            .children(ParagraphBlock.of("inserted block"))
+            .children(paragraph("inserted block"))
             .position(Position.afterBlock(firstInitialBlockId))
             .build();
 
@@ -221,10 +213,9 @@ public class BlocksIT extends BaseIntegrationTest {
   @DisplayName("[IT-23]: Blocks & File Uploads - Insert an uploaded file as an image")
   public void insertUploadedFileAsImage() {
     String fileUploadId = IntegrationTestAssisstant.getPrerequisites().getImageFileUploadId();
-
-    ImageBlock imageBlock = new ImageBlock();
-    imageBlock.setImage(FileData.fileUpload(fileUploadId));
-    imageBlock.getImage().setCaption(RichText.of("[IT-23]: An image from uploaded file"));
+    ImageBlock imageBlock =
+        NotionBlocks.image(
+            i -> i.fileUpload(fileUploadId).caption("[IT-23]: An image from uploaded file"));
 
     BlockList result = getNotion().blocks().appendChildren(currTestPageId, imageBlock);
 
@@ -237,34 +228,29 @@ public class BlocksIT extends BaseIntegrationTest {
   @DisplayName("[IT-42]: Blocks - Append textual block types")
   public void testAppendTextualBlocks() {
     List<Block> blocks =
-        BlocksBuilder.of()
+        blocksBuilder()
             .paragraph("paragraph")
-            .paragraph(p -> p.text("styled paragraph").color(Color.RED).bold())
+            .paragraph(plainText("styled paragraph").red().bold())
             .paragraph(
                 p ->
-                    p.richText(
-                            rt ->
-                                rt.text("complex")
-                                    .text(" paragraph ")
-                                    .code()
-                                    .bold()
-                                    .text(" with rich text")
-                                    .italic())
-                        .color(Color.GRAY_BACKGROUND)
-                        .underline())
-            .bulletedListItem("bulleted list item")
-            .bulletedListItem(td -> td.text("bulleted list item").color(Color.GRAY))
+                    p.text(
+                            plainText("complex"),
+                            plainText(" paragraph ").code().bold(),
+                            plainText(" with rich text").italic())
+                        .blockColor(Color.GRAY_BACKGROUND))
+            .bullet("bulleted list item")
+            .bullet(td -> td.text("bulleted list item").blockColor(Color.GRAY))
             .toggle("toggle block")
             .toggle(t -> t.text("toggle w/children").children(c -> c.paragraph("nested text")))
             .todo("todo block")
             .todo(t -> t.checked().text("checked todo"))
             .quote("quote block")
-            .code("print('hello world')", "java")
+            .code("java", "print('hello world')")
             .callout("🍊", "Call out for oranges")
             .callout(
                 c ->
                     c.text("Callout with children")
-                        .color(Color.ORANGE_BACKGROUND)
+                        .blockColor(Color.ORANGE_BACKGROUND)
                         .icon(Icon.emoji("⚡"))
                         .children(
                             cb -> cb.divider().paragraph("nested text").paragraph("another one")))
@@ -279,15 +265,15 @@ public class BlocksIT extends BaseIntegrationTest {
   public void testAppendHeadingBlocks() {
 
     List<Block> headings =
-        BlocksBuilder.of()
+        blocksBuilder()
             .heading1("simple heading")
-            .heading2(h -> h.text("coloured heading").color(Color.BLUE))
+            .heading2(h -> h.text("coloured heading").blockColor(Color.BLUE))
             .heading3(
                 h ->
                     h.text("heading with children automatically makes it toggleable")
-                        .color(Color.ORANGE)
+                        .blockColor(Color.ORANGE)
                         .children(cb -> cb.paragraph("nested text").breadcrumb()))
-            .heading3(h -> h.text("empty toggleable heading").color("orange").toggleable(true))
+            .heading3(h -> h.text("empty toggleable heading").blockColor("orange").toggleable(true))
             .heading4("other blocks")
             .heading4("Other blocks below")
             .build();
@@ -303,7 +289,7 @@ public class BlocksIT extends BaseIntegrationTest {
         TableBlock.builder()
             .tableWidth(5)
             .hasColumnHeader(true)
-            .children(
+            .rows(
                 rows ->
                     rows.row()
                         .cell("Mon")
@@ -318,6 +304,11 @@ public class BlocksIT extends BaseIntegrationTest {
                         .cell("gym")
                         .cell("run"))
             .build();
+
+    table =
+        NotionBlocks.table(
+            NotionBlocks.tableRow("Mon", "Tue", "Wed", "Thu", "Fri"),
+            NotionBlocks.tableRow("gym", "run", "bike", "gym", "run"));
 
     BlockList result = getNotion().blocks().appendChildren(currTestPageId, table);
     assertEquals(1, result.getResults().size());
@@ -335,15 +326,14 @@ public class BlocksIT extends BaseIntegrationTest {
   @DisplayName("[IT-59]: Append links and media block types")
   public void testAppendLinksAndMediaBlocks() {
     List<Block> linksAndMedia =
-        BlocksBuilder.of()
+        blocksBuilder()
             .bookmark("https://www.notion.so")
             .bookmark(
                 b ->
                     b.url("https://github.com/kristaxlab/notion-sdk")
                         .caption("Notion SDK on GitHub"))
             .image(
-                FileData.external(
-                    "https://www.notion.com/_next/image?url=%2Ffront-static%2Fagents%2Fglobe.png&w=96&q=75"))
+                "https://www.notion.com/_next/image?url=%2Ffront-static%2Fagents%2Fglobe.png&w=96&q=75")
             .embed("https://www.youtube.com/watch?v=dQw4w9WgXcQ")
             .linkToPage(currTestPageId)
             .linkToDatabase(IntegrationTestAssisstant.getPrerequisites().getTestDatabaseId())
@@ -357,11 +347,11 @@ public class BlocksIT extends BaseIntegrationTest {
   @DisplayName("[IT-60]: Append synced blocks")
   public void testAppendSynchedBlock() {
     SyncedBlock original =
-        SyncedBlock.original(
+        NotionBlocks.synced(
             b ->
                 b.paragraph("This is the original synced block content.")
-                    .bulletedListItem("Original item 1")
-                    .bulletedListItem("Original item 2"));
+                    .bullet("Original item 1")
+                    .bullet("Original item 2"));
 
     BlockList originalBlockRS = getNotion().blocks().appendChildren(currTestPageId, original);
     assertEquals(1, originalBlockRS.getResults().size());
@@ -369,14 +359,14 @@ public class BlocksIT extends BaseIntegrationTest {
     assertNull(originalBlockRS.getResults().get(0).asSynced().getSyncedBlock().getSyncedFrom());
 
     String originalBlockId = originalBlockRS.getResults().get(0).getId();
-    SyncedBlock synced = SyncedBlock.syncedFrom(originalBlockId);
+    SyncedBlock synced = NotionBlocks.syncedFrom(originalBlockId);
     BlockList syncedBlockRS = getNotion().blocks().appendChildren(currTestPageId, synced);
 
     SyncedBlock savedSyncedBlock = syncedBlockRS.getResults().get(0).asSynced();
     assertEquals(1, syncedBlockRS.getResults().size());
     assertEquals(originalBlockId, savedSyncedBlock.getSyncedBlock().getSyncedFrom().getBlockId());
 
-    // undynking is not supported
+    // unsynking is not supported
 
     savedSyncedBlock.getSyncedBlock().setSyncedFrom(null);
 
@@ -388,27 +378,18 @@ public class BlocksIT extends BaseIntegrationTest {
   @Test
   @DisplayName("[IT-61]: Append other block types (not included in INT-42, 57, 58, 59)")
   public void testAppendOtherBlock() {
-    List<Block> blocks =
-        BlocksBuilder.of()
+
+    List<Block> other =
+        blocksBuilder()
             .breadcrumb()
             .tableOfContents(Color.YELLOW)
-            .columns(3)
             .columns(
-                c ->
-                    c.column(
-                            b ->
-                                b.paragraph(p -> p.text("column 1").color(Color.PURPLE_BACKGROUND)))
-                        .blankColumn()
-                        .column(b -> b.paragraph("column 3"))
-                        .widthRatios(3, 1, 3))
+                left -> left.heading1("To Do list").todo("Item 1").todo("Item 2"),
+                middle -> middle.heading1("Numbered list").numbered("Item 1").numbered("Item 2"),
+                right -> right.heading1("Bulleted list").bullet("Item 1").bullet("Item 2"))
             .build();
 
-    BlockList result = getNotion().blocks().appendChildren(currTestPageId, blocks);
-    assertEquals(blocks.size(), result.getResults().size());
+    BlockList resultOther = getNotion().blocks().appendChildren(currTestPageId, other);
+    assertEquals(other.size(), resultOther.getResults().size());
   }
-
-  // TODO
-  // документация для всех блоков
-  // подтянуть md файлы и дополнить документацию примерами для всех блоков
-  // потом, безопасные враперы для ответов с поддержкой самых частых сценариев
 }

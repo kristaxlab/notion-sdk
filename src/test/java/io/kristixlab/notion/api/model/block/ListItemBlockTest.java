@@ -3,6 +3,7 @@ package io.kristixlab.notion.api.model.block;
 import static org.junit.jupiter.api.Assertions.*;
 
 import io.kristixlab.notion.api.model.common.Color;
+import io.kristixlab.notion.api.model.helper.NotionBlocks;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 
@@ -20,7 +21,7 @@ class ListItemBlockTest {
 
   @Test
   void bulletedListItem_of_setsRichText() {
-    BulletedListItemBlock block = BulletedListItemBlock.of("Item 1");
+    BulletedListItemBlock block = NotionBlocks.bullet("Item 1");
 
     assertEquals("bulleted_list_item", block.getType());
     assertEquals(1, block.getBulletedListItem().getRichText().size());
@@ -37,7 +38,7 @@ class ListItemBlockTest {
   @Test
   void bulletedListItem_builder_withColor() {
     BulletedListItemBlock block =
-        BulletedListItemBlock.builder().text("Colored").color(Color.ORANGE).build();
+        BulletedListItemBlock.builder().text("Colored").blockColor(Color.ORANGE).build();
 
     assertEquals("orange", block.getBulletedListItem().getColor());
   }
@@ -45,23 +46,10 @@ class ListItemBlockTest {
   @Test
   void bulletedListItem_builder_withChildren() {
     BulletedListItemBlock block =
-        BulletedListItemBlock.builder()
-            .text("Parent")
-            .children(c -> c.bulletedListItem("Sub-item"))
-            .build();
+        BulletedListItemBlock.builder().text("Parent").children(c -> c.bullet("Sub-item")).build();
 
     assertNotNull(block.getBulletedListItem().getChildren());
     assertEquals(1, block.getBulletedListItem().getChildren().size());
-  }
-
-  @Test
-  void bulletedListItem_builder_withAnnotations() {
-    BulletedListItemBlock block =
-        BulletedListItemBlock.builder().text("Bold item").bold().strikethrough().build();
-
-    assertTrue(block.getBulletedListItem().getRichText().get(0).getAnnotations().getBold());
-    assertTrue(
-        block.getBulletedListItem().getRichText().get(0).getAnnotations().getStrikethrough());
   }
 
   // NumberedListItemBlock
@@ -75,8 +63,8 @@ class ListItemBlockTest {
   }
 
   @Test
-  void numberedListItem_of_setsRichText() {
-    NumberedListItemBlock block = NumberedListItemBlock.of("Step 1");
+  void numberedListItem_factory_setsRichText() {
+    NumberedListItemBlock block = NotionBlocks.numbered("Step 1");
 
     assertEquals("numbered_list_item", block.getType());
     assertEquals("Step 1", block.getNumberedListItem().getRichText().get(0).getPlainText());
@@ -94,8 +82,8 @@ class ListItemBlockTest {
     NumberedListItemBlock block =
         NumberedListItemBlock.builder()
             .text("Parent")
-            .color(Color.GREEN)
-            .children(c -> c.numberedListItem("Sub-step"))
+            .blockColor(Color.GREEN)
+            .children(c -> c.numbered("Sub-step"))
             .build();
 
     assertEquals("green", block.getNumberedListItem().getColor());
@@ -105,7 +93,7 @@ class ListItemBlockTest {
 
   @Test
   void numberedListItem_builder_withChildrenList() {
-    List<Block> children = List.of(ParagraphBlock.of("Child"));
+    List<Block> children = NotionBlocks.paragraphList("Child");
 
     NumberedListItemBlock block =
         NumberedListItemBlock.builder().text("Parent").children(children).build();

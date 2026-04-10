@@ -1,11 +1,14 @@
 package io.kristixlab.notion.api.endpoints;
 
+import io.kristixlab.notion.api.model.block.Block;
 import io.kristixlab.notion.api.model.common.Parent;
+import io.kristixlab.notion.api.model.helper.NotionBlocksBuilder;
 import io.kristixlab.notion.api.model.page.*;
 import io.kristixlab.notion.api.model.page.markdown.ContentUpdate;
 import io.kristixlab.notion.api.model.page.markdown.UpdatePageAsMarkdownParams;
 import io.kristixlab.notion.api.model.page.property.PageProperty;
 import java.util.List;
+import java.util.function.Consumer;
 
 /*
  * Interface defining operations for Notion Pages.
@@ -14,6 +17,14 @@ import java.util.List;
 public interface PagesEndpoint {
 
   Page create(CreatePageParams request);
+
+  Page create(Parent parent, String title);
+
+  Page create(Parent parent, String title, String markdownContent);
+
+  Page create(Parent parent, String title, List<Block> content);
+
+  Page create(Parent parent, String title, Consumer<NotionBlocksBuilder> consumer);
 
   Page retrieve(String pageId);
 

@@ -19,16 +19,4 @@ public class ImageBlock extends Block {
     setType("image");
     image = new FileData();
   }
-
-  /**
-   * Creates an image block from the given file data.
-   *
-   * @param fileData the image file data (external URL or Notion-hosted file)
-   * @return a new ImageBlock
-   */
-  public static ImageBlock of(FileData fileData) {
-    ImageBlock imageBlock = new ImageBlock();
-    imageBlock.setImage(fileData);
-    return imageBlock;
-  }
 }

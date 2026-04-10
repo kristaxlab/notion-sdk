@@ -18,7 +18,7 @@ class CalloutBlockTest {
 
   @Test
   void of_setsEmojiAndText() {
-    CalloutBlock block = CalloutBlock.of("⚠️", "Warning message");
+    CalloutBlock block = CalloutBlock.builder().text("Warning message").emoji("⚠️").build();
 
     assertEquals("callout", block.getType());
     assertEquals(1, block.getCallout().getRichText().size());
@@ -57,7 +57,7 @@ class CalloutBlockTest {
   @Test
   void builder_withColor() {
     CalloutBlock block =
-        CalloutBlock.builder().text("Colored").emoji("🔴").color(Color.RED_BACKGROUND).build();
+        CalloutBlock.builder().text("Colored").emoji("🔴").blockColor(Color.RED_BACKGROUND).build();
 
     assertEquals("red_background", block.getCallout().getColor());
   }
@@ -73,13 +73,6 @@ class CalloutBlockTest {
 
     assertNotNull(block.getCallout().getChildren());
     assertEquals(1, block.getCallout().getChildren().size());
-  }
-
-  @Test
-  void builder_withAnnotations() {
-    CalloutBlock block = CalloutBlock.builder().text("Bold callout").emoji("🔥").bold().build();
-
-    assertTrue(block.getCallout().getRichText().get(0).getAnnotations().getBold());
   }
 
   @Test

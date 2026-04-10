@@ -23,15 +23,6 @@ public class TableBlock extends Block {
     table = new Table();
   }
 
-  /**
-   * Returns a new builder for constructing a {@link TableBlock}.
-   *
-   * @return a new builder
-   */
-  public static Builder builder() {
-    return new Builder();
-  }
-
   /** The inner content object of a table block. */
   @Getter
   @Setter
@@ -46,14 +37,27 @@ public class TableBlock extends Block {
     private List<TableRowBlock> children;
   }
 
+  /**
+   * Returns a new builder for constructing a {@link TableBlock}.
+   *
+   * @return a new builder
+   */
+  public static Builder builder() {
+    return new Builder();
+  }
+
   /** Builder for {@link TableBlock}. */
   public static class Builder {
 
-    private final TableBlock tableBlock;
+    private Integer tableWidth;
 
-    private Builder() {
-      this.tableBlock = new TableBlock();
-    }
+    private boolean hasColumnHeader;
+
+    private boolean hasRowHeader;
+
+    private final List<TableRowBlock> children = new ArrayList<>();
+
+    private Builder() {}
 
     /**
      * Sets the number of columns in the table.
@@ -62,7 +66,7 @@ public class TableBlock extends Block {
      * @return this builder
      */
     public Builder tableWidth(int tableWidth) {
-      tableBlock.getTable().setTableWidth(tableWidth);
+      this.tableWidth = tableWidth;
       return this;
     }
 
@@ -73,7 +77,7 @@ public class TableBlock extends Block {
      * @return this builder
      */
     public Builder hasColumnHeader(boolean hasColumnHeader) {
-      tableBlock.getTable().setHasColumnHeader(hasColumnHeader);
+      this.hasColumnHeader = hasColumnHeader;
       return this;
     }
 
@@ -84,7 +88,7 @@ public class TableBlock extends Block {
      * @return this builder
      */
     public Builder hasRowHeader(boolean hasRowHeader) {
-      tableBlock.getTable().setHasRowHeader(hasRowHeader);
+      this.hasRowHeader = hasRowHeader;
       return this;
     }
 
@@ -94,10 +98,10 @@ public class TableBlock extends Block {
      * @param rowsConsumer a consumer that defines rows via the row builder
      * @return this builder
      */
-    public Builder children(Consumer<TableRowBlock.Builder> rowsConsumer) {
+    public Builder rows(Consumer<TableRowBlock.Builder> rowsConsumer) {
       TableRowBlock.Builder builder = TableRowBlock.builder();
       rowsConsumer.accept(builder);
-      getChildren().addAll(builder.buildList());
+      this.children.addAll(builder.buildList());
       return this;
     }
 
@@ -107,24 +111,43 @@ public class TableBlock extends Block {
      * @param rows the table row blocks to add
      * @return this builder
      */
-    public Builder children(List<TableRowBlock> rows) {
-      getChildren().addAll(rows);
+    public Builder rows(List<TableRowBlock> rows) {
+      this.children.addAll(rows);
       return this;
-    }
-
-    private List<TableRowBlock> getChildren() {
-      if (tableBlock.getTable().getChildren() == null) {
-        tableBlock.getTable().setChildren(new ArrayList<>());
-      }
-      return tableBlock.getTable().getChildren();
     }
 
     /**
      * Builds the {@link TableBlock}.
      *
+     * <p>If {@link #tableWidth(int)} was never called, the width is inferred from the first row's
+     * cell count. An explicit call to {@link #tableWidth(int)} always takes precedence.
+     *
      * @return a new TableBlock
      */
     public TableBlock build() {
+      TableBlock tableBlock = new TableBlock();
+      tableBlock.getTable().setHasColumnHeader(hasColumnHeader);
+      tableBlock.getTable().setHasRowHeader(hasRowHeader);
+      if (tableWidth == null) {
+        if (!children.isEmpty()) {
+          tableWidth = children.get(0).getTableRow().getCells().size();
+        } else {
+          tableWidth = 0;
+        }
+      }
+      tableBlock.getTable().setTableWidth(tableWidth);
+      if (!children.isEmpty()) {
+        for (TableRowBlock row : children) {
+          if (row.getTableRow() == null
+              || row.getTableRow().getCells() == null
+              || row.getTableRow().getCells().size() != tableWidth) {
+            throw new IllegalStateException(
+                "All rows must have a cell count equal to the table width of " + tableWidth);
+          }
+        }
+        tableBlock.getTable().setChildren(new ArrayList<>(children));
+      }
+
       return tableBlock;
     }
   }

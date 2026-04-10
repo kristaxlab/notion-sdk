@@ -2,13 +2,14 @@ package io.kristixlab.notion.api.model.block;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import io.kristixlab.notion.api.model.helper.NotionBlocks;
 import org.junit.jupiter.api.Test;
 
 class BlockCastTest {
 
   @Test
   void asParagraph_success() {
-    Block block = ParagraphBlock.of("Test");
+    Block block = NotionBlocks.paragraph("text");
     ParagraphBlock result = block.asParagraph();
     assertNotNull(result);
   }
@@ -21,67 +22,67 @@ class BlockCastTest {
 
   @Test
   void asBreadcrumb_success() {
-    Block block = BreadcrumbBlock.of();
+    Block block = new BreadcrumbBlock();
     assertNotNull(block.asBreadcrumb());
   }
 
   @Test
   void asHeadingOne_success() {
-    Block block = HeadingOneBlock.of("H1");
+    Block block = NotionBlocks.heading1("H1");
     assertNotNull(block.asHeadingOne());
   }
 
   @Test
   void asHeadingTwo_success() {
-    Block block = HeadingTwoBlock.of("H2");
+    Block block = NotionBlocks.heading2("H2");
     assertNotNull(block.asHeadingTwo());
   }
 
   @Test
   void asHeadingThree_success() {
-    Block block = HeadingThreeBlock.of("H3");
+    Block block = NotionBlocks.heading3("H3");
     assertNotNull(block.asHeadingThree());
   }
 
   @Test
   void asToDo_success() {
-    Block block = ToDoBlock.of("Task");
+    Block block = NotionBlocks.todo("Task");
     assertNotNull(block.asToDo());
   }
 
   @Test
   void asBulletedListItem_success() {
-    Block block = BulletedListItemBlock.of("Item");
+    Block block = NotionBlocks.bullet("Item");
     assertNotNull(block.asBulletedListItem());
   }
 
   @Test
   void asNumberedListItem_success() {
-    Block block = NumberedListItemBlock.of("Step");
+    Block block = NotionBlocks.numbered("Step");
     assertNotNull(block.asNumberedListItem());
   }
 
   @Test
   void asQuote_success() {
-    Block block = QuoteBlock.of("Quote");
+    Block block = NotionBlocks.quote("Quote");
     assertNotNull(block.asQuote());
   }
 
   @Test
   void asCallout_success() {
-    Block block = CalloutBlock.of("⚠️", "Warning");
+    Block block = NotionBlocks.callout("⚠️", "Warning");
     assertNotNull(block.asCallout());
   }
 
   @Test
   void asCode_success() {
-    Block block = CodeBlock.of("code", "java");
+    Block block = NotionBlocks.code("java", "System.out.println(\"Hello\");");
     assertNotNull(block.asCode());
   }
 
   @Test
   void asToggle_success() {
-    Block block = ToggleBlock.of("Toggle");
+    Block block = NotionBlocks.toggle("Toggle");
     assertNotNull(block.asToggle());
   }
 
@@ -93,7 +94,7 @@ class BlockCastTest {
 
   @Test
   void asColumn_success() {
-    Block block = ColumnBlock.of();
+    Block block = new ColumnBlock();
     assertNotNull(block.asColumn());
   }
 
@@ -105,13 +106,13 @@ class BlockCastTest {
 
   @Test
   void asBookmark_success() {
-    Block block = BookmarkBlock.of("https://example.com");
+    Block block = NotionBlocks.bookmark("https://example.com");
     assertNotNull(block.asBookmark());
   }
 
   @Test
   void asEmbed_success() {
-    Block block = EmbedBlock.of("https://youtube.com");
+    Block block = NotionBlocks.embed("https://youtube.com");
     assertNotNull(block.asEmbed());
   }
 
@@ -129,13 +130,13 @@ class BlockCastTest {
 
   @Test
   void asTableOfContents_success() {
-    Block block = TableOfContentsBlock.of();
+    Block block = new TableOfContentsBlock();
     assertNotNull(block.asTableOfContents());
   }
 
   @Test
   void asLinkToPage_success() {
-    Block block = LinkToPageBlock.pageLink("id");
+    Block block = NotionBlocks.linkToPage("id");
     assertNotNull(block.asLinkToPage());
   }
 
@@ -147,7 +148,7 @@ class BlockCastTest {
 
   @Test
   void asEquation_success() {
-    Block block = EquationBlock.of("x^2");
+    Block block = NotionBlocks.equation("x^2");
     assertNotNull(block.asEquation());
   }
 
