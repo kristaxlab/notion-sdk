@@ -1,13 +1,21 @@
 package io.kristixlab.notion.api.endpoints.impl;
 
+import static io.kristixlab.notion.api.endpoints.util.Validator.checkNotNull;
+import static io.kristixlab.notion.api.endpoints.util.Validator.checkNotNullOrEmpty;
+
 import io.kristixlab.notion.api.endpoints.BlocksEndpoint;
+import io.kristixlab.notion.api.endpoints.util.Validator;
 import io.kristixlab.notion.api.http.base.client.ApiClient;
 import io.kristixlab.notion.api.http.base.request.ApiPath;
 import io.kristixlab.notion.api.model.block.AppendBlockChildrenParams;
 import io.kristixlab.notion.api.model.block.Block;
 import io.kristixlab.notion.api.model.block.BlockList;
 import io.kristixlab.notion.api.model.common.Position;
+import io.kristixlab.notion.api.model.helper.NotionBlocks;
+import io.kristixlab.notion.api.model.helper.NotionBlocksBuilder;
 import java.util.List;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 /**
  * API for interacting with Notion Blocks endpoints. Provides methods to retrieve, create, update,
@@ -26,7 +34,8 @@ public class BlocksEndpointImpl extends BaseEndpointImpl implements BlocksEndpoi
    * @return The block object
    */
   public Block retrieve(String blockId) {
-    validateBlockId(blockId);
+    checkNotNullOrEmpty(blockId, "blockId");
+
     ApiPath urlInfo = ApiPath.builder("/blocks/{block_id}").pathParam("block_id", blockId).build();
     return getClient().call("GET", urlInfo, Block.class);
   }
@@ -50,7 +59,7 @@ public class BlocksEndpointImpl extends BaseEndpointImpl implements BlocksEndpoi
    * @return BlocksResponse containing the child blocks
    */
   public BlockList retrieveChildren(String blockId, String startCursor, Integer pageSize) {
-    validateBlockId(blockId);
+    checkNotNullOrEmpty(blockId, "blockId");
 
     ApiPath.Builder urlInfo =
         paginatedPath("/blocks/{block_id}/children", startCursor, pageSize)
@@ -93,8 +102,35 @@ public class BlocksEndpointImpl extends BaseEndpointImpl implements BlocksEndpoi
    * @return BlocksResponse containing the appended blocks
    */
   @Override
-  public BlockList appendChildren(String parentBlockId, List<Block> children) {
+  public BlockList appendChildren(String parentBlockId, List<? extends Block> children) {
     return appendChildren(parentBlockId, children, null);
+  }
+
+  @Override
+  public BlockList appendChildren(String parentBlockId, Consumer<NotionBlocksBuilder> consumer) {
+
+    return appendChildren(parentBlockId, consumer, null);
+  }
+
+  @Override
+  public BlockList appendChildren(
+      String parentBlockId, Consumer<NotionBlocksBuilder> consumer, Position position) {
+    checkNotNull(consumer, "consumer");
+    NotionBlocksBuilder builder = NotionBlocks.blocksBuilder();
+    consumer.accept(builder);
+    return appendChildren(parentBlockId, builder.build(), position);
+  }
+
+  @Override
+  public BlockList appendChildren(String parentBlockId, Supplier<List<? extends Block>> supplier) {
+    return appendChildren(parentBlockId, supplier, null);
+  }
+
+  @Override
+  public BlockList appendChildren(
+      String parentBlockId, Supplier<List<? extends Block>> supplier, Position position) {
+    checkNotNull(supplier, "supplier");
+    return appendChildren(parentBlockId, supplier.get(), position);
   }
 
   /**
@@ -107,9 +143,12 @@ public class BlocksEndpointImpl extends BaseEndpointImpl implements BlocksEndpoi
    */
   @Override
   public BlockList appendChildren(
-      String parentBlockId, java.util.List<Block> block, Position position) {
+      String parentBlockId, List<? extends Block> block, Position position) {
+    Validator.checkNotNullOrEmpty(parentBlockId, "parentBlockId");
+
     AppendBlockChildrenParams request =
         AppendBlockChildrenParams.builder().children(block).position(position).build();
+
     return appendChildren(parentBlockId, request);
   }
 
@@ -121,8 +160,8 @@ public class BlocksEndpointImpl extends BaseEndpointImpl implements BlocksEndpoi
    * @return BlocksResponse containing the appended blocks
    */
   public BlockList appendChildren(String parentBlockId, AppendBlockChildrenParams request) {
-    validateBlockId(parentBlockId);
-    validateRequest(request);
+    checkNotNullOrEmpty(parentBlockId, "parentBlockId");
+    checkNotNull(request, "request");
 
     ApiPath urlInfo =
         ApiPath.builder("/blocks/{block_id}/children").pathParam("block_id", parentBlockId).build();
@@ -138,8 +177,8 @@ public class BlocksEndpointImpl extends BaseEndpointImpl implements BlocksEndpoi
    * @return The updated block
    */
   public Block update(String blockId, Block request) {
-    validateBlockId(blockId);
-    validateRequest(request);
+    checkNotNullOrEmpty(blockId, "blockId");
+    checkNotNull(request, "request");
 
     ApiPath urlInfo = ApiPath.builder("/blocks/{block_id}").pathParam("block_id", blockId).build();
 
@@ -153,7 +192,7 @@ public class BlocksEndpointImpl extends BaseEndpointImpl implements BlocksEndpoi
    * @return The deleted block (marked as archived)
    */
   public Block delete(String blockId) {
-    validateBlockId(blockId);
+    checkNotNullOrEmpty(blockId, "blockId");
     ApiPath urlInfo = ApiPath.builder("/blocks/{block_id}").pathParam("block_id", blockId).build();
     return getClient().call("DELETE", urlInfo, Block.class);
   }
@@ -165,32 +204,10 @@ public class BlocksEndpointImpl extends BaseEndpointImpl implements BlocksEndpoi
    * @return The deleted block (marked as archived)
    */
   public Block restore(String blockId) {
+    checkNotNullOrEmpty(blockId, "blockId");
+
     Block body = new Block();
     body.setInTrash(false);
     return update(blockId, body);
-  }
-
-  /**
-   * Validates the block ID.
-   *
-   * @param blockId The block ID to validate
-   * @throws IllegalArgumentException if the block ID is null or empty
-   */
-  private void validateBlockId(String blockId) {
-    if (blockId == null || blockId.trim().isEmpty()) {
-      throw new IllegalArgumentException("Block ID cannot be null or empty");
-    }
-  }
-
-  /**
-   * Validates the request object.
-   *
-   * @param request The request object to validate
-   * @throws IllegalArgumentException if the request is null
-   */
-  private void validateRequest(Object request) {
-    if (request == null) {
-      throw new IllegalArgumentException("Request cannot be null");
-    }
   }
 }
