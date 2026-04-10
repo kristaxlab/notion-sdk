@@ -73,8 +73,6 @@ public final class BlockListView implements Iterable<Block> {
     return new BlockListView(new ArrayList<>(Arrays.asList(blocks)));
   }
 
-  // ── Type filtering ──────────────────────────────────────────────────────────
-
   /**
    * Returns a view containing only blocks that are instances of the given type.
    *
@@ -181,8 +179,6 @@ public final class BlockListView implements Iterable<Block> {
     return ofType(ImageBlock.class);
   }
 
-  // ── To-do specific ──────────────────────────────────────────────────────────
-
   /**
    * Returns a view containing only checked {@link ToDoBlock} instances. Non-ToDo blocks are
    * silently filtered out.
@@ -204,8 +200,6 @@ public final class BlockListView implements Iterable<Block> {
     return where(b -> b instanceof ToDoBlock t && !Boolean.TRUE.equals(t.getToDo().getChecked()));
   }
 
-  // ── General-purpose filter ──────────────────────────────────────────────────
-
   /**
    * Returns a view containing only blocks that match the given predicate.
    *
@@ -221,8 +215,6 @@ public final class BlockListView implements Iterable<Block> {
     }
     return filtered.isEmpty() ? EMPTY : new BlockListView(filtered);
   }
-
-  // ── Text extraction ─────────────────────────────────────────────────────────
 
   /**
    * Extracts the plain text from all textual blocks, joining each block's text with a newline
@@ -261,8 +253,6 @@ public final class BlockListView implements Iterable<Block> {
     }
     return texts;
   }
-
-  // ── Navigation ──────────────────────────────────────────────────────────────
 
   /**
    * Returns the first block in this view.
@@ -313,8 +303,6 @@ public final class BlockListView implements Iterable<Block> {
     return blocks.isEmpty() ? Optional.empty() : Optional.of(blocks.get(blocks.size() - 1));
   }
 
-  // ── Tree traversal ──────────────────────────────────────────────────────────
-
   /**
    * Returns a flattened view that includes every block at every depth, using depth-first traversal.
    * Parent blocks appear before their children, matching the natural reading order of a Notion
@@ -341,8 +329,6 @@ public final class BlockListView implements Iterable<Block> {
     }
     return flat.isEmpty() ? EMPTY : new BlockListView(flat);
   }
-
-  // ── Typed access ────────────────────────────────────────────────────────────
 
   /**
    * Casts all blocks in this view to the given type and returns them as a typed list. This is
@@ -379,8 +365,6 @@ public final class BlockListView implements Iterable<Block> {
   public Stream<Block> stream() {
     return blocks.stream();
   }
-
-  // ── Collection-like operations ──────────────────────────────────────────────
 
   /**
    * Returns the number of blocks in this view.
@@ -420,8 +404,6 @@ public final class BlockListView implements Iterable<Block> {
   public Iterator<Block> iterator() {
     return Collections.unmodifiableList(blocks).iterator();
   }
-
-  // ── Private helpers ─────────────────────────────────────────────────────────
 
   /**
    * Extracts plain text from a single block by concatenating the {@code plainText} field of each
