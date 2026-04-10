@@ -147,7 +147,7 @@ try {
 - `io.kristixlab.notion.api.http.base.request` -- ApiPath
 - `io.kristixlab.notion.api.http.error` -- NotionApiException hierarchy
 - `io.kristixlab.notion.api.model` -- BaseNotionObject, NotionError
-- `io.kristixlab.notion.api.model.blocks` -- Block + 30 subtypes
+- `io.kristixlab.notion.api.model.block` -- Block + 30 subtypes
 - `io.kristixlab.notion.api.model.common` -- RichText, Parent, Icon, FileData
 - `io.kristixlab.notion.api.model.page` -- PageRequest
-- `io.kristixlab.notion.api.model.users` -- User, Person
+- `io.kristixlab.notion.api.model.user` -- User, Person

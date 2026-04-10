@@ -21,7 +21,7 @@ class FileUploadSendParamsTest {
           FileUploadSendParams.builder()
               .inputStream(is)
               .contentType("application/pdf")
-              .fileName("report.pdf")
+              .filename("report.pdf")
               .partNumber(1)
               .build();
 
@@ -29,7 +29,7 @@ class FileUploadSendParamsTest {
       assertNull(params.getBytes());
       assertNull(params.getFile());
       assertEquals("application/pdf", params.getContentType());
-      assertEquals("report.pdf", params.getFileName());
+      assertEquals("report.pdf", params.getFilename());
       assertEquals(1, params.getPartNumber());
     }
 
@@ -41,14 +41,14 @@ class FileUploadSendParamsTest {
           FileUploadSendParams.builder()
               .bytes(data)
               .contentType("image/png")
-              .fileName("icon.png")
+              .filename("icon.png")
               .build();
 
       assertSame(data, params.getBytes());
       assertNull(params.getInputStream());
       assertNull(params.getFile());
       assertEquals("image/png", params.getContentType());
-      assertEquals("icon.png", params.getFileName());
+      assertEquals("icon.png", params.getFilename());
     }
 
     @Test
@@ -59,26 +59,14 @@ class FileUploadSendParamsTest {
           FileUploadSendParams.builder()
               .file(file)
               .contentType("application/pdf")
-              .fileName("document.pdf")
+              .filename("document.pdf")
               .build();
 
       assertSame(file, params.getFile());
       assertNull(params.getInputStream());
       assertNull(params.getBytes());
       assertEquals("application/pdf", params.getContentType());
-      assertEquals("document.pdf", params.getFileName());
-    }
-
-    @Test
-    void buildEmpty_allFieldsAreNull() {
-      FileUploadSendParams params = FileUploadSendParams.builder().build();
-
-      assertNull(params.getInputStream());
-      assertNull(params.getBytes());
-      assertNull(params.getFile());
-      assertNull(params.getContentType());
-      assertNull(params.getFileName());
-      assertNull(params.getPartNumber());
+      assertEquals("document.pdf", params.getFilename());
     }
 
     @Test
@@ -94,7 +82,7 @@ class FileUploadSendParamsTest {
       FileUploadSendParams.Builder builder = FileUploadSendParams.builder();
 
       assertSame(builder, builder.contentType("text/plain"));
-      assertSame(builder, builder.fileName("readme.txt"));
+      assertSame(builder, builder.filename("readme.txt"));
       assertSame(builder, builder.partNumber(5));
     }
 
@@ -119,12 +107,23 @@ class FileUploadSendParamsTest {
 
       assertSame(builder, builder.file(new File("test.txt")));
     }
+
+    @Test
+    void buildReturnsNewInstanceEachCall() {
+      FileUploadSendParams.Builder builder =
+          FileUploadSendParams.builder().bytes(new byte[] {1}).filename("a.txt");
+
+      FileUploadSendParams first = builder.build();
+      FileUploadSendParams second = builder.build();
+
+      assertNotSame(first, second);
+      assertEquals("a.txt", first.getFilename());
+      assertEquals("a.txt", second.getFilename());
+    }
   }
 
   @Nested
   class BuilderMutualExclusion {
-
-    // inputStream conflicts
 
     @Test
     void inputStreamAfterBytes_throws() {
@@ -148,8 +147,6 @@ class FileUploadSendParamsTest {
       assertTrue(ex.getMessage().contains("file"));
     }
 
-    // bytes conflicts
-
     @Test
     void bytesAfterInputStream_throws() {
       FileUploadSendParams.Builder builder =
@@ -168,8 +165,6 @@ class FileUploadSendParamsTest {
           assertThrows(IllegalArgumentException.class, () -> builder.bytes(new byte[] {2}));
       assertTrue(ex.getMessage().contains("file"));
     }
-
-    // file conflicts
 
     @Test
     void fileAfterInputStream_throws() {
@@ -221,19 +216,37 @@ class FileUploadSendParamsTest {
   }
 
   @Nested
+  class BuilderBuildValidation {
+
+    @Test
+    void buildWithNoContentSource_throws() {
+      FileUploadSendParams.Builder builder = FileUploadSendParams.builder().filename("test.txt");
+
+      IllegalStateException ex = assertThrows(IllegalStateException.class, builder::build);
+      assertTrue(ex.getMessage().contains("inputStream"));
+      assertTrue(ex.getMessage().contains("bytes"));
+      assertTrue(ex.getMessage().contains("file"));
+    }
+
+    @Test
+    void buildEmpty_throws() {
+      assertThrows(IllegalStateException.class, () -> FileUploadSendParams.builder().build());
+    }
+  }
+
+  @Nested
   class OfFactoryMethods {
 
     @Test
     void ofInputStream_setsFieldsCorrectly() {
       InputStream is = new ByteArrayInputStream(new byte[] {4, 5, 6});
 
-      FileUploadSendParams params = FileUploadSendParams.of(is, "text/csv", "data.csv");
+      FileUploadSendParams params = FileUploadSendParams.of(is, "text/csv");
 
       assertSame(is, params.getInputStream());
       assertNull(params.getBytes());
       assertNull(params.getFile());
       assertEquals("text/csv", params.getContentType());
-      assertEquals("data.csv", params.getFileName());
       assertNull(params.getPartNumber());
     }
 
@@ -241,14 +254,12 @@ class FileUploadSendParamsTest {
     void ofBytes_setsFieldsCorrectly() {
       byte[] data = {7, 8, 9};
 
-      FileUploadSendParams params =
-          FileUploadSendParams.of(data, "application/octet-stream", "blob.bin");
+      FileUploadSendParams params = FileUploadSendParams.of(data, "application/octet-stream");
 
       assertSame(data, params.getBytes());
       assertNull(params.getInputStream());
       assertNull(params.getFile());
       assertEquals("application/octet-stream", params.getContentType());
-      assertEquals("blob.bin", params.getFileName());
       assertNull(params.getPartNumber());
     }
 
@@ -256,21 +267,20 @@ class FileUploadSendParamsTest {
     void ofFile_setsFieldsCorrectly() {
       File file = new File("archive.zip");
 
-      FileUploadSendParams params = FileUploadSendParams.of(file, "application/zip", "archive.zip");
+      FileUploadSendParams params = FileUploadSendParams.of(file, "application/zip");
 
       assertSame(file, params.getFile());
       assertNull(params.getInputStream());
       assertNull(params.getBytes());
       assertEquals("application/zip", params.getContentType());
-      assertEquals("archive.zip", params.getFileName());
       assertNull(params.getPartNumber());
     }
 
     @Test
     void ofInputStream_returnsNewInstanceEachCall() {
       InputStream is = new ByteArrayInputStream(new byte[] {1});
-      FileUploadSendParams a = FileUploadSendParams.of(is, "t", "f");
-      FileUploadSendParams b = FileUploadSendParams.of(is, "t", "f");
+      FileUploadSendParams a = FileUploadSendParams.of(is, "t");
+      FileUploadSendParams b = FileUploadSendParams.of(is, "t");
 
       assertNotSame(a, b);
     }
@@ -278,8 +288,8 @@ class FileUploadSendParamsTest {
     @Test
     void ofBytes_returnsNewInstanceEachCall() {
       byte[] data = {1};
-      FileUploadSendParams a = FileUploadSendParams.of(data, "t", "f");
-      FileUploadSendParams b = FileUploadSendParams.of(data, "t", "f");
+      FileUploadSendParams a = FileUploadSendParams.of(data, "t");
+      FileUploadSendParams b = FileUploadSendParams.of(data, "t");
 
       assertNotSame(a, b);
     }
@@ -287,10 +297,30 @@ class FileUploadSendParamsTest {
     @Test
     void ofFile_returnsNewInstanceEachCall() {
       File file = new File("f.txt");
-      FileUploadSendParams a = FileUploadSendParams.of(file, "t", "f");
-      FileUploadSendParams b = FileUploadSendParams.of(file, "t", "f");
+      FileUploadSendParams a = FileUploadSendParams.of(file, "t");
+      FileUploadSendParams b = FileUploadSendParams.of(file, "t");
 
       assertNotSame(a, b);
+    }
+
+    @Test
+    void ofInputStreamNull_throws() {
+      assertThrows(
+          IllegalArgumentException.class,
+          () -> FileUploadSendParams.of((InputStream) null, "text/plain"));
+    }
+
+    @Test
+    void ofBytesNull_throws() {
+      assertThrows(
+          IllegalArgumentException.class,
+          () -> FileUploadSendParams.of((byte[]) null, "text/plain"));
+    }
+
+    @Test
+    void ofFileNull_throws() {
+      assertThrows(
+          IllegalArgumentException.class, () -> FileUploadSendParams.of((File) null, "text/plain"));
     }
   }
 
@@ -308,16 +338,17 @@ class FileUploadSendParamsTest {
     @Test
     void settingFieldOnOneBuilder_doesNotAffectOther() {
       FileUploadSendParams.Builder builderA =
-          FileUploadSendParams.builder().bytes(new byte[] {1}).fileName("a.txt");
-      FileUploadSendParams.Builder builderB = FileUploadSendParams.builder().fileName("b.txt");
+          FileUploadSendParams.builder().bytes(new byte[] {1}).filename("a.txt");
+      FileUploadSendParams.Builder builderB =
+          FileUploadSendParams.builder().bytes(new byte[] {2}).filename("b.txt");
 
       FileUploadSendParams paramsA = builderA.build();
       FileUploadSendParams paramsB = builderB.build();
 
-      assertEquals("a.txt", paramsA.getFileName());
+      assertEquals("a.txt", paramsA.getFilename());
       assertNotNull(paramsA.getBytes());
-      assertEquals("b.txt", paramsB.getFileName());
-      assertNull(paramsB.getBytes());
+      assertEquals("b.txt", paramsB.getFilename());
+      assertNotNull(paramsB.getBytes());
     }
   }
 }

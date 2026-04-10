@@ -1,5 +1,6 @@
 package integration;
 
+import integration.helper.NotionTestClientProvider;
 import io.kristixlab.notion.api.NotionClient;
 import java.lang.reflect.Method;
 import java.nio.file.Path;

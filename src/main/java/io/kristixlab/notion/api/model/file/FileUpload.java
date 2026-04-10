@@ -1,7 +1,6 @@
 package io.kristixlab.notion.api.model.file;
 
-import io.kristixlab.notion.api.model.BaseNotionObject;
-import io.kristixlab.notion.api.model.users.User;
+import io.kristixlab.notion.api.model.common.NotionObject;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,25 +9,9 @@ import lombok.Setter;
  *
  * <p>Contains the file upload information including pre-signed URL and metadata.
  */
-// TODO comparing to NotionObject: parent, lastEditedBy are missing
 @Getter
 @Setter
-public class FileUpload extends BaseNotionObject {
-
-  /** The unique identifier for the file upload. */
-  private String id;
-
-  /** The time when the file upload was created. */
-  private String createdTime;
-
-  /** The user who created the file upload. */
-  private User createdBy;
-
-  /** The time when the file upload was last edited. */
-  private String lastEditedTime;
-
-  /** Whether the file upload is archived. */
-  private Boolean inTrash;
+public class FileUpload extends NotionObject {
 
   /** The expiration time for the upload URL. */
   private String expiryTime;

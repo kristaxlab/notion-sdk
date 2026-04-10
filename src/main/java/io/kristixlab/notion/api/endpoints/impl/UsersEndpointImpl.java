@@ -5,13 +5,11 @@ import static io.kristixlab.notion.api.endpoints.util.Validator.*;
 import io.kristixlab.notion.api.endpoints.UsersEndpoint;
 import io.kristixlab.notion.api.http.base.client.ApiClient;
 import io.kristixlab.notion.api.http.base.request.ApiPath;
-import io.kristixlab.notion.api.model.users.User;
-import io.kristixlab.notion.api.model.users.UserList;
+import io.kristixlab.notion.api.model.user.User;
+import io.kristixlab.notion.api.model.user.UserList;
 
 /** Provides access to Notion user resources for retrieving individual users and user listings. */
 public class UsersEndpointImpl extends BaseEndpointImpl implements UsersEndpoint {
-
-  private static final String USER_ID = "user_id";
 
   /**
    * Creates a users endpoint backed by the provided API client.
@@ -32,7 +30,7 @@ public class UsersEndpointImpl extends BaseEndpointImpl implements UsersEndpoint
   public User retrieve(String userId) {
     checkNotNullOrEmpty(userId, "userId");
 
-    ApiPath urlInfo = ApiPath.builder("/users/{user_id}").pathParam(USER_ID, userId).build();
+    ApiPath urlInfo = ApiPath.builder("/users/{user_id}").pathParam("user_id", userId).build();
     return getClient().call(GET, urlInfo, User.class);
   }
 

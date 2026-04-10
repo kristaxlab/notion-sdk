@@ -1,5 +1,8 @@
 package io.kristixlab.notion.api.endpoints.impl;
 
+import static io.kristixlab.notion.api.endpoints.util.Validator.checkNotNull;
+import static io.kristixlab.notion.api.endpoints.util.Validator.checkNotNullOrEmpty;
+
 import io.kristixlab.notion.api.endpoints.FileUploadsEndpoint;
 import io.kristixlab.notion.api.http.base.client.ApiClient;
 import io.kristixlab.notion.api.http.base.client.HttpClient.BytesPart;
@@ -10,6 +13,8 @@ import io.kristixlab.notion.api.http.base.client.HttpClient.Part;
 import io.kristixlab.notion.api.http.base.client.HttpClient.TextPart;
 import io.kristixlab.notion.api.http.base.request.ApiPath;
 import io.kristixlab.notion.api.model.file.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * API for file upload operations in Notion.
@@ -19,9 +24,6 @@ import io.kristixlab.notion.api.model.file.*;
  * Complete the file upload process 4. Retrieve and list file uploads
  */
 public class FileUploadsEndpointImpl extends BaseEndpointImpl implements FileUploadsEndpoint {
-
-  private static final String STATUS = "status";
-  private static final String FILE_UPLOAD_ID = "file_upload_id";
 
   public FileUploadsEndpointImpl(ApiClient client) {
     super(client);
@@ -35,8 +37,12 @@ public class FileUploadsEndpointImpl extends BaseEndpointImpl implements FileUpl
    * @return FileUpload containing the pre-signed URL and file metadata
    * @throws IllegalArgumentException if request or required fields are null/empty
    */
-  public FileUpload createFileUpload(FileUploadCreateParams request) {
-    validateRequest(request);
+  public FileUpload create(FileUploadCreateParams request) {
+    checkNotNull(request, "request");
+
+    if (request.getFilename() == null || request.getFilename().trim().isEmpty()) {
+      request.setFilename("filename");
+    }
     return getClient().call("POST", ApiPath.from("/file_uploads"), request, FileUpload.class);
   }
 
@@ -49,26 +55,25 @@ public class FileUploadsEndpointImpl extends BaseEndpointImpl implements FileUpl
    * @param request request
    * @return Response from the file upload service
    */
-  public FileUpload sendFileContent(String fileUploadId, FileUploadSendParams request) {
+  public FileUpload upload(String fileUploadId, FileUploadSendParams request) {
     validateRequest(request);
     ApiPath urlInfo =
         ApiPath.builder("/file_uploads/{file_upload_id}/send")
-            .pathParam(FILE_UPLOAD_ID, fileUploadId)
+            .pathParam("file_upload_id", fileUploadId)
             .build();
 
-    java.util.List<Part> parts = new java.util.ArrayList<>();
+    List<Part> parts = new ArrayList<>();
+    String filename = request.getFilename() != null ? request.getFilename() : "filename";
+    String contentType = request.getContentType();
+
     if (request.getFile() != null) {
-      parts.add(
-          new FilePart("file", request.getFileName(), request.getFile(), request.getContentType()));
+      parts.add(new FilePart("file", filename, request.getFile(), contentType));
     } else if (request.getBytes() != null) {
-      parts.add(
-          new BytesPart(
-              "file", request.getFileName(), request.getBytes(), request.getContentType()));
+      parts.add(new BytesPart("file", filename, request.getBytes(), contentType));
     } else if (request.getInputStream() != null) {
-      parts.add(
-          new InputStreamPart(
-              "file", request.getFileName(), request.getInputStream(), request.getContentType()));
+      parts.add(new InputStreamPart("file", filename, request.getInputStream(), contentType));
     }
+
     if (request.getPartNumber() != null) {
       parts.add(new TextPart("part_number", request.getPartNumber().toString()));
     }
@@ -82,12 +87,12 @@ public class FileUploadsEndpointImpl extends BaseEndpointImpl implements FileUpl
    * @param fileUploadId The ID of the file upload to complete
    * @return Updated FileUpload with completion status
    */
-  public FileUpload completeFileUpload(String fileUploadId) {
-    validateFileUploadId(fileUploadId);
+  public FileUpload complete(String fileUploadId) {
+    checkNotNullOrEmpty(fileUploadId, "fileUploadId");
 
     ApiPath urlInfo =
         ApiPath.builder("/file_uploads/{file_upload_id}/complete")
-            .pathParam(FILE_UPLOAD_ID, fileUploadId)
+            .pathParam("file_upload_id", fileUploadId)
             .build();
     return getClient().call("POST", urlInfo, new Object(), FileUpload.class);
   }
@@ -99,11 +104,12 @@ public class FileUploadsEndpointImpl extends BaseEndpointImpl implements FileUpl
    * @param fileUploadId The ID of the file upload to retrieve
    * @return FileUpload containing the file upload details
    */
-  public FileUpload retrieveFileUpload(String fileUploadId) {
-    validateFileUploadId(fileUploadId);
+  public FileUpload retrieve(String fileUploadId) {
+    checkNotNullOrEmpty(fileUploadId, "fileUploadId");
+
     ApiPath urlInfo =
         ApiPath.builder("/file_uploads/{file_upload_id}")
-            .pathParam(FILE_UPLOAD_ID, fileUploadId)
+            .pathParam("file_upload_id", fileUploadId)
             .build();
     return getClient().call("GET", urlInfo, FileUpload.class);
   }
@@ -151,74 +157,24 @@ public class FileUploadsEndpointImpl extends BaseEndpointImpl implements FileUpl
   public FileUploadList listFileUploads(String status, String startCursor, Integer pageSize) {
     ApiPath.Builder urlInfo = paginatedPath("/file_uploads", startCursor, pageSize);
     if (status != null && !status.trim().isEmpty()) {
-      urlInfo.queryParam(STATUS, status);
+      urlInfo.queryParam("status", status);
     }
 
     return getClient().call("GET", urlInfo.build(), FileUploadList.class);
   }
 
   /**
-   * Validates the file upload request.
+   * Validates the FileUploadSendParams request to ensure that exactly one of file, bytes, or
+   * inputStream is provided, and that contentType is not null. Throws IllegalArgumentException if
+   * validation fails.
    *
-   * @param request The request to validate
-   * @throws IllegalArgumentException if request or required fields are invalid
+   * @param request
    */
-  private void validateRequest(FileUploadCreateParams request) {
-    if (request == null) {
-      throw new IllegalArgumentException("FileUploadRequest cannot be null");
-    }
-
-    // Validate mode
-    String mode = request.getMode();
-    if (mode == null || mode.trim().isEmpty()) {
-      throw new IllegalArgumentException("Mode cannot be null or empty");
-    }
-
-    if (!("multi_part".equals(mode) || "external_url".equals(mode) || "single_part".equals(mode))) {
-      throw new IllegalArgumentException(
-          "Mode must be one of: multi_part, external_url, single_part");
-    }
-
-    // Validate filename for multi_part and external_url modes
-    if (("multi_part".equals(mode) || "external_url".equals(mode))) {
-      if (request.getFilename() == null || request.getFilename().trim().isEmpty()) {
-        throw new IllegalArgumentException("Filename is required when mode is " + mode);
-      }
-    }
-
-    // Validate number of parts for multi_part mode
-    if ("multi_part".equals(mode)) {
-      Integer numberOfParts = request.getNumberOfParts();
-      if (numberOfParts != null && (numberOfParts < 1 || numberOfParts > 1000)) {
-        throw new IllegalArgumentException(
-            "Number of parts must be between 1 and 1,000 for multi_part mode");
-      }
-    }
-
-    // Validate external URL for external_url mode
-    if ("external_url".equals(mode)) {
-      String externalUrl = request.getExternalUrl();
-      if (externalUrl == null || externalUrl.trim().isEmpty()) {
-        throw new IllegalArgumentException("External URL is required when mode is external_url");
-      }
-    }
-  }
-
-  private void validateFileUploadId(String fileUploadId) {
-    if (fileUploadId == null || fileUploadId.trim().isEmpty()) {
-      throw new IllegalArgumentException("File upload ID cannot be null or empty");
-    }
-  }
-
   private void validateRequest(FileUploadSendParams request) {
     if (request.getFile() == null
         && request.getBytes() == null
         && request.getInputStream() == null) {
       throw new IllegalArgumentException("One of file, bytes, or inputStream must be provided");
-    }
-
-    if (request.getFileName() == null || request.getFileName().trim().isEmpty()) {
-      throw new IllegalArgumentException("Filename cannot be null or empty");
     }
 
     if (request.getContentType() == null) {
