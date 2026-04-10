@@ -48,7 +48,7 @@ public class CreatePageParams {
 
     private Parent parent;
     private final Map<String, PageProperty> properties = new LinkedHashMap<>();
-    private List<Block> children = new ArrayList<>();
+    private final List<Block> children = new ArrayList<>();
     private Icon icon;
     private Cover cover;
     private String markdown;
@@ -62,6 +62,11 @@ public class CreatePageParams {
     /** Sets the parent to the page with the given ID. */
     public Builder inPage(String pageId) {
       return parent(Parent.pageParent(pageId));
+    }
+
+    // TODO test with public integration
+    public Builder inWorkspace() {
+      return parent(Parent.workspaceParent());
     }
 
     /** Sets a fully constructed {@link Parent}. */
@@ -122,8 +127,29 @@ public class CreatePageParams {
     }
 
     /** Sets the page icon. */
+    public Builder icon(String icon) {
+      if (icon.startsWith("https://") || icon.startsWith("http://")) {
+        this.icon = Icon.external(icon);
+      }
+      this.icon = Icon.emoji(icon);
+      return this;
+    }
+
+    /** Sets the page icon. */
     public Builder icon(Icon icon) {
       this.icon = icon;
+      return this;
+    }
+
+    /** Sets the page cover. */
+    public Builder cover(String coverRef) {
+      try {
+        UUID.fromString(coverRef);
+        this.cover = Cover.fileUpload(coverRef);
+      } catch (IllegalArgumentException e) {
+        // If the string is not a valid UUID, treat it as an external URL
+        this.cover = Cover.external(coverRef);
+      }
       return this;
     }
 

@@ -23,7 +23,7 @@ public class Icon {
   /** Only in response */
   private File file;
 
-  public static Icon icon(String name, String color) {
+  public static Icon notionIcon(String name, String color) {
     Icon icon = new Icon();
     icon.setType("icon");
     NotionIcon notionIcon = new NotionIcon();

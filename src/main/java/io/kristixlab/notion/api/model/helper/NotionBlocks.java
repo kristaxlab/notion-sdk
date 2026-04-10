@@ -39,12 +39,7 @@ public class NotionBlocks {
    */
   public static AudioBlock audio(String audioRef) {
     AudioBlock block = new AudioBlock();
-    try {
-      UUID uuid = UUID.fromString(audioRef);
-      block.setAudio(FileData.builder().fileUpload(uuid.toString()).build());
-    } catch (IllegalArgumentException e) {
-      block.setAudio(FileData.builder().externalUrl(audioRef).build());
-    }
+    block.setAudio(resolveFileData(audioRef));
     return block;
   }
 
@@ -276,12 +271,7 @@ public class NotionBlocks {
    */
   public static FileBlock file(String fileRef) {
     FileBlock block = new FileBlock();
-    try {
-      UUID uuid = UUID.fromString(fileRef);
-      block.setFile(FileData.builder().fileUpload(uuid.toString()).build());
-    } catch (IllegalArgumentException e) {
-      block.setFile(FileData.builder().externalUrl(fileRef).build());
-    }
+    block.setFile(resolveFileData(fileRef));
     return block;
   }
 
@@ -379,12 +369,7 @@ public class NotionBlocks {
    */
   public static ImageBlock image(String imageRef) {
     ImageBlock block = new ImageBlock();
-    try {
-      UUID uuid = UUID.fromString(imageRef);
-      block.setImage(FileData.builder().fileUpload(uuid.toString()).build());
-    } catch (IllegalArgumentException e) {
-      block.setImage(FileData.builder().externalUrl(imageRef).build());
-    }
+    block.setImage(resolveFileData(imageRef));
     return block;
   }
 
@@ -497,12 +482,7 @@ public class NotionBlocks {
    */
   public static PdfBlock pdf(String pdfRef) {
     PdfBlock block = new PdfBlock();
-    try {
-      UUID uuid = UUID.fromString(pdfRef);
-      block.setPdf(FileData.builder().fileUpload(uuid.toString()).build());
-    } catch (IllegalArgumentException e) {
-      block.setPdf(FileData.builder().externalUrl(pdfRef).build());
-    }
+    block.setPdf(resolveFileData(pdfRef));
     return block;
   }
 
@@ -723,12 +703,7 @@ public class NotionBlocks {
    */
   public static VideoBlock video(String videoRef) {
     VideoBlock block = new VideoBlock();
-    try {
-      UUID uuid = UUID.fromString(videoRef);
-      block.setVideo(FileData.builder().fileUpload(uuid.toString()).build());
-    } catch (IllegalArgumentException e) {
-      block.setVideo(FileData.builder().externalUrl(videoRef).build());
-    }
+    block.setVideo(resolveFileData(videoRef));
     return block;
   }
 
@@ -746,5 +721,14 @@ public class NotionBlocks {
 
   public static NotionBlocksBuilder blocksBuilder() {
     return new NotionBlocksBuilder();
+  }
+
+  private static FileData resolveFileData(String ref) {
+    try {
+      UUID.fromString(ref);
+      return FileData.builder().fileUpload(ref).build();
+    } catch (IllegalArgumentException e) {
+      return FileData.builder().externalUrl(ref).build();
+    }
   }
 }

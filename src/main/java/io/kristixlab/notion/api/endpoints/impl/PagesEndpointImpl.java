@@ -28,6 +28,14 @@ public class PagesEndpointImpl extends BaseEndpointImpl implements PagesEndpoint
     super(client);
   }
 
+  public Page create(Consumer<CreatePageParams.Builder> consumer) {
+    checkNotNull(consumer, "consumer");
+
+    CreatePageParams.Builder builder = CreatePageParams.builder();
+    consumer.accept(builder);
+    return create(builder.build());
+  }
+
   /**
    * Create a new page.
    *

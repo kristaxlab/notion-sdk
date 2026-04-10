@@ -18,6 +18,8 @@ public interface PagesEndpoint {
 
   Page create(CreatePageParams request);
 
+  Page create(Consumer<CreatePageParams.Builder> consumer);
+
   Page create(Parent parent, String title);
 
   Page create(Parent parent, String title, String markdownContent);
