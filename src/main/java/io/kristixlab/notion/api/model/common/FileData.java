@@ -34,7 +34,7 @@ public class FileData {
   public static class Builder {
     private ExternalFile external;
     private FileUploadRef fileUpload;
-    private List<RichText> caption = new ArrayList<>();
+    private final List<RichText> caption = new ArrayList<>();
 
     public Builder externalUrl(String url) {
       this.external = new ExternalFile();
