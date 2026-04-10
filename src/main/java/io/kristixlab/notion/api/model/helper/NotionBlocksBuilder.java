@@ -401,7 +401,7 @@ public class NotionBlocksBuilder {
   }
 
   public NotionBlocksBuilder numberedList(String... numberedItems) {
-    blocks.addAll(NotionBlocks.bulletedList(numberedItems));
+    blocks.addAll(NotionBlocks.numberedList(numberedItems));
     return this;
   }
 
