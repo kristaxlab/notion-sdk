@@ -1,22 +1,16 @@
 # Notion SDK for Java
 
-This guide walks you through installing the Notion SDK for Java and making your first API call.
-
-## Prerequisites
-
-- **Java 17** or later
-- A **Notion integration token** -- create one at [notion.so/my-integrations](https://www.notion.so/my-integrations)
-- **Gradle** or **Maven** for dependency management
+A typed Java client for the [Notion API](https://developers.notion.com/). Java 17+.
 
 ## Installation
 
-### Gradle
+**Gradle**
 
 ```groovy
 implementation 'TODO'
 ```
 
-### Maven
+**Maven**
 
 ```xml
 <dependency>
@@ -26,151 +20,70 @@ implementation 'TODO'
 </dependency>
 ```
 
-## Create a Client
-
-The simplest way to create a client is with a token:
+## Create a client
 
 ```java
-import io.kristixlab.notion.api.NotionClient;
-
 NotionClient client = NotionClient.forToken("secret_abc123...");
 ```
 
-This creates a fully-wired client with all defaults: Notion API version `2026-03-11`, base URL `https://api.notion.com/v1`, OkHttp with 30-second timeouts, and Jackson for JSON serialization.
+Defaults: Notion API version `2026-03-11`, base URL `https://api.notion.com/v1`, OkHttp with
+30-second timeouts, Jackson for JSON. See [Configuration](docs/configuration.md) for all options.
 
-For more control, use the builder:
-
-```java
-NotionClient client = NotionClient.builder()
-    .authToken("secret_abc123...")
-    .version("2026-03-11")
-    .baseUrl("https://api.notion.com/v1")
-    .build();
-```
-
-See [Configuration](configuration.md) for the full list of options.
-
-## Make Your First API Call
-
-### Retrieve a page
-
-> **Status: Planned** -- The high-level `pages()` API shown below is not yet implemented.
+## Append content to a page
 
 ```java
-Page page = client.pages().get("your-page-id");
-System.out.println(page.getTitle());
+import static io.kristixlab.notion.api.model.helper.NotionBlocks.*;
+
+client.blocks().appendChildren("page-id",
+    content -> content
+        .heading1("Project Aurora — Q2 Review")
+        .todo("Set up project dashboard")
+        .todo("Gather metrics")
+        .todo("Share with team"));
 ```
 
-### Query a database
-
-> **Status: Planned**
+## Create a page with content
 
 ```java
-DatabaseQuery query = DatabaseQuery.builder()
-    .filter(Filter.property("Status").select().equals("In Progress"))
-    .sort(Sort.property("Created").descending())
-    .build();
+import static io.kristixlab.notion.api.model.helper.NotionBlocks.*;
 
-PaginatedList<Page> results = client.databases().query("your-db-id", query);
-
-for (Page page : results) {
-    System.out.println(page.getTitle());
-}
+client.pages().create(page -> page
+    .inPage("parent-page-id")
+    .title("Error Handling Best Practices")
+    .icon("🛡️")
+    .children(content -> content
+        .heading2("Principles")
+        .numbered("Fail fast — detect errors at the boundary.")
+        .numbered("Be specific — throw the most precise exception type.")
+        .numbered("Log once — avoid duplicate log entries.")
+        .divider()
+        .callout("💡", "Use typed exceptions from the SDK's exception hierarchy.")));
 ```
 
-### Append blocks to a page
+## Error handling
 
-> **Status: Planned**
-
-```java
-List<Block> children = List.of(
-    ParagraphBlock.of("Hello from the Notion SDK for Java!"),
-    HeadingTwoBlock.of("Section Title"),
-    ToDoBlock.of("Buy groceries", false)
-);
-
-client.blocks().children().append("your-page-id", children);
-```
-
-## Error Handling
-
-The SDK automatically maps Notion API errors to typed exceptions:
+Every Notion API error maps to a typed exception:
 
 ```java
 try {
-    String page = client.getHttpClient().call("GET",
-        ApiPath.from("/pages/nonexistent-id"), String.class);
+    Page page = client.pages().retrieve("page-id");
 } catch (NotFoundException e) {
-    System.out.printf("Page not found: %s, requestId: %s ", e.getMessage(), e.getRequestId());
+    System.out.printf("Not found — request ID: %s%n", e.getRequestId());
+} catch (TooManyRequestsException e) {
+    // back off and retry
 } catch (NotionApiException e) {
-    System.out.printf("API error %s, %s", e.getStatus(), e.getMessage());
+    System.out.printf("API error %d: %s%n", e.getStatus(), e.getMessage());
 }
 ```
 
-## What You Can Do
+See [Error Handling](docs/advanced/error-handling.md) for the full exception hierarchy.
 
-| Capability | Guide |
-|---|---|
-| Create, read, update, and archive pages | [Pages](docs/guides/pages.md) |
-| Create and query databases, manage schemas | [Databases](docs/guides/databases.md) |
-| Append, read, update, and delete block content | [Blocks](docs/guides/blocks.md) |
-| List workspace users | [Users](docs/guides/users.md) |
-| Full-text search across your workspace | [Search](docs/guides/search.md) |
-| Create and read comments | [Comments](docs/guides/comments.md) |
-| Upload and reference files | [Files & Media](docs/guides/files-and-media.md) |
-| Compose and parse rich text | [Rich Text](docs/guides/rich-text.md) |
-| Cursor-based pagination | [Pagination](docs/guides/pagination.md) |
+## Resources
 
-## Configuration at a Glance
-
-```java
-NotionClient client = NotionClient.builder()
-    .authToken("secret_abc123...")          // required
-    .version("2026-03-11")                 // default
-    .baseUrl("https://api.notion.com/v1")  // default
-    .writeExchangeTo(Path.of("logs"))      // optional, off by default
-    .build();
-```
-
-| Option                      | Default | Description              |
-|-----------------------------|---|--------------------------|
-| `authToken(String)`         | *required* | Notion integration token |
-| `version(String)`           | `"2026-03-11"` | `Notion-Version` header  |
-| `baseUrl(String)`           | `"https://api.notion.com/v1"` | API base URL             |
-| `rawHttpClient(HttpClient)` | OkHttp, 30 s timeouts | Custom HTTP transport    |
-| `writeExchangeTo(Path)`     | disabled | Write rq/rs JSON to disk |
-
-Full details: [Configuration Reference](docs/configuration.md)
-
-## Advanced Topics
-
-Deeper dives into the SDK internals and extension points:
-
-- [Error Handling](advanced/error-handling.md) -- exception hierarchy, retry strategies, rate limits
-- [Custom Interceptors](advanced/custom-interceptors.md) -- architecture, writing custom interceptors
-- [Exchange Recording](advanced/exchange-recording.md) -- debug with request/response JSON files
-- [Custom HTTP Client](advanced/custom-http-client.md) -- replace OkHttp with your own http client implementation
-- [Notion Http Client](advanced/notion-http-client.md) -- use `NotionHttpClient` directly
-
-
-## Recipes
-
-End-to-end examples for common integration cases:
-
-- [Sync External Data to Notion](docs/recipes/sync-external-to-notion.md)
-- [Notion as CMS](docs/recipes/notion-as-cms.md)
-- [Task Automation](docs/recipes/task-automation.md)
-- [Bulk Operations](docs/recipes/bulk-operations.md)
-- [Webhooks](docs/recipes/webhooks.md)
-
-## Contributing
-
-See the [Development Setup](docs/contributing/development-setup.md) guide to get started, and read the [Architecture Overview](docs/contributing/architecture.md) to understand the codebase.
-
-- [Development Setup](docs/contributing/development-setup.md) -- clone, build, test, format
-- [Architecture](docs/contributing/architecture.md) -- package design, pipeline, extension points
-- [Testing Guide](docs/contributing/testing-guide.md) -- unit vs integration tests, test doubles
-- [Release Process](docs/contributing/release-process.md) -- versioning, publishing, changelog
+- [Cookbook](docs/cookbook/) — recipes for pages, blocks, rich text, layouts
+- [Configuration](docs/configuration.md) — timeouts, logging, custom HTTP clients
+- [Advanced Topics](docs/advanced/) — interceptors, exchange recording, custom HTTP client
+- [Contributing](docs/contributing/)
 
 ## License
 
