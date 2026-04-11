@@ -925,5 +925,78 @@ class BlockListViewerTest {
     void emptyView_returnsEmptyList() {
       assertTrue(BlockListViewer.of(new ArrayList<>()).links().isEmpty());
     }
+
+    @Test
+    void extractsLinksFromDirectChild() {
+      RichText childLink = NotionText.url("https://child.example.com");
+      ParagraphBlock parent =
+          ParagraphBlock.builder()
+              .text("parent")
+              .children(c -> c.block(ParagraphBlock.builder().text(childLink).build()))
+              .build();
+
+      List<String> urls = BlockListViewer.of(parent).links();
+      assertTrue(urls.contains("https://child.example.com"));
+    }
+
+    @Test
+    void extractsLinksFromDeeplyNestedChild() {
+      RichText deepLink = NotionText.url("https://deep.example.com");
+      ParagraphBlock root =
+          ParagraphBlock.builder()
+              .text("level1")
+              .children(
+                  c ->
+                      c.block(
+                          ParagraphBlock.builder()
+                              .text("level2")
+                              .children(
+                                  ch -> ch.block(ParagraphBlock.builder().text(deepLink).build()))
+                              .build()))
+              .build();
+
+      List<String> urls = BlockListViewer.of(root).links();
+      assertTrue(urls.contains("https://deep.example.com"));
+    }
+
+    @Test
+    void extractsLinksFromParentAndChildren() {
+      RichText parentLink = NotionText.url("https://parent.example.com");
+      RichText childLink = NotionText.url("https://child.example.com");
+      ParagraphBlock parent =
+          ParagraphBlock.builder()
+              .text(parentLink)
+              .children(c -> c.block(ParagraphBlock.builder().text(childLink).build()))
+              .build();
+
+      List<String> urls = BlockListViewer.of(parent).links();
+      assertEquals(2, urls.size());
+      assertEquals("https://parent.example.com", urls.get(0));
+      assertEquals("https://child.example.com", urls.get(1));
+    }
+
+    @Test
+    void extractsLinksFromToggleChildren() {
+      RichText childLink = NotionText.url("https://hidden.example.com");
+      ToggleBlock toggle =
+          ToggleBlock.builder()
+              .text("toggle")
+              .children(c -> c.block(ParagraphBlock.builder().text(childLink).build()))
+              .build();
+
+      List<String> urls = BlockListViewer.of(toggle).links();
+      assertTrue(urls.contains("https://hidden.example.com"));
+    }
+
+    @Test
+    void noLinksInParentOrChildren_returnsEmpty() {
+      ParagraphBlock parent =
+          ParagraphBlock.builder()
+              .text("no links here")
+              .children(c -> c.paragraph("also no links"))
+              .build();
+
+      assertTrue(BlockListViewer.of(parent).links().isEmpty());
+    }
   }
 }

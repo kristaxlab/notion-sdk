@@ -282,7 +282,8 @@ public final class BlockListViewer implements Iterable<Block> {
   }
 
   /**
-   * Collects all URLs found across the blocks in this view. Sources include:
+   * Collects all URLs found across the blocks in this view and their descendants (depth-first).
+   * Sources include:
    *
    * <ul>
    *   <li>Hyperlinks in rich text segments ({@link RichText#getHref()})
@@ -292,6 +293,9 @@ public final class BlockListViewer implements Iterable<Block> {
    *   <li>{@link ImageBlock}, {@link VideoBlock}, {@link AudioBlock}, {@link PdfBlock}, and {@link
    *       FileBlock} external URLs
    * </ul>
+   *
+   * <p>Each block's own links are collected first, then its children are visited recursively. This
+   * means links in a parent block appear before links in its children.
    *
    * <p>Duplicate URLs are included as many times as they appear. The returned list preserves
    * encounter order.
@@ -663,8 +667,9 @@ public final class BlockListViewer implements Iterable<Block> {
   }
 
   /**
-   * Collects all URLs found in a single block into the target list. Checks rich text hrefs,
-   * bookmark/embed/link-preview URLs, and file-based block external URLs.
+   * Collects all URLs found in a single block and its descendants (depth-first) into the target
+   * list. Checks rich text hrefs, bookmark/embed/link-preview URLs, and file-based block external
+   * URLs, then recurses into children.
    */
   private static void collectLinks(Block block, List<String> urls) {
     List<RichText> richTexts = extractRichText(block);
@@ -687,6 +692,13 @@ public final class BlockListViewer implements Iterable<Block> {
     }
 
     collectFileDataUrl(extractFileData(block), urls);
+
+    List<Block> children = extractChildren(block);
+    if (children != null) {
+      for (Block child : children) {
+        collectLinks(child, urls);
+      }
+    }
   }
 
   private static FileData extractFileData(Block block) {
