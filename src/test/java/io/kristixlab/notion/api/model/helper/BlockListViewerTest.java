@@ -999,4 +999,227 @@ class BlockListViewerTest {
       assertTrue(BlockListViewer.of(parent).links().isEmpty());
     }
   }
+
+  @Nested
+  class TextualFilter {
+
+    @Test
+    void includesParagraphs() {
+      BlockListViewer view =
+          BlockListViewer.of(NotionBlocks.paragraph("p"), NotionBlocks.divider());
+      assertEquals(1, view.textual().size());
+      assertInstanceOf(ParagraphBlock.class, view.textual().first().orElseThrow());
+    }
+
+    @Test
+    void includesAllHeadingLevels() {
+      BlockListViewer view =
+          BlockListViewer.of(
+              NotionBlocks.heading1("h1"),
+              NotionBlocks.heading2("h2"),
+              NotionBlocks.heading3("h3"),
+              NotionBlocks.heading4("h4"),
+              NotionBlocks.image("http://img.png"));
+
+      assertEquals(4, view.textual().size());
+    }
+
+    @Test
+    void includesBulletsNumberedTodosToggles() {
+      BlockListViewer view =
+          BlockListViewer.of(
+              NotionBlocks.bullet("b"),
+              NotionBlocks.numbered("n"),
+              NotionBlocks.todo("t"),
+              NotionBlocks.toggle("tg"),
+              NotionBlocks.divider());
+
+      assertEquals(4, view.textual().size());
+    }
+
+    @Test
+    void includesQuotesAndCallouts() {
+      BlockListViewer view =
+          BlockListViewer.of(
+              NotionBlocks.quote("q"),
+              NotionBlocks.callout("c"),
+              NotionBlocks.image("http://img.png"));
+
+      assertEquals(2, view.textual().size());
+    }
+
+    @Test
+    void excludesCodeBlocks() {
+      BlockListViewer view =
+          BlockListViewer.of(
+              NotionBlocks.paragraph("p"), NotionBlocks.code("java", "System.out.println();"));
+
+      assertEquals(1, view.textual().size());
+      assertInstanceOf(ParagraphBlock.class, view.textual().first().orElseThrow());
+    }
+
+    @Test
+    void excludesMediaAndStructuralBlocks() {
+      BlockListViewer view =
+          BlockListViewer.of(
+              NotionBlocks.image("http://img.png"),
+              NotionBlocks.video("http://vid.mp4"),
+              NotionBlocks.audio("http://audio.mp3"),
+              NotionBlocks.bookmark("http://example.com"),
+              NotionBlocks.divider(),
+              NotionBlocks.embed("http://example.com"),
+              NotionBlocks.paragraph("p"));
+
+      assertEquals(1, view.textual().size());
+    }
+
+    @Test
+    void emptyView_returnsEmpty() {
+      assertTrue(BlockListViewer.of(new ArrayList<>()).textual().isEmpty());
+    }
+
+    @Test
+    void allTextualTypes_returnsAll() {
+      BlockListViewer view =
+          BlockListViewer.of(
+              NotionBlocks.paragraph("p"),
+              NotionBlocks.heading1("h1"),
+              NotionBlocks.heading2("h2"),
+              NotionBlocks.heading3("h3"),
+              NotionBlocks.heading4("h4"),
+              NotionBlocks.bullet("b"),
+              NotionBlocks.numbered("n"),
+              NotionBlocks.todo("t"),
+              NotionBlocks.toggle("tg"),
+              NotionBlocks.quote("q"),
+              NotionBlocks.callout("c"));
+
+      assertEquals(11, view.textual().size());
+    }
+  }
+
+  @Nested
+  class MediaFilter {
+
+    @Test
+    void includesImageBlock() {
+      BlockListViewer view =
+          BlockListViewer.of(NotionBlocks.image("http://img.png"), NotionBlocks.paragraph("p"));
+      assertEquals(1, view.media().size());
+      assertInstanceOf(ImageBlock.class, view.media().first().orElseThrow());
+    }
+
+    @Test
+    void includesVideoBlock() {
+      BlockListViewer view =
+          BlockListViewer.of(NotionBlocks.video("http://vid.mp4"), NotionBlocks.paragraph("p"));
+      assertEquals(1, view.media().size());
+      assertInstanceOf(VideoBlock.class, view.media().first().orElseThrow());
+    }
+
+    @Test
+    void includesAudioBlock() {
+      BlockListViewer view =
+          BlockListViewer.of(NotionBlocks.audio("http://audio.mp3"), NotionBlocks.paragraph("p"));
+      assertEquals(1, view.media().size());
+      assertInstanceOf(AudioBlock.class, view.media().first().orElseThrow());
+    }
+
+    @Test
+    void includesPdfBlock() {
+      BlockListViewer view =
+          BlockListViewer.of(NotionBlocks.pdf("http://doc.pdf"), NotionBlocks.paragraph("p"));
+      assertEquals(1, view.media().size());
+      assertInstanceOf(PdfBlock.class, view.media().first().orElseThrow());
+    }
+
+    @Test
+    void includesFileBlockWithMediaExtension() {
+      FileBlock imgFile = NotionBlocks.file("http://cdn.example.com/photo.jpg");
+      FileBlock mp4File = NotionBlocks.file("http://cdn.example.com/clip.mp4");
+      FileBlock mp3File = NotionBlocks.file("http://cdn.example.com/song.mp3");
+      FileBlock pdfFile = NotionBlocks.file("http://cdn.example.com/doc.pdf");
+
+      BlockListViewer view = BlockListViewer.of(imgFile, mp4File, mp3File, pdfFile);
+      assertEquals(4, view.media().size());
+    }
+
+    @Test
+    void excludesFileBlockWithNonMediaExtension() {
+      FileBlock txtFile = NotionBlocks.file("http://cdn.example.com/readme.txt");
+      FileBlock zipFile = NotionBlocks.file("http://cdn.example.com/archive.zip");
+      FileBlock docFile = NotionBlocks.file("http://cdn.example.com/report.docx");
+
+      BlockListViewer view = BlockListViewer.of(txtFile, zipFile, docFile);
+      assertTrue(view.media().isEmpty());
+    }
+
+    @Test
+    void excludesFileBlockWithNoUrl() {
+      FileBlock fb = new FileBlock();
+      BlockListViewer view = BlockListViewer.of(fb);
+      assertTrue(view.media().isEmpty());
+    }
+
+    @Test
+    void fileBlockExtensionCheckIgnoresQueryParams() {
+      FileBlock fb = NotionBlocks.file("http://cdn.example.com/photo.png?token=abc123");
+
+      assertEquals(1, BlockListViewer.of(fb).media().size());
+    }
+
+    @Test
+    void fileBlockExtensionCheckIsCaseInsensitive() {
+      FileBlock fb = NotionBlocks.file("http://cdn.example.com/photo.JPEG");
+
+      assertEquals(1, BlockListViewer.of(fb).media().size());
+    }
+
+    @Test
+    void excludesTextualAndStructuralBlocks() {
+      BlockListViewer view =
+          BlockListViewer.of(
+              NotionBlocks.paragraph("p"),
+              NotionBlocks.heading1("h"),
+              NotionBlocks.bullet("b"),
+              NotionBlocks.todo("t"),
+              NotionBlocks.divider(),
+              NotionBlocks.bookmark("http://example.com"),
+              NotionBlocks.code("java", "code"));
+
+      assertTrue(view.media().isEmpty());
+    }
+
+    @Test
+    void allMediaTypes_returnsAll() {
+      BlockListViewer view =
+          BlockListViewer.of(
+              NotionBlocks.image("http://i.png"),
+              NotionBlocks.video("http://v.mp4"),
+              NotionBlocks.audio("http://a.mp3"),
+              NotionBlocks.pdf("http://d.pdf"),
+              NotionBlocks.file("http://x.webp"));
+
+      assertEquals(5, view.media().size());
+    }
+
+    @Test
+    void emptyView_returnsEmpty() {
+      assertTrue(BlockListViewer.of(new ArrayList<>()).media().isEmpty());
+    }
+
+    @Test
+    void mixedMediaAndTextual_filtersCorrectly() {
+      BlockListViewer view =
+          BlockListViewer.of(
+              NotionBlocks.image("http://i.png"),
+              NotionBlocks.paragraph("text"),
+              NotionBlocks.video("http://v.mp4"),
+              NotionBlocks.heading1("heading"),
+              NotionBlocks.audio("http://a.mp3"));
+
+      assertEquals(3, view.media().size());
+      assertEquals(2, view.textual().size());
+    }
+  }
 }

@@ -181,6 +181,57 @@ public final class BlockListViewer implements Iterable<Block> {
   }
 
   /**
+   * Returns a view containing only blocks that carry textual (rich text) content intended for
+   * reading: paragraphs, headings, bulleted/numbered list items, to-do items, toggles, quotes, and
+   * callouts.
+   *
+   * <p>Code blocks are deliberately excluded because they represent source code rather than prose.
+   *
+   * @return a new view of textual blocks
+   */
+  public BlockListViewer textual() {
+    return where(
+        b ->
+            b instanceof ParagraphBlock
+                || b instanceof HeadingOneBlock
+                || b instanceof HeadingTwoBlock
+                || b instanceof HeadingThreeBlock
+                || b instanceof HeadingFourBlock
+                || b instanceof BulletedListItemBlock
+                || b instanceof NumberedListItemBlock
+                || b instanceof ToDoBlock
+                || b instanceof ToggleBlock
+                || b instanceof QuoteBlock
+                || b instanceof CalloutBlock);
+  }
+
+  /**
+   * Returns a view containing only media blocks: images, videos, audio, PDFs, and generic file
+   * blocks whose URL ends with a common media extension (image, video, audio, or PDF).
+   *
+   * <p>A {@link FileBlock} is included when its external or hosted URL ends with an extension from
+   * one of these categories:
+   *
+   * <ul>
+   *   <li>Image — jpg, jpeg, png, gif, bmp, webp, svg, tiff, tif, ico, heic, heif, avif
+   *   <li>Video — mp4, mov, avi, wmv, flv, mkv, webm, mpeg, mpg, m4v, 3gp
+   *   <li>Audio — mp3, wav, ogg, flac, aac, wma, m4a, opus, aiff
+   *   <li>PDF — pdf
+   * </ul>
+   *
+   * @return a new view of media blocks
+   */
+  public BlockListViewer media() {
+    return where(
+        b ->
+            b instanceof ImageBlock
+                || b instanceof VideoBlock
+                || b instanceof AudioBlock
+                || b instanceof PdfBlock
+                || (b instanceof FileBlock fb && hasMediaExtension(fb)));
+  }
+
+  /**
    * Returns a view containing only checked {@link ToDoBlock} instances. Non-ToDo blocks are
    * silently filtered out.
    *
@@ -747,5 +798,39 @@ public final class BlockListViewer implements Iterable<Block> {
       return true;
     }
     return false;
+  }
+
+  private static final Set<String> MEDIA_EXTENSIONS =
+      Set.of(
+          "jpg", "jpeg", "png", "gif", "bmp", "webp", "svg", "tiff", "tif", "ico", "heic", "heif",
+          "avif", "mp4", "mov", "avi", "wmv", "flv", "mkv", "webm", "mpeg", "mpg", "m4v", "3gp",
+          "mp3", "wav", "ogg", "flac", "aac", "wma", "m4a", "opus", "aiff", "pdf");
+
+  private static boolean hasMediaExtension(FileBlock fb) {
+    String url = extractFileBlockUrl(fb);
+    if (url == null) {
+      return false;
+    }
+    String lower = url.toLowerCase(Locale.ROOT);
+    int queryStart = lower.indexOf('?');
+    if (queryStart >= 0) {
+      lower = lower.substring(0, queryStart);
+    }
+    int dotPos = lower.lastIndexOf('.');
+    return dotPos >= 0 && MEDIA_EXTENSIONS.contains(lower.substring(dotPos + 1));
+  }
+
+  private static String extractFileBlockUrl(FileBlock fb) {
+    FileData data = fb.getFile();
+    if (data == null) {
+      return null;
+    }
+    if (data.getExternal() != null && data.getExternal().getUrl() != null) {
+      return data.getExternal().getUrl();
+    }
+    if (data.getFile() != null && data.getFile().getUrl() != null) {
+      return data.getFile().getUrl();
+    }
+    return null;
   }
 }
