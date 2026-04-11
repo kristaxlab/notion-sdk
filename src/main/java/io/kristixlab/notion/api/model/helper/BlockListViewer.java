@@ -1,6 +1,7 @@
 package io.kristixlab.notion.api.model.helper;
 
 import io.kristixlab.notion.api.model.block.*;
+import io.kristixlab.notion.api.model.common.FileData;
 import io.kristixlab.notion.api.model.common.richtext.RichText;
 import java.util.*;
 import java.util.function.Consumer;
@@ -12,12 +13,12 @@ import java.util.stream.Stream;
  * A read-only, immutable view over a list of {@link Block} objects that provides convenient
  * filtering, navigation, and text extraction.
  *
- * <p>{@code BlockListView} eliminates the boilerplate of iterating, casting, and extracting content
- * from block lists returned by the Notion API. Every method that narrows or transforms the view
- * returns a new {@code BlockListView}, so operations can be chained fluently:
+ * <p>{@code BlockListViewer} eliminates the boilerplate of iterating, casting, and extracting
+ * content from block lists returned by the Notion API. Every method that narrows or transforms the
+ * view returns a new {@code BlockListViewer}, so operations can be chained fluently:
  *
  * <pre>{@code
- * BlockListView content = BlockListView.of(response.getResults());
+ * BlockListViewer content = BlockListViewer.of(response.getResults());
  *
  * // Extract all paragraph text
  * String body = content.paragraphs().plainText();
@@ -37,13 +38,13 @@ import java.util.stream.Stream;
  *
  * @see Block
  */
-public final class BlockListView implements Iterable<Block> {
+public final class BlockListViewer implements Iterable<Block> {
 
-  private static final BlockListView EMPTY = new BlockListView(Collections.emptyList());
+  private static final BlockListViewer EMPTY = new BlockListViewer(Collections.emptyList());
 
   private final List<Block> blocks;
 
-  private BlockListView(List<Block> blocks) {
+  private BlockListViewer(List<Block> blocks) {
     this.blocks = blocks;
   }
 
@@ -53,11 +54,11 @@ public final class BlockListView implements Iterable<Block> {
    * @param blocks the blocks to wrap (must not be {@code null})
    * @return a new view, or an empty view if the list is {@code null} or empty
    */
-  public static BlockListView of(List<Block> blocks) {
+  public static BlockListViewer of(List<Block> blocks) {
     if (blocks == null || blocks.isEmpty()) {
       return EMPTY;
     }
-    return new BlockListView(new ArrayList<>(blocks));
+    return new BlockListViewer(new ArrayList<>(blocks));
   }
 
   /**
@@ -66,11 +67,11 @@ public final class BlockListView implements Iterable<Block> {
    * @param blocks the blocks to wrap
    * @return a new view, or an empty view if no blocks are provided
    */
-  public static BlockListView of(Block... blocks) {
+  public static BlockListViewer of(Block... blocks) {
     if (blocks == null || blocks.length == 0) {
       return EMPTY;
     }
-    return new BlockListView(new ArrayList<>(Arrays.asList(blocks)));
+    return new BlockListViewer(new ArrayList<>(Arrays.asList(blocks)));
   }
 
   /**
@@ -80,7 +81,7 @@ public final class BlockListView implements Iterable<Block> {
    * @param <T> the block type
    * @return a new view containing only matching blocks
    */
-  public <T extends Block> BlockListView ofType(Class<T> type) {
+  public <T extends Block> BlockListViewer ofType(Class<T> type) {
     return where(type::isInstance);
   }
 
@@ -89,7 +90,7 @@ public final class BlockListView implements Iterable<Block> {
    *
    * @return a new view of paragraphs
    */
-  public BlockListView paragraphs() {
+  public BlockListViewer paragraphs() {
     return ofType(ParagraphBlock.class);
   }
 
@@ -98,7 +99,7 @@ public final class BlockListView implements Iterable<Block> {
    *
    * @return a new view of headings
    */
-  public BlockListView headings() {
+  public BlockListViewer headings() {
     return where(
         b ->
             b instanceof HeadingOneBlock
@@ -112,7 +113,7 @@ public final class BlockListView implements Iterable<Block> {
    *
    * @return a new view of to-do blocks
    */
-  public BlockListView todos() {
+  public BlockListViewer todos() {
     return ofType(ToDoBlock.class);
   }
 
@@ -121,7 +122,7 @@ public final class BlockListView implements Iterable<Block> {
    *
    * @return a new view of bulleted list items
    */
-  public BlockListView bullets() {
+  public BlockListViewer bullets() {
     return ofType(BulletedListItemBlock.class);
   }
 
@@ -130,7 +131,7 @@ public final class BlockListView implements Iterable<Block> {
    *
    * @return a new view of numbered list items
    */
-  public BlockListView numbered() {
+  public BlockListViewer numbered() {
     return ofType(NumberedListItemBlock.class);
   }
 
@@ -139,7 +140,7 @@ public final class BlockListView implements Iterable<Block> {
    *
    * @return a new view of toggle blocks
    */
-  public BlockListView toggles() {
+  public BlockListViewer toggles() {
     return ofType(ToggleBlock.class);
   }
 
@@ -148,7 +149,7 @@ public final class BlockListView implements Iterable<Block> {
    *
    * @return a new view of quote blocks
    */
-  public BlockListView quotes() {
+  public BlockListViewer quotes() {
     return ofType(QuoteBlock.class);
   }
 
@@ -157,7 +158,7 @@ public final class BlockListView implements Iterable<Block> {
    *
    * @return a new view of callout blocks
    */
-  public BlockListView callouts() {
+  public BlockListViewer callouts() {
     return ofType(CalloutBlock.class);
   }
 
@@ -166,7 +167,7 @@ public final class BlockListView implements Iterable<Block> {
    *
    * @return a new view of code blocks
    */
-  public BlockListView code() {
+  public BlockListViewer code() {
     return ofType(CodeBlock.class);
   }
 
@@ -175,7 +176,7 @@ public final class BlockListView implements Iterable<Block> {
    *
    * @return a new view of image blocks
    */
-  public BlockListView images() {
+  public BlockListViewer images() {
     return ofType(ImageBlock.class);
   }
 
@@ -185,7 +186,7 @@ public final class BlockListView implements Iterable<Block> {
    *
    * @return a new view of checked to-do blocks
    */
-  public BlockListView checked() {
+  public BlockListViewer checked() {
     return where(b -> b instanceof ToDoBlock t && Boolean.TRUE.equals(t.getToDo().getChecked()));
   }
 
@@ -196,8 +197,29 @@ public final class BlockListView implements Iterable<Block> {
    *
    * @return a new view of unchecked to-do blocks
    */
-  public BlockListView unchecked() {
+  public BlockListViewer unchecked() {
     return where(b -> b instanceof ToDoBlock t && !Boolean.TRUE.equals(t.getToDo().getChecked()));
+  }
+
+  /**
+   * Returns a view containing only blocks whose textual content contains the given keyword
+   * (case-insensitive). The search covers:
+   *
+   * <ul>
+   *   <li>Plain text from all rich text segments (concatenated, so a keyword that spans multiple
+   *       {@link RichText} objects is found)
+   *   <li>{@link ChildPageBlock} and {@link ChildDatabaseBlock} titles
+   *   <li>{@link EquationBlock} expressions
+   *   <li>URLs from hyperlinks within rich text ({@link RichText#getHref()})
+   *   <li>Bookmark, embed, and link preview URLs
+   * </ul>
+   *
+   * @param keyword the text to search for (case-insensitive, must not be {@code null})
+   * @return a new view containing only blocks that contain the keyword
+   */
+  public BlockListViewer containing(String keyword) {
+    String lower = keyword.toLowerCase(Locale.ROOT);
+    return where(b -> blockContainsKeyword(b, lower));
   }
 
   /**
@@ -206,14 +228,14 @@ public final class BlockListView implements Iterable<Block> {
    * @param predicate the condition blocks must satisfy
    * @return a new view containing only matching blocks
    */
-  public BlockListView where(Predicate<Block> predicate) {
+  public BlockListViewer where(Predicate<Block> predicate) {
     List<Block> filtered = new ArrayList<>();
     for (Block block : blocks) {
       if (predicate.test(block)) {
         filtered.add(block);
       }
     }
-    return filtered.isEmpty() ? EMPTY : new BlockListView(filtered);
+    return filtered.isEmpty() ? EMPTY : new BlockListViewer(filtered);
   }
 
   /**
@@ -252,6 +274,31 @@ public final class BlockListView implements Iterable<Block> {
       }
     }
     return texts;
+  }
+
+  /**
+   * Collects all URLs found across the blocks in this view. Sources include:
+   *
+   * <ul>
+   *   <li>Hyperlinks in rich text segments ({@link RichText#getHref()})
+   *   <li>{@link BookmarkBlock} URLs
+   *   <li>{@link EmbedBlock} URLs
+   *   <li>{@link LinkPreviewBlock} URLs
+   *   <li>{@link ImageBlock}, {@link VideoBlock}, {@link AudioBlock}, {@link PdfBlock}, and {@link
+   *       FileBlock} external URLs
+   * </ul>
+   *
+   * <p>Duplicate URLs are included as many times as they appear. The returned list preserves
+   * encounter order.
+   *
+   * @return a list of all URLs found, or an empty list if none are present
+   */
+  public List<String> links() {
+    List<String> urls = new ArrayList<>();
+    for (Block block : blocks) {
+      collectLinks(block, urls);
+    }
+    return urls;
   }
 
   /**
@@ -322,12 +369,12 @@ public final class BlockListView implements Iterable<Block> {
    *
    * @return a new view containing all blocks at all depths
    */
-  public BlockListView flatten() {
+  public BlockListViewer flatten() {
     List<Block> flat = new ArrayList<>();
     for (Block block : blocks) {
       flattenInto(block, flat);
     }
-    return flat.isEmpty() ? EMPTY : new BlockListView(flat);
+    return flat.isEmpty() ? EMPTY : new BlockListViewer(flat);
   }
 
   /**
@@ -549,5 +596,101 @@ public final class BlockListView implements Iterable<Block> {
     }
 
     return (children != null && !children.isEmpty()) ? children : null;
+  }
+
+  /**
+   * Tests whether a block's textual content, titles, or URLs contain the given keyword (already
+   * lower-cased).
+   */
+  private static boolean blockContainsKeyword(Block block, String lowerKeyword) {
+    String text = extractPlainText(block);
+    if (text != null && text.toLowerCase(Locale.ROOT).contains(lowerKeyword)) {
+      return true;
+    }
+
+    List<RichText> richTexts = extractRichText(block);
+    if (richTexts != null) {
+      for (RichText rt : richTexts) {
+        if (rt.getHref() != null && rt.getHref().toLowerCase(Locale.ROOT).contains(lowerKeyword)) {
+          return true;
+        }
+      }
+    }
+
+    if (block instanceof BookmarkBlock bb
+        && bb.getBookmark().getUrl() != null
+        && bb.getBookmark().getUrl().toLowerCase(Locale.ROOT).contains(lowerKeyword)) {
+      return true;
+    }
+    if (block instanceof EmbedBlock eb
+        && eb.getEmbed().getUrl() != null
+        && eb.getEmbed().getUrl().toLowerCase(Locale.ROOT).contains(lowerKeyword)) {
+      return true;
+    }
+    if (block instanceof LinkPreviewBlock lpb
+        && lpb.getLinkPreview().getUrl() != null
+        && lpb.getLinkPreview().getUrl().toLowerCase(Locale.ROOT).contains(lowerKeyword)) {
+      return true;
+    }
+
+    return false;
+  }
+
+  /**
+   * Collects all URLs found in a single block into the target list. Checks rich text hrefs,
+   * bookmark/embed/link-preview URLs, and file-based block external URLs.
+   */
+  private static void collectLinks(Block block, List<String> urls) {
+    List<RichText> richTexts = extractRichText(block);
+    if (richTexts != null) {
+      for (RichText rt : richTexts) {
+        if (rt.getHref() != null) {
+          urls.add(rt.getHref());
+        }
+      }
+    }
+
+    if (block instanceof BookmarkBlock bb && bb.getBookmark().getUrl() != null) {
+      urls.add(bb.getBookmark().getUrl());
+    }
+    if (block instanceof EmbedBlock eb && eb.getEmbed().getUrl() != null) {
+      urls.add(eb.getEmbed().getUrl());
+    }
+    if (block instanceof LinkPreviewBlock lpb && lpb.getLinkPreview().getUrl() != null) {
+      urls.add(lpb.getLinkPreview().getUrl());
+    }
+
+    collectFileDataUrl(extractFileData(block), urls);
+  }
+
+  private static FileData extractFileData(Block block) {
+    if (block instanceof ImageBlock ib) {
+      return ib.getImage();
+    }
+    if (block instanceof VideoBlock vb) {
+      return vb.getVideo();
+    }
+    if (block instanceof AudioBlock ab) {
+      return ab.getAudio();
+    }
+    if (block instanceof PdfBlock pb) {
+      return pb.getPdf();
+    }
+    if (block instanceof FileBlock fb) {
+      return fb.getFile();
+    }
+    return null;
+  }
+
+  private static void collectFileDataUrl(FileData fileData, List<String> urls) {
+    if (fileData == null) {
+      return;
+    }
+    if (fileData.getExternal() != null && fileData.getExternal().getUrl() != null) {
+      urls.add(fileData.getExternal().getUrl());
+    }
+    if (fileData.getFile() != null && fileData.getFile().getUrl() != null) {
+      urls.add(fileData.getFile().getUrl());
+    }
   }
 }
