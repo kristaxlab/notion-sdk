@@ -783,6 +783,18 @@ class BlockListViewerTest {
       BlockListViewer view = BlockListViewer.of(NotionBlocks.paragraph("Hello WORLD"));
       assertEquals(1, view.containing("hello world").size());
     }
+
+    @Test
+    void matchesByImageUrl() {
+      ImageBlock img = NotionBlocks.image("https://cdn.example.com/photo.jpg");
+      assertEquals(1, BlockListViewer.of(img).containing("cdn.example.com").size());
+    }
+
+    @Test
+    void nullKeyword_throwsNpe() {
+      BlockListViewer view = BlockListViewer.of(NotionBlocks.paragraph("text"));
+      assertThrows(NullPointerException.class, () -> view.containing(null));
+    }
   }
 
   @Nested

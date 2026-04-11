@@ -212,12 +212,15 @@ public final class BlockListViewer implements Iterable<Block> {
    *   <li>{@link EquationBlock} expressions
    *   <li>URLs from hyperlinks within rich text ({@link RichText#getHref()})
    *   <li>Bookmark, embed, and link preview URLs
+   *   <li>File-based block (image, video, audio, PDF, file) external URLs
    * </ul>
    *
    * @param keyword the text to search for (case-insensitive, must not be {@code null})
    * @return a new view containing only blocks that contain the keyword
+   * @throws NullPointerException if {@code keyword} is {@code null}
    */
   public BlockListViewer containing(String keyword) {
+    Objects.requireNonNull(keyword, "keyword must not be null");
     String lower = keyword.toLowerCase(Locale.ROOT);
     return where(b -> blockContainsKeyword(b, lower));
   }
@@ -633,7 +636,7 @@ public final class BlockListViewer implements Iterable<Block> {
       return true;
     }
 
-    return false;
+    return fileDataContainsKeyword(extractFileData(block), lowerKeyword);
   }
 
   /**
@@ -692,5 +695,22 @@ public final class BlockListViewer implements Iterable<Block> {
     if (fileData.getFile() != null && fileData.getFile().getUrl() != null) {
       urls.add(fileData.getFile().getUrl());
     }
+  }
+
+  private static boolean fileDataContainsKeyword(FileData fileData, String lowerKeyword) {
+    if (fileData == null) {
+      return false;
+    }
+    if (fileData.getExternal() != null
+        && fileData.getExternal().getUrl() != null
+        && fileData.getExternal().getUrl().toLowerCase(Locale.ROOT).contains(lowerKeyword)) {
+      return true;
+    }
+    if (fileData.getFile() != null
+        && fileData.getFile().getUrl() != null
+        && fileData.getFile().getUrl().toLowerCase(Locale.ROOT).contains(lowerKeyword)) {
+      return true;
+    }
+    return false;
   }
 }
