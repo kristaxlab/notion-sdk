@@ -33,8 +33,9 @@ import java.util.stream.Stream;
  * int images = content.flatten().images().size();
  * }</pre>
  *
- * <p>Instances are created via the {@link #of(List)} or {@link #of(Block...)} factories. The
- * wrapped list is defensively copied — mutations to the source list do not affect the view.
+ * <p>Instances are created via the {@link #of(List)}, {@link #of(Block...)}, or {@link
+ * #of(BlockList)} factories. The wrapped list is defensively copied — mutations to the source list
+ * do not affect the view.
  *
  * @see Block
  */
@@ -72,6 +73,28 @@ public final class BlockListViewer implements Iterable<Block> {
       return EMPTY;
     }
     return new BlockListViewer(new ArrayList<>(Arrays.asList(blocks)));
+  }
+
+  /**
+   * Creates a view over the results of a {@link BlockList} returned by the Notion API.
+   *
+   * <p>This is a convenience overload for the common pattern of wrapping the result of {@code
+   * blocks.retrieveChildren(pageId)}:
+   *
+   * <pre>{@code
+   * BlockList response = notion.blocks().retrieveChildren(pageId);
+   * BlockListViewer viewer = BlockListViewer.of(response);
+   * }</pre>
+   *
+   * @param blockList the API response to wrap (may be {@code null})
+   * @return a new view over the results, or an empty view if {@code blockList} is {@code null} or
+   *     contains no results
+   */
+  public static BlockListViewer of(BlockList blockList) {
+    if (blockList == null) {
+      return EMPTY;
+    }
+    return of(blockList.getResults());
   }
 
   /**

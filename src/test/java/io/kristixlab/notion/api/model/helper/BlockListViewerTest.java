@@ -56,6 +56,36 @@ class BlockListViewerTest {
       BlockListViewer view = BlockListViewer.of(new Block[0]);
       assertTrue(view.isEmpty());
     }
+
+    @Test
+    void ofBlockList_wrapsResults() {
+      BlockList blockList = new BlockList();
+      blockList.setResults(List.of(NotionBlocks.paragraph("a"), NotionBlocks.paragraph("b")));
+      BlockListViewer view = BlockListViewer.of(blockList);
+      assertEquals(2, view.size());
+    }
+
+    @Test
+    void ofNullBlockList_returnsEmptyView() {
+      BlockListViewer view = BlockListViewer.of((BlockList) null);
+      assertTrue(view.isEmpty());
+    }
+
+    @Test
+    void ofBlockListWithNullResults_returnsEmptyView() {
+      BlockList blockList = new BlockList();
+      blockList.setResults(null);
+      BlockListViewer view = BlockListViewer.of(blockList);
+      assertTrue(view.isEmpty());
+    }
+
+    @Test
+    void ofBlockListWithEmptyResults_returnsEmptyView() {
+      BlockList blockList = new BlockList();
+      blockList.setResults(new ArrayList<>());
+      BlockListViewer view = BlockListViewer.of(blockList);
+      assertTrue(view.isEmpty());
+    }
   }
 
   @Nested
