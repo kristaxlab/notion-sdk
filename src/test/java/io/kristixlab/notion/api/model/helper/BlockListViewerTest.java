@@ -795,6 +795,64 @@ class BlockListViewerTest {
       BlockListViewer view = BlockListViewer.of(NotionBlocks.paragraph("text"));
       assertThrows(NullPointerException.class, () -> view.containing(null));
     }
+
+    @Test
+    void matchesInDirectChild() {
+      ParagraphBlock parent =
+          ParagraphBlock.builder()
+              .text("parent text")
+              .children(c -> c.paragraph("child keyword here"))
+              .build();
+
+      assertEquals(1, BlockListViewer.of(parent).containing("keyword").size());
+    }
+
+    @Test
+    void matchesInDeeplyNestedChild() {
+      ParagraphBlock root =
+          ParagraphBlock.builder()
+              .text("level1")
+              .children(
+                  c ->
+                      c.block(
+                          ParagraphBlock.builder()
+                              .text("level2")
+                              .children(ch -> ch.paragraph("deep keyword"))
+                              .build()))
+              .build();
+
+      assertEquals(1, BlockListViewer.of(root).containing("deep keyword").size());
+    }
+
+    @Test
+    void parentMatchShortCircuitsBeforeCheckingChildren() {
+      ParagraphBlock parent =
+          ParagraphBlock.builder()
+              .text("keyword in parent")
+              .children(c -> c.paragraph("child text"))
+              .build();
+
+      assertEquals(1, BlockListViewer.of(parent).containing("keyword").size());
+    }
+
+    @Test
+    void noMatchInParentOrChildren_returnsEmpty() {
+      ParagraphBlock parent =
+          ParagraphBlock.builder().text("hello").children(c -> c.paragraph("world")).build();
+
+      assertTrue(BlockListViewer.of(parent).containing("xyz").isEmpty());
+    }
+
+    @Test
+    void matchesInToggleChildBlock() {
+      ToggleBlock toggle =
+          ToggleBlock.builder()
+              .text("toggle label")
+              .children(c -> c.paragraph("hidden keyword"))
+              .build();
+
+      assertEquals(1, BlockListViewer.of(toggle).containing("hidden keyword").size());
+    }
   }
 
   @Nested

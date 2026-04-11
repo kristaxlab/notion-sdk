@@ -202,8 +202,10 @@ public final class BlockListViewer implements Iterable<Block> {
   }
 
   /**
-   * Returns a view containing only blocks whose textual content contains the given keyword
-   * (case-insensitive). The search covers:
+   * Returns a view containing only blocks whose textual content — or any descendant's content —
+   * contains the given keyword (case-insensitive). A block is included if the keyword is found in
+   * its own content or recursively in any of its children (depth-first, short-circuits on first
+   * match). The search covers:
    *
    * <ul>
    *   <li>Plain text from all rich text segments (concatenated, so a keyword that spans multiple
@@ -216,7 +218,7 @@ public final class BlockListViewer implements Iterable<Block> {
    * </ul>
    *
    * @param keyword the text to search for (case-insensitive, must not be {@code null})
-   * @return a new view containing only blocks that contain the keyword
+   * @return a new view containing only blocks that contain the keyword (directly or in children)
    * @throws NullPointerException if {@code keyword} is {@code null}
    */
   public BlockListViewer containing(String keyword) {
@@ -603,9 +605,30 @@ public final class BlockListViewer implements Iterable<Block> {
 
   /**
    * Tests whether a block's textual content, titles, or URLs contain the given keyword (already
-   * lower-cased).
+   * lower-cased). If the block itself does not match, its children are checked recursively
+   * (depth-first). The method short-circuits as soon as a match is found.
    */
   private static boolean blockContainsKeyword(Block block, String lowerKeyword) {
+    if (blockOwnContentContainsKeyword(block, lowerKeyword)) {
+      return true;
+    }
+
+    List<Block> children = extractChildren(block);
+    if (children != null) {
+      for (Block child : children) {
+        if (blockContainsKeyword(child, lowerKeyword)) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  /**
+   * Tests whether a single block's own textual content, titles, or URLs contain the given keyword
+   * (already lower-cased), without considering children.
+   */
+  private static boolean blockOwnContentContainsKeyword(Block block, String lowerKeyword) {
     String text = extractPlainText(block);
     if (text != null && text.toLowerCase(Locale.ROOT).contains(lowerKeyword)) {
       return true;
