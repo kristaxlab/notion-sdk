@@ -11,7 +11,7 @@ public class LinkToPageBlock extends Block {
   private LinkToPage linkToPage;
 
   public LinkToPageBlock() {
-    setType("link_to_page");
+    setType(BlockType.LINK_TO_PAGE.getValue());
     linkToPage = new LinkToPage();
   }
 

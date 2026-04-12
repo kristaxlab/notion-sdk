@@ -17,7 +17,7 @@ public class NumberedListItemBlock extends Block {
   private NumberedListItem numberedListItem;
 
   public NumberedListItemBlock() {
-    setType("numbered_list_item");
+    setType(BlockType.NUMBERED_LIST_ITEM.getValue());
     numberedListItem = new NumberedListItem();
   }
 

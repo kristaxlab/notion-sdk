@@ -12,7 +12,7 @@ public class VideoBlock extends Block {
   private FileData video;
 
   public VideoBlock() {
-    setType("video");
+    setType(BlockType.VIDEO.getValue());
     video = new FileData();
   }
 }

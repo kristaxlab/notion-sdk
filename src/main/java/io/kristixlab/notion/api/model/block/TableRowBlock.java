@@ -29,7 +29,7 @@ public class TableRowBlock extends Block {
   private TableRow tableRow;
 
   public TableRowBlock() {
-    setType("table_row");
+    setType(BlockType.TABLE_ROW.getValue());
     tableRow = new TableRow();
   }
 

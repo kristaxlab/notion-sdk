@@ -16,7 +16,7 @@ public class BlockList extends NotionList<Block> {
   private Object block;
 
   public BlockList() {
-    setType("block");
+    setType(BlockType.BLOCK.getValue());
     block = new Object();
   }
 }

@@ -16,7 +16,7 @@ public class TemplateBlock extends Block {
   private Template template;
 
   public TemplateBlock() {
-    setType("template");
+    setType(BlockType.TEMPLATE.getValue());
     template = new Template();
   }
 

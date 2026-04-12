@@ -16,7 +16,7 @@ public class ImageBlock extends Block {
   private FileData image;
 
   public ImageBlock() {
-    setType("image");
+    setType(BlockType.IMAGE.getValue());
     image = new FileData();
   }
 }

@@ -12,7 +12,7 @@ public class ColumnListBlock extends Block {
   private ColumnList columnList;
 
   public ColumnListBlock() {
-    setType("column_list");
+    setType(BlockType.COLUMN_LIST.getValue());
     columnList = new ColumnList();
   }
 

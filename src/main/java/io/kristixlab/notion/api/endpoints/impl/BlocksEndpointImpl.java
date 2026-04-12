@@ -172,7 +172,17 @@ public class BlocksEndpointImpl extends BaseEndpointImpl implements BlocksEndpoi
   /**
    * Update a block.
    *
-   * @param blockId The ID of the block to update
+   * @param request The update request
+   * @return The updated block
+   */
+  public Block update(Block request) {
+    checkNotNull(request, "request");
+    return update(request.getId(), request);
+  }
+
+  /**
+   * Update a block.
+   *
    * @param request The update request
    * @return The updated block
    */

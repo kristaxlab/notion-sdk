@@ -16,7 +16,7 @@ public class TableOfContentsBlock extends Block {
   private TableOfContents tableOfContents;
 
   public TableOfContentsBlock() {
-    setType("table_of_contents");
+    setType(BlockType.TABLE_OF_CONTENTS.getValue());
     tableOfContents = new TableOfContents();
   }
 

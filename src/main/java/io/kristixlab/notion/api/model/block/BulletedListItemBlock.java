@@ -16,7 +16,7 @@ public class BulletedListItemBlock extends Block {
   private BulletedListItem bulletedListItem;
 
   public BulletedListItemBlock() {
-    setType("bulleted_list_item");
+    setType(BlockType.BULLETED_LIST_ITEM.getValue());
     bulletedListItem = new BulletedListItem();
   }
 

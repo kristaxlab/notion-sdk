@@ -13,7 +13,7 @@ public class ColumnBlock extends Block {
   private Column column;
 
   public ColumnBlock() {
-    setType("column");
+    setType(BlockType.COLUMN.getValue());
     column = new Column();
   }
 

@@ -17,7 +17,7 @@ public class ToggleBlock extends Block {
   private Toggle toggle;
 
   public ToggleBlock() {
-    setType("toggle");
+    setType(BlockType.TOGGLE.getValue());
     toggle = new Toggle();
   }
 

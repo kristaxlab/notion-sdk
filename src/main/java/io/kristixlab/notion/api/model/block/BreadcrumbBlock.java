@@ -15,7 +15,7 @@ public class BreadcrumbBlock extends Block {
   private Object breadcrumb;
 
   public BreadcrumbBlock() {
-    setType("breadcrumb");
+    setType(BlockType.BREADCRUMB.getValue());
     breadcrumb = new Object();
   }
 }

@@ -1,4 +1,4 @@
-package io.kristixlab.notion.api.examples;
+package examples;
 
 import static io.kristixlab.notion.api.model.helper.NotionBlocks.*;
 import static io.kristixlab.notion.api.model.helper.NotionText.*;
@@ -34,7 +34,7 @@ public class Examples {
   public void blocksBuilding(NotionClient client) {
 
     // using List.of() to prepare a list of blocks to append
-    List<Block> todoList =
+    List<Block> todos =
         List.of(
             heading1("Github project"), todo("Define CI pipeline"), todo("Write initial tests"));
 
@@ -50,7 +50,7 @@ public class Examples {
             .build();
 
     // aggregating multiple lists into a single list to append
-    List<Block> allBlocks = blocksBuilder().blocks(dayPlan).blocks(todoList).build();
+    List<Block> allBlocks = blocksBuilder().blocks(dayPlan).blocks(todos).build();
 
     // appending the combined list to the page
     client.blocks().appendChildren("page_id", allBlocks, Position.pageStart());

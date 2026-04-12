@@ -19,7 +19,7 @@ public class HeadingTwoBlock extends Block {
   private Heading heading2;
 
   public HeadingTwoBlock() {
-    setType("heading_2");
+    setType(BlockType.HEADING_2.getValue());
     heading2 = new Heading();
   }
 

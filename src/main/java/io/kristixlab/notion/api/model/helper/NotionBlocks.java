@@ -23,7 +23,7 @@ import java.util.function.Consumer;
  * List<Block> content = blocksBuilder()
  *     .heading1("Overview")
  *     .paragraph("Introduction.")
- *     .todoList("Review design", "Write tests")
+ *     .todos("Review design", "Write tests")
  *     .build();
  * }</pre>
  */
@@ -97,11 +97,11 @@ public class NotionBlocks {
     return builder.build();
   }
 
-  public static List<Block> bulletedList(String... items) {
-    return bulletedList(Arrays.asList(items));
+  public static List<Block> bullets(String... items) {
+    return bullets(Arrays.asList(items));
   }
 
-  public static List<Block> bulletedList(List<String> items) {
+  public static List<Block> bullets(List<String> items) {
     List<Block> blocks = new ArrayList<>();
     for (String item : items) {
       blocks.add(bullet(item));
@@ -428,11 +428,11 @@ public class NotionBlocks {
     return builder.build();
   }
 
-  public static List<Block> numberedList(String... items) {
-    return numberedList(Arrays.asList(items));
+  public static List<Block> numberedItems(String... items) {
+    return numberedItems(Arrays.asList(items));
   }
 
-  public static List<Block> numberedList(List<String> items) {
+  public static List<Block> numberedItems(List<String> items) {
     List<Block> blocks = new ArrayList<>();
     for (String item : items) {
       blocks.add(numbered(item));
@@ -649,11 +649,11 @@ public class NotionBlocks {
     return builder.build();
   }
 
-  public static List<Block> todoList(String... items) {
-    return todoList(Arrays.asList(items));
+  public static List<Block> todos(String... items) {
+    return todos(Arrays.asList(items));
   }
 
-  public static List<Block> todoList(List<String> items) {
+  public static List<Block> todos(List<String> items) {
     List<Block> blocks = new ArrayList<>();
     for (String item : items) {
       blocks.add(todo(item));
@@ -681,11 +681,11 @@ public class NotionBlocks {
     return builder.build();
   }
 
-  public static List<Block> toggleList(String... items) {
-    return toggleList(Arrays.asList(items));
+  public static List<Block> toggles(String... items) {
+    return toggles(Arrays.asList(items));
   }
 
-  public static List<Block> toggleList(List<String> items) {
+  public static List<Block> toggles(List<String> items) {
     List<Block> blocks = new ArrayList<>();
     for (String item : items) {
       blocks.add(toggle(item));

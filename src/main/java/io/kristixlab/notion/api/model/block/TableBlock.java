@@ -19,7 +19,7 @@ public class TableBlock extends Block {
   private Table table;
 
   public TableBlock() {
-    setType("table");
+    setType(BlockType.TABLE.getValue());
     table = new Table();
   }
 

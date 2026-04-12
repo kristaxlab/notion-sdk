@@ -18,7 +18,7 @@ public class ParagraphBlock extends Block {
   private Paragraph paragraph;
 
   public ParagraphBlock() {
-    setType("paragraph");
+    setType(BlockType.PARAGRAPH.getValue());
     paragraph = new Paragraph();
   }
 
