@@ -190,8 +190,7 @@ public class BlocksEndpointImpl extends BaseEndpointImpl implements BlocksEndpoi
     checkNotNullOrEmpty(blockId, "blockId");
     checkNotNull(request, "request");
 
-    ApiPath urlInfo =
-        ApiPath.builder("/blocks/{block_id}").pathParam("block_id", request.getId()).build();
+    ApiPath urlInfo = ApiPath.builder("/blocks/{block_id}").pathParam("block_id", blockId).build();
 
     return getClient().call("PATCH", urlInfo, request, Block.class);
   }
