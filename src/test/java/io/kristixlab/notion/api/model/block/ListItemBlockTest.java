@@ -12,7 +12,7 @@ class ListItemBlockTest {
   // BulletedListItemBlock
 
   @Test
-  void bulletedListItem_constructor_setsTypeAndInner() {
+  void bulletsItem_constructor_setsTypeAndInner() {
     BulletedListItemBlock block = new BulletedListItemBlock();
 
     assertEquals("bulleted_list_item", block.getType());
@@ -20,7 +20,7 @@ class ListItemBlockTest {
   }
 
   @Test
-  void bulletedListItem_of_setsRichText() {
+  void bulletsItem_of_setsRichText() {
     BulletedListItemBlock block = NotionBlocks.bullet("Item 1");
 
     assertEquals("bulleted_list_item", block.getType());
@@ -29,14 +29,14 @@ class ListItemBlockTest {
   }
 
   @Test
-  void bulletedListItem_builder_withText() {
+  void bulletsItem_builder_withText() {
     BulletedListItemBlock block = BulletedListItemBlock.builder().text("Built item").build();
 
     assertEquals("Built item", block.getBulletedListItem().getRichText().get(0).getPlainText());
   }
 
   @Test
-  void bulletedListItem_builder_withColor() {
+  void bulletsItem_builder_withColor() {
     BulletedListItemBlock block =
         BulletedListItemBlock.builder().text("Colored").blockColor(Color.ORANGE).build();
 
@@ -44,7 +44,7 @@ class ListItemBlockTest {
   }
 
   @Test
-  void bulletedListItem_builder_withChildren() {
+  void bulletsItem_builder_withChildren() {
     BulletedListItemBlock block =
         BulletedListItemBlock.builder().text("Parent").children(c -> c.bullet("Sub-item")).build();
 
@@ -55,7 +55,7 @@ class ListItemBlockTest {
   // NumberedListItemBlock
 
   @Test
-  void numberedListItem_constructor_setsTypeAndInner() {
+  void numberedItem_constructor_setsTypeAndInner() {
     NumberedListItemBlock block = new NumberedListItemBlock();
 
     assertEquals("numbered_list_item", block.getType());
@@ -63,7 +63,7 @@ class ListItemBlockTest {
   }
 
   @Test
-  void numberedListItem_factory_setsRichText() {
+  void numberedItem_factory_setsRichText() {
     NumberedListItemBlock block = NotionBlocks.numbered("Step 1");
 
     assertEquals("numbered_list_item", block.getType());
@@ -71,14 +71,14 @@ class ListItemBlockTest {
   }
 
   @Test
-  void numberedListItem_builder_withText() {
+  void numberedItem_builder_withText() {
     NumberedListItemBlock block = NumberedListItemBlock.builder().text("Built step").build();
 
     assertEquals("Built step", block.getNumberedListItem().getRichText().get(0).getPlainText());
   }
 
   @Test
-  void numberedListItem_builder_withColorAndChildren() {
+  void numberedItem_builder_withColorAndChildren() {
     NumberedListItemBlock block =
         NumberedListItemBlock.builder()
             .text("Parent")
@@ -92,7 +92,7 @@ class ListItemBlockTest {
   }
 
   @Test
-  void numberedListItem_builder_withChildrenList() {
+  void numberedItem_builder_withChildrenList() {
     List<Block> children = NotionBlocks.paragraphList("Child");
 
     NumberedListItemBlock block =

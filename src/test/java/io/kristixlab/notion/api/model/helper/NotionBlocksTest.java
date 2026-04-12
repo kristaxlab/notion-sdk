@@ -124,13 +124,12 @@ class NotionBlocksTest {
 
     @Test
     void varargs_returnsCorrectCount() {
-      assertEquals(3, NotionBlocks.bulletedList("a", "b", "c").size());
+      assertEquals(3, NotionBlocks.bullets("a", "b", "c").size());
     }
 
     @Test
     void eachItem_isBulletedListItemBlock() {
-      NotionBlocks.bulletedList("x", "y")
-          .forEach(b -> assertInstanceOf(BulletedListItemBlock.class, b));
+      NotionBlocks.bullets("x", "y").forEach(b -> assertInstanceOf(BulletedListItemBlock.class, b));
     }
   }
 
@@ -551,12 +550,12 @@ class NotionBlocksTest {
 
     @Test
     void varargs_returnsCorrectCount() {
-      assertEquals(3, NotionBlocks.numberedList("a", "b", "c").size());
+      assertEquals(3, NotionBlocks.numberedItems("a", "b", "c").size());
     }
 
     @Test
     void eachItem_isNumberedListItemBlock() {
-      NotionBlocks.numberedList("x", "y")
+      NotionBlocks.numberedItems("x", "y")
           .forEach(b -> assertInstanceOf(NumberedListItemBlock.class, b));
     }
   }
@@ -766,12 +765,12 @@ class NotionBlocksTest {
 
     @Test
     void varargs_returnsCorrectCount() {
-      assertEquals(2, NotionBlocks.todoList("a", "b").size());
+      assertEquals(2, NotionBlocks.todos("a", "b").size());
     }
 
     @Test
     void eachItem_isToDoBlock() {
-      NotionBlocks.todoList("x", "y").forEach(b -> assertInstanceOf(ToDoBlock.class, b));
+      NotionBlocks.todos("x", "y").forEach(b -> assertInstanceOf(ToDoBlock.class, b));
     }
   }
 
@@ -796,12 +795,12 @@ class NotionBlocksTest {
 
     @Test
     void varargs_returnsCorrectCount() {
-      assertEquals(2, NotionBlocks.toggleList("a", "b").size());
+      assertEquals(2, NotionBlocks.toggles("a", "b").size());
     }
 
     @Test
     void eachItem_isToggleBlock() {
-      NotionBlocks.toggleList("x", "y").forEach(b -> assertInstanceOf(ToggleBlock.class, b));
+      NotionBlocks.toggles("x", "y").forEach(b -> assertInstanceOf(ToggleBlock.class, b));
     }
   }
 

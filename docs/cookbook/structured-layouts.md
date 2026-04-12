@@ -14,8 +14,8 @@ Columns must come in pairs or more. Use lambdas to describe each column's conten
 ```java
 client.blocks().appendChildren("page-id",
     c -> c.columns(
-        left  -> left.heading2("To Do").todoList("Write tests", "Update docs"),
-        right -> right.heading2("Done").bulletedList("Set up CI", "Code review")
+        left  -> left.heading2("To Do").todos("Write tests", "Update docs"),
+        right -> right.heading2("Done").bullets("Set up CI", "Code review")
     )
 );
 ```

@@ -174,12 +174,12 @@ class NotionBlocksBuilderTest {
 
     @Test
     void varargs_addsMultipleBlocks() {
-      assertEquals(3, builder().bulletedList("a", "b", "c").build().size());
+      assertEquals(3, builder().bullets("a", "b", "c").build().size());
     }
 
     @Test
     void list_addsMultipleBlocks() {
-      assertEquals(2, builder().bulletedList(List.of("x", "y")).build().size());
+      assertEquals(2, builder().bullets(List.of("x", "y")).build().size());
     }
   }
 
@@ -463,20 +463,20 @@ class NotionBlocksBuilderTest {
 
     @Test
     void varargs_addsCorrectCount() {
-      assertEquals(3, builder().numberedList("a", "b", "c").build().size());
+      assertEquals(3, builder().numberedItems("a", "b", "c").build().size());
     }
 
     @Test
     void varargs_eachItemIsNumberedListItemBlock() {
       builder()
-          .numberedList("x", "y")
+          .numberedItems("x", "y")
           .build()
           .forEach(b -> assertInstanceOf(NumberedListItemBlock.class, b));
     }
 
     @Test
     void list_addsCorrectCount() {
-      assertEquals(2, builder().numberedList(List.of("x", "y")).build().size());
+      assertEquals(2, builder().numberedItems(List.of("x", "y")).build().size());
     }
   }
 
@@ -585,12 +585,12 @@ class NotionBlocksBuilderTest {
 
     @Test
     void varargs_addsMultipleToDoBlocks() {
-      assertEquals(3, builder().todoList("a", "b", "c").build().size());
+      assertEquals(3, builder().todos("a", "b", "c").build().size());
     }
 
     @Test
     void list_addsMultipleToDoBlocks() {
-      assertEquals(2, builder().todoList(List.of("x", "y")).build().size());
+      assertEquals(2, builder().todos(List.of("x", "y")).build().size());
     }
   }
 
@@ -614,12 +614,12 @@ class NotionBlocksBuilderTest {
 
     @Test
     void varargs_addsMultipleToggleBlocks() {
-      assertEquals(2, builder().toggleList("a", "b").build().size());
+      assertEquals(2, builder().toggles("a", "b").build().size());
     }
 
     @Test
     void list_addsMultipleToggleBlocks() {
-      assertEquals(2, builder().toggleList(List.of("x", "y")).build().size());
+      assertEquals(2, builder().toggles(List.of("x", "y")).build().size());
     }
   }
 

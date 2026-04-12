@@ -149,13 +149,13 @@ public class NotionBlocksBuilder {
     return this;
   }
 
-  public NotionBlocksBuilder bulletedList(String... bulletItems) {
-    blocks.addAll(NotionBlocks.bulletedList(bulletItems));
+  public NotionBlocksBuilder bullets(String... bulletItems) {
+    blocks.addAll(NotionBlocks.bullets(bulletItems));
     return this;
   }
 
-  public NotionBlocksBuilder bulletedList(List<String> bulletItems) {
-    blocks.addAll(NotionBlocks.bulletedList(bulletItems));
+  public NotionBlocksBuilder bullets(List<String> bulletItems) {
+    blocks.addAll(NotionBlocks.bullets(bulletItems));
     return this;
   }
 
@@ -400,13 +400,13 @@ public class NotionBlocksBuilder {
     return this;
   }
 
-  public NotionBlocksBuilder numberedList(String... numberedItems) {
-    blocks.addAll(NotionBlocks.numberedList(numberedItems));
+  public NotionBlocksBuilder numberedItems(String... numberedItems) {
+    blocks.addAll(NotionBlocks.numberedItems(numberedItems));
     return this;
   }
 
-  public NotionBlocksBuilder numberedList(List<String> numberedItems) {
-    blocks.addAll(NotionBlocks.numberedList(numberedItems));
+  public NotionBlocksBuilder numberedItems(List<String> numberedItems) {
+    blocks.addAll(NotionBlocks.numberedItems(numberedItems));
     return this;
   }
 
@@ -454,13 +454,13 @@ public class NotionBlocksBuilder {
     return this;
   }
 
-  public NotionBlocksBuilder todoList(String... items) {
-    blocks.addAll(NotionBlocks.todoList(items));
+  public NotionBlocksBuilder todos(String... items) {
+    blocks.addAll(NotionBlocks.todos(items));
     return this;
   }
 
-  public NotionBlocksBuilder todoList(List<String> items) {
-    blocks.addAll(NotionBlocks.todoList(items));
+  public NotionBlocksBuilder todos(List<String> items) {
+    blocks.addAll(NotionBlocks.todos(items));
     return this;
   }
 
@@ -484,13 +484,13 @@ public class NotionBlocksBuilder {
     return this;
   }
 
-  public NotionBlocksBuilder toggleList(String... items) {
-    blocks.addAll(NotionBlocks.toggleList(items));
+  public NotionBlocksBuilder toggles(String... items) {
+    blocks.addAll(NotionBlocks.toggles(items));
     return this;
   }
 
-  public NotionBlocksBuilder toggleList(List<String> items) {
-    blocks.addAll(NotionBlocks.toggleList(items));
+  public NotionBlocksBuilder toggles(List<String> items) {
+    blocks.addAll(NotionBlocks.toggles(items));
     return this;
   }
 
