@@ -88,4 +88,4 @@ See [Error Handling](docs/advanced/error-handling.md) for the full exception hie
 ## License
 
 <!-- TODO: choose license -->
-TBD
+The MIT License

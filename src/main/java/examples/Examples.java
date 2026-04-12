@@ -1,4 +1,4 @@
-package io.kristixlab.notion.api.examples;
+package examples;
 
 import static io.kristixlab.notion.api.model.helper.NotionBlocks.*;
 import static io.kristixlab.notion.api.model.helper.NotionText.*;
