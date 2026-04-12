@@ -41,6 +41,8 @@ public interface BlocksEndpoint {
 
   BlockList retrieveChildren(String blockId, String startCursor, Integer pageSize);
 
+  Block update(Block request);
+
   Block update(String blockId, Block request);
 
   Block delete(String blockId);

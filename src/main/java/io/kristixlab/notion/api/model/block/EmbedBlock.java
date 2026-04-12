@@ -21,7 +21,7 @@ public class EmbedBlock extends Block {
   private Embed embed;
 
   public EmbedBlock() {
-    setType("embed");
+    setType(BlockType.EMBED.getValue());
     embed = new Embed();
   }
 

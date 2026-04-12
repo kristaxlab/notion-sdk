@@ -17,7 +17,7 @@ public class ToDoBlock extends Block {
   private ToDo toDo;
 
   public ToDoBlock() {
-    setType("to_do");
+    setType(BlockType.TO_DO.getValue());
     toDo = new ToDo();
   }
 

@@ -11,7 +11,7 @@ public class QuoteBlock extends Block {
   private Quote quote;
 
   public QuoteBlock() {
-    setType("quote");
+    setType(BlockType.QUOTE.getValue());
     quote = new Quote();
   }
 

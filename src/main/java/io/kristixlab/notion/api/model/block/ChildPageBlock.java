@@ -14,7 +14,7 @@ public class ChildPageBlock extends Block {
   private ChildPage childPage;
 
   public ChildPageBlock() {
-    setType("child_page");
+    setType(BlockType.CHILD_PAGE.getValue());
     childPage = new ChildPage();
   }
 

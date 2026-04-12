@@ -13,7 +13,7 @@ public class SyncedBlock extends Block {
   private Synced syncedBlock;
 
   public SyncedBlock() {
-    setType("synced_block");
+    setType(BlockType.SYNCED_BLOCK.getValue());
     syncedBlock = new Synced();
   }
 

@@ -10,7 +10,7 @@ public class EquationBlock extends Block {
   private Equation equation;
 
   public EquationBlock() {
-    setType("equation");
+    setType(BlockType.EQUATION.getValue());
     equation = new Equation();
   }
 

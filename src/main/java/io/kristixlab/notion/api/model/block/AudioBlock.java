@@ -12,7 +12,7 @@ public class AudioBlock extends Block {
   private FileData audio;
 
   public AudioBlock() {
-    setType("audio");
+    setType(BlockType.AUDIO.getValue());
     audio = new FileData();
   }
 }

@@ -14,7 +14,7 @@ public class LinkPreviewBlock extends Block {
   private LinkPreview linkPreview;
 
   public LinkPreviewBlock() {
-    setType("link_preview");
+    setType(BlockType.LINK_PREVIEW.getValue());
     linkPreview = new LinkPreview();
   }
 

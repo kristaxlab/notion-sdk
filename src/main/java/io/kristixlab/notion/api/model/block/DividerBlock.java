@@ -15,7 +15,7 @@ public class DividerBlock extends Block {
   private Object divider;
 
   public DividerBlock() {
-    setType("divider");
+    setType(BlockType.DIVIDER.getValue());
     divider = new Object();
   }
 }

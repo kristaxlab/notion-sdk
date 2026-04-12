@@ -39,13 +39,13 @@ import java.util.stream.Stream;
  *
  * @see Block
  */
-public final class BlockListViewer implements Iterable<Block> {
+public final class NotionBlocksViewer implements Iterable<Block> {
 
-  private static final BlockListViewer EMPTY = new BlockListViewer(Collections.emptyList());
+  private static final NotionBlocksViewer EMPTY = new NotionBlocksViewer(Collections.emptyList());
 
   private final List<Block> blocks;
 
-  private BlockListViewer(List<Block> blocks) {
+  private NotionBlocksViewer(List<Block> blocks) {
     this.blocks = blocks;
   }
 
@@ -55,11 +55,11 @@ public final class BlockListViewer implements Iterable<Block> {
    * @param blocks the blocks to wrap (must not be {@code null})
    * @return a new view, or an empty view if the list is {@code null} or empty
    */
-  public static BlockListViewer of(List<Block> blocks) {
+  public static NotionBlocksViewer of(List<Block> blocks) {
     if (blocks == null || blocks.isEmpty()) {
       return EMPTY;
     }
-    return new BlockListViewer(new ArrayList<>(blocks));
+    return new NotionBlocksViewer(new ArrayList<>(blocks));
   }
 
   /**
@@ -68,11 +68,11 @@ public final class BlockListViewer implements Iterable<Block> {
    * @param blocks the blocks to wrap
    * @return a new view, or an empty view if no blocks are provided
    */
-  public static BlockListViewer of(Block... blocks) {
+  public static NotionBlocksViewer of(Block... blocks) {
     if (blocks == null || blocks.length == 0) {
       return EMPTY;
     }
-    return new BlockListViewer(new ArrayList<>(Arrays.asList(blocks)));
+    return new NotionBlocksViewer(new ArrayList<>(Arrays.asList(blocks)));
   }
 
   /**
@@ -90,7 +90,7 @@ public final class BlockListViewer implements Iterable<Block> {
    * @return a new view over the results, or an empty view if {@code blockList} is {@code null} or
    *     contains no results
    */
-  public static BlockListViewer of(BlockList blockList) {
+  public static NotionBlocksViewer of(BlockList blockList) {
     if (blockList == null) {
       return EMPTY;
     }
@@ -104,7 +104,7 @@ public final class BlockListViewer implements Iterable<Block> {
    * @param <T> the block type
    * @return a new view containing only matching blocks
    */
-  public <T extends Block> BlockListViewer ofType(Class<T> type) {
+  public <T extends Block> NotionBlocksViewer ofType(Class<T> type) {
     return where(type::isInstance);
   }
 
@@ -113,7 +113,7 @@ public final class BlockListViewer implements Iterable<Block> {
    *
    * @return a new view of paragraphs
    */
-  public BlockListViewer paragraphs() {
+  public NotionBlocksViewer paragraphs() {
     return ofType(ParagraphBlock.class);
   }
 
@@ -122,7 +122,7 @@ public final class BlockListViewer implements Iterable<Block> {
    *
    * @return a new view of headings
    */
-  public BlockListViewer headings() {
+  public NotionBlocksViewer headings() {
     return where(
         b ->
             b instanceof HeadingOneBlock
@@ -136,7 +136,7 @@ public final class BlockListViewer implements Iterable<Block> {
    *
    * @return a new view of to-do blocks
    */
-  public BlockListViewer todos() {
+  public NotionBlocksViewer todos() {
     return ofType(ToDoBlock.class);
   }
 
@@ -145,7 +145,7 @@ public final class BlockListViewer implements Iterable<Block> {
    *
    * @return a new view of bulleted list items
    */
-  public BlockListViewer bullets() {
+  public NotionBlocksViewer bullets() {
     return ofType(BulletedListItemBlock.class);
   }
 
@@ -154,7 +154,7 @@ public final class BlockListViewer implements Iterable<Block> {
    *
    * @return a new view of numbered list items
    */
-  public BlockListViewer numbered() {
+  public NotionBlocksViewer numbered() {
     return ofType(NumberedListItemBlock.class);
   }
 
@@ -163,7 +163,7 @@ public final class BlockListViewer implements Iterable<Block> {
    *
    * @return a new view of toggle blocks
    */
-  public BlockListViewer toggles() {
+  public NotionBlocksViewer toggles() {
     return ofType(ToggleBlock.class);
   }
 
@@ -172,7 +172,7 @@ public final class BlockListViewer implements Iterable<Block> {
    *
    * @return a new view of quote blocks
    */
-  public BlockListViewer quotes() {
+  public NotionBlocksViewer quotes() {
     return ofType(QuoteBlock.class);
   }
 
@@ -181,7 +181,7 @@ public final class BlockListViewer implements Iterable<Block> {
    *
    * @return a new view of callout blocks
    */
-  public BlockListViewer callouts() {
+  public NotionBlocksViewer callouts() {
     return ofType(CalloutBlock.class);
   }
 
@@ -190,7 +190,7 @@ public final class BlockListViewer implements Iterable<Block> {
    *
    * @return a new view of code blocks
    */
-  public BlockListViewer code() {
+  public NotionBlocksViewer code() {
     return ofType(CodeBlock.class);
   }
 
@@ -199,7 +199,7 @@ public final class BlockListViewer implements Iterable<Block> {
    *
    * @return a new view of image blocks
    */
-  public BlockListViewer images() {
+  public NotionBlocksViewer images() {
     return ofType(ImageBlock.class);
   }
 
@@ -212,7 +212,7 @@ public final class BlockListViewer implements Iterable<Block> {
    *
    * @return a new view of textual blocks
    */
-  public BlockListViewer textual() {
+  public NotionBlocksViewer textual() {
     return where(
         b ->
             b instanceof ParagraphBlock
@@ -244,7 +244,7 @@ public final class BlockListViewer implements Iterable<Block> {
    *
    * @return a new view of media blocks
    */
-  public BlockListViewer media() {
+  public NotionBlocksViewer media() {
     return where(
         b ->
             b instanceof ImageBlock
@@ -260,7 +260,7 @@ public final class BlockListViewer implements Iterable<Block> {
    *
    * @return a new view of checked to-do blocks
    */
-  public BlockListViewer checked() {
+  public NotionBlocksViewer checked() {
     return where(b -> b instanceof ToDoBlock t && Boolean.TRUE.equals(t.getToDo().getChecked()));
   }
 
@@ -271,7 +271,7 @@ public final class BlockListViewer implements Iterable<Block> {
    *
    * @return a new view of unchecked to-do blocks
    */
-  public BlockListViewer unchecked() {
+  public NotionBlocksViewer unchecked() {
     return where(b -> b instanceof ToDoBlock t && !Boolean.TRUE.equals(t.getToDo().getChecked()));
   }
 
@@ -295,7 +295,7 @@ public final class BlockListViewer implements Iterable<Block> {
    * @return a new view containing only blocks that contain the keyword (directly or in children)
    * @throws NullPointerException if {@code keyword} is {@code null}
    */
-  public BlockListViewer containing(String keyword) {
+  public NotionBlocksViewer containing(String keyword) {
     Objects.requireNonNull(keyword, "keyword must not be null");
     String lower = keyword.toLowerCase(Locale.ROOT);
     return where(b -> blockContainsKeyword(b, lower));
@@ -307,14 +307,14 @@ public final class BlockListViewer implements Iterable<Block> {
    * @param predicate the condition blocks must satisfy
    * @return a new view containing only matching blocks
    */
-  public BlockListViewer where(Predicate<Block> predicate) {
+  public NotionBlocksViewer where(Predicate<Block> predicate) {
     List<Block> filtered = new ArrayList<>();
     for (Block block : blocks) {
       if (predicate.test(block)) {
         filtered.add(block);
       }
     }
-    return filtered.isEmpty() ? EMPTY : new BlockListViewer(filtered);
+    return filtered.isEmpty() ? EMPTY : new NotionBlocksViewer(filtered);
   }
 
   /**
@@ -452,12 +452,12 @@ public final class BlockListViewer implements Iterable<Block> {
    *
    * @return a new view containing all blocks at all depths
    */
-  public BlockListViewer flatten() {
+  public NotionBlocksViewer flatten() {
     List<Block> flat = new ArrayList<>();
     for (Block block : blocks) {
       flattenInto(block, flat);
     }
-    return flat.isEmpty() ? EMPTY : new BlockListViewer(flat);
+    return flat.isEmpty() ? EMPTY : new NotionBlocksViewer(flat);
   }
 
   /**

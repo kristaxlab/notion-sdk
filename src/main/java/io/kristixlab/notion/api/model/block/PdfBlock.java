@@ -12,7 +12,7 @@ public class PdfBlock extends Block {
   private FileData pdf;
 
   public PdfBlock() {
-    setType("pdf");
+    setType(BlockType.PDF.getValue());
     pdf = new FileData();
   }
 }

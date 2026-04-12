@@ -19,7 +19,7 @@ public class HeadingFourBlock extends Block {
   private Heading heading4;
 
   public HeadingFourBlock() {
-    setType("heading_4");
+    setType(BlockType.HEADING_4.getValue());
     heading4 = new Heading();
   }
 

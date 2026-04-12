@@ -12,7 +12,7 @@ public class FileBlock extends Block {
   private FileData file;
 
   public FileBlock() {
-    setType("file");
+    setType(BlockType.FILE.getValue());
     file = new FileData();
   }
 }

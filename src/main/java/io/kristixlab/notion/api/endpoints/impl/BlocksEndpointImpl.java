@@ -172,7 +172,17 @@ public class BlocksEndpointImpl extends BaseEndpointImpl implements BlocksEndpoi
   /**
    * Update a block.
    *
-   * @param blockId The ID of the block to update
+   * @param request The update request
+   * @return The updated block
+   */
+  public Block update(Block request) {
+    checkNotNull(request, "request");
+    return update(request.getId(), request);
+  }
+
+  /**
+   * Update a block.
+   *
    * @param request The update request
    * @return The updated block
    */
@@ -180,7 +190,8 @@ public class BlocksEndpointImpl extends BaseEndpointImpl implements BlocksEndpoi
     checkNotNullOrEmpty(blockId, "blockId");
     checkNotNull(request, "request");
 
-    ApiPath urlInfo = ApiPath.builder("/blocks/{block_id}").pathParam("block_id", blockId).build();
+    ApiPath urlInfo =
+        ApiPath.builder("/blocks/{block_id}").pathParam("block_id", request.getId()).build();
 
     return getClient().call("PATCH", urlInfo, request, Block.class);
   }

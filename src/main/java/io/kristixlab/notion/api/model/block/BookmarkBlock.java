@@ -18,7 +18,7 @@ public class BookmarkBlock extends Block {
   private Bookmark bookmark;
 
   public BookmarkBlock() {
-    setType("bookmark");
+    setType(BlockType.BOOKMARK.getValue());
     bookmark = new Bookmark();
   }
 

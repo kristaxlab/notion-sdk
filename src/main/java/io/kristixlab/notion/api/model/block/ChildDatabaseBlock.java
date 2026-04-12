@@ -14,7 +14,7 @@ public class ChildDatabaseBlock extends Block {
   private ChildDatabase childDatabase;
 
   public ChildDatabaseBlock() {
-    setType("child_database");
+    setType(BlockType.CHILD_DATABASE.getValue());
     childDatabase = new ChildDatabase();
   }
 

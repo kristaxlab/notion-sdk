@@ -7,8 +7,9 @@ import lombok.Setter;
 /**
  * A Notion callout block.
  *
- * <p>Simple construction via {@link #of(String, String)}. For rich text formatting, custom icons,
- * nested children, or block color use {@link #builder()}.
+ * <p>Simple construction via {@link
+ * io.kristixlab.notion.api.model.helper.NotionBlocks#callout(String)} and related overloads. For
+ * rich text formatting, custom icons, nested children, or block color use {@link #builder()}.
  */
 @Getter
 @Setter
@@ -17,7 +18,7 @@ public class CalloutBlock extends Block {
   private Callout callout;
 
   public CalloutBlock() {
-    setType("callout");
+    setType(BlockType.CALLOUT.getValue());
     callout = new Callout();
   }
 
@@ -57,10 +58,7 @@ public class CalloutBlock extends Block {
         this.icon = null;
         return self();
       }
-      Icon emojiIcon = new Icon();
-      emojiIcon.setType("emoji");
-      emojiIcon.setEmoji(emoji.getEmoji());
-      this.icon = emojiIcon;
+      this.icon = Icon.emoji(emoji.getEmoji());
       return self();
     }
 
@@ -75,10 +73,7 @@ public class CalloutBlock extends Block {
         this.icon = null;
         return self();
       }
-      Icon emojiIcon = new Icon();
-      emojiIcon.setType("emoji");
-      emojiIcon.setEmoji(emoji);
-      this.icon = emojiIcon;
+      this.icon = Icon.emoji(emoji);
       return self();
     }
 

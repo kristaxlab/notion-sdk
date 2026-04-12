@@ -18,7 +18,7 @@ public class CodeBlock extends Block {
   private Code code;
 
   public CodeBlock() {
-    setType("code");
+    setType(BlockType.CODE.getValue());
     code = new Code();
   }
 
