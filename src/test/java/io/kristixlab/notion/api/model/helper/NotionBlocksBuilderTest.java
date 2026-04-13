@@ -87,19 +87,6 @@ class NotionBlocksBuilderTest {
   }
 
   @Nested
-  class BlockLists {
-
-    @Test
-    void blockLists_addsAllFromNestedLists() {
-      List<List<? extends Block>> nested =
-          List.of(
-              List.of(NotionBlocks.paragraph("a"), NotionBlocks.paragraph("b")),
-              List.of(NotionBlocks.paragraph("c")));
-      assertEquals(3, builder().blockLists(nested).build().size());
-    }
-  }
-
-  @Nested
   class BlankLine {
 
     @Test

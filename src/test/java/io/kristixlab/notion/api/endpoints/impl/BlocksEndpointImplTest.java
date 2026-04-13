@@ -37,6 +37,7 @@ class BlocksEndpointImplTest {
   class Retrieve {
 
     @Test
+    @DisplayName("works for valid block id")
     void retrieve_buildsGetRequest() {
       Block expected = new Block();
       client.setResponse(expected);
@@ -53,6 +54,7 @@ class BlocksEndpointImplTest {
     @ParameterizedTest
     @NullAndEmptySource
     @ValueSource(strings = {"   "})
+    @DisplayName("rejects blank or null block id")
     void retrieve_rejectsBlankOrNullBlockId(String blockId) {
       assertThrows(IllegalArgumentException.class, () -> endpoint.retrieve(blockId));
     }
@@ -63,6 +65,7 @@ class BlocksEndpointImplTest {
   class RetrieveChildren {
 
     @Test
+    @DisplayName("works for valid parent block id")
     void retrieveChildren_buildsGetRequest() {
       BlockList expected = new BlockList();
       client.setResponse(expected);
@@ -78,6 +81,7 @@ class BlocksEndpointImplTest {
     }
 
     @Test
+    @DisplayName("works with pagination params")
     void retrieveChildren_withPagination_addsQueryParams() {
       endpoint.retrieveChildren("parent-1", "cursor-abc", 25);
 
@@ -90,6 +94,7 @@ class BlocksEndpointImplTest {
     }
 
     @Test
+    @DisplayName("works with null pagination and omits query params")
     void retrieveChildren_withNullPagination_omitsQueryParams() {
       endpoint.retrieveChildren("parent-1", null, null);
 
@@ -98,6 +103,7 @@ class BlocksEndpointImplTest {
     }
 
     @Test
+    @DisplayName("works with only start cursor")
     void retrieveChildren_withOnlyStartCursor_addsOnlyCursorParam() {
       endpoint.retrieveChildren("parent-1", "cursor-xyz", null);
 
@@ -107,6 +113,7 @@ class BlocksEndpointImplTest {
     }
 
     @Test
+    @DisplayName("works with only page size")
     void retrieveChildren_withOnlyPageSize_addsOnlyPageSizeParam() {
       endpoint.retrieveChildren("parent-1", null, 50);
 
@@ -117,6 +124,7 @@ class BlocksEndpointImplTest {
     @ParameterizedTest
     @NullAndEmptySource
     @ValueSource(strings = {"   "})
+    @DisplayName("rejects blank or null block id")
     void retrieveChildren_rejectsBlankOrNullBlockId(String blockId) {
       assertThrows(IllegalArgumentException.class, () -> endpoint.retrieveChildren(blockId));
     }
@@ -124,6 +132,7 @@ class BlocksEndpointImplTest {
     @ParameterizedTest
     @NullAndEmptySource
     @ValueSource(strings = {"   "})
+    @DisplayName("rejects blank or null block id when pagination is provided")
     void retrieveChildren_withPagination_rejectsBlankOrNullBlockId(String blockId) {
       assertThrows(
           IllegalArgumentException.class, () -> endpoint.retrieveChildren(blockId, "cursor", 10));
@@ -135,6 +144,7 @@ class BlocksEndpointImplTest {
   class AppendChildren {
 
     @Test
+    @DisplayName("works for valid parent block id and children list")
     void appendChildren_withList_buildsPatchRequest() {
       List<Block> children = List.of(new Block(), new Block());
       BlockList expected = new BlockList();
@@ -153,6 +163,7 @@ class BlocksEndpointImplTest {
     }
 
     @Test
+    @DisplayName("works for valid params with children and position")
     void appendChildren_withListAndPosition_buildsPatchRequest() {
       List<Block> children = List.of(new Block(), new Block());
       Position position = Position.afterBlock("after-block-id");
@@ -175,6 +186,7 @@ class BlocksEndpointImplTest {
     }
 
     @Test
+    @DisplayName("works for list append and leaves position unset")
     void appendChildren_withListAndNullPosition_setsNullPosition() {
       List<Block> children = List.of(new Block());
 
@@ -185,6 +197,7 @@ class BlocksEndpointImplTest {
     }
 
     @Test
+    @DisplayName("works for valid parent block id and single child")
     void appendChildren_withSingleChild_noPosition_buildsPatchRequest() {
       Block child = new Block();
       BlockList expected = new BlockList();
@@ -203,6 +216,7 @@ class BlocksEndpointImplTest {
     }
 
     @Test
+    @DisplayName("works for valid append children params")
     void appendChildren_withParams_buildsPatchRequest() {
       Block child = new Block();
       Position position = Position.pageStart();
@@ -221,6 +235,7 @@ class BlocksEndpointImplTest {
     }
 
     @Test
+    @DisplayName("rejects null append children params")
     void appendChildren_withParams_rejectsNullParams() {
       assertThrows(
           IllegalArgumentException.class,
@@ -228,6 +243,7 @@ class BlocksEndpointImplTest {
     }
 
     @Test
+    @DisplayName("works for valid parent block id and blocks builder consumer")
     void appendChildren_withConsumer_buildsPatchRequest() {
       BlockList expected = new BlockList();
       client.setResponse(expected);
@@ -246,6 +262,7 @@ class BlocksEndpointImplTest {
     }
 
     @Test
+    @DisplayName("rejects null blocks builder consumer")
     void appendChildren_withConsumer_rejectsNullConsumer() {
       assertThrows(
           IllegalArgumentException.class,
@@ -255,6 +272,7 @@ class BlocksEndpointImplTest {
     }
 
     @Test
+    @DisplayName("works for valid supplier and insertion position")
     void appendChildren_withSupplierAndPosition_buildsPatchRequest() {
       Block child = new Block();
       Position position = Position.afterBlock("after-block-id");
@@ -274,6 +292,7 @@ class BlocksEndpointImplTest {
     }
 
     @Test
+    @DisplayName("rejects null supplier")
     void appendChildren_withSupplierAndPosition_rejectsNullSupplier() {
       assertThrows(
           IllegalArgumentException.class,
@@ -285,6 +304,7 @@ class BlocksEndpointImplTest {
     @ParameterizedTest
     @NullAndEmptySource
     @ValueSource(strings = {"   "})
+    @DisplayName("rejects blank or null parent block id for single child append")
     void appendChildren_withSingleChild_rejectsBlankOrNullParentBlockId(String parentBlockId) {
       assertThrows(
           IllegalArgumentException.class,
@@ -294,6 +314,7 @@ class BlocksEndpointImplTest {
     @ParameterizedTest
     @NullAndEmptySource
     @ValueSource(strings = {"   "})
+    @DisplayName("rejects blank or null parent block id for list append")
     void appendChildren_rejectsBlankOrNullParentBlockId(String parentBlockId) {
       assertThrows(
           IllegalArgumentException.class,
@@ -303,6 +324,7 @@ class BlocksEndpointImplTest {
     @ParameterizedTest
     @NullAndEmptySource
     @ValueSource(strings = {"   "})
+    @DisplayName("rejects blank or null parent block id for params append")
     void appendChildren_withParams_rejectsBlankOrNullParentBlockId(String parentBlockId) {
       AppendBlockChildrenParams params =
           AppendBlockChildrenParams.builder().children(new Block()).build();
@@ -316,6 +338,7 @@ class BlocksEndpointImplTest {
   class Update {
 
     @Test
+    @DisplayName("works for valid block id and update request")
     void update_buildsPatchRequest() {
       Block request = new Block();
       Block expected = new Block();
@@ -333,16 +356,19 @@ class BlocksEndpointImplTest {
     @ParameterizedTest
     @NullAndEmptySource
     @ValueSource(strings = {"   "})
+    @DisplayName("rejects blank or null block id")
     void update_rejectsBlankOrNullBlockId(String blockId) {
       assertThrows(IllegalArgumentException.class, () -> endpoint.update(blockId, new Block()));
     }
 
     @Test
+    @DisplayName("rejects null update request")
     void update_rejectsNullRequest() {
       assertThrows(IllegalArgumentException.class, () -> endpoint.update("block-id-7", null));
     }
 
     @Test
+    @DisplayName("works for valid update request containing block id")
     void update_withRequestOnly_usesRequestIdAsPathParam() {
       Block request = new Block();
       request.setId("block-id-from-request");
@@ -360,6 +386,7 @@ class BlocksEndpointImplTest {
     }
 
     @Test
+    @DisplayName("rejects request without block id")
     void update_withRequestOnly_rejectsRequestWithoutId() {
       Block request = new Block();
       assertThrows(IllegalArgumentException.class, () -> endpoint.update(request));
@@ -371,6 +398,7 @@ class BlocksEndpointImplTest {
   class Delete {
 
     @Test
+    @DisplayName("works for valid block id")
     void delete_buildsDeleteRequest() {
       Block expected = new Block();
       client.setResponse(expected);
@@ -387,6 +415,7 @@ class BlocksEndpointImplTest {
     @ParameterizedTest
     @NullAndEmptySource
     @ValueSource(strings = {"   "})
+    @DisplayName("rejects blank or null block id")
     void delete_rejectsBlankOrNullBlockId(String blockId) {
       assertThrows(IllegalArgumentException.class, () -> endpoint.delete(blockId));
     }
@@ -397,6 +426,7 @@ class BlocksEndpointImplTest {
   class Restore {
 
     @Test
+    @DisplayName("works for valid block id and sets in trash to false")
     void restore_buildsPatchRequestWithInTrashFalse() {
       Block expected = new Block();
       client.setResponse(expected);
@@ -416,6 +446,7 @@ class BlocksEndpointImplTest {
     @ParameterizedTest
     @NullAndEmptySource
     @ValueSource(strings = {"   "})
+    @DisplayName("rejects blank or null block id")
     void restore_rejectsBlankOrNullBlockId(String blockId) {
       assertThrows(IllegalArgumentException.class, () -> endpoint.restore(blockId));
     }

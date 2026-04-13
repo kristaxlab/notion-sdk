@@ -50,12 +50,12 @@ client.pages().restore("page-id");
 ```java
 // Lock
 client.pages().update("page-id", UpdatePageParams.builder()
-    .isLocked(true)
+    .locked(true)
     .build());
 
 // Unlock
 client.pages().update("page-id", UpdatePageParams.builder()
-    .isLocked(false)
+    .locked(false)
     .build());
 ```
 

@@ -68,16 +68,16 @@ public enum Color {
    * <p>This method performs a case-sensitive search through all enum constants to find the one with
    * a matching value.
    *
-   * @param value the string value to look up (case-sensitive)
+   * @param type the string value to look up (case-sensitive)
    * @return the Color enum constant with the matching value
    * @throws IllegalArgumentException if no Color constant is found with the given value
    */
-  public static Color fromValue(String value) {
+  public static Color fromValue(String type) {
     for (Color color : Color.values()) {
-      if (color.value.equals(value)) {
+      if (color.value.equals(type)) {
         return color;
       }
     }
-    throw new IllegalArgumentException("Unknown color: " + value);
+    throw new IllegalArgumentException("Unknown color: " + type);
   }
 }

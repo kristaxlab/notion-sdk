@@ -41,6 +41,7 @@ class PagesEndpointImplTest {
   class Create {
 
     @Test
+    @DisplayName("works for valid create page request")
     void create_withRequest_buildsPostRequest() {
       CreatePageParams request =
           CreatePageParams.builder().parent(Parent.pageParent("parent-1")).title("Roadmap").build();
@@ -56,6 +57,7 @@ class PagesEndpointImplTest {
     }
 
     @Test
+    @DisplayName("works for valid create page consumer")
     void create_withConsumer_buildsPostRequest() {
       Page expected = new Page();
       client.setResponse(expected);
@@ -71,6 +73,7 @@ class PagesEndpointImplTest {
     }
 
     @Test
+    @DisplayName("rejects null consumer")
     void create_withConsumer_rejectsNullConsumer() {
       assertThrows(
           IllegalArgumentException.class,
@@ -78,6 +81,7 @@ class PagesEndpointImplTest {
     }
 
     @Test
+    @DisplayName("rejects null request")
     void create_withRequest_rejectsNullRequest() {
       assertThrows(IllegalArgumentException.class, () -> endpoint.create((CreatePageParams) null));
     }
@@ -88,6 +92,7 @@ class PagesEndpointImplTest {
   class Retrieve {
 
     @Test
+    @DisplayName("works for valid page id")
     void retrieve_buildsGetRequest() {
       Page expected = new Page();
       client.setResponse(expected);
@@ -104,6 +109,7 @@ class PagesEndpointImplTest {
     @ParameterizedTest
     @NullAndEmptySource
     @ValueSource(strings = {"   "})
+    @DisplayName("rejects blank or null page id")
     void retrieve_rejectsBlankOrNullPageId(String pageId) {
       assertThrows(IllegalArgumentException.class, () -> endpoint.retrieve(pageId));
     }
@@ -114,6 +120,7 @@ class PagesEndpointImplTest {
   class RetrieveAsMarkdown {
 
     @Test
+    @DisplayName("works for valid page id without 'include transcript' flag")
     void retrieveAsMarkdown_withoutFlag_setsIncludeTranscriptFalse() {
       PageAsMarkdown expected = new PageAsMarkdown();
       client.setResponse(expected);
@@ -129,6 +136,7 @@ class PagesEndpointImplTest {
     }
 
     @Test
+    @DisplayName("works for valid page id with 'include transcript' flag set to true")
     void retrieveAsMarkdown_withFlag_setsIncludeTranscriptQueryParam() {
       endpoint.retrieveAsMarkdown("page-id-1", true);
 
@@ -141,6 +149,7 @@ class PagesEndpointImplTest {
     @ParameterizedTest
     @NullAndEmptySource
     @ValueSource(strings = {"   "})
+    @DisplayName("rejects blank or null page id")
     void retrieveAsMarkdown_rejectsBlankOrNullPageId(String pageId) {
       assertThrows(IllegalArgumentException.class, () -> endpoint.retrieveAsMarkdown(pageId));
     }
@@ -151,6 +160,7 @@ class PagesEndpointImplTest {
   class UpdateAsMarkdown {
 
     @Test
+    @DisplayName("works for valid page id and markdown update request")
     void updateAsMarkdown_buildsPatchRequest() {
       UpdatePageAsMarkdownParams request = UpdatePageAsMarkdownParams.replaceContent("new content");
       PageAsMarkdown expected = new PageAsMarkdown();
@@ -168,6 +178,7 @@ class PagesEndpointImplTest {
     @ParameterizedTest
     @NullAndEmptySource
     @ValueSource(strings = {"   "})
+    @DisplayName("rejects blank or null page id")
     void updateAsMarkdown_rejectsBlankOrNullPageId(String pageId) {
       assertThrows(
           IllegalArgumentException.class,
@@ -175,6 +186,7 @@ class PagesEndpointImplTest {
     }
 
     @Test
+    @DisplayName("rejects null markdown update request")
     void updateAsMarkdown_rejectsNullRequest() {
       assertThrows(
           IllegalArgumentException.class, () -> endpoint.updateAsMarkdown("page-id-1", null));
@@ -186,6 +198,7 @@ class PagesEndpointImplTest {
   class RetrieveProperty {
 
     @Test
+    @DisplayName("works for valid page id and property id")
     void retrieveProperty_buildsGetRequest() {
       PageProperty expected = new UnknownProperty();
       client.setResponse(expected);
@@ -201,6 +214,7 @@ class PagesEndpointImplTest {
     }
 
     @Test
+    @DisplayName("works with pagination and adds query params")
     void retrieveProperty_withPagination_addsQueryParams() {
       endpoint.retrieveProperty("page-id-1", "title", "cursor-1", 20);
 
@@ -210,6 +224,7 @@ class PagesEndpointImplTest {
     }
 
     @Test
+    @DisplayName("decodes property id before adding path param")
     void retrieveProperty_decodesPropertyIdBeforeAddingPathParam() {
       endpoint.retrieveProperty("page-id-1", "title%2Fname");
 
@@ -219,6 +234,7 @@ class PagesEndpointImplTest {
     @ParameterizedTest
     @NullAndEmptySource
     @ValueSource(strings = {"   "})
+    @DisplayName("rejects blank or null page id")
     void retrieveProperty_rejectsBlankOrNullPageId(String pageId) {
       assertThrows(
           IllegalArgumentException.class, () -> endpoint.retrieveProperty(pageId, "title"));
@@ -227,6 +243,7 @@ class PagesEndpointImplTest {
     @ParameterizedTest
     @NullAndEmptySource
     @ValueSource(strings = {"   "})
+    @DisplayName("rejects blank or null property id")
     void retrieveProperty_rejectsBlankOrNullPropertyId(String propertyId) {
       assertThrows(
           IllegalArgumentException.class, () -> endpoint.retrieveProperty("page-id-1", propertyId));
@@ -238,6 +255,7 @@ class PagesEndpointImplTest {
   class Update {
 
     @Test
+    @DisplayName("works for valid page id and update request")
     void update_buildsPatchRequest() {
       UpdatePageParams request = UpdatePageParams.builder().title("Updated").build();
       Page expected = new Page();
@@ -255,6 +273,7 @@ class PagesEndpointImplTest {
     @ParameterizedTest
     @NullAndEmptySource
     @ValueSource(strings = {"   "})
+    @DisplayName("rejects blank or null page id")
     void update_rejectsBlankOrNullPageId(String pageId) {
       assertThrows(
           IllegalArgumentException.class,
@@ -262,6 +281,7 @@ class PagesEndpointImplTest {
     }
 
     @Test
+    @DisplayName("rejects null update request")
     void update_rejectsNullRequest() {
       assertThrows(IllegalArgumentException.class, () -> endpoint.update("page-id-1", null));
     }
@@ -272,6 +292,7 @@ class PagesEndpointImplTest {
   class Move {
 
     @Test
+    @DisplayName("works for valid page id and parent")
     void move_buildsPostRequestWithParent() {
       Parent newParent = Parent.pageParent("parent-2");
       Page expected = new Page();
@@ -290,12 +311,14 @@ class PagesEndpointImplTest {
     @ParameterizedTest
     @NullAndEmptySource
     @ValueSource(strings = {"   "})
+    @DisplayName("rejects blank or null page id")
     void move_rejectsBlankOrNullPageId(String pageId) {
       assertThrows(
           IllegalArgumentException.class, () -> endpoint.move(pageId, Parent.pageParent("p")));
     }
 
     @Test
+    @DisplayName("rejects null parent")
     void move_rejectsNullParent() {
       assertThrows(IllegalArgumentException.class, () -> endpoint.move("page-id-1", null));
     }
@@ -306,6 +329,7 @@ class PagesEndpointImplTest {
   class Delete {
 
     @Test
+    @DisplayName("works for valid page id and sets in trash to true")
     void delete_setsInTrashTrue() {
       Page expected = new Page();
       client.setResponse(expected);
@@ -324,6 +348,7 @@ class PagesEndpointImplTest {
     @ParameterizedTest
     @NullAndEmptySource
     @ValueSource(strings = {"   "})
+    @DisplayName("rejects blank or null page id")
     void delete_rejectsBlankOrNullPageId(String pageId) {
       assertThrows(IllegalArgumentException.class, () -> endpoint.delete(pageId));
     }
@@ -334,6 +359,7 @@ class PagesEndpointImplTest {
   class Restore {
 
     @Test
+    @DisplayName("works for valid page id and sets in trash to false")
     void restore_setsInTrashFalse() {
       Page expected = new Page();
       client.setResponse(expected);
@@ -352,6 +378,7 @@ class PagesEndpointImplTest {
     @ParameterizedTest
     @NullAndEmptySource
     @ValueSource(strings = {"   "})
+    @DisplayName("rejects blank or null page id")
     void restore_rejectsBlankOrNullPageId(String pageId) {
       assertThrows(IllegalArgumentException.class, () -> endpoint.restore(pageId));
     }

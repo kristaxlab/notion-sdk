@@ -11,11 +11,16 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.DisplayNameGeneration;
+import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
 import org.junit.jupiter.params.provider.ValueSource;
 
+@DisplayName("File uploads endpoint behaviors")
+@DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 class FileUploadsEndpointImplTest {
 
   private ApiClientStub client;
@@ -28,6 +33,7 @@ class FileUploadsEndpointImplTest {
   }
 
   @Test
+  @DisplayName("works for valid create file upload request")
   void create() {
     FileUploadCreateParams request = singlePartRequest();
 
@@ -39,11 +45,13 @@ class FileUploadsEndpointImplTest {
   }
 
   @Test
+  @DisplayName("rejects null create file upload request")
   void create_rejectsNullRequest() {
     assertThrows(IllegalArgumentException.class, () -> endpoint.create(null));
   }
 
   @Test
+  @DisplayName("works for valid upload request with bytes content")
   void upload() {
     FileUploadSendParams request = bytesRequest();
 
@@ -56,6 +64,7 @@ class FileUploadsEndpointImplTest {
   }
 
   @Test
+  @DisplayName("works for valid upload request with file content")
   void sendFileContent_withFile() {
     FileUploadSendParams request = new FileUploadSendParams();
     request.setFile(new File("file.pdf"));
@@ -71,6 +80,7 @@ class FileUploadsEndpointImplTest {
   }
 
   @Test
+  @DisplayName("works for valid upload request with input stream content")
   void upload_withInputStream() {
     FileUploadSendParams request = new FileUploadSendParams();
     request.setInputStream(new ByteArrayInputStream(new byte[] {1, 2, 3}));
@@ -86,6 +96,7 @@ class FileUploadsEndpointImplTest {
   }
 
   @Test
+  @DisplayName("works for valid upload request with part number")
   void upload_withPartNumber() {
     FileUploadSendParams request = bytesRequest();
     request.setPartNumber(3);
@@ -109,6 +120,7 @@ class FileUploadsEndpointImplTest {
   }
 
   @Test
+  @DisplayName("works for valid upload request without part number")
   void upload_withoutPartNumber_omitsPartNumberPart() {
     FileUploadSendParams request = bytesRequest();
 
@@ -124,6 +136,7 @@ class FileUploadsEndpointImplTest {
   }
 
   @Test
+  @DisplayName("rejects upload request without file content")
   void upload_rejectsRequestWithNoFileContent() {
     FileUploadSendParams request = new FileUploadSendParams();
     request.setFilename("file.pdf");
@@ -133,6 +146,7 @@ class FileUploadsEndpointImplTest {
   }
 
   @Test
+  @DisplayName("rejects upload request with missing content type")
   void uploadType() {
     FileUploadSendParams request = new FileUploadSendParams();
     request.setBytes(new byte[] {1});
@@ -142,6 +156,7 @@ class FileUploadsEndpointImplTest {
   }
 
   @Test
+  @DisplayName("works for valid complete file upload id")
   void complete() {
     endpoint.complete("upload-id-1");
 
@@ -153,11 +168,13 @@ class FileUploadsEndpointImplTest {
   @ParameterizedTest
   @NullAndEmptySource
   @ValueSource(strings = {"   "})
+  @DisplayName("rejects blank or null complete file upload id")
   void completeFileUpload_rejectsBlankOrNullId(String fileUploadId) {
     assertThrows(IllegalArgumentException.class, () -> endpoint.complete(fileUploadId));
   }
 
   @Test
+  @DisplayName("works for valid retrieve file upload id")
   void retrieve() {
     endpoint.retrieve("upload-id-1");
 
@@ -169,6 +186,7 @@ class FileUploadsEndpointImplTest {
   @ParameterizedTest
   @NullAndEmptySource
   @ValueSource(strings = {"   "})
+  @DisplayName("rejects blank or null retrieve file upload id")
   void retrieveFileUpload_rejectsBlankOrNullId(String fileUploadId) {
     assertThrows(IllegalArgumentException.class, () -> endpoint.retrieve(fileUploadId));
   }
@@ -176,6 +194,7 @@ class FileUploadsEndpointImplTest {
   // ── listFileUploads ───────────────────────────────────────────────────────
 
   @Test
+  @DisplayName("works for default list file uploads request")
   void listFileUploads() {
     endpoint.listFileUploads();
 
@@ -185,6 +204,7 @@ class FileUploadsEndpointImplTest {
   }
 
   @Test
+  @DisplayName("works with status filter")
   void listFileUploads_withStatus() {
     endpoint.listFileUploads("uploaded");
 
@@ -196,6 +216,7 @@ class FileUploadsEndpointImplTest {
   }
 
   @Test
+  @DisplayName("works with start cursor and no status")
   void listFileUploads_withStartCursor() {
     endpoint.listFileUploads("cursor-abc", 0);
 
@@ -207,6 +228,7 @@ class FileUploadsEndpointImplTest {
   }
 
   @Test
+  @DisplayName("works with page size and no status")
   void listFileUploads_withPageSize() {
     endpoint.listFileUploads(null, 50);
 
@@ -217,6 +239,7 @@ class FileUploadsEndpointImplTest {
   }
 
   @Test
+  @DisplayName("works with status and pagination params")
   void listFileUploads_withAllParams() {
     endpoint.listFileUploads("pending", "cursor-abc", 25);
 
@@ -231,6 +254,7 @@ class FileUploadsEndpointImplTest {
   @ParameterizedTest
   @NullAndEmptySource
   @ValueSource(strings = {"   "})
+  @DisplayName("works and omits status for blank or null status value")
   void listFileUploads_omitsBlankOrNullStatus(String status) {
     endpoint.listFileUploads(status);
 

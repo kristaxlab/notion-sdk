@@ -4,6 +4,7 @@ import static io.kristixlab.notion.api.model.helper.NotionBlocks.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import io.kristixlab.notion.api.model.common.Position;
+import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 
@@ -26,6 +27,41 @@ class AppendBlockChildrenParamsTest {
     List<Block> blocks = paragraphList("A", "B");
 
     AppendBlockChildrenParams params = AppendBlockChildrenParams.builder().children(blocks).build();
+
+    assertEquals(2, params.getChildren().size());
+  }
+
+  @Test
+  void builder_childrenVarargs() {
+    Block a = paragraph("A");
+    Block b = paragraph("B");
+
+    AppendBlockChildrenParams params = AppendBlockChildrenParams.builder().children(a, b).build();
+
+    assertEquals(2, params.getChildren().size());
+    assertSame(a, params.getChildren().get(0));
+    assertSame(b, params.getChildren().get(1));
+  }
+
+  @Test
+  void builder_childrenMixedOverloads_preservesOrder() {
+    Block a = paragraph("A");
+    Block b = paragraph("B");
+    Block c = paragraph("C");
+    Block d = paragraph("D");
+
+    AppendBlockChildrenParams params =
+        AppendBlockChildrenParams.builder().children(a).children(List.of(b, c)).children(d).build();
+
+    assertEquals(List.of(a, b, c, d), params.getChildren());
+  }
+
+  @Test
+  void builder_childrenList_makesDefensiveCopyFromInputList() {
+    List<Block> input = new ArrayList<>(List.of(paragraph("A"), paragraph("B")));
+
+    AppendBlockChildrenParams params = AppendBlockChildrenParams.builder().children(input).build();
+    input.clear();
 
     assertEquals(2, params.getChildren().size());
   }
@@ -63,6 +99,41 @@ class AppendBlockChildrenParamsTest {
 
     IllegalStateException ex = assertThrows(IllegalStateException.class, builder::build);
     assertTrue(ex.getMessage().contains("At least one child"));
+  }
+
+  @Test
+  void builder_emptyVarargs_throwsException() {
+    AppendBlockChildrenParams.Builder builder = AppendBlockChildrenParams.builder().children();
+
+    IllegalStateException ex = assertThrows(IllegalStateException.class, builder::build);
+    assertTrue(ex.getMessage().contains("At least one child"));
+  }
+
+  @Test
+  void builder_buildCalledTwice_returnsDifferentParamsAndChildrenLists() {
+    AppendBlockChildrenParams.Builder builder =
+        AppendBlockChildrenParams.builder().children(paragraph("A"));
+
+    AppendBlockChildrenParams first = builder.build();
+    AppendBlockChildrenParams second = builder.build();
+
+    assertNotSame(first, second);
+    assertNotSame(first.getChildren(), second.getChildren());
+    assertEquals(first.getChildren(), second.getChildren());
+  }
+
+  @Test
+  void builder_mutatingBuiltChildren_doesNotAffectSubsequentBuild() {
+    AppendBlockChildrenParams.Builder builder =
+        AppendBlockChildrenParams.builder().children(paragraph("A"));
+
+    AppendBlockChildrenParams first = builder.build();
+    first.getChildren().add(paragraph("B"));
+
+    AppendBlockChildrenParams second = builder.build();
+
+    assertEquals(2, first.getChildren().size());
+    assertEquals(1, second.getChildren().size());
   }
 
   // No-arg constructor

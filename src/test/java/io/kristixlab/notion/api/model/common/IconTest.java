@@ -2,11 +2,14 @@ package io.kristixlab.notion.api.model.common;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+@DisplayName("Icon behaviors")
 class IconTest {
 
   @Test
+  @DisplayName("works for emoji icon")
   void emoji_setsTypeAndEmoji() {
     Icon icon = Icon.emoji("🔥");
 
@@ -18,6 +21,7 @@ class IconTest {
   }
 
   @Test
+  @DisplayName("works for custom emoji icon")
   void customEmoji_setsTypeIdAndName() {
     Icon icon = Icon.customEmoji("id-123", "fire");
 
@@ -30,6 +34,7 @@ class IconTest {
   }
 
   @Test
+  @DisplayName("works for external icon URL")
   void external_setsTypeAndUrl() {
     Icon icon = Icon.external("https://example.com/icon.png");
 
@@ -41,6 +46,7 @@ class IconTest {
   }
 
   @Test
+  @DisplayName("works for file upload icon id")
   void file_setsTypeAndFile() {
     Icon icon = Icon.fileUpload("file-upload-id-123");
 
@@ -54,6 +60,7 @@ class IconTest {
   // getter/setter
 
   @Test
+  @DisplayName("new icon has all fields unset")
   void noArgConstructor_allFieldsNull() {
     Icon icon = new Icon();
 
@@ -65,6 +72,7 @@ class IconTest {
   }
 
   @Test
+  @DisplayName("setters update icon fields")
   void setters_work() {
     Icon icon = new Icon();
 

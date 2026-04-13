@@ -73,19 +73,6 @@ public class NotionBlocksBuilder {
     return this;
   }
 
-  /**
-   * Adds multiple pre-built blocks.
-   *
-   * @param blocks the blocks to add
-   * @return this builder
-   */
-  public NotionBlocksBuilder blockLists(List<List<? extends Block>> blocks) {
-    for (List<? extends Block> blockList : blocks) {
-      this.blocks.addAll(blockList);
-    }
-    return this;
-  }
-
   public NotionBlocksBuilder blankLine() {
     blocks.add(NotionBlocks.blankLine());
     return this;

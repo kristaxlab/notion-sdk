@@ -5,11 +5,16 @@ import static org.junit.jupiter.api.Assertions.*;
 import io.kristixlab.notion.api.http.base.client.ApiClientStub;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.DisplayNameGeneration;
+import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
 import org.junit.jupiter.params.provider.ValueSource;
 
+@DisplayName("Users endpoint behaviors")
+@DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 class UsersEndpointImplTest {
 
   private ApiClientStub client;
@@ -22,6 +27,7 @@ class UsersEndpointImplTest {
   }
 
   @Test
+  @DisplayName("works for valid user id")
   void retrieveById() {
     endpoint.retrieve("user-id-42");
 
@@ -33,11 +39,13 @@ class UsersEndpointImplTest {
   @ParameterizedTest
   @NullAndEmptySource
   @ValueSource(strings = {"   "})
+  @DisplayName("rejects blank or null user id")
   void retrieve_rejectsBlankOrNullUserId(String userId) {
     assertThrows(IllegalArgumentException.class, () -> endpoint.retrieve(userId));
   }
 
   @Test
+  @DisplayName("works for default list users request")
   void listUsers() {
     endpoint.listUsers();
 
@@ -47,6 +55,7 @@ class UsersEndpointImplTest {
   }
 
   @Test
+  @DisplayName("works with start cursor and no page size")
   void listUsers_withStartCursor() {
     endpoint.listUsers("cursor-xyz", null);
 
@@ -58,6 +67,7 @@ class UsersEndpointImplTest {
   }
 
   @Test
+  @DisplayName("works with page size and no start cursor")
   void listUsers_withPageSize() {
     endpoint.listUsers(null, 50);
 
@@ -68,6 +78,7 @@ class UsersEndpointImplTest {
   }
 
   @Test
+  @DisplayName("works with both pagination params")
   void listUsers_withBothPaginationParams() {
     endpoint.listUsers("cursor-abc", 25);
 
@@ -79,6 +90,7 @@ class UsersEndpointImplTest {
   }
 
   @Test
+  @DisplayName("works for current bot user request")
   void me() {
     endpoint.me();
 

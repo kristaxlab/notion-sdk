@@ -60,7 +60,7 @@ public class UpdatePageParams {
     }
 
     /** Locks or unlocks the page. */
-    public Builder isLocked(boolean isLocked) {
+    public Builder locked(boolean isLocked) {
       this.isLocked = isLocked;
       return this;
     }
