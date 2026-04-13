@@ -25,7 +25,7 @@ public class FileData {
   private FileUploadRef fileUpload;
 
   /** only may return in response */
-  private File file;
+  private NotionFile file;
 
   public static Builder builder() {
     return new Builder();

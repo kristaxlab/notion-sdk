@@ -1,6 +1,6 @@
 package integration.helper;
 
-import io.kristixlab.notion.api.model.common.File;
+import io.kristixlab.notion.api.model.common.NotionFile;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,7 +9,7 @@ import lombok.Setter;
 public class Prerequisites {
 
   private String externalImageUrl;
-  private File imageUploadedViaUI;
+  private NotionFile imageUploadedViaUI;
   private String imageUploadedViaUIExpiryTime;
   private String emojiIcon;
   private String pageWithBlocksId;

@@ -10,7 +10,6 @@ import io.kristixlab.notion.api.model.block.Block;
 import io.kristixlab.notion.api.model.common.Parent;
 import io.kristixlab.notion.api.model.helper.NotionBlocksBuilder;
 import io.kristixlab.notion.api.model.page.*;
-import io.kristixlab.notion.api.model.page.markdown.ContentUpdate;
 import io.kristixlab.notion.api.model.page.markdown.UpdatePageAsMarkdownParams;
 import io.kristixlab.notion.api.model.page.property.PageProperty;
 import java.net.URLDecoder;
@@ -52,47 +51,47 @@ public class PagesEndpointImpl extends BaseEndpointImpl implements PagesEndpoint
   /**
    * Creates a blank page with a title under the given parent.
    *
-   * @param parent the parent page or datasource
+   * @param parent the parent page or dataSource
    * @param title the page title
    * @return the created page
    */
-  public Page create(Parent parent, String title) {
+  private Page create(Parent parent, String title) {
     return create(CreatePageParams.of(parent, title));
   }
 
   /**
    * Creates a page with a title and markdown body under the given parent.
    *
-   * @param parent the parent page or datasource
+   * @param parent the parent page or dataSource
    * @param title the page title
    * @param markdownContent the page body as a markdown string
    * @return the created page
    */
-  public Page create(Parent parent, String title, String markdownContent) {
+  private Page create(Parent parent, String title, String markdownContent) {
     return create(CreatePageParams.of(parent, title, markdownContent));
   }
 
   /**
    * Creates a page with a title and pre-built block content under the given parent.
    *
-   * @param parent the parent page or datasource
+   * @param parent the parent page or dataSource
    * @param title the page title
    * @param content the page body as a list of blocks
    * @return the created page
    */
-  public Page create(Parent parent, String title, List<Block> content) {
+  private Page create(Parent parent, String title, List<Block> content) {
     return create(CreatePageParams.builder().parent(parent).title(title).children(content).build());
   }
 
   /**
    * Creates a page with a title and inline content defined via the {@link NotionBlocksBuilder} DSL.
    *
-   * @param parent the parent page or datasource
+   * @param parent the parent page or dataSource
    * @param title the page title
    * @param consumer a consumer that populates the content builder
    * @return the created page
    */
-  public Page create(Parent parent, String title, Consumer<NotionBlocksBuilder> consumer) {
+  private Page create(Parent parent, String title, Consumer<NotionBlocksBuilder> consumer) {
     return create(
         CreatePageParams.builder().parent(parent).title(title).children(consumer).build());
   }
@@ -132,26 +131,6 @@ public class PagesEndpointImpl extends BaseEndpointImpl implements PagesEndpoint
     ApiPath urlInfo =
         ApiPath.builder("/pages/{page_id}/markdown").pathParam("page_id", pageId).build();
     return getClient().call("PATCH", urlInfo, request, PageAsMarkdown.class);
-  }
-
-  public PageAsMarkdown updateAsMarkdown(String pageId, String replaceStr, boolean allowDelete) {
-    checkNotNullOrEmpty(pageId, "pageId");
-    checkNotNull(replaceStr, "replaceContent");
-
-    UpdatePageAsMarkdownParams request =
-        UpdatePageAsMarkdownParams.replaceContent(replaceStr, allowDelete);
-
-    return updateAsMarkdown(pageId, request);
-  }
-
-  public PageAsMarkdown updateAsMarkdown(
-      String pageId, List<ContentUpdate> updates, boolean allowDelete) {
-    checkNotNullOrEmpty(pageId, "pageId");
-    checkNotNull(updates, "updates");
-
-    UpdatePageAsMarkdownParams request =
-        UpdatePageAsMarkdownParams.updateContent(updates, allowDelete);
-    return updateAsMarkdown(pageId, request);
   }
 
   /**

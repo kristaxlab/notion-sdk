@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class File {
+public class NotionFile {
 
   private String url;
 

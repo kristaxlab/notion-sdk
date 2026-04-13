@@ -19,7 +19,7 @@ public class Cover {
   private FileUploadRef fileUpload;
 
   /** Only in responses */
-  private File file;
+  private NotionFile file;
 
   public static Cover external(String url) {
     Cover fileData = new Cover();

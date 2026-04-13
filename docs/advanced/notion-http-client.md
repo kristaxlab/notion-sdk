@@ -31,7 +31,7 @@ String json = http.call("GET", path, String.class);
 
 CreatePageParams body = 
         CreatePageParams.builder()
-                        .inDatasource("database_uuid")
+                        .inDataSource("database_uuid")
                         .title("New Task")
                         .build();
 

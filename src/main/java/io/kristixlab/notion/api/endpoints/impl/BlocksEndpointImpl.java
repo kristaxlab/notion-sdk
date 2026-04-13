@@ -87,8 +87,7 @@ public class BlocksEndpointImpl extends BaseEndpointImpl implements BlocksEndpoi
    * @param position insertion position relative to the existing children
    * @return BlocksResponse containing the appended blocks
    */
-  @Override
-  public BlockList appendChildren(String parentBlockId, Block child, Position position) {
+  private BlockList appendChildren(String parentBlockId, Block child, Position position) {
     AppendBlockChildrenParams request =
         AppendBlockChildrenParams.builder().children(child).position(position).build();
     return appendChildren(parentBlockId, request);
@@ -112,8 +111,7 @@ public class BlocksEndpointImpl extends BaseEndpointImpl implements BlocksEndpoi
     return appendChildren(parentBlockId, consumer, null);
   }
 
-  @Override
-  public BlockList appendChildren(
+  private BlockList appendChildren(
       String parentBlockId, Consumer<NotionBlocksBuilder> consumer, Position position) {
     checkNotNull(consumer, "consumer");
     NotionBlocksBuilder builder = NotionBlocks.blocksBuilder();
@@ -121,8 +119,7 @@ public class BlocksEndpointImpl extends BaseEndpointImpl implements BlocksEndpoi
     return appendChildren(parentBlockId, builder.build(), position);
   }
 
-  @Override
-  public BlockList appendChildren(String parentBlockId, Supplier<List<? extends Block>> supplier) {
+  private BlockList appendChildren(String parentBlockId, Supplier<List<? extends Block>> supplier) {
     return appendChildren(parentBlockId, supplier, null);
   }
 
@@ -141,8 +138,7 @@ public class BlocksEndpointImpl extends BaseEndpointImpl implements BlocksEndpoi
    * @param position insertion position relative to the existing children
    * @return BlocksResponse containing the appended blocks
    */
-  @Override
-  public BlockList appendChildren(
+  private BlockList appendChildren(
       String parentBlockId, List<? extends Block> block, Position position) {
     Validator.checkNotNullOrEmpty(parentBlockId, "parentBlockId");
 

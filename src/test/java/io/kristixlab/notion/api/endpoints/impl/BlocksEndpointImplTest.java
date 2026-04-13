@@ -7,14 +7,20 @@ import io.kristixlab.notion.api.model.block.AppendBlockChildrenParams;
 import io.kristixlab.notion.api.model.block.Block;
 import io.kristixlab.notion.api.model.block.BlockList;
 import io.kristixlab.notion.api.model.common.Position;
+import io.kristixlab.notion.api.model.helper.NotionBlocksBuilder;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.DisplayNameGeneration;
+import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
 import org.junit.jupiter.params.provider.ValueSource;
 
+@DisplayName("Blocks endpoint behaviors")
+@DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 class BlocksEndpointImplTest {
 
   private ApiClientStub client;
@@ -27,6 +33,7 @@ class BlocksEndpointImplTest {
   }
 
   @Nested
+  @DisplayName("Retrieve block")
   class Retrieve {
 
     @Test
@@ -52,6 +59,7 @@ class BlocksEndpointImplTest {
   }
 
   @Nested
+  @DisplayName("Retrieve block children")
   class RetrieveChildren {
 
     @Test
@@ -123,6 +131,7 @@ class BlocksEndpointImplTest {
   }
 
   @Nested
+  @DisplayName("Append children")
   class AppendChildren {
 
     @Test
@@ -150,7 +159,10 @@ class BlocksEndpointImplTest {
       BlockList expected = new BlockList();
       client.setResponse(expected);
 
-      BlockList result = endpoint.appendChildren("block-id-42", children, position);
+      BlockList result =
+          endpoint.appendChildren(
+              "block-id-42",
+              AppendBlockChildrenParams.builder().children(children).position(position).build());
 
       assertEquals("PATCH", client.getLastMethod());
       assertEquals("/blocks/{block_id}/children", client.getLastUrlInfo().getUrl());
@@ -166,36 +178,9 @@ class BlocksEndpointImplTest {
     void appendChildren_withListAndNullPosition_setsNullPosition() {
       List<Block> children = List.of(new Block());
 
-      endpoint.appendChildren("block-id-42", children, null);
+      endpoint.appendChildren("block-id-42", children);
 
       AppendBlockChildrenParams body = (AppendBlockChildrenParams) client.getLastBody();
-      assertNull(body.getPosition());
-    }
-
-    @Test
-    void appendChildren_withSingleChildAndPosition_buildsPatchRequest() {
-      Block child = new Block();
-      Position position = Position.pageEnd();
-      BlockList expected = new BlockList();
-      client.setResponse(expected);
-
-      BlockList result = endpoint.appendChildren("block-id-42", child, position);
-
-      assertEquals("PATCH", client.getLastMethod());
-      AppendBlockChildrenParams body = (AppendBlockChildrenParams) client.getLastBody();
-      assertEquals(List.of(child), body.getChildren());
-      assertEquals(position, body.getPosition());
-      assertSame(expected, result);
-    }
-
-    @Test
-    void appendChildren_withSingleChildAndNullPosition_setsNullPosition() {
-      Block child = new Block();
-
-      endpoint.appendChildren("block-id-42", child, null);
-
-      AppendBlockChildrenParams body = (AppendBlockChildrenParams) client.getLastBody();
-      assertEquals(List.of(child), body.getChildren());
       assertNull(body.getPosition());
     }
 
@@ -242,6 +227,61 @@ class BlocksEndpointImplTest {
           () -> endpoint.appendChildren("block-id-42", (AppendBlockChildrenParams) null));
     }
 
+    @Test
+    void appendChildren_withConsumer_buildsPatchRequest() {
+      BlockList expected = new BlockList();
+      client.setResponse(expected);
+
+      BlockList result =
+          endpoint.appendChildren("block-id-42", builder -> builder.paragraph("hello"));
+
+      assertEquals("PATCH", client.getLastMethod());
+      assertEquals("/blocks/{block_id}/children", client.getLastUrlInfo().getUrl());
+      assertEquals("block-id-42", client.getLastUrlInfo().getPathParams().get("block_id"));
+
+      AppendBlockChildrenParams body = (AppendBlockChildrenParams) client.getLastBody();
+      assertEquals(1, body.getChildren().size());
+      assertNull(body.getPosition());
+      assertSame(expected, result);
+    }
+
+    @Test
+    void appendChildren_withConsumer_rejectsNullConsumer() {
+      assertThrows(
+          IllegalArgumentException.class,
+          () ->
+              endpoint.appendChildren(
+                  "block-id-42", (java.util.function.Consumer<NotionBlocksBuilder>) null));
+    }
+
+    @Test
+    void appendChildren_withSupplierAndPosition_buildsPatchRequest() {
+      Block child = new Block();
+      Position position = Position.afterBlock("after-block-id");
+      BlockList expected = new BlockList();
+      client.setResponse(expected);
+
+      BlockList result = endpoint.appendChildren("block-id-42", () -> List.of(child), position);
+
+      assertEquals("PATCH", client.getLastMethod());
+      assertEquals("/blocks/{block_id}/children", client.getLastUrlInfo().getUrl());
+      assertEquals("block-id-42", client.getLastUrlInfo().getPathParams().get("block_id"));
+
+      AppendBlockChildrenParams body = (AppendBlockChildrenParams) client.getLastBody();
+      assertEquals(List.of(child), body.getChildren());
+      assertEquals(position, body.getPosition());
+      assertSame(expected, result);
+    }
+
+    @Test
+    void appendChildren_withSupplierAndPosition_rejectsNullSupplier() {
+      assertThrows(
+          IllegalArgumentException.class,
+          () ->
+              endpoint.appendChildren(
+                  "block-id-42", (java.util.function.Supplier<List<? extends Block>>) null, null));
+    }
+
     @ParameterizedTest
     @NullAndEmptySource
     @ValueSource(strings = {"   "})
@@ -249,16 +289,6 @@ class BlocksEndpointImplTest {
       assertThrows(
           IllegalArgumentException.class,
           () -> endpoint.appendChildren(parentBlockId, new Block()));
-    }
-
-    @ParameterizedTest
-    @NullAndEmptySource
-    @ValueSource(strings = {"   "})
-    void appendChildren_withSingleChildAndPosition_rejectsBlankOrNullParentBlockId(
-        String parentBlockId) {
-      assertThrows(
-          IllegalArgumentException.class,
-          () -> endpoint.appendChildren(parentBlockId, new Block(), Position.pageEnd()));
     }
 
     @ParameterizedTest
@@ -273,15 +303,6 @@ class BlocksEndpointImplTest {
     @ParameterizedTest
     @NullAndEmptySource
     @ValueSource(strings = {"   "})
-    void appendChildren_withListAndPosition_rejectsBlankOrNullParentBlockId(String parentBlockId) {
-      assertThrows(
-          IllegalArgumentException.class,
-          () -> endpoint.appendChildren(parentBlockId, List.of(new Block()), Position.pageStart()));
-    }
-
-    @ParameterizedTest
-    @NullAndEmptySource
-    @ValueSource(strings = {"   "})
     void appendChildren_withParams_rejectsBlankOrNullParentBlockId(String parentBlockId) {
       AppendBlockChildrenParams params =
           AppendBlockChildrenParams.builder().children(new Block()).build();
@@ -291,6 +312,7 @@ class BlocksEndpointImplTest {
   }
 
   @Nested
+  @DisplayName("Update block")
   class Update {
 
     @Test
@@ -319,9 +341,33 @@ class BlocksEndpointImplTest {
     void update_rejectsNullRequest() {
       assertThrows(IllegalArgumentException.class, () -> endpoint.update("block-id-7", null));
     }
+
+    @Test
+    void update_withRequestOnly_usesRequestIdAsPathParam() {
+      Block request = new Block();
+      request.setId("block-id-from-request");
+      Block expected = new Block();
+      client.setResponse(expected);
+
+      Block result = endpoint.update(request);
+
+      assertEquals("PATCH", client.getLastMethod());
+      assertEquals("/blocks/{block_id}", client.getLastUrlInfo().getUrl());
+      assertEquals(
+          "block-id-from-request", client.getLastUrlInfo().getPathParams().get("block_id"));
+      assertSame(request, client.getLastBody());
+      assertSame(expected, result);
+    }
+
+    @Test
+    void update_withRequestOnly_rejectsRequestWithoutId() {
+      Block request = new Block();
+      assertThrows(IllegalArgumentException.class, () -> endpoint.update(request));
+    }
   }
 
   @Nested
+  @DisplayName("Delete block")
   class Delete {
 
     @Test
@@ -347,6 +393,7 @@ class BlocksEndpointImplTest {
   }
 
   @Nested
+  @DisplayName("Restore block")
   class Restore {
 
     @Test

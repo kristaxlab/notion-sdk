@@ -130,7 +130,7 @@ public class Examples {
             .pages()
             .create(
                 CreatePageParams.builder()
-                    .inDatasource(DATABASE_ID)
+                    .inDataSource(DATABASE_ID)
                     .title("Project Aurora — Q2 Dashboard")
                     .icon("https://images.unsplash.com/photo-error-handling.jpg")
                     .cover("file-upload-uuid")

@@ -21,7 +21,7 @@ public enum ObjectType {
     return value;
   }
 
-  public ObjectType fromValue(String type) {
+  public static ObjectType fromValue(String type) {
     for (ObjectType propertyType : ObjectType.values()) {
       if (propertyType.value.equals(type)) {
         return propertyType;

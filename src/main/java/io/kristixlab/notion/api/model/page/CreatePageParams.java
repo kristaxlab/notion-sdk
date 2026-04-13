@@ -55,8 +55,8 @@ public class CreatePageParams {
     private TemplateParams templateParams;
 
     /** Sets the parent to the data source with the given ID. */
-    public Builder inDatasource(String datasourceId) {
-      return parent(Parent.datasourceParent(datasourceId));
+    public Builder inDataSource(String dataSourceId) {
+      return parent(Parent.dataSourceParent(dataSourceId));
     }
 
     /** Sets the parent to the page with the given ID. */

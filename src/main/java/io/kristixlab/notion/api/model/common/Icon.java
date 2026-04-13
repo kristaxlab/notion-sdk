@@ -21,7 +21,7 @@ public class Icon {
   private FileUploadRef fileUpload;
 
   /** Only in response */
-  private File file;
+  private NotionFile file;
 
   public static Icon notionIcon(String name, String color) {
     Icon icon = new Icon();

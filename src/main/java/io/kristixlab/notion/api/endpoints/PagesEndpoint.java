@@ -1,13 +1,9 @@
 package io.kristixlab.notion.api.endpoints;
 
-import io.kristixlab.notion.api.model.block.Block;
 import io.kristixlab.notion.api.model.common.Parent;
-import io.kristixlab.notion.api.model.helper.NotionBlocksBuilder;
 import io.kristixlab.notion.api.model.page.*;
-import io.kristixlab.notion.api.model.page.markdown.ContentUpdate;
 import io.kristixlab.notion.api.model.page.markdown.UpdatePageAsMarkdownParams;
 import io.kristixlab.notion.api.model.page.property.PageProperty;
-import java.util.List;
 import java.util.function.Consumer;
 
 /*
@@ -19,14 +15,6 @@ public interface PagesEndpoint {
   Page create(CreatePageParams request);
 
   Page create(Consumer<CreatePageParams.Builder> consumer);
-
-  Page create(Parent parent, String title);
-
-  Page create(Parent parent, String title, String markdownContent);
-
-  Page create(Parent parent, String title, List<Block> content);
-
-  Page create(Parent parent, String title, Consumer<NotionBlocksBuilder> consumer);
 
   Page retrieve(String pageId);
 
@@ -48,8 +36,4 @@ public interface PagesEndpoint {
   PageAsMarkdown retrieveAsMarkdown(String pageId, boolean includeTranscript);
 
   PageAsMarkdown updateAsMarkdown(String pageId, UpdatePageAsMarkdownParams request);
-
-  PageAsMarkdown updateAsMarkdown(String pageId, String replaceContent, boolean allowDelete);
-
-  PageAsMarkdown updateAsMarkdown(String pageId, List<ContentUpdate> updates, boolean allowDelete);
 }

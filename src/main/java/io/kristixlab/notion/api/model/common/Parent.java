@@ -40,7 +40,7 @@ public class Parent {
     return parent;
   }
 
-  public static Parent datasourceParent(String dataSourceId) {
+  public static Parent dataSourceParent(String dataSourceId) {
     Parent parent = new Parent();
     parent.setType("data_source_id");
     parent.setDataSourceId(dataSourceId);

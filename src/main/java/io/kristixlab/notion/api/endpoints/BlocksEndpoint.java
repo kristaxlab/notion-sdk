@@ -17,18 +17,9 @@ import java.util.function.Supplier;
 public interface BlocksEndpoint {
   BlockList appendChildren(String parentBlockId, Block child);
 
-  BlockList appendChildren(String parentBlockId, Block child, Position position);
-
   BlockList appendChildren(String parentBlockId, List<? extends Block> children);
 
-  BlockList appendChildren(String parentBlockId, List<? extends Block> children, Position position);
-
   BlockList appendChildren(String parentBlockId, Consumer<NotionBlocksBuilder> consumer);
-
-  BlockList appendChildren(
-      String parentBlockId, Consumer<NotionBlocksBuilder> consumer, Position position);
-
-  BlockList appendChildren(String parentBlockId, Supplier<List<? extends Block>> supplier);
 
   BlockList appendChildren(
       String parentBlockId, Supplier<List<? extends Block>> supplier, Position position);
