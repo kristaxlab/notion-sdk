@@ -1,14 +1,14 @@
 package examples;
 
-import static io.kristixlab.notion.api.model.helper.NotionBlocks.*;
-import static io.kristixlab.notion.api.model.helper.NotionText.*;
-
-import io.kristixlab.notion.api.NotionClient;
-import io.kristixlab.notion.api.model.block.*;
-import io.kristixlab.notion.api.model.common.*;
-import io.kristixlab.notion.api.model.helper.NotionBlocks;
-import io.kristixlab.notion.api.model.page.CreatePageParams;
-import io.kristixlab.notion.api.model.page.Page;
+import io.kristaxlab.notion.NotionClient;
+import io.kristaxlab.notion.model.block.Block;
+import io.kristaxlab.notion.model.block.ParagraphBlock;
+import io.kristaxlab.notion.model.common.Cover;
+import io.kristaxlab.notion.model.common.Icon;
+import io.kristaxlab.notion.model.common.Position;
+import io.kristaxlab.notion.model.helper.NotionBlocks;
+import io.kristaxlab.notion.model.page.CreatePageParams;
+import io.kristaxlab.notion.model.page.Page;
 import java.util.List;
 
 public class Examples {

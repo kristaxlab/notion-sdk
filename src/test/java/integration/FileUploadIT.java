@@ -4,8 +4,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import integration.helper.IntegrationTestAssisstant;
-import io.kristixlab.notion.api.endpoints.util.FileUploadUtils;
-import io.kristixlab.notion.api.model.file.*;
+import io.kristaxlab.notion.endpoints.util.FileUploadUtils;
+import io.kristaxlab.notion.model.file.*;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;

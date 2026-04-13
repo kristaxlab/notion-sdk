@@ -1,6 +1,6 @@
 package integration.helper;
 
-import io.kristixlab.notion.api.model.common.NotionFile;
+import io.kristaxlab.notion.model.common.NotionFile;
 import lombok.Getter;
 import lombok.Setter;
 

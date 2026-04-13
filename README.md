@@ -32,32 +32,64 @@ Defaults: Notion API version `2026-03-11`, base URL `https://api.notion.com/v1`,
 ## Append content to a page
 
 ```java
-import static io.kristixlab.notion.api.model.helper.NotionBlocks.*;
 
-client.blocks().appendChildren("page-id",
-    content -> content
-        .heading1("Project Aurora — Q2 Review")
-        .todo("Set up project dashboard")
-        .todo("Gather metrics")
-        .todo("Share with team"));
+
+client.blocks().
+
+appendChildren("page-id",
+               content ->content
+        .
+
+heading1("Project Aurora — Q2 Review")
+        .
+
+todo("Set up project dashboard")
+        .
+
+todo("Gather metrics")
+        .
+
+todo("Share with team"));
 ```
 
 ## Create a page with content
 
 ```java
-import static io.kristixlab.notion.api.model.helper.NotionBlocks.*;
 
-client.pages().create(page -> page
-    .inPage("parent-page-id")
-    .title("Error Handling Best Practices")
-    .icon("🛡️")
-    .children(content -> content
-        .heading2("Principles")
-        .numbered("Fail fast — detect errors at the boundary.")
-        .numbered("Be specific — throw the most precise exception type.")
-        .numbered("Log once — avoid duplicate log entries.")
-        .divider()
-        .callout("💡", "Use typed exceptions from the SDK's exception hierarchy.")));
+
+client.pages().
+
+create(page ->page
+        .
+
+inPage("parent-page-id")
+    .
+
+title("Error Handling Best Practices")
+    .
+
+icon("🛡️")
+    .
+
+children(content ->content
+        .
+
+heading2("Principles")
+        .
+
+numbered("Fail fast — detect errors at the boundary.")
+        .
+
+numbered("Be specific — throw the most precise exception type.")
+        .
+
+numbered("Log once — avoid duplicate log entries.")
+        .
+
+divider()
+        .
+
+callout("💡","Use typed exceptions from the SDK's exception hierarchy.")));
 ```
 
 ## Error handling

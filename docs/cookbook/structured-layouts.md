@@ -3,8 +3,8 @@
 Columns, tables, callouts, code blocks, and other structural block types.
 
 ```java
-import static io.kristixlab.notion.api.model.helper.NotionBlocks.*;
-import static io.kristixlab.notion.api.model.helper.NotionText.*;
+
+
 ```
 
 ## Columns

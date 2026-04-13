@@ -18,17 +18,17 @@
     </Appenders>
 
     <Loggers>
-        <Logger name="io.kristixlab.notion.api.http.transport.deprecated.HttpTransportImpl" level="DEBUG" additivity="false">
+        <Logger name="io.kristaxlab.notion.http.transport.deprecated.HttpTransportImpl" level="DEBUG" additivity="false">
             <AppenderRef ref="Console"/>
             <AppenderRef ref="RollingFile"/>
         </Logger>
 
-        <Logger name="io.kristixlab.notion.api.http" level="DEBUG" additivity="false">
+        <Logger name="io.kristaxlab.notion.http" level="DEBUG" additivity="false">
             <AppenderRef ref="Console"/>
             <AppenderRef ref="RollingFile"/>
         </Logger>
 
-        <Logger name="io.kristixlab.notion" level="INFO"/>
+        <Logger name="io.kristaxlab.notion" level="INFO"/>
         <Logger name="okhttp3" level="WARN"/>
         <Logger name="com.fasterxml.jackson" level="WARN"/>
 

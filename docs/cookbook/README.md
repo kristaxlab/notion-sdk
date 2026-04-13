@@ -5,8 +5,8 @@ Practical recipes for the most common Notion SDK operations.
 All examples use static imports:
 
 ```java
-import static io.kristixlab.notion.api.model.helper.NotionBlocks.*;
-import static io.kristixlab.notion.api.model.helper.NotionText.*;
+
+
 ```
 
 ## Recipes

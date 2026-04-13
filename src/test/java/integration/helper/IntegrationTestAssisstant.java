@@ -2,12 +2,12 @@ package integration.helper;
 
 import static org.junit.jupiter.api.Assertions.fail;
 
-import io.kristixlab.notion.api.NotionClient;
-import io.kristixlab.notion.api.model.block.BlockList;
-import io.kristixlab.notion.api.model.common.Parent;
-import io.kristixlab.notion.api.model.helper.NotionProperties;
-import io.kristixlab.notion.api.model.page.CreatePageParams;
-import io.kristixlab.notion.api.model.page.property.TitleProperty;
+import io.kristaxlab.notion.NotionClient;
+import io.kristaxlab.notion.model.block.BlockList;
+import io.kristaxlab.notion.model.common.Parent;
+import io.kristaxlab.notion.model.helper.NotionProperties;
+import io.kristaxlab.notion.model.page.CreatePageParams;
+import io.kristaxlab.notion.model.page.property.TitleProperty;
 import java.io.File;
 import java.net.URL;
 import java.util.HashMap;

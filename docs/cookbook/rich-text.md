@@ -3,8 +3,8 @@
 Build styled text for paragraphs, headings, list items, and any other block that accepts rich text.
 
 ```java
-import static io.kristixlab.notion.api.model.helper.NotionBlocks.*;
-import static io.kristixlab.notion.api.model.helper.NotionText.*;
+
+
 ```
 
 ## Plain text

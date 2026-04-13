@@ -31,7 +31,7 @@ implementation 'TODO'
 The simplest way to create a client is with a token:
 
 ```java
-import io.kristixlab.notion.api.NotionClient;
+import io.kristaxlab.notion.NotionClient;
 
 NotionClient client = NotionClient.forToken("secret_abc123...");
 ```

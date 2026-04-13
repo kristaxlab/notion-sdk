@@ -3,7 +3,7 @@
 Append blocks to an existing page or block. This is the most common Notion SDK operation.
 
 ```java
-import static io.kristixlab.notion.api.model.helper.NotionBlocks.*;
+
 ```
 
 ## Append a single block
@@ -63,7 +63,7 @@ client.blocks().appendChildren("page-id",
 By default, blocks are appended at the end. Use `Position` to place them elsewhere.
 
 ```java
-import io.kristixlab.notion.api.model.common.Position;
+import common.model.io.kristaxlab.notion.Position;
 
 // Insert at the very beginning of the page
 client.blocks().appendChildren("page-id",

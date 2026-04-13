@@ -3,7 +3,7 @@
 Retrieve, update, delete, and restore blocks on a page.
 
 ```java
-import static io.kristixlab.notion.api.model.helper.NotionBlocks.*;
+
 ```
 
 ## Retrieve a block

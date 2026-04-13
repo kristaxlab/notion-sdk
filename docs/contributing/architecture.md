@@ -5,7 +5,7 @@ This document describes the Notion SDK's internal architecture, package structur
 ## Package Overview
 
 ```
-io.kristixlab.notion.api
+io.kristaxlab.notion
 ├── auth/        # Authentication providers and interceptors
 ├── http/        # Notion-specific HTTP layer and reusable HTTP infrastructure
 ├── model/       # Notion object models (blocks, pages, users, etc.)
@@ -88,9 +88,9 @@ This section documents how Notion API errors (HTTP status >= 400) are turned int
 
 ### Where to update mappings
 
-- Add or change mappings in `io.kristixlab.notion.api.http.error.NotionErrorResponseHandler`
-- Add new exception types in `io.kristixlab.notion.api.http.error.*`
-- Update/extend tests in `src/test/java/io/kristixlab/notion/api/http/error/NotionErrorResponseHandlerTest.java`
+- Add or change mappings in `error.http.io.kristaxlab.notion.NotionErrorResponseHandler`
+- Add new exception types in `io.kristaxlab.notion.http.error.*`
+- Update/extend tests in `src/test/java/io/kristaxlab/notion/http/error/NotionErrorResponseHandlerTest.java`
 
 ### Reference
 

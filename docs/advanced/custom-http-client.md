@@ -45,7 +45,7 @@ NotionClient client = NotionClient.builder()
 The most common customization is adjusting timeouts:
 
 ```java
-import io.kristixlab.notion.api.http.base.client.OkHttp3Client;
+import client.base.http.io.kristaxlab.notion.OkHttp3Client;
 import okhttp3.OkHttpClient;
 import java.util.concurrent.TimeUnit;
 

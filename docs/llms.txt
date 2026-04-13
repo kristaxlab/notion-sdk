@@ -137,17 +137,17 @@ try {
 - `NotionApiException` -- base error with status, code, message, requestId
 
 ### Package structure
-- `io.kristixlab.notion.api` -- NotionClient, NotionClientBuilder
-- `io.kristixlab.notion.api.auth` -- token providers, auth interceptor
-- `io.kristixlab.notion.api.http` -- Notion HTTP client, version interceptor
-- `io.kristixlab.notion.api.http.base.client` -- HttpClient, ApiClient, OkHttp3Client
-- `io.kristixlab.notion.api.http.base.config` -- ApiClientConfig, ConfigKey
-- `io.kristixlab.notion.api.http.base.interceptor` -- interceptor interface, logging, recording
-- `io.kristixlab.notion.api.http.base.json` -- JsonSerializer, JacksonSerializer
-- `io.kristixlab.notion.api.http.base.request` -- ApiPath
-- `io.kristixlab.notion.api.http.error` -- NotionApiException hierarchy
-- `io.kristixlab.notion.api.model` -- BaseNotionObject, NotionError
-- `io.kristixlab.notion.api.model.block` -- Block + 30 subtypes
-- `io.kristixlab.notion.api.model.common` -- RichText, Parent, Icon, FileData
-- `io.kristixlab.notion.api.model.page` -- PageRequest
-- `io.kristixlab.notion.api.model.user` -- User, Person
+- `io.kristaxlab.notion` -- NotionClient, NotionClientBuilder
+- `io.kristaxlab.notion.auth` -- token providers, auth interceptor
+- `io.kristaxlab.notion.http` -- Notion HTTP client, version interceptor
+- `io.kristaxlab.notion.http.base.client` -- HttpClient, ApiClient, OkHttp3Client
+- `io.kristaxlab.notion.http.base.config` -- ApiClientConfig, ConfigKey
+- `io.kristaxlab.notion.http.base.interceptor` -- interceptor interface, logging, recording
+- `io.kristaxlab.notion.http.base.json` -- JsonSerializer, JacksonSerializer
+- `io.kristaxlab.notion.http.base.request` -- ApiPath
+- `io.kristaxlab.notion.http.error` -- NotionApiException hierarchy
+- `io.kristaxlab.notion.model` -- BaseNotionObject, NotionError
+- `io.kristaxlab.notion.model.block` -- Block + 30 subtypes
+- `io.kristaxlab.notion.model.common` -- RichText, Parent, Icon, FileData
+- `io.kristaxlab.notion.model.page` -- PageRequest
+- `io.kristaxlab.notion.model.user` -- User, Person

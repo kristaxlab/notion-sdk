@@ -6,7 +6,7 @@ Create pages under a parent page. Full support for title, icon, cover, and initi
 > will be covered once database property support is finalized.
 
 ```java
-import static io.kristixlab.notion.api.model.helper.NotionBlocks.*;
+
 ```
 
 ## Create a page with a title

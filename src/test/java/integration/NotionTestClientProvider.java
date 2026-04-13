@@ -1,9 +1,10 @@
 package integration;
 
-import static io.kristixlab.notion.api.NotionTestEnvironmentConstants.NOTION_TEST_AUTH_TOKEN;
+import static io.kristaxlab.notion.NotionTestEnvironmentConstants.NOTION_TEST_AUTH_TOKEN;
 
-import io.kristixlab.notion.api.NotionClient;
-import io.kristixlab.notion.api.http.base.json.TestSerializer;
+import io.kristaxlab.notion.NotionClient;
+import io.kristaxlab.notion.http.base.interceptor.ExchangeRecordingInterceptor;
+import io.kristaxlab.notion.http.base.json.TestSerializer;
 import java.nio.file.Path;
 
 /**
@@ -42,10 +43,9 @@ public class NotionTestClientProvider {
   /**
    * Creates a {@link NotionClient} for internal integration tests.
    *
-   * <p>When {@code exchangeLogDir} is non-{@code null}, an {@link
-   * io.kristixlab.notion.api.http.base.interceptor.ExchangeRecordingInterceptor} is added to the
-   * HTTP pipeline and writes each request/response pair as a pretty-printed JSON file into the
-   * given directory. The directory is created automatically if it does not exist.
+   * <p>When {@code exchangeLogDir} is non-{@code null}, an {@link ExchangeRecordingInterceptor} is
+   * added to the HTTP pipeline and writes each request/response pair as a pretty-printed JSON file
+   * into the given directory. The directory is created automatically if it does not exist.
    *
    * @param exchangeLogDir target directory for HTTP exchange files; {@code null} disables exchange
    *     logging
