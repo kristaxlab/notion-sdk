@@ -1,11 +1,11 @@
 package io.kristaxlab.notion.model.block;
 
-import io.kristaxlab.notion.model.common.Color;
-import io.kristaxlab.notion.model.common.richtext.RichText;
 import io.kristaxlab.notion.fluent.NotionBlocks;
 import io.kristaxlab.notion.fluent.NotionBlocksBuilder;
 import io.kristaxlab.notion.fluent.NotionText;
 import io.kristaxlab.notion.fluent.NotionTextBuilder;
+import io.kristaxlab.notion.model.common.Color;
+import io.kristaxlab.notion.model.common.richtext.RichText;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

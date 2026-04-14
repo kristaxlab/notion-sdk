@@ -7016,5 +7016,4 @@ public class NotionIcons {
   public static Icon zoomOut(String color) {
     return icon("zoom-out", color);
   }
-
 }

@@ -2,10 +2,10 @@ package io.kristaxlab.notion.model.block;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import io.kristaxlab.notion.model.common.Color;
-import io.kristaxlab.notion.model.common.Icon;
 import io.kristaxlab.notion.fluent.NotionBlocks;
 import io.kristaxlab.notion.fluent.NotionBlocksBuilder;
+import io.kristaxlab.notion.model.common.Color;
+import io.kristaxlab.notion.model.common.Icon;
 import java.util.List;
 import java.util.function.Consumer;
 import org.junit.jupiter.api.Test;

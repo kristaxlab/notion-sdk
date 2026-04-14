@@ -5,14 +5,14 @@ import static io.kristaxlab.notion.endpoints.util.Validator.checkNotNullOrEmpty;
 
 import io.kristaxlab.notion.endpoints.BlocksEndpoint;
 import io.kristaxlab.notion.endpoints.util.Validator;
+import io.kristaxlab.notion.fluent.NotionBlocks;
+import io.kristaxlab.notion.fluent.NotionBlocksBuilder;
 import io.kristaxlab.notion.http.base.client.ApiClient;
 import io.kristaxlab.notion.http.base.request.ApiPath;
 import io.kristaxlab.notion.model.block.AppendBlockChildrenParams;
 import io.kristaxlab.notion.model.block.Block;
 import io.kristaxlab.notion.model.block.BlockList;
 import io.kristaxlab.notion.model.common.Position;
-import io.kristaxlab.notion.fluent.NotionBlocks;
-import io.kristaxlab.notion.fluent.NotionBlocksBuilder;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Supplier;

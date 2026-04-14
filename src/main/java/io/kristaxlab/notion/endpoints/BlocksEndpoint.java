@@ -1,10 +1,10 @@
 package io.kristaxlab.notion.endpoints;
 
+import io.kristaxlab.notion.fluent.NotionBlocksBuilder;
 import io.kristaxlab.notion.model.block.AppendBlockChildrenParams;
 import io.kristaxlab.notion.model.block.Block;
 import io.kristaxlab.notion.model.block.BlockList;
 import io.kristaxlab.notion.model.common.Position;
-import io.kristaxlab.notion.fluent.NotionBlocksBuilder;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Supplier;

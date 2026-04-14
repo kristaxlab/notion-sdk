@@ -2,8 +2,8 @@ package io.kristaxlab.notion.model.block;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import io.kristaxlab.notion.model.common.Color;
 import io.kristaxlab.notion.fluent.NotionBlocks;
+import io.kristaxlab.notion.model.common.Color;
 import org.junit.jupiter.api.Test;
 
 class ToggleBlockTest {

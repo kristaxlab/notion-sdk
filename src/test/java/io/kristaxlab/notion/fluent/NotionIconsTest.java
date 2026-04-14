@@ -2,9 +2,8 @@ package io.kristaxlab.notion.fluent;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.lang.reflect.Method;
-
 import io.kristaxlab.notion.model.common.Icon;
+import java.lang.reflect.Method;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
