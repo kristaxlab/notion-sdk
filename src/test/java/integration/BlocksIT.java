@@ -1,19 +1,16 @@
 package integration;
 
-import static io.kristaxlab.notion.model.helper.NotionBlocks.*;
-import static io.kristaxlab.notion.model.helper.NotionText.*;
+import static io.kristaxlab.notion.fluent.NotionBlocks.*;
+import static io.kristaxlab.notion.fluent.NotionText.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import integration.helper.IntegrationTestAssisstant;
+import io.kristaxlab.notion.fluent.NotionBlocks;
 import io.kristaxlab.notion.http.error.ValidationException;
 import io.kristaxlab.notion.model.block.*;
-import io.kristaxlab.notion.model.common.Color;
-import io.kristaxlab.notion.model.common.Icon;
-import io.kristaxlab.notion.model.common.Parent;
-import io.kristaxlab.notion.model.common.Position;
+import io.kristaxlab.notion.model.common.*;
 import io.kristaxlab.notion.model.common.richtext.RichText;
-import io.kristaxlab.notion.model.helper.NotionBlocks;
 import java.util.List;
 import org.junit.jupiter.api.*;
 
