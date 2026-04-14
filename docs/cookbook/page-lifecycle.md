@@ -2,14 +2,19 @@
 
 Retrieve, update, archive, restore, and move pages.
 
+## Create a simple page
+
+```java
+Page page = client.pages().create(p -> p
+        .inPage("parent-page-id")
+        .title("My new page"));
+```
+More examples: [Creating pages](creating-pages.md)
+
 ## Retrieve a page
 
 ```java
 Page page = client.pages().retrieve("page-id");
-
-String id          = page.getId();
-String lastEdited  = page.getLastEditedTime();
-boolean inTrash    = Boolean.TRUE.equals(page.getInTrash());
 ```
 
 ## Update the title
@@ -28,6 +33,12 @@ client.pages().update("page-id", UpdatePageParams.builder()
     .cover(Cover.external("https://images.unsplash.com/photo-1517816743773-6e0fd518b4a6"))
     .build());
 ```
+
+## Update page content
+Page content is made up of blocks. To update the content, modify the blocks in place and send them back:
+
+
+```java
 
 ## Archive a page
 

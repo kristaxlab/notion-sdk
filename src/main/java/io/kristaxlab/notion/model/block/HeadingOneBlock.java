@@ -1,7 +1,7 @@
 package io.kristaxlab.notion.model.block;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.kristaxlab.notion.model.helper.NotionBlocks;
+import io.kristaxlab.notion.fluent.NotionBlocks;
 import lombok.Getter;
 import lombok.Setter;
 

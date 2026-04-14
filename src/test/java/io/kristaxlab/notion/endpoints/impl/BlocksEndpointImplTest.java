@@ -7,7 +7,7 @@ import io.kristaxlab.notion.model.block.AppendBlockChildrenParams;
 import io.kristaxlab.notion.model.block.Block;
 import io.kristaxlab.notion.model.block.BlockList;
 import io.kristaxlab.notion.model.common.Position;
-import io.kristaxlab.notion.model.helper.NotionBlocksBuilder;
+import io.kristaxlab.notion.fluent.NotionBlocksBuilder;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

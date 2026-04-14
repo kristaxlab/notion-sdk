@@ -1,6 +1,6 @@
 package io.kristaxlab.notion.model.block;
 
-import static io.kristaxlab.notion.model.helper.NotionBlocks.*;
+import static io.kristaxlab.notion.fluent.NotionBlocks.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import io.kristaxlab.notion.model.common.Position;

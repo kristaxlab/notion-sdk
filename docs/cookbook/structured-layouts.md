@@ -1,10 +1,11 @@
 # Structured layouts
 
-Columns, tables, callouts, code blocks, and other structural block types.
+Columns, tables, callouts, code blocks, and other structural block types. All the examples implies
+a static import of `NotionBlocks` and `NotionText` for blocks and text factory methods.
 
 ```java
-
-
+import static io.kristixlab.notion.api.model.helper.NotionBlocks.*;
+import static io.kristixlab.notion.api.model.helper.NotionText.*;
 ```
 
 ## Columns
@@ -101,3 +102,4 @@ client.blocks().appendChildren("page-id", tableOfContents());
 
 - [Writing content](writing-content.md) — append any block to a page
 - [Rich text & formatting](rich-text.md) — styled text inside blocks
+- [Back to README](../../README.md#cookbook)

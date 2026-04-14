@@ -1,13 +1,10 @@
 # Authentication
 
-Authentication is required to access the Notion API. You will need one or more of the following credentials, depending on your use case:
+Authentication with Access Token is required to access the Notion API.
 
 - **Access Token**
   - For internal integrations it is an **Integration Secret**. Obtain this from the [Notion integrations dashboard](https://www.notion.so/my-integrations). After creating an integration, copy the "Internal Integration Secret".
   - For public integrations, it is the **Access Token** obtained after completing the OAuth authorization process.
-- **OAuth Credentials**: For OAuth flows, you will need:
-  - **Client ID** and **Client Secret**: Provided when you register your integration in the Notion integrations dashboard.
-  - **Redirect URIs**: Set these in your integration settings to match your application's OAuth redirect endpoints.
 
 ## Creating a NotionClient with an Access Token
 
@@ -28,6 +25,10 @@ NotionClient client = NotionClient.forToken("ntn_xxx");
 ## Handling the Notion OAuth Flow
 
 *This section will cover how to implement the OAuth 2.0 flow for Notion integrations, including obtaining and refreshing access tokens.*
+
+- **OAuth Credentials**: For OAuth flows, you will need:
+    - **Client ID** and **Client Secret**: Provided when you register your integration in the Notion integrations dashboard.
+    - **Redirect URIs**: Set these in your integration settings to match your application's OAuth redirect endpoints.
 
 <!-- TODO: Add detailed guide for OAuth flow -->
 

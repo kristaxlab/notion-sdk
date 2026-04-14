@@ -2,7 +2,7 @@ package io.kristaxlab.notion.model.common;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import io.kristaxlab.notion.model.helper.NotionText;
+import io.kristaxlab.notion.fluent.NotionText;
 import org.junit.jupiter.api.Test;
 
 class FileDataTest {

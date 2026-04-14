@@ -1,12 +1,15 @@
 package examples;
 
+import static io.kristaxlab.notion.fluent.NotionBlocks.*;
+import static io.kristaxlab.notion.fluent.NotionText.*;
+
 import io.kristaxlab.notion.NotionClient;
 import io.kristaxlab.notion.model.block.Block;
 import io.kristaxlab.notion.model.block.ParagraphBlock;
 import io.kristaxlab.notion.model.common.Cover;
 import io.kristaxlab.notion.model.common.Icon;
 import io.kristaxlab.notion.model.common.Position;
-import io.kristaxlab.notion.model.helper.NotionBlocks;
+import io.kristaxlab.notion.fluent.NotionBlocks;
 import io.kristaxlab.notion.model.page.CreatePageParams;
 import io.kristaxlab.notion.model.page.Page;
 import java.util.List;
@@ -15,6 +18,7 @@ public class Examples {
 
   private static final String PAGE_ID = "some-parent-page-id";
   private static final String DATABASE_ID = "some-database-id";
+
 
   public void addBlocksToPageShort(NotionClient client) {
 

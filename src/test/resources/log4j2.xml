@@ -18,7 +18,7 @@
     </Appenders>
 
     <Loggers>
-        <Logger name="io.kristaxlab.notion.http.transport.deprecated.HttpTransportImpl" level="DEBUG" additivity="false">
+        <Logger name="io.kristaxlab.notion.http.base.interceptor.LoggingHttpInterceptor" level="DEBUG" additivity="false">
             <AppenderRef ref="Console"/>
             <AppenderRef ref="RollingFile"/>
         </Logger>

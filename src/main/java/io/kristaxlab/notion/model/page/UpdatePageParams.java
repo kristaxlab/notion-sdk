@@ -2,8 +2,7 @@ package io.kristaxlab.notion.model.page;
 
 import io.kristaxlab.notion.model.common.Cover;
 import io.kristaxlab.notion.model.common.Icon;
-import io.kristaxlab.notion.model.helper.NotionProperties;
-import io.kristaxlab.notion.model.page.property.*;
+import io.kristaxlab.notion.fluent.NotionProperties;
 import io.kristaxlab.notion.model.page.property.PageProperty;
 import io.kristaxlab.notion.model.page.templates.TemplateParams;
 import java.util.*;

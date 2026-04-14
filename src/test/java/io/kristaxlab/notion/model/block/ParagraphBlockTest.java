@@ -4,8 +4,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import io.kristaxlab.notion.model.common.Color;
 import io.kristaxlab.notion.model.common.Icon;
-import io.kristaxlab.notion.model.helper.NotionBlocks;
-import io.kristaxlab.notion.model.helper.NotionBlocksBuilder;
+import io.kristaxlab.notion.fluent.NotionBlocks;
+import io.kristaxlab.notion.fluent.NotionBlocksBuilder;
 import java.util.List;
 import java.util.function.Consumer;
 import org.junit.jupiter.api.Test;

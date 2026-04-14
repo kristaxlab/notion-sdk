@@ -1,10 +1,10 @@
-# Rich text & formatting
+# Text Formatting and Styles
 
-Build styled text for paragraphs, headings, list items, and any other block that accepts rich text.
+Build styled text for paragraphs, headings, list items, and any other block that accepts rich text. The examples 
+below use static helper methods from `NotionText` for brevity, but you can also construct `RichText` objects directly.
 
 ```java
-
-
+import static io.kristixlab.notion.api.model.helper.NotionText.*;
 ```
 
 ## Plain text
@@ -66,12 +66,14 @@ client.blocks().appendChildren("page-id", para);
 Use it when there are many runs, or when you want to attach the list to a block builder.
 
 ```java
-client.blocks().appendChildren("page-id",
-    content -> content.paragraph(b -> b.text(
-        textBuilder()
-            .plainText("Status: ")
-            .plainText("DONE").green().bold()
-            .build()
+client.blocks().appendChildren(
+         "page-id",
+         content -> content.paragraph(
+              t -> t.text(
+                    textBuilder()
+                        .plainText("Status: ")
+                        .plainText("DONE").green().bold()
+                        .build()
     ))
 );
 ```
@@ -89,3 +91,4 @@ RichText pageRef  = blockMention("page-or-block-id");
 
 - [Writing content](writing-content.md) — append blocks that contain rich text
 - [Structured layouts](structured-layouts.md) — block types that support rich text
+- [Back to README](../../README.md#cookbook)

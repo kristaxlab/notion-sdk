@@ -8,7 +8,7 @@ import io.kristaxlab.notion.http.base.client.ApiClient;
 import io.kristaxlab.notion.http.base.request.ApiPath;
 import io.kristaxlab.notion.model.block.Block;
 import io.kristaxlab.notion.model.common.Parent;
-import io.kristaxlab.notion.model.helper.NotionBlocksBuilder;
+import io.kristaxlab.notion.fluent.NotionBlocksBuilder;
 import io.kristaxlab.notion.model.page.*;
 import io.kristaxlab.notion.model.page.markdown.UpdatePageAsMarkdownParams;
 import io.kristaxlab.notion.model.page.property.PageProperty;

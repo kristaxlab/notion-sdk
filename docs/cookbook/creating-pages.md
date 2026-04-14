@@ -5,9 +5,6 @@ Create pages under a parent page. Full support for title, icon, cover, and initi
 > **Note:** Creating pages inside a database (with typed properties such as Status, Assignee, or Date)
 > will be covered once database property support is finalized.
 
-```java
-
-```
 
 ## Create a page with a title
 

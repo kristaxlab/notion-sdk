@@ -1,8 +1,8 @@
 package io.kristaxlab.notion.model.common;
 
 import io.kristaxlab.notion.model.common.richtext.RichText;
-import io.kristaxlab.notion.model.helper.NotionText;
-import io.kristaxlab.notion.model.helper.NotionTextBuilder;
+import io.kristaxlab.notion.fluent.NotionText;
+import io.kristaxlab.notion.fluent.NotionTextBuilder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

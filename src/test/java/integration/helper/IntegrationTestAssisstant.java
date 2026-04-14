@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 import io.kristaxlab.notion.NotionClient;
 import io.kristaxlab.notion.model.block.BlockList;
 import io.kristaxlab.notion.model.common.Parent;
-import io.kristaxlab.notion.model.helper.NotionProperties;
+import io.kristaxlab.notion.fluent.NotionProperties;
 import io.kristaxlab.notion.model.page.CreatePageParams;
 import io.kristaxlab.notion.model.page.property.TitleProperty;
 import java.io.File;
