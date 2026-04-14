@@ -100,6 +100,6 @@ client.blocks().appendChildren("page-id", tableOfContents());
 
 ## See also
 
-- [Writing content](writing-content.md) — append any block to a page
+- [Adding blocks](blocks.md) — append any block to a page
 - [Rich text & formatting](rich-text.md) — styled text inside blocks
 - [Back to README](../../README.md#cookbook)

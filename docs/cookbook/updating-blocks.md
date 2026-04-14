@@ -58,5 +58,5 @@ client.blocks().restore("block-id");
 
 ## See also
 
-- [Writing content](writing-content.md) — append new blocks
+- [Adding blocks](blocks.md) — append new blocks
 - [Page lifecycle](page-lifecycle.md) — archive and restore pages

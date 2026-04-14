@@ -124,6 +124,6 @@ Look for the **Artifacts** section at the bottom of the workflow run summary pag
 
 ## See Also
 
-- [Development Setup](development-setup.md) — build and run commands
+- [Installation](../../README.md#installation) — dependency setup and basics
 - [Architecture](architecture.md) — understanding what to test
 - [Exchange Recording](exchange-recording.md) — HTTP exchange files written during integration tests

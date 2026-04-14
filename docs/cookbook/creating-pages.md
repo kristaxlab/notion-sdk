@@ -66,4 +66,4 @@ Page page = client.pages().create(params);
 ## See also
 
 - [Page lifecycle](page-lifecycle.md) — update, archive, restore, move
-- [Writing content](writing-content.md) — append blocks after creation
+- [Adding blocks](blocks.md) — append blocks after creation

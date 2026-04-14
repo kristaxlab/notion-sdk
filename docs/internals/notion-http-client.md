@@ -52,6 +52,6 @@ You don't need to worry about:
 
 ## See Also
 
-- [Configuration](../configuration.md) -- base URL and serializer options
+- [Create a client](../../README.md#create-a-client) -- base URL and serializer defaults
 - [Error Handling](../error-handling.md) -- what happens on 4xx/5xx
-- [Interceptors](interceptors.md) -- what middleware runs on every call
+- [Interceptors](architecture.md#interceptors) -- what middleware runs on every call

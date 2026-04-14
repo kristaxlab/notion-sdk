@@ -89,6 +89,6 @@ RichText pageRef  = blockMention("page-or-block-id");
 
 ## See also
 
-- [Writing content](writing-content.md) — append blocks that contain rich text
+- [Adding blocks](blocks.md) — append blocks that contain rich text
 - [Structured layouts](structured-layouts.md) — block types that support rich text
 - [Back to README](../../README.md#cookbook)

@@ -60,6 +60,6 @@ Currently, custom interceptors require building the pipeline manually. See [Cust
 ## See Also
 
 - [Interceptors](architecture.md#interceptors) -- internal details of interceptors implementation
-- [Exchange Logging](exchange-logging.md) -- the built-in exchange recording interceptor
+- [Exchange Recording](exchange-recording.md) -- the built-in exchange recording interceptor
 - [Error Handling](../error-handling.md) -- how error mapping fits outside the interceptor chain
 - [Custom HTTP Client](custom-http-client.md) -- full pipeline customization

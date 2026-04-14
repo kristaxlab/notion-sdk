@@ -34,5 +34,5 @@ NotionClient client = NotionClient.forToken("ntn_xxx");
 
 ## See Also
 
-- [Getting Started](getting-started.md) -- installation and first API call
-- [Configuration]() -- all supported auth methods
+- [Installation](../README.md#installation) -- add the SDK dependency
+- [Create a client](../README.md#create-a-client) -- token-based client setup

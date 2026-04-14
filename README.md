@@ -34,7 +34,7 @@ Defaults: Notion API version `2026-03-11`, base URL `https://api.notion.com/v1`,
 ## Append content to a page
 
 ```java
-import static io.kristixlab.notion.api.model.helper.NotionBlocks.*;
+import static io.kristaxlab.notion.fluent.NotionBlocks.*;
 
 client.blocks().appendChildren("page-id",
     content -> content
@@ -47,7 +47,7 @@ client.blocks().appendChildren("page-id",
 ## Create a page with content
 
 ```java
-import static io.kristixlab.notion.api.model.helper.NotionBlocks.*;
+import static io.kristaxlab.notion.fluent.NotionBlocks.*;
 
 client.pages().create(page -> page
     .inPage("parent-page-id")
@@ -90,19 +90,25 @@ DEBUG for any of the following packages:
 
 ## Cookbook
 
-Examples of common tasks and patterns:
+Examples of common tasks and patterns, organized by operation:
 
-#### Page content:
+### Authoring content
 
-- [Adding Blocks](docs/cookbook/adding-blocks.md)
-- [Text Formatting and Styles](docs/cookbook/rich-text.md)
-- [Structured Layout: columns, tables, tabs, etc.](docs/cookbook/structured-layouts.md)
-- [Reading page content](cookbook/cookbook/)
-- [Page content as markdown](cookbook/cookbook/)
+- [Creating pages](docs/cookbook/01-creating-pages.md)
+- [Adding blocks](docs/cookbook/02-adding-blocks.md)
+- [Rich text and inline formatting](docs/cookbook/03-rich-text.md)
+- [Structured layouts (columns, tables, callouts)](docs/cookbook/04-structured-layouts.md)
 
-#### Files and media:
+### Reading and updating
 
-- [Uploding and embedding files (images, video, pdf files, etc.](cookbook/cookbook/)
+- [Reading page content](docs/cookbook/05-reading-content.md)
+- [Updating pages](docs/cookbook/06-updating-pages.md)
+- [Updating blocks](docs/cookbook/07-updating-blocks.md)
+
+### Files and workflows
+
+- [Files and media uploads](docs/cookbook/08-files-and-media.md)
+- [End-to-end recipes](docs/cookbook/09-end-to-end-recipes.md)
 
 ## License
 
