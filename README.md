@@ -50,7 +50,7 @@ client.blocks().appendChildren("page-id",
 import static io.kristaxlab.notion.fluent.NotionBlocks.*;
 
 client.pages().create(page -> page
-    .inPage("parent-page-id")
+    .underPage("parent-page-id")
     .title("Error Handling Best Practices")
     .icon("🛡️")
     .children(content -> content
@@ -92,7 +92,7 @@ DEBUG for any of the following packages:
 
 Examples of common tasks and patterns, organized by operation:
 
-### Authoring content
+### Creating content
 
 - [Creating pages](docs/cookbook/01-creating-pages.md)
 - [Adding blocks](docs/cookbook/02-adding-blocks.md)

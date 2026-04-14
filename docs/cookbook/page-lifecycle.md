@@ -6,7 +6,7 @@ Retrieve, update, archive, restore, and move pages.
 
 ```java
 Page page = client.pages().create(p -> p
-        .inPage("parent-page-id")
+        .underPage("parent-page-id")
         .title("My new page"));
 ```
 More examples: [Creating pages](creating-pages.md)

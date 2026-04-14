@@ -13,7 +13,7 @@ import static io.kristaxlab.notion.fluent.NotionText.*;
 
 ```java
 Page page = client.pages().create(p -> p
-    .inPage("parent-page-id")
+    .underPage("parent-page-id")
     .title("Weekly Notes"));
 ```
 
@@ -21,7 +21,7 @@ Page page = client.pages().create(p -> p
 
 ```java
 Page page = client.pages().create(p -> p
-    .inPage("parent-page-id")
+    .underPage("parent-page-id")
     .title("Project Aurora")
     .icon("🚀")
     .cover("https://images.unsplash.com/photo-1518770660439-4636190af475"));
@@ -31,7 +31,7 @@ Page page = client.pages().create(p -> p
 
 ```java
 Page page = client.pages().create(p -> p
-    .inPage("parent-page-id")
+    .underPage("parent-page-id")
     .title("Release checklist")
     .children(content -> content
         .heading2("Before deploy")
@@ -45,7 +45,7 @@ Page page = client.pages().create(p -> p
 
 ```java
 CreatePageParams params = CreatePageParams.builder()
-    .inPage("parent-page-id")
+    .underPage("parent-page-id")
     .title("Retro")
     .children(content -> content
         .heading2("What went well")

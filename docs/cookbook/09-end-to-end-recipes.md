@@ -13,7 +13,7 @@ import static io.kristaxlab.notion.fluent.NotionText.*;
 
 ```java
 Page page = client.pages().create(p -> p
-    .inPage("projects-root-page-id")
+    .underPage("projects-root-page-id")
     .title("Project Atlas")
     .icon("🧭")
     .children(c -> c
@@ -57,7 +57,7 @@ for (String task : viewer.flatten().todos().unchecked().plainTextList()) {
 
 ```java
 Page page = client.pages().create(p -> p
-    .inPage("parent-page-id")
+    .underPage("parent-page-id")
     .title("Migration target"));
 
 client.pages().updateAsMarkdown(

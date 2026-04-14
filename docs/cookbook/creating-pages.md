@@ -10,7 +10,7 @@ Create pages under a parent page. Full support for title, icon, cover, and initi
 
 ```java
 Page page = client.pages().create(p -> p
-    .inPage("parent-page-id")
+    .underPage("parent-page-id")
     .title("My new page"));
 ```
 
@@ -18,7 +18,7 @@ Page page = client.pages().create(p -> p
 
 ```java
 Page page = client.pages().create(p -> p
-    .inPage("parent-page-id")
+    .underPage("parent-page-id")
     .title("Project Aurora — Q2 Dashboard")
     .icon("📊")
     .cover("https://images.unsplash.com/photo-1518770660439-4636190af475"));
@@ -32,7 +32,7 @@ Use `.children()` to set the page body at creation time — no separate append c
 
 ```java
 Page page = client.pages().create(p -> p
-    .inPage("parent-page-id")
+    .underPage("parent-page-id")
     .title("Error Handling Best Practices")
     .icon("🛡️")
     .children(content -> content
@@ -50,7 +50,7 @@ When you need to construct the request separately from the API call, use `Create
 
 ```java
 CreatePageParams params = CreatePageParams.builder()
-    .inPage("parent-page-id")
+    .underPage("parent-page-id")
     .title("Weekly Retrospective")
     .icon("🔁")
     .children(content -> content

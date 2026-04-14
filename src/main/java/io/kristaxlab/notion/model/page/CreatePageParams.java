@@ -58,17 +58,22 @@ public class CreatePageParams {
     private TemplateParams templateParams;
 
     /** Sets the parent to the data source with the given ID. */
-    public Builder inDataSource(String dataSourceId) {
+    public Builder underDataSource(String dataSourceId) {
       return parent(Parent.dataSourceParent(dataSourceId));
     }
 
     /** Sets the parent to the page with the given ID. */
-    public Builder inPage(String pageId) {
+    public Builder underPage(String pageId) {
       return parent(Parent.pageParent(pageId));
     }
 
+    /** Sets the parent to the block with the given ID. */
+    public Builder underBlock(String blockId) {
+      return parent(Parent.blockParent(blockId));
+    }
+
     // TODO test with public integration
-    public Builder inWorkspace() {
+    public Builder underWorkspace() {
       return parent(Parent.workspaceParent());
     }
 
