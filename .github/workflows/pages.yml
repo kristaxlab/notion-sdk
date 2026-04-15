@@ -1,0 +1,69 @@
+name: Publish README to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - README.md
+      - docs/**
+      - .github/workflows/pages.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  publish-pages:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      # 1
+      - name: 1. Checkout repository
+        uses: actions/checkout@v6
+
+      # 2
+      - name: 2. Configure GitHub Pages
+        uses: actions/configure-pages@v5
+
+      # 3
+      - name: 3. Prepare Pages source from README
+        run: |
+          mkdir -p .pages
+          cp README.md .pages/index.md
+          if [ -d docs ]; then
+            cp -R docs .pages/docs
+          fi
+          cat > .pages/_config.yml <<'EOF'
+          title: Notion SDK for Java
+          description: README documentation published via GitHub Pages
+          markdown: kramdown
+          EOF
+
+      # 4
+      - name: 4. Build with Jekyll
+        uses: actions/jekyll-build-pages@v1
+        with:
+          source: .pages
+          destination: ./_site
+
+      # 5
+      - name: 5. Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./_site
+
+      # 6
+      - name: 6. Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
