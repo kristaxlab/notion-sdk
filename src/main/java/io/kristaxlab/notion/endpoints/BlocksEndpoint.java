@@ -10,7 +10,7 @@ import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 /**
- * Interface defining operations for Notion Blocks.
+ * Block CRUD, child listing, and appending children (with optional {@link Position}).
  *
  * @see <a href="https://developers.notion.com/reference/blocks">Notion Blocks API</a>
  */
@@ -19,11 +19,14 @@ public interface BlocksEndpoint {
 
   BlockList appendChildren(String parentBlockId, List<? extends Block> children);
 
+  /** Appends blocks built from the {@link NotionBlocksBuilder} DSL. */
   BlockList appendChildren(String parentBlockId, Consumer<NotionBlocksBuilder> consumer);
 
+  /** Appends lazily built blocks at the given position. */
   BlockList appendChildren(
       String parentBlockId, Supplier<List<? extends Block>> supplier, Position position);
 
+  /** Full control over children list and optional position. */
   BlockList appendChildren(String parentBlockId, AppendBlockChildrenParams request);
 
   Block retrieve(String blockId);
@@ -32,11 +35,14 @@ public interface BlocksEndpoint {
 
   BlockList retrieveChildren(String blockId, String startCursor, Integer pageSize);
 
+  /** Updates using the block’s embedded id. */
   Block update(Block request);
 
   Block update(String blockId, Block request);
 
+  /** Archives the block. */
   Block delete(String blockId);
 
+  /** Restores the block from trash. */
   Block restore(String blockId);
 }

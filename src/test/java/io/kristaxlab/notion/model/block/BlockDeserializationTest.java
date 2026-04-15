@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class BlockDeserializationTest {
@@ -14,6 +15,7 @@ class BlockDeserializationTest {
   private static final JacksonSerializer JSON = JacksonSerializer.withDefaults();
 
   @Test
+  @DisplayName("deserialize retrieve blocks fixture maps textual and structural block types")
   void deserialize_retrieveBlocksFixture_mapsTextualAndStructuralBlockTypes() {
     BlockList blockList = deserializeFixture("json/retrieve-blocks-rs.json");
 
@@ -47,6 +49,7 @@ class BlockDeserializationTest {
   }
 
   @Test
+  @DisplayName("deserialize retrieve blocks fixture2 maps media and special block types")
   void deserialize_retrieveBlocksFixture2_mapsMediaAndSpecialBlockTypes() {
     BlockList blockList = deserializeFixture("json/retrieve-blocsk-rs-2.json");
 

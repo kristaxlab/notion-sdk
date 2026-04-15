@@ -2,11 +2,13 @@ package io.kristaxlab.notion.model.common;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class ColorTest {
 
   @Test
+  @DisplayName("get value returns api string")
   void getValue_returnsApiString() {
     assertEquals("default", Color.DEFAULT.getValue());
     assertEquals("gray", Color.GRAY.getValue());
@@ -24,6 +26,7 @@ class ColorTest {
   }
 
   @Test
+  @DisplayName("from value known colors")
   void fromValue_knownColors() {
     assertEquals(Color.DEFAULT, Color.fromValue("default"));
     assertEquals(Color.GRAY, Color.fromValue("gray"));
@@ -40,6 +43,7 @@ class ColorTest {
   }
 
   @Test
+  @DisplayName("from value background colors")
   void fromValue_backgroundColors() {
     assertEquals(Color.DEFAULT_BACKGROUND, Color.fromValue("default_background"));
     assertEquals(Color.BROWN_BACKGROUND, Color.fromValue("brown_background"));
@@ -52,22 +56,26 @@ class ColorTest {
   }
 
   @Test
+  @DisplayName("from value unknown color throws illegal argument")
   void fromValue_unknownColor_throwsIllegalArgument() {
     assertThrows(IllegalArgumentException.class, () -> Color.fromValue("neon_green"));
   }
 
   @Test
+  @DisplayName("from value null throws exception")
   void fromValue_null_throwsException() {
     assertThrows(IllegalArgumentException.class, () -> Color.fromValue(null));
   }
 
   @Test
+  @DisplayName("from value case sensitive")
   void fromValue_caseSensitive() {
     assertThrows(IllegalArgumentException.class, () -> Color.fromValue("RED"));
     assertThrows(IllegalArgumentException.class, () -> Color.fromValue("Gray"));
   }
 
   @Test
+  @DisplayName("all enum values have non null value")
   void allEnumValues_haveNonNullValue() {
     for (Color color : Color.values()) {
       assertNotNull(color.getValue());
@@ -76,6 +84,7 @@ class ColorTest {
   }
 
   @Test
+  @DisplayName("round trip all colors")
   void roundTrip_allColors() {
     for (Color color : Color.values()) {
       assertEquals(color, Color.fromValue(color.getValue()));

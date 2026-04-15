@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import io.kristaxlab.notion.fluent.NotionBlocks;
 import io.kristaxlab.notion.model.common.Color;
 import java.util.List;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class ListItemBlockTest {
@@ -12,6 +13,7 @@ class ListItemBlockTest {
   // BulletedListItemBlock
 
   @Test
+  @DisplayName("bullets item constructor sets type and inner")
   void bulletsItem_constructor_setsTypeAndInner() {
     BulletedListItemBlock block = new BulletedListItemBlock();
 
@@ -20,6 +22,7 @@ class ListItemBlockTest {
   }
 
   @Test
+  @DisplayName("bullets item of sets rich text")
   void bulletsItem_of_setsRichText() {
     BulletedListItemBlock block = NotionBlocks.bullet("Item 1");
 
@@ -29,6 +32,7 @@ class ListItemBlockTest {
   }
 
   @Test
+  @DisplayName("bullets item builder with text")
   void bulletsItem_builder_withText() {
     BulletedListItemBlock block = BulletedListItemBlock.builder().text("Built item").build();
 
@@ -36,6 +40,7 @@ class ListItemBlockTest {
   }
 
   @Test
+  @DisplayName("bullets item builder with color")
   void bulletsItem_builder_withColor() {
     BulletedListItemBlock block =
         BulletedListItemBlock.builder().text("Colored").blockColor(Color.ORANGE).build();
@@ -44,6 +49,7 @@ class ListItemBlockTest {
   }
 
   @Test
+  @DisplayName("bullets item builder with children")
   void bulletsItem_builder_withChildren() {
     BulletedListItemBlock block =
         BulletedListItemBlock.builder().text("Parent").children(c -> c.bullet("Sub-item")).build();
@@ -55,6 +61,7 @@ class ListItemBlockTest {
   // NumberedListItemBlock
 
   @Test
+  @DisplayName("numbered item constructor sets type and inner")
   void numberedItem_constructor_setsTypeAndInner() {
     NumberedListItemBlock block = new NumberedListItemBlock();
 
@@ -63,6 +70,7 @@ class ListItemBlockTest {
   }
 
   @Test
+  @DisplayName("numbered item factory sets rich text")
   void numberedItem_factory_setsRichText() {
     NumberedListItemBlock block = NotionBlocks.numbered("Step 1");
 
@@ -71,6 +79,7 @@ class ListItemBlockTest {
   }
 
   @Test
+  @DisplayName("numbered item builder with text")
   void numberedItem_builder_withText() {
     NumberedListItemBlock block = NumberedListItemBlock.builder().text("Built step").build();
 
@@ -78,6 +87,7 @@ class ListItemBlockTest {
   }
 
   @Test
+  @DisplayName("numbered item builder with color and children")
   void numberedItem_builder_withColorAndChildren() {
     NumberedListItemBlock block =
         NumberedListItemBlock.builder()
@@ -92,6 +102,7 @@ class ListItemBlockTest {
   }
 
   @Test
+  @DisplayName("numbered item builder with children list")
   void numberedItem_builder_withChildrenList() {
     List<Block> children = NotionBlocks.paragraphList("Child");
 

@@ -4,11 +4,13 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import io.kristaxlab.notion.fluent.NotionBlocks;
 import io.kristaxlab.notion.model.common.Color;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class ToggleBlockTest {
 
   @Test
+  @DisplayName("constructor sets type and initializes toggle")
   void constructor_setsTypeAndInitializesToggle() {
     ToggleBlock block = new ToggleBlock();
 
@@ -17,6 +19,7 @@ class ToggleBlockTest {
   }
 
   @Test
+  @DisplayName("toggle sets rich text")
   void toggle_setsRichText() {
     ToggleBlock block = NotionBlocks.toggle("Click to expand");
 
@@ -26,6 +29,7 @@ class ToggleBlockTest {
   }
 
   @Test
+  @DisplayName("builder with text")
   void builder_withText() {
     ToggleBlock block = ToggleBlock.builder().text("Toggle text").build();
 
@@ -33,6 +37,7 @@ class ToggleBlockTest {
   }
 
   @Test
+  @DisplayName("builder with color")
   void builder_withColor() {
     ToggleBlock block = ToggleBlock.builder().text("Colored").blockColor(Color.BROWN).build();
 
@@ -40,6 +45,7 @@ class ToggleBlockTest {
   }
 
   @Test
+  @DisplayName("builder with children")
   void builder_withChildren() {
     ToggleBlock block =
         ToggleBlock.builder()

@@ -9,6 +9,7 @@ import java.util.Map;
 import lombok.Getter;
 import lombok.Setter;
 
+/** Notion page object: properties map, URLs, icon, cover, and lock state. */
 @Getter
 @Setter
 public class Page extends NotionObject {

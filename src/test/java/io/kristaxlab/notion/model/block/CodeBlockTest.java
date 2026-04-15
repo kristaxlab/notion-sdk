@@ -2,11 +2,13 @@ package io.kristaxlab.notion.model.block;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class CodeBlockTest {
 
   @Test
+  @DisplayName("constructor sets type and initializes code")
   void constructor_setsTypeAndInitializesCode() {
     CodeBlock block = new CodeBlock();
 
@@ -15,6 +17,7 @@ class CodeBlockTest {
   }
 
   @Test
+  @DisplayName("builder with text and language")
   void builder_withTextAndLanguage() {
     CodeBlock block = CodeBlock.builder().code("print('hello')").language("python").build();
 
@@ -23,6 +26,7 @@ class CodeBlockTest {
   }
 
   @Test
+  @DisplayName("builder with caption consumer")
   void builder_withCaptionConsumer() {
     CodeBlock block =
         CodeBlock.builder()
@@ -37,6 +41,7 @@ class CodeBlockTest {
   }
 
   @Test
+  @DisplayName("builder no caption set caption is null")
   void builder_noCaptionSet_captionIsNull() {
     CodeBlock block = CodeBlock.builder().code("code").language("java").build();
 

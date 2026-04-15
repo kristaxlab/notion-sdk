@@ -2,11 +2,13 @@ package io.kristaxlab.notion.model.block;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class LinkToPageBlockTest {
 
   @Test
+  @DisplayName("constructor sets type and initializes")
   void constructor_setsTypeAndInitializes() {
     LinkToPageBlock block = new LinkToPageBlock();
 
@@ -17,6 +19,7 @@ class LinkToPageBlockTest {
   // LinkToPage inner class
 
   @Test
+  @DisplayName("link to page getter setter")
   void linkToPage_getterSetter() {
     LinkToPageBlock.LinkToPage ltp = new LinkToPageBlock.LinkToPage();
 

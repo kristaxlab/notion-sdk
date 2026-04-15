@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import io.kristaxlab.notion.model.common.Position;
 import java.util.ArrayList;
 import java.util.List;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class AppendBlockChildrenParamsTest {
@@ -13,6 +14,7 @@ class AppendBlockChildrenParamsTest {
   // Builder - children(Block)
 
   @Test
+  @DisplayName("builder child single block")
   void builder_childSingleBlock() {
     AppendBlockChildrenParams params =
         AppendBlockChildrenParams.builder().children(paragraph("Single")).build();
@@ -23,6 +25,7 @@ class AppendBlockChildrenParamsTest {
   // Builder - children(List<Block>)
 
   @Test
+  @DisplayName("builder children list")
   void builder_childrenList() {
     List<Block> blocks = paragraphList("A", "B");
 
@@ -32,6 +35,7 @@ class AppendBlockChildrenParamsTest {
   }
 
   @Test
+  @DisplayName("builder children varargs")
   void builder_childrenVarargs() {
     Block a = paragraph("A");
     Block b = paragraph("B");
@@ -44,6 +48,7 @@ class AppendBlockChildrenParamsTest {
   }
 
   @Test
+  @DisplayName("builder children mixed overloads preserves order")
   void builder_childrenMixedOverloads_preservesOrder() {
     Block a = paragraph("A");
     Block b = paragraph("B");
@@ -57,6 +62,7 @@ class AppendBlockChildrenParamsTest {
   }
 
   @Test
+  @DisplayName("builder children list makes defensive copy from input list")
   void builder_childrenList_makesDefensiveCopyFromInputList() {
     List<Block> input = new ArrayList<>(List.of(paragraph("A"), paragraph("B")));
 
@@ -69,6 +75,7 @@ class AppendBlockChildrenParamsTest {
   // Builder - position
 
   @Test
+  @DisplayName("builder with position")
   void builder_withPosition() {
     Position position = Position.afterBlock("some-block-id");
 
@@ -84,6 +91,7 @@ class AppendBlockChildrenParamsTest {
   }
 
   @Test
+  @DisplayName("builder no position is null")
   void builder_noPosition_isNull() {
     AppendBlockChildrenParams params =
         AppendBlockChildrenParams.builder().children(paragraph("No position")).build();
@@ -94,6 +102,7 @@ class AppendBlockChildrenParamsTest {
   // Builder - validation
 
   @Test
+  @DisplayName("builder no children throws exception")
   void builder_noChildren_throwsException() {
     AppendBlockChildrenParams.Builder builder = AppendBlockChildrenParams.builder();
 
@@ -102,6 +111,7 @@ class AppendBlockChildrenParamsTest {
   }
 
   @Test
+  @DisplayName("builder empty varargs throws exception")
   void builder_emptyVarargs_throwsException() {
     AppendBlockChildrenParams.Builder builder = AppendBlockChildrenParams.builder().children();
 
@@ -110,6 +120,7 @@ class AppendBlockChildrenParamsTest {
   }
 
   @Test
+  @DisplayName("builder build called twice returns different params and children lists")
   void builder_buildCalledTwice_returnsDifferentParamsAndChildrenLists() {
     AppendBlockChildrenParams.Builder builder =
         AppendBlockChildrenParams.builder().children(paragraph("A"));
@@ -123,6 +134,7 @@ class AppendBlockChildrenParamsTest {
   }
 
   @Test
+  @DisplayName("builder mutating built children does not affect subsequent build")
   void builder_mutatingBuiltChildren_doesNotAffectSubsequentBuild() {
     AppendBlockChildrenParams.Builder builder =
         AppendBlockChildrenParams.builder().children(paragraph("A"));
@@ -139,6 +151,7 @@ class AppendBlockChildrenParamsTest {
   // No-arg constructor
 
   @Test
+  @DisplayName("no arg constructor fields null")
   void noArgConstructor_fieldsNull() {
     AppendBlockChildrenParams params = new AppendBlockChildrenParams();
 
@@ -149,6 +162,7 @@ class AppendBlockChildrenParamsTest {
   // Getter/setter
 
   @Test
+  @DisplayName("getter setter children")
   void getterSetter_children() {
     AppendBlockChildrenParams params = new AppendBlockChildrenParams();
     List<Block> blocks = List.of(paragraph("Test"));
@@ -159,6 +173,7 @@ class AppendBlockChildrenParamsTest {
   }
 
   @Test
+  @DisplayName("getter setter position")
   void getterSetter_position() {
     AppendBlockChildrenParams params = new AppendBlockChildrenParams();
     Position pos = Position.pageStart();

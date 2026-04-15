@@ -3,7 +3,7 @@ package io.kristaxlab.notion.model.common;
 import lombok.Getter;
 
 /**
- * Represents the insertion position when appending block children.
+ * Insertion position when appending block children or when creating a page under a block parent.
  *
  * <p>Use the static factory methods to create instances:
  *

@@ -8,11 +8,13 @@ import io.kristaxlab.notion.model.common.Color;
 import io.kristaxlab.notion.model.common.Icon;
 import java.util.List;
 import java.util.function.Consumer;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class ParagraphBlockTest {
 
   @Test
+  @DisplayName("constructor sets type and initializes paragraph")
   void constructor_setsTypeAndInitializesParagraph() {
     ParagraphBlock block = new ParagraphBlock();
 
@@ -21,6 +23,7 @@ class ParagraphBlockTest {
   }
 
   @Test
+  @DisplayName("of string sets rich text from plain text")
   void ofString_setsRichTextFromPlainText() {
     ParagraphBlock block = NotionBlocks.paragraph("Hello world");
 
@@ -31,6 +34,7 @@ class ParagraphBlockTest {
   }
 
   @Test
+  @DisplayName("builder with text")
   void builder_withText() {
     ParagraphBlock block = ParagraphBlock.builder().text("Builder text").build();
 
@@ -40,6 +44,7 @@ class ParagraphBlockTest {
   }
 
   @Test
+  @DisplayName("builder with color")
   void builder_withColor() {
     ParagraphBlock block = ParagraphBlock.builder().text("Colored").blockColor(Color.GREEN).build();
 
@@ -47,6 +52,7 @@ class ParagraphBlockTest {
   }
 
   @Test
+  @DisplayName("builder with string color")
   void builder_withStringColor() {
     ParagraphBlock block =
         ParagraphBlock.builder().text("Custom color").blockColor("purple_background").build();
@@ -55,6 +61,7 @@ class ParagraphBlockTest {
   }
 
   @Test
+  @DisplayName("builder color null throws illegal argument")
   void builder_colorNull_throwsIllegalArgument() {
     ParagraphBlock.Builder builder = ParagraphBlock.builder().text("text");
 
@@ -62,6 +69,7 @@ class ParagraphBlockTest {
   }
 
   @Test
+  @DisplayName("builder with children")
   void builder_withChildren() {
     ParagraphBlock block =
         ParagraphBlock.builder()
@@ -75,6 +83,7 @@ class ParagraphBlockTest {
   }
 
   @Test
+  @DisplayName("builder with children list")
   void builder_withChildrenList() {
     List<Block> children = List.of(ParagraphBlock.builder().text("Child").build());
 
@@ -84,6 +93,7 @@ class ParagraphBlockTest {
   }
 
   @Test
+  @DisplayName("builder with null children consumer no children set")
   void builder_withNullChildrenConsumer_noChildrenSet() {
     ParagraphBlock block =
         ParagraphBlock.builder()
@@ -95,6 +105,7 @@ class ParagraphBlockTest {
   }
 
   @Test
+  @DisplayName("builder with rich text consumer")
   void builder_withRichTextConsumer() {
     ParagraphBlock block =
         ParagraphBlock.builder().text(rt -> rt.plainText("Bold text").bold()).build();
@@ -104,6 +115,7 @@ class ParagraphBlockTest {
   }
 
   @Test
+  @DisplayName("builder with icon")
   void builder_withIcon() {
     Icon icon = Icon.emoji("📝");
 
@@ -114,6 +126,7 @@ class ParagraphBlockTest {
   }
 
   @Test
+  @DisplayName("builder no text provided defaults to empty rich text")
   void builder_noTextProvided_defaultsToEmptyRichText() {
     ParagraphBlock block = ParagraphBlock.builder().build();
 

@@ -3,6 +3,7 @@ package io.kristaxlab.notion.model.common;
 import static org.junit.jupiter.api.Assertions.*;
 
 import io.kristaxlab.notion.fluent.NotionText;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class FileDataTest {
@@ -10,6 +11,7 @@ class FileDataTest {
   // Builder
 
   @Test
+  @DisplayName("builder external")
   void builder_external() {
     FileData data = FileData.builder().externalUrl("https://example.com/img.png").build();
 
@@ -19,6 +21,7 @@ class FileDataTest {
   }
 
   @Test
+  @DisplayName("builder file upload")
   void builder_fileUpload() {
     FileData data = FileData.builder().fileUpload("upload-abc").build();
 
@@ -28,6 +31,7 @@ class FileDataTest {
   }
 
   @Test
+  @DisplayName("builder with caption")
   void builder_withCaption() {
     FileData data =
         FileData.builder()

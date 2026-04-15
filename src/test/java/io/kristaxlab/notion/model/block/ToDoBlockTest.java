@@ -4,11 +4,13 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import io.kristaxlab.notion.fluent.NotionBlocks;
 import io.kristaxlab.notion.model.common.Color;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class ToDoBlockTest {
 
   @Test
+  @DisplayName("constructor sets type and initializes to do")
   void constructor_setsTypeAndInitializesToDo() {
     ToDoBlock block = new ToDoBlock();
 
@@ -17,6 +19,7 @@ class ToDoBlockTest {
   }
 
   @Test
+  @DisplayName("todo sets rich text")
   void todo_setsRichText() {
     ToDoBlock block = NotionBlocks.todo("Buy groceries");
 
@@ -27,6 +30,7 @@ class ToDoBlockTest {
   }
 
   @Test
+  @DisplayName("builder with text")
   void builder_withText() {
     ToDoBlock block = ToDoBlock.builder().text("Task").build();
 
@@ -35,6 +39,7 @@ class ToDoBlockTest {
   }
 
   @Test
+  @DisplayName("builder with checked true")
   void builder_withCheckedTrue() {
     ToDoBlock block = ToDoBlock.builder().text("Done task").checked(true).build();
 
@@ -42,6 +47,7 @@ class ToDoBlockTest {
   }
 
   @Test
+  @DisplayName("builder with checked false")
   void builder_withCheckedFalse() {
     ToDoBlock block = ToDoBlock.builder().text("Pending task").checked(false).build();
 
@@ -49,6 +55,7 @@ class ToDoBlockTest {
   }
 
   @Test
+  @DisplayName("builder with checked no arg")
   void builder_withCheckedNoArg() {
     ToDoBlock block = ToDoBlock.builder().text("Done").checked().build();
 
@@ -56,6 +63,7 @@ class ToDoBlockTest {
   }
 
   @Test
+  @DisplayName("builder checked not set is null")
   void builder_checkedNotSet_isNull() {
     ToDoBlock block = ToDoBlock.builder().text("No status").build();
 
@@ -63,6 +71,7 @@ class ToDoBlockTest {
   }
 
   @Test
+  @DisplayName("builder with color")
   void builder_withColor() {
     ToDoBlock block = ToDoBlock.builder().text("Colored").blockColor(Color.YELLOW).build();
 
@@ -70,6 +79,7 @@ class ToDoBlockTest {
   }
 
   @Test
+  @DisplayName("builder with children")
   void builder_withChildren() {
     ToDoBlock block =
         ToDoBlock.builder().text("Parent task").children(c -> c.todo("Sub-task")).build();
@@ -79,6 +89,7 @@ class ToDoBlockTest {
   }
 
   @Test
+  @DisplayName("to do checked getter setter")
   void toDo_checkedGetterSetter() {
     ToDoBlock.ToDo toDo = new ToDoBlock.ToDo();
 

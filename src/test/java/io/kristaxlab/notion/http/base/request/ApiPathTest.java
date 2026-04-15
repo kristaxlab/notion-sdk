@@ -3,11 +3,13 @@ package io.kristaxlab.notion.http.base.request;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.List;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class ApiPathTest {
 
   @Test
+  @DisplayName("test from")
   void testFrom() {
     ApiPath urlInfo = ApiPath.from("/pages");
 
@@ -17,6 +19,7 @@ class ApiPathTest {
   }
 
   @Test
+  @DisplayName("test builder")
   void testBuilder() {
     ApiPath urlInfo = ApiPath.builder("/pages").build();
 
@@ -25,6 +28,7 @@ class ApiPathTest {
   }
 
   @Test
+  @DisplayName("path param stores value")
   void pathParam_storesValue() {
     ApiPath urlInfo = ApiPath.builder("/pages/{page_id}").pathParam("page_id", "abc-123").build();
 
@@ -33,6 +37,7 @@ class ApiPathTest {
   }
 
   @Test
+  @DisplayName("query param stores string value as single element list")
   void queryParam_storesStringValueAsSingleElementList() {
     ApiPath urlInfo = ApiPath.builder("/pages").queryParam("filter", "active").build();
 
@@ -40,6 +45,7 @@ class ApiPathTest {
   }
 
   @Test
+  @DisplayName("query param stores stringified number")
   void queryParam_storesStringifiedNumber() {
     ApiPath urlInfo = ApiPath.builder("/pages").queryParam("page_size", String.valueOf(42)).build();
 
@@ -47,6 +53,7 @@ class ApiPathTest {
   }
 
   @Test
+  @DisplayName("query param with list stores all values")
   void queryParam_withList_storesAllValues() {
     ApiPath urlInfo =
         ApiPath.builder("/pages").queryParam("ids", List.of("id-1", "id-2", "id-3")).build();
@@ -55,6 +62,7 @@ class ApiPathTest {
   }
 
   @Test
+  @DisplayName("query param with same key merges values")
   void queryParam_withSameKey_mergesValues() {
     ApiPath urlInfo =
         ApiPath.builder("/pages").queryParam("tag", "a").queryParam("tag", "b").build();
@@ -63,6 +71,7 @@ class ApiPathTest {
   }
 
   @Test
+  @DisplayName("query param with same key merges list values")
   void queryParam_withSameKey_mergesListValues() {
     ApiPath urlInfo =
         ApiPath.builder("/pages")
@@ -74,24 +83,28 @@ class ApiPathTest {
   }
 
   @Test
+  @DisplayName("resolve relative url prepends base url")
   void resolve_relativeUrl_prependsBaseUrl() {
     ApiPath path = ApiPath.from("/pages");
     assertEquals("https://api.notion.com/v1/pages", path.resolve("https://api.notion.com/v1"));
   }
 
   @Test
+  @DisplayName("resolve absolute url ignores base url")
   void resolve_absoluteUrl_ignoresBaseUrl() {
     ApiPath path = ApiPath.from("https://other.host/upload");
     assertEquals("https://other.host/upload", path.resolve("https://api.notion.com/v1"));
   }
 
   @Test
+  @DisplayName("resolve empty path returns base url")
   void resolve_emptyPath_returnsBaseUrl() {
     ApiPath path = ApiPath.from("");
     assertEquals("https://api.notion.com/v1", path.resolve("https://api.notion.com/v1"));
   }
 
   @Test
+  @DisplayName("resolve with path param substitutes value")
   void resolve_withPathParam_substitutesValue() {
     ApiPath path = ApiPath.builder("/pages/{page_id}").pathParam("page_id", "abc-123").build();
     assertEquals(
@@ -99,6 +112,7 @@ class ApiPathTest {
   }
 
   @Test
+  @DisplayName("resolve with path param special chars encodes value")
   void resolve_withPathParamSpecialChars_encodesValue() {
     ApiPath path = ApiPath.builder("/pages/{page_id}").pathParam("page_id", "hello world").build();
     assertEquals(
@@ -106,6 +120,7 @@ class ApiPathTest {
   }
 
   @Test
+  @DisplayName("resolve with query param appends query string")
   void resolve_withQueryParam_appendsQueryString() {
     ApiPath path = ApiPath.builder("/pages").queryParam("filter", "active").build();
     assertEquals(
@@ -113,6 +128,7 @@ class ApiPathTest {
   }
 
   @Test
+  @DisplayName("resolve with multiple query params appends all")
   void resolve_withMultipleQueryParams_appendsAll() {
     ApiPath path =
         ApiPath.builder("/pages")
@@ -126,6 +142,7 @@ class ApiPathTest {
   }
 
   @Test
+  @DisplayName("resolve with multi value query param appends all values")
   void resolve_withMultiValueQueryParam_appendsAllValues() {
     ApiPath path = ApiPath.builder("/pages").queryParam("ids", List.of("id-1", "id-2")).build();
     assertEquals(
@@ -134,6 +151,7 @@ class ApiPathTest {
   }
 
   @Test
+  @DisplayName("resolve with path and query params combined")
   void resolve_withPathAndQueryParams_combined() {
     ApiPath path =
         ApiPath.builder("/blocks/{block_id}/children")
@@ -146,6 +164,7 @@ class ApiPathTest {
   }
 
   @Test
+  @DisplayName("resolve no arg works for absolute url")
   void resolve_noArg_worksForAbsoluteUrl() {
     ApiPath path = ApiPath.from("https://api.notion.com/v1/pages");
     assertEquals("https://api.notion.com/v1/pages", path.resolve());

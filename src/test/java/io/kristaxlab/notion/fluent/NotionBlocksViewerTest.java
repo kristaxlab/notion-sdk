@@ -7,6 +7,7 @@ import io.kristaxlab.notion.model.common.richtext.RichText;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
@@ -16,6 +17,7 @@ class NotionBlocksViewerTest {
   class Factories {
 
     @Test
+    @DisplayName("of null list returns empty view")
     void ofNullList_returnsEmptyView() {
       NotionBlocksViewer view = NotionBlocksViewer.of((List<Block>) null);
       assertTrue(view.isEmpty());
@@ -23,12 +25,14 @@ class NotionBlocksViewerTest {
     }
 
     @Test
+    @DisplayName("of empty list returns empty view")
     void ofEmptyList_returnsEmptyView() {
       NotionBlocksViewer view = NotionBlocksViewer.of(new ArrayList<>());
       assertTrue(view.isEmpty());
     }
 
     @Test
+    @DisplayName("of list copies defensively")
     void ofList_copiesDefensively() {
       List<Block> source = new ArrayList<>();
       source.add(NotionBlocks.paragraph("a"));
@@ -39,6 +43,7 @@ class NotionBlocksViewerTest {
     }
 
     @Test
+    @DisplayName("of varargs wraps blocks")
     void ofVarargs_wrapsBlocks() {
       NotionBlocksViewer view =
           NotionBlocksViewer.of(NotionBlocks.paragraph("a"), NotionBlocks.paragraph("b"));
@@ -46,18 +51,21 @@ class NotionBlocksViewerTest {
     }
 
     @Test
+    @DisplayName("of null varargs returns empty view")
     void ofNullVarargs_returnsEmptyView() {
       NotionBlocksViewer view = NotionBlocksViewer.of((Block[]) null);
       assertTrue(view.isEmpty());
     }
 
     @Test
+    @DisplayName("of empty varargs returns empty view")
     void ofEmptyVarargs_returnsEmptyView() {
       NotionBlocksViewer view = NotionBlocksViewer.of(new Block[0]);
       assertTrue(view.isEmpty());
     }
 
     @Test
+    @DisplayName("of block list wraps results")
     void ofBlockList_wrapsResults() {
       BlockList blockList = new BlockList();
       blockList.setResults(List.of(NotionBlocks.paragraph("a"), NotionBlocks.paragraph("b")));
@@ -66,12 +74,14 @@ class NotionBlocksViewerTest {
     }
 
     @Test
+    @DisplayName("of null block list returns empty view")
     void ofNullBlockList_returnsEmptyView() {
       NotionBlocksViewer view = NotionBlocksViewer.of((BlockList) null);
       assertTrue(view.isEmpty());
     }
 
     @Test
+    @DisplayName("of block list with null results returns empty view")
     void ofBlockListWithNullResults_returnsEmptyView() {
       BlockList blockList = new BlockList();
       blockList.setResults(null);
@@ -80,6 +90,7 @@ class NotionBlocksViewerTest {
     }
 
     @Test
+    @DisplayName("of block list with empty results returns empty view")
     void ofBlockListWithEmptyResults_returnsEmptyView() {
       BlockList blockList = new BlockList();
       blockList.setResults(new ArrayList<>());
@@ -92,6 +103,7 @@ class NotionBlocksViewerTest {
   class TypeFiltering {
 
     @Test
+    @DisplayName("of type filters by exact class")
     void ofType_filtersByExactClass() {
       NotionBlocksViewer view =
           NotionBlocksViewer.of(
@@ -103,6 +115,7 @@ class NotionBlocksViewerTest {
     }
 
     @Test
+    @DisplayName("paragraphs returns only paragraphs")
     void paragraphs_returnsOnlyParagraphs() {
       NotionBlocksViewer view =
           NotionBlocksViewer.of(
@@ -114,6 +127,7 @@ class NotionBlocksViewerTest {
     }
 
     @Test
+    @DisplayName("headings returns all heading levels")
     void headings_returnsAllHeadingLevels() {
       NotionBlocksViewer view =
           NotionBlocksViewer.of(
@@ -127,6 +141,7 @@ class NotionBlocksViewerTest {
     }
 
     @Test
+    @DisplayName("todos returns only to do blocks")
     void todos_returnsOnlyToDoBlocks() {
       NotionBlocksViewer view =
           NotionBlocksViewer.of(
@@ -136,6 +151,7 @@ class NotionBlocksViewerTest {
     }
 
     @Test
+    @DisplayName("bullets returns only bulleted list items")
     void bullets_returnsOnlyBulletedListItems() {
       NotionBlocksViewer view =
           NotionBlocksViewer.of(NotionBlocks.bullet("b"), NotionBlocks.paragraph("p"));
@@ -145,6 +161,7 @@ class NotionBlocksViewerTest {
     }
 
     @Test
+    @DisplayName("numbered returns only numbered list items")
     void numbered_returnsOnlyNumberedListItems() {
       NotionBlocksViewer view =
           NotionBlocksViewer.of(NotionBlocks.numbered("n"), NotionBlocks.paragraph("p"));
@@ -153,6 +170,7 @@ class NotionBlocksViewerTest {
     }
 
     @Test
+    @DisplayName("toggles returns only toggle blocks")
     void toggles_returnsOnlyToggleBlocks() {
       NotionBlocksViewer view =
           NotionBlocksViewer.of(NotionBlocks.toggle("t"), NotionBlocks.paragraph("p"));
@@ -161,6 +179,7 @@ class NotionBlocksViewerTest {
     }
 
     @Test
+    @DisplayName("quotes returns only quote blocks")
     void quotes_returnsOnlyQuoteBlocks() {
       NotionBlocksViewer view =
           NotionBlocksViewer.of(NotionBlocks.quote("q"), NotionBlocks.paragraph("p"));
@@ -169,6 +188,7 @@ class NotionBlocksViewerTest {
     }
 
     @Test
+    @DisplayName("callouts returns only callout blocks")
     void callouts_returnsOnlyCalloutBlocks() {
       NotionBlocksViewer view =
           NotionBlocksViewer.of(NotionBlocks.callout("c"), NotionBlocks.paragraph("p"));
@@ -177,6 +197,7 @@ class NotionBlocksViewerTest {
     }
 
     @Test
+    @DisplayName("code returns only code blocks")
     void code_returnsOnlyCodeBlocks() {
       NotionBlocksViewer view =
           NotionBlocksViewer.of(NotionBlocks.code("java", "x"), NotionBlocks.paragraph("p"));
@@ -185,6 +206,7 @@ class NotionBlocksViewerTest {
     }
 
     @Test
+    @DisplayName("images returns only image blocks")
     void images_returnsOnlyImageBlocks() {
       NotionBlocksViewer view =
           NotionBlocksViewer.of(
@@ -194,6 +216,7 @@ class NotionBlocksViewerTest {
     }
 
     @Test
+    @DisplayName("filter on empty view returns empty view")
     void filterOnEmptyView_returnsEmptyView() {
       NotionBlocksViewer view = NotionBlocksViewer.of(new ArrayList<>());
       assertTrue(view.paragraphs().isEmpty());
@@ -205,6 +228,7 @@ class NotionBlocksViewerTest {
   class ToDoQueries {
 
     @Test
+    @DisplayName("checked returns only checked to dos")
     void checked_returnsOnlyCheckedToDos() {
       ToDoBlock checkedTodo = ToDoBlock.builder().text("done").checked(true).build();
       ToDoBlock uncheckedTodo = ToDoBlock.builder().text("pending").checked(false).build();
@@ -216,6 +240,7 @@ class NotionBlocksViewerTest {
     }
 
     @Test
+    @DisplayName("unchecked returns only unchecked to dos")
     void unchecked_returnsOnlyUncheckedToDos() {
       ToDoBlock checkedTodo = ToDoBlock.builder().text("done").checked(true).build();
       ToDoBlock uncheckedTodo = ToDoBlock.builder().text("pending").checked(false).build();
@@ -227,6 +252,7 @@ class NotionBlocksViewerTest {
     }
 
     @Test
+    @DisplayName("unchecked treats null checked as unchecked")
     void unchecked_treatsNullCheckedAsUnchecked() {
       ToDoBlock todo = ToDoBlock.builder().text("no state").build();
 
@@ -234,6 +260,7 @@ class NotionBlocksViewerTest {
     }
 
     @Test
+    @DisplayName("checked silently filters non to do blocks")
     void checked_silentlyFiltersNonToDoBlocks() {
       NotionBlocksViewer view =
           NotionBlocksViewer.of(NotionBlocks.paragraph("p"), NotionBlocks.todo("t"));
@@ -242,6 +269,7 @@ class NotionBlocksViewerTest {
     }
 
     @Test
+    @DisplayName("unchecked silently filters non to do blocks")
     void unchecked_silentlyFiltersNonToDoBlocks() {
       NotionBlocksViewer view = NotionBlocksViewer.of(NotionBlocks.paragraph("p"));
 
@@ -249,6 +277,7 @@ class NotionBlocksViewerTest {
     }
 
     @Test
+    @DisplayName("chaining todos and checked")
     void chainingTodosAndChecked() {
       ToDoBlock checked = ToDoBlock.builder().text("done").checked(true).build();
       ToDoBlock unchecked = ToDoBlock.builder().text("pending").build();
@@ -265,6 +294,7 @@ class NotionBlocksViewerTest {
   class Where {
 
     @Test
+    @DisplayName("filters with custom predicate")
     void filtersWithCustomPredicate() {
       NotionBlocksViewer view =
           NotionBlocksViewer.of(
@@ -280,6 +310,7 @@ class NotionBlocksViewerTest {
     }
 
     @Test
+    @DisplayName("where no match returns empty view")
     void whereNoMatch_returnsEmptyView() {
       NotionBlocksViewer view = NotionBlocksViewer.of(NotionBlocks.paragraph("p"));
       assertTrue(view.where(b -> false).isEmpty());
@@ -290,6 +321,7 @@ class NotionBlocksViewerTest {
   class PlainTextExtraction {
 
     @Test
+    @DisplayName("plain text from paragraphs")
     void plainText_fromParagraphs() {
       NotionBlocksViewer view =
           NotionBlocksViewer.of(NotionBlocks.paragraph("Hello"), NotionBlocks.paragraph("World"));
@@ -298,6 +330,7 @@ class NotionBlocksViewerTest {
     }
 
     @Test
+    @DisplayName("plain text with custom delimiter")
     void plainText_withCustomDelimiter() {
       NotionBlocksViewer view =
           NotionBlocksViewer.of(NotionBlocks.paragraph("a"), NotionBlocks.paragraph("b"));
@@ -306,6 +339,7 @@ class NotionBlocksViewerTest {
     }
 
     @Test
+    @DisplayName("plain text from headings")
     void plainText_fromHeadings() {
       NotionBlocksViewer view =
           NotionBlocksViewer.of(
@@ -318,43 +352,51 @@ class NotionBlocksViewerTest {
     }
 
     @Test
+    @DisplayName("plain text from toggle")
     void plainText_fromToggle() {
       assertEquals(
           "toggle text", NotionBlocksViewer.of(NotionBlocks.toggle("toggle text")).plainText());
     }
 
     @Test
+    @DisplayName("plain text from quote")
     void plainText_fromQuote() {
       assertEquals("quoted", NotionBlocksViewer.of(NotionBlocks.quote("quoted")).plainText());
     }
 
     @Test
+    @DisplayName("plain text from callout")
     void plainText_fromCallout() {
       assertEquals("callout", NotionBlocksViewer.of(NotionBlocks.callout("callout")).plainText());
     }
 
     @Test
+    @DisplayName("plain text from bullet")
     void plainText_fromBullet() {
       assertEquals("item", NotionBlocksViewer.of(NotionBlocks.bullet("item")).plainText());
     }
 
     @Test
+    @DisplayName("plain text from numbered")
     void plainText_fromNumbered() {
       assertEquals("item", NotionBlocksViewer.of(NotionBlocks.numbered("item")).plainText());
     }
 
     @Test
+    @DisplayName("plain text from to do")
     void plainText_fromToDo() {
       assertEquals("task", NotionBlocksViewer.of(NotionBlocks.todo("task")).plainText());
     }
 
     @Test
+    @DisplayName("plain text from code")
     void plainText_fromCode() {
       assertEquals(
           "int x = 5;", NotionBlocksViewer.of(NotionBlocks.code("java", "int x = 5;")).plainText());
     }
 
     @Test
+    @DisplayName("plain text from child page")
     void plainText_fromChildPage() {
       ChildPageBlock cpb = new ChildPageBlock();
       cpb.getChildPage().setTitle("My Page");
@@ -362,6 +404,7 @@ class NotionBlocksViewerTest {
     }
 
     @Test
+    @DisplayName("plain text from child database")
     void plainText_fromChildDatabase() {
       ChildDatabaseBlock cdb = new ChildDatabaseBlock();
       cdb.getChildDatabase().setTitle("My DB");
@@ -369,6 +412,7 @@ class NotionBlocksViewerTest {
     }
 
     @Test
+    @DisplayName("plain text from equation")
     void plainText_fromEquation() {
       EquationBlock eb = new EquationBlock();
       eb.getEquation().setExpression("a^2 + b^2 = c^2");
@@ -376,6 +420,7 @@ class NotionBlocksViewerTest {
     }
 
     @Test
+    @DisplayName("plain text skips non textual blocks")
     void plainText_skipsNonTextualBlocks() {
       NotionBlocksViewer view =
           NotionBlocksViewer.of(
@@ -388,11 +433,13 @@ class NotionBlocksViewerTest {
     }
 
     @Test
+    @DisplayName("plain text on empty view returns empty string")
     void plainText_onEmptyView_returnsEmptyString() {
       assertEquals("", NotionBlocksViewer.of(new ArrayList<>()).plainText());
     }
 
     @Test
+    @DisplayName("plain text list returns one entry per block")
     void plainTextList_returnsOneEntryPerBlock() {
       NotionBlocksViewer view =
           NotionBlocksViewer.of(NotionBlocks.paragraph("a"), NotionBlocks.paragraph("b"));
@@ -404,6 +451,7 @@ class NotionBlocksViewerTest {
     }
 
     @Test
+    @DisplayName("plain text concatenates multiple rich text segments")
     void plainText_concatenatesMultipleRichTextSegments() {
       RichText bold = NotionText.plainText("bold ");
       RichText normal = NotionText.plainText("normal");
@@ -417,6 +465,7 @@ class NotionBlocksViewerTest {
   class Navigation {
 
     @Test
+    @DisplayName("first returns first block")
     void first_returnsFirstBlock() {
       ParagraphBlock p = NotionBlocks.paragraph("first");
       NotionBlocksViewer view = NotionBlocksViewer.of(p, NotionBlocks.paragraph("second"));
@@ -425,11 +474,13 @@ class NotionBlocksViewerTest {
     }
 
     @Test
+    @DisplayName("first on empty view returns empty")
     void first_onEmptyView_returnsEmpty() {
       assertTrue(NotionBlocksViewer.of(new ArrayList<>()).first().isEmpty());
     }
 
     @Test
+    @DisplayName("first with type returns first matching block")
     void firstWithType_returnsFirstMatchingBlock() {
       NotionBlocksViewer view =
           NotionBlocksViewer.of(
@@ -441,6 +492,7 @@ class NotionBlocksViewerTest {
     }
 
     @Test
+    @DisplayName("first with type no match returns empty")
     void firstWithType_noMatch_returnsEmpty() {
       NotionBlocksViewer view = NotionBlocksViewer.of(NotionBlocks.paragraph("p"));
 
@@ -448,6 +500,7 @@ class NotionBlocksViewerTest {
     }
 
     @Test
+    @DisplayName("first with predicate returns first match")
     void firstWithPredicate_returnsFirstMatch() {
       NotionBlocksViewer view =
           NotionBlocksViewer.of(
@@ -463,12 +516,14 @@ class NotionBlocksViewerTest {
     }
 
     @Test
+    @DisplayName("first with predicate no match returns empty")
     void firstWithPredicate_noMatch_returnsEmpty() {
       NotionBlocksViewer view = NotionBlocksViewer.of(NotionBlocks.paragraph("p"));
       assertTrue(view.first(b -> false).isEmpty());
     }
 
     @Test
+    @DisplayName("last returns last block")
     void last_returnsLastBlock() {
       ParagraphBlock last = NotionBlocks.paragraph("last");
       NotionBlocksViewer view = NotionBlocksViewer.of(NotionBlocks.paragraph("first"), last);
@@ -477,6 +532,7 @@ class NotionBlocksViewerTest {
     }
 
     @Test
+    @DisplayName("last on empty view returns empty")
     void last_onEmptyView_returnsEmpty() {
       assertTrue(NotionBlocksViewer.of(new ArrayList<>()).last().isEmpty());
     }
@@ -486,6 +542,7 @@ class NotionBlocksViewerTest {
   class Flatten {
 
     @Test
+    @DisplayName("flatten includes parent and children")
     void flatten_includesParentAndChildren() {
       ParagraphBlock parent =
           ParagraphBlock.builder()
@@ -502,6 +559,7 @@ class NotionBlocksViewerTest {
     }
 
     @Test
+    @DisplayName("flatten depth first parent before children")
     void flatten_depthFirst_parentBeforeChildren() {
       ParagraphBlock parent =
           ParagraphBlock.builder().text("parent").children(c -> c.paragraph("child")).build();
@@ -514,6 +572,7 @@ class NotionBlocksViewerTest {
     }
 
     @Test
+    @DisplayName("flatten toggle includes nested content")
     void flatten_toggle_includesNestedContent() {
       ToggleBlock toggle =
           ToggleBlock.builder().text("toggle").children(c -> c.paragraph("inside")).build();
@@ -524,6 +583,7 @@ class NotionBlocksViewerTest {
     }
 
     @Test
+    @DisplayName("flatten multi level")
     void flatten_multiLevel() {
       ParagraphBlock deep =
           ParagraphBlock.builder()
@@ -546,6 +606,7 @@ class NotionBlocksViewerTest {
     }
 
     @Test
+    @DisplayName("flatten column list traverses columns")
     void flatten_columnList_traversesColumns() {
       ColumnBlock col1 = new ColumnBlock();
       col1.getColumn().getChildren().add(NotionBlocks.paragraph("col1-text"));
@@ -563,6 +624,7 @@ class NotionBlocksViewerTest {
     }
 
     @Test
+    @DisplayName("flatten synced traverses children")
     void flatten_synced_traversesChildren() {
       SyncedBlock synced = new SyncedBlock();
       synced.getSyncedBlock().setChildren(List.of(NotionBlocks.paragraph("synced-child")));
@@ -573,12 +635,14 @@ class NotionBlocksViewerTest {
     }
 
     @Test
+    @DisplayName("flatten block with no children returns single block")
     void flatten_blockWithNoChildren_returnsSingleBlock() {
       NotionBlocksViewer flat = NotionBlocksViewer.of(NotionBlocks.paragraph("single")).flatten();
       assertEquals(1, flat.size());
     }
 
     @Test
+    @DisplayName("flatten empty view returns empty view")
     void flatten_emptyView_returnsEmptyView() {
       assertTrue(NotionBlocksViewer.of(new ArrayList<>()).flatten().isEmpty());
     }
@@ -588,6 +652,7 @@ class NotionBlocksViewerTest {
   class TypedAccess {
 
     @Test
+    @DisplayName("as casts all blocks to type")
     void as_castsAllBlocksToType() {
       NotionBlocksViewer view =
           NotionBlocksViewer.of(NotionBlocks.paragraph("a"), NotionBlocks.paragraph("b"));
@@ -598,6 +663,7 @@ class NotionBlocksViewerTest {
     }
 
     @Test
+    @DisplayName("as throws on type mismatch")
     void as_throwsOnTypeMismatch() {
       NotionBlocksViewer view = NotionBlocksViewer.of(NotionBlocks.paragraph("p"));
 
@@ -605,6 +671,7 @@ class NotionBlocksViewerTest {
     }
 
     @Test
+    @DisplayName("blocks returns unmodifiable list")
     void blocks_returnsUnmodifiableList() {
       NotionBlocksViewer view = NotionBlocksViewer.of(NotionBlocks.paragraph("p"));
       assertThrows(
@@ -612,6 +679,7 @@ class NotionBlocksViewerTest {
     }
 
     @Test
+    @DisplayName("stream enables advanced operations")
     void stream_enablesAdvancedOperations() {
       NotionBlocksViewer view =
           NotionBlocksViewer.of(
@@ -626,6 +694,7 @@ class NotionBlocksViewerTest {
   class CollectionOperations {
 
     @Test
+    @DisplayName("size returns block count")
     void size_returnsBlockCount() {
       assertEquals(
           3,
@@ -637,16 +706,19 @@ class NotionBlocksViewerTest {
     }
 
     @Test
+    @DisplayName("is empty true for empty view")
     void isEmpty_trueForEmptyView() {
       assertTrue(NotionBlocksViewer.of(new ArrayList<>()).isEmpty());
     }
 
     @Test
+    @DisplayName("is empty false for non empty view")
     void isEmpty_falseForNonEmptyView() {
       assertFalse(NotionBlocksViewer.of(NotionBlocks.paragraph("p")).isEmpty());
     }
 
     @Test
+    @DisplayName("for each iterates all blocks")
     void forEach_iteratesAllBlocks() {
       NotionBlocksViewer view =
           NotionBlocksViewer.of(NotionBlocks.paragraph("a"), NotionBlocks.paragraph("b"));
@@ -657,6 +729,7 @@ class NotionBlocksViewerTest {
     }
 
     @Test
+    @DisplayName("for each typed iterates only matching blocks")
     void forEachTyped_iteratesOnlyMatchingBlocks() {
       NotionBlocksViewer view =
           NotionBlocksViewer.of(
@@ -669,6 +742,7 @@ class NotionBlocksViewerTest {
     }
 
     @Test
+    @DisplayName("iterator works with enhanced for loop")
     void iterator_worksWithEnhancedForLoop() {
       NotionBlocksViewer view =
           NotionBlocksViewer.of(NotionBlocks.paragraph("a"), NotionBlocks.paragraph("b"));
@@ -682,6 +756,7 @@ class NotionBlocksViewerTest {
     }
 
     @Test
+    @DisplayName("iterator is unmodifiable")
     void iterator_isUnmodifiable() {
       NotionBlocksViewer view = NotionBlocksViewer.of(NotionBlocks.paragraph("a"));
       var it = view.iterator();
@@ -694,6 +769,7 @@ class NotionBlocksViewerTest {
   class ChainingWorkflows {
 
     @Test
+    @DisplayName("filter then extract text")
     void filterThenExtractText() {
       NotionBlocksViewer view =
           NotionBlocksViewer.of(
@@ -707,6 +783,7 @@ class NotionBlocksViewerTest {
     }
 
     @Test
+    @DisplayName("flatten then filter then extract")
     void flattenThenFilterThenExtract() {
       ToggleBlock toggle =
           ToggleBlock.builder()
@@ -721,6 +798,7 @@ class NotionBlocksViewerTest {
     }
 
     @Test
+    @DisplayName("todos checked unchecked plain text")
     void todosCheckedUncheckedPlainText() {
       ToDoBlock done = ToDoBlock.builder().text("completed").checked(true).build();
       ToDoBlock pending = ToDoBlock.builder().text("pending").build();
@@ -736,6 +814,7 @@ class NotionBlocksViewerTest {
   class Containing {
 
     @Test
+    @DisplayName("matches by plain text content")
     void matchesByPlainTextContent() {
       NotionBlocksViewer view =
           NotionBlocksViewer.of(
@@ -748,6 +827,7 @@ class NotionBlocksViewerTest {
     }
 
     @Test
+    @DisplayName("matches across multiple rich text segments")
     void matchesAcrossMultipleRichTextSegments() {
       RichText part1 = NotionText.plainText("Hel");
       RichText part2 = NotionText.plainText("lo world");
@@ -758,6 +838,7 @@ class NotionBlocksViewerTest {
     }
 
     @Test
+    @DisplayName("matches by rich text href")
     void matchesByRichTextHref() {
       RichText link = NotionText.url("https://example.com/page");
       ParagraphBlock p = ParagraphBlock.builder().text(link).build();
@@ -767,6 +848,7 @@ class NotionBlocksViewerTest {
     }
 
     @Test
+    @DisplayName("matches by bookmark url")
     void matchesByBookmarkUrl() {
       BookmarkBlock bookmark = NotionBlocks.bookmark("https://notion.so/docs");
 
@@ -774,6 +856,7 @@ class NotionBlocksViewerTest {
     }
 
     @Test
+    @DisplayName("matches by embed url")
     void matchesByEmbedUrl() {
       EmbedBlock embed = NotionBlocks.embed("https://youtube.com/watch?v=123");
 
@@ -781,6 +864,7 @@ class NotionBlocksViewerTest {
     }
 
     @Test
+    @DisplayName("matches by link preview url")
     void matchesByLinkPreviewUrl() {
       LinkPreviewBlock lp = new LinkPreviewBlock();
       lp.getLinkPreview().setUrl("https://github.com/repo");
@@ -789,6 +873,7 @@ class NotionBlocksViewerTest {
     }
 
     @Test
+    @DisplayName("matches by child page title")
     void matchesByChildPageTitle() {
       ChildPageBlock cpb = new ChildPageBlock();
       cpb.getChildPage().setTitle("Project Roadmap");
@@ -797,6 +882,7 @@ class NotionBlocksViewerTest {
     }
 
     @Test
+    @DisplayName("matches by equation expression")
     void matchesByEquationExpression() {
       EquationBlock eb = new EquationBlock();
       eb.getEquation().setExpression("E = mc^2");
@@ -805,30 +891,35 @@ class NotionBlocksViewerTest {
     }
 
     @Test
+    @DisplayName("no match returns empty")
     void noMatch_returnsEmpty() {
       NotionBlocksViewer view = NotionBlocksViewer.of(NotionBlocks.paragraph("Hello"));
       assertTrue(view.containing("xyz").isEmpty());
     }
 
     @Test
+    @DisplayName("case insensitive")
     void caseInsensitive() {
       NotionBlocksViewer view = NotionBlocksViewer.of(NotionBlocks.paragraph("Hello WORLD"));
       assertEquals(1, view.containing("hello world").size());
     }
 
     @Test
+    @DisplayName("matches by image url")
     void matchesByImageUrl() {
       ImageBlock img = NotionBlocks.image("https://cdn.example.com/photo.jpg");
       assertEquals(1, NotionBlocksViewer.of(img).containing("cdn.example.com").size());
     }
 
     @Test
+    @DisplayName("null keyword throws npe")
     void nullKeyword_throwsNpe() {
       NotionBlocksViewer view = NotionBlocksViewer.of(NotionBlocks.paragraph("text"));
       assertThrows(NullPointerException.class, () -> view.containing(null));
     }
 
     @Test
+    @DisplayName("matches in direct child")
     void matchesInDirectChild() {
       ParagraphBlock parent =
           ParagraphBlock.builder()
@@ -840,6 +931,7 @@ class NotionBlocksViewerTest {
     }
 
     @Test
+    @DisplayName("matches in deeply nested child")
     void matchesInDeeplyNestedChild() {
       ParagraphBlock root =
           ParagraphBlock.builder()
@@ -857,6 +949,7 @@ class NotionBlocksViewerTest {
     }
 
     @Test
+    @DisplayName("parent match short circuits before checking children")
     void parentMatchShortCircuitsBeforeCheckingChildren() {
       ParagraphBlock parent =
           ParagraphBlock.builder()
@@ -868,6 +961,7 @@ class NotionBlocksViewerTest {
     }
 
     @Test
+    @DisplayName("no match in parent or children returns empty")
     void noMatchInParentOrChildren_returnsEmpty() {
       ParagraphBlock parent =
           ParagraphBlock.builder().text("hello").children(c -> c.paragraph("world")).build();
@@ -876,6 +970,7 @@ class NotionBlocksViewerTest {
     }
 
     @Test
+    @DisplayName("matches in toggle child block")
     void matchesInToggleChildBlock() {
       ToggleBlock toggle =
           ToggleBlock.builder()
@@ -891,6 +986,7 @@ class NotionBlocksViewerTest {
   class Links {
 
     @Test
+    @DisplayName("extracts hrefs from rich text")
     void extractsHrefsFromRichText() {
       RichText link = NotionText.url("https://example.com");
       ParagraphBlock p = ParagraphBlock.builder().text(link).build();
@@ -901,6 +997,7 @@ class NotionBlocksViewerTest {
     }
 
     @Test
+    @DisplayName("extracts bookmark url")
     void extractsBookmarkUrl() {
       BookmarkBlock bookmark = NotionBlocks.bookmark("https://notion.so");
 
@@ -909,6 +1006,7 @@ class NotionBlocksViewerTest {
     }
 
     @Test
+    @DisplayName("extracts embed url")
     void extractsEmbedUrl() {
       EmbedBlock embed = NotionBlocks.embed("https://youtube.com/watch");
 
@@ -917,6 +1015,7 @@ class NotionBlocksViewerTest {
     }
 
     @Test
+    @DisplayName("extracts link preview url")
     void extractsLinkPreviewUrl() {
       LinkPreviewBlock lp = new LinkPreviewBlock();
       lp.getLinkPreview().setUrl("https://github.com");
@@ -926,6 +1025,7 @@ class NotionBlocksViewerTest {
     }
 
     @Test
+    @DisplayName("extracts external image url")
     void extractsExternalImageUrl() {
       ImageBlock img = NotionBlocks.image("https://cdn.example.com/photo.jpg");
 
@@ -934,6 +1034,7 @@ class NotionBlocksViewerTest {
     }
 
     @Test
+    @DisplayName("extracts multiple links across blocks")
     void extractsMultipleLinksAcrossBlocks() {
       RichText link1 = NotionText.url("https://one.com");
       RichText link2 = NotionText.url("https://two.com");
@@ -948,17 +1049,20 @@ class NotionBlocksViewerTest {
     }
 
     @Test
+    @DisplayName("no links returns empty list")
     void noLinks_returnsEmptyList() {
       NotionBlocksViewer view = NotionBlocksViewer.of(NotionBlocks.paragraph("plain text"));
       assertTrue(view.links().isEmpty());
     }
 
     @Test
+    @DisplayName("empty view returns empty list")
     void emptyView_returnsEmptyList() {
       assertTrue(NotionBlocksViewer.of(new ArrayList<>()).links().isEmpty());
     }
 
     @Test
+    @DisplayName("extracts links from direct child")
     void extractsLinksFromDirectChild() {
       RichText childLink = NotionText.url("https://child.example.com");
       ParagraphBlock parent =
@@ -972,6 +1076,7 @@ class NotionBlocksViewerTest {
     }
 
     @Test
+    @DisplayName("extracts links from deeply nested child")
     void extractsLinksFromDeeplyNestedChild() {
       RichText deepLink = NotionText.url("https://deep.example.com");
       ParagraphBlock root =
@@ -992,6 +1097,7 @@ class NotionBlocksViewerTest {
     }
 
     @Test
+    @DisplayName("extracts links from parent and children")
     void extractsLinksFromParentAndChildren() {
       RichText parentLink = NotionText.url("https://parent.example.com");
       RichText childLink = NotionText.url("https://child.example.com");
@@ -1008,6 +1114,7 @@ class NotionBlocksViewerTest {
     }
 
     @Test
+    @DisplayName("extracts links from toggle children")
     void extractsLinksFromToggleChildren() {
       RichText childLink = NotionText.url("https://hidden.example.com");
       ToggleBlock toggle =
@@ -1021,6 +1128,7 @@ class NotionBlocksViewerTest {
     }
 
     @Test
+    @DisplayName("no links in parent or children returns empty")
     void noLinksInParentOrChildren_returnsEmpty() {
       ParagraphBlock parent =
           ParagraphBlock.builder()
@@ -1036,6 +1144,7 @@ class NotionBlocksViewerTest {
   class TextualFilter {
 
     @Test
+    @DisplayName("includes paragraphs")
     void includesParagraphs() {
       NotionBlocksViewer view =
           NotionBlocksViewer.of(NotionBlocks.paragraph("p"), NotionBlocks.divider());
@@ -1044,6 +1153,7 @@ class NotionBlocksViewerTest {
     }
 
     @Test
+    @DisplayName("includes all heading levels")
     void includesAllHeadingLevels() {
       NotionBlocksViewer view =
           NotionBlocksViewer.of(
@@ -1057,6 +1167,7 @@ class NotionBlocksViewerTest {
     }
 
     @Test
+    @DisplayName("includes bullets numbered todos toggles")
     void includesBulletsNumberedTodosToggles() {
       NotionBlocksViewer view =
           NotionBlocksViewer.of(
@@ -1070,6 +1181,7 @@ class NotionBlocksViewerTest {
     }
 
     @Test
+    @DisplayName("includes quotes and callouts")
     void includesQuotesAndCallouts() {
       NotionBlocksViewer view =
           NotionBlocksViewer.of(
@@ -1081,6 +1193,7 @@ class NotionBlocksViewerTest {
     }
 
     @Test
+    @DisplayName("excludes code blocks")
     void excludesCodeBlocks() {
       NotionBlocksViewer view =
           NotionBlocksViewer.of(
@@ -1091,6 +1204,7 @@ class NotionBlocksViewerTest {
     }
 
     @Test
+    @DisplayName("excludes media and structural blocks")
     void excludesMediaAndStructuralBlocks() {
       NotionBlocksViewer view =
           NotionBlocksViewer.of(
@@ -1106,11 +1220,13 @@ class NotionBlocksViewerTest {
     }
 
     @Test
+    @DisplayName("empty view returns empty")
     void emptyView_returnsEmpty() {
       assertTrue(NotionBlocksViewer.of(new ArrayList<>()).textual().isEmpty());
     }
 
     @Test
+    @DisplayName("all textual types returns all")
     void allTextualTypes_returnsAll() {
       NotionBlocksViewer view =
           NotionBlocksViewer.of(
@@ -1134,6 +1250,7 @@ class NotionBlocksViewerTest {
   class MediaFilter {
 
     @Test
+    @DisplayName("includes image block")
     void includesImageBlock() {
       NotionBlocksViewer view =
           NotionBlocksViewer.of(NotionBlocks.image("http://img.png"), NotionBlocks.paragraph("p"));
@@ -1142,6 +1259,7 @@ class NotionBlocksViewerTest {
     }
 
     @Test
+    @DisplayName("includes video block")
     void includesVideoBlock() {
       NotionBlocksViewer view =
           NotionBlocksViewer.of(NotionBlocks.video("http://vid.mp4"), NotionBlocks.paragraph("p"));
@@ -1150,6 +1268,7 @@ class NotionBlocksViewerTest {
     }
 
     @Test
+    @DisplayName("includes audio block")
     void includesAudioBlock() {
       NotionBlocksViewer view =
           NotionBlocksViewer.of(
@@ -1159,6 +1278,7 @@ class NotionBlocksViewerTest {
     }
 
     @Test
+    @DisplayName("includes pdf block")
     void includesPdfBlock() {
       NotionBlocksViewer view =
           NotionBlocksViewer.of(NotionBlocks.pdf("http://doc.pdf"), NotionBlocks.paragraph("p"));
@@ -1167,6 +1287,7 @@ class NotionBlocksViewerTest {
     }
 
     @Test
+    @DisplayName("includes file block with media extension")
     void includesFileBlockWithMediaExtension() {
       FileBlock imgFile = NotionBlocks.file("http://cdn.example.com/photo.jpg");
       FileBlock mp4File = NotionBlocks.file("http://cdn.example.com/clip.mp4");
@@ -1178,6 +1299,7 @@ class NotionBlocksViewerTest {
     }
 
     @Test
+    @DisplayName("excludes file block with non media extension")
     void excludesFileBlockWithNonMediaExtension() {
       FileBlock txtFile = NotionBlocks.file("http://cdn.example.com/readme.txt");
       FileBlock zipFile = NotionBlocks.file("http://cdn.example.com/archive.zip");
@@ -1188,6 +1310,7 @@ class NotionBlocksViewerTest {
     }
 
     @Test
+    @DisplayName("excludes file block with no url")
     void excludesFileBlockWithNoUrl() {
       FileBlock fb = new FileBlock();
       NotionBlocksViewer view = NotionBlocksViewer.of(fb);
@@ -1195,6 +1318,7 @@ class NotionBlocksViewerTest {
     }
 
     @Test
+    @DisplayName("file block extension check ignores query params")
     void fileBlockExtensionCheckIgnoresQueryParams() {
       FileBlock fb = NotionBlocks.file("http://cdn.example.com/photo.png?token=abc123");
 
@@ -1202,6 +1326,7 @@ class NotionBlocksViewerTest {
     }
 
     @Test
+    @DisplayName("file block extension check is case insensitive")
     void fileBlockExtensionCheckIsCaseInsensitive() {
       FileBlock fb = NotionBlocks.file("http://cdn.example.com/photo.JPEG");
 
@@ -1209,6 +1334,7 @@ class NotionBlocksViewerTest {
     }
 
     @Test
+    @DisplayName("excludes textual and structural blocks")
     void excludesTextualAndStructuralBlocks() {
       NotionBlocksViewer view =
           NotionBlocksViewer.of(
@@ -1224,6 +1350,7 @@ class NotionBlocksViewerTest {
     }
 
     @Test
+    @DisplayName("all media types returns all")
     void allMediaTypes_returnsAll() {
       NotionBlocksViewer view =
           NotionBlocksViewer.of(
@@ -1237,11 +1364,13 @@ class NotionBlocksViewerTest {
     }
 
     @Test
+    @DisplayName("empty view returns empty")
     void emptyView_returnsEmpty() {
       assertTrue(NotionBlocksViewer.of(new ArrayList<>()).media().isEmpty());
     }
 
     @Test
+    @DisplayName("mixed media and textual filters correctly")
     void mixedMediaAndTextual_filtersCorrectly() {
       NotionBlocksViewer view =
           NotionBlocksViewer.of(

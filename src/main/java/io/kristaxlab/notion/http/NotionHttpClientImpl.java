@@ -8,6 +8,10 @@ import io.kristaxlab.notion.http.base.request.ApiPath;
 import io.kristaxlab.notion.http.error.NotionApiException;
 import java.util.Map;
 
+/**
+ * Default {@link NotionHttpClient}: delegates to {@link ApiClientImpl} with {@link
+ * NotionApiException} in signatures.
+ */
 public class NotionHttpClientImpl extends ApiClientImpl implements NotionHttpClient {
 
   public NotionHttpClientImpl(
@@ -15,19 +19,19 @@ public class NotionHttpClientImpl extends ApiClientImpl implements NotionHttpCli
     super(httpClient, config, serializer);
   }
 
-  /** Adds NotionApiException to the method signature */
+  @Override
   public <T> T call(String method, ApiPath apiPath, Class<T> responseType)
       throws NotionApiException {
     return super.call(method, apiPath, responseType);
   }
 
-  /** Adds NotionApiException to the method signature */
+  @Override
   public <T> T call(String method, ApiPath apiPath, Object body, Class<T> responseType)
       throws NotionApiException {
     return super.call(method, apiPath, body, responseType);
   }
 
-  /** Adds NotionApiException to the method signature */
+  @Override
   public <T> T call(
       String method,
       ApiPath apiPath,

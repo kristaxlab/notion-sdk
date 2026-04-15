@@ -2,6 +2,7 @@ package io.kristaxlab.notion.model.file;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
@@ -11,6 +12,7 @@ class FileUploadCreateParamsTest {
   class BuilderTests {
 
     @Test
+    @DisplayName("build empty all fields are null")
     void buildEmpty_allFieldsAreNull() {
       FileUploadCreateParams params = FileUploadCreateParams.builder().build();
 
@@ -22,6 +24,7 @@ class FileUploadCreateParamsTest {
     }
 
     @Test
+    @DisplayName("build with all fields")
     void buildWithAllFields() {
       FileUploadCreateParams params =
           FileUploadCreateParams.builder()
@@ -40,6 +43,7 @@ class FileUploadCreateParamsTest {
     }
 
     @Test
+    @DisplayName("build with mode")
     void buildWithMode() {
       FileUploadCreateParams params = FileUploadCreateParams.builder().mode("single_part").build();
 
@@ -51,6 +55,7 @@ class FileUploadCreateParamsTest {
     }
 
     @Test
+    @DisplayName("build with filename")
     void buildWithFilename() {
       FileUploadCreateParams params =
           FileUploadCreateParams.builder().filename("image.png").build();
@@ -60,6 +65,7 @@ class FileUploadCreateParamsTest {
     }
 
     @Test
+    @DisplayName("build with content type")
     void buildWithContentType() {
       FileUploadCreateParams params =
           FileUploadCreateParams.builder().contentType("image/png").build();
@@ -69,6 +75,7 @@ class FileUploadCreateParamsTest {
     }
 
     @Test
+    @DisplayName("build with number of parts")
     void buildWithNumberOfParts() {
       FileUploadCreateParams params = FileUploadCreateParams.builder().numberOfParts(10).build();
 
@@ -76,6 +83,7 @@ class FileUploadCreateParamsTest {
     }
 
     @Test
+    @DisplayName("build with external url")
     void buildWithExternalUrl() {
       FileUploadCreateParams params =
           FileUploadCreateParams.builder().externalUrl("https://cdn.example.com/data.csv").build();
@@ -84,6 +92,7 @@ class FileUploadCreateParamsTest {
     }
 
     @Test
+    @DisplayName("builder method chaining returns same builder")
     void builderMethodChaining_returnsSameBuilder() {
       FileUploadCreateParams.Builder builder = FileUploadCreateParams.builder();
 
@@ -95,6 +104,7 @@ class FileUploadCreateParamsTest {
     }
 
     @Test
+    @DisplayName("build with null number of parts sets null")
     void buildWithNullNumberOfParts_setsNull() {
       FileUploadCreateParams params = FileUploadCreateParams.builder().numberOfParts(null).build();
 
@@ -102,6 +112,7 @@ class FileUploadCreateParamsTest {
     }
 
     @Test
+    @DisplayName("last set value wins")
     void lastSetValueWins() {
       FileUploadCreateParams params =
           FileUploadCreateParams.builder()
@@ -122,6 +133,7 @@ class FileUploadCreateParamsTest {
   class FactoryMethods {
 
     @Test
+    @DisplayName("external sets mod filename and url")
     void external_setsModFilenameAndUrl() {
       FileUploadCreateParams params =
           FileUploadCreateParams.external("data.csv", "https://cdn.example.com/data.csv");
@@ -134,6 +146,7 @@ class FileUploadCreateParamsTest {
     }
 
     @Test
+    @DisplayName("single part sets mode and filename")
     void singlePart_setsModeAndFilename() {
       FileUploadCreateParams params = FileUploadCreateParams.singlePart("photo.jpg");
 
@@ -145,6 +158,7 @@ class FileUploadCreateParamsTest {
     }
 
     @Test
+    @DisplayName("multi part sets mode filename and number of parts")
     void multiPart_setsModeFilenameAndNumberOfParts() {
       FileUploadCreateParams params = FileUploadCreateParams.multiPart("video.mp4", 7);
 
@@ -156,6 +170,7 @@ class FileUploadCreateParamsTest {
     }
 
     @Test
+    @DisplayName("external returns new instance each call")
     void external_returnsNewInstanceEachCall() {
       FileUploadCreateParams first =
           FileUploadCreateParams.external("a.txt", "https://example.com/a.txt");
@@ -166,6 +181,7 @@ class FileUploadCreateParamsTest {
     }
 
     @Test
+    @DisplayName("single part returns new instance each call")
     void singlePart_returnsNewInstanceEachCall() {
       FileUploadCreateParams first = FileUploadCreateParams.singlePart("a.txt");
       FileUploadCreateParams second = FileUploadCreateParams.singlePart("b.txt");
@@ -174,6 +190,7 @@ class FileUploadCreateParamsTest {
     }
 
     @Test
+    @DisplayName("multi part returns new instance each call")
     void multiPart_returnsNewInstanceEachCall() {
       FileUploadCreateParams first = FileUploadCreateParams.multiPart("a.txt", 2);
       FileUploadCreateParams second = FileUploadCreateParams.multiPart("b.txt", 3);
@@ -188,6 +205,7 @@ class FileUploadCreateParamsTest {
   class BuilderIndependence {
 
     @Test
+    @DisplayName("builder returns new instance per call")
     void builderReturnsNewInstancePerCall() {
       FileUploadCreateParams.Builder builderA = FileUploadCreateParams.builder();
       FileUploadCreateParams.Builder builderB = FileUploadCreateParams.builder();
@@ -196,6 +214,7 @@ class FileUploadCreateParamsTest {
     }
 
     @Test
+    @DisplayName("build returns new instance each call")
     void buildReturnsNewInstanceEachCall() {
       FileUploadCreateParams.Builder builder =
           FileUploadCreateParams.builder().mode("single_part").filename("original.txt");
@@ -209,6 +228,7 @@ class FileUploadCreateParamsTest {
     }
 
     @Test
+    @DisplayName("mutating params after build does not affect subsequent build")
     void mutatingParamsAfterBuild_doesNotAffectSubsequentBuild() {
       FileUploadCreateParams.Builder builder =
           FileUploadCreateParams.builder().mode("single_part").filename("original.txt");

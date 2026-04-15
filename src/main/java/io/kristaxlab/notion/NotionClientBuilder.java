@@ -23,6 +23,10 @@ import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import okhttp3.OkHttpClient;
 
+/**
+ * Configures auth, API version, base URL, optional custom HTTP transport, JSON serializer, and
+ * exchange logging before {@link #build()}.
+ */
 public class NotionClientBuilder {
 
   private static final String DEFAULT_VERSION = "2026-03-11";
@@ -96,7 +100,7 @@ public class NotionClientBuilder {
    *
    * <pre>{@code
    * Path dir = Paths.get("exchanges", testClass, testMethod);
-   * NotionClient.builder().auth(token).exchangeLogging(dir).build();
+   * NotionClient.builder().authToken(token).exchangeLogging(dir).build();
    * }</pre>
    *
    * @param dir target directory; {@code null} disables exchange logging

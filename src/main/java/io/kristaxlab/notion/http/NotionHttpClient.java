@@ -6,24 +6,20 @@ import io.kristaxlab.notion.http.error.NotionApiException;
 import java.util.Map;
 
 /**
- * Notion-specific API client.
- *
- * <p>This interface adds NotionApiException to the method signatures.
- *
- * <p>This interface also serves to library readability improvement: advanced users who need direct
- * control over Notion API might choose to interacto with this interface instead of NotionClient. So
- * having Notion in its name will reduce the confusion and make a clear understanding what this
- * interface is for.
+ * Typed HTTP facade for the Notion API: same contract as {@link ApiClient}, but methods declare
+ * {@link NotionApiException} for API failures. Prefer {@link io.kristaxlab.notion.NotionClient} for
+ * typical use; use this when you need direct {@code call(...)} access with the configured pipeline.
  */
 public interface NotionHttpClient extends ApiClient {
 
-  /** Adds NotionApiException to the method signature */
+  @Override
   <T> T call(String method, ApiPath apiPath, Class<T> responseType) throws NotionApiException;
 
-  /** Adds NotionApiException to the method signature */
+  @Override
   <T> T call(String method, ApiPath apiPath, Object body, Class<T> responseType)
       throws NotionApiException;
 
+  @Override
   <T> T call(
       String method,
       ApiPath apiPath,

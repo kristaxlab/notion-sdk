@@ -2,6 +2,7 @@ package io.kristaxlab.notion.model.block;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class ColumnBlockTest {
@@ -9,6 +10,7 @@ class ColumnBlockTest {
   // ColumnBlock constructors
 
   @Test
+  @DisplayName("constructor sets type and initializes column")
   void constructor_setsTypeAndInitializesColumn() {
     ColumnBlock block = new ColumnBlock();
 
@@ -21,6 +23,7 @@ class ColumnBlockTest {
   // Column inner class
 
   @Test
+  @DisplayName("column getter setter")
   void column_getterSetter() {
     ColumnBlock.Column column = new ColumnBlock.Column();
 
@@ -32,6 +35,7 @@ class ColumnBlockTest {
   // ColumnListBlock constructors
 
   @Test
+  @DisplayName("column list constructor sets type and initializes")
   void columnList_constructor_setsTypeAndInitializes() {
     ColumnListBlock block = new ColumnListBlock();
 

@@ -85,7 +85,7 @@ public class NotionText {
     rt.setMention(mentionObj);
 
     mentionObj.setUser(new User());
-    mentionObj.getUser().setObject(ObjectType.USER.getValue());
+    mentionObj.getUser().setObject(ObjectType.USER.type());
     mentionObj.getUser().setId(userId);
     return rt;
   }

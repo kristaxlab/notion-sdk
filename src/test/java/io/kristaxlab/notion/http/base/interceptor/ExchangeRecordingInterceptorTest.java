@@ -14,6 +14,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
@@ -24,56 +25,67 @@ class ExchangeRecordingInterceptorTest {
   private static final String UUID = "abc12345-1234-1234-1234-abcdef012345";
 
   @Test
+  @DisplayName("get collection endpoint")
   void get_collectionEndpoint() {
     assertEquals("pages_retrieve", name(BASE + "/pages", "GET"));
   }
 
   @Test
+  @DisplayName("get resource by id")
   void get_resourceById() {
     assertEquals("pages_retrieve", name(BASE + "/pages/" + UUID, "GET"));
   }
 
   @Test
+  @DisplayName("get nested collection")
   void get_nestedCollection() {
     assertEquals("blocks_children_retrieve", name(BASE + "/blocks/" + UUID + "/children", "GET"));
   }
 
   @Test
+  @DisplayName("get users me")
   void get_users_me() {
     assertEquals("users_me_retrieve", name(BASE + "/users/me", "GET"));
   }
 
   @Test
+  @DisplayName("post create")
   void post_create() {
     assertEquals("pages_create", name(BASE + "/pages", "POST"));
   }
 
   @Test
+  @DisplayName("post query with id")
   void post_queryWithId() {
     assertEquals("databases_query_create", name(BASE + "/databases/" + UUID + "/query", "POST"));
   }
 
   @Test
+  @DisplayName("patch update")
   void patch_update() {
     assertEquals("pages_update", name(BASE + "/pages/" + UUID, "PATCH"));
   }
 
   @Test
+  @DisplayName("delete resource")
   void delete_resource() {
     assertEquals("blocks_delete", name(BASE + "/blocks/" + UUID, "DELETE"));
   }
 
   @Test
+  @DisplayName("get compact uuid stripped")
   void get_compactUuidStripped() {
     assertEquals("pages_retrieve", name(BASE + "/pages/abc123def456abc123def456abc123de", "GET"));
   }
 
   @Test
+  @DisplayName("unknown method no suffix")
   void unknownMethod_noSuffix() {
     assertEquals("pages", name(BASE + "/pages", "PUT"));
   }
 
   @Test
+  @DisplayName("malformed url returns unknown")
   void malformedUrl_returnsUnknown() {
     assertEquals("unknown", name("not a url %%", "GET"));
   }
@@ -83,6 +95,7 @@ class ExchangeRecordingInterceptorTest {
   }
 
   @Test
+  @DisplayName("writes request and response files and redacts authorization")
   void writesRequestAndResponseFiles_andRedactsAuthorization(@TempDir Path tempDir)
       throws IOException {
     ExchangeRecordingInterceptor interceptor =

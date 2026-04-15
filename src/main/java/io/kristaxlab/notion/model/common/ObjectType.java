@@ -11,19 +11,19 @@ public enum ObjectType {
   LIST("list"),
   PROPERTY_ITEM("property_item");
 
-  private final String value;
+  private final String type;
 
-  ObjectType(String value) {
-    this.value = value;
+  ObjectType(String type) {
+    this.type = type;
   }
 
-  public String getValue() {
-    return value;
+  public String type() {
+    return type;
   }
 
   public static ObjectType fromValue(String type) {
     for (ObjectType propertyType : ObjectType.values()) {
-      if (propertyType.value.equals(type)) {
+      if (propertyType.type.equals(type)) {
         return propertyType;
       }
     }

@@ -15,6 +15,10 @@ import java.util.function.Consumer;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * Request body for {@link io.kristaxlab.notion.endpoints.PagesEndpoint#create(CreatePageParams)}.
+ * Use {@link #builder()} for the request construction.
+ */
 @Getter
 @Setter
 public class CreatePageParams {
@@ -33,12 +37,15 @@ public class CreatePageParams {
 
   private TemplateParams template;
 
+  /** Optional placement for new content when the parent is a block (see Notion API). */
   private Position position;
 
+  /** Shorthand for {@code builder().parent(parent).title(title).build()}. */
   public static CreatePageParams of(Parent parent, String title) {
     return CreatePageParams.builder().parent(parent).title(title).build();
   }
 
+  /** Shorthand for a titled page with Markdown body content. */
   public static CreatePageParams of(Parent parent, String title, String markdown) {
     return CreatePageParams.builder().parent(parent).title(title).markdown(markdown).build();
   }
@@ -47,6 +54,7 @@ public class CreatePageParams {
     return new Builder();
   }
 
+  /** Fluent builder for {@link CreatePageParams}. */
   public static class Builder {
 
     private Parent parent;
@@ -57,58 +65,56 @@ public class CreatePageParams {
     private String markdown;
     private TemplateParams templateParams;
 
-    /** Sets the parent to the data source with the given ID. */
+    /** Parent: data source (database) ID. */
     public Builder underDataSource(String dataSourceId) {
       return parent(Parent.dataSourceParent(dataSourceId));
     }
 
-    /** Sets the parent to the page with the given ID. */
+    /** Parent: existing page ID. */
     public Builder underPage(String pageId) {
       return parent(Parent.pageParent(pageId));
     }
 
-    /** Sets the parent to the block with the given ID. */
-    public Builder underBlock(String blockId) {
-      return parent(Parent.blockParent(blockId));
-    }
-
-    // TODO test with public integration
+    /**
+     * Parent: workspace (top-level page). Availability depends on your Notion integration and API
+     * version.
+     */
     public Builder underWorkspace() {
       return parent(Parent.workspaceParent());
     }
 
-    /** Sets a fully constructed {@link Parent}. */
+    /** Sets a fully constructed {@link Parent} (overrides any prior {@code under*} call). */
     public Builder parent(Parent parent) {
       this.parent = parent;
       return this;
     }
 
-    /** Sets the title property. */
+    /** Sets the title property ({@link io.kristaxlab.notion.fluent.NotionProperties#TITLE}). */
     public Builder title(String text) {
       return property(NotionProperties.TITLE, NotionProperties.title(text));
     }
 
     /**
-     * Sets an arbitrary property. Use as an escape hatch for property types not covered by the
-     * named convenience methods above.
+     * Sets a schema property by name. Use for types beyond {@link #title(String)} (e.g. select,
+     * date).
      */
     public Builder property(String name, PageProperty property) {
       this.properties.put(name, property);
       return this;
     }
 
-    /** Sets the page body blocks (varargs convenience overload). */
+    /** Replaces body content with the given blocks. */
     public Builder children(Block... blocks) {
       return children(Arrays.asList(blocks));
     }
 
-    /** Sets the page body blocks from a list. */
+    /** Replaces body content with the given blocks. */
     public Builder children(List<Block> blocks) {
       this.children.addAll(new ArrayList<>(blocks));
       return this;
     }
 
-    /** Sets the page body blocks from a list. */
+    /** Builds body blocks with the {@link NotionBlocksBuilder} DSL. */
     public Builder children(Consumer<NotionBlocksBuilder> consumer) {
       NotionBlocksBuilder blocksBuilder = NotionBlocks.blocksBuilder();
       consumer.accept(blocksBuilder);
@@ -116,7 +122,7 @@ public class CreatePageParams {
       return this;
     }
 
-    /** Adds page body blocks from multiple lists (e.g., from several {@code buildList()} calls). */
+    /** Appends blocks from several lists (e.g. multiple {@code build()} calls). */
     public Builder childrenAll(List<List<Block>> blocksList) {
       for (List<Block> blocks : blocksList) {
         this.children.addAll(new ArrayList<>(blocks));
@@ -124,17 +130,22 @@ public class CreatePageParams {
       return this;
     }
 
+    /** Applies a database template when creating in a data source. */
     public Builder template(TemplateParams templateParams) {
       this.templateParams = templateParams;
       return this;
     }
 
+    /** Page body as Markdown (alternative to {@link #children}). */
     public Builder markdown(String markdown) {
       this.markdown = markdown;
       return this;
     }
 
-    /** Sets the page icon. */
+    /**
+     * Emoji or external URL string. Strings starting with {@code http://} or {@code https://} use
+     * an external icon.
+     */
     public Builder icon(String icon) {
       if (icon.startsWith("https://") || icon.startsWith("http://")) {
         this.icon = Icon.external(icon);
@@ -149,7 +160,9 @@ public class CreatePageParams {
       return this;
     }
 
-    /** Sets the page cover. */
+    /**
+     * Cover image: UUID string is treated as a file upload ID; otherwise as an external image URL.
+     */
     public Builder cover(String coverRef) {
       try {
         UUID.fromString(coverRef);

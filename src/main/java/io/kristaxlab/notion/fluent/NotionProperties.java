@@ -11,9 +11,14 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
 
+/**
+ * Helpers for common {@link io.kristaxlab.notion.model.page.property.PageProperty} values (e.g.
+ * title).
+ */
 public class NotionProperties {
 
-  public static final String TITLE = PagePropertyType.TITLE.toString();
+  /** Property name for the page title column. */
+  public static final String TITLE = PagePropertyType.TITLE.type();
 
   public static TitleProperty title(String text) {
     return title(plainText(text));

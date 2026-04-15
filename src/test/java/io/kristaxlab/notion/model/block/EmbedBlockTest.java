@@ -2,11 +2,13 @@ package io.kristaxlab.notion.model.block;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class EmbedBlockTest {
 
   @Test
+  @DisplayName("constructor sets type and initializes embed")
   void constructor_setsTypeAndInitializesEmbed() {
     EmbedBlock block = new EmbedBlock();
 
@@ -15,6 +17,7 @@ class EmbedBlockTest {
   }
 
   @Test
+  @DisplayName("builder with url")
   void builder_withUrl() {
     EmbedBlock block = EmbedBlock.builder().url("https://maps.google.com").build();
 
@@ -22,6 +25,7 @@ class EmbedBlockTest {
   }
 
   @Test
+  @DisplayName("builder with url and caption string")
   void builder_withUrlAndCaptionString() {
     EmbedBlock block = EmbedBlock.builder().url("https://youtube.com").caption("Video").build();
 
@@ -31,6 +35,7 @@ class EmbedBlockTest {
   }
 
   @Test
+  @DisplayName("builder no caption set caption is null")
   void builder_noCaptionSet_captionIsNull() {
     EmbedBlock block = EmbedBlock.builder().url("https://example.com").build();
 

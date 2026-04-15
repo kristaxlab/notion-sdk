@@ -3,11 +3,13 @@ package io.kristaxlab.notion.model.block;
 import static org.junit.jupiter.api.Assertions.*;
 
 import io.kristaxlab.notion.model.common.Color;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class QuoteBlockTest {
 
   @Test
+  @DisplayName("constructor sets type and initializes quote")
   void constructor_setsTypeAndInitializesQuote() {
     QuoteBlock block = new QuoteBlock();
 
@@ -16,6 +18,7 @@ class QuoteBlockTest {
   }
 
   @Test
+  @DisplayName("builder with text")
   void builder_withText() {
     QuoteBlock block = QuoteBlock.builder().text("A wise quote").build();
 
@@ -23,6 +26,7 @@ class QuoteBlockTest {
   }
 
   @Test
+  @DisplayName("builder with color")
   void builder_withColor() {
     QuoteBlock block = QuoteBlock.builder().text("Quote").blockColor(Color.GRAY).build();
 
@@ -30,6 +34,7 @@ class QuoteBlockTest {
   }
 
   @Test
+  @DisplayName("builder with children")
   void builder_withChildren() {
     QuoteBlock block =
         QuoteBlock.builder().text("Quote").children(c -> c.paragraph("Attribution")).build();

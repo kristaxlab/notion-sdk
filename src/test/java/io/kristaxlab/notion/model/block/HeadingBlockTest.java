@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import io.kristaxlab.notion.fluent.NotionBlocks;
 import io.kristaxlab.notion.model.common.Color;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class HeadingBlockTest {
@@ -11,6 +12,7 @@ class HeadingBlockTest {
   // HeadingOneBlock
 
   @Test
+  @DisplayName("heading one constructor sets type and heading")
   void headingOne_constructor_setsTypeAndHeading() {
     HeadingOneBlock block = new HeadingOneBlock();
 
@@ -19,6 +21,7 @@ class HeadingBlockTest {
   }
 
   @Test
+  @DisplayName("heading one factory sets rich text")
   void headingOne_factory_setsRichText() {
     HeadingOneBlock block = NotionBlocks.heading1("Title");
 
@@ -28,6 +31,7 @@ class HeadingBlockTest {
   }
 
   @Test
+  @DisplayName("heading one builder with text")
   void headingOne_builder_withText() {
     HeadingOneBlock block = HeadingOneBlock.builder().text("Built Title").build();
 
@@ -36,6 +40,7 @@ class HeadingBlockTest {
   }
 
   @Test
+  @DisplayName("heading one builder with toggleable")
   void headingOne_builder_withToggleable() {
     HeadingOneBlock block =
         HeadingOneBlock.builder().text("Toggleable Heading").toggleable(true).build();
@@ -44,6 +49,7 @@ class HeadingBlockTest {
   }
 
   @Test
+  @DisplayName("heading one builder toggleable not set is toggleable null")
   void headingOne_builder_toggleableNotSet_isToggleableNull() {
     HeadingOneBlock block = HeadingOneBlock.builder().text("Not toggleable").build();
 
@@ -51,6 +57,7 @@ class HeadingBlockTest {
   }
 
   @Test
+  @DisplayName("heading one builder with color")
   void headingOne_builder_withColor() {
     HeadingOneBlock block = HeadingOneBlock.builder().text("Colored").blockColor(Color.RED).build();
 
@@ -58,6 +65,7 @@ class HeadingBlockTest {
   }
 
   @Test
+  @DisplayName("heading one builder with children")
   void headingOne_builder_withChildren() {
     HeadingOneBlock block =
         HeadingOneBlock.builder()
@@ -72,6 +80,7 @@ class HeadingBlockTest {
   // HeadingTwoBlock
 
   @Test
+  @DisplayName("heading two constructor sets type and heading")
   void headingTwo_constructor_setsTypeAndHeading() {
     HeadingTwoBlock block = new HeadingTwoBlock();
 
@@ -80,6 +89,7 @@ class HeadingBlockTest {
   }
 
   @Test
+  @DisplayName("heading two factory sets rich text")
   void headingTwo_factory_setsRichText() {
     HeadingTwoBlock block = NotionBlocks.heading2("Subtitle");
 
@@ -88,6 +98,7 @@ class HeadingBlockTest {
   }
 
   @Test
+  @DisplayName("heading two builder with text and toggleable")
   void headingTwo_builder_withTextAndToggleable() {
     HeadingTwoBlock block = HeadingTwoBlock.builder().text("Toggle H2").toggleable(true).build();
 
@@ -96,6 +107,7 @@ class HeadingBlockTest {
   }
 
   @Test
+  @DisplayName("heading two builder with color")
   void headingTwo_builder_withColor() {
     HeadingTwoBlock block =
         HeadingTwoBlock.builder().text("Blue H2").blockColor(Color.BLUE).build();
@@ -106,6 +118,7 @@ class HeadingBlockTest {
   // HeadingThreeBlock
 
   @Test
+  @DisplayName("heading three constructor sets type and heading")
   void headingThree_constructor_setsTypeAndHeading() {
     HeadingThreeBlock block = new HeadingThreeBlock();
 
@@ -114,6 +127,7 @@ class HeadingBlockTest {
   }
 
   @Test
+  @DisplayName("heading three factory sets rich text")
   void headingThree_factory_setsRichText() {
     HeadingThreeBlock block = NotionBlocks.heading3("Section");
 
@@ -122,6 +136,7 @@ class HeadingBlockTest {
   }
 
   @Test
+  @DisplayName("heading three builder with text and toggleable")
   void headingThree_builder_withTextAndToggleable() {
     HeadingThreeBlock block =
         HeadingThreeBlock.builder().text("Toggle H3").toggleable(false).build();
@@ -133,6 +148,7 @@ class HeadingBlockTest {
   // HeadingFourBlock
 
   @Test
+  @DisplayName("heading four constructor sets type and heading")
   void headingFour_constructor_setsTypeAndHeading() {
     HeadingFourBlock block = new HeadingFourBlock();
 
@@ -141,6 +157,7 @@ class HeadingBlockTest {
   }
 
   @Test
+  @DisplayName("heading four factory sets rich text")
   void headingFour_factory_setsRichText() {
     HeadingFourBlock block = NotionBlocks.heading4("Sub-section");
 
@@ -149,6 +166,7 @@ class HeadingBlockTest {
   }
 
   @Test
+  @DisplayName("heading four builder with text and toggleable")
   void headingFour_builder_withTextAndToggleable() {
     HeadingFourBlock block = HeadingFourBlock.builder().text("Toggle H4").toggleable(true).build();
 
@@ -157,6 +175,7 @@ class HeadingBlockTest {
   }
 
   @Test
+  @DisplayName("heading four builder with color")
   void headingFour_builder_withColor() {
     HeadingFourBlock block =
         HeadingFourBlock.builder().text("Styled H4").blockColor(Color.PURPLE).build();
@@ -167,6 +186,7 @@ class HeadingBlockTest {
   // Heading inner class
 
   @Test
+  @DisplayName("heading getter setter is toggleable")
   void heading_getterSetter_isToggleable() {
     Heading heading = new Heading();
 

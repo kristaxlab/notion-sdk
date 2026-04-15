@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import io.kristaxlab.notion.fluent.NotionBlocks;
 import java.util.List;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class SyncedBlockTest {
@@ -11,6 +12,7 @@ class SyncedBlockTest {
   // Constructor
 
   @Test
+  @DisplayName("constructor sets type and initializes synced")
   void constructor_setsTypeAndInitializesSynced() {
     SyncedBlock block = new SyncedBlock();
 
@@ -23,6 +25,7 @@ class SyncedBlockTest {
   // Synced inner class
 
   @Test
+  @DisplayName("synced getter setter")
   void synced_getterSetter() {
     SyncedBlock.Synced synced = new SyncedBlock.Synced();
 
@@ -41,6 +44,7 @@ class SyncedBlockTest {
   // SyncedFrom inner class
 
   @Test
+  @DisplayName("synced from getter setter")
   void syncedFrom_getterSetter() {
     SyncedBlock.SyncedFrom sf = new SyncedBlock.SyncedFrom();
 

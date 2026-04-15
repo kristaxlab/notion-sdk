@@ -9,6 +9,10 @@ import java.util.*;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * Request body for {@code PATCH /pages/{page_id}}: property updates, icon, cover, trash, lock, etc.
+ * Use {@link #builder()} for the request construction.
+ */
 @Getter
 @Setter
 public class UpdatePageParams {
@@ -31,6 +35,7 @@ public class UpdatePageParams {
     return new Builder();
   }
 
+  /** Fluent builder (title, properties, trash, lock, icon, cover). */
   public static class Builder {
 
     private final Map<String, PageProperty> properties = new LinkedHashMap<>();

@@ -2,11 +2,13 @@ package io.kristaxlab.notion.model.block;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class BookmarkBlockTest {
 
   @Test
+  @DisplayName("constructor sets type and initializes bookmark")
   void constructor_setsTypeAndInitializesBookmark() {
     BookmarkBlock block = new BookmarkBlock();
 
@@ -15,6 +17,7 @@ class BookmarkBlockTest {
   }
 
   @Test
+  @DisplayName("builder with url")
   void builder_withUrl() {
     BookmarkBlock block = BookmarkBlock.builder().url("https://example.com").build();
 
@@ -22,6 +25,7 @@ class BookmarkBlockTest {
   }
 
   @Test
+  @DisplayName("builder with url and caption string")
   void builder_withUrlAndCaptionString() {
     BookmarkBlock block =
         BookmarkBlock.builder().url("https://example.com").caption("Example Site").build();
@@ -33,6 +37,7 @@ class BookmarkBlockTest {
   }
 
   @Test
+  @DisplayName("builder with url and caption consumer")
   void builder_withUrlAndCaptionConsumer() {
     BookmarkBlock block =
         BookmarkBlock.builder()
@@ -47,6 +52,7 @@ class BookmarkBlockTest {
   }
 
   @Test
+  @DisplayName("builder no caption set caption is null")
   void builder_noCaptionSet_captionIsNull() {
     BookmarkBlock block = BookmarkBlock.builder().url("https://example.com").build();
 

@@ -3,6 +3,7 @@ package io.kristaxlab.notion.model.block;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.List;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class TableBlockTest {
@@ -10,6 +11,7 @@ class TableBlockTest {
   // TableBlock constructors
 
   @Test
+  @DisplayName("constructor sets type and initializes table")
   void constructor_setsTypeAndInitializesTable() {
     TableBlock block = new TableBlock();
 
@@ -20,6 +22,7 @@ class TableBlockTest {
   // TableBlock.Builder
 
   @Test
+  @DisplayName("builder with table width")
   void builder_withTableWidth() {
     TableBlock block = TableBlock.builder().tableWidth(3).build();
 
@@ -27,6 +30,7 @@ class TableBlockTest {
   }
 
   @Test
+  @DisplayName("builder with column header")
   void builder_withColumnHeader() {
     TableBlock block = TableBlock.builder().tableWidth(2).hasColumnHeader(true).build();
 
@@ -34,6 +38,7 @@ class TableBlockTest {
   }
 
   @Test
+  @DisplayName("builder with row header")
   void builder_withRowHeader() {
     TableBlock block = TableBlock.builder().tableWidth(2).hasRowHeader(true).build();
 
@@ -41,6 +46,7 @@ class TableBlockTest {
   }
 
   @Test
+  @DisplayName("builder with children consumer")
   void builder_withChildrenConsumer() {
     TableBlock block =
         TableBlock.builder()
@@ -65,6 +71,7 @@ class TableBlockTest {
   }
 
   @Test
+  @DisplayName("builder with children list")
   void builder_withChildrenList() {
     TableRowBlock row = TableRowBlock.builder().row().cell("X").cell("Y").build();
 
@@ -75,6 +82,7 @@ class TableBlockTest {
   }
 
   @Test
+  @DisplayName("builder full example")
   void builder_fullExample() {
     TableBlock block =
         TableBlock.builder()
@@ -103,6 +111,7 @@ class TableBlockTest {
   // Table inner class
 
   @Test
+  @DisplayName("table getter setter")
   void table_getterSetter() {
     TableBlock.Table table = new TableBlock.Table();
 
@@ -118,6 +127,7 @@ class TableBlockTest {
   // TableRowBlock constructors
 
   @Test
+  @DisplayName("table row constructor sets type and initializes")
   void tableRow_constructor_setsTypeAndInitializes() {
     TableRowBlock block = new TableRowBlock();
 
@@ -130,6 +140,7 @@ class TableBlockTest {
   // TableRowBlock.Builder - single row
 
   @Test
+  @DisplayName("table row builder single row with string cells")
   void tableRowBuilder_singleRow_withStringCells() {
     TableRowBlock row = TableRowBlock.builder().row().cell("A").cell("B").cell("C").build();
 
@@ -141,6 +152,7 @@ class TableBlockTest {
   }
 
   @Test
+  @DisplayName("table row builder single row with rich text consumer")
   void tableRowBuilder_singleRow_withRichTextConsumer() {
     TableRowBlock row =
         TableRowBlock.builder().row().cell(rt -> rt.plainText("Bold").bold()).build();
@@ -152,6 +164,7 @@ class TableBlockTest {
   // TableRowBlock.Builder - multiple rows
 
   @Test
+  @DisplayName("table row builder multiple rows build list")
   void tableRowBuilder_multipleRows_buildList() {
     List<TableRowBlock> rows =
         TableRowBlock.builder()
@@ -169,6 +182,7 @@ class TableBlockTest {
   }
 
   @Test
+  @DisplayName("table row builder multiple rows build throws exception")
   void tableRowBuilder_multipleRows_build_throwsException() {
     TableRowBlock.Builder builder = TableRowBlock.builder().row().cell("r1").row().cell("r2");
 
@@ -179,6 +193,7 @@ class TableBlockTest {
   // TableRowBlock.Builder - error cases
 
   @Test
+  @DisplayName("table row builder build no rows throws exception")
   void tableRowBuilder_build_noRows_throwsException() {
     TableRowBlock.Builder builder = TableRowBlock.builder();
 
@@ -187,6 +202,7 @@ class TableBlockTest {
   }
 
   @Test
+  @DisplayName("table row builder cell without row throws exception")
   void tableRowBuilder_cellWithoutRow_throwsException() {
     TableRowBlock.Builder builder = TableRowBlock.builder();
 
@@ -194,6 +210,7 @@ class TableBlockTest {
   }
 
   @Test
+  @DisplayName("table row builder build list empty returns empty list")
   void tableRowBuilder_buildList_emptyReturnsEmptyList() {
     List<TableRowBlock> rows = TableRowBlock.builder().buildList();
 

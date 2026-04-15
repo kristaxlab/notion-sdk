@@ -9,6 +9,7 @@ import io.kristaxlab.notion.model.common.FileData;
 import io.kristaxlab.notion.model.common.Icon;
 import io.kristaxlab.notion.model.common.richtext.RichText;
 import java.util.List;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
@@ -21,27 +22,32 @@ class NotionBlocksTest {
   class Audio {
 
     @Test
+    @DisplayName("from external url sets external type")
     void fromExternalUrl_setsExternalType() {
       assertEquals("external", NotionBlocks.audio(EXTERNAL_URL).getAudio().getType());
     }
 
     @Test
+    @DisplayName("from uuid sets file upload type")
     void fromUuid_setsFileUploadType() {
       assertEquals("file_upload", NotionBlocks.audio(UUID_STRING).getAudio().getType());
     }
 
     @Test
+    @DisplayName("from uuid sets file upload id")
     void fromUuid_setsFileUploadId() {
       assertEquals(UUID_STRING, NotionBlocks.audio(UUID_STRING).getAudio().getFileUpload().getId());
     }
 
     @Test
+    @DisplayName("from file data assigns same file data")
     void fromFileData_assignsSameFileData() {
       FileData fd = FileData.builder().externalUrl(EXTERNAL_URL).build();
       assertSame(fd, NotionBlocks.audio(fd).getAudio());
     }
 
     @Test
+    @DisplayName("from consumer applies consumer")
     void fromConsumer_appliesConsumer() {
       assertEquals(
           "external", NotionBlocks.audio(b -> b.externalUrl(EXTERNAL_URL)).getAudio().getType());
@@ -52,11 +58,13 @@ class NotionBlocksTest {
   class BlankLine {
 
     @Test
+    @DisplayName("returns paragraph block")
     void returnsParagraphBlock() {
       assertInstanceOf(ParagraphBlock.class, NotionBlocks.blankLine());
     }
 
     @Test
+    @DisplayName("has empty plain text")
     void hasEmptyPlainText() {
       assertEquals("", NotionBlocks.blankLine().getParagraph().getRichText().get(0).getPlainText());
     }
@@ -66,12 +74,14 @@ class NotionBlocksTest {
   class Bookmark {
 
     @Test
+    @DisplayName("from string sets url")
     void fromString_setsUrl() {
       assertEquals(
           "https://notion.so", NotionBlocks.bookmark("https://notion.so").getBookmark().getUrl());
     }
 
     @Test
+    @DisplayName("from consumer applies consumer")
     void fromConsumer_appliesConsumer() {
       assertNotNull(NotionBlocks.bookmark(b -> b.url("https://x.com")).getBookmark().getUrl());
     }
@@ -81,6 +91,7 @@ class NotionBlocksTest {
   class Breadcrumb {
 
     @Test
+    @DisplayName("returns breadcrumb block")
     void returnsBreadcrumbBlock() {
       assertInstanceOf(BreadcrumbBlock.class, NotionBlocks.breadcrumb());
     }
@@ -90,11 +101,13 @@ class NotionBlocksTest {
   class Bullet {
 
     @Test
+    @DisplayName("from string creates one rich text")
     void fromString_createsOneRichText() {
       assertEquals(1, NotionBlocks.bullet("item").getBulletedListItem().getRichText().size());
     }
 
     @Test
+    @DisplayName("from string sets plain text")
     void fromString_setsPlainText() {
       assertEquals(
           "item",
@@ -102,6 +115,7 @@ class NotionBlocksTest {
     }
 
     @Test
+    @DisplayName("from rich text varargs sets multiple")
     void fromRichTextVarargs_setsMultiple() {
       assertEquals(
           2,
@@ -112,6 +126,7 @@ class NotionBlocksTest {
     }
 
     @Test
+    @DisplayName("from list sets rich texts")
     void fromList_setsRichTexts() {
       assertEquals(
           1,
@@ -123,11 +138,13 @@ class NotionBlocksTest {
   class BulletedList {
 
     @Test
+    @DisplayName("varargs returns correct count")
     void varargs_returnsCorrectCount() {
       assertEquals(3, NotionBlocks.bullets("a", "b", "c").size());
     }
 
     @Test
+    @DisplayName("each item is bulleted list item block")
     void eachItem_isBulletedListItemBlock() {
       NotionBlocks.bullets("x", "y").forEach(b -> assertInstanceOf(BulletedListItemBlock.class, b));
     }
@@ -137,21 +154,25 @@ class NotionBlocksTest {
   class Callout {
 
     @Test
+    @DisplayName("from string creates one rich text")
     void fromString_createsOneRichText() {
       assertEquals(1, NotionBlocks.callout("note").getCallout().getRichText().size());
     }
 
     @Test
+    @DisplayName("with emoji string sets icon emoji")
     void withEmojiString_setsIconEmoji() {
       assertEquals("💡", NotionBlocks.callout("💡", "note").getCallout().getIcon().getEmoji());
     }
 
     @Test
+    @DisplayName("with icon and string sets icon")
     void withIconAndString_setsIcon() {
       assertNotNull(NotionBlocks.callout(Icon.emoji("🔔"), "text").getCallout().getIcon());
     }
 
     @Test
+    @DisplayName("with icon and varargs sets multiple rich texts")
     void withIconAndVarargs_setsMultipleRichTexts() {
       assertEquals(
           2,
@@ -166,11 +187,13 @@ class NotionBlocksTest {
   class Code {
 
     @Test
+    @DisplayName("sets language")
     void setsLanguage() {
       assertEquals("java", NotionBlocks.code("java", "int x;").getCode().getLanguage());
     }
 
     @Test
+    @DisplayName("sets code content")
     void setsCodeContent() {
       assertFalse(NotionBlocks.code("java", "int x;").getCode().getRichText().isEmpty());
     }
@@ -180,22 +203,26 @@ class NotionBlocksTest {
   class Column {
 
     @Test
+    @DisplayName("with width ratio sets width ratio")
     void withWidthRatio_setsWidthRatio() {
       assertEquals(
           0.33, NotionBlocks.column(0.33, b -> b.paragraph("p")).getColumn().getWidthRatio());
     }
 
     @Test
+    @DisplayName("with consumer populates children")
     void withConsumer_populatesChildren() {
       assertFalse(NotionBlocks.column(b -> b.paragraph("p")).getColumn().getChildren().isEmpty());
     }
 
     @Test
+    @DisplayName("with consumer no width ratio width ratio is null")
     void withConsumer_noWidthRatio_widthRatioIsNull() {
       assertNull(NotionBlocks.column(b -> b.paragraph("p")).getColumn().getWidthRatio());
     }
 
     @Test
+    @DisplayName("with consumer and width ratio sets width ratio and children")
     void withConsumerAndWidthRatio_setsWidthRatioAndChildren() {
       ColumnBlock col = NotionBlocks.column(0.5, b -> b.paragraph("p").heading1("h"));
       assertEquals(0.5, col.getColumn().getWidthRatio());
@@ -203,6 +230,7 @@ class NotionBlocksTest {
     }
 
     @Test
+    @DisplayName("with list sets children")
     void withList_setsChildren() {
       assertEquals(
           1,
@@ -213,24 +241,28 @@ class NotionBlocksTest {
     }
 
     @Test
+    @DisplayName("with list no width ratio width ratio is null")
     void withList_noWidthRatio_widthRatioIsNull() {
       assertNull(
           NotionBlocks.column(List.of(NotionBlocks.paragraph("x"))).getColumn().getWidthRatio());
     }
 
     @Test
+    @DisplayName("with width ratio and list sets width ratio")
     void withWidthRatioAndList_setsWidthRatio() {
       List<Block> content = List.of(NotionBlocks.paragraph("a"), NotionBlocks.paragraph("b"));
       assertEquals(0.25, NotionBlocks.column(0.25, content).getColumn().getWidthRatio());
     }
 
     @Test
+    @DisplayName("with width ratio and list sets children")
     void withWidthRatioAndList_setsChildren() {
       List<Block> content = List.of(NotionBlocks.paragraph("a"), NotionBlocks.paragraph("b"));
       assertEquals(2, NotionBlocks.column(0.25, content).getColumn().getChildren().size());
     }
 
     @Test
+    @DisplayName("with width ratio and block varargs sets width ratio")
     void withWidthRatioAndBlockVarargs_setsWidthRatio() {
       assertEquals(
           0.6,
@@ -240,6 +272,7 @@ class NotionBlocksTest {
     }
 
     @Test
+    @DisplayName("with width ratio and block varargs sets children")
     void withWidthRatioAndBlockVarargs_setsChildren() {
       assertEquals(
           2,
@@ -250,6 +283,7 @@ class NotionBlocksTest {
     }
 
     @Test
+    @DisplayName("with width ratio and block varargs children are defensive copy")
     void withWidthRatioAndBlockVarargs_childrenAreDefensiveCopy() {
       ParagraphBlock p1 = NotionBlocks.paragraph("a");
       ParagraphBlock p2 = NotionBlocks.paragraph("b");
@@ -264,12 +298,14 @@ class NotionBlocksTest {
   class Columns {
 
     @Test
+    @DisplayName("from column block varargs less than two throws illegal argument")
     void fromColumnBlockVarargs_lessThanTwo_throwsIllegalArgument() {
       ColumnBlock col = NotionBlocks.column(b -> b.paragraph("x"));
       assertThrows(IllegalArgumentException.class, () -> NotionBlocks.columns(col));
     }
 
     @Test
+    @DisplayName("from column block varargs two blocks returns column list block")
     void fromColumnBlockVarargs_twoBlocks_returnsColumnListBlock() {
       ColumnBlock a = NotionBlocks.column(b -> b.paragraph("a"));
       ColumnBlock c = NotionBlocks.column(b -> b.paragraph("c"));
@@ -277,6 +313,7 @@ class NotionBlocksTest {
     }
 
     @Test
+    @DisplayName("from column block varargs two blocks sets two columns")
     void fromColumnBlockVarargs_twoBlocks_setsTwoColumns() {
       ColumnBlock a = NotionBlocks.column(b -> b.paragraph("a"));
       ColumnBlock c = NotionBlocks.column(b -> b.paragraph("c"));
@@ -284,6 +321,7 @@ class NotionBlocksTest {
     }
 
     @Test
+    @DisplayName("from column block varargs preserves width ratios")
     void fromColumnBlockVarargs_preservesWidthRatios() {
       ColumnBlock a = NotionBlocks.column(0.3, b -> b.paragraph("a"));
       ColumnBlock c = NotionBlocks.column(0.7, b -> b.paragraph("c"));
@@ -293,6 +331,7 @@ class NotionBlocksTest {
     }
 
     @Test
+    @DisplayName("from column block list returns column list block")
     void fromColumnBlockList_returnsColumnListBlock() {
       ColumnBlock a = NotionBlocks.column(b -> b.paragraph("a"));
       ColumnBlock c = NotionBlocks.column(b -> b.paragraph("c"));
@@ -300,12 +339,14 @@ class NotionBlocksTest {
     }
 
     @Test
+    @DisplayName("from column block list less than two throws illegal argument")
     void fromColumnBlockList_lessThanTwo_throwsIllegalArgument() {
       ColumnBlock col = NotionBlocks.column(b -> b.paragraph("x"));
       assertThrows(IllegalArgumentException.class, () -> NotionBlocks.columns(List.of(col)));
     }
 
     @Test
+    @DisplayName("from column block list sets two columns")
     void fromColumnBlockList_setsTwoColumns() {
       ColumnBlock a = NotionBlocks.column(b -> b.paragraph("a"));
       ColumnBlock c = NotionBlocks.column(b -> b.paragraph("c"));
@@ -314,6 +355,7 @@ class NotionBlocksTest {
 
     @SuppressWarnings("unchecked")
     @Test
+    @DisplayName("from block list varargs returns column list block")
     void fromBlockListVarargs_returnsColumnListBlock() {
       List<Block> left = List.of(NotionBlocks.paragraph("left"));
       List<Block> right = List.of(NotionBlocks.paragraph("right"));
@@ -322,6 +364,7 @@ class NotionBlocksTest {
 
     @SuppressWarnings("unchecked")
     @Test
+    @DisplayName("from block list varargs sets two columns")
     void fromBlockListVarargs_setsTwoColumns() {
       List<Block> left = List.of(NotionBlocks.paragraph("left"));
       List<Block> right = List.of(NotionBlocks.paragraph("right"));
@@ -330,6 +373,7 @@ class NotionBlocksTest {
 
     @SuppressWarnings("unchecked")
     @Test
+    @DisplayName("from block list varargs each list becomes column children")
     void fromBlockListVarargs_eachListBecomesColumnChildren() {
       List<Block> left = List.of(NotionBlocks.paragraph("a"), NotionBlocks.paragraph("b"));
       List<Block> right = List.of(NotionBlocks.heading1("h"));
@@ -340,6 +384,7 @@ class NotionBlocksTest {
 
     @SuppressWarnings("unchecked")
     @Test
+    @DisplayName("from block list varargs less than two throws illegal argument")
     void fromBlockListVarargs_lessThanTwo_throwsIllegalArgument() {
       List<Block> single = List.of(NotionBlocks.paragraph("x"));
       assertThrows(IllegalArgumentException.class, () -> NotionBlocks.columns(single));
@@ -347,6 +392,7 @@ class NotionBlocksTest {
 
     @SuppressWarnings("unchecked")
     @Test
+    @DisplayName("from consumers returns column list block")
     void fromConsumers_returnsColumnListBlock() {
       assertInstanceOf(
           ColumnListBlock.class,
@@ -355,6 +401,7 @@ class NotionBlocksTest {
 
     @SuppressWarnings("unchecked")
     @Test
+    @DisplayName("from consumers sets two columns")
     void fromConsumers_setsTwoColumns() {
       assertEquals(
           2,
@@ -366,6 +413,7 @@ class NotionBlocksTest {
 
     @SuppressWarnings("unchecked")
     @Test
+    @DisplayName("from consumers each consumer populates its column")
     void fromConsumers_eachConsumerPopulatesItsColumn() {
       List<ColumnBlock> children =
           NotionBlocks.columns(b -> b.paragraph("a").paragraph("b"), b -> b.heading1("h"))
@@ -377,6 +425,7 @@ class NotionBlocksTest {
 
     @SuppressWarnings("unchecked")
     @Test
+    @DisplayName("from consumers less than two throws illegal argument")
     void fromConsumers_lessThanTwo_throwsIllegalArgument() {
       assertThrows(
           IllegalArgumentException.class, () -> NotionBlocks.columns(b -> b.paragraph("only")));
@@ -387,6 +436,7 @@ class NotionBlocksTest {
   class Divider {
 
     @Test
+    @DisplayName("returns divider block")
     void returnsDividerBlock() {
       assertInstanceOf(DividerBlock.class, NotionBlocks.divider());
     }
@@ -396,6 +446,7 @@ class NotionBlocksTest {
   class Embed {
 
     @Test
+    @DisplayName("from string sets url")
     void fromString_setsUrl() {
       assertEquals(
           "https://example.com", NotionBlocks.embed("https://example.com").getEmbed().getUrl());
@@ -406,6 +457,7 @@ class NotionBlocksTest {
   class Equation {
 
     @Test
+    @DisplayName("sets expression")
     void setsExpression() {
       assertEquals("E=mc^2", NotionBlocks.equation("E=mc^2").getEquation().getExpression());
     }
@@ -415,11 +467,13 @@ class NotionBlocksTest {
   class File {
 
     @Test
+    @DisplayName("from external url sets external type")
     void fromExternalUrl_setsExternalType() {
       assertEquals("external", NotionBlocks.file(EXTERNAL_URL).getFile().getType());
     }
 
     @Test
+    @DisplayName("from uuid sets file upload type")
     void fromUuid_setsFileUploadType() {
       assertEquals("file_upload", NotionBlocks.file(UUID_STRING).getFile().getType());
     }
@@ -429,6 +483,7 @@ class NotionBlocksTest {
   class Heading1 {
 
     @Test
+    @DisplayName("from string sets plain text")
     void fromString_setsPlainText() {
       assertEquals(
           "Title",
@@ -436,6 +491,7 @@ class NotionBlocksTest {
     }
 
     @Test
+    @DisplayName("from varargs sets multiple")
     void fromVarargs_setsMultiple() {
       assertEquals(
           2,
@@ -447,6 +503,7 @@ class NotionBlocksTest {
   class Heading2 {
 
     @Test
+    @DisplayName("from string sets plain text")
     void fromString_setsPlainText() {
       assertEquals(
           "Sub", NotionBlocks.heading2("Sub").getHeading2().getRichText().get(0).getPlainText());
@@ -457,6 +514,7 @@ class NotionBlocksTest {
   class Heading3 {
 
     @Test
+    @DisplayName("from string sets plain text")
     void fromString_setsPlainText() {
       assertEquals(
           "H3", NotionBlocks.heading3("H3").getHeading3().getRichText().get(0).getPlainText());
@@ -467,6 +525,7 @@ class NotionBlocksTest {
   class Heading4 {
 
     @Test
+    @DisplayName("from string sets plain text")
     void fromString_setsPlainText() {
       assertEquals(
           "H4", NotionBlocks.heading4("H4").getHeading4().getRichText().get(0).getPlainText());
@@ -477,11 +536,13 @@ class NotionBlocksTest {
   class Image {
 
     @Test
+    @DisplayName("from external url sets external type")
     void fromExternalUrl_setsExternalType() {
       assertEquals("external", NotionBlocks.image(EXTERNAL_URL).getImage().getType());
     }
 
     @Test
+    @DisplayName("from uuid sets file upload type")
     void fromUuid_setsFileUploadType() {
       assertEquals("file_upload", NotionBlocks.image(UUID_STRING).getImage().getType());
     }
@@ -491,11 +552,13 @@ class NotionBlocksTest {
   class LinkToPage {
 
     @Test
+    @DisplayName("sets page id")
     void setsPageId() {
       assertEquals("page-1", NotionBlocks.linkToPage("page-1").getLinkToPage().getPageId());
     }
 
     @Test
+    @DisplayName("sets type to page id")
     void setsTypeToPageId() {
       assertEquals("page_id", NotionBlocks.linkToPage("page-1").getLinkToPage().getType());
     }
@@ -505,11 +568,13 @@ class NotionBlocksTest {
   class LinkToDatabase {
 
     @Test
+    @DisplayName("sets database id")
     void setsDatabaseId() {
       assertEquals("db-1", NotionBlocks.linkToDatabase("db-1").getLinkToPage().getDatabaseId());
     }
 
     @Test
+    @DisplayName("sets type to database")
     void setsTypeToDatabase() {
       assertEquals("database_id", NotionBlocks.linkToDatabase("db-1").getLinkToPage().getType());
     }
@@ -519,11 +584,13 @@ class NotionBlocksTest {
   class LinkToComment {
 
     @Test
+    @DisplayName("sets comment id")
     void setsCommentId() {
       assertEquals("c-1", NotionBlocks.linkToComment("c-1").getLinkToPage().getCommentId());
     }
 
     @Test
+    @DisplayName("sets type to comment id")
     void setsTypeToCommentId() {
       assertEquals("comment_id", NotionBlocks.linkToComment("c-1").getLinkToPage().getType());
     }
@@ -533,11 +600,13 @@ class NotionBlocksTest {
   class Numbered {
 
     @Test
+    @DisplayName("from string creates one rich text")
     void fromString_createsOneRichText() {
       assertEquals(1, NotionBlocks.numbered("item").getNumberedListItem().getRichText().size());
     }
 
     @Test
+    @DisplayName("from string sets plain text")
     void fromString_setsPlainText() {
       assertEquals(
           "item",
@@ -549,11 +618,13 @@ class NotionBlocksTest {
   class NumberedList {
 
     @Test
+    @DisplayName("varargs returns correct count")
     void varargs_returnsCorrectCount() {
       assertEquals(3, NotionBlocks.numberedItems("a", "b", "c").size());
     }
 
     @Test
+    @DisplayName("each item is numbered list item block")
     void eachItem_isNumberedListItemBlock() {
       NotionBlocks.numberedItems("x", "y")
           .forEach(b -> assertInstanceOf(NumberedListItemBlock.class, b));
@@ -564,11 +635,13 @@ class NotionBlocksTest {
   class Paragraph {
 
     @Test
+    @DisplayName("from string creates one rich text")
     void fromString_createsOneRichText() {
       assertEquals(1, NotionBlocks.paragraph("Hello").getParagraph().getRichText().size());
     }
 
     @Test
+    @DisplayName("from string sets plain text")
     void fromString_setsPlainText() {
       assertEquals(
           "Hello",
@@ -576,6 +649,7 @@ class NotionBlocksTest {
     }
 
     @Test
+    @DisplayName("from varargs sets multiple")
     void fromVarargs_setsMultiple() {
       assertEquals(
           2,
@@ -590,11 +664,13 @@ class NotionBlocksTest {
   class ParagraphList {
 
     @Test
+    @DisplayName("varargs returns correct count")
     void varargs_returnsCorrectCount() {
       assertEquals(2, NotionBlocks.paragraphList("a", "b").size());
     }
 
     @Test
+    @DisplayName("each item is paragraph block")
     void eachItem_isParagraphBlock() {
       NotionBlocks.paragraphList("x", "y").forEach(b -> assertInstanceOf(ParagraphBlock.class, b));
     }
@@ -604,11 +680,13 @@ class NotionBlocksTest {
   class Pdf {
 
     @Test
+    @DisplayName("from external url sets external type")
     void fromExternalUrl_setsExternalType() {
       assertEquals("external", NotionBlocks.pdf(EXTERNAL_URL).getPdf().getType());
     }
 
     @Test
+    @DisplayName("from uuid sets file upload type")
     void fromUuid_setsFileUploadType() {
       assertEquals("file_upload", NotionBlocks.pdf(UUID_STRING).getPdf().getType());
     }
@@ -618,12 +696,14 @@ class NotionBlocksTest {
   class Quote {
 
     @Test
+    @DisplayName("from string sets plain text")
     void fromString_setsPlainText() {
       assertEquals(
           "wisdom", NotionBlocks.quote("wisdom").getQuote().getRichText().get(0).getPlainText());
     }
 
     @Test
+    @DisplayName("from varargs sets multiple rich texts")
     void fromVarargs_setsMultipleRichTexts() {
       assertEquals(
           2, NotionBlocks.quote(plainText("a"), plainText("b")).getQuote().getRichText().size());
@@ -634,6 +714,7 @@ class NotionBlocksTest {
   class Synced {
 
     @Test
+    @DisplayName("from varargs sets children")
     void fromVarargs_setsChildren() {
       assertEquals(
           2,
@@ -644,6 +725,7 @@ class NotionBlocksTest {
     }
 
     @Test
+    @DisplayName("from consumer sets children")
     void fromConsumer_setsChildren() {
       assertFalse(
           NotionBlocks.synced(b -> b.paragraph("x")).getSyncedBlock().getChildren().isEmpty());
@@ -654,6 +736,7 @@ class NotionBlocksTest {
   class SyncedFrom {
 
     @Test
+    @DisplayName("sets block id")
     void setsBlockId() {
       assertEquals(
           "block-123",
@@ -665,18 +748,21 @@ class NotionBlocksTest {
   class Table {
 
     @Test
+    @DisplayName("from varargs infers table width")
     void fromVarargs_infersTableWidth() {
       TableRowBlock row = NotionBlocks.tableRow("a", "b", "c");
       assertEquals(3, NotionBlocks.table(row).getTable().getTableWidth());
     }
 
     @Test
+    @DisplayName("from varargs sets children")
     void fromVarargs_setsChildren() {
       TableRowBlock row = NotionBlocks.tableRow("a", "b");
       assertEquals(1, NotionBlocks.table(row).getTable().getChildren().size());
     }
 
     @Test
+    @DisplayName("mismatched row widths throws illegal argument")
     void mismatchedRowWidths_throwsIllegalArgument() {
       TableRowBlock r1 = NotionBlocks.tableRow("a", "b");
       TableRowBlock r2 = NotionBlocks.tableRow("x");
@@ -684,6 +770,7 @@ class NotionBlocksTest {
     }
 
     @Test
+    @DisplayName("empty rows table width is zero")
     void emptyRows_tableWidthIsZero() {
       assertEquals(0, NotionBlocks.table(List.of()).getTable().getTableWidth());
     }
@@ -693,11 +780,13 @@ class NotionBlocksTest {
   class TableRow {
 
     @Test
+    @DisplayName("from strings creates correct cell count")
     void fromStrings_createsCorrectCellCount() {
       assertEquals(3, NotionBlocks.tableRow("a", "b", "c").getTableRow().getCells().size());
     }
 
     @Test
+    @DisplayName("from strings each cell contains one rich text")
     void fromStrings_eachCellContainsOneRichText() {
       NotionBlocks.tableRow("x", "y")
           .getTableRow()
@@ -706,12 +795,14 @@ class NotionBlocksTest {
     }
 
     @Test
+    @DisplayName("from rich texts each arg becomes separate cell")
     void fromRichTexts_eachArgBecomesSeparateCell() {
       assertEquals(
           2, NotionBlocks.tableRow(plainText("a"), plainText("b")).getTableRow().getCells().size());
     }
 
     @Test
+    @DisplayName("from rich texts cell contains same rich text instance")
     void fromRichTexts_cellContainsSameRichTextInstance() {
       RichText rt = plainText("hello");
       assertSame(rt, NotionBlocks.tableRow(rt).getTableRow().getCells().get(0).get(0));
@@ -722,22 +813,26 @@ class NotionBlocksTest {
   class TableOfContents {
 
     @Test
+    @DisplayName("no args returns table of contents block")
     void noArgs_returnsTableOfContentsBlock() {
       assertInstanceOf(TableOfContentsBlock.class, NotionBlocks.tableOfContents());
     }
 
     @Test
+    @DisplayName("with color enum sets color value")
     void withColorEnum_setsColorValue() {
       assertEquals(
           "blue", NotionBlocks.tableOfContents(Color.BLUE).getTableOfContents().getColor());
     }
 
     @Test
+    @DisplayName("with color string sets color value")
     void withColorString_setsColorValue() {
       assertEquals("gray", NotionBlocks.tableOfContents("gray").getTableOfContents().getColor());
     }
 
     @Test
+    @DisplayName("null color throws illegal argument")
     void nullColor_throwsIllegalArgument() {
       assertThrows(
           IllegalArgumentException.class, () -> NotionBlocks.tableOfContents((Color) null));
@@ -748,12 +843,14 @@ class NotionBlocksTest {
   class Todo {
 
     @Test
+    @DisplayName("from string sets plain text")
     void fromString_setsPlainText() {
       assertEquals(
           "Buy milk", NotionBlocks.todo("Buy milk").getToDo().getRichText().get(0).getPlainText());
     }
 
     @Test
+    @DisplayName("from varargs sets multiple rich texts")
     void fromVarargs_setsMultipleRichTexts() {
       assertEquals(
           2, NotionBlocks.todo(plainText("a"), plainText("b")).getToDo().getRichText().size());
@@ -764,11 +861,13 @@ class NotionBlocksTest {
   class TodoList {
 
     @Test
+    @DisplayName("varargs returns correct count")
     void varargs_returnsCorrectCount() {
       assertEquals(2, NotionBlocks.todos("a", "b").size());
     }
 
     @Test
+    @DisplayName("each item is to do block")
     void eachItem_isToDoBlock() {
       NotionBlocks.todos("x", "y").forEach(b -> assertInstanceOf(ToDoBlock.class, b));
     }
@@ -778,12 +877,14 @@ class NotionBlocksTest {
   class Toggle {
 
     @Test
+    @DisplayName("from string sets plain text")
     void fromString_setsPlainText() {
       assertEquals(
           "expand", NotionBlocks.toggle("expand").getToggle().getRichText().get(0).getPlainText());
     }
 
     @Test
+    @DisplayName("from varargs sets multiple rich texts")
     void fromVarargs_setsMultipleRichTexts() {
       assertEquals(
           2, NotionBlocks.toggle(plainText("a"), plainText("b")).getToggle().getRichText().size());
@@ -794,11 +895,13 @@ class NotionBlocksTest {
   class ToggleList {
 
     @Test
+    @DisplayName("varargs returns correct count")
     void varargs_returnsCorrectCount() {
       assertEquals(2, NotionBlocks.toggles("a", "b").size());
     }
 
     @Test
+    @DisplayName("each item is toggle block")
     void eachItem_isToggleBlock() {
       NotionBlocks.toggles("x", "y").forEach(b -> assertInstanceOf(ToggleBlock.class, b));
     }
@@ -808,11 +911,13 @@ class NotionBlocksTest {
   class Video {
 
     @Test
+    @DisplayName("from external url sets external type")
     void fromExternalUrl_setsExternalType() {
       assertEquals("external", NotionBlocks.video(EXTERNAL_URL).getVideo().getType());
     }
 
     @Test
+    @DisplayName("from uuid sets file upload type")
     void fromUuid_setsFileUploadType() {
       assertEquals("file_upload", NotionBlocks.video(UUID_STRING).getVideo().getType());
     }

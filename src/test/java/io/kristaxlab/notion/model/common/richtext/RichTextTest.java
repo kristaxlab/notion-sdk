@@ -4,11 +4,13 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import io.kristaxlab.notion.model.common.Color;
 import java.util.List;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class RichTextTest {
 
   @Test
+  @DisplayName("constructor initializes annotations")
   void constructor_initializesAnnotations() {
     RichText richText = new RichText();
 
@@ -16,6 +18,7 @@ class RichTextTest {
   }
 
   @Test
+  @DisplayName("as list wraps current instance")
   void asList_wrapsCurrentInstance() {
     RichText richText = new RichText();
 
@@ -26,6 +29,7 @@ class RichTextTest {
   }
 
   @Test
+  @DisplayName("as list returns new list each call")
   void asList_returnsNewListEachCall() {
     RichText richText = new RichText();
 
@@ -38,6 +42,7 @@ class RichTextTest {
   }
 
   @Test
+  @DisplayName("bold without argument sets bold true and returns same instance")
   void bold_withoutArgument_setsBoldTrueAndReturnsSameInstance() {
     RichText richText = new RichText();
 
@@ -48,6 +53,7 @@ class RichTextTest {
   }
 
   @Test
+  @DisplayName("bold with false sets bold false")
   void bold_withFalse_setsBoldFalse() {
     RichText richText = new RichText();
 
@@ -57,6 +63,7 @@ class RichTextTest {
   }
 
   @Test
+  @DisplayName("style methods recreate annotations when null")
   void styleMethods_recreateAnnotationsWhenNull() {
     RichText richText = new RichText();
     richText.setAnnotations(null);
@@ -71,6 +78,7 @@ class RichTextTest {
   }
 
   @Test
+  @DisplayName("style boolean overloads set expected values")
   void styleBooleanOverloads_setExpectedValues() {
     RichText richText = new RichText();
 
@@ -83,6 +91,7 @@ class RichTextTest {
   }
 
   @Test
+  @DisplayName("color sets annotation color and returns same instance")
   void color_setsAnnotationColorAndReturnsSameInstance() {
     RichText richText = new RichText();
 
@@ -93,6 +102,7 @@ class RichTextTest {
   }
 
   @Test
+  @DisplayName("color with null throws exception")
   void color_withNull_throwsException() {
     RichText richText = new RichText();
 
@@ -100,6 +110,7 @@ class RichTextTest {
   }
 
   @Test
+  @DisplayName("color helpers set expected color values")
   void colorHelpers_setExpectedColorValues() {
     RichText richText = new RichText();
 

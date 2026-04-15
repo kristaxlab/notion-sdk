@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -22,36 +23,43 @@ class FileUploadUtilsTest {
   // ── calculateNumberOfParts ─────────────────────────────────────────────────
 
   @Test
+  @DisplayName("calculate number of parts exact division returns quotient")
   void calculateNumberOfParts_exactDivision_returnsQuotient() {
     assertEquals(2, FileUploadUtils.calculateNumberOfParts(10, 5));
   }
 
   @Test
+  @DisplayName("calculate number of parts non exact division returns ceiling")
   void calculateNumberOfParts_nonExactDivision_returnsCeiling() {
     assertEquals(3, FileUploadUtils.calculateNumberOfParts(11, 5));
   }
 
   @Test
+  @DisplayName("calculate number of parts file smaller than part size returns one")
   void calculateNumberOfParts_fileSmallerThanPartSize_returnsOne() {
     assertEquals(1, FileUploadUtils.calculateNumberOfParts(3, 5));
   }
 
   @Test
+  @DisplayName("calculate number of parts file size equals part size returns one")
   void calculateNumberOfParts_fileSizeEqualsPartSize_returnsOne() {
     assertEquals(1, FileUploadUtils.calculateNumberOfParts(5, 5));
   }
 
   @Test
+  @DisplayName("calculate number of parts file size of one returns one")
   void calculateNumberOfParts_fileSizeOfOne_returnsOne() {
     assertEquals(1, FileUploadUtils.calculateNumberOfParts(1, 1000));
   }
 
   @Test
+  @DisplayName("calculate number of parts zero file size returns zero")
   void calculateNumberOfParts_zeroFileSize_returnsZero() {
     assertEquals(0, FileUploadUtils.calculateNumberOfParts(0, 5));
   }
 
   @Test
+  @DisplayName("calculate number of parts zero part size should throw exception")
   void calculateNumberOfParts_zeroPartSize_shouldThrowException() {
     assertThrows(
         IllegalArgumentException.class, () -> FileUploadUtils.calculateNumberOfParts(10, 0));
@@ -59,6 +67,7 @@ class FileUploadUtilsTest {
 
   @ParameterizedTest
   @ValueSource(longs = {-1, -100, Long.MIN_VALUE})
+  @DisplayName("calculate number of parts negative part size should throw exception")
   void calculateNumberOfParts_negativePartSize_shouldThrowException(long partSize) {
     assertThrows(
         IllegalArgumentException.class, () -> FileUploadUtils.calculateNumberOfParts(10, partSize));
@@ -67,6 +76,7 @@ class FileUploadUtilsTest {
   // ── fileToBytes ────────────────────────────────────────────────────────────
 
   @Test
+  @DisplayName("file to bytes should return file contents")
   void fileToBytes_shouldReturnFileContents() throws IOException {
     byte[] expected = {1, 2, 3, 4, 5};
     Path file = tempDir.resolve("data.bin");
@@ -78,6 +88,7 @@ class FileUploadUtilsTest {
   }
 
   @Test
+  @DisplayName("file to bytes empty file should return empty array")
   void fileToBytes_emptyFile_shouldReturnEmptyArray() throws IOException {
     Path file = tempDir.resolve("empty.bin");
     Files.write(file, new byte[0]);
@@ -89,6 +100,7 @@ class FileUploadUtilsTest {
   }
 
   @Test
+  @DisplayName("file to bytes non existent file should throw io exception")
   void fileToBytes_nonExistentFile_shouldThrowIOException() {
     File missing = tempDir.resolve("missing.bin").toFile();
 
@@ -98,6 +110,7 @@ class FileUploadUtilsTest {
   // ── splitFileIntoParts ─────────────────────────────────────────────────────
 
   @Test
+  @DisplayName("split file into parts exact division returns correct number of parts")
   void splitFileIntoParts_exactDivision_returnsCorrectNumberOfParts() throws IOException {
     byte[] content = new byte[10];
     Arrays.fill(content, (byte) 1);
@@ -111,6 +124,7 @@ class FileUploadUtilsTest {
   }
 
   @Test
+  @DisplayName("split file into parts non exact division last part is smaller than part size")
   void splitFileIntoParts_nonExactDivision_lastPartIsSmallerThanPartSize() throws IOException {
     byte[] content = new byte[11];
     Arrays.fill(content, (byte) 7);
@@ -127,6 +141,7 @@ class FileUploadUtilsTest {
   }
 
   @Test
+  @DisplayName("split file into parts file smaller than part size returns single part")
   void splitFileIntoParts_fileSmallerThanPartSize_returnsSinglePart() throws IOException {
     byte[] content = {10, 20, 30};
     Path file = tempDir.resolve("small.bin");
@@ -140,6 +155,7 @@ class FileUploadUtilsTest {
   }
 
   @Test
+  @DisplayName("split file into parts part numbers are one based")
   void splitFileIntoParts_partNumbersAreOneBased() throws IOException {
     byte[] content = new byte[10];
     Path file = tempDir.resolve("input.bin");
@@ -154,6 +170,7 @@ class FileUploadUtilsTest {
   }
 
   @Test
+  @DisplayName("split file into parts concatenated parts match original content")
   void splitFileIntoParts_concatenatedPartsMatchOriginalContent() throws IOException {
     byte[] content = new byte[13];
     for (int i = 0; i < content.length; i++) {
@@ -176,6 +193,7 @@ class FileUploadUtilsTest {
   }
 
   @Test
+  @DisplayName("split file into parts creates output directory if not exists")
   void splitFileIntoParts_createsOutputDirectoryIfNotExists() throws IOException {
     byte[] content = {1, 2, 3};
     Path file = tempDir.resolve("input.bin");
@@ -190,6 +208,7 @@ class FileUploadUtilsTest {
   }
 
   @Test
+  @DisplayName("split file into parts each part file exists")
   void splitFileIntoParts_eachPartFileExists() throws IOException {
     byte[] content = new byte[15];
     Path file = tempDir.resolve("input.bin");
@@ -204,6 +223,7 @@ class FileUploadUtilsTest {
   // ── cleanupPartsFiles ──────────────────────────────────────────────────────
 
   @Test
+  @DisplayName("cleanup parts files should delete all existing files")
   void cleanupPartsFiles_shouldDeleteAllExistingFiles() throws IOException {
     Path f1 = Files.createTempFile(tempDir, "part1", ".bin");
     Path f2 = Files.createTempFile(tempDir, "part2", ".bin");
@@ -216,11 +236,13 @@ class FileUploadUtilsTest {
   }
 
   @Test
+  @DisplayName("cleanup parts files null collection should not throw")
   void cleanupPartsFiles_nullCollection_shouldNotThrow() {
     assertDoesNotThrow(() -> FileUploadUtils.cleanupPartsFiles(null));
   }
 
   @Test
+  @DisplayName("cleanup parts files collection with null elements should not throw")
   void cleanupPartsFiles_collectionWithNullElements_shouldNotThrow() throws IOException {
     Path existing = Files.createTempFile(tempDir, "part", ".bin");
     List<File> parts = new ArrayList<>();
@@ -233,6 +255,7 @@ class FileUploadUtilsTest {
   }
 
   @Test
+  @DisplayName("cleanup parts files non existent file should not throw")
   void cleanupPartsFiles_nonExistentFile_shouldNotThrow() {
     File ghost = tempDir.resolve("ghost.bin").toFile();
 
@@ -240,6 +263,7 @@ class FileUploadUtilsTest {
   }
 
   @Test
+  @DisplayName("cleanup parts files empty collection should not throw")
   void cleanupPartsFiles_emptyCollection_shouldNotThrow() {
     assertDoesNotThrow(() -> FileUploadUtils.cleanupPartsFiles(List.of()));
   }
