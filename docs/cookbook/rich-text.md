@@ -4,7 +4,7 @@ Build styled text for paragraphs, headings, list items, and any other block that
 below use static helper methods from `NotionText` for brevity, but you can also construct `RichText` objects directly.
 
 ```java
-import static io.kristixlab.notion.api.model.helper.NotionText.*;
+import static io.kristaxlab.notion.fluent.NotionText.*;
 ```
 
 ## Plain text

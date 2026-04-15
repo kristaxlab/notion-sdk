@@ -4,8 +4,8 @@ Columns, tables, callouts, code blocks, and other structural block types. All th
 a static import of `NotionBlocks` and `NotionText` for blocks and text factory methods.
 
 ```java
-import static io.kristixlab.notion.api.model.helper.NotionBlocks.*;
-import static io.kristixlab.notion.api.model.helper.NotionText.*;
+import static io.kristaxlab.notion.fluent.NotionBlocks.*;
+import static io.kristaxlab.notion.fluent.NotionText.*;
 ```
 
 ## Columns

@@ -1,10 +1,10 @@
 # Adding Blocks
 
 Append blocks to an existing page or block. This is the most common Notion SDK operation. All the examples implies
-a static import of `io.kristixlab.notion.api.model.helper.NotionBlocks.*` for block factory methods.
+a static import of `NotionBlocks.*` for block factory methods.
 
 ```java
-import static io.kristixlab.notion.api.model.helper.NotionBlocks.*;
+import static io.kristaxlab.notion.fluent.NotionBlocks.*;
 ```
 
 ## Append a single block
