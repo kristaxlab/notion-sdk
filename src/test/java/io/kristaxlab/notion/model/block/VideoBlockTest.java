@@ -16,4 +16,3 @@ class VideoBlockTest {
     assertNotNull(block.getVideo());
   }
 }
-

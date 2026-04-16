@@ -16,4 +16,3 @@ class ImageBlockTest {
     assertNotNull(block.getImage());
   }
 }
-

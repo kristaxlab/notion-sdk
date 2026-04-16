@@ -16,4 +16,3 @@ class PdfBlockTest {
     assertNotNull(block.getPdf());
   }
 }
-

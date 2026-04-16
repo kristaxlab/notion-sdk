@@ -16,4 +16,3 @@ class FileBlockTest {
     assertNotNull(block.getFile());
   }
 }
-

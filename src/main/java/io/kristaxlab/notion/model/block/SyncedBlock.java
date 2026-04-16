@@ -29,9 +29,7 @@ public class SyncedBlock extends Block {
     @JsonInclude(JsonInclude.Include.ALWAYS)
     private SyncedFrom syncedFrom;
 
-    /**
-     * The content blocks.
-     */
+    /** The content blocks. */
     private List<Block> children;
   }
 
