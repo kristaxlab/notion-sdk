@@ -17,6 +17,7 @@ public class CalloutBlock extends Block {
 
   private Callout callout;
 
+  /** Creates a callout block initialized with default callout payload. */
   public CalloutBlock() {
     setType(BlockType.CALLOUT.getValue());
     callout = new Callout();

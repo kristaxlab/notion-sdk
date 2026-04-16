@@ -42,7 +42,7 @@ client.blocks().appendChildren("page-id", table(
 ```java
 client.blocks().appendChildren("page-id", List.of(
     callout("💡", "Prefer fluent builders for long, nested content"),
-    code("java", "NotionClient client = NotionClient.forToken(\"secret_xxx\");")
+    code("java", "NotionClient client = NotionClient.forToken(\"ntn_xxx\");")
 ));
 ```
 

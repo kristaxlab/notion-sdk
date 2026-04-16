@@ -13,11 +13,13 @@ public class ChildPageBlock extends Block {
 
   private ChildPage childPage;
 
+  /** Creates a child-page block placeholder for API payload mapping. */
   public ChildPageBlock() {
     setType(BlockType.CHILD_PAGE.getValue());
     childPage = new ChildPage();
   }
 
+  /** Inner payload holding the referenced child page title. */
   @Getter
   @Setter
   public static class ChildPage {

@@ -1,6 +1,5 @@
 package io.kristaxlab.notion.model.block;
 
-import io.kristaxlab.notion.model.common.Color;
 import io.kristaxlab.notion.model.common.Icon;
 import lombok.Getter;
 import lombok.Setter;
@@ -8,8 +7,8 @@ import lombok.Setter;
 /**
  * A Notion paragraph block.
  *
- * <p>Simple construction via {@link #of(String)} or {@link #of(String, Color)}. For rich text
- * formatting, nested children, or conditional fields use {@link #builder()}.
+ * <p>Create instances with {@link #builder()} to configure rich text, block color, optional icon,
+ * and nested children.
  */
 @Getter
 @Setter

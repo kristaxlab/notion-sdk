@@ -18,11 +18,22 @@ public final class ConfigKey<T> {
     this.name = Objects.requireNonNull(name, "name");
   }
 
-  /** Creates a new key. Each invocation produces a distinct instance — store as a constant. */
+  /**
+   * Creates a new key. Each invocation produces a distinct instance — store as a constant.
+   *
+   * @param name diagnostic key name for logs and debugging
+   * @param <T> value type associated with the key
+   * @return new identity key
+   */
   public static <T> ConfigKey<T> of(String name) {
     return new ConfigKey<>(name);
   }
 
+  /**
+   * Returns the diagnostic key name.
+   *
+   * @return key name
+   */
   public String name() {
     return name;
   }

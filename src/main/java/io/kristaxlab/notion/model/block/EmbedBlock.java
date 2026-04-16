@@ -13,13 +13,14 @@ import lombok.Setter;
 /**
  * A Notion embed block that displays an embedded external content (e.g., maps, tweets, videos).
  *
- * <p>Simple construction via {@link #of(String)}. For adding a caption use {@link #builder()}.
+ * <p>Create instances with {@link #builder()} to set the embed URL and optional rich-text caption.
  */
 @Getter
 @Setter
 public class EmbedBlock extends Block {
   private Embed embed;
 
+  /** Creates an embed block initialized with an empty embed payload. */
   public EmbedBlock() {
     setType(BlockType.EMBED.getValue());
     embed = new Embed();
@@ -64,20 +65,44 @@ public class EmbedBlock extends Block {
       return this;
     }
 
+    /**
+     * Adds caption text as a plain rich-text fragment.
+     *
+     * @param caption caption text
+     * @return this builder
+     */
     public Builder caption(String caption) {
       this.caption.add(NotionText.plainText(caption));
       return this;
     }
 
+    /**
+     * Adds caption fragments.
+     *
+     * @param caption rich-text fragments to append
+     * @return this builder
+     */
     public Builder caption(RichText... caption) {
       return caption(Arrays.asList(caption));
     }
 
+    /**
+     * Adds caption fragments.
+     *
+     * @param caption rich-text fragments to append
+     * @return this builder
+     */
     public Builder caption(List<RichText> caption) {
       this.caption.addAll(caption);
       return this;
     }
 
+    /**
+     * Builds caption fragments with the fluent text builder and appends them.
+     *
+     * @param consumer callback that populates a {@link NotionTextBuilder}
+     * @return this builder
+     */
     public Builder caption(Consumer<NotionTextBuilder> consumer) {
       NotionTextBuilder builder = new NotionTextBuilder();
       consumer.accept(builder);

@@ -40,16 +40,34 @@ public class CreatePageParams {
   /** Optional placement for new content when the parent is a block (see Notion API). */
   private Position position;
 
-  /** Shorthand for {@code builder().parent(parent).title(title).build()}. */
+  /**
+   * Shorthand for {@code builder().parent(parent).title(title).build()}.
+   *
+   * @param parent destination parent
+   * @param title page title
+   * @return page creation payload
+   */
   public static CreatePageParams of(Parent parent, String title) {
     return CreatePageParams.builder().parent(parent).title(title).build();
   }
 
-  /** Shorthand for a titled page with Markdown body content. */
+  /**
+   * Shorthand for a titled page with Markdown body content.
+   *
+   * @param parent destination parent
+   * @param title page title
+   * @param markdown markdown body content
+   * @return page creation payload
+   */
   public static CreatePageParams of(Parent parent, String title, String markdown) {
     return CreatePageParams.builder().parent(parent).title(title).markdown(markdown).build();
   }
 
+  /**
+   * Creates a fluent builder for {@link CreatePageParams}.
+   *
+   * @return new builder
+   */
   public static Builder builder() {
     return new Builder();
   }
@@ -65,12 +83,22 @@ public class CreatePageParams {
     private String markdown;
     private TemplateParams templateParams;
 
-    /** Parent: data source (database) ID. */
+    /**
+     * Sets parent to a data source (database).
+     *
+     * @param dataSourceId data source identifier
+     * @return this builder
+     */
     public Builder underDataSource(String dataSourceId) {
       return parent(Parent.dataSourceParent(dataSourceId));
     }
 
-    /** Parent: existing page ID. */
+    /**
+     * Sets parent to an existing page.
+     *
+     * @param pageId parent page identifier
+     * @return this builder
+     */
     public Builder underPage(String pageId) {
       return parent(Parent.pageParent(pageId));
     }
@@ -78,18 +106,30 @@ public class CreatePageParams {
     /**
      * Parent: workspace (top-level page). Availability depends on your Notion integration and API
      * version.
+     *
+     * @return this builder
      */
     public Builder underWorkspace() {
       return parent(Parent.workspaceParent());
     }
 
-    /** Sets a fully constructed {@link Parent} (overrides any prior {@code under*} call). */
+    /**
+     * Sets a fully constructed {@link Parent} (overrides any prior {@code under*} call).
+     *
+     * @param parent parent descriptor
+     * @return this builder
+     */
     public Builder parent(Parent parent) {
       this.parent = parent;
       return this;
     }
 
-    /** Sets the title property ({@link io.kristaxlab.notion.fluent.NotionProperties#TITLE}). */
+    /**
+     * Sets the title property ({@link io.kristaxlab.notion.fluent.NotionProperties#TITLE}).
+     *
+     * @param text title text
+     * @return this builder
+     */
     public Builder title(String text) {
       return property(NotionProperties.TITLE, NotionProperties.title(text));
     }
@@ -97,24 +137,43 @@ public class CreatePageParams {
     /**
      * Sets a schema property by name. Use for types beyond {@link #title(String)} (e.g. select,
      * date).
+     *
+     * @param name property schema name
+     * @param property property payload
+     * @return this builder
      */
     public Builder property(String name, PageProperty property) {
       this.properties.put(name, property);
       return this;
     }
 
-    /** Replaces body content with the given blocks. */
+    /**
+     * Replaces body content with the given blocks.
+     *
+     * @param blocks body blocks
+     * @return this builder
+     */
     public Builder children(Block... blocks) {
       return children(Arrays.asList(blocks));
     }
 
-    /** Replaces body content with the given blocks. */
+    /**
+     * Replaces body content with the given blocks.
+     *
+     * @param blocks body blocks
+     * @return this builder
+     */
     public Builder children(List<Block> blocks) {
       this.children.addAll(new ArrayList<>(blocks));
       return this;
     }
 
-    /** Builds body blocks with the {@link NotionBlocksBuilder} DSL. */
+    /**
+     * Builds body blocks with the {@link NotionBlocksBuilder} DSL.
+     *
+     * @param consumer callback used to populate blocks
+     * @return this builder
+     */
     public Builder children(Consumer<NotionBlocksBuilder> consumer) {
       NotionBlocksBuilder blocksBuilder = NotionBlocks.blocksBuilder();
       consumer.accept(blocksBuilder);
@@ -122,7 +181,12 @@ public class CreatePageParams {
       return this;
     }
 
-    /** Appends blocks from several lists (e.g. multiple {@code build()} calls). */
+    /**
+     * Appends blocks from several lists (e.g. multiple {@code build()} calls).
+     *
+     * @param blocksList lists of blocks to append
+     * @return this builder
+     */
     public Builder childrenAll(List<List<Block>> blocksList) {
       for (List<Block> blocks : blocksList) {
         this.children.addAll(new ArrayList<>(blocks));
@@ -130,13 +194,23 @@ public class CreatePageParams {
       return this;
     }
 
-    /** Applies a database template when creating in a data source. */
+    /**
+     * Applies a database template when creating in a data source.
+     *
+     * @param templateParams template descriptor
+     * @return this builder
+     */
     public Builder template(TemplateParams templateParams) {
       this.templateParams = templateParams;
       return this;
     }
 
-    /** Page body as Markdown (alternative to {@link #children}). */
+    /**
+     * Sets page body as Markdown (alternative to {@link #children}).
+     *
+     * @param markdown markdown body content
+     * @return this builder
+     */
     public Builder markdown(String markdown) {
       this.markdown = markdown;
       return this;
@@ -145,6 +219,9 @@ public class CreatePageParams {
     /**
      * Emoji or external URL string. Strings starting with {@code http://} or {@code https://} use
      * an external icon.
+     *
+     * @param icon emoji or external icon URL
+     * @return this builder
      */
     public Builder icon(String icon) {
       if (icon.startsWith("https://") || icon.startsWith("http://")) {
@@ -154,7 +231,12 @@ public class CreatePageParams {
       return this;
     }
 
-    /** Sets the page icon. */
+    /**
+     * Sets the page icon.
+     *
+     * @param icon icon payload
+     * @return this builder
+     */
     public Builder icon(Icon icon) {
       this.icon = icon;
       return this;
@@ -162,6 +244,9 @@ public class CreatePageParams {
 
     /**
      * Cover image: UUID string is treated as a file upload ID; otherwise as an external image URL.
+     *
+     * @param coverRef file upload id or external image URL
+     * @return this builder
      */
     public Builder cover(String coverRef) {
       try {
@@ -174,12 +259,22 @@ public class CreatePageParams {
       return this;
     }
 
-    /** Sets the page cover. */
+    /**
+     * Sets the page cover.
+     *
+     * @param cover cover payload
+     * @return this builder
+     */
     public Builder cover(Cover cover) {
       this.cover = cover;
       return this;
     }
 
+    /**
+     * Builds an immutable request payload snapshot.
+     *
+     * @return page creation payload
+     */
     public CreatePageParams build() {
       CreatePageParams params = new CreatePageParams();
       params.setParent(parent);

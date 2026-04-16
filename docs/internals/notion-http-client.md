@@ -5,7 +5,7 @@
 ## Getting `NotionHttpClient`
 
 ```java
-NotionClient client = NotionClient.forToken("secret_abc123...");
+NotionClient client = NotionClient.forToken("ntn_abc123...");
 NotionHttpClient http = client.getHttpClient();
 ```
 

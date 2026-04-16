@@ -11,6 +11,7 @@ public class AudioBlock extends Block {
 
   private FileData audio;
 
+  /** Creates an audio block initialized with an empty {@link FileData} payload. */
   public AudioBlock() {
     setType(BlockType.AUDIO.getValue());
     audio = new FileData();

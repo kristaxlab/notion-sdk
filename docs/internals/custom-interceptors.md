@@ -50,7 +50,7 @@ public class TimingInterceptor implements HttpClientInterceptor {
 ```java
 // Planned API
 NotionClient client = NotionClient.builder()
-    .authToken("secret_xxx")
+    .authToken("ntn_xxx")
     .addInterceptor(new TimingInterceptor())
     .build();
 ```

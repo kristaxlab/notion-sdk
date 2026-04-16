@@ -6,8 +6,8 @@ import lombok.Setter;
 /**
  * A Notion bulleted list item block.
  *
- * <p>Simple construction via {@link #of(String)}. For rich text formatting, nested children, or
- * block color use {@link #builder()}.
+ * <p>Create instances with {@link #builder()} to configure rich text, block color, and nested
+ * children.
  */
 @Getter
 @Setter
@@ -15,6 +15,7 @@ public class BulletedListItemBlock extends Block {
 
   private BulletedListItem bulletedListItem;
 
+  /** Creates a bulleted-list-item block with empty text content. */
   public BulletedListItemBlock() {
     setType(BlockType.BULLETED_LIST_ITEM.getValue());
     bulletedListItem = new BulletedListItem();

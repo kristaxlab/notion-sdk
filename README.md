@@ -25,7 +25,7 @@ implementation 'io.github.kristaxlab:notion-sdk:0.1.0'
 ## Create a client
 
 ```java
-NotionClient client = NotionClient.forToken("secret_abc123...");
+NotionClient client = NotionClient.forToken("ntn_abc123...");
 ```
 
 Defaults: Notion API version `2026-03-11`, base URL `https://api.notion.com/v1`, OkHttp with

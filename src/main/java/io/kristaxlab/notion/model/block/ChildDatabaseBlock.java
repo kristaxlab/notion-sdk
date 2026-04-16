@@ -13,11 +13,13 @@ public class ChildDatabaseBlock extends Block {
 
   private ChildDatabase childDatabase;
 
+  /** Creates a child-database block placeholder for API payload mapping. */
   public ChildDatabaseBlock() {
     setType(BlockType.CHILD_DATABASE.getValue());
     childDatabase = new ChildDatabase();
   }
 
+  /** Inner payload holding the referenced child database title. */
   @Getter
   @Setter
   public static class ChildDatabase {

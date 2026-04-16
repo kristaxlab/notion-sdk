@@ -9,6 +9,7 @@ public class EquationBlock extends Block {
 
   private Equation equation;
 
+  /** Creates an equation block initialized with an empty expression payload. */
   public EquationBlock() {
     setType(BlockType.EQUATION.getValue());
     equation = new Equation();

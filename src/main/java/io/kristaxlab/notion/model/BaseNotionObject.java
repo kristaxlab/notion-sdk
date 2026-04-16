@@ -2,6 +2,7 @@ package io.kristaxlab.notion.model;
 
 import lombok.Data;
 
+/** Base metadata fields present on many Notion API objects. */
 @Data
 public class BaseNotionObject {
 

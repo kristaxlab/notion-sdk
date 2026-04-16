@@ -286,7 +286,7 @@ public final class NotionBlocksViewer implements Iterable<Block> {
    *       {@link RichText} objects is found)
    *   <li>{@link ChildPageBlock} and {@link ChildDatabaseBlock} titles
    *   <li>{@link EquationBlock} expressions
-   *   <li>URLs from hyperlinks within rich text ({@link RichText#getHref()})
+   *   <li>URLs from hyperlinks within rich text ({@link RichText} {@code href} values)
    *   <li>Bookmark, embed, and link preview URLs
    *   <li>File-based block (image, video, audio, PDF, file) external URLs
    * </ul>
@@ -360,7 +360,7 @@ public final class NotionBlocksViewer implements Iterable<Block> {
    * Sources include:
    *
    * <ul>
-   *   <li>Hyperlinks in rich text segments ({@link RichText#getHref()})
+   *   <li>Hyperlinks in rich text segments ({@link RichText} {@code href} values)
    *   <li>{@link BookmarkBlock} URLs
    *   <li>{@link EmbedBlock} URLs
    *   <li>{@link LinkPreviewBlock} URLs

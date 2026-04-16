@@ -76,7 +76,7 @@ callout("This page is still a work in progress.");
 ```java
 code("java",
     """
-    NotionClient client = NotionClient.forToken("secret_xxx");
+    NotionClient client = NotionClient.forToken("ntn_xxx");
     client.blocks().appendChildren("page-id", paragraph("Hello!"));
     """);
 ```

@@ -18,6 +18,13 @@ public class ApiClientImpl implements ApiClient {
   private final String baseUrl;
   private final JsonSerializer serializer;
 
+  /**
+   * Creates an API client using the provided HTTP transport pipeline, config, and serializer.
+   *
+   * @param httpClient composed HTTP pipeline used to execute requests
+   * @param config SDK configuration container
+   * @param serializer JSON serializer for request/response payloads
+   */
   public ApiClientImpl(HttpClient httpClient, ApiClientConfig config, JsonSerializer serializer) {
     this.httpClient = Objects.requireNonNull(httpClient, "httpClient");
     String baseUrl = config.getOrDefault(ApiClientConfig.API_BASE_URL, "");

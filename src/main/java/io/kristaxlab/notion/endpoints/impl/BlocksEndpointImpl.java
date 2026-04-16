@@ -23,6 +23,11 @@ import java.util.function.Supplier;
  */
 public class BlocksEndpointImpl extends BaseEndpointImpl implements BlocksEndpoint {
 
+  /**
+   * Creates a blocks endpoint backed by the given API client.
+   *
+   * @param client low-level API client
+   */
   public BlocksEndpointImpl(ApiClient client) {
     super(client);
   }

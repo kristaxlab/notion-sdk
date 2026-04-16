@@ -14,6 +14,7 @@ public class DividerBlock extends Block {
 
   private Object divider;
 
+  /** Creates a divider block with default empty payload. */
   public DividerBlock() {
     setType(BlockType.DIVIDER.getValue());
     divider = new Object();

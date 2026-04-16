@@ -9,7 +9,7 @@ files to a directory you specify. This is invaluable for debugging and testing p
 import java.nio.file.Path;
 
 NotionClient client = NotionClient.builder()
-        .authToken("secret_abc123...")
+        .authToken("ntn_abc123...")
         .writeExchangeTo(Path.of("exchanges"))
         .build();
 ```

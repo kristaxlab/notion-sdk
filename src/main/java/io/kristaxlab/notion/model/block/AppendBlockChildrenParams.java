@@ -15,6 +15,7 @@ public class AppendBlockChildrenParams {
   private List<Block> children;
   private Position position;
 
+  /** Creates an empty params object for deserialization and builder assembly. */
   public AppendBlockChildrenParams() {}
 
   /**
@@ -27,6 +28,7 @@ public class AppendBlockChildrenParams {
     return new Builder();
   }
 
+  /** Builder for {@link AppendBlockChildrenParams}. */
   public static class Builder {
     private List<Block> children = new ArrayList<>();
     private Position position;

@@ -12,6 +12,7 @@ public class ColumnBlock extends Block {
 
   private Column column;
 
+  /** Creates a column block initialized with empty child content. */
   public ColumnBlock() {
     setType(BlockType.COLUMN.getValue());
     column = new Column();

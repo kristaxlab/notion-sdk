@@ -171,7 +171,7 @@ new NotionVersionInterceptor("2026-03-11")
 Adds `Authorization: Bearer <token>` to every request that doesn't already have an `Authorization` header.
 
 ```java
-new NotionAuthInterceptor(new FixedTokenProvider("secret_xxx"))
+new NotionAuthInterceptor(new FixedTokenProvider("ntn_xxx"))
 ```
 
 #### ExchangeRecordingInterceptor

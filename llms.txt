@@ -11,14 +11,14 @@ Java 17+ | Default Notion-Version: `2026-03-11` | Default base URL: `https://api
 ## Install and create client
 
 ```java
-NotionClient client = NotionClient.forToken("secret_abc123...");
+NotionClient client = NotionClient.forToken("ntn_abc123...");
 ```
 
 or:
 
 ```java
 NotionClient client = NotionClient.builder()
-    .authToken("secret_abc123...")
+    .authToken("ntn_abc123...")
     .build();
 ```
 

@@ -10,9 +10,16 @@ import java.util.Map;
 /** Library-agnostic HTTP transport interface. Implementations bridge to a concrete HTTP library. */
 public interface HttpClient {
 
-  /** Sends the request and blocks until the full response (including body) is available. */
+  /**
+   * Sends the request and blocks until the full response (including body) is available.
+   *
+   * @param request HTTP request to execute
+   * @return HTTP response payload
+   * @throws IOException when the underlying transport fails
+   */
   HttpResponse send(HttpRequest request) throws IOException;
 
+  /** Supported HTTP methods. */
   enum HttpMethod {
     GET,
     POST,
@@ -26,31 +33,59 @@ public interface HttpClient {
       headers = headers != null ? Map.copyOf(headers) : Map.of();
     }
 
-    /** Creates a {@link Builder} pre-populated with the values of this request. */
+    /**
+     * Creates a {@link Builder} pre-populated with the values of this request.
+     *
+     * @return pre-populated request builder
+     */
     public Builder toBuilder() {
       return new Builder().url(url).method(method).headers(new LinkedHashMap<>(headers)).body(body);
     }
 
+    /**
+     * Creates a new request builder.
+     *
+     * @return request builder
+     */
     public static Builder builder() {
       return new Builder();
     }
 
+    /** Mutable builder for {@link HttpRequest}. */
     public static final class Builder {
       private String url;
       private HttpMethod method = HttpMethod.GET;
       private Map<String, String> headers = new LinkedHashMap<>();
       private Body body;
 
+      /**
+       * Sets request URL.
+       *
+       * @param url absolute URL
+       * @return this builder
+       */
       public Builder url(String url) {
         this.url = url;
         return this;
       }
 
+      /**
+       * Sets request method.
+       *
+       * @param method HTTP method
+       * @return this builder
+       */
       public Builder method(HttpMethod method) {
         this.method = method;
         return this;
       }
 
+      /**
+       * Replaces all request headers.
+       *
+       * @param headers header map
+       * @return this builder
+       */
       public Builder headers(Map<String, String> headers) {
         this.headers = headers != null ? new LinkedHashMap<>(headers) : new LinkedHashMap<>();
         return this;
@@ -62,11 +97,23 @@ public interface HttpClient {
         return this;
       }
 
+      /**
+       * Sets request body.
+       *
+       * @param body request body
+       * @return this builder
+       */
       public Builder body(Body body) {
         this.body = body;
         return this;
       }
 
+      /**
+       * Builds an immutable request object.
+       *
+       * @return immutable request
+       * @throws IllegalArgumentException when required fields are missing
+       */
       public HttpRequest build() {
         if (url == null || url.isBlank()) throw new IllegalArgumentException("url is required");
         if (method == null) throw new IllegalArgumentException("method is required");
@@ -76,6 +123,11 @@ public interface HttpClient {
   }
 
   record HttpResponse(int statusCode, Map<String, List<String>> headers, byte[] bodyBytes) {
+    /**
+     * Decodes response bytes as UTF-8 text.
+     *
+     * @return response body string, or {@code null} when no body is present
+     */
     public String bodyAsString() {
       return bodyBytes == null
           ? null

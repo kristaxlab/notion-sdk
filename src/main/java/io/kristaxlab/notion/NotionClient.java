@@ -60,7 +60,7 @@ public class NotionClient {
    *
    * <p>Equivalent to {@code NotionClient.builder().authToken(token).build()}.
    *
-   * @param token the Notion integration token (e.g. {@code "secret_xxx"}); must not be blank
+   * @param token the Notion integration token (e.g. {@code "ntn_xxx"}); must not be blank
    * @return a fully configured {@link NotionClient}
    */
   public static NotionClient forToken(String token) {

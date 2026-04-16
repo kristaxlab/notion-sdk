@@ -15,6 +15,7 @@ public class BlockList extends NotionList<Block> {
 
   private Object block;
 
+  /** Creates a block list sentinel object for Notion list responses. */
   public BlockList() {
     setType(BlockType.BLOCK.getValue());
     block = new Object();

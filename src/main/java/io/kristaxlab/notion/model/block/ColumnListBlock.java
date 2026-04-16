@@ -11,6 +11,7 @@ public class ColumnListBlock extends Block {
 
   private ColumnList columnList;
 
+  /** Creates a column-list block initialized with an empty container payload. */
   public ColumnListBlock() {
     setType(BlockType.COLUMN_LIST.getValue());
     columnList = new ColumnList();

@@ -35,7 +35,7 @@ Use `NotionClientBuilder.rawHttpClient()` to supply a custom transport. The inte
 HttpClient myTransport = new MyCustomHttpClient();
 
 NotionClient client = NotionClient.builder()
-    .authToken("secret_abc123...")
+    .authToken("ntn_abc123...")
     .rawHttpClient(myTransport)
     .build();
 ```
@@ -56,7 +56,7 @@ OkHttpClient ok = new OkHttpClient.Builder()
     .build();
 
 NotionClient client = NotionClient.builder()
-    .authToken("secret_abc123...")
+    .authToken("ntn_abc123...")
     .rawHttpClient(new OkHttp3Client(ok))
     .build();
 ```
@@ -74,7 +74,7 @@ OkHttpClient ok = new OkHttpClient.Builder()
     .build();
 
 NotionClient client = NotionClient.builder()
-    .authToken("secret_abc123...")
+    .authToken("ntn_abc123...")
     .rawHttpClient(new OkHttp3Client(ok))
     .build();
 ```

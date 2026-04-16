@@ -161,17 +161,43 @@ public class NotionBlocks {
 
   // Columns (layout)
 
-  /** should always be wrapped in a {@link ColumnListBlock}, @see columns() */
+  /**
+   * Creates a column from prebuilt block content.
+   *
+   * <p>The resulting column should be wrapped in a {@link ColumnListBlock}; see {@code
+   * columns(...)} helpers.
+   *
+   * @param content column children
+   * @return column block
+   */
   public static ColumnBlock column(List<Block> content) {
     return column(null, content);
   }
 
-  /** should always be wrapped in a {@link ColumnListBlock}, @see columns() */
+  /**
+   * Creates a column with an optional width ratio.
+   *
+   * <p>The resulting column should be wrapped in a {@link ColumnListBlock}; see {@code
+   * columns(...)} helpers.
+   *
+   * @param widthRatio optional ratio used by Notion for column width distribution
+   * @param content column children
+   * @return column block
+   */
   public static ColumnBlock column(Double widthRatio, Block... content) {
     return column(widthRatio, Arrays.asList(content));
   }
 
-  /** should always be wrapped in a {@link ColumnListBlock}, @see columns() */
+  /**
+   * Creates a column with an optional width ratio.
+   *
+   * <p>The resulting column should be wrapped in a {@link ColumnListBlock}; see {@code
+   * columns(...)} helpers.
+   *
+   * @param widthRatio optional ratio used by Notion for column width distribution
+   * @param content column children
+   * @return column block
+   */
   public static ColumnBlock column(Double widthRatio, List<Block> content) {
     ColumnBlock col = new ColumnBlock();
     col.getColumn().setChildren(new ArrayList<>(content));
@@ -179,12 +205,29 @@ public class NotionBlocks {
     return col;
   }
 
-  /** should always be wrapped in a {@link ColumnListBlock}, @see columns() */
+  /**
+   * Creates a column by building its children via the block DSL.
+   *
+   * <p>The resulting column should be wrapped in a {@link ColumnListBlock}; see {@code
+   * columns(...)} helpers.
+   *
+   * @param content callback used to build column children
+   * @return column block
+   */
   public static ColumnBlock column(Consumer<NotionBlocksBuilder> content) {
     return column(null, content);
   }
 
-  /** should always be wrapped in a {@link ColumnListBlock}, @see columns() */
+  /**
+   * Creates a column with optional width ratio and DSL-built children.
+   *
+   * <p>The resulting column should be wrapped in a {@link ColumnListBlock}; see {@code
+   * columns(...)} helpers.
+   *
+   * @param widthRatio optional ratio used by Notion for column width distribution
+   * @param content callback used to build column children
+   * @return column block
+   */
   public static ColumnBlock column(Double widthRatio, Consumer<NotionBlocksBuilder> content) {
     NotionBlocksBuilder builder = blocksBuilder();
     content.accept(builder);
@@ -366,8 +409,10 @@ public class NotionBlocks {
   // Image
 
   /**
+   * Creates an image block from a URL or file upload ID.
+   *
    * @param imageRef either external URL or file upload ID (UUID string)
-   * @return
+   * @return a new image block
    */
   public static ImageBlock image(String imageRef) {
     ImageBlock block = new ImageBlock();

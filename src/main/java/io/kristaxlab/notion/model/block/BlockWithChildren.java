@@ -56,6 +56,11 @@ public sealed class BlockWithChildren
     private String color;
     private List<Block> children = new ArrayList<>();
 
+    /**
+     * Returns this builder cast to the concrete self type.
+     *
+     * @return this builder instance
+     */
     @SuppressWarnings("unchecked")
     protected B self() {
       return (B) this;
@@ -86,6 +91,8 @@ public sealed class BlockWithChildren
     /**
      * Builds the outer block. Each concrete builder implements this to wire the content into the
      * correct block type.
+     *
+     * @return fully constructed block
      */
     public abstract R build();
 
@@ -147,6 +154,12 @@ public sealed class BlockWithChildren
       return self();
     }
 
+    /**
+     * Appends rich text content using the {@link NotionTextBuilder} DSL.
+     *
+     * @param richTextsBuilder consumer that populates rich text fragments
+     * @return this builder
+     */
     public B text(Consumer<NotionTextBuilder> richTextsBuilder) {
       if (richTextsBuilder == null) {
         return self();

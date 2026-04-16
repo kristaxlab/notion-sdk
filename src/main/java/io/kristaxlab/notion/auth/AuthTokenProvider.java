@@ -1,5 +1,6 @@
 package io.kristaxlab.notion.auth;
 
+/** Supplies the bearer token used to authenticate Notion API requests. */
 public interface AuthTokenProvider {
 
   /**

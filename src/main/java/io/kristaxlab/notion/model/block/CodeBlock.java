@@ -17,6 +17,7 @@ public class CodeBlock extends Block {
 
   private Code code;
 
+  /** Creates a code block initialized with an empty code payload. */
   public CodeBlock() {
     setType(BlockType.CODE.getValue());
     code = new Code();
@@ -76,20 +77,44 @@ public class CodeBlock extends Block {
       return this;
     }
 
+    /**
+     * Adds caption text as a plain rich-text fragment.
+     *
+     * @param caption caption text
+     * @return this builder
+     */
     public Builder caption(String caption) {
       this.caption.add(NotionText.plainText(caption));
       return this;
     }
 
+    /**
+     * Adds caption fragments.
+     *
+     * @param caption rich-text fragments to append
+     * @return this builder
+     */
     public Builder caption(RichText... caption) {
       return caption(Arrays.asList(caption));
     }
 
+    /**
+     * Adds caption fragments.
+     *
+     * @param caption rich-text fragments to append
+     * @return this builder
+     */
     public Builder caption(List<RichText> caption) {
       this.caption.addAll(caption);
       return this;
     }
 
+    /**
+     * Builds caption fragments with the fluent text builder and appends them.
+     *
+     * @param consumer callback that populates a {@link NotionTextBuilder}
+     * @return this builder
+     */
     public Builder caption(Consumer<NotionTextBuilder> consumer) {
       NotionTextBuilder builder = new NotionTextBuilder();
       consumer.accept(builder);

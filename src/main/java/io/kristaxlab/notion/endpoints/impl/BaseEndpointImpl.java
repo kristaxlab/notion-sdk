@@ -8,10 +8,19 @@ public abstract class BaseEndpointImpl {
 
   private final ApiClient client;
 
+  /** HTTP GET method token. */
   protected static final String GET = "GET";
+
+  /** HTTP POST method token. */
   protected static final String POST = "POST";
+
+  /** HTTP PUT method token. */
   protected static final String PUT = "PUT";
+
+  /** HTTP PATCH method token. */
   protected static final String PATCH = "PATCH";
+
+  /** HTTP DELETE method token. */
   protected static final String DELETE = "DELETE";
 
   /**

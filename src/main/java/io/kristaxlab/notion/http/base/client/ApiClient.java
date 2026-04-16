@@ -14,12 +14,27 @@ import java.util.Map;
  */
 public interface ApiClient {
 
-  /** Sends a bodyless request and deserializes the response. */
+  /**
+   * Sends a bodyless request and deserializes the response.
+   *
+   * @param method HTTP method (case-insensitive)
+   * @param apiPath path template with optional path/query parameters
+   * @param responseType target deserialization class
+   * @param <T> response type
+   * @return deserialized response payload, or {@code null} when no response body is returned
+   */
   <T> T call(String method, ApiPath apiPath, Class<T> responseType);
 
   /**
    * Sends a request with a body and deserializes the response. A {@code null} body produces no
    * request entity.
+   *
+   * @param method HTTP method (case-insensitive)
+   * @param apiPath path template with optional path/query parameters
+   * @param body request payload; may be {@code null}
+   * @param responseType target deserialization class
+   * @param <T> response type
+   * @return deserialized response payload, or {@code null} when no response body is returned
    */
   <T> T call(String method, ApiPath apiPath, Object body, Class<T> responseType);
 
@@ -34,6 +49,8 @@ public interface ApiClient {
    * @param extraHeaders additional request headers; may be {@code null}
    * @param body request payload; may be {@code null}
    * @param responseType target deserialization class
+   * @param <T> response type
+   * @return deserialized response payload, or {@code null} when no response body is returned
    */
   <T> T call(
       String method,

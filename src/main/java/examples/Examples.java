@@ -174,7 +174,7 @@ public class Examples {
  communication via Kafka.
 
  ```java
- NotionClient client = NotionClient.forToken("secret_xxx");
+ NotionClient client = NotionClient.forToken("ntn_xxx");
  Page page = client.pages().retrieve("page-id");
  ```
  """)
