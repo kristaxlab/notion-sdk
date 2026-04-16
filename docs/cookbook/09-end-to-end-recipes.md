@@ -49,7 +49,7 @@ BlockList blocks = client.blocks().retrieveChildren("page-id");
 NotionBlocksViewer viewer = NotionBlocksViewer.of(blocks);
 
 for (String task : viewer.flatten().todos().unchecked().plainTextList()) {
-  System.out.println("TODO: " + task);
+  System.out.println("To do: " + task);
 }
 ```
 

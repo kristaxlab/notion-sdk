@@ -1,0 +1,141 @@
+# Notion SDK for Java - LLM Guide
+
+Typed Java SDK for the Notion API with:
+- endpoint-oriented client API (`pages`, `blocks`, `users`, `fileUploads`)
+- fluent DSL helpers for content creation (`NotionBlocks`, `NotionText`, `NotionProperties`)
+- typed exception mapping for all common Notion API error codes
+- configurable HTTP pipeline (auth/version/logging/exchange recording/custom transport)
+
+Java 17+ | Default Notion-Version: `2026-03-11` | Default base URL: `https://api.notion.com/v1`
+
+## Install and create client
+
+```java
+NotionClient client = NotionClient.forToken("secret_abc123...");
+```
+
+or:
+
+```java
+NotionClient client = NotionClient.builder()
+    .authToken("secret_abc123...")
+    .build();
+```
+
+## Main SDK features
+
+1. Typed endpoint API:
+   - `client.pages()`
+   - `client.blocks()`
+   - `client.users()`
+   - `client.fileUploads()`
+
+2. Fluent DSL for writing content:
+   - `io.kristaxlab.notion.fluent.NotionBlocks`
+   - `io.kristaxlab.notion.fluent.NotionText`
+   - `io.kristaxlab.notion.fluent.NotionProperties`
+   - `io.kristaxlab.notion.fluent.NotionIcons`
+
+3. Create page parent helpers:
+   - `underPage(String pageId)`
+   - `underBlock(String blockId)`
+   - `underDataSource(String dataSourceId)`
+   - `underWorkspace()`
+
+4. Markdown support for pages:
+   - `pages().retrieveAsMarkdown(...)`
+   - `pages().updateAsMarkdown(...)`
+
+5. Typed error handling (`NotionApiException` subclasses):
+   - `ValidationException` (400)
+   - `UnauthorizedException` (401)
+   - `ForbiddenException` (403)
+   - `NotFoundException` (404)
+   - `ConflictException` (409)
+   - `TooManyRequestsException` (429)
+   - `InternalServerException` (500)
+   - `BadGatewayException` (502)
+   - `ServiceUnavailableException` (503)
+   - `GatewayTimeoutException` (504)
+
+## Endpoint examples
+
+### Pages endpoint
+
+```java
+Page page = client.pages().create(p -> p
+    .underPage("parent-page-id")
+    .title("Release notes"));
+
+Page loaded = client.pages().retrieve(page.getId());
+client.pages().update(page.getId(), UpdatePageParams.builder().title("Release notes v2").build());
+```
+
+### Blocks endpoint (with fluent DSL)
+
+```java
+import static io.kristaxlab.notion.fluent.NotionBlocks.*;
+import static io.kristaxlab.notion.fluent.NotionText.*;
+
+client.blocks().appendChildren("page-id", c -> c
+    .heading2("Highlights")
+    .paragraph(plainText("Status: "), green("ON TRACK").bold())
+    .todo("Publish release"));
+```
+
+### Users endpoint
+
+```java
+User me = client.users().me();
+UserList users = client.users().list();
+User user = client.users().retrieve("user-id");
+```
+
+### File uploads endpoint
+
+```java
+FileUpload create = client.fileUploads().create(FileUploadCreateParams.singlePart("diagram.png"));
+client.fileUploads().upload(
+    create.getId(),
+    FileUploadSendParams.of(new File("/tmp/diagram.png"), "image/png")
+);
+```
+
+## Builder options
+
+| Option | Default | Purpose |
+|---|---|---|
+| `authToken(String)` | required | Integration/OAuth token |
+| `version(String)` | `2026-03-11` | `Notion-Version` header |
+| `baseUrl(String)` | `https://api.notion.com/v1` | API base URL override |
+| `rawHttpClient(HttpClient)` | OkHttp 30s timeouts | Custom transport |
+| `jsonSerializer(JsonSerializer)` | `JacksonSerializer.withDefaults()` | Custom serialization |
+| `exchangeLogging(Path)` | disabled | Write request/response JSON to disk |
+
+## Direct HTTP escape hatch
+
+When endpoint wrappers do not cover your use case, use:
+- `client.getHttpClient().call(method, apiPath, ...)`
+- `io.kristaxlab.notion.http.base.request.ApiPath`
+
+## Documentation map (current repo)
+
+- `../README.md`
+- `authentication.md`
+- `error-handling.md`
+- `cookbook/01-creating-pages.md`
+- `cookbook/02-adding-blocks.md`
+- `cookbook/03-rich-text.md`
+- `cookbook/04-structured-layouts.md`
+- `cookbook/05-reading-content.md`
+- `cookbook/06-updating-pages.md`
+- `cookbook/07-updating-blocks.md`
+- `cookbook/08-files-and-media.md`
+- `cookbook/09-end-to-end-recipes.md`
+- `internals/notion-http-client.md`
+- `internals/custom-http-client.md`
+- `internals/custom-interceptors.md`
+- `internals/exchange-recording.md`
+- `internals/architecture.md`
+- `internals/testing-guide.md`
+- `internals/release-process.md`

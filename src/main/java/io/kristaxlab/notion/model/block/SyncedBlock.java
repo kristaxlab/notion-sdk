@@ -30,8 +30,7 @@ public class SyncedBlock extends Block {
     private SyncedFrom syncedFrom;
 
     /**
-     * The content blocks. Populated only on original blocks; {@code null} on copies. TODO check if
-     * true
+     * The content blocks.
      */
     private List<Block> children;
   }

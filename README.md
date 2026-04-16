@@ -8,7 +8,7 @@ well-documented APIs for common operations.
 **Gradle**
 
 ```groovy
-implementation 'io.github.kristaxlab.notion'
+implementation 'io.github.kristaxlab:notion-sdk:0.1.0'
 ```
 
 **Maven**
@@ -16,7 +16,7 @@ implementation 'io.github.kristaxlab.notion'
 ```xml
 
 <dependency>
-    <groupId>io.github.kristaxlab.notion</groupId>
+    <groupId>io.github.kristaxlab</groupId>
     <artifactId>notion-sdk</artifactId>
     <version>0.1.0</version>
 </dependency>
@@ -85,7 +85,7 @@ See [Error Handling](docs/error-handling.md) for the full exception hierarchy.
 Notion SDK requires an SLF4J implementation for logging. To see requests and responses in logs, set logging level to
 DEBUG for any of the following packages:
 
-- `io.github.kristaxlab.notion.http`
+- `io.kristaxlab.notion.http`
 - `io.kristaxlab.notion.http.base.interceptor.LoggingHttpInterceptor`
 
 ## Cookbook
