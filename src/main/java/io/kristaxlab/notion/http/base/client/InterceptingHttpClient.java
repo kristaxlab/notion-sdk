@@ -17,6 +17,12 @@ public class InterceptingHttpClient implements HttpClient {
   private final HttpClient delegate;
   private final List<HttpClientInterceptor> interceptors;
 
+  /**
+   * Creates an intercepting HTTP client.
+   *
+   * @param delegate underlying transport client
+   * @param interceptors ordered interceptor chain
+   */
   public InterceptingHttpClient(HttpClient delegate, List<HttpClientInterceptor> interceptors) {
     this.delegate = Objects.requireNonNull(delegate, "delegate");
     this.interceptors = List.copyOf(Objects.requireNonNull(interceptors, "interceptors"));

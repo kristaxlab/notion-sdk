@@ -18,6 +18,7 @@ public class HeadingOneBlock extends Block {
   @JsonProperty("heading_1")
   private Heading heading1;
 
+  /** Creates a heading-1 block initialized with default heading payload. */
   public HeadingOneBlock() {
     setType(BlockType.HEADING_1.getValue());
     heading1 = new Heading();

@@ -11,6 +11,7 @@ public class FileBlock extends Block {
 
   private FileData file;
 
+  /** Creates a file block initialized with an empty {@link FileData} payload. */
   public FileBlock() {
     setType(BlockType.FILE.getValue());
     file = new FileData();

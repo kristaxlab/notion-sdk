@@ -18,6 +18,7 @@ public class HeadingTwoBlock extends Block {
   @JsonProperty("heading_2")
   private Heading heading2;
 
+  /** Creates a heading-2 block initialized with default heading payload. */
   public HeadingTwoBlock() {
     setType(BlockType.HEADING_2.getValue());
     heading2 = new Heading();

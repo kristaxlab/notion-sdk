@@ -22,6 +22,8 @@ public interface ErrorResponseHandler {
    * Inspects the response and throws if it represents an error. Must return normally for non-error
    * responses.
    *
+   * @param request original HTTP request
+   * @param response HTTP response to inspect
    * @throws RuntimeException a domain-specific exception if the response is an error
    */
   void handle(HttpRequest request, HttpResponse response);

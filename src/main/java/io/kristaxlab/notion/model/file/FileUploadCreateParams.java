@@ -35,6 +35,13 @@ public class FileUploadCreateParams {
    */
   private String externalUrl;
 
+  /**
+   * Creates params for external-url import mode.
+   *
+   * @param filename destination filename
+   * @param externalUrl publicly accessible HTTPS file URL
+   * @return create params for external import
+   */
   public static FileUploadCreateParams external(String filename, String externalUrl) {
     return builder()
         .mode(FileUploadMode.EXTERNAL_URL.getValue())
@@ -43,10 +50,23 @@ public class FileUploadCreateParams {
         .build();
   }
 
+  /**
+   * Creates params for single-part upload mode.
+   *
+   * @param filename filename to assign in Notion
+   * @return create params for single-part upload
+   */
   public static FileUploadCreateParams singlePart(String filename) {
     return builder().mode(FileUploadMode.SINGLE_PART.getValue()).filename(filename).build();
   }
 
+  /**
+   * Creates params for multipart upload mode.
+   *
+   * @param filename filename to assign in Notion
+   * @param numberOfParts number of upload parts
+   * @return create params for multipart upload
+   */
   public static FileUploadCreateParams multiPart(String filename, int numberOfParts) {
     return builder()
         .mode(FileUploadMode.MULTI_PART.getValue())
@@ -55,10 +75,16 @@ public class FileUploadCreateParams {
         .build();
   }
 
+  /**
+   * Creates a builder for custom upload-create payloads.
+   *
+   * @return new builder
+   */
   public static Builder builder() {
     return new Builder();
   }
 
+  /** Builder for {@link FileUploadCreateParams}. */
   public static class Builder {
     private String mode;
     private String filename;
@@ -66,31 +92,66 @@ public class FileUploadCreateParams {
     private Integer numberOfParts;
     private String externalUrl;
 
+    /**
+     * Sets upload mode.
+     *
+     * @param mode mode token from {@link FileUploadMode}
+     * @return this builder
+     */
     public Builder mode(String mode) {
       this.mode = mode;
       return this;
     }
 
+    /**
+     * Sets filename.
+     *
+     * @param filename destination filename
+     * @return this builder
+     */
     public Builder filename(String filename) {
       this.filename = filename;
       return this;
     }
 
+    /**
+     * Sets content type.
+     *
+     * @param contentType MIME type
+     * @return this builder
+     */
     public Builder contentType(String contentType) {
       this.contentType = contentType;
       return this;
     }
 
+    /**
+     * Sets number of parts for multipart uploads.
+     *
+     * @param numberOfParts number of parts
+     * @return this builder
+     */
     public Builder numberOfParts(Integer numberOfParts) {
       this.numberOfParts = numberOfParts;
       return this;
     }
 
+    /**
+     * Sets external URL for external import mode.
+     *
+     * @param externalUrl publicly accessible HTTPS file URL
+     * @return this builder
+     */
     public Builder externalUrl(String externalUrl) {
       this.externalUrl = externalUrl;
       return this;
     }
 
+    /**
+     * Builds an immutable create params payload.
+     *
+     * @return upload create params
+     */
     public FileUploadCreateParams build() {
       FileUploadCreateParams params = new FileUploadCreateParams();
       params.setMode(mode);

@@ -29,6 +29,11 @@ import java.util.List;
  */
 public class FileUploadsEndpointImpl extends BaseEndpointImpl implements FileUploadsEndpoint {
 
+  /**
+   * Creates a file-uploads endpoint backed by the given API client.
+   *
+   * @param client low-level API client
+   */
   public FileUploadsEndpointImpl(ApiClient client) {
     super(client);
   }
@@ -172,7 +177,7 @@ public class FileUploadsEndpointImpl extends BaseEndpointImpl implements FileUpl
    * inputStream is provided, and that contentType is not null. Throws IllegalArgumentException if
    * validation fails.
    *
-   * @param request
+   * @param request upload request payload
    */
   private void validateRequest(FileUploadSendParams request) {
     if (request.getFile() == null

@@ -21,14 +21,28 @@ public interface HttpClient {
 
   /** Supported HTTP methods. */
   enum HttpMethod {
+    /** HTTP GET. */
     GET,
+    /** HTTP POST. */
     POST,
+    /** HTTP PUT. */
     PUT,
+    /** HTTP PATCH. */
     PATCH,
+    /** HTTP DELETE. */
     DELETE
   }
 
+  /** Immutable HTTP request payload. */
   record HttpRequest(String url, HttpMethod method, Map<String, String> headers, Body body) {
+    /**
+     * Canonical constructor that snapshots headers as an immutable map.
+     *
+     * @param url request URL
+     * @param method HTTP method
+     * @param headers request headers
+     * @param body request body
+     */
     public HttpRequest {
       headers = headers != null ? Map.copyOf(headers) : Map.of();
     }
@@ -91,7 +105,13 @@ public interface HttpClient {
         return this;
       }
 
-      /** Adds or replaces a single header. */
+      /**
+       * Adds or replaces a single header.
+       *
+       * @param name header name
+       * @param value header value
+       * @return this builder
+       */
       public Builder header(String name, String value) {
         this.headers.put(name, value);
         return this;
@@ -122,6 +142,7 @@ public interface HttpClient {
     }
   }
 
+  /** Immutable HTTP response payload. */
   record HttpResponse(int statusCode, Map<String, List<String>> headers, byte[] bodyBytes) {
     /**
      * Decodes response bytes as UTF-8 text.
@@ -158,12 +179,16 @@ public interface HttpClient {
   /** Multipart/form-data body. */
   record MultipartBody(List<Part> parts) implements Body {}
 
+  /** Multipart part marker type. */
   sealed interface Part permits TextPart, FilePart, BytesPart, InputStreamPart {}
 
+  /** Multipart text field part. */
   record TextPart(String name, String value) implements Part {}
 
+  /** Multipart file part backed by a {@link File}. */
   record FilePart(String name, String filename, File file, String contentType) implements Part {}
 
+  /** Multipart file part backed by raw bytes. */
   record BytesPart(String name, String filename, byte[] bytes, String contentType)
       implements Part {}
 

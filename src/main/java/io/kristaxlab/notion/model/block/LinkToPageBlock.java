@@ -10,6 +10,7 @@ public class LinkToPageBlock extends Block {
 
   private LinkToPage linkToPage;
 
+  /** Creates a link-to-page block initialized with default reference payload. */
   public LinkToPageBlock() {
     setType(BlockType.LINK_TO_PAGE.getValue());
     linkToPage = new LinkToPage();

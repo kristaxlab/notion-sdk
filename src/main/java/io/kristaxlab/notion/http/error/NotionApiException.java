@@ -11,6 +11,14 @@ public class NotionApiException extends RuntimeException {
   @Getter private final String code;
   @Getter private final String requestId;
 
+  /**
+   * Creates a Notion API exception.
+   *
+   * @param status HTTP status code
+   * @param code Notion error code
+   * @param message error message
+   * @param requestId request identifier
+   */
   public NotionApiException(int status, String code, String message, String requestId) {
     super(message);
     this.status = status;
@@ -18,6 +26,7 @@ public class NotionApiException extends RuntimeException {
     this.requestId = requestId;
   }
 
+  /** Returns a formatted diagnostic string. */
   public String toString() {
     return String.format(
         "%s\n Notion API Exception - Status: %d, Code: %s, Message: %s, Request ID: %s",

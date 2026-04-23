@@ -10,15 +10,22 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/** Jackson-based implementation of {@link JsonSerializer}. */
 public class JacksonSerializer implements JsonSerializer {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(JacksonSerializer.class);
   private final ObjectMapper objectMapper;
 
+  /** Creates a serializer with default mapper configuration. */
   public JacksonSerializer() {
     this.objectMapper = defaultMapper();
   }
 
+  /**
+   * Creates a serializer with a custom mapper.
+   *
+   * @param objectMapper object mapper to use
+   */
   public JacksonSerializer(ObjectMapper objectMapper) {
     this.objectMapper = objectMapper;
   }
@@ -43,10 +50,20 @@ public class JacksonSerializer implements JsonSerializer {
     }
   }
 
+  /**
+   * Creates a serializer with default mapper configuration.
+   *
+   * @return serializer with defaults
+   */
   public static JacksonSerializer withDefaults() {
     return new JacksonSerializer(defaultMapper());
   }
 
+  /**
+   * Creates a serializer that pretty-prints JSON output.
+   *
+   * @return serializer configured with indentation
+   */
   public static JacksonSerializer pretty() {
     return new JacksonSerializer(prettyMapper());
   }
@@ -67,10 +84,20 @@ public class JacksonSerializer implements JsonSerializer {
     return mapper;
   }
 
+  /**
+   * Returns the mapper used for serialization/deserialization.
+   *
+   * @return object mapper
+   */
   protected ObjectMapper getMapper() {
     return objectMapper;
   }
 
+  /**
+   * Returns the logger used by this serializer.
+   *
+   * @return logger
+   */
   protected Logger getLogger() {
     return LOGGER;
   }

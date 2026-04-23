@@ -31,22 +31,49 @@ public class FileUploadSendParams {
   /** Part number of the file being uploaded. Optional */
   private Integer partNumber;
 
+  /**
+   * Creates params from an input stream.
+   *
+   * @param inputStream stream to upload
+   * @param contentType MIME type
+   * @return send params
+   */
   public static FileUploadSendParams of(InputStream inputStream, String contentType) {
     return builder().inputStream(inputStream).contentType(contentType).build();
   }
 
+  /**
+   * Creates params from raw bytes.
+   *
+   * @param bytes bytes to upload
+   * @param contentType MIME type
+   * @return send params
+   */
   public static FileUploadSendParams of(byte[] bytes, String contentType) {
     return builder().bytes(bytes).contentType(contentType).build();
   }
 
+  /**
+   * Creates params from a file.
+   *
+   * @param file file to upload
+   * @param contentType MIME type
+   * @return send params
+   */
   public static FileUploadSendParams of(File file, String contentType) {
     return builder().file(file).contentType(contentType).build();
   }
 
+  /**
+   * Creates a builder for upload-send payloads.
+   *
+   * @return new builder
+   */
   public static Builder builder() {
     return new Builder();
   }
 
+  /** Builder for {@link FileUploadSendParams}. */
   public static class Builder {
     private InputStream inputStream;
     private byte[] bytes;
@@ -55,6 +82,12 @@ public class FileUploadSendParams {
     private String filename;
     private Integer partNumber;
 
+    /**
+     * Sets stream content source.
+     *
+     * @param inputStream stream to upload
+     * @return this builder
+     */
     public Builder inputStream(InputStream inputStream) {
       if (inputStream == null) {
         throw new IllegalArgumentException("InputStream cannot be null");
@@ -67,6 +100,12 @@ public class FileUploadSendParams {
       return this;
     }
 
+    /**
+     * Sets bytes content source.
+     *
+     * @param bytes bytes to upload
+     * @return this builder
+     */
     public Builder bytes(byte[] bytes) {
       if (bytes == null) {
         throw new IllegalArgumentException("Bytes cannot be null");
@@ -79,6 +118,12 @@ public class FileUploadSendParams {
       return this;
     }
 
+    /**
+     * Sets file content source.
+     *
+     * @param file file to upload
+     * @return this builder
+     */
     public Builder file(File file) {
       if (file == null) {
         throw new IllegalArgumentException("File cannot be null");
@@ -91,16 +136,34 @@ public class FileUploadSendParams {
       return this;
     }
 
+    /**
+     * Sets MIME type.
+     *
+     * @param contentType content type
+     * @return this builder
+     */
     public Builder contentType(String contentType) {
       this.contentType = contentType;
       return this;
     }
 
+    /**
+     * Sets filename override.
+     *
+     * @param filename filename to send
+     * @return this builder
+     */
     public Builder filename(String filename) {
       this.filename = filename;
       return this;
     }
 
+    /**
+     * Sets multipart part number.
+     *
+     * @param partNumber part index
+     * @return this builder
+     */
     public Builder partNumber(Integer partNumber) {
       this.partNumber = partNumber;
       return this;

@@ -13,6 +13,7 @@ public class LinkPreviewBlock extends Block {
 
   private LinkPreview linkPreview;
 
+  /** Creates a link-preview block initialized with default preview payload. */
   public LinkPreviewBlock() {
     setType(BlockType.LINK_PREVIEW.getValue());
     linkPreview = new LinkPreview();

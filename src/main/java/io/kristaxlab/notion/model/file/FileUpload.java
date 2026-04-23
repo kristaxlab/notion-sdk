@@ -38,6 +38,7 @@ public class FileUpload extends NotionObject {
 
   private FileImportResult fileImportResult;
 
+  /** Result payload describing import success/failure details. */
   @Getter
   @Setter
   public static class FileImportResult {
@@ -53,6 +54,7 @@ public class FileUpload extends NotionObject {
     private FileUploadError error;
   }
 
+  /** Upload part progress metadata for multipart uploads. */
   @Getter
   @Setter
   public static class NumberOfParts {

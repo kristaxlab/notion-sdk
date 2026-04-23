@@ -6,6 +6,7 @@ import io.kristaxlab.notion.model.user.User;
 import lombok.Getter;
 import lombok.Setter;
 
+/** Rich-text mention payload for users, pages, databases, dates, and related variants. */
 @Getter
 @Setter
 public class Mention {
@@ -49,6 +50,7 @@ public class Mention {
    * more details: https://developers.notion.com/reference/block#template and
    * https://developers.notion.com/reference/rich-text#template-mention-type-object
    */
+  /** Legacy template mention payload. */
   @Getter
   @Setter
   public static class TemplateMention {
@@ -58,6 +60,7 @@ public class Mention {
     private String templateMentionUser;
   }
 
+  /** Reference to a custom emoji mention. */
   @Getter
   @Setter
   public static class CustomEmojiRef {
@@ -70,6 +73,7 @@ public class Mention {
    * The API does not support creating or appending link_preview blocks.
    * more details: https://developers.notion.com/reference/block#link-preview
    */
+  /** Read-only link preview mention payload. */
   @Getter
   @Setter
   public static class LinkPreview {
@@ -80,6 +84,7 @@ public class Mention {
   /*
    * Not documented but returns for url mention blocks
    */
+  /** Legacy URL mention payload. */
   @Getter
   @Setter
   public static class LinkMention {

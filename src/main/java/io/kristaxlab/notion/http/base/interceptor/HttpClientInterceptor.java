@@ -18,11 +18,19 @@ public interface HttpClientInterceptor {
   /**
    * Called before the request is sent. Return a modified copy (via {@link HttpRequest#toBuilder()})
    * or the original request.
+   *
+   * @param request outgoing request
+   * @return request to pass to the next stage
    */
   default HttpRequest beforeSend(HttpRequest request) {
     return request;
   }
 
-  /** Called after the response is received, regardless of status code. */
+  /**
+   * Called after the response is received, regardless of status code.
+   *
+   * @param request request that was sent
+   * @param response response that was received
+   */
   default void afterReceive(HttpRequest request, HttpResponse response) {}
 }

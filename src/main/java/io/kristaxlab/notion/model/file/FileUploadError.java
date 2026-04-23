@@ -3,6 +3,7 @@ package io.kristaxlab.notion.model.file;
 import lombok.Getter;
 import lombok.Setter;
 
+/** Error payload returned when a file import fails. */
 @Getter
 @Setter
 public class FileUploadError {

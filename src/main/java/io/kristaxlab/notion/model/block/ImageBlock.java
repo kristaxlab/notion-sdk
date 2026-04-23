@@ -15,6 +15,7 @@ public class ImageBlock extends Block {
 
   private FileData image;
 
+  /** Creates an image block initialized with an empty {@link FileData} payload. */
   public ImageBlock() {
     setType(BlockType.IMAGE.getValue());
     image = new FileData();
