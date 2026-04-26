@@ -8,6 +8,9 @@ on:
 jobs:
   release:
     runs-on: ubuntu-latest
+    environment:
+      name: "release-maven-central"
+
     steps:
       - name: 1. Checkout repository
         uses: actions/checkout@v6
