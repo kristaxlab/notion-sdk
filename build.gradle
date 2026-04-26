@@ -1,0 +1,129 @@
+plugins {
+    id 'java'
+    id 'jacoco'
+    id 'com.diffplug.spotless' version '7.2.1'
+    id "com.vanniktech.maven.publish" version "0.36.0"
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+group = 'io.github.kristaxlab'
+version = '0.1.0'
+
+sourceSets {
+    main.java.exclude 'examples/**'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.21.2'
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.21.2'
+    compileOnly 'org.projectlombok:lombok:1.18.32'
+    annotationProcessor 'org.projectlombok:lombok:1.18.32'
+    implementation 'org.slf4j:slf4j-api:2.0.17'
+    implementation 'com.squareup.okhttp3:okhttp:5.1.0'
+
+    testImplementation platform('org.junit:junit-bom:5.10.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    testImplementation 'org.apache.logging.log4j:log4j-core:2.25.3'
+    testCompileOnly 'org.projectlombok:lombok:1.18.32'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.32'
+    testImplementation 'com.squareup.okhttp3:mockwebserver:5.1.0'
+}
+
+spotless {
+    java {
+        googleJavaFormat('1.28.0')
+        removeUnusedImports()
+        trimTrailingWhitespace()
+        endWithNewline()
+    }
+}
+
+test {
+    finalizedBy jacocoTestReport
+
+    useJUnitPlatform {
+        excludeTags("integration", "examples")
+    }
+
+    jacoco {
+        excludes += ['**/*$Generated*']
+        excludes += ['**/*$$*']
+    }
+}
+
+
+tasks.register('integrationTest', Test) {
+    description = 'Runs integration tests'
+    group = 'verification'
+
+    testClassesDirs = sourceSets.test.output.classesDirs
+    classpath = sourceSets.test.runtimeClasspath
+
+    // Load .env files in order — later files override earlier ones
+    loadEnvFiles(it, ['.env.test', '.env.test.local'])
+
+    useJUnitPlatform {
+        excludeTags 'paid', 'examples'
+        includeTags 'integration'
+    }
+}
+
+jacoco {
+    toolVersion = "0.8.11"
+    jacocoTestReport.reports.xml.required = true
+}
+
+void loadEnvFiles(Test task, List envFiles) {
+    envFiles.each { fileName ->
+        def envFile = rootProject.file(fileName)
+        if (envFile.exists()) {
+            envFile.eachLine { line ->
+                if (line && !line.startsWith('#')) {
+                    def (key, value) = line.tokenize('=')
+                    task.environment key.trim(), value.trim()
+                }
+            }
+        }
+    }
+}
+
+mavenPublishing {
+    publishToMavenCentral()
+    signAllPublications()
+    coordinates(project.group, project.name, project.version)
+
+    pom {
+        name = "Notion Java SDK"
+        description = "Unofficial fluent Java client for the Notion API."
+        inceptionYear = "2026"
+        url = "https://github.com/kristaxlab/notion-sdk"
+        licenses {
+            license {
+                name = "MIT License"
+                url = "https://opensource.org/license/mit"
+            }
+        }
+        developers {
+            developer {
+                id = "kristaxlab"
+                name = "Krista Xarlamenkova"
+                url = "https://github.com/kristaxlab/"
+            }
+        }
+        scm {
+            url = "https://github.com/kristaxlab/notion-sdk/"
+            connection = "scm:git:git://github.com/kristaxlab/notion-sdk.git"
+            developerConnection = "scm:git:ssh://git@github.com/kristaxlab/notion-sdk.git"
+        }
+    }
+}

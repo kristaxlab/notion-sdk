@@ -1,0 +1,58 @@
+name: Build Notion SDK
+
+on:
+  push:
+    branches:
+      - '**'
+  pull_request:
+    branches:
+      - '**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment: ${{ github.ref_name == 'main' && 'production' || 'dev' }}
+
+    steps:
+      # 1
+      - name: 1. Checkout repository
+        uses: actions/checkout@v6
+
+      # 2
+      - name: 2. Set up JDK 17
+        uses: actions/setup-java@v5
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          cache: gradle
+
+      # 3
+      - name: 3. Grant execute permission for Gradle
+        run: chmod +x gradlew
+
+      # 4.
+      - name: 4. Code style check (Spotless)
+        run: ./gradlew spotlessCheck
+
+      # 5
+      - name: 5. Build with Gradle
+        run: ./gradlew build
+
+      #5a
+      - name: 5a. Run Integration Tests
+        if: success() || failure()  # Run even if unit tests fail
+        env:
+          NOTION_TEST_AUTH_TOKEN: ${{ secrets.NOTION_TEST_AUTH_TOKEN }}
+        run: ./gradlew integrationTest
+
+      # 6
+      - name: 6. Upload test reports
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: test-reports-${{ github.run_number }}
+          if-no-files-found: warn
+          path: |
+            build/reports/tests/test
+            build/reports/tests/integrationTest
+            build/reports/jacoco/test

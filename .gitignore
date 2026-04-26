@@ -1,0 +1,10 @@
+src/test/.DS_Store
+/build
+.DS_Store
+/.idea
+/.idea
+/.gradle/
+/exchanges
+/logs
+.env.test.local
+
