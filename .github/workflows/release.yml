@@ -2,8 +2,6 @@ name: Publish to Maven Central
 
 on:
   push:
-    branches:
-      - main
     tags:
       - 'v*'
 
