@@ -7,11 +7,12 @@ on:
   pull_request:
     branches:
       - '**'
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    environment: ${{ github.ref_name == 'main' && 'production' || 'dev' }}
+    environment: ${{ github.ref_name == 'main' && 'build-main' || 'build' }}
 
     steps:
       # 1

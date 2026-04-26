@@ -1,4 +1,4 @@
-name: Publish README to GitHub Pages
+name: Publish Cookbook to GitHub Pages
 
 on:
   push:
@@ -23,7 +23,7 @@ jobs:
   publish-pages:
     runs-on: ubuntu-latest
     environment:
-      name: github-pages
+      name: "cookbook-publish"
       url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
