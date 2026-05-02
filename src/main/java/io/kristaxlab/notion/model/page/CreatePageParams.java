@@ -3,6 +3,7 @@ package io.kristaxlab.notion.model.page;
 import io.kristaxlab.notion.fluent.NotionBlocks;
 import io.kristaxlab.notion.fluent.NotionBlocksBuilder;
 import io.kristaxlab.notion.fluent.NotionProperties;
+import io.kristaxlab.notion.fluent.NotionPropertiesBuilder;
 import io.kristaxlab.notion.model.block.Block;
 import io.kristaxlab.notion.model.common.Cover;
 import io.kristaxlab.notion.model.common.Icon;
@@ -39,29 +40,6 @@ public class CreatePageParams {
 
   /** Optional placement for new content when the parent is a block (see Notion API). */
   private Position position;
-
-  /**
-   * Shorthand for {@code builder().parent(parent).title(title).build()}.
-   *
-   * @param parent destination parent
-   * @param title page title
-   * @return page creation payload
-   */
-  public static CreatePageParams of(Parent parent, String title) {
-    return CreatePageParams.builder().parent(parent).title(title).build();
-  }
-
-  /**
-   * Shorthand for a titled page with Markdown body content.
-   *
-   * @param parent destination parent
-   * @param title page title
-   * @param markdown markdown body content
-   * @return page creation payload
-   */
-  public static CreatePageParams of(Parent parent, String title, String markdown) {
-    return CreatePageParams.builder().parent(parent).title(title).markdown(markdown).build();
-  }
 
   /**
    * Creates a fluent builder for {@link CreatePageParams}.
@@ -144,6 +122,27 @@ public class CreatePageParams {
      */
     public Builder property(String name, PageProperty property) {
       this.properties.put(name, property);
+      return this;
+    }
+
+    /**
+     * Sets multiple properties with the {@link NotionPropertiesBuilder} DSL.
+     *
+     * <pre>{@code
+     * .properties(p -> p
+     *     .title("Build a SaaS")
+     *     .number("Priority", 5)
+     *     .select("Status", "In progress")
+     *     .multiSelect("Tags", "urgent", "review"))
+     * }</pre>
+     *
+     * @param consumer callback used to populate properties
+     * @return this builder
+     */
+    public Builder properties(Consumer<NotionPropertiesBuilder> consumer) {
+      NotionPropertiesBuilder propertiesBuilder = NotionProperties.propertiesBuilder();
+      consumer.accept(propertiesBuilder);
+      this.properties.putAll(propertiesBuilder.build());
       return this;
     }
 

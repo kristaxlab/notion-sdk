@@ -10,15 +10,6 @@ public class StatusProperty extends PageProperty {
 
   private StatusValue status;
 
-  /** Creates a property selecting the option with the given name. */
-  public static StatusProperty of(String name) {
-    StatusProperty property = new StatusProperty();
-    StatusValue value = new StatusValue();
-    value.setName(name);
-    property.setStatus(value);
-    return property;
-  }
-
   @Getter
   @Setter
   public static class StatusValue {

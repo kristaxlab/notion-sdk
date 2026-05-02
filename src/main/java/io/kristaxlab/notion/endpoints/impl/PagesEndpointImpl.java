@@ -56,7 +56,7 @@ public class PagesEndpointImpl extends BaseEndpointImpl implements PagesEndpoint
    * @return the created page
    */
   private Page create(Parent parent, String title) {
-    return create(CreatePageParams.of(parent, title));
+    return create(CreatePageParams.builder().parent(parent).title(title).build());
   }
 
   /**
@@ -68,7 +68,8 @@ public class PagesEndpointImpl extends BaseEndpointImpl implements PagesEndpoint
    * @return the created page
    */
   private Page create(Parent parent, String title, String markdownContent) {
-    return create(CreatePageParams.of(parent, title, markdownContent));
+    return create(
+        CreatePageParams.builder().parent(parent).title(title).markdown(markdownContent).build());
   }
 
   /**
