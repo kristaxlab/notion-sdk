@@ -1,11 +1,13 @@
 package io.kristaxlab.notion.model.page;
 
 import io.kristaxlab.notion.fluent.NotionProperties;
+import io.kristaxlab.notion.fluent.NotionPropertiesBuilder;
 import io.kristaxlab.notion.model.common.Cover;
 import io.kristaxlab.notion.model.common.Icon;
 import io.kristaxlab.notion.model.page.property.PageProperty;
 import io.kristaxlab.notion.model.page.templates.TemplateParams;
 import java.util.*;
+import java.util.function.Consumer;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -55,6 +57,26 @@ public class UpdatePageParams {
      */
     public Builder property(String name, PageProperty property) {
       this.properties.put(name, property);
+      return this;
+    }
+
+    /**
+     * Updates multiple properties with the {@link NotionPropertiesBuilder} DSL.
+     *
+     * <pre>{@code
+     * .properties(p -> p
+     *     .number("Priority", 7)
+     *     .status("Status", "Done")
+     *     .checked("Approved"))
+     * }</pre>
+     *
+     * @param consumer callback used to populate properties
+     * @return this builder
+     */
+    public Builder properties(Consumer<NotionPropertiesBuilder> consumer) {
+      NotionPropertiesBuilder propertiesBuilder = NotionProperties.propertiesBuilder();
+      consumer.accept(propertiesBuilder);
+      this.properties.putAll(propertiesBuilder.build());
       return this;
     }
 

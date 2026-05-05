@@ -46,4 +46,22 @@ public abstract class PageProperty extends NotionList<PageProperty> {
   private String id;
 
   public abstract String getType();
+
+  /**
+   * Casts this property to a concrete subtype.
+   *
+   * <p>Convenience for downcasting after retrieving a {@link PageProperty} polymorphically:
+   *
+   * <pre>{@code
+   * page.getProperties().get("Priority").as(NumberProperty.class).getNumber();
+   * }</pre>
+   *
+   * @param type concrete property type
+   * @param <T> property subtype
+   * @return this instance cast to {@code T}
+   * @throws ClassCastException if this property is not an instance of {@code type}
+   */
+  public <T extends PageProperty> T as(Class<T> type) {
+    return type.cast(this);
+  }
 }
