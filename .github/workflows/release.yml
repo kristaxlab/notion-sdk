@@ -23,14 +23,14 @@ jobs:
           java-version: '17'
           cache: gradle
 
-      - name: Publish
-        if: ${{ !contains(github.ref_name, 'rc') }}
-        run: ./gradlew publishAndReleaseToMavenCentral
-        env:
-          ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.GPG_PRIVATE_KEY }}
-          ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.GPG_PASSPHRASE }}
-          ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
-          ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.MAVEN_CENTRAL_PASSWORD }}
+      # - name: Publish
+      #   if: ${{ !contains(github.ref_name, 'rc') }}
+      #   run: ./gradlew publishAndReleaseToMavenCentral
+      #   env:
+      #     ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.GPG_PRIVATE_KEY }}
+      #     ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.GPG_PASSPHRASE }}
+      #     ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
+      #     ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.MAVEN_CENTRAL_PASSWORD }}
 
       - name: Extract release notes
         uses: ffurrer2/extract-release-notes@v3
