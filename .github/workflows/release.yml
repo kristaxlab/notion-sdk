@@ -4,7 +4,8 @@ on:
   push:
     tags:
       - 'v*'
-
+  workflow_dispatch:
+  
 jobs:
   release:
     runs-on: ubuntu-latest
@@ -23,9 +24,29 @@ jobs:
           cache: gradle
 
       - name: Publish
+        if: ${{ !contains(github.ref_name, 'rc') }}
         run: ./gradlew publishAndReleaseToMavenCentral
         env:
           ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.GPG_PRIVATE_KEY }}
           ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.GPG_PASSPHRASE }}
           ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
           ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.MAVEN_CENTRAL_PASSWORD }}
+
+      - name: Extract release notes
+        uses: ffurrer2/extract-release-notes@v3
+        with:
+          changelog_file: CHANGELOG.md
+          release_notes_file: RELEASE_NOTES.md
+          prerelease: ${{ contains(github.ref_name, 'rc') }}
+
+      - name: Create prerelease
+        if: ${{ contains(github.ref_name, 'rc') }}
+        run: gh release create "${{ github.ref_name }}" --notes-file RELEASE_NOTES.md --generate-notes --prerelease
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Create final release
+        if: ${{ !contains(github.ref_name, 'rc') }}
+        run: gh release create "${{ github.ref_name }}" --notes-file RELEASE_NOTES.md --generate-notes
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
