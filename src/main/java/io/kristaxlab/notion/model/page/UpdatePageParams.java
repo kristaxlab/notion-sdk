@@ -52,11 +52,18 @@ public class UpdatePageParams {
     }
 
     /**
-     * Sets an arbitrary property. Use as an escape hatch for property types not covered by the
-     * named convenience methods above.
+     * Sets an arbitrary property under the given key. Use as an escape hatch for property types not
+     * covered by the named convenience methods above.
+     *
+     * <p>The key may be either the schema property name (e.g. {@code "Status"}) or its id (e.g.
+     * {@code "%5B%3DZf"}); the Notion API accepts both interchangeably.
+     *
+     * @param nameOrId schema property name or id
+     * @param property property payload
+     * @return this builder
      */
-    public Builder property(String name, PageProperty property) {
-      this.properties.put(name, property);
+    public Builder property(String nameOrId, PageProperty property) {
+      this.properties.put(nameOrId, property);
       return this;
     }
 
