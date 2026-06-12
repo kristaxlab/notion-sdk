@@ -1,6 +1,6 @@
 package io.kristaxlab.notion.model.page.property;
 
-public enum PagePropertyType {
+public enum PropertyType {
   TITLE("title"),
   RICH_TEXT("rich_text"),
   NUMBER("number"),
@@ -25,10 +25,11 @@ public enum PagePropertyType {
   PLACE("place"),
   VERIFICATION("verification"),
   UNIQUE_ID("unique_id"),
-  PROPERTY_ITEM("property_item");
+  PROPERTY_ITEM("property_item"),
+  UNKNOWN("unknown");
   private final String type;
 
-  PagePropertyType(String type) {
+  PropertyType(String type) {
     this.type = type;
   }
 

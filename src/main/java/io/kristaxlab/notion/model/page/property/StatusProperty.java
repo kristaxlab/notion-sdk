@@ -6,7 +6,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class StatusProperty extends PageProperty {
-  private final String type = PagePropertyType.STATUS.type();
+  private final String type = PropertyType.STATUS.type();
 
   private StatusValue status;
 

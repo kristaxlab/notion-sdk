@@ -8,7 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class PeopleProperty extends PageProperty {
-  private final String type = PagePropertyType.PEOPLE.type();
+  private final String type = PropertyType.PEOPLE.type();
 
   private List<User> people;
 }

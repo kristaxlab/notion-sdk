@@ -8,7 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class LastEditedByProperty extends PageProperty {
-  private final String type = PagePropertyType.LAST_EDITED_BY.type();
+  private final String type = PropertyType.LAST_EDITED_BY.type();
 
   private User lastEditedBy;
 }

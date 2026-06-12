@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class LastEditedTimeProperty extends PageProperty {
-  private final String type = PagePropertyType.LAST_EDITED_TIME.type();
+  private final String type = PropertyType.LAST_EDITED_TIME.type();
 
   private String lastEditedTime;
 }

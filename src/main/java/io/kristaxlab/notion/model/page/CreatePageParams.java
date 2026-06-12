@@ -116,7 +116,7 @@ public class CreatePageParams {
      * Sets a schema property by name. Use for types beyond {@link #title(String)} (e.g. select,
      * date).
      *
-     * @param name property schema name
+     * @param name schema property name
      * @param property property payload
      * @return this builder
      */

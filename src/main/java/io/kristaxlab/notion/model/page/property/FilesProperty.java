@@ -8,7 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class FilesProperty extends PageProperty {
-  private final String type = PagePropertyType.FILES.type();
+  private final String type = PropertyType.FILES.type();
 
   private List<FileData> files;
 }

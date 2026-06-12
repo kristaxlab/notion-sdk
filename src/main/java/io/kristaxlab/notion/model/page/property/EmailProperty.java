@@ -6,7 +6,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class EmailProperty extends PageProperty {
-  private final String type = PagePropertyType.EMAIL.type();
+  private final String type = PropertyType.EMAIL.type();
 
   private String email;
 }

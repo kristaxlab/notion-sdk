@@ -6,7 +6,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class SelectProperty extends PageProperty {
-  private final String type = PagePropertyType.SELECT.type();
+  private final String type = PropertyType.SELECT.type();
 
   private SelectValue select;
 }

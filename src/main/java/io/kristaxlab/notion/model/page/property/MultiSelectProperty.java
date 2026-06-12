@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class MultiSelectProperty extends PageProperty {
-  private final String type = PagePropertyType.MULTI_SELECT.type();
+  private final String type = PropertyType.MULTI_SELECT.type();
 
   private List<SelectValue> multiSelect;
 }

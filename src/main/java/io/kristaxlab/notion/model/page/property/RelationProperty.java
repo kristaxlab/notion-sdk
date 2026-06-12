@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class RelationProperty extends PageProperty {
-  private final String type = PagePropertyType.RELATION.type();
+  private final String type = PropertyType.RELATION.type();
 
   private Boolean hasMore;
 

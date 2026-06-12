@@ -9,7 +9,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class RichTextProperty extends PageProperty {
-  private final String type = PagePropertyType.RICH_TEXT.type();
+  private final String type = PropertyType.RICH_TEXT.type();
 
   private List<RichText> richText = new ArrayList<>();
 }

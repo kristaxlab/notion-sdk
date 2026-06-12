@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class DateProperty extends PageProperty {
-  private final String type = PagePropertyType.DATE.type();
+  private final String type = PropertyType.DATE.type();
 
   private DateData date;
 }

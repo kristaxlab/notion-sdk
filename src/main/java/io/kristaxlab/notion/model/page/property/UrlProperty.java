@@ -6,7 +6,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class UrlProperty extends PageProperty {
-  private final String type = PagePropertyType.URL.type();
+  private final String type = PropertyType.URL.type();
 
   private String url;
 }

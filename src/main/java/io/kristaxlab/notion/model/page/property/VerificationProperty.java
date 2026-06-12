@@ -9,7 +9,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class VerificationProperty extends PageProperty {
-  private final String type = PagePropertyType.VERIFICATION.type();
+  private final String type = PropertyType.VERIFICATION.type();
 
   private VerificationValue verification;
 

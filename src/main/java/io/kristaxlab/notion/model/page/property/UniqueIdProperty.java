@@ -1,5 +1,6 @@
 package io.kristaxlab.notion.model.page.property;
 
+import java.math.BigInteger;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -7,14 +8,14 @@ import lombok.Setter;
 @Getter
 @Setter
 public class UniqueIdProperty extends PageProperty {
-  private final String type = PagePropertyType.UNIQUE_ID.type();
+  private final String type = PropertyType.UNIQUE_ID.type();
 
   private UniqueIdValue uniqueId;
 
   @Getter
   @Setter
   public static class UniqueIdValue {
-    private Integer number;
+    private BigInteger number;
     private String prefix;
   }
 }

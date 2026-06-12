@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class CreatedTimeProperty extends PageProperty {
-  private final String type = PagePropertyType.CREATED_TIME.type();
+  private final String type = PropertyType.CREATED_TIME.type();
 
   private String createdTime;
 }
