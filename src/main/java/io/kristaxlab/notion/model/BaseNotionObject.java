@@ -1,9 +1,11 @@
 package io.kristaxlab.notion.model;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 /** Base metadata fields present on many Notion API objects. */
-@Data
+@Getter
+@Setter
 public class BaseNotionObject {
 
   private String object; // e.g., "list", "block", "page", "property_item", etc.
