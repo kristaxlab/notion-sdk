@@ -37,12 +37,19 @@ import java.util.function.Consumer;
  * }</pre>
  *
  * <p>The static methods on this class return individual {@link PageProperty} instances; use {@link
- * NotionPropertiesBuilder} to assemble a {@code name -> property} map for create/update payloads.
+ * NotionPropertiesBuilder} to assemble a {@code key -> property} map for create/update payloads.
+ *
+ * <p>Notion accepts <b>property names and ids interchangeably</b> as map keys. {@link
+ * NotionPropertiesBuilder} reflects that with a {@code nameOrId} parameter on every property
+ * method.
  */
 public class NotionProperties {
 
-  /** The Notion API's special key for the page title property. */
-  public static final String TITLE = PagePropertyType.TITLE.type();
+  /**
+   * The reserved key Notion uses for the page title property. Equivalent to passing the title
+   * column's name or id in any property map.
+   */
+  public static final String TITLE = PropertyType.TITLE.type();
 
   /**
    * Creates a fluent properties builder.

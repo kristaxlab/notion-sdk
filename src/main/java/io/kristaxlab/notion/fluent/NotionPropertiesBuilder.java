@@ -14,13 +14,17 @@ import java.util.Map;
 import java.util.function.Consumer;
 
 /**
- * Fluent builder for assembling a {@code property name -> value} map for create / update page
+ * Fluent builder for assembling a {@code property key -> value} map for create / update page
  * payloads.
  *
- * <p>Each method delegates to the static factories in {@link NotionProperties} and adds the
- * resulting {@link PageProperty} under the provided property name. Call {@link #build()} to get the
- * accumulated map, or pass the builder via the {@code properties(Consumer)} hook on the page
- * request builders.
+ * <p>The Notion API treats <b>property names and property ids interchangeably</b> as map keys, so
+ * every method on this builder accepts a {@code nameOrId} string — either the schema column name
+ * (e.g. {@code "Status"}) or its stable id (e.g. {@code "%5B%3DZf"}). Names are easier to write,
+ * ids survive renames; pick whichever fits your use case.
+ *
+ * <p>Each method delegates to the matching static factory in {@link NotionProperties} and adds the
+ * resulting {@link PageProperty} under the supplied key. Call {@link #build()} for the accumulated
+ * map, or pass the builder via the {@code properties(Consumer)} hook on the page request builders.
  *
  * <pre>{@code
  * Map<String, PageProperty> props = NotionProperties.propertiesBuilder()
@@ -46,22 +50,23 @@ public class NotionPropertiesBuilder {
   }
 
   /**
-   * Adds a pre-built property under the given name. Use this escape hatch when shorthand methods
+   * Adds a pre-built property under the given key. Use this escape hatch when shorthand methods
    * don't cover your use case.
    *
-   * @param name schema property name (or id)
+   * @param nameOrId schema property name or id
    * @param property property payload
    * @return this builder
    */
-  public NotionPropertiesBuilder property(String name, PageProperty property) {
-    properties.put(name, property);
+  public NotionPropertiesBuilder property(String nameOrId, PageProperty property) {
+    properties.put(nameOrId, property);
     return this;
   }
 
   /**
-   * Adds all properties from a pre-built map.
+   * Adds all properties from a pre-built map. Keys are passed through as-is and may be either names
+   * or ids.
    *
-   * @param values name -> property mapping
+   * @param values name-or-id to property mapping
    * @return this builder
    */
   public NotionPropertiesBuilder properties(Map<String, ? extends PageProperty> values) {
@@ -70,13 +75,13 @@ public class NotionPropertiesBuilder {
   }
 
   /**
-   * Removes a property from the map.
+   * Removes a previously added property from the map.
    *
-   * @param name schema property name to remove
+   * @param nameOrId schema property name or id to remove
    * @return this builder
    */
-  public NotionPropertiesBuilder clear(String name) {
-    properties.remove(name);
+  public NotionPropertiesBuilder clear(String nameOrId) {
+    properties.remove(nameOrId);
     return this;
   }
 
@@ -84,7 +89,7 @@ public class NotionPropertiesBuilder {
 
   /**
    * Sets the page title under Notion's special {@code "title"} key. Use this when the parent is a
-   * page or when the data source's title column is available under the conventional key.
+   * page or when the data source's title column is reachable via the conventional key.
    *
    * @param text title text
    * @return this builder
@@ -94,47 +99,47 @@ public class NotionPropertiesBuilder {
   }
 
   /**
-   * Sets a title property by explicit name.
+   * Sets a title property by explicit key.
    *
-   * @param name schema property name
+   * @param nameOrId schema property name or id
    * @param text title text
    * @return this builder
    */
-  public NotionPropertiesBuilder title(String name, String text) {
-    return property(name, NotionProperties.title(text));
+  public NotionPropertiesBuilder title(String nameOrId, String text) {
+    return property(nameOrId, NotionProperties.title(text));
   }
 
   /**
-   * Sets a title property by explicit name from rich text fragments.
+   * Sets a title property by explicit key from rich text fragments.
    *
-   * @param name schema property name
+   * @param nameOrId schema property name or id
    * @param richTexts rich text fragments
    * @return this builder
    */
-  public NotionPropertiesBuilder title(String name, RichText... richTexts) {
-    return property(name, NotionProperties.title(richTexts));
+  public NotionPropertiesBuilder title(String nameOrId, RichText... richTexts) {
+    return property(nameOrId, NotionProperties.title(richTexts));
   }
 
   /**
-   * Sets a title property by explicit name from a list of rich text fragments.
+   * Sets a title property by explicit key from a list of rich text fragments.
    *
-   * @param name schema property name
+   * @param nameOrId schema property name or id
    * @param richTexts rich text fragments
    * @return this builder
    */
-  public NotionPropertiesBuilder title(String name, List<RichText> richTexts) {
-    return property(name, NotionProperties.title(richTexts));
+  public NotionPropertiesBuilder title(String nameOrId, List<RichText> richTexts) {
+    return property(nameOrId, NotionProperties.title(richTexts));
   }
 
   /**
-   * Sets a title property by explicit name using the rich text DSL.
+   * Sets a title property by explicit key using the rich text DSL.
    *
-   * @param name schema property name
+   * @param nameOrId schema property name or id
    * @param consumer rich text builder configurator
    * @return this builder
    */
-  public NotionPropertiesBuilder title(String name, Consumer<NotionTextBuilder> consumer) {
-    return property(name, NotionProperties.title(consumer));
+  public NotionPropertiesBuilder title(String nameOrId, Consumer<NotionTextBuilder> consumer) {
+    return property(nameOrId, NotionProperties.title(consumer));
   }
 
   // Rich text
@@ -142,45 +147,45 @@ public class NotionPropertiesBuilder {
   /**
    * Sets a rich-text property from plain text.
    *
-   * @param name schema property name
+   * @param nameOrId schema property name or id
    * @param text plain text content
    * @return this builder
    */
-  public NotionPropertiesBuilder richText(String name, String text) {
-    return property(name, NotionProperties.richText(text));
+  public NotionPropertiesBuilder richText(String nameOrId, String text) {
+    return property(nameOrId, NotionProperties.richText(text));
   }
 
   /**
    * Sets a rich-text property from rich text fragments.
    *
-   * @param name schema property name
+   * @param nameOrId schema property name or id
    * @param richTexts rich text fragments
    * @return this builder
    */
-  public NotionPropertiesBuilder richText(String name, RichText... richTexts) {
-    return property(name, NotionProperties.richText(richTexts));
+  public NotionPropertiesBuilder richText(String nameOrId, RichText... richTexts) {
+    return property(nameOrId, NotionProperties.richText(richTexts));
   }
 
   /**
    * Sets a rich-text property from a list of rich text fragments.
    *
-   * @param name schema property name
+   * @param nameOrId schema property name or id
    * @param richTexts rich text fragments
    * @return this builder
    */
-  public NotionPropertiesBuilder richText(String name, List<RichText> richTexts) {
-    return property(name, NotionProperties.richText(richTexts));
+  public NotionPropertiesBuilder richText(String nameOrId, List<RichText> richTexts) {
+    return property(nameOrId, NotionProperties.richText(richTexts));
   }
 
   /**
    * Sets a rich-text property using the rich text DSL.
    *
-   * @param name schema property name
+   * @param nameOrId schema property name or id
    * @param consumer rich text builder configurator
    * @return this builder
    */
-  public NotionPropertiesBuilder richText(String name, Consumer<NotionTextBuilder> consumer) {
-    return property(name, NotionProperties.richText(consumer));
+  public NotionPropertiesBuilder richText(String nameOrId, Consumer<NotionTextBuilder> consumer) {
+    return property(nameOrId, NotionProperties.richText(consumer));
   }
 
   // Number
@@ -188,12 +193,12 @@ public class NotionPropertiesBuilder {
   /**
    * Sets a number property.
    *
-   * @param name schema property name
+   * @param nameOrId schema property name or id
    * @param value numeric value
    * @return this builder
    */
-  public NotionPropertiesBuilder number(String name, Number value) {
-    return property(name, NotionProperties.number(value));
+  public NotionPropertiesBuilder number(String nameOrId, Number value) {
+    return property(nameOrId, NotionProperties.number(value));
   }
 
   // Select
@@ -201,23 +206,23 @@ public class NotionPropertiesBuilder {
   /**
    * Sets a select property by option name.
    *
-   * @param name schema property name
+   * @param nameOrId schema property name or id
    * @param optionName option name in the schema
    * @return this builder
    */
-  public NotionPropertiesBuilder select(String name, String optionName) {
-    return property(name, NotionProperties.select(optionName));
+  public NotionPropertiesBuilder select(String nameOrId, String optionName) {
+    return property(nameOrId, NotionProperties.select(optionName));
   }
 
   /**
    * Sets a select property from a fully prepared {@link SelectValue}.
    *
-   * @param name schema property name
+   * @param nameOrId schema property name or id
    * @param value option payload
    * @return this builder
    */
-  public NotionPropertiesBuilder select(String name, SelectValue value) {
-    return property(name, NotionProperties.select(value));
+  public NotionPropertiesBuilder select(String nameOrId, SelectValue value) {
+    return property(nameOrId, NotionProperties.select(value));
   }
 
   // Multi-select
@@ -225,23 +230,23 @@ public class NotionPropertiesBuilder {
   /**
    * Sets a multi-select property from option names.
    *
-   * @param name schema property name
+   * @param nameOrId schema property name or id
    * @param optionNames option names in the schema
    * @return this builder
    */
-  public NotionPropertiesBuilder multiSelect(String name, String... optionNames) {
-    return property(name, NotionProperties.multiSelect(optionNames));
+  public NotionPropertiesBuilder multiSelect(String nameOrId, String... optionNames) {
+    return property(nameOrId, NotionProperties.multiSelect(optionNames));
   }
 
   /**
    * Sets a multi-select property from a list of option names.
    *
-   * @param name schema property name
+   * @param nameOrId schema property name or id
    * @param optionNames option names in the schema
    * @return this builder
    */
-  public NotionPropertiesBuilder multiSelect(String name, List<String> optionNames) {
-    return property(name, NotionProperties.multiSelect(optionNames));
+  public NotionPropertiesBuilder multiSelect(String nameOrId, List<String> optionNames) {
+    return property(nameOrId, NotionProperties.multiSelect(optionNames));
   }
 
   // Date
@@ -249,94 +254,96 @@ public class NotionPropertiesBuilder {
   /**
    * Sets a single-day date property.
    *
-   * @param name schema property name
+   * @param nameOrId schema property name or id
    * @param date date value
    * @return this builder
    */
-  public NotionPropertiesBuilder date(String name, LocalDate date) {
-    return property(name, NotionProperties.date(date));
+  public NotionPropertiesBuilder date(String nameOrId, LocalDate date) {
+    return property(nameOrId, NotionProperties.date(date));
   }
 
   /**
    * Sets a date-time property.
    *
-   * @param name schema property name
+   * @param nameOrId schema property name or id
    * @param dateTime date-time value
    * @return this builder
    */
-  public NotionPropertiesBuilder date(String name, LocalDateTime dateTime) {
-    return property(name, NotionProperties.date(dateTime));
+  public NotionPropertiesBuilder date(String nameOrId, LocalDateTime dateTime) {
+    return property(nameOrId, NotionProperties.date(dateTime));
   }
 
   /**
    * Sets a date property from an ISO 8601 string.
    *
-   * @param name schema property name
+   * @param nameOrId schema property name or id
    * @param iso8601 ISO 8601 date or date-time
    * @return this builder
    */
-  public NotionPropertiesBuilder date(String name, String iso8601) {
-    return property(name, NotionProperties.date(iso8601));
+  public NotionPropertiesBuilder date(String nameOrId, String iso8601) {
+    return property(nameOrId, NotionProperties.date(iso8601));
   }
 
   /**
    * Sets a date property from a fully prepared {@link DateData} payload.
    *
-   * @param name schema property name
+   * @param nameOrId schema property name or id
    * @param dateData date payload
    * @return this builder
    */
-  public NotionPropertiesBuilder date(String name, DateData dateData) {
-    return property(name, NotionProperties.date(dateData));
+  public NotionPropertiesBuilder date(String nameOrId, DateData dateData) {
+    return property(nameOrId, NotionProperties.date(dateData));
   }
 
   /**
    * Sets a date-range property from {@link LocalDate} bounds.
    *
-   * @param name schema property name
+   * @param nameOrId schema property name or id
    * @param start range start
    * @param end range end
    * @return this builder
    */
-  public NotionPropertiesBuilder dateRange(String name, LocalDate start, LocalDate end) {
-    return property(name, NotionProperties.dateRange(start, end));
+  public NotionPropertiesBuilder dateRange(String nameOrId, LocalDate start, LocalDate end) {
+    return property(nameOrId, NotionProperties.dateRange(start, end));
   }
 
   /**
    * Sets a date-range property from {@link LocalDateTime} bounds.
    *
-   * @param name schema property name
+   * @param nameOrId schema property name or id
    * @param start range start
    * @param end range end
    * @return this builder
    */
-  public NotionPropertiesBuilder dateRange(String name, LocalDateTime start, LocalDateTime end) {
-    return property(name, NotionProperties.dateRange(start, end));
+  public NotionPropertiesBuilder dateRange(
+      String nameOrId, LocalDateTime start, LocalDateTime end) {
+    return property(nameOrId, NotionProperties.dateRange(start, end));
   }
 
   /**
    * Sets a date-range property from ISO 8601 string bounds.
    *
-   * @param name schema property name
+   * @param nameOrId schema property name or id
    * @param start ISO 8601 start
    * @param end ISO 8601 end
    * @return this builder
    */
-  public NotionPropertiesBuilder dateRange(String name, String start, String end) {
-    return property(name, NotionProperties.dateRange(start, end));
+  public NotionPropertiesBuilder dateRange(String nameOrId, String start, String end) {
+    return property(nameOrId, NotionProperties.dateRange(start, end));
   }
 
   /**
    * Sets a date-range property from ISO 8601 string bounds and a time zone.
    *
-   * @param name schema property name
+   * @param nameOrId schema property name or id
    * @param start ISO 8601 start
    * @param end ISO 8601 end
    * @param timeZone IANA time zone
    * @return this builder
    */
-  public NotionPropertiesBuilder dateRange(String name, String start, String end, String timeZone) {
-    return property(name, NotionProperties.dateRange(start, end, timeZone));
+  public NotionPropertiesBuilder dateRange(
+      String nameOrId, String start, String end, String timeZone) {
+    return property(nameOrId, NotionProperties.dateRange(start, end, timeZone));
   }
 
   // Checkbox
@@ -344,32 +351,32 @@ public class NotionPropertiesBuilder {
   /**
    * Sets a checkbox property.
    *
-   * @param name schema property name
+   * @param nameOrId schema property name or id
    * @param checked whether the checkbox is checked
    * @return this builder
    */
-  public NotionPropertiesBuilder checkbox(String name, boolean checked) {
-    return property(name, NotionProperties.checkbox(checked));
+  public NotionPropertiesBuilder checkbox(String nameOrId, boolean checked) {
+    return property(nameOrId, NotionProperties.checkbox(checked));
   }
 
   /**
    * Sets a checkbox property to checked.
    *
-   * @param name schema property name
+   * @param nameOrId schema property name or id
    * @return this builder
    */
-  public NotionPropertiesBuilder checked(String name) {
-    return property(name, NotionProperties.checked());
+  public NotionPropertiesBuilder checked(String nameOrId) {
+    return property(nameOrId, NotionProperties.checked());
   }
 
   /**
    * Sets a checkbox property to unchecked.
    *
-   * @param name schema property name
+   * @param nameOrId schema property name or id
    * @return this builder
    */
-  public NotionPropertiesBuilder unchecked(String name) {
-    return property(name, NotionProperties.unchecked());
+  public NotionPropertiesBuilder unchecked(String nameOrId) {
+    return property(nameOrId, NotionProperties.unchecked());
   }
 
   // URL, email, phone
@@ -377,34 +384,34 @@ public class NotionPropertiesBuilder {
   /**
    * Sets a URL property.
    *
-   * @param name schema property name
+   * @param nameOrId schema property name or id
    * @param url URL value
    * @return this builder
    */
-  public NotionPropertiesBuilder url(String name, String url) {
-    return property(name, NotionProperties.url(url));
+  public NotionPropertiesBuilder url(String nameOrId, String url) {
+    return property(nameOrId, NotionProperties.url(url));
   }
 
   /**
    * Sets an email property.
    *
-   * @param name schema property name
+   * @param nameOrId schema property name or id
    * @param email email address
    * @return this builder
    */
-  public NotionPropertiesBuilder email(String name, String email) {
-    return property(name, NotionProperties.email(email));
+  public NotionPropertiesBuilder email(String nameOrId, String email) {
+    return property(nameOrId, NotionProperties.email(email));
   }
 
   /**
    * Sets a phone-number property.
    *
-   * @param name schema property name
+   * @param nameOrId schema property name or id
    * @param phoneNumber phone number
    * @return this builder
    */
-  public NotionPropertiesBuilder phoneNumber(String name, String phoneNumber) {
-    return property(name, NotionProperties.phoneNumber(phoneNumber));
+  public NotionPropertiesBuilder phoneNumber(String nameOrId, String phoneNumber) {
+    return property(nameOrId, NotionProperties.phoneNumber(phoneNumber));
   }
 
   // People
@@ -412,23 +419,23 @@ public class NotionPropertiesBuilder {
   /**
    * Sets a people property from one or more user ids.
    *
-   * @param name schema property name
+   * @param nameOrId schema property name or id
    * @param userIds Notion user ids
    * @return this builder
    */
-  public NotionPropertiesBuilder people(String name, String... userIds) {
-    return property(name, NotionProperties.people(userIds));
+  public NotionPropertiesBuilder people(String nameOrId, String... userIds) {
+    return property(nameOrId, NotionProperties.people(userIds));
   }
 
   /**
    * Sets a people property from a list of user ids.
    *
-   * @param name schema property name
+   * @param nameOrId schema property name or id
    * @param userIds Notion user ids
    * @return this builder
    */
-  public NotionPropertiesBuilder people(String name, List<String> userIds) {
-    return property(name, NotionProperties.people(userIds));
+  public NotionPropertiesBuilder people(String nameOrId, List<String> userIds) {
+    return property(nameOrId, NotionProperties.people(userIds));
   }
 
   // Files
@@ -436,23 +443,23 @@ public class NotionPropertiesBuilder {
   /**
    * Sets a files property.
    *
-   * @param name schema property name
+   * @param nameOrId schema property name or id
    * @param files file payloads
    * @return this builder
    */
-  public NotionPropertiesBuilder files(String name, FileData... files) {
-    return property(name, NotionProperties.files(files));
+  public NotionPropertiesBuilder files(String nameOrId, FileData... files) {
+    return property(nameOrId, NotionProperties.files(files));
   }
 
   /**
    * Sets a files property.
    *
-   * @param name schema property name
+   * @param nameOrId schema property name or id
    * @param files file payloads
    * @return this builder
    */
-  public NotionPropertiesBuilder files(String name, List<FileData> files) {
-    return property(name, NotionProperties.files(files));
+  public NotionPropertiesBuilder files(String nameOrId, List<FileData> files) {
+    return property(nameOrId, NotionProperties.files(files));
   }
 
   // Relation
@@ -460,23 +467,23 @@ public class NotionPropertiesBuilder {
   /**
    * Sets a relation property from one or more related page ids.
    *
-   * @param name schema property name
+   * @param nameOrId schema property name or id
    * @param pageIds related page ids
    * @return this builder
    */
-  public NotionPropertiesBuilder relation(String name, String... pageIds) {
-    return property(name, NotionProperties.relation(pageIds));
+  public NotionPropertiesBuilder relation(String nameOrId, String... pageIds) {
+    return property(nameOrId, NotionProperties.relation(pageIds));
   }
 
   /**
    * Sets a relation property from a list of related page ids.
    *
-   * @param name schema property name
+   * @param nameOrId schema property name or id
    * @param pageIds related page ids
    * @return this builder
    */
-  public NotionPropertiesBuilder relation(String name, List<String> pageIds) {
-    return property(name, NotionProperties.relation(pageIds));
+  public NotionPropertiesBuilder relation(String nameOrId, List<String> pageIds) {
+    return property(nameOrId, NotionProperties.relation(pageIds));
   }
 
   // Status
@@ -484,12 +491,12 @@ public class NotionPropertiesBuilder {
   /**
    * Sets a status property by option name.
    *
-   * @param name schema property name
+   * @param nameOrId schema property name or id
    * @param optionName option name in the schema
    * @return this builder
    */
-  public NotionPropertiesBuilder status(String name, String optionName) {
-    return property(name, NotionProperties.status(optionName));
+  public NotionPropertiesBuilder status(String nameOrId, String optionName) {
+    return property(nameOrId, NotionProperties.status(optionName));
   }
 
   // Place
@@ -497,36 +504,37 @@ public class NotionPropertiesBuilder {
   /**
    * Sets a place property with latitude and longitude only.
    *
-   * @param name schema property name
+   * @param nameOrId schema property name or id
    * @param lat latitude
    * @param lon longitude
    * @return this builder
    */
-  public NotionPropertiesBuilder place(String name, double lat, double lon) {
-    return property(name, NotionProperties.place(lat, lon));
+  public NotionPropertiesBuilder place(String nameOrId, double lat, double lon) {
+    return property(nameOrId, NotionProperties.place(lat, lon));
   }
 
   /**
    * Sets a place property with latitude, longitude and a display name.
    *
-   * @param name schema property name
+   * @param nameOrId schema property name or id
    * @param lat latitude
    * @param lon longitude
    * @param displayName display name for the location
    * @return this builder
    */
-  public NotionPropertiesBuilder place(String name, double lat, double lon, String displayName) {
-    return property(name, NotionProperties.place(lat, lon, displayName));
+  public NotionPropertiesBuilder place(
+      String nameOrId, double lat, double lon, String displayName) {
+    return property(nameOrId, NotionProperties.place(lat, lon, displayName));
   }
 
   /**
    * Sets a place property by configuring its {@link PlaceProperty.Place} payload.
    *
-   * @param name schema property name
+   * @param nameOrId schema property name or id
    * @param consumer callback that mutates the place payload
    * @return this builder
    */
-  public NotionPropertiesBuilder place(String name, Consumer<PlaceProperty.Place> consumer) {
-    return property(name, NotionProperties.place(consumer));
+  public NotionPropertiesBuilder place(String nameOrId, Consumer<PlaceProperty.Place> consumer) {
+    return property(nameOrId, NotionProperties.place(consumer));
   }
 }
