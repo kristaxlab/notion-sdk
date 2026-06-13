@@ -1,5 +1,7 @@
 package io.kristaxlab.notion.model.datasource;
 
+import io.kristaxlab.notion.fluent.NotionSchema;
+import io.kristaxlab.notion.fluent.NotionSchemaBuilder;
 import io.kristaxlab.notion.fluent.NotionText;
 import io.kristaxlab.notion.model.common.Icon;
 import io.kristaxlab.notion.model.common.Parent;
@@ -56,13 +58,40 @@ public class CreateDataSourceParams {
     /**
      * Sets the data source property schema via a pre-built map.
      *
-     * <p>Prefer {@link #propertiesBuilder()} or {@link #properties(Consumer)} to avoid the explicit
-     * {@code DataSourceSchemaBuilder.builder()} / {@code .build()} wrapping. /** Sets the property
-     * schema via a pre-built map.
+     * <p>Prefer {@link #properties(Consumer)} for the concise fluent DSL.
+     *
+     * @param properties name-or-id to schema mapping
+     * @return this builder
      */
     public Builder properties(Map<String, DataSourcePropertySchema> properties) {
       this.properties = properties;
       return this;
+    }
+
+    /**
+     * Configures the data source property schema via a lambda that receives a fresh {@link
+     * NotionSchemaBuilder}.
+     *
+     * <p>This is the most concise option — no explicit {@code schemaBuilder()} / {@code build()}:
+     *
+     * <pre>{@code
+     * CreateDataSourceParams.builder()
+     *     .inDatabase(databaseId)
+     *     .title("Tasks")
+     *     .properties(s -> s
+     *         .title("Name")
+     *         .number("Priority", NumberFormatType.NUMBER)
+     *         .select("Status", "Todo", "Done"))
+     *     .build();
+     * }</pre>
+     *
+     * @param configurator a lambda that chains property methods on the provided schema builder
+     * @return this builder
+     */
+    public Builder properties(Consumer<NotionSchemaBuilder> configurator) {
+      NotionSchemaBuilder schema = NotionSchema.schemaBuilder();
+      configurator.accept(schema);
+      return properties(schema.build());
     }
 
     /**

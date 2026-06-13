@@ -1,6 +1,8 @@
 package io.kristaxlab.notion.model.datasource;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import io.kristaxlab.notion.fluent.NotionSchema;
+import io.kristaxlab.notion.fluent.NotionSchemaBuilder;
 import io.kristaxlab.notion.fluent.NotionText;
 import io.kristaxlab.notion.model.common.Icon;
 import io.kristaxlab.notion.model.common.Parent;
@@ -8,6 +10,7 @@ import io.kristaxlab.notion.model.common.richtext.RichText;
 import io.kristaxlab.notion.model.datasource.properties.DataSourcePropertySchema;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -64,10 +67,41 @@ public class UpdateDataSourceParams {
       return this;
     }
 
-    /** Sets the property schema via a pre-built map. */
+    /**
+     * Sets the property schema via a pre-built map.
+     *
+     * <p>Prefer {@link #properties(Consumer)} for the concise fluent DSL.
+     *
+     * @param properties name-or-id to schema mapping
+     * @return this builder
+     */
     public Builder properties(Map<String, DataSourcePropertySchema> properties) {
       this.properties = properties;
       return this;
+    }
+
+    /**
+     * Configures the property schema via a lambda that receives a fresh {@link
+     * NotionSchemaBuilder}.
+     *
+     * <p>Add, modify, or {@link NotionSchemaBuilder#remove(String) remove} columns:
+     *
+     * <pre>{@code
+     * UpdateDataSourceParams.builder()
+     *     .properties(s -> s
+     *         .richText("Notes")
+     *         .select("Priority", "Low", "High")
+     *         .remove("Obsolete column"))
+     *     .build();
+     * }</pre>
+     *
+     * @param configurator a lambda that chains property methods on the provided schema builder
+     * @return this builder
+     */
+    public Builder properties(Consumer<NotionSchemaBuilder> configurator) {
+      NotionSchemaBuilder schema = NotionSchema.schemaBuilder();
+      configurator.accept(schema);
+      return properties(schema.build());
     }
 
     /**

@@ -1,11 +1,9 @@
 package io.kristaxlab.notion.model.datasource;
 
+import io.kristaxlab.notion.model.datasource.filter.Filter;
 import io.kristaxlab.notion.model.datasource.sort.Sort;
 import io.kristaxlab.notion.model.datasource.sort.SortDirection;
 import io.kristaxlab.notion.model.datasource.sort.Timestamp;
-import io.kristixlab.notion.api.model.common.SortDirection;
-import io.kristixlab.notion.api.model.common.Timestamp;
-import io.kristixlab.notion.api.model.datasources.filter.Filter;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.Getter;

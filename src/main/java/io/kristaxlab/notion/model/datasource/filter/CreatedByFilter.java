@@ -1,6 +1,6 @@
 package io.kristaxlab.notion.model.datasource.filter;
 
-import io.kristixlab.notion.api.model.datasources.filter.condition.UserFilterCondition;
+import io.kristaxlab.notion.model.datasource.filter.condition.UserFilterCondition;
 import java.util.UUID;
 import lombok.Getter;
 import lombok.Setter;

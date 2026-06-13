@@ -11,7 +11,7 @@ import lombok.Setter;
 @Setter
 public class CheckboxSchema extends DataSourcePropertySchema {
 
-  private final String type = PropertyType.BUTTON.type();
+  private final String type = PropertyType.CHECKBOX.type();
 
   private Object checkbox = new Object();
 }

@@ -1,15 +1,15 @@
 package io.kristaxlab.notion.model.database;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.kristaxlab.notion.fluent.NotionSchema;
+import io.kristaxlab.notion.fluent.NotionSchemaBuilder;
 import io.kristaxlab.notion.fluent.NotionText;
 import io.kristaxlab.notion.model.common.*;
 import io.kristaxlab.notion.model.common.Cover;
 import io.kristaxlab.notion.model.common.Icon;
 import io.kristaxlab.notion.model.common.Parent;
 import io.kristaxlab.notion.model.common.richtext.RichText;
-import io.kristaxlab.notion.model.datasources.properties.DataSourcePropertySchemaParams;
-import io.kristaxlab.notion.model.datasources.properties.helper.DataSourceSchemaBuilder;
-import io.kristaxlab.notion.model.datasources.properties.helper.PropertiesStep;
+import io.kristaxlab.notion.model.datasource.properties.DataSourcePropertySchema;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
@@ -100,11 +100,12 @@ public class CreateDatabaseParams {
     /**
      * Configures the initial data source properties via a pre-built schema map.
      *
-     * <p>Prefer {@link #propertiesBuilder()} or {@link #properties(Consumer)} to avoid the explicit
-     * {@code DataSourceSchemaBuilder.builder()} / {@code .build()} wrapping.
+     * <p>Prefer {@link #properties(Consumer)} for the concise fluent DSL.
+     *
+     * @param initialDataSourceProperties name-or-id to schema mapping
+     * @return this builder
      */
-    public Builder properties(
-        Map<String, DataSourcePropertySchemaParams> initialDataSourceProperties) {
+    public Builder properties(Map<String, DataSourcePropertySchema> initialDataSourceProperties) {
       InitialDatasource initialDataSource = new InitialDatasource();
       initialDataSource.setProperties(initialDataSourceProperties);
       this.initialDataSource = initialDataSource;
@@ -112,38 +113,14 @@ public class CreateDatabaseParams {
     }
 
     /**
-     * Opens an embedded schema step-builder for configuring the initial data source properties.
-     *
-     * <p>Chain property methods on the returned {@link PropertiesStep}, then call {@link
-     * PropertiesStep#buildProperties()} to seal the schema and return to this builder.
-     *
-     * <pre>{@code
-     * CreateDatabaseParams.builder()
-     *     .parentPage(pageId)
-     *     .title("My DB")
-     *     .propertiesBuilder()
-     *         .title("Name")
-     *         .number("Price", NumberFormatType.EURO)
-     *     .buildProperties()
-     *     .build();
-     * }</pre>
-     *
-     * @return a {@link PropertiesStep} whose {@code buildProperties()} returns this builder
-     */
-    public PropertiesStep<Builder> propertiesBuilder() {
-      return new PropertiesStep<>(this, this::properties);
-    }
-
-    /**
      * Configures the initial data source properties via a lambda that receives a fresh {@link
-     * DataSourceSchemaBuilder}.
+     * NotionSchemaBuilder}.
      *
-     * <p>This is the most concise option — no explicit {@code builder()} / {@code build()} and no
-     * {@code buildProperties()} needed:
+     * <p>This is the most concise option — no explicit {@code schemaBuilder()} / {@code build()}:
      *
      * <pre>{@code
      * CreateDatabaseParams.builder()
-     *     .parentPage(pageId)
+     *     .inPage(pageId)
      *     .title("My DB")
      *     .properties(s -> s
      *         .title("Name")
@@ -154,8 +131,8 @@ public class CreateDatabaseParams {
      * @param configurator a lambda that chains property methods on the provided schema builder
      * @return this builder
      */
-    public Builder properties(Consumer<DataSourceSchemaBuilder> configurator) {
-      DataSourceSchemaBuilder schema = DataSourceSchemaBuilder.builder();
+    public Builder properties(Consumer<NotionSchemaBuilder> configurator) {
+      NotionSchemaBuilder schema = NotionSchema.schemaBuilder();
       configurator.accept(schema);
       return properties(schema.build());
     }
@@ -169,7 +146,7 @@ public class CreateDatabaseParams {
      *
      * <pre>{@code
      * CreateDatabaseParams.builder()
-     *     .parentPage(pageId)
+     *     .inPage(pageId)
      *     .title("My DB")
      *     .properties(catalogSchemaFactory::defaultSchema)
      *     .build();
@@ -178,7 +155,7 @@ public class CreateDatabaseParams {
      * @param producer a supplier that returns the property schema map
      * @return this builder
      */
-    public Builder properties(Supplier<Map<String, DataSourcePropertySchemaParams>> producer) {
+    public Builder properties(Supplier<Map<String, DataSourcePropertySchema>> producer) {
       return properties(producer.get());
     }
 

@@ -1,6 +1,6 @@
 package io.kristaxlab.notion.model.datasource.filter;
 
-import io.kristixlab.notion.api.model.datasources.filter.condition.TextFilterCondition;
+import io.kristaxlab.notion.model.datasource.filter.condition.TextFilterCondition;
 import lombok.Getter;
 import lombok.Setter;
 

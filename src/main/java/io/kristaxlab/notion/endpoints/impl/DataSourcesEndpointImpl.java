@@ -7,11 +7,12 @@ import io.kristaxlab.notion.endpoints.DataSourcesEndpoint;
 import io.kristaxlab.notion.http.base.client.ApiClient;
 import io.kristaxlab.notion.http.base.request.ApiPath;
 import io.kristaxlab.notion.model.datasource.CreateDataSourceParams;
+import io.kristaxlab.notion.model.datasource.DataSource;
 import io.kristaxlab.notion.model.datasource.DataSourcePageList;
 import io.kristaxlab.notion.model.datasource.DataSourceQuery;
 import io.kristaxlab.notion.model.datasource.UpdateDataSourceParams;
 import io.kristaxlab.notion.model.page.templates.Templates;
-import javax.sql.DataSource;
+import java.util.function.Consumer;
 
 /**
  * API for interacting with Notion Data Sources endpoints (API version 2025-09-03+). Provides
@@ -52,6 +53,19 @@ public class DataSourcesEndpointImpl extends BaseEndpointImpl implements DataSou
   }
 
   /**
+   * Create a new data source by configuring the builder in a lambda.
+   *
+   * @param consumer callback that fills the creation builder
+   * @return the created data source
+   */
+  public DataSource create(Consumer<CreateDataSourceParams.Builder> consumer) {
+    checkNotNull(consumer, "consumer");
+    CreateDataSourceParams.Builder builder = CreateDataSourceParams.builder();
+    consumer.accept(builder);
+    return create(builder.build());
+  }
+
+  /**
    * Update an existing data source.
    *
    * @param dataSourceId The ID of the data source to update
@@ -68,6 +82,21 @@ public class DataSourcesEndpointImpl extends BaseEndpointImpl implements DataSou
             .build();
 
     return getClient().call("PATCH", urlInfo, request, DataSource.class);
+  }
+
+  /**
+   * Update an existing data source by configuring the builder in a lambda.
+   *
+   * @param dataSourceId The ID of the data source to update
+   * @param consumer callback that fills the update builder
+   * @return The updated data source
+   */
+  public DataSource update(String dataSourceId, Consumer<UpdateDataSourceParams.Builder> consumer) {
+    checkNotNullOrEmpty(dataSourceId, "dataSourceId");
+    checkNotNull(consumer, "consumer");
+    UpdateDataSourceParams.Builder builder = UpdateDataSourceParams.builder();
+    consumer.accept(builder);
+    return update(dataSourceId, builder.build());
   }
 
   /**

@@ -1,7 +1,7 @@
 package io.kristaxlab.notion.model.datasource.filter;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.kristixlab.notion.api.model.datasources.filter.condition.UserFilterCondition;
+import io.kristaxlab.notion.model.datasource.filter.condition.UserFilterCondition;
 import lombok.Getter;
 import lombok.Setter;
 

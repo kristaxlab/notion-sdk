@@ -1,6 +1,6 @@
 package io.kristaxlab.notion.model.database;
 
-import io.kristixlab.notion.api.model.datasources.properties.DataSourcePropertySchemaParams;
+import io.kristaxlab.notion.model.datasource.properties.DataSourcePropertySchema;
 import java.util.HashMap;
 import java.util.Map;
 import lombok.Getter;
@@ -10,9 +10,9 @@ import lombok.Setter;
 @Setter
 public class InitialDatasource {
 
-  private Map<String, DataSourcePropertySchemaParams> properties = new HashMap<>();
+  private Map<String, DataSourcePropertySchema> properties = new HashMap<>();
 
-  public static InitialDatasource of(Map<String, DataSourcePropertySchemaParams> properties) {
+  public static InitialDatasource of(Map<String, DataSourcePropertySchema> properties) {
     InitialDatasource ids = new InitialDatasource();
     ids.setProperties(properties);
     return ids;
