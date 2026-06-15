@@ -85,6 +85,46 @@ public class NotionSchemaBuilder {
     return this;
   }
 
+  /**
+   * Renames a column already present in this builder.
+   *
+   * <p>Looks up the schema previously added under {@code nameOrId} (its existing name or id), sets
+   * its display name to {@code newName}, and re-keys the entry under {@code newName} while
+   * preserving insertion order. Its type and configuration are left untouched.
+   *
+   * <pre>{@code
+   * client.dataSources().update(id, ds -> ds
+   *     .properties(s -> s
+   *         .number("Priority")
+   *         .rename("Priority", "Urgency")));
+   * }</pre>
+   *
+   * @param nameOrId existing schema property name or id (must already be present in this builder)
+   * @param newName new display name for the property
+   * @return this builder
+   * @throws IllegalArgumentException if no schema has been added under {@code nameOrId}
+   */
+  public NotionSchemaBuilder rename(String nameOrId, String newName) {
+    DataSourcePropertySchema schema = properties.get(nameOrId);
+    if (schema == null) {
+      throw new IllegalArgumentException(
+          "Cannot rename unknown property: " + nameOrId + ". Add it to the schema first.");
+    }
+    schema.setName(newName);
+
+    Map<String, DataSourcePropertySchema> reordered = new LinkedHashMap<>();
+    for (Map.Entry<String, DataSourcePropertySchema> entry : properties.entrySet()) {
+      if (entry.getKey().equals(nameOrId)) {
+        reordered.put(newName, schema);
+      } else {
+        reordered.put(entry.getKey(), entry.getValue());
+      }
+    }
+    properties.clear();
+    properties.putAll(reordered);
+    return this;
+  }
+
   // Title
 
   /**
