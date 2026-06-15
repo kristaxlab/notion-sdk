@@ -9,7 +9,10 @@ import lombok.Setter;
 @Setter
 public class RichTextSchema extends DataSourcePropertySchema {
 
-  private final String type = PropertyType.RICH_TEXT.type();
+  public RichTextSchema() {
+    setType(PropertyType.RICH_TEXT.type());
+    richText = new Object();
+  }
 
   private Object richText;
 }

@@ -11,7 +11,10 @@ import lombok.Setter;
 @Setter
 public class ButtonSchema extends DataSourcePropertySchema {
 
-  private final String type = PropertyType.BUTTON.type();
+  public ButtonSchema() {
+    setType(PropertyType.BUTTON.type());
+    button = new Object();
+  }
 
-  private Object button = new Object();
+  private Object button;
 }

@@ -9,7 +9,10 @@ import lombok.Setter;
 @Setter
 public class PhoneSchema extends DataSourcePropertySchema {
 
-  private final String type = PropertyType.PHONE_NUMBER.type();
+  public PhoneSchema() {
+    setType(PropertyType.PHONE_NUMBER.type());
+    phoneNumber = new Object();
+  }
 
-  private Object phoneNumber = new Object();
+  private Object phoneNumber;
 }

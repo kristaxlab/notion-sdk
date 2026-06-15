@@ -11,9 +11,12 @@ import lombok.Setter;
 @Setter
 public class RollupSchema extends DataSourcePropertySchema {
 
-  private final String type = PropertyType.ROLLUP.type();
+  public RollupSchema() {
+    setType(PropertyType.ROLLUP.type());
+    rollup = new RollupConfig();
+  }
 
-  private RollupConfig rollup = new RollupConfig();
+  private RollupConfig rollup;
 
   @Getter
   @Setter

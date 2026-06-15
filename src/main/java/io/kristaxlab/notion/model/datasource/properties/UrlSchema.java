@@ -9,7 +9,10 @@ import lombok.Setter;
 @Setter
 public class UrlSchema extends DataSourcePropertySchema {
 
-  private final String type = PropertyType.URL.type();
+  public UrlSchema() {
+    setType(PropertyType.URL.type());
+    url = new Object();
+  }
 
-  private Object url = new Object();
+  private Object url;
 }

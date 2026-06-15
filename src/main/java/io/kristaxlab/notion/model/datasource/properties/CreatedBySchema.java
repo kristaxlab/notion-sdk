@@ -12,7 +12,10 @@ import lombok.Setter;
 @Setter
 public class CreatedBySchema extends DataSourcePropertySchema {
 
-  private final String type = PropertyType.CREATED_BY.type();
+  public CreatedBySchema() {
+    setType(PropertyType.CREATED_BY.type());
+    createdBy = new Object();
+  }
 
-  private Object createdBy = new Object();
+  private Object createdBy;
 }
