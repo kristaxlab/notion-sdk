@@ -12,9 +12,12 @@ import lombok.Setter;
 @Setter
 public class SelectSchema extends DataSourcePropertySchema {
 
-  private final String type = PropertyType.SELECT.type();
+  public SelectSchema() {
+    setType(PropertyType.SELECT.type());
+    select = new SelectConfig();
+  }
 
-  private SelectConfig select = new SelectConfig();
+  private SelectConfig select;
 
   @Getter
   @Setter

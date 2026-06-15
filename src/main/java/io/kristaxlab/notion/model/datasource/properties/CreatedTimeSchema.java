@@ -12,9 +12,10 @@ import lombok.Setter;
 @Setter
 public class CreatedTimeSchema extends DataSourcePropertySchema {
 
-  private final String type = PropertyType.CREATED_TIME.type();
+  public CreatedTimeSchema() {
+    setType(PropertyType.CREATED_TIME.type());
+    createdTime = new Object();
+  }
 
-  private Object createdTime = new Object();
-
-  ;
+  private Object createdTime;
 }

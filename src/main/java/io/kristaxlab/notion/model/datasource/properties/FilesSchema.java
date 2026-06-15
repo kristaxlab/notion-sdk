@@ -9,7 +9,10 @@ import lombok.Setter;
 @Setter
 public class FilesSchema extends DataSourcePropertySchema {
 
-  private final String type = PropertyType.FILES.type();
+  public FilesSchema() {
+    setType(PropertyType.FILES.type());
+    files = new Object();
+  }
 
-  private Object files = new Object();
+  private Object files;
 }

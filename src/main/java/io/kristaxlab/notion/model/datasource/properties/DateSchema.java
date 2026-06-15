@@ -9,7 +9,10 @@ import lombok.Setter;
 @Setter
 public class DateSchema extends DataSourcePropertySchema {
 
-  private final String type = PropertyType.DATE.type();
+  public DateSchema() {
+    setType(PropertyType.DATE.type());
+    date = new Object();
+  }
 
-  private Object date = new Object();
+  private Object date;
 }

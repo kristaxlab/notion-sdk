@@ -11,9 +11,12 @@ import lombok.Setter;
 @Setter
 public class FormulaSchema extends DataSourcePropertySchema {
 
-  private final String type = PropertyType.FORMULA.type();
+  public FormulaSchema() {
+    setType(PropertyType.FORMULA.type());
+    formula = new FormulaConfig();
+  }
 
-  private FormulaConfig formula = new FormulaConfig();
+  private FormulaConfig formula;
 
   @Getter
   @Setter

@@ -10,9 +10,12 @@ import lombok.Setter;
 @Setter
 public class StatusSchema extends DataSourcePropertySchema {
 
-  private final String type = PropertyType.STATUS.type();
+  public StatusSchema() {
+    setType(PropertyType.STATUS.type());
+    status = new StatusConfig();
+  }
 
-  private StatusConfig status = new StatusConfig();
+  private StatusConfig status;
 
   @Getter
   @Setter

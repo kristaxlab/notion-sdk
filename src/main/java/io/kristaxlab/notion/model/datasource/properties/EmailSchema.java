@@ -9,7 +9,10 @@ import lombok.Setter;
 @Setter
 public class EmailSchema extends DataSourcePropertySchema {
 
-  private final String type = PropertyType.EMAIL.type();
+  public EmailSchema() {
+    setType(PropertyType.EMAIL.type());
+    email = new Object();
+  }
 
-  private Object email = new Object();
+  private Object email;
 }

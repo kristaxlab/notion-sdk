@@ -2,7 +2,6 @@ package io.kristaxlab.notion.model.datasource.properties;
 
 import io.kristaxlab.notion.model.page.property.PropertyType;
 import java.util.List;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,7 +17,8 @@ public class MultiSelectSchema extends DataSourcePropertySchema {
 
   private MultiSelectConfig multiSelect = new MultiSelectConfig();
 
-  @Data
+  @Getter
+  @Setter
   public static class MultiSelectConfig {
 
     private List<SelectOption> options;

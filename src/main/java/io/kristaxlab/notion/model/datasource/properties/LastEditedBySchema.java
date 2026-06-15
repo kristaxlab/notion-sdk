@@ -12,7 +12,10 @@ import lombok.Setter;
 @Setter
 public class LastEditedBySchema extends DataSourcePropertySchema {
 
-  private final String type = PropertyType.LAST_EDITED_BY.type();
+  public LastEditedBySchema() {
+    setType(PropertyType.LAST_EDITED_BY.type());
+    lastEditedBy = new Object();
+  }
 
-  private Object lastEditedBy = new Object();
+  private Object lastEditedBy;
 }

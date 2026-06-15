@@ -9,7 +9,10 @@ import lombok.Setter;
 @Setter
 public class TitleSchema extends DataSourcePropertySchema {
 
-  private final String type = PropertyType.TITLE.type();
+  public TitleSchema() {
+    setType(PropertyType.TITLE.type());
+    title = new Object();
+  }
 
-  private Object title = new Object();
+  private Object title;
 }

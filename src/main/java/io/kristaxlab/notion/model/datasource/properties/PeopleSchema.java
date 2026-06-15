@@ -9,7 +9,10 @@ import lombok.Setter;
 @Setter
 public class PeopleSchema extends DataSourcePropertySchema {
 
-  private final String type = PropertyType.PEOPLE.type();
+  public PeopleSchema() {
+    setType(PropertyType.PEOPLE.type());
+    people = new Object();
+  }
 
-  private Object people = new Object();
+  private Object people;
 }

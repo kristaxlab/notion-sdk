@@ -9,9 +9,12 @@ import lombok.Setter;
 @Setter
 public class UniqueIdSchema extends DataSourcePropertySchema {
 
-  private final String type = PropertyType.UNIQUE_ID.type();
+  public UniqueIdSchema() {
+    setType(PropertyType.UNIQUE_ID.type());
+    uniqueId = new UniqueIdConfig();
+  }
 
-  private UniqueIdConfig uniqueId = new UniqueIdConfig();
+  private UniqueIdConfig uniqueId;
 
   @Getter
   @Setter

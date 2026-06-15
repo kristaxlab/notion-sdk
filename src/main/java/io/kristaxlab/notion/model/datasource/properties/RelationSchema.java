@@ -9,9 +9,12 @@ import lombok.Setter;
 @Setter
 public class RelationSchema extends DataSourcePropertySchema {
 
-  private final String type = PropertyType.RELATION.type();
+  public RelationSchema() {
+    setType(PropertyType.RELATION.type());
+    relation = new RelationConfig();
+  }
 
-  private RelationConfig relation = new RelationConfig();
+  private RelationConfig relation;
 
   @Getter
   @Setter

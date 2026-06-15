@@ -12,7 +12,10 @@ import lombok.Setter;
 @Setter
 public class VerificationSchema extends DataSourcePropertySchema {
 
-  private final String type = PropertyType.VERIFICATION.type();
+  public VerificationSchema() {
+    setType(PropertyType.VERIFICATION.type());
+    verification = new Object();
+  }
 
-  private Object verification = new Object();
+  private Object verification;
 }

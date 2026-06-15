@@ -12,7 +12,10 @@ import lombok.Setter;
 @Setter
 public class PlaceSchema extends DataSourcePropertySchema {
 
-  private final String type = PropertyType.PLACE.type();
+  public PlaceSchema() {
+    setType(PropertyType.PLACE.type());
+    place = new Object();
+  }
 
-  private Object place = new Object();
+  private Object place;
 }

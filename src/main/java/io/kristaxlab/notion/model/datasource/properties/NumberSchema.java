@@ -9,9 +9,12 @@ import lombok.Setter;
 @Setter
 public class NumberSchema extends DataSourcePropertySchema {
 
-  private final String type = PropertyType.NUMBER.type();
+  public NumberSchema() {
+    setType(PropertyType.NUMBER.type());
+    number = new NumberFormat();
+  }
 
-  private NumberFormat number = new NumberFormat();
+  private NumberFormat number;
 
   @Getter
   @Setter

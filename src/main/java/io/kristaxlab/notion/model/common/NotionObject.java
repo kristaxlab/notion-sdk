@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import io.kristaxlab.notion.model.BaseNotionObject;
 import io.kristaxlab.notion.model.block.Block;
 import io.kristaxlab.notion.model.database.Database;
+import io.kristaxlab.notion.model.datasource.DataSource;
 import io.kristaxlab.notion.model.file.FileUpload;
 import io.kristaxlab.notion.model.page.Page;
 import io.kristaxlab.notion.model.user.User;
@@ -18,7 +19,7 @@ import lombok.Setter;
     visible = true)
 @JsonSubTypes({
   @JsonSubTypes.Type(value = Database.class, name = "database"),
-  @JsonSubTypes.Type(value = Database.class, name = "data_source"),
+  @JsonSubTypes.Type(value = DataSource.class, name = "data_source"),
   @JsonSubTypes.Type(value = Page.class, name = "page"),
   @JsonSubTypes.Type(value = FileUpload.class, name = "file_upload"),
   @JsonSubTypes.Type(value = Block.class, name = "block")
