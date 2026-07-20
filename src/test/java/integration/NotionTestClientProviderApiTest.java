@@ -16,7 +16,7 @@ class NotionTestClientProviderApiTest {
 
   @Test
   void exposesReadableClientFactoryNamesInHelperPackage() throws Exception {
-    assertFactoryMethodsPresent(Class.forName("integration.helper.NotionTestClientProvider"));
+    assertFactoryMethodsPresent(integration.helper.NotionTestClientProvider.class);
   }
 
   private static void assertFactoryMethodsPresent(Class<?> providerClass) throws Exception {
