@@ -1,6 +1,6 @@
 package io.kristaxlab.notion.model.datasource.properties;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import lombok.Getter;
@@ -10,6 +10,7 @@ import lombok.Setter;
  * Base class for database property objects. Database properties define the schema and configuration
  * of database columns.
  */
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonTypeInfo(
     use = JsonTypeInfo.Id.NAME,
     defaultImpl = UnknownDataSourcePropertySchema.class,
@@ -50,11 +51,11 @@ public abstract class DataSourcePropertySchema {
 
   private String name;
 
+  private String type;
+
   private String description;
 
   public DataSourcePropertySchema() {}
-
-  public abstract String getType();
 
   public DataSourcePropertySchema(String name) {
     this.name = name;
@@ -147,126 +148,5 @@ public abstract class DataSourcePropertySchema {
 
   public VerificationSchema asVerification() {
     return (VerificationSchema) this;
-  }
-
-  // Type checking methods
-  @JsonIgnore
-  public boolean isButton() {
-    return "button".equals(getType());
-  }
-
-  @JsonIgnore
-  public boolean isCheckbox() {
-    return "checkbox".equals(getType());
-  }
-
-  @JsonIgnore
-  public boolean isCreatedBy() {
-    return "created_by".equals(getType());
-  }
-
-  @JsonIgnore
-  public boolean isCreatedTime() {
-    return "created_time".equals(getType());
-  }
-
-  @JsonIgnore
-  public boolean isDate() {
-    return "date".equals(getType());
-  }
-
-  @JsonIgnore
-  public boolean isEmail() {
-    return "email".equals(getType());
-  }
-
-  @JsonIgnore
-  public boolean isFiles() {
-    return "files".equals(getType());
-  }
-
-  @JsonIgnore
-  public boolean isFormula() {
-    return "formula".equals(getType());
-  }
-
-  @JsonIgnore
-  public boolean isLastEditedBy() {
-    return "last_edited_by".equals(getType());
-  }
-
-  @JsonIgnore
-  public boolean isLastEditedTime() {
-    return "last_edited_time".equals(getType());
-  }
-
-  @JsonIgnore
-  public boolean isMultiSelect() {
-    return "multi_select".equals(getType());
-  }
-
-  @JsonIgnore
-  public boolean isNumber() {
-    return "number".equals(getType());
-  }
-
-  @JsonIgnore
-  public boolean isPeople() {
-    return "people".equals(getType());
-  }
-
-  @JsonIgnore
-  public boolean isPhoneNumber() {
-    return "phone_number".equals(getType());
-  }
-
-  @JsonIgnore
-  public boolean isRelation() {
-    return "relation".equals(getType());
-  }
-
-  @JsonIgnore
-  public boolean isRichText() {
-    return "rich_text".equals(getType());
-  }
-
-  @JsonIgnore
-  public boolean isRollup() {
-    return "rollup".equals(getType());
-  }
-
-  @JsonIgnore
-  public boolean isSelect() {
-    return "select".equals(getType());
-  }
-
-  @JsonIgnore
-  public boolean isStatus() {
-    return "status".equals(getType());
-  }
-
-  @JsonIgnore
-  public boolean isTitle() {
-    return "title".equals(getType());
-  }
-
-  @JsonIgnore
-  public boolean isUniqueId() {
-    return "unique_id".equals(getType());
-  }
-
-  @JsonIgnore
-  public boolean isUrl() {
-    return "url".equals(getType());
-  }
-
-  @JsonIgnore
-  public boolean isVerification() {
-    return "verification".equals(getType());
-  }
-
-  @JsonIgnore
-  public boolean isPlace() {
-    return "place".equals(getType());
   }
 }
