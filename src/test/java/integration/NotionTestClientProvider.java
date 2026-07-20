@@ -27,21 +27,21 @@ import java.nio.file.Path;
 public class NotionTestClientProvider {
 
   /**
-   * Creates a {@link NotionClient} for internal integration tests without exchange logging.
+   * Creates a {@link NotionClient} used for preparing integration-test prerequisites.
    *
-   * <p>Prefer {@link #internalTestingClient(Path)} when you need per-test exchange files written to
-   * disk for offline inspection or regression snapshots.
+   * <p>This client is intended for setup-only operations (e.g. loading prerequisite data) and does
+   * not write HTTP exchange logs.
    *
    * @return a fully-wired {@link NotionClient} backed by the NOTION_TEST_AUTH_TOKEN token
    * @throws IllegalStateException if the NOTION_TEST_AUTH_TOKEN environment variable is absent or
    *     blank
    */
-  public static NotionClient internalTestingClient() {
-    return internalTestingClient(null);
+  public static NotionClient prerequisiteSetupClient() {
+    return testRunClient(null);
   }
 
   /**
-   * Creates a {@link NotionClient} for internal integration tests.
+   * Creates a {@link NotionClient} used for running integration tests.
    *
    * <p>When {@code exchangeLogDir} is non-{@code null}, an {@link ExchangeRecordingInterceptor} is
    * added to the HTTP pipeline and writes each request/response pair as a pretty-printed JSON file
@@ -53,7 +53,7 @@ public class NotionTestClientProvider {
    * @throws IllegalStateException if the NOTION_TEST_AUTH_TOKEN environment variable is absent or
    *     blank
    */
-  public static NotionClient internalTestingClient(Path exchangeLogDir) {
+  public static NotionClient testRunClient(Path exchangeLogDir) {
     String apiKey = System.getenv(NOTION_TEST_AUTH_TOKEN);
     if (apiKey == null || apiKey.isEmpty()) {
       throw new IllegalStateException(NOTION_TEST_AUTH_TOKEN + " environment variable is not set");
@@ -64,5 +64,22 @@ public class NotionTestClientProvider {
         .jsonSerializer(new TestSerializer()) // strict serializer
         .exchangeLogging(exchangeLogDir)
         .build();
+  }
+
+  /**
+   * @deprecated Use {@link #prerequisiteSetupClient()} for setup flows or {@link
+   *     #testRunClient(Path)} for test execution.
+   */
+  @Deprecated
+  public static NotionClient internalTestingClient() {
+    return prerequisiteSetupClient();
+  }
+
+  /**
+   * @deprecated Use {@link #testRunClient(Path)}.
+   */
+  @Deprecated
+  public static NotionClient internalTestingClient(Path exchangeLogDir) {
+    return testRunClient(exchangeLogDir);
   }
 }

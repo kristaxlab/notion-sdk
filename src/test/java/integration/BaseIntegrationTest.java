@@ -36,7 +36,7 @@ public abstract class BaseIntegrationTest {
 
     Path exchangeDir = Paths.get("exchanges", "exchange-logs", testClass, testMethod);
 
-    notionClient = NotionTestClientProvider.internalTestingClient(exchangeDir);
+    notionClient = NotionTestClientProvider.testRunClient(exchangeDir);
   }
 
   /**

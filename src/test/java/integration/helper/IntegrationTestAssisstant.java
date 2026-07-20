@@ -19,7 +19,7 @@ public class IntegrationTestAssisstant {
   private static String testPageId;
 
   public static NotionClient getNotion() {
-    return NotionTestClientProvider.internalTestingClient();
+    return NotionTestClientProvider.prerequisiteSetupClient();
   }
 
   private static IntegrationTestAssisstant getInstance() {
