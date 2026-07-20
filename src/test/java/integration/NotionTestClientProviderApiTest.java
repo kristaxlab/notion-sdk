@@ -1,6 +1,5 @@
 package integration;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.lang.reflect.Method;
@@ -24,8 +23,6 @@ class NotionTestClientProviderApiTest {
     Method setupClientFactory = providerClass.getMethod("prerequisiteSetupClient");
     Method testRunClientFactory = providerClass.getMethod("testRunClient", Path.class);
 
-    assertNotNull(setupClientFactory);
-    assertNotNull(testRunClientFactory);
     assertTrue(Modifier.isPublic(setupClientFactory.getModifiers()));
     assertTrue(Modifier.isStatic(setupClientFactory.getModifiers()));
     assertTrue(Modifier.isPublic(testRunClientFactory.getModifiers()));
