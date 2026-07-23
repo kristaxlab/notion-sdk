@@ -37,7 +37,7 @@ public class BlocksIT extends BaseIntegrationTest {
   public void testBlockCreationUpdateRetrieval() {
     // Step 1: Create a text block
     BlockList createResult =
-        getNotion().blocks().appendChildren(currTestPageId, paragraph("testing text block"));
+        getNotionClient().blocks().appendChildren(currTestPageId, paragraph("testing text block"));
 
     assertEquals(1, createResult.getResults().size());
 
@@ -47,7 +47,7 @@ public class BlocksIT extends BaseIntegrationTest {
     ParagraphBlock updated1 =
         paragraph(
             p -> p.text(t -> t.plainText("updated text block").bold()).blockColor(Color.BLUE));
-    Block updatedBlockRs1 = getNotion().blocks().update(blockId, updated1);
+    Block updatedBlockRs1 = getNotionClient().blocks().update(blockId, updated1);
 
     assertNotNull(updatedBlockRs1);
     assertEquals("paragraph", updatedBlockRs1.getType());
@@ -59,14 +59,14 @@ public class BlocksIT extends BaseIntegrationTest {
 
     // Step 3: Update block separating text into two parts: "Text - " (blue) and "updated" (yellow)
     ParagraphBlock updated2 = paragraph(plainText("Text - ").blue(), plainText("updated").yellow());
-    Block updatedBlockRs2 = getNotion().blocks().update(blockId, updated2);
+    Block updatedBlockRs2 = getNotionClient().blocks().update(blockId, updated2);
 
     assertNotNull(updatedBlockRs2);
     assertEquals("paragraph", updatedBlockRs2.getType());
     assertEquals(2, updatedBlockRs2.asParagraph().getParagraph().getRichText().size());
 
     // Step 4: Retrieve block
-    Block retrievedBlock = getNotion().blocks().retrieve(blockId);
+    Block retrievedBlock = getNotionClient().blocks().retrieve(blockId);
 
     assertNotNull(retrievedBlock);
     assertEquals(blockId, retrievedBlock.getId());
@@ -77,7 +77,7 @@ public class BlocksIT extends BaseIntegrationTest {
   public void testBlockDeleteAndRestore() {
     // Step 1: Create a block of type "list" with text "list block"
     BlockList createRs =
-        getNotion().blocks().appendChildren(currTestPageId, bullet("bulleted list item"));
+        getNotionClient().blocks().appendChildren(currTestPageId, bullet("bulleted list item"));
 
     assertNotNull(createRs);
     assertNotNull(createRs.getResults());
@@ -87,22 +87,22 @@ public class BlocksIT extends BaseIntegrationTest {
     String blockId = createdBlock.getId();
 
     // Step 2: Delete the block
-    Block deletedBlock = getNotion().blocks().delete(blockId);
+    Block deletedBlock = getNotionClient().blocks().delete(blockId);
     assertNotNull(deletedBlock);
     assertEquals(blockId, deletedBlock.getId());
 
     // Step 3: Retrieve and check that the status is deleted (archived)
-    Block retrievedBlock = getNotion().blocks().retrieve(blockId);
+    Block retrievedBlock = getNotionClient().blocks().retrieve(blockId);
     assertNotNull(retrievedBlock);
     assertEquals(blockId, retrievedBlock.getId());
     assertTrue(retrievedBlock.getInTrash(), "Block should be archived after deletion");
 
-    Block restoredBlock = getNotion().blocks().restore(blockId);
+    Block restoredBlock = getNotionClient().blocks().restore(blockId);
     assertNotNull(retrievedBlock);
     assertEquals(blockId, retrievedBlock.getId());
     assertFalse(restoredBlock.getInTrash(), "Block should not be archived after restoration");
 
-    retrievedBlock = getNotion().blocks().retrieve(blockId);
+    retrievedBlock = getNotionClient().blocks().retrieve(blockId);
     assertNotNull(retrievedBlock);
     assertEquals(blockId, retrievedBlock.getId());
     assertFalse(retrievedBlock.getInTrash(), "Block should be archived after deletion");
@@ -119,7 +119,7 @@ public class BlocksIT extends BaseIntegrationTest {
                 t -> t.text("toggle block").children(c -> c.paragraph("nested paragraph block")))
             .build();
 
-    BlockList createResult = getNotion().blocks().appendChildren(currTestPageId, blocks);
+    BlockList createResult = getNotionClient().blocks().appendChildren(currTestPageId, blocks);
 
     assertNotNull(createResult);
     assertNotNull(createResult.getResults());
@@ -150,14 +150,14 @@ public class BlocksIT extends BaseIntegrationTest {
             .children(b -> b.bullet("item 1").bullet("item 2").bullet("item 3"))
             .build();
 
-    BlockList response = getNotion().blocks().appendChildren(currTestPageId, createBlockRq);
+    BlockList response = getNotionClient().blocks().appendChildren(currTestPageId, createBlockRq);
     assertNotNull(response);
     assertNotNull(response.getResults());
     assertEquals(1, response.getResults().size());
     assertTrue(response.getResults().get(0).getHasChildren());
 
     String blockId = response.getResults().get(0).getId();
-    BlockList retrieveChildrenRs = getNotion().blocks().retrieveChildren(blockId);
+    BlockList retrieveChildrenRs = getNotionClient().blocks().retrieveChildren(blockId);
 
     assertNotNull(retrieveChildrenRs);
     assertNotNull(retrieveChildrenRs.getResults());
@@ -169,13 +169,14 @@ public class BlocksIT extends BaseIntegrationTest {
   @DisplayName("[IT-30]: Blocks - Change block type (should be validation error)")
   public void testExceptionOnTypeChange() {
     ParagraphBlock createBlockRq = paragraph("Text block");
-    BlockList createResult = getNotion().blocks().appendChildren(currTestPageId, createBlockRq);
+    BlockList createResult =
+        getNotionClient().blocks().appendChildren(currTestPageId, createBlockRq);
     String blockId = createResult.getResults().get(0).getId();
 
     HeadingThreeBlock headingBlock = heading3("heading text");
 
     assertThrowsExactly(
-        ValidationException.class, () -> getNotion().blocks().update(blockId, headingBlock));
+        ValidationException.class, () -> getNotionClient().blocks().update(blockId, headingBlock));
   }
 
   @Test
@@ -187,7 +188,7 @@ public class BlocksIT extends BaseIntegrationTest {
             .children(List.of(paragraph("initial block 1"), paragraph("initial block 2")))
             .build();
 
-    BlockList createResult = getNotion().blocks().appendChildren(currTestPageId, initialRq);
+    BlockList createResult = getNotionClient().blocks().appendChildren(currTestPageId, initialRq);
     String firstInitialBlockId = createResult.getResults().get(0).getId();
     String secondInitialBlockId = createResult.getResults().get(1).getId();
 
@@ -197,8 +198,8 @@ public class BlocksIT extends BaseIntegrationTest {
             .position(Position.afterBlock(firstInitialBlockId))
             .build();
 
-    BlockList insertRs = getNotion().blocks().appendChildren(currTestPageId, insertRq);
-    BlockList allBlocks = getNotion().blocks().retrieveChildren(currTestPageId);
+    BlockList insertRs = getNotionClient().blocks().appendChildren(currTestPageId, insertRq);
+    BlockList allBlocks = getNotionClient().blocks().retrieveChildren(currTestPageId);
 
     String insertedBlockId = insertRs.getResults().get(0).getId();
     assertNotNull(allBlocks);
@@ -217,7 +218,7 @@ public class BlocksIT extends BaseIntegrationTest {
         NotionBlocks.image(
             i -> i.fileUpload(fileUploadId).caption("[IT-23]: An image from uploaded file"));
 
-    BlockList result = getNotion().blocks().appendChildren(currTestPageId, imageBlock);
+    BlockList result = getNotionClient().blocks().appendChildren(currTestPageId, imageBlock);
 
     assertNotNull(result);
     assertEquals(1, result.getResults().size());
@@ -256,7 +257,7 @@ public class BlocksIT extends BaseIntegrationTest {
                             cb -> cb.divider().paragraph("nested text").paragraph("another one")))
             .equation("e=mc^2")
             .build();
-    BlockList result = getNotion().blocks().appendChildren(currTestPageId, blocks);
+    BlockList result = getNotionClient().blocks().appendChildren(currTestPageId, blocks);
     assertEquals(blocks.size(), result.getResults().size());
   }
 
@@ -278,7 +279,7 @@ public class BlocksIT extends BaseIntegrationTest {
             .heading4("Other blocks below")
             .build();
 
-    BlockList result = getNotion().blocks().appendChildren(currTestPageId, headings);
+    BlockList result = getNotionClient().blocks().appendChildren(currTestPageId, headings);
     assertEquals(headings.size(), result.getResults().size());
   }
 
@@ -310,11 +311,12 @@ public class BlocksIT extends BaseIntegrationTest {
             NotionBlocks.tableRow("Mon", "Tue", "Wed", "Thu", "Fri"),
             NotionBlocks.tableRow("gym", "run", "bike", "gym", "run"));
 
-    BlockList result = getNotion().blocks().appendChildren(currTestPageId, table);
+    BlockList result = getNotionClient().blocks().appendChildren(currTestPageId, table);
     assertEquals(1, result.getResults().size());
     assertTrue(result.getResults().get(0).getHasChildren());
 
-    BlockList rows = getNotion().blocks().retrieveChildren(result.getResults().get(0).getId());
+    BlockList rows =
+        getNotionClient().blocks().retrieveChildren(result.getResults().get(0).getId());
     assertEquals(2, rows.getResults().size());
     assertEquals("table_row", rows.getResults().get(0).getType());
     assertEquals("table_row", rows.getResults().get(1).getType());
@@ -323,7 +325,7 @@ public class BlocksIT extends BaseIntegrationTest {
   }
 
   @Test
-  @DisplayName("[IT-59]: Append links and media block types")
+  @DisplayName("[IT-59]: Blocks - Append links and media block types")
   public void testAppendLinksAndMediaBlocks() {
     List<Block> linksAndMedia =
         blocksBuilder()
@@ -339,12 +341,12 @@ public class BlocksIT extends BaseIntegrationTest {
             .linkToDatabase(IntegrationTestAssisstant.getPrerequisites().getTestDatabaseId())
             .build();
 
-    BlockList result = getNotion().blocks().appendChildren(currTestPageId, linksAndMedia);
+    BlockList result = getNotionClient().blocks().appendChildren(currTestPageId, linksAndMedia);
     assertEquals(linksAndMedia.size(), result.getResults().size());
   }
 
   @Test
-  @DisplayName("[IT-60]: Append synced blocks")
+  @DisplayName("[IT-60]: Blocks - Append synced blocks")
   public void testAppendSynchedBlock() {
     SyncedBlock original =
         NotionBlocks.synced(
@@ -353,14 +355,14 @@ public class BlocksIT extends BaseIntegrationTest {
                     .bullet("Original item 1")
                     .bullet("Original item 2"));
 
-    BlockList originalBlockRS = getNotion().blocks().appendChildren(currTestPageId, original);
+    BlockList originalBlockRS = getNotionClient().blocks().appendChildren(currTestPageId, original);
     assertEquals(1, originalBlockRS.getResults().size());
     assertEquals("synced_block", originalBlockRS.getResults().get(0).getType());
     assertNull(originalBlockRS.getResults().get(0).asSynced().getSyncedBlock().getSyncedFrom());
 
     String originalBlockId = originalBlockRS.getResults().get(0).getId();
     SyncedBlock synced = NotionBlocks.syncedFrom(originalBlockId);
-    BlockList syncedBlockRS = getNotion().blocks().appendChildren(currTestPageId, synced);
+    BlockList syncedBlockRS = getNotionClient().blocks().appendChildren(currTestPageId, synced);
 
     SyncedBlock savedSyncedBlock = syncedBlockRS.getResults().get(0).asSynced();
     assertEquals(1, syncedBlockRS.getResults().size());
@@ -372,11 +374,11 @@ public class BlocksIT extends BaseIntegrationTest {
 
     assertThrows(
         ValidationException.class,
-        () -> getNotion().blocks().update(savedSyncedBlock.getId(), savedSyncedBlock));
+        () -> getNotionClient().blocks().update(savedSyncedBlock.getId(), savedSyncedBlock));
   }
 
   @Test
-  @DisplayName("[IT-61]: Append other block types (not included in INT-42, 57, 58, 59)")
+  @DisplayName("[IT-61]: Blocks - Append other block types (not included in INT-42, 57, 58, 59)")
   public void testAppendOtherBlock() {
 
     List<Block> other =
@@ -389,7 +391,7 @@ public class BlocksIT extends BaseIntegrationTest {
                 right -> right.heading1("Bulleted list").bullet("Item 1").bullet("Item 2"))
             .build();
 
-    BlockList resultOther = getNotion().blocks().appendChildren(currTestPageId, other);
+    BlockList resultOther = getNotionClient().blocks().appendChildren(currTestPageId, other);
     assertEquals(other.size(), resultOther.getResults().size());
   }
 }

@@ -67,7 +67,7 @@ public class CreatePageParams {
      * @param dataSourceId data source identifier
      * @return this builder
      */
-    public Builder underDataSource(String dataSourceId) {
+    public Builder inDataSource(String dataSourceId) {
       return parent(Parent.dataSourceParent(dataSourceId));
     }
 
@@ -77,7 +77,7 @@ public class CreatePageParams {
      * @param pageId parent page identifier
      * @return this builder
      */
-    public Builder underPage(String pageId) {
+    public Builder inPage(String pageId) {
       return parent(Parent.pageParent(pageId));
     }
 
@@ -87,7 +87,7 @@ public class CreatePageParams {
      *
      * @return this builder
      */
-    public Builder underWorkspace() {
+    public Builder inWorkspace() {
       return parent(Parent.workspaceParent());
     }
 

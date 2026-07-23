@@ -7,6 +7,9 @@ import io.kristaxlab.notion.model.common.Icon;
 import io.kristaxlab.notion.model.common.Parent;
 import io.kristaxlab.notion.model.common.richtext.RichText;
 import io.kristaxlab.notion.model.datasource.properties.DataSourcePropertySchema;
+import io.kristaxlab.notion.model.datasource.properties.TitleSchema;
+import io.kristaxlab.notion.model.page.property.TitleProperty;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
@@ -34,7 +37,7 @@ public class CreateDataSourceParams {
   public static class Builder {
     private Parent parent;
     private List<RichText> title;
-    private Map<String, DataSourcePropertySchema> properties;
+    private Map<String, DataSourcePropertySchema> properties = new LinkedHashMap<>();
     private Icon icon;
 
     public Builder inDatabase(String parendDatabaseId) {
@@ -46,11 +49,11 @@ public class CreateDataSourceParams {
       return this;
     }
 
-    public Builder title(String title) {
-      return title(NotionText.plainText(title).asList());
+    public Builder dataSourceTitle(String title) {
+      return dataSourceTitle(NotionText.plainText(title).asList());
     }
 
-    public Builder title(List<RichText> title) {
+    public Builder dataSourceTitle(List<RichText> title) {
       this.title = title;
       return this;
     }
@@ -103,9 +106,6 @@ public class CreateDataSourceParams {
      * @return this builder
      */
     public Builder property(String name, DataSourcePropertySchema property) {
-      if (this.properties == null) {
-        this.properties = new java.util.LinkedHashMap<>();
-      }
       this.properties.put(name, property);
       return this;
     }
@@ -119,6 +119,10 @@ public class CreateDataSourceParams {
       CreateDataSourceParams params = new CreateDataSourceParams();
       params.setParent(parent);
       params.setTitle(title);
+      if (properties.values().stream().filter(p -> TitleProperty.NAME.equals(p.getType())).count()
+          == 0) {
+        properties.put(TitleProperty.NAME, new TitleSchema());
+      }
       params.setProperties(properties);
       params.setIcon(icon);
       return params;

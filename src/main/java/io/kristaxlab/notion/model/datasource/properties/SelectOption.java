@@ -10,5 +10,7 @@ public class SelectOption {
 
   private String name;
 
+  private String description;
+
   private String color;
 }

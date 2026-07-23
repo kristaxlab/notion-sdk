@@ -106,7 +106,7 @@ public class DataSourcesEndpointImpl extends BaseEndpointImpl implements DataSou
    * @param dataSourceId The ID of the data source to delete
    * @return The updated data source with inTrash set to true
    */
-  public DataSource delete(String dataSourceId) {
+  public DataSource moveToTrash(String dataSourceId) {
     UpdateDataSourceParams deleteRequest = new UpdateDataSourceParams();
     deleteRequest.setInTrash(true);
     return update(dataSourceId, deleteRequest);

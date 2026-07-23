@@ -22,7 +22,7 @@ public class FileUploadIT extends BaseIntegrationTest {
   @Test
   @DisplayName("[IT-16]: File Uploads - List all file uploads")
   public void testListAllFileUploads() throws IOException {
-    FileUploadList response = getNotion().fileUploads().listFileUploads();
+    FileUploadList response = getNotionClient().fileUploads().listFileUploads();
     assertNotNull(response);
   }
 
@@ -30,7 +30,7 @@ public class FileUploadIT extends BaseIntegrationTest {
   @DisplayName("[IT-17]: File Uploads - List all expired file uploads")
   public void testListAllFileUploadsExpired() throws IOException {
     String status = "uploaded";
-    FileUploadList uploads = getNotion().fileUploads().listFileUploads(status);
+    FileUploadList uploads = getNotionClient().fileUploads().listFileUploads(status);
     assertNotNull(uploads);
     if (uploads.getResults() != null) {
       uploads.getResults().forEach(f -> assertEquals(status, f.getStatus()));
@@ -49,18 +49,18 @@ public class FileUploadIT extends BaseIntegrationTest {
 
     // Step 1 - Create File Upload
     FileUploadCreateParams request = FileUploadCreateParams.singlePart(uploadedFilename);
-    FileUpload createRs = getNotion().fileUploads().create(request);
+    FileUpload createRs = getNotionClient().fileUploads().create(request);
 
     // Step 2 - Retrieve File Upload
     String id = createRs.getId();
-    FileUpload retrieveRS = getNotion().fileUploads().retrieve(id);
+    FileUpload retrieveRS = getNotionClient().fileUploads().retrieve(id);
 
     assertEquals(expectedContentType, createRs.getContentType());
     assertEquals(request.getFilename(), createRs.getFilename());
 
     // Step 3 - Send File Content
     FileUploadSendParams sendRequest = FileUploadSendParams.of(file, createRs.getContentType());
-    FileUpload sendContentRs = getNotion().fileUploads().upload(id, sendRequest);
+    FileUpload sendContentRs = getNotionClient().fileUploads().upload(id, sendRequest);
 
     assertNotNull(sendContentRs);
     assertEquals(id, sendContentRs.getId());
@@ -81,12 +81,13 @@ public class FileUploadIT extends BaseIntegrationTest {
 
     // Step 1 - Create File Upload
     FileUploadCreateParams request = FileUploadCreateParams.singlePart(uploadedFilename);
-    FileUpload createRs = getNotion().fileUploads().create(request);
+    FileUpload createRs = getNotionClient().fileUploads().create(request);
 
     // Step 2 - Send File Content as byte[]
     try (InputStream is = new FileInputStream(file)) {
       FileUploadSendParams sendRequest = FileUploadSendParams.of(is, createRs.getContentType());
-      FileUpload sendContentRs = getNotion().fileUploads().upload(createRs.getId(), sendRequest);
+      FileUpload sendContentRs =
+          getNotionClient().fileUploads().upload(createRs.getId(), sendRequest);
 
       assertNotNull(sendContentRs);
       assertEquals(createRs.getId(), sendContentRs.getId());
@@ -108,12 +109,13 @@ public class FileUploadIT extends BaseIntegrationTest {
 
     // Step 1 - Create File Upload
     FileUploadCreateParams request = FileUploadCreateParams.singlePart(uploadedFilename);
-    FileUpload createRs = getNotion().fileUploads().create(request);
+    FileUpload createRs = getNotionClient().fileUploads().create(request);
 
     // Step 2 - Send File Content as byte[]
     FileUploadSendParams sendRequest =
         FileUploadSendParams.of(FileUploadUtils.fileToBytes(file), createRs.getContentType());
-    FileUpload sendContentRs = getNotion().fileUploads().upload(createRs.getId(), sendRequest);
+    FileUpload sendContentRs =
+        getNotionClient().fileUploads().upload(createRs.getId(), sendRequest);
 
     assertNotNull(sendContentRs);
     assertEquals(createRs.getId(), sendContentRs.getId());
@@ -130,11 +132,11 @@ public class FileUploadIT extends BaseIntegrationTest {
     FileUploadCreateParams request =
         FileUploadCreateParams.external(
             "int-19-image.jpg", IntegrationTestAssisstant.getPrerequisites().getExternalImageUrl());
-    FileUpload createRs = getNotion().fileUploads().create(request);
+    FileUpload createRs = getNotionClient().fileUploads().create(request);
 
     // Step 2 - Retrieve File Upload
     String id = createRs.getId();
-    FileUpload retrieveRS = getNotion().fileUploads().retrieve(id);
+    FileUpload retrieveRS = getNotionClient().fileUploads().retrieve(id);
     assertEquals(request.getFilename(), retrieveRS.getFilename());
   }
 
@@ -157,7 +159,7 @@ public class FileUploadIT extends BaseIntegrationTest {
     request.setMode(FileUploadMode.MULTI_PART.getValue());
     request.setFilename(uploadedFilename);
     request.setNumberOfParts(numberOfParts);
-    FileUpload createRs = getNotion().fileUploads().create(request);
+    FileUpload createRs = getNotionClient().fileUploads().create(request);
 
     assertEquals("pending", createRs.getStatus());
     assertEquals(request.getFilename(), createRs.getFilename());
@@ -174,7 +176,7 @@ public class FileUploadIT extends BaseIntegrationTest {
           partRequest.setFile(filePart);
           partRequest.setFilename(uploadedFilename);
           partRequest.setContentType(createRs.getContentType());
-          FileUpload uploadResponse = getNotion().fileUploads().upload(id, partRequest);
+          FileUpload uploadResponse = getNotionClient().fileUploads().upload(id, partRequest);
 
           assertNotNull(uploadResponse);
           assertNotNull(uploadResponse.getNumberOfParts());
@@ -184,7 +186,7 @@ public class FileUploadIT extends BaseIntegrationTest {
         });
 
     // Step 4 - Complete File Upload
-    FileUpload completeRs = getNotion().fileUploads().complete(id);
+    FileUpload completeRs = getNotionClient().fileUploads().complete(id);
     assertNotNull(completeRs);
     assertEquals(id, completeRs.getId());
     assertEquals("uploaded", completeRs.getStatus());

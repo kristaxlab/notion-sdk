@@ -1,9 +1,6 @@
 package io.kristaxlab.notion.fluent;
 
-import io.kristaxlab.notion.model.datasource.properties.DataSourcePropertySchema;
-import io.kristaxlab.notion.model.datasource.properties.NumberFormatType;
-import io.kristaxlab.notion.model.datasource.properties.RollupFunctionType;
-import io.kristaxlab.notion.model.datasource.properties.SelectOption;
+import io.kristaxlab.notion.model.datasource.properties.*;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -107,21 +104,11 @@ public class NotionSchemaBuilder {
   public NotionSchemaBuilder rename(String nameOrId, String newName) {
     DataSourcePropertySchema schema = properties.get(nameOrId);
     if (schema == null) {
-      throw new IllegalArgumentException(
-          "Cannot rename unknown property: " + nameOrId + ". Add it to the schema first.");
+      schema = new UnknownDataSourcePropertySchema();
+      schema.setName(newName);
+      properties.put(nameOrId, schema);
     }
     schema.setName(newName);
-
-    Map<String, DataSourcePropertySchema> reordered = new LinkedHashMap<>();
-    for (Map.Entry<String, DataSourcePropertySchema> entry : properties.entrySet()) {
-      if (entry.getKey().equals(nameOrId)) {
-        reordered.put(newName, schema);
-      } else {
-        reordered.put(entry.getKey(), entry.getValue());
-      }
-    }
-    properties.clear();
-    properties.putAll(reordered);
     return this;
   }
 
@@ -358,9 +345,9 @@ public class NotionSchemaBuilder {
    * @param syncedPropertyName the synced property created on the related data source
    * @return this builder
    */
-  public NotionSchemaBuilder relationDual(
+  public NotionSchemaBuilder relation(
       String nameOrId, String dataSourceId, String syncedPropertyName) {
-    return property(nameOrId, NotionSchema.relationDual(dataSourceId, syncedPropertyName));
+    return property(nameOrId, NotionSchema.relation(dataSourceId, syncedPropertyName));
   }
 
   // Rollup

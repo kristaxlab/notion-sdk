@@ -8,6 +8,7 @@ import io.kristaxlab.notion.model.common.Icon;
 import io.kristaxlab.notion.model.common.Parent;
 import io.kristaxlab.notion.model.common.richtext.RichText;
 import io.kristaxlab.notion.model.datasource.properties.DataSourcePropertySchema;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
@@ -44,7 +45,7 @@ public class UpdateDataSourceParams {
 
   public static class Builder {
     private List<RichText> title;
-    private Map<String, DataSourcePropertySchema> properties;
+    private Map<String, DataSourcePropertySchema> properties = new LinkedHashMap<>();
     private Icon icon;
     private Boolean inTrash;
 
@@ -76,7 +77,7 @@ public class UpdateDataSourceParams {
      * @return this builder
      */
     public Builder properties(Map<String, DataSourcePropertySchema> properties) {
-      this.properties = properties;
+      this.properties.putAll(properties);
       return this;
     }
 
@@ -113,9 +114,6 @@ public class UpdateDataSourceParams {
      * @return this builder
      */
     public Builder property(String name, DataSourcePropertySchema property) {
-      if (this.properties == null) {
-        this.properties = new java.util.LinkedHashMap<>();
-      }
       this.properties.put(name, property);
       return this;
     }

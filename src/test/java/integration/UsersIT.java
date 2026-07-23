@@ -12,14 +12,14 @@ public class UsersIT extends BaseIntegrationTest {
   @Test
   @DisplayName("[INT-25]: Users - Retrieve me and then retrieve this same user (me) by id")
   public void testGetUser() {
-    User me = getNotion().users().me();
+    User me = getNotionClient().users().me();
 
     assertNotNull(me);
     assertNull(me.getPerson());
     assertNotNull(me.getBot());
     assertNotNull(me.getBot().getOwner());
 
-    User userById = getNotion().users().retrieve(me.getId());
+    User userById = getNotionClient().users().retrieve(me.getId());
 
     assertNotNull(userById);
     assertEquals(me.getId(), userById.getId());
@@ -36,7 +36,7 @@ public class UsersIT extends BaseIntegrationTest {
   @Test
   @DisplayName("[INT-32]: Users - Retrieve list of all users")
   public void testListUsers() {
-    UserList usersList = getNotion().users().listUsers();
+    UserList usersList = getNotionClient().users().listUsers();
 
     assertNotNull(usersList);
     assertFalse(usersList.getResults().isEmpty());

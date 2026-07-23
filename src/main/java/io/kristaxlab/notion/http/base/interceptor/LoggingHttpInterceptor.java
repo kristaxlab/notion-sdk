@@ -58,8 +58,7 @@ public class LoggingHttpInterceptor implements HttpClientInterceptor {
   private static String describeBody(Body body) {
     if (body == null) return "none";
     if (body instanceof EmptyBody) return "empty";
-    if (body instanceof StringBody sb)
-      return sb.contentType() + " (" + sb.content().length() + " chars)";
+    if (body instanceof StringBody sb) return truncate(sb.content(), null);
     if (body instanceof BytesBody bb)
       return bb.contentType() + " (" + bb.bytes().length + " bytes)";
     if (body instanceof FileBody fb)

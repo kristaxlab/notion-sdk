@@ -53,7 +53,7 @@ public interface DataSourcesEndpoint {
 
   Templates retrieveTemplates(String dataSourceId);
 
-  DataSource delete(String dataSourceId);
+  DataSource moveToTrash(String dataSourceId);
 
   DataSource restore(String dataSourceId);
 }

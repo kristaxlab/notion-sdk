@@ -24,6 +24,9 @@ public class FileData {
    */
   private String type;
 
+  /** File name */
+  private String name;
+
   /** The caption associated with the file, represented as a list of rich text objects. */
   private List<RichText> caption;
 

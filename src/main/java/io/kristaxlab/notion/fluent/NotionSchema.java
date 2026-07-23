@@ -325,7 +325,7 @@ public final class NotionSchema {
    * @param syncedPropertyName the name of the synced property created on the related data source
    * @return relation schema
    */
-  public static RelationSchema relationDual(String dataSourceId, String syncedPropertyName) {
+  public static RelationSchema relation(String dataSourceId, String syncedPropertyName) {
     RelationSchema schema = new RelationSchema();
     schema.getRelation().setDataSourceId(dataSourceId);
     schema.getRelation().setType("dual_property");
