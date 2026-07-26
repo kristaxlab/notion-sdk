@@ -244,16 +244,16 @@ public class CreatePageParams {
     /**
      * Cover image: UUID string is treated as a file upload ID; otherwise as an external image URL.
      *
-     * @param coverRef file upload id or external image URL
+     * @param fileUploadId file upload id or external image URL
      * @return this builder
      */
-    public Builder cover(String coverRef) {
+    public Builder cover(String fileUploadId) {
       try {
-        UUID.fromString(coverRef);
-        this.cover = Cover.fileUpload(coverRef);
+        UUID.fromString(fileUploadId);
+        this.cover = Cover.fileUpload(fileUploadId);
       } catch (IllegalArgumentException e) {
         // If the string is not a valid UUID, treat it as an external URL
-        this.cover = Cover.external(coverRef);
+        this.cover = Cover.external(fileUploadId);
       }
       return this;
     }

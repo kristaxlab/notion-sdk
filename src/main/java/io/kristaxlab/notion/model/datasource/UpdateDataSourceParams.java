@@ -30,6 +30,8 @@ public class UpdateDataSourceParams {
   @JsonInclude(value = JsonInclude.Include.NON_NULL, content = JsonInclude.Include.ALWAYS)
   private Map<String, DataSourcePropertySchema> properties;
 
+  // only icon, cover update is not supported for a data source, database update should be used
+  // instead
   private Icon icon;
 
   private Boolean inTrash;
@@ -49,17 +51,22 @@ public class UpdateDataSourceParams {
     private Icon icon;
     private Boolean inTrash;
 
-    public Builder dataSourceTitle(String title) {
-      return dataSourceTitle(NotionText.plainText(title).asList());
+    public Builder title(String title) {
+      return title(NotionText.plainText(title).asList());
     }
 
-    public Builder dataSourceTitle(List<RichText> title) {
+    public Builder title(List<RichText> title) {
       this.title = title;
       return this;
     }
 
     public Builder icon(Icon icon) {
       this.icon = icon;
+      return this;
+    }
+
+    public Builder icon(String emoji) {
+      this.icon = Icon.emoji(emoji);
       return this;
     }
 

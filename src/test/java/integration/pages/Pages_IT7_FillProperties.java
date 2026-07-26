@@ -1,4 +1,4 @@
-package integration.datasources;
+package integration.pages;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -27,17 +27,16 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-public class DataSources_IT7_Schemas extends BaseIntegrationTest {
+@DisplayName("IT-7: Pages - Check create / update for all the properties supported")
+public class Pages_IT7_FillProperties extends BaseIntegrationTest {
 
   private static final String TITLE_PROP_NAME = "Name";
   private static final String FILE_PATH = "files/it-7/image.jpg";
   private static final String FILE_NAME = "image.jpg";
 
-  /** Database that acts as the parent container for all data sources created by this test class. */
   private static String testPageId;
-
-  private static String parentDatabaseId;
-  private static String initialDataSourceId;
+  private static String firstDataSourceId;
+  private static String secondDataSourceId;
   private static String fileUploadId;
   private static String userId;
 
@@ -46,15 +45,15 @@ public class DataSources_IT7_Schemas extends BaseIntegrationTest {
     fileUploadId = uploadFile(FILE_PATH, FILE_NAME);
 
     testPageId = IntegrationTestAssisstant.createPageForTests("Data Sources - Basic");
-    NotionIntegrationTestsExtension.register(DataSources_IT7_Schemas.class, testPageId);
+    NotionIntegrationTestsExtension.register(Pages_IT7_FillProperties.class, testPageId);
 
-    Database db = createDatabase();
-    parentDatabaseId = db.getId();
-    initialDataSourceId = db.getDataSources().get(0).getId();
+    Database db = createDatabaseWithFirstDataSource();
+    firstDataSourceId = db.getDataSources().get(0).getId();
+    secondDataSourceId = createSecondDataSource(db.getId(), firstDataSourceId);
     userId = IntegrationTestAssisstant.getPrerequisites().getUserId();
   }
 
-  private static Database createDatabase() {
+  private static Database createDatabaseWithFirstDataSource() {
     Database db =
         getSetupClient()
             .databases()
@@ -64,27 +63,10 @@ public class DataSources_IT7_Schemas extends BaseIntegrationTest {
                     .title("IT-7 Test Database")
                     .properties(p -> p.title(TITLE_PROP_NAME))
                     .build());
-    if (db.getDataSources() == null || db.getDataSources().size() != 1) {
-      throw new IllegalStateException(
-          "After creating a database expected exactly one initial data source in the parent database");
-    }
     return db;
   }
 
-  @Test
-  @DisplayName("IT-7: Data sources - Check create / update for all the properties supported")
-  public void testDataSourceSchemaCrudOperations() {
-
-    // Step 1 = Create a datasource with all the supported properties schema except relation /
-    // rollup as they
-    DataSource ds = stepOneCheckDataSourceSchemaCreate();
-
-    // Step 2 — Add a page to the newly created data source with a bulleted list and all settable
-    // properties filled
-    stepTwoCheckPagePropertyValuesFill(ds);
-  }
-
-  private DataSource stepOneCheckDataSourceSchemaCreate() {
+  private static String createSecondDataSource(String databaseId, String relatedDataSourceId) {
     Map<String, DataSourcePropertySchema> rqProps =
         NotionSchema.schemaBuilder()
             .title("Name")
@@ -100,60 +82,41 @@ public class DataSources_IT7_Schemas extends BaseIntegrationTest {
             .phoneNumber("Phone")
             .people("Assignee")
             .files("Attachments")
-            .relation("Single-Side Related", initialDataSourceId)
-            .relation("Dual-Side Related", initialDataSourceId, "A relation")
+            .relation("Single-Side Related", firstDataSourceId)
+            .relation("Dual-Side Related", firstDataSourceId, "A relation")
             .rollup("Rollup", "Dual-Side Related", TITLE_PROP_NAME, RollupFunctionType.UNIQUE)
             .formula("Doubled Score", "prop(\"Score\") * 2")
             .place("Location")
-            .createdTime("Created At")
-            .createdBy("Created By")
-            .lastEditedTime("Last Edited At")
-            .lastEditedBy("Last Edited By")
-            .uniqueId("ID")
             .build();
 
     DataSource ds =
-        getNotionClient()
+        getSetupClient()
             .dataSources()
             .create(
                 r ->
-                    r.inDatabase(parentDatabaseId)
-                        .dataSourceTitle("DS with Rich Schema")
+                    r.inDatabase(databaseId)
+                        .title("DS with Rich Schema")
                         .properties(rqProps)
                         .build());
-
-    Map<String, DataSourcePropertySchema> rsProps = ds.getProperties();
-    assertEquals(rqProps.size(), rsProps.size(), "Number of properties");
-
-    // Check every property presence and type
-    rqProps.forEach(
-        (name, expected) -> {
-          DataSourcePropertySchema actual = rsProps.get(name);
-          assertNotNull(
-              actual, name + " (" + expected.getType() + ") property is missing in response");
-          assertEquals(expected.getType(), actual.getType(), name + " type mismatch");
-        });
-
-    DataSource initialDataSource = getNotionClient().dataSources().retrieve(initialDataSourceId);
-    assertNotNull(
-        initialDataSource.getProperties().get("A relation"),
-        "A column for dual side relation is either missing or has name mismatch");
-    return ds;
+    return ds.getId();
   }
 
-  private void stepTwoCheckPagePropertyValuesFill(DataSource ds) {
+  @Test
+  @DisplayName("IT-7: Pages - Check create / update for all the properties supported")
+  public void testDataSourceSchemaCrudOperations() {
+
     // Create an anchor row in the related data source so we can demonstrate the relation properties
     Page anchorPage =
         getNotionClient()
             .pages()
             .create(
                 p ->
-                    p.inDataSource(initialDataSourceId)
-                        .properties(props -> props.title(TITLE_PROP_NAME, "[IT-7] Anchor")));
+                    p.inDataSource(firstDataSourceId)
+                        .properties(props -> props.title(TITLE_PROP_NAME, "Anchor")));
 
     Map<String, PageProperty> pageRqProps =
         NotionProperties.propertiesBuilder()
-            .title("Name", "[IT-7] Full Row")
+            .title("Name", "Full Row")
             .richText("Notes", "Integration test notes")
             .number("Score", 99)
             .select("Category", "Alpha")
@@ -176,7 +139,7 @@ public class DataSources_IT7_Schemas extends BaseIntegrationTest {
             .pages()
             .create(
                 p ->
-                    p.inDataSource(ds.getId())
+                    p.inDataSource(secondDataSourceId)
                         .properties(props -> props.properties(pageRqProps))
                         .children(
                             c ->

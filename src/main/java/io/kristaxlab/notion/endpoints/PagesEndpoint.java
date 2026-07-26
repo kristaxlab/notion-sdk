@@ -1,7 +1,6 @@
 package io.kristaxlab.notion.endpoints;
 
 import io.kristaxlab.notion.model.common.Parent;
-import io.kristaxlab.notion.model.page.*;
 import io.kristaxlab.notion.model.page.CreatePageParams;
 import io.kristaxlab.notion.model.page.Page;
 import io.kristaxlab.notion.model.page.PageAsMarkdown;
@@ -67,6 +66,15 @@ public interface PagesEndpoint {
    * Patches page properties, icon, cover, trash state, etc.
    *
    * @param pageId page identifier
+   * @param consumer callback that fills the update builder
+   * @return updated page
+   */
+  Page update(String pageId, Consumer<UpdatePageParams.Builder> consumer);
+
+  /**
+   * Patches page properties, icon, cover, trash state, etc.
+   *
+   * @param pageId page identifier
    * @param request page update payload
    * @return updated page
    */
@@ -87,7 +95,7 @@ public interface PagesEndpoint {
    * @param pageId page identifier
    * @return archived page
    */
-  Page delete(String pageId);
+  Page moveToTrash(String pageId);
 
   /**
    * Restores the page from trash.
@@ -122,4 +130,24 @@ public interface PagesEndpoint {
    * @return page content after update
    */
   PageAsMarkdown updateAsMarkdown(String pageId, UpdatePageAsMarkdownParams request);
+
+  /**
+   * Updates page content from Markdown by configuring {@link UpdatePageAsMarkdownParams.Builder} in
+   * a lambda.
+   *
+   * @param pageId page identifier
+   * @param consumer callback that fills the update builder
+   * @return page content after update
+   */
+  PageAsMarkdown updateAsMarkdown(
+      String pageId, Consumer<UpdatePageAsMarkdownParams.Builder> consumer);
+
+  /**
+   * Replaces entire page content with the provided markdown string.
+   *
+   * @param pageId page identifier
+   * @param markdown new markdown content
+   * @return page content after update
+   */
+  PageAsMarkdown updateAsMarkdown(String pageId, String markdown);
 }

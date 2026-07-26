@@ -134,6 +134,23 @@ public class PagesEndpointImpl extends BaseEndpointImpl implements PagesEndpoint
     return getClient().call("PATCH", urlInfo, request, PageAsMarkdown.class);
   }
 
+  public PageAsMarkdown updateAsMarkdown(
+      String pageId, Consumer<UpdatePageAsMarkdownParams.Builder> consumer) {
+    checkNotNullOrEmpty(pageId, "pageId");
+    checkNotNull(consumer, "consumer");
+
+    UpdatePageAsMarkdownParams.Builder builder = UpdatePageAsMarkdownParams.builder();
+    consumer.accept(builder);
+    return updateAsMarkdown(pageId, builder.build());
+  }
+
+  public PageAsMarkdown updateAsMarkdown(String pageId, String markdown) {
+    checkNotNullOrEmpty(pageId, "pageId");
+    checkNotNull(markdown, "markdown");
+
+    return updateAsMarkdown(pageId, UpdatePageAsMarkdownParams.replaceContent(markdown));
+  }
+
   /**
    * Retrieve a specific page property.
    *
@@ -164,6 +181,13 @@ public class PagesEndpointImpl extends BaseEndpointImpl implements PagesEndpoint
             .pathParam("page_id", pageId)
             .pathParam("property_id", URLDecoder.decode(propertyId, StandardCharsets.UTF_8));
     return getClient().call("GET", urlInfo.build(), PageProperty.class);
+  }
+
+  @Override
+  public Page update(String pageId, Consumer<UpdatePageParams.Builder> consumer) {
+    UpdatePageParams.Builder builder = UpdatePageParams.builder();
+    consumer.accept(builder);
+    return update(pageId, builder.build());
   }
 
   /**
@@ -198,7 +222,7 @@ public class PagesEndpointImpl extends BaseEndpointImpl implements PagesEndpoint
    * @param pageId The ID of the page to archive
    * @return The archived page
    */
-  public Page delete(String pageId) {
+  public Page moveToTrash(String pageId) {
     UpdatePageParams updatePageParams = new UpdatePageParams();
     updatePageParams.setInTrash(true);
     return update(pageId, updatePageParams);

@@ -13,15 +13,25 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-public class DataSources_IT2_Basic extends BaseIntegrationTest {
+public class DataSources_IT2_BasicCRUD extends BaseIntegrationTest {
 
-  /** Database that acts as the parent container for all data sources created by this test class. */
+  private static final String FIRST_COVER_PATH = "files/it-1/first-cover.jpg";
+  private static final String FIRST_COVER_NAME = "first-cover.jpg";
+
+  private static final String SECOND_COVER_PATH = "files/it-1/second-cover.jpg";
+  private static final String SECOND_COVER_NAME = "second-cover.jpg";
+
   private static String testPageId;
+  private static String firstCoverId;
+  private static String secondCoverId;
 
   @BeforeAll
   public static void setup() {
+    firstCoverId = uploadFile(FIRST_COVER_PATH, FIRST_COVER_NAME);
+    secondCoverId = uploadFile(SECOND_COVER_PATH, SECOND_COVER_NAME);
+
     testPageId = IntegrationTestAssisstant.createPageForTests("Data Sources - Basic");
-    NotionIntegrationTestsExtension.register(DataSources_IT2_Basic.class, testPageId);
+    NotionIntegrationTestsExtension.register(DataSources_IT2_BasicCRUD.class, testPageId);
   }
 
   @Test
@@ -38,8 +48,9 @@ public class DataSources_IT2_Basic extends BaseIntegrationTest {
                 CreateDatabaseParams.builder()
                     .inPage(testPageId)
                     .title("Test Data Source")
+                    .icon("🧪")
+                    .cover(firstCoverId)
                     .properties(p -> p.title("Title column").checkbox("Checkbox column").build())
-                    .isInline(true)
                     .build());
 
     assertNotNull(db);
@@ -59,6 +70,10 @@ public class DataSources_IT2_Basic extends BaseIntegrationTest {
         dataSource.getTitle().get(0).getPlainText(),
         "Data source title mismatch");
     assertEquals(2, dataSource.getProperties().size(), "Properties size mismatch");
+    assertNotNull(dataSource.getIcon(), "Icon should not be null");
+    assertEquals("🧪", dataSource.getIcon().getEmoji());
+    assertNotNull(dataSource.getCover(), "Cover should not be null");
+    assertEquals("file", dataSource.getCover().getType(), "Cover info should be of type 'file'");
     assertNotNull(dataSource.getProperties().get("Title column"), "Title property is missing");
     assertNotNull(
         dataSource.getProperties().get("Checkbox column"), "Checkbox property is missing");
@@ -71,7 +86,8 @@ public class DataSources_IT2_Basic extends BaseIntegrationTest {
             .update(
                 dataSource.getId(),
                 b ->
-                    b.dataSourceTitle("Updated Data Source Title")
+                    b.title("Updated Data Source Title")
+                        .icon("🤝")
                         .properties(
                             p ->
                                 p.rename("Title column", "New title column name")
@@ -86,6 +102,10 @@ public class DataSources_IT2_Basic extends BaseIntegrationTest {
         "Updated Data Source Title",
         updated.getTitle().get(0).getPlainText(),
         "Data source title mismatch");
+    assertNotNull(updated.getIcon(), "Icon should not be null");
+    assertEquals("🤝", updated.getIcon().getEmoji());
+    assertNotNull(updated.getCover(), "Cover should not be null");
+    assertEquals("file", updated.getCover().getType(), "Cover info should be of type 'file'");
     assertEquals(2, updated.getProperties().size(), "Properties size mismatch");
     assertNotNull(
         updated.getProperties().get("New title column name"), "Title property is missing");

@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import io.kristaxlab.notion.fluent.NotionSchema;
 import io.kristaxlab.notion.fluent.NotionSchemaBuilder;
 import io.kristaxlab.notion.fluent.NotionText;
-import io.kristaxlab.notion.model.common.*;
 import io.kristaxlab.notion.model.common.Cover;
 import io.kristaxlab.notion.model.common.Icon;
 import io.kristaxlab.notion.model.common.Parent;
@@ -87,8 +86,18 @@ public class CreateDatabaseParams {
       return this;
     }
 
+    public Builder icon(String emoji) {
+      this.icon = Icon.emoji(emoji);
+      return this;
+    }
+
     public Builder cover(Cover cover) {
       this.cover = cover;
+      return this;
+    }
+
+    public Builder cover(String fileUploadId) {
+      this.cover = Cover.fileUpload(fileUploadId);
       return this;
     }
 

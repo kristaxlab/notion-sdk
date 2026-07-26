@@ -49,11 +49,11 @@ public class CreateDataSourceParams {
       return this;
     }
 
-    public Builder dataSourceTitle(String title) {
-      return dataSourceTitle(NotionText.plainText(title).asList());
+    public Builder title(String title) {
+      return title(NotionText.plainText(title).asList());
     }
 
-    public Builder dataSourceTitle(List<RichText> title) {
+    public Builder title(List<RichText> title) {
       this.title = title;
       return this;
     }

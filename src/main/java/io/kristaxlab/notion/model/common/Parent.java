@@ -24,6 +24,30 @@ public class Parent {
   private Boolean workspace;
 
   /** Top-level workspace parent ({@code type: workspace}). */
+  public static Parent of(String id, ParentType parentType) {
+    Parent parent = new Parent();
+    parent.setType(parentType.type());
+    switch (parentType) {
+      case WORKSPACE:
+        parent.setWorkspace(true);
+        break;
+      case PAGE:
+        parent.setPageId(id);
+        break;
+      case BLOCK:
+        parent.setBlockId(id);
+        break;
+      case DATABASE:
+        parent.setDatabaseId(id);
+        break;
+      case DATA_SOURCE:
+        parent.setDataSourceId(id);
+        break;
+    }
+    return parent;
+  }
+
+  /** Top-level workspace parent ({@code type: workspace}). */
   public static Parent workspaceParent() {
     Parent parent = new Parent();
     parent.setType("workspace");
