@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import integration.BaseIntegrationTest;
 import integration.NotionTstPageLogExtension;
 import integration.extension.NotionTestPage;
-import integration.helper.IntegrationTestAssisstant;
 import io.kristaxlab.notion.model.page.Page;
 import io.kristaxlab.notion.model.page.UpdatePageParams;
 import org.junit.jupiter.api.AfterAll;
@@ -16,8 +15,7 @@ import org.junit.jupiter.api.Test;
 @DisplayName("IT-40: Pages - Lock and unlock a page")
 public class Pages_IT40_Lock extends BaseIntegrationTest {
 
-  @NotionTestPage
-  private static String testPageId;
+  @NotionTestPage private static String testPageId;
 
   @BeforeAll
   public static void setup() {

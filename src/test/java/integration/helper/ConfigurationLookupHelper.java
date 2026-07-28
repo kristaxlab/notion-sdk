@@ -1,14 +1,11 @@
 package integration.helper;
 
-import org.apache.logging.log4j.util.Strings;
-import org.junit.jupiter.api.extension.ExecutionCondition;
-import org.junit.jupiter.api.extension.ExtensionContext;
-import org.junit.platform.engine.ConfigurationParameters;
-import org.junit.platform.engine.support.hierarchical.EngineExecutionContext;
-
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.apache.logging.log4j.util.Strings;
+import org.junit.jupiter.api.extension.ExtensionContext;
+import org.junit.platform.engine.ConfigurationParameters;
 
 public class ConfigurationLookupHelper {
 
@@ -55,7 +52,6 @@ public class ConfigurationLookupHelper {
 
     return Optional.empty();
   }
-
 
   public static boolean lookupBoolean(String key, boolean defaultValue) {
     return lookupBoolean(key).orElse(defaultValue);
@@ -119,9 +115,7 @@ public class ConfigurationLookupHelper {
     return new ArrayList<>(variations);
   }
 
-  /**
-   * Regex to separate string to words. Supports camelCase, dots, hyphens, underscores
-   */
+  /** Regex to separate string to words. Supports camelCase, dots, hyphens, underscores */
   private static List<String> tokenize(String key) {
     List<String> words = new ArrayList<>();
     Pattern pattern = Pattern.compile("[A-Z]+(?=[A-Z][a-z])|[A-Z]?[a-z]+|[A-Z]+|[0-9]+");

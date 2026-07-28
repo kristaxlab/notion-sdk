@@ -23,7 +23,6 @@ import io.kristaxlab.notion.model.page.property.PlaceProperty;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
-
 import org.junit.jupiter.api.*;
 
 @DisplayName("IT-7: Pages - Check create / update for all the properties supported")
@@ -33,8 +32,7 @@ public class Pages_IT7_FillProperties extends BaseIntegrationTest {
   private static final String FILE_PATH = "files/it-7/image.jpg";
   private static final String FILE_NAME = "image.jpg";
 
-  @NotionTestPage
-  private String testPageId;
+  @NotionTestPage private String testPageId;
 
   private String firstDataSourceId;
   private String secondDataSourceId;
@@ -188,6 +186,4 @@ public class Pages_IT7_FillProperties extends BaseIntegrationTest {
         children.stream().allMatch(b -> "bulleted_list_item".equals(b.getType())),
         "All children must be bulleted list items");
   }
-
-
 }

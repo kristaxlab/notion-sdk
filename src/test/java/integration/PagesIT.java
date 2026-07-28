@@ -11,7 +11,6 @@ import io.kristaxlab.notion.model.page.UpdatePageParams;
 import io.kristaxlab.notion.model.page.property.*;
 import io.kristaxlab.notion.model.page.templates.TemplateParams;
 import java.util.List;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -21,8 +20,7 @@ public class PagesIT extends BaseIntegrationTest {
   private static final String DATA_SOURCE_ID =
       IntegrationTestAssisstant.getPrerequisites().getTestDatabaseId();
 
-  @NotionTestPage
-  private String pagesTestRootId;
+  @NotionTestPage private String pagesTestRootId;
 
   @Test
   @DisplayName("[IT-35]: Pages - Duplicate a page using its own id as template_id")

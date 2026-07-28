@@ -1,10 +1,9 @@
 package integration.extension;
 
 import integration.helper.NotionTestClientProvider;
-import org.junit.jupiter.api.extension.ExtensionContext;
-
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
+import org.junit.jupiter.api.extension.ExtensionContext;
 
 public class NotionTestContext implements ExtensionContext.Store.CloseableResource {
 

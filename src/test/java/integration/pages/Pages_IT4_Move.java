@@ -1,5 +1,7 @@
 package integration.pages;
 
+import static org.junit.Assert.*;
+
 import integration.BaseIntegrationTest;
 import integration.NotionTstPageLogExtension;
 import integration.extension.NotionTestPage;
@@ -14,14 +16,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.*;
-
 @DisplayName("IT-4: Pages - Move page to other parents")
 public class Pages_IT4_Move extends BaseIntegrationTest {
 
-  @NotionTestPage
-  private static String testPageId;
-  
+  @NotionTestPage private static String testPageId;
+
   private static String databaseId;
   private static String dataSourceId;
   private static String blockId;
@@ -38,7 +37,7 @@ public class Pages_IT4_Move extends BaseIntegrationTest {
 
   private static String createBlock(String parentPageId) {
     BlockList blockList =
-            getSetupClient().blocks().appendChildren(parentPageId, b -> b.toggle("Toggle block"));
+        getSetupClient().blocks().appendChildren(parentPageId, b -> b.toggle("Toggle block"));
     if (blockList == null || blockList.getResults().isEmpty()) {
       throw new IllegalStateException("Failed to create toggle block");
     }
@@ -47,13 +46,13 @@ public class Pages_IT4_Move extends BaseIntegrationTest {
 
   private static Database createDatabase(String parentPageId) {
     Database db =
-            getSetupClient()
-                    .databases()
-                    .create(
-                            CreateDatabaseParams.builder()
-                                    .inPage(parentPageId)
-                                    .title("IT-7 Test Database")
-                                    .build());
+        getSetupClient()
+            .databases()
+            .create(
+                CreateDatabaseParams.builder()
+                    .inPage(parentPageId)
+                    .title("IT-7 Test Database")
+                    .build());
     if (db.getDataSources() == null || db.getDataSources().size() != 1) {
       throw new IllegalStateException("A testing database is supposed to have 1 data source");
     }
@@ -72,7 +71,7 @@ public class Pages_IT4_Move extends BaseIntegrationTest {
     assertEquals(testPageId, page.getParent().getPageId());
 
     Page movedToDataSource =
-            getNotionClient().pages().move(page.getId(), Parent.dataSourceParent(dataSourceId));
+        getNotionClient().pages().move(page.getId(), Parent.dataSourceParent(dataSourceId));
 
     assertNotNull(movedToDataSource.getParent());
     assertEquals("data_source_id", movedToDataSource.getParent().getType());
@@ -85,22 +84,21 @@ public class Pages_IT4_Move extends BaseIntegrationTest {
     assertEquals(testPageId, movedBack.getParent().getPageId());
 
     assertThrows(
-            "Moving a page to a block parent should throw ValidationException",
-            ValidationException.class,
-            () -> getNotionClient().pages().move(page.getId(), Parent.blockParent(blockId)));
+        "Moving a page to a block parent should throw ValidationException",
+        ValidationException.class,
+        () -> getNotionClient().pages().move(page.getId(), Parent.blockParent(blockId)));
 
     assertThrows(
-            "Moving a page to a database should throw ValidationException",
-            ValidationException.class,
-            () -> getNotionClient().pages().move(page.getId(), Parent.databaseParent(databaseId)));
+        "Moving a page to a database should throw ValidationException",
+        ValidationException.class,
+        () -> getNotionClient().pages().move(page.getId(), Parent.databaseParent(databaseId)));
 
     assertThrows(
-            "Moving a page to workspace root should throw ValidationException",
-            ValidationException.class,
-            () -> getNotionClient().pages().move(page.getId(), Parent.workspaceParent()));
+        "Moving a page to workspace root should throw ValidationException",
+        ValidationException.class,
+        () -> getNotionClient().pages().move(page.getId(), Parent.workspaceParent()));
   }
 
   @AfterAll
-  public static void tearDown() {
-  }
+  public static void tearDown() {}
 }

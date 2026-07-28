@@ -17,8 +17,7 @@ import org.junit.jupiter.api.*;
 
 public class BlocksIT extends BaseIntegrationTest {
 
-  @NotionTestPage
-  private String blockTestsPageId;
+  @NotionTestPage private String blockTestsPageId;
   private String currTestPageId;
 
   @BeforeEach

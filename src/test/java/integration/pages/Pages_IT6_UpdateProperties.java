@@ -29,8 +29,7 @@ public class Pages_IT6_UpdateProperties extends BaseIntegrationTest {
   private static final String FILE_PATH = "files/it-7/image.jpg";
   private static final String FILE_NAME = "image.jpg";
 
-  @NotionTestPage
-  private static String testPageId;
+  @NotionTestPage private static String testPageId;
   private static String firstDataSourceId;
   private static String secondDataSourceId;
   private static String fileUploadId;

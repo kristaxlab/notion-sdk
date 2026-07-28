@@ -21,8 +21,7 @@ import org.slf4j.LoggerFactory;
  */
 public final class NotionTstPageLogExtension implements AfterEachCallback, AfterAllCallback {
 
-  private static final Logger LOGGER =
-      LoggerFactory.getLogger(NotionTstPageLogExtension.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(NotionTstPageLogExtension.class);
 
   private static final ConcurrentHashMap<Class<?>, String> PAGE_IDS = new ConcurrentHashMap<>();
 

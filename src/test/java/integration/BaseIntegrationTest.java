@@ -7,16 +7,15 @@ import io.kristaxlab.notion.NotionClient;
 import io.kristaxlab.notion.model.file.FileUpload;
 import io.kristaxlab.notion.model.file.FileUploadCreateParams;
 import io.kristaxlab.notion.model.file.FileUploadSendParams;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Tag;
-import org.junit.jupiter.api.TestInfo;
-import org.junit.jupiter.api.extension.ExtendWith;
-
 import java.io.File;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.TestInfo;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
  * Provides common setup for integration tests that use a {@link NotionClient}.
@@ -32,8 +31,7 @@ import java.nio.file.Paths;
 @ExtendWith({NotionTestPageExtension.class, NotionTstPageLogExtension.class})
 public abstract class BaseIntegrationTest {
 
-  @NotionTestPage
-  private static String testPageId;
+  @NotionTestPage private static String testPageId;
 
   private NotionClient notionClient;
 
@@ -69,9 +67,9 @@ public abstract class BaseIntegrationTest {
   private static String sanitize(String name) {
     if (name == null) return "";
     return name.replaceAll("[/\\\\:*?\"<>|()\\[\\]]", "_")
-            .replaceAll("[\\s.]+", "_")
-            .replaceAll("_+", "_")
-            .replaceAll("^_|_$", "");
+        .replaceAll("[\\s.]+", "_")
+        .replaceAll("_+", "_")
+        .replaceAll("^_|_$", "");
   }
 
   /**
@@ -92,22 +90,21 @@ public abstract class BaseIntegrationTest {
     URL url = BaseIntegrationTest.class.getClassLoader().getResource(filePath);
     if (url == null) {
       throw new IllegalStateException(
-              String.format("File %s should exist to proceed with the test", filePath));
+          String.format("File %s should exist to proceed with the test", filePath));
     }
 
     File file = new File(url.getFile());
     FileUpload fu =
-            getSetupClient().fileUploads().create(FileUploadCreateParams.singlePart(fileName));
+        getSetupClient().fileUploads().create(FileUploadCreateParams.singlePart(fileName));
     getSetupClient()
-            .fileUploads()
-            .upload(
-                    fu.getId(),
-                    FileUploadSendParams.builder().file(file).contentType(fu.getContentType()).build());
+        .fileUploads()
+        .upload(
+            fu.getId(),
+            FileUploadSendParams.builder().file(file).contentType(fu.getContentType()).build());
     return fu.getId();
   }
 
   protected String getTestPageId() {
     return testPageId;
   }
-
 }

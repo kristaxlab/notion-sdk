@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import integration.BaseIntegrationTest;
 import integration.NotionTstPageLogExtension;
 import integration.extension.NotionTestPage;
-import integration.helper.IntegrationTestAssisstant;
 import io.kristaxlab.notion.fluent.NotionSchema;
 import io.kristaxlab.notion.model.database.CreateDatabaseParams;
 import io.kristaxlab.notion.model.database.Database;
@@ -24,8 +23,7 @@ public class DataSources_IT3_CreateSchema extends BaseIntegrationTest {
 
   private static final String TITLE_PROP_NAME = "Name";
 
-  @NotionTestPage
-  private static String testPageId;
+  @NotionTestPage private static String testPageId;
 
   private static String parentDatabaseId;
   private static String initialDataSourceId;
