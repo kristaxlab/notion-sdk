@@ -3,13 +3,13 @@ package integration.helper;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import io.kristaxlab.notion.NotionClient;
-import io.kristaxlab.notion.model.block.BlockList;
 import java.io.File;
 import java.net.URL;
 
 public class IntegrationTestAssisstant {
 
   private static IntegrationTestAssisstant INSTANCE;
+
   private static NotionClient getNotion() {
     return NotionTestClientProvider.internalTestingClient();
   }
@@ -24,7 +24,6 @@ public class IntegrationTestAssisstant {
   private static synchronized void createInstance() {
     INSTANCE = new IntegrationTestAssisstant();
   }
-
 
   public static File loadFileFailIfMissing(String filePath, ClassLoader classLoader) {
     URL url = classLoader.getResource(filePath);

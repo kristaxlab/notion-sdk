@@ -1,5 +1,7 @@
 package integration.pages;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import integration.BaseIntegrationTest;
 import integration.NotionTstPageLogExtension;
 import integration.extension.NotionTestContext;
@@ -17,14 +19,11 @@ import io.kristaxlab.notion.model.datasource.properties.RollupFunctionType;
 import io.kristaxlab.notion.model.page.Page;
 import io.kristaxlab.notion.model.page.property.NumberProperty;
 import io.kristaxlab.notion.model.page.property.PageProperty;
+import java.time.LocalDate;
+import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import java.time.LocalDate;
-import java.util.Map;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @DisplayName("IT-6: Pages - Full CRUD cycle for all supported property values")
 public class Pages_IT6_PropertyValuesCRUD extends BaseIntegrationTest {
@@ -33,8 +32,7 @@ public class Pages_IT6_PropertyValuesCRUD extends BaseIntegrationTest {
   private static final String FILE_PATH = "files/it-7/image.jpg";
   private static final String FILE_NAME = "image.jpg";
 
-  @NotionTestPage
-  private static String testPageId;
+  @NotionTestPage private static String testPageId;
   private String firstDataSourceId;
   private String secondDataSourceId;
   private String fileUploadId;
@@ -59,57 +57,60 @@ public class Pages_IT6_PropertyValuesCRUD extends BaseIntegrationTest {
 
   private Database createDatabaseWithFirstDataSource() {
     return getSetupClient()
-            .databases()
-            .create(
-                    CreateDatabaseParams.builder()
-                            .inPage(testPageId)
-                            .title("Test Database")
-                            .properties(p -> p.title(TITLE_PROP_NAME))
-                            .build());
+        .databases()
+        .create(
+            CreateDatabaseParams.builder()
+                .inPage(testPageId)
+                .title("Test Database")
+                .properties(p -> p.title(TITLE_PROP_NAME))
+                .build());
   }
 
   private String createSecondDataSource(String databaseId) {
     Map<String, DataSourcePropertySchema> schema =
-            NotionSchema.schemaBuilder()
-                    .title("Name")
-                    .richText("Notes")
-                    .number("Score", NumberFormatType.NUMBER)
-                    .select("Category", "Alpha", "Beta", "Gamma")
-                    .multiSelect("Tags", "x", "y", "z")
-                    .status("Status")
-                    .date("Due")
-                    .checkbox("Done")
-                    .url("Link")
-                    .email("Contact")
-                    .phoneNumber("Phone")
-                    .people("Assignee")
-                    .files("Attachments")
-                    .relation("Related", firstDataSourceId)
-                    .rollup("Count", "Related", TITLE_PROP_NAME, RollupFunctionType.UNIQUE)
-                    .formula("Doubled", "prop(\"Score\") * 2")
-                    .place("Location")
-                    .build();
+        NotionSchema.schemaBuilder()
+            .title("Name")
+            .richText("Notes")
+            .number("Score", NumberFormatType.NUMBER)
+            .select("Category", "Alpha", "Beta", "Gamma")
+            .multiSelect("Tags", "x", "y", "z")
+            .status("Status")
+            .date("Due")
+            .checkbox("Done")
+            .url("Link")
+            .email("Contact")
+            .phoneNumber("Phone")
+            .people("Assignee")
+            .files("Attachments")
+            .relation("Related", firstDataSourceId)
+            .rollup("Count", "Related", TITLE_PROP_NAME, RollupFunctionType.UNIQUE)
+            .formula("Doubled", "prop(\"Score\") * 2")
+            .place("Location")
+            .build();
 
     DataSource ds =
-            getSetupClient()
-                    .dataSources()
-                    .create(r -> r.inDatabase(databaseId).title("Data Source").properties(schema));
+        getSetupClient()
+            .dataSources()
+            .create(r -> r.inDatabase(databaseId).title("Data Source").properties(schema));
     return ds.getId();
   }
 
   private String createAnchorPage(String dataSourceId) {
     return getSetupClient()
-            .pages()
-            .create(p -> p.inDataSource(dataSourceId)
+        .pages()
+        .create(
+            p ->
+                p.inDataSource(dataSourceId)
                     .properties(props -> props.title(TITLE_PROP_NAME, "Anchor")))
-            .getId();
+        .getId();
   }
 
   @Test
   @DisplayName("IT-6")
   public void testPropertyCrud() {
     // Phase 1: CREATE with initial values
-    Map<String, PageProperty> phase1Props = NotionProperties.builder()
+    Map<String, PageProperty> phase1Props =
+        NotionProperties.builder()
             .title("Name", "Initial Title")
             .richText("Notes", "Initial notes")
             .number("Score", 10)
@@ -127,7 +128,10 @@ public class Pages_IT6_PropertyValuesCRUD extends BaseIntegrationTest {
             .place("Location", 40.7128, -74.0060)
             .build();
 
-    Page created = getNotionClient().pages().create(p -> p.inDataSource(secondDataSourceId).properties(phase1Props));
+    Page created =
+        getNotionClient()
+            .pages()
+            .create(p -> p.inDataSource(secondDataSourceId).properties(phase1Props));
     assertPropertyValues(phase1Props, created.getProperties());
 
     Page retrieved = getNotionClient().pages().retrieve(created.getId());
@@ -137,11 +141,13 @@ public class Pages_IT6_PropertyValuesCRUD extends BaseIntegrationTest {
     PageProperty scoreProp = getNotionClient().pages().retrieveProperty(created.getId(), "Score");
     assertNotNull(scoreProp, "Score property should not be null");
     assertTrue(scoreProp instanceof NumberProperty, "Score property should be a NumberProperty");
-    assertEquals(phase1Props.get("Score").as(NumberProperty.class).getNumber(),
-            scoreProp.as(NumberProperty.class).getNumber());
+    assertEquals(
+        phase1Props.get("Score").as(NumberProperty.class).getNumber(),
+        scoreProp.as(NumberProperty.class).getNumber());
 
     // Phase 2: UPDATE with new values
-    Map<String, PageProperty> phase2Props = NotionProperties.builder()
+    Map<String, PageProperty> phase2Props =
+        NotionProperties.builder()
             .title("Name", "Updated Title")
             .richText("Notes", "Updated notes")
             .number("Score", 99)
@@ -159,11 +165,14 @@ public class Pages_IT6_PropertyValuesCRUD extends BaseIntegrationTest {
             .place("Location", 51.5074, -0.1278)
             .build();
 
-    Page updated = getNotionClient().pages().update(created.getId(), u -> u.properties(phase2Props));
+    Page updated =
+        getNotionClient().pages().update(created.getId(), u -> u.properties(phase2Props));
     assertPropertyValues(phase2Props, updated.getProperties());
 
-    // Phase 3: CLEAR properties (except Status as it may only be set with another value, never empty)
-    Map<String, PageProperty> phase3Props = NotionProperties.builder()
+    // Phase 3: CLEAR properties (except Status as it may only be set with another value, never
+    // empty)
+    Map<String, PageProperty> phase3Props =
+        NotionProperties.builder()
             .clearTitle("Name")
             .clearRichText("Notes")
             .clearNumber("Score")
@@ -180,8 +189,12 @@ public class Pages_IT6_PropertyValuesCRUD extends BaseIntegrationTest {
             .clearPlace("Location")
             .build();
 
-    Page cleared = getNotionClient().pages().update(created.getId(), u -> u.properties(phase3Props));
-    phase3Props.put("Status", NotionProperties.status("In progress")); // Status property cannot be fully cleared, set to null
+    Page cleared =
+        getNotionClient().pages().update(created.getId(), u -> u.properties(phase3Props));
+    phase3Props.put(
+        "Status",
+        NotionProperties.status(
+            "In progress")); // Status property cannot be fully cleared, set to null
     assertPropertyValues(phase3Props, cleared.getProperties());
   }
 
@@ -207,7 +220,8 @@ public class Pages_IT6_PropertyValuesCRUD extends BaseIntegrationTest {
     return values;
   }
 
-  private void assertPropertyValues(Map<String, PageProperty> expectedProps, Map<String, PageProperty> actualProps) {
+  private void assertPropertyValues(
+      Map<String, PageProperty> expectedProps, Map<String, PageProperty> actualProps) {
     Map<String, Object> expected = notmalizePropertyValues(expectedProps);
     Map<String, Object> actual = notmalizePropertyValues(actualProps);
     for (Map.Entry<String, Object> entry : expected.entrySet()) {
@@ -216,7 +230,7 @@ public class Pages_IT6_PropertyValuesCRUD extends BaseIntegrationTest {
       Object actualValue = actual.get(propertyName);
 
       assertEquals(
-              expectedValue, actualValue, String.format("Property '%s' mismatch", propertyName));
+          expectedValue, actualValue, String.format("Property '%s' mismatch", propertyName));
     }
   }
 }

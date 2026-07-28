@@ -60,7 +60,8 @@ public class NotionTestPageExtension implements BeforeAllCallback, BeforeEachCal
 
   @Override
   public void beforeAll(ExtensionContext context) throws Exception {
-    // TODO this is not a notion page extension but rather notion test session context, move to another class
+    // TODO this is not a notion page extension but rather notion test session context, move to
+    // another class
     if (rootTestPageCreated.compareAndSet(false, true)) {
       Page testSessionPage = createRootTestPage(context);
 
@@ -77,7 +78,7 @@ public class NotionTestPageExtension implements BeforeAllCallback, BeforeEachCal
           LOGGER.info(
               "Test session page {} contains a database {}. Setting this database as home for"
                   + " tests of current test session",
-                  testSessionPage.getId(),
+              testSessionPage.getId(),
               databaseBlock.get().getId());
           String dataSourceId = database.getDataSources().get(0).getId();
           // TODO implement lookup of pages in a database or data source with query endpoint
@@ -85,7 +86,8 @@ public class NotionTestPageExtension implements BeforeAllCallback, BeforeEachCal
       }
 
       preAddedPages = retrievePreAddedPages(testHomeBlocks);
-      NotionTestContext.initialize(testSessionPage.getId(), preAddedPages, testSessionPage.getCreatedBy().getId());
+      NotionTestContext.initialize(
+          testSessionPage.getId(), preAddedPages, testSessionPage.getCreatedBy().getId());
     }
   }
 

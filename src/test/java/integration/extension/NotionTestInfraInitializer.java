@@ -1,14 +1,14 @@
-//package integration.extension;
+// package integration.extension;
 //
-//import integration.helper.ConfigurationLookupHelper;
-//import integration.helper.NotionTestClientProvider;
-//import io.kristaxlab.notion.NotionClient;
-//import org.junit.platform.launcher.TestExecutionListener;
-//import org.junit.platform.launcher.TestPlan;
-//import org.slf4j.Logger;
-//import org.slf4j.LoggerFactory;
+// import integration.helper.ConfigurationLookupHelper;
+// import integration.helper.NotionTestClientProvider;
+// import io.kristaxlab.notion.NotionClient;
+// import org.junit.platform.launcher.TestExecutionListener;
+// import org.junit.platform.launcher.TestPlan;
+// import org.slf4j.Logger;
+// import org.slf4j.LoggerFactory;
 //
-//public class NotionTestInfraInitializer implements TestExecutionListener {
+// public class NotionTestInfraInitializer implements TestExecutionListener {
 //
 //  private static final Logger LOGGER = LoggerFactory.getLogger(NotionTestInfraInitializer.class);
 //  private static final String PARENT_ID = "notion.test.datasource.id";
@@ -24,7 +24,8 @@
 //    String testSessionParentId =
 //        ConfigurationLookupHelper.lookup(PARENT_ID, testPlan.getConfigurationParameters())
 //            .orElseThrow(
-//                () -> new IllegalStateException("Notion page for running tests must be provided"));
+//                () -> new IllegalStateException("Notion page for running tests must be
+// provided"));
 //    LOGGER.debug("{}: {}", PARENT_ID, testSessionParentId);
 //
 //    String templateId =
@@ -57,7 +58,8 @@
 //  @Override
 //  public void testPlanExecutionFinished(TestPlan testPlan) {
 //    boolean cleanUp =
-//        ConfigurationLookupHelper.lookupBoolean(PAGE_CLEANUP, testPlan.getConfigurationParameters())
+//        ConfigurationLookupHelper.lookupBoolean(PAGE_CLEANUP,
+// testPlan.getConfigurationParameters())
 //            .orElse(false);
 //
 //    if (cleanUp) {
@@ -66,10 +68,11 @@
 //          .pages()
 //          .moveToTrash(NotionTestContext.getInstance().getRootTestPageId());
 //    } else {
-//      LOGGER.info("Notion page cleanup is not enabled. Use {} property to enable it", PAGE_CLEANUP);
+//      LOGGER.info("Notion page cleanup is not enabled. Use {} property to enable it",
+// PAGE_CLEANUP);
 //    }
 //
 //    // reads config params
 //    // if applicable - deletes the testing page
 //  }
-//}
+// }

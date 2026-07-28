@@ -6,15 +6,13 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import integration.extension.NotionTestPage;
-import integration.helper.IntegrationTestAssisstant;
 import io.kristaxlab.notion.fluent.NotionBlocks;
 import io.kristaxlab.notion.http.error.ValidationException;
 import io.kristaxlab.notion.model.block.*;
 import io.kristaxlab.notion.model.common.*;
 import io.kristaxlab.notion.model.common.richtext.RichText;
-import java.util.List;
-
 import io.kristaxlab.notion.model.database.CreateDatabaseParams;
+import java.util.List;
 import org.junit.jupiter.api.*;
 
 public class BlocksIT extends BaseIntegrationTest {
@@ -323,12 +321,16 @@ public class BlocksIT extends BaseIntegrationTest {
   @DisplayName("[IT-59]: Blocks - Append links and media block types")
   public void testAppendLinksAndMediaBlocks() {
     // TODO move it to prerequisites
-    String dbId = getNotionClient().databases().create(
-            CreateDatabaseParams.builder()
+    String dbId =
+        getNotionClient()
+            .databases()
+            .create(
+                CreateDatabaseParams.builder()
                     .inPage(currTestPageId)
                     .title("Test datapbase for links and media blocks")
                     .properties(p -> p.title("Name"))
-                    .build()).getId();
+                    .build())
+            .getId();
 
     List<Block> linksAndMedia =
         blocksBuilder()

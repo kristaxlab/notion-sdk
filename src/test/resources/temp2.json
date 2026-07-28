@@ -1,0 +1,108 @@
+{
+  "properties": {
+    "Name": {
+      "type": "title",
+      "title": [
+        {
+          "type": "text",
+          "plain_text": "Updated Title",
+          "annotations": {},
+          "text": {
+            "content": "Updated Title"
+          }
+        }
+      ]
+    },
+    "Notes": {
+      "type": "rich_text",
+      "rich_text": [
+        {
+          "type": "text",
+          "plain_text": "Updated notes",
+          "annotations": {},
+          "text": {
+            "content": "Updated notes"
+          }
+        }
+      ]
+    },
+    "Score": {
+      "type": "number",
+      "number": 99
+    },
+    "Category": {
+      "type": "select",
+      "select": {
+        "name": "Beta"
+      }
+    },
+    "Tags": {
+      "type": "multi_select",
+      "multi_select": [
+        {
+          "name": "y"
+        },
+        {
+          "name": "z"
+        }
+      ]
+    },
+    "Status": {
+      "type": "status",
+      "status": {
+        "name": "In progress"
+      }
+    },
+    "Due": {
+      "type": "date",
+      "date": {
+        "start": "2026-12-31"
+      }
+    },
+    "Done": {
+      "type": "checkbox",
+      "checkbox": false
+    },
+    "Link": {
+      "type": "url",
+      "url": "https://updated.com"
+    },
+    "Contact": {
+      "type": "email",
+      "email": "updated@test.com"
+    },
+    "Phone": {
+      "type": "phone_number",
+      "phone_number": "+1-999-9999"
+    },
+    "Attachments": {
+      "type": "files",
+      "files": [
+        {
+          "type": "file_upload",
+          "file_upload": {
+            "id": "3abcd6cf-1406-81f0-990c-00b277dead4b"
+          }
+        }
+      ]
+    },
+    "Related": {
+      "type": "relation",
+      "relation": [
+        {
+          "id": "3abcd6cf-1406-8160-9963-e5edd74a6367"
+        },
+        {
+          "id": "3abcd6cf-1406-81c7-a5ca-c405c56f97db"
+        }
+      ]
+    },
+    "Location": {
+      "type": "place",
+      "place": {
+        "lat": 51.5074,
+        "lon": -0.1278
+      }
+    }
+  }
+}
