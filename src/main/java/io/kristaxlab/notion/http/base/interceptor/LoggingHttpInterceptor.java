@@ -12,13 +12,13 @@ public class LoggingHttpInterceptor implements HttpClientInterceptor {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(LoggingHttpInterceptor.class);
 
-  private final String apiName;
+  private final String apiClientId;
 
   /**
-   * @param apiName label used in log messages (e.g. {@code "Notion"})
+   * @param apiClientId label used in log messages (e.g. {@code "Notion API"})
    */
-  public LoggingHttpInterceptor(String apiName) {
-    this.apiName = apiName;
+  public LoggingHttpInterceptor(String apiClientId) {
+    this.apiClientId = apiClientId;
   }
 
   @Override
@@ -26,7 +26,7 @@ public class LoggingHttpInterceptor implements HttpClientInterceptor {
     if (LOGGER.isDebugEnabled()) {
       LOGGER.debug(
           "[{}] >> {} {} | body: {}",
-          apiName,
+          apiClientId,
           request.method(),
           request.url(),
           describeBody(request.body()));
@@ -42,7 +42,7 @@ public class LoggingHttpInterceptor implements HttpClientInterceptor {
       String body = response.bodyAsString();
       LOGGER.debug(
           "[{}] << {} {} | status: {} | body: {}",
-          apiName,
+          apiClientId,
           request.method(),
           request.url(),
           status,
@@ -51,7 +51,11 @@ public class LoggingHttpInterceptor implements HttpClientInterceptor {
 
     if (status >= 400) {
       LOGGER.warn(
-          "[{}] {} {} responded with status {}", apiName, request.method(), request.url(), status);
+          "[{}] {} {} responded with status {}",
+          apiClientId,
+          request.method(),
+          request.url(),
+          status);
     }
   }
 

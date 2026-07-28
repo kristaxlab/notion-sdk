@@ -16,7 +16,6 @@ public class IntegrationTestAssisstant {
 
   private static IntegrationTestAssisstant INSTANCE;
   private static Prerequisites prerequisites;
-  private static String testPageId;
 
   public static NotionClient getNotion() {
     return NotionTestClientProvider.internalTestingClient();
@@ -34,7 +33,6 @@ public class IntegrationTestAssisstant {
 
     BlockList rootPageBlocks = getNotion().blocks().retrieveChildren(getRootPageId());
     loadPrerequisites(findPrerequisitesPageId(rootPageBlocks));
-    createTestPage(findTestSessionsDatabase(rootPageBlocks));
   }
 
   private static String findPrerequisitesPageId(BlockList rootPageBlocks) {
@@ -70,29 +68,8 @@ public class IntegrationTestAssisstant {
     prerequisites = PrerequisitesLoader.load(getNotion(), pageId);
   }
 
-  private static void createTestPage(String databaseId) {
-    String name = "Integration tests";
-    testPageId = createPageForTests(name, Parent.databaseParent(databaseId));
-  }
-
-  public static String createPageForTests(String name) {
-    return createPageForTests(name, Parent.pageParent(getInstance().getTestPageId()));
-  }
-
   public static Prerequisites getPrerequisites() {
     return getInstance().prerequisites;
-  }
-
-  public static String createPageForTests(String name, Parent parent) {
-    CreatePageParams createPageParams = new CreatePageParams();
-    createPageParams.setParent(parent);
-    createPageParams.setProperties(new HashMap<>());
-    createPageParams.getProperties().put(TitleProperty.NAME, NotionProperties.title(name));
-    return getNotion().pages().create(createPageParams).getId();
-  }
-
-  private String getTestPageId() {
-    return testPageId;
   }
 
   public static File loadFileFailIfMissing(String filePath, ClassLoader classLoader) {

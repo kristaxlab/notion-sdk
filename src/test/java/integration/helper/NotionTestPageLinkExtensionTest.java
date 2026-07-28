@@ -2,7 +2,7 @@ package integration.helper;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import integration.NotionIntegrationTestsExtension;
+import integration.NotionTstPageLogExtension;
 import org.junit.jupiter.api.Test;
 
 class NotionIntegrationTestsExtensionTest {
@@ -11,6 +11,6 @@ class NotionIntegrationTestsExtensionTest {
   void toNotionPageUrlRemovesHyphensFromPageId() {
     assertEquals(
         "https://www.notion.so/1234567890abcdef1234567890abcdef",
-        NotionIntegrationTestsExtension.toNotionPageUrl("12345678-90ab-cdef-1234-567890abcdef"));
+        NotionTstPageLogExtension.toNotionPageUrl("12345678-90ab-cdef-1234-567890abcdef"));
   }
 }

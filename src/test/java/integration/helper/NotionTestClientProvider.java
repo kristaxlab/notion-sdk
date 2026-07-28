@@ -37,7 +37,11 @@ public class NotionTestClientProvider {
    *     blank
    */
   public static NotionClient internalTestingClient() {
-    return internalTestingClient(null);
+    return internalTestingClient(null, "Notion Client");
+  }
+
+  public static NotionClient getInfraSetupClient() {
+    return internalTestingClient(null, "Notion Test Env Setup");
   }
 
   /**
@@ -53,16 +57,27 @@ public class NotionTestClientProvider {
    * @throws IllegalStateException if the NOTION_TEST_AUTH_TOKEN environment variable is absent or
    *     blank
    */
-  public static NotionClient internalTestingClient(Path exchangeLogDir) {
+  public static NotionClient internalTestingClient(Path exchangeLogDir, String clientName) {
     String apiKey = System.getenv(NOTION_TEST_AUTH_TOKEN);
+
+    if (apiKey == null) {
+      apiKey = System.getProperty(NOTION_TEST_AUTH_TOKEN);
+    }
+
+    if (apiKey == null) {
+      apiKey = System.getProperty(NOTION_TEST_AUTH_TOKEN.toLowerCase().replace("_", "."));
+    }
+
     if (apiKey == null || apiKey.isEmpty()) {
       throw new IllegalStateException(NOTION_TEST_AUTH_TOKEN + " environment variable is not set");
     }
 
+    clientName = (clientName == null || clientName.isBlank()) ? "Notion Client" : clientName;
     return NotionClient.builder()
         .authToken(apiKey)
         .jsonSerializer(new TestSerializer()) // strict serializer
         .exchangeLogging(exchangeLogDir)
+        .clientName(clientName)
         .build();
   }
 }

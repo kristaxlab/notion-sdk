@@ -1,5 +1,7 @@
 package integration;
 
+import integration.extension.NotionTestPage;
+import integration.extension.NotionTestPageExtension;
 import java.util.concurrent.ConcurrentHashMap;
 import org.junit.jupiter.api.extension.AfterAllCallback;
 import org.junit.jupiter.api.extension.AfterEachCallback;
@@ -11,14 +13,16 @@ import org.slf4j.LoggerFactory;
  * Logs a link to the associated Notion test page after each integration test when one has been
  * registered for the test class.
  *
- * <p>Call {@link #register(Class, String)} from a {@code @BeforeAll} method to associate a Notion
- * page ID with the test class. The link is printed to the log after every {@code @Test} method in
- * that class and the mapping is discarded automatically after the last test in the class completes.
+ * <p>Test classes with a {@link NotionTestPage} field are registered by {@link
+ * NotionTestPageExtension}; classes that build their page themselves can call {@link
+ * #register(Class, String)} from a {@code @BeforeAll} method. The link is printed to the log after
+ * every {@code @Test} method in that class and the mapping is discarded automatically after the
+ * last test in the class completes.
  */
-public final class NotionIntegrationTestsExtension implements AfterEachCallback, AfterAllCallback {
+public final class NotionTstPageLogExtension implements AfterEachCallback, AfterAllCallback {
 
   private static final Logger LOGGER =
-      LoggerFactory.getLogger(NotionIntegrationTestsExtension.class);
+      LoggerFactory.getLogger(NotionTstPageLogExtension.class);
 
   private static final ConcurrentHashMap<Class<?>, String> PAGE_IDS = new ConcurrentHashMap<>();
 

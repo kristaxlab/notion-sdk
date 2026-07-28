@@ -4,7 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import integration.BaseIntegrationTest;
-import integration.NotionIntegrationTestsExtension;
+import integration.NotionTstPageLogExtension;
+import integration.extension.NotionTestPage;
 import integration.helper.IntegrationTestAssisstant;
 import io.kristaxlab.notion.fluent.NotionSchema;
 import io.kristaxlab.notion.model.database.CreateDatabaseParams;
@@ -23,7 +24,7 @@ public class DataSources_IT3_CreateSchema extends BaseIntegrationTest {
 
   private static final String TITLE_PROP_NAME = "Name";
 
-  /** Database that acts as the parent container for all data sources created by this test class. */
+  @NotionTestPage
   private static String testPageId;
 
   private static String parentDatabaseId;
@@ -31,8 +32,7 @@ public class DataSources_IT3_CreateSchema extends BaseIntegrationTest {
 
   @BeforeAll
   public static void setup() {
-    testPageId = IntegrationTestAssisstant.createPageForTests("Data Sources - Basic");
-    NotionIntegrationTestsExtension.register(DataSources_IT3_CreateSchema.class, testPageId);
+    NotionTstPageLogExtension.register(DataSources_IT3_CreateSchema.class, testPageId);
 
     Database db = createDatabase();
     parentDatabaseId = db.getId();

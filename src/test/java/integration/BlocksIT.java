@@ -5,6 +5,7 @@ import static io.kristaxlab.notion.fluent.NotionText.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import integration.extension.NotionTestPage;
 import integration.helper.IntegrationTestAssisstant;
 import io.kristaxlab.notion.fluent.NotionBlocks;
 import io.kristaxlab.notion.http.error.ValidationException;
@@ -16,13 +17,9 @@ import org.junit.jupiter.api.*;
 
 public class BlocksIT extends BaseIntegrationTest {
 
-  private static String blockTestsPageId;
+  @NotionTestPage
+  private String blockTestsPageId;
   private String currTestPageId;
-
-  @BeforeAll
-  public static void setup() {
-    blockTestsPageId = IntegrationTestAssisstant.createPageForTests("Blocks");
-  }
 
   @BeforeEach
   public void beforeEachTest(TestInfo info) {

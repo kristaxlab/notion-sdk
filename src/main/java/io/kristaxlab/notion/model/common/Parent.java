@@ -25,26 +25,19 @@ public class Parent {
 
   /** Top-level workspace parent ({@code type: workspace}). */
   public static Parent of(String id, ParentType parentType) {
-    Parent parent = new Parent();
-    parent.setType(parentType.type());
     switch (parentType) {
       case WORKSPACE:
-        parent.setWorkspace(true);
-        break;
+        return workspaceParent();
       case PAGE:
-        parent.setPageId(id);
-        break;
+        return pageParent(id);
       case BLOCK:
-        parent.setBlockId(id);
-        break;
+        return blockParent(id);
       case DATABASE:
-        parent.setDatabaseId(id);
-        break;
+        return databaseParent(id);
       case DATA_SOURCE:
-        parent.setDataSourceId(id);
-        break;
+        return dataSourceParent(id);
     }
-    return parent;
+    throw new IllegalArgumentException("Unsupported parent type: " + parentType);
   }
 
   /** Top-level workspace parent ({@code type: workspace}). */

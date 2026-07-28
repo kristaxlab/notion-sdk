@@ -3,7 +3,8 @@ package integration.pages;
 import static org.junit.jupiter.api.Assertions.*;
 
 import integration.BaseIntegrationTest;
-import integration.NotionIntegrationTestsExtension;
+import integration.NotionTstPageLogExtension;
+import integration.extension.NotionTestPage;
 import integration.helper.IntegrationTestAssisstant;
 import io.kristaxlab.notion.fluent.NotionPageViewer;
 import io.kristaxlab.notion.fluent.NotionProperties;
@@ -22,10 +23,8 @@ import io.kristaxlab.notion.model.page.property.PlaceProperty;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+
+import org.junit.jupiter.api.*;
 
 @DisplayName("IT-7: Pages - Check create / update for all the properties supported")
 public class Pages_IT7_FillProperties extends BaseIntegrationTest {
@@ -34,18 +33,19 @@ public class Pages_IT7_FillProperties extends BaseIntegrationTest {
   private static final String FILE_PATH = "files/it-7/image.jpg";
   private static final String FILE_NAME = "image.jpg";
 
-  private static String testPageId;
-  private static String firstDataSourceId;
-  private static String secondDataSourceId;
-  private static String fileUploadId;
-  private static String userId;
+  @NotionTestPage
+  private String testPageId;
 
-  @BeforeAll
-  public static void setup() {
+  private String firstDataSourceId;
+  private String secondDataSourceId;
+  private String fileUploadId;
+  private String userId;
+
+  @BeforeEach
+  public void setup() {
     fileUploadId = uploadFile(FILE_PATH, FILE_NAME);
 
-    testPageId = IntegrationTestAssisstant.createPageForTests("Data Sources - Basic");
-    NotionIntegrationTestsExtension.register(Pages_IT7_FillProperties.class, testPageId);
+    NotionTstPageLogExtension.register(Pages_IT7_FillProperties.class, testPageId);
 
     Database db = createDatabaseWithFirstDataSource();
     firstDataSourceId = db.getDataSources().get(0).getId();
@@ -53,7 +53,7 @@ public class Pages_IT7_FillProperties extends BaseIntegrationTest {
     userId = IntegrationTestAssisstant.getPrerequisites().getUserId();
   }
 
-  private static Database createDatabaseWithFirstDataSource() {
+  private Database createDatabaseWithFirstDataSource() {
     Database db =
         getSetupClient()
             .databases()
@@ -66,7 +66,7 @@ public class Pages_IT7_FillProperties extends BaseIntegrationTest {
     return db;
   }
 
-  private static String createSecondDataSource(String databaseId, String relatedDataSourceId) {
+  private String createSecondDataSource(String databaseId, String relatedDataSourceId) {
     Map<String, DataSourcePropertySchema> rqProps =
         NotionSchema.schemaBuilder()
             .title("Name")
@@ -189,6 +189,5 @@ public class Pages_IT7_FillProperties extends BaseIntegrationTest {
         "All children must be bulleted list items");
   }
 
-  @AfterAll
-  public static void tearDown() {}
+
 }

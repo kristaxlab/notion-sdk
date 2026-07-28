@@ -1,9 +1,12 @@
 package io.kristaxlab.notion.model.page;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.kristaxlab.notion.model.common.Cover;
 import io.kristaxlab.notion.model.common.Icon;
 import io.kristaxlab.notion.model.common.NotionObject;
+import io.kristaxlab.notion.model.common.richtext.RichText;
 import io.kristaxlab.notion.model.page.property.PageProperty;
+import io.kristaxlab.notion.model.page.property.TitleProperty;
 import java.util.HashMap;
 import java.util.Map;
 import lombok.Getter;
@@ -25,4 +28,21 @@ public class Page extends NotionObject {
   private Cover cover;
 
   private Boolean isLocked;
+
+  @JsonIgnore
+  public String getTitle() {
+    TitleProperty titleProperty =
+        (TitleProperty)
+            properties.values().stream()
+                .filter(v -> TitleProperty.NAME.equals(v.getType()))
+                .findFirst()
+                .orElse(null);
+    if (titleProperty != null && titleProperty.getTitle() != null) {
+      return titleProperty.getTitle().stream()
+          .map(RichText::getPlainText)
+          .reduce("", String::concat);
+    }
+
+    return "";
+  }
 }

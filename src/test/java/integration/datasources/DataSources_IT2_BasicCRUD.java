@@ -3,7 +3,8 @@ package integration.datasources;
 import static org.junit.jupiter.api.Assertions.*;
 
 import integration.BaseIntegrationTest;
-import integration.NotionIntegrationTestsExtension;
+import integration.NotionTstPageLogExtension;
+import integration.extension.NotionTestPage;
 import integration.helper.IntegrationTestAssisstant;
 import io.kristaxlab.notion.model.database.CreateDatabaseParams;
 import io.kristaxlab.notion.model.database.Database;
@@ -21,6 +22,7 @@ public class DataSources_IT2_BasicCRUD extends BaseIntegrationTest {
   private static final String SECOND_COVER_PATH = "files/it-1/second-cover.jpg";
   private static final String SECOND_COVER_NAME = "second-cover.jpg";
 
+  @NotionTestPage
   private static String testPageId;
   private static String firstCoverId;
   private static String secondCoverId;
@@ -30,8 +32,7 @@ public class DataSources_IT2_BasicCRUD extends BaseIntegrationTest {
     firstCoverId = uploadFile(FIRST_COVER_PATH, FIRST_COVER_NAME);
     secondCoverId = uploadFile(SECOND_COVER_PATH, SECOND_COVER_NAME);
 
-    testPageId = IntegrationTestAssisstant.createPageForTests("Data Sources - Basic");
-    NotionIntegrationTestsExtension.register(DataSources_IT2_BasicCRUD.class, testPageId);
+    NotionTstPageLogExtension.register(DataSources_IT2_BasicCRUD.class, testPageId);
   }
 
   @Test

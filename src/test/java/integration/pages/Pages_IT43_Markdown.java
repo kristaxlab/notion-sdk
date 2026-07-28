@@ -3,7 +3,8 @@ package integration.pages;
 import static org.junit.jupiter.api.Assertions.*;
 
 import integration.BaseIntegrationTest;
-import integration.NotionIntegrationTestsExtension;
+import integration.NotionTstPageLogExtension;
+import integration.extension.NotionTestPage;
 import integration.helper.IntegrationTestAssisstant;
 import io.kristaxlab.notion.model.page.Page;
 import io.kristaxlab.notion.model.page.PageAsMarkdown;
@@ -16,12 +17,12 @@ import org.junit.jupiter.api.Test;
 @DisplayName("IT-43: Pages - Markdown - create, retrieve, and update page as markdown (all modes)")
 public class Pages_IT43_Markdown extends BaseIntegrationTest {
 
+  @NotionTestPage
   private static String testPageId;
 
   @BeforeAll
   public static void setup() {
-    testPageId = IntegrationTestAssisstant.createPageForTests("Pages - Markdown CRUD");
-    NotionIntegrationTestsExtension.register(Pages_IT43_Markdown.class, testPageId);
+    NotionTstPageLogExtension.register(Pages_IT43_Markdown.class, testPageId);
   }
 
   @Test

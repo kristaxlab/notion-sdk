@@ -2,6 +2,7 @@ package integration;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import integration.extension.NotionTestPage;
 import integration.helper.IntegrationTestAssisstant;
 import io.kristaxlab.notion.fluent.NotionBlocks;
 import io.kristaxlab.notion.model.block.BlockList;
@@ -20,13 +21,8 @@ public class PagesIT extends BaseIntegrationTest {
   private static final String DATA_SOURCE_ID =
       IntegrationTestAssisstant.getPrerequisites().getTestDatabaseId();
 
-  /** Parent page used by every test that needs a {@code parent: page_id} container. */
-  private static String pagesTestRootId;
-
-  @BeforeAll
-  public static void setupClass() {
-    pagesTestRootId = IntegrationTestAssisstant.createPageForTests("Pages");
-  }
+  @NotionTestPage
+  private String pagesTestRootId;
 
   @Test
   @DisplayName("[IT-35]: Pages - Duplicate a page using its own id as template_id")

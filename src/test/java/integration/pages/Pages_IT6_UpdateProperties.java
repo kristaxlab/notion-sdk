@@ -3,7 +3,8 @@ package integration.pages;
 import static org.junit.jupiter.api.Assertions.*;
 
 import integration.BaseIntegrationTest;
-import integration.NotionIntegrationTestsExtension;
+import integration.NotionTstPageLogExtension;
+import integration.extension.NotionTestPage;
 import integration.helper.IntegrationTestAssisstant;
 import io.kristaxlab.notion.fluent.NotionPageViewer;
 import io.kristaxlab.notion.fluent.NotionSchema;
@@ -28,6 +29,7 @@ public class Pages_IT6_UpdateProperties extends BaseIntegrationTest {
   private static final String FILE_PATH = "files/it-7/image.jpg";
   private static final String FILE_NAME = "image.jpg";
 
+  @NotionTestPage
   private static String testPageId;
   private static String firstDataSourceId;
   private static String secondDataSourceId;
@@ -38,9 +40,7 @@ public class Pages_IT6_UpdateProperties extends BaseIntegrationTest {
   @BeforeAll
   public static void setup() {
     fileUploadId = uploadFile(FILE_PATH, FILE_NAME);
-
-    testPageId = IntegrationTestAssisstant.createPageForTests("Update Properties");
-    NotionIntegrationTestsExtension.register(Pages_IT6_UpdateProperties.class, testPageId);
+    NotionTstPageLogExtension.register(Pages_IT6_UpdateProperties.class, testPageId);
 
     Database db = createDatabaseWithFirstDataSource();
     firstDataSourceId = db.getDataSources().get(0).getId();

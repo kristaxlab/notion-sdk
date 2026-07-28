@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 public class UsersIT extends BaseIntegrationTest {
 
   @Test
-  @DisplayName("[INT-25]: Users - Retrieve me and then retrieve this same user (me) by id")
+  @DisplayName("[IT-25]: Users - Retrieve me and then retrieve this same user (me) by id")
   public void testGetUser() {
     User me = getNotionClient().users().me();
 
@@ -34,7 +34,7 @@ public class UsersIT extends BaseIntegrationTest {
   }
 
   @Test
-  @DisplayName("[INT-32]: Users - Retrieve list of all users")
+  @DisplayName("[IT-32]: Users - Retrieve list of all users")
   public void testListUsers() {
     UserList usersList = getNotionClient().users().listUsers();
 

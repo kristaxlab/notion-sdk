@@ -1,19 +1,22 @@
 package integration;
 
+import integration.extension.NotionTestPage;
+import integration.extension.NotionTestPageExtension;
 import integration.helper.NotionTestClientProvider;
 import io.kristaxlab.notion.NotionClient;
 import io.kristaxlab.notion.model.file.FileUpload;
 import io.kristaxlab.notion.model.file.FileUploadCreateParams;
 import io.kristaxlab.notion.model.file.FileUploadSendParams;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.TestInfo;
+import org.junit.jupiter.api.extension.ExtendWith;
+
 import java.io.File;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Tag;
-import org.junit.jupiter.api.TestInfo;
-import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
  * Provides common setup for integration tests that use a {@link NotionClient}.
@@ -21,13 +24,16 @@ import org.junit.jupiter.api.extension.ExtendWith;
  * <p>Before each test, this base class creates a client configured to write HTTP exchange logs
  * under a deterministic directory derived from the test class and method names.
  *
- * <p>Subclasses that create a dedicated Notion page for their fixtures should call {@link
- * NotionIntegrationTestsExtension#register(Class, String)} from {@code @BeforeAll} so that a
- * convenience link is logged after every test method.
+ * <p>Subclasses that need a dedicated Notion page for their fixtures declare a static {@code
+ * String} field annotated with {@link NotionTestPage}; the page is created before
+ * {@code @BeforeAll} runs and a convenience link is logged after every test method.
  */
 @Tag("integration")
-@ExtendWith(NotionIntegrationTestsExtension.class)
+@ExtendWith({NotionTestPageExtension.class, NotionTstPageLogExtension.class})
 public abstract class BaseIntegrationTest {
+
+  @NotionTestPage
+  private static String testPageId;
 
   private NotionClient notionClient;
 
@@ -47,7 +53,7 @@ public abstract class BaseIntegrationTest {
 
     Path exchangeDir = Paths.get("exchanges", "exchange-logs", testClass, testMethod);
 
-    notionClient = NotionTestClientProvider.internalTestingClient(exchangeDir);
+    notionClient = NotionTestClientProvider.internalTestingClient(exchangeDir, "Notion Client");
   }
 
   /**
@@ -63,9 +69,9 @@ public abstract class BaseIntegrationTest {
   private static String sanitize(String name) {
     if (name == null) return "";
     return name.replaceAll("[/\\\\:*?\"<>|()\\[\\]]", "_")
-        .replaceAll("[\\s.]+", "_")
-        .replaceAll("_+", "_")
-        .replaceAll("^_|_$", "");
+            .replaceAll("[\\s.]+", "_")
+            .replaceAll("_+", "_")
+            .replaceAll("^_|_$", "");
   }
 
   /**
@@ -79,24 +85,29 @@ public abstract class BaseIntegrationTest {
   }
 
   public static NotionClient getSetupClient() {
-    return NotionTestClientProvider.internalTestingClient();
+    return NotionTestClientProvider.getInfraSetupClient();
   }
 
   protected static String uploadFile(String filePath, String fileName) {
     URL url = BaseIntegrationTest.class.getClassLoader().getResource(filePath);
     if (url == null) {
       throw new IllegalStateException(
-          String.format("File %s should exist to proceed with the test", filePath));
+              String.format("File %s should exist to proceed with the test", filePath));
     }
 
     File file = new File(url.getFile());
     FileUpload fu =
-        getSetupClient().fileUploads().create(FileUploadCreateParams.singlePart(fileName));
+            getSetupClient().fileUploads().create(FileUploadCreateParams.singlePart(fileName));
     getSetupClient()
-        .fileUploads()
-        .upload(
-            fu.getId(),
-            FileUploadSendParams.builder().file(file).contentType(fu.getContentType()).build());
+            .fileUploads()
+            .upload(
+                    fu.getId(),
+                    FileUploadSendParams.builder().file(file).contentType(fu.getContentType()).build());
     return fu.getId();
   }
+
+  protected String getTestPageId() {
+    return testPageId;
+  }
+
 }
