@@ -11,6 +11,7 @@ import io.kristaxlab.notion.model.block.ChildPageBlock;
 import io.kristaxlab.notion.model.common.Parent;
 import io.kristaxlab.notion.model.common.ParentType;
 import io.kristaxlab.notion.model.database.Database;
+import io.kristaxlab.notion.model.page.Page;
 import io.kristaxlab.notion.model.page.templates.TemplateParams;
 import java.lang.reflect.Field;
 import java.util.HashMap;
@@ -47,7 +48,7 @@ public class NotionTestPageExtension implements BeforeAllCallback, BeforeEachCal
   private static AtomicBoolean rootTestPageCreated = new AtomicBoolean(false);
   private static NotionClient notionClient;
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(NotionTestInfraInitializer.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(NotionTestPageExtension.class);
   private static final String TESTS_HOME_ID = "notion.tests.home.id";
   private static final String TEMPLATE_ID = "notion.tests.template.id";
   private static final String PAGE_NAME = "notion.tests.page.name";
@@ -59,13 +60,14 @@ public class NotionTestPageExtension implements BeforeAllCallback, BeforeEachCal
 
   @Override
   public void beforeAll(ExtensionContext context) throws Exception {
+    // TODO this is not a notion page extension but rather notion test session context, move to another class
     if (rootTestPageCreated.compareAndSet(false, true)) {
-      String testSessionHomeId = createRootTestPage(context);
+      Page testSessionPage = createRootTestPage(context);
 
       // TODO Template needs time to apply
       Thread.sleep(2000);
       Map<String, String> preAddedPages = null;
-      BlockList testHomeBlocks = notionClient.blocks().retrieveChildren(testSessionHomeId);
+      BlockList testHomeBlocks = notionClient.blocks().retrieveChildren(testSessionPage.getId());
       Optional<Block> databaseBlock =
           NotionBlocksViewer.of(testHomeBlocks)
               .first(b -> BlockType.CHILD_DATABASE.getValue().equals(b.getType()));
@@ -75,7 +77,7 @@ public class NotionTestPageExtension implements BeforeAllCallback, BeforeEachCal
           LOGGER.info(
               "Test session page {} contains a database {}. Setting this database as home for"
                   + " tests of current test session",
-              testSessionHomeId,
+                  testSessionPage.getId(),
               databaseBlock.get().getId());
           String dataSourceId = database.getDataSources().get(0).getId();
           // TODO implement lookup of pages in a database or data source with query endpoint
@@ -83,7 +85,7 @@ public class NotionTestPageExtension implements BeforeAllCallback, BeforeEachCal
       }
 
       preAddedPages = retrievePreAddedPages(testHomeBlocks);
-      NotionTestContext.initialize(testSessionHomeId, preAddedPages);
+      NotionTestContext.initialize(testSessionPage.getId(), preAddedPages, testSessionPage.getCreatedBy().getId());
     }
   }
 
@@ -93,7 +95,7 @@ public class NotionTestPageExtension implements BeforeAllCallback, BeforeEachCal
    * @param context {@link ExtensionContext}
    * @return id of the Notion page created
    */
-  private String createRootTestPage(ExtensionContext context) {
+  private Page createRootTestPage(ExtensionContext context) {
     LOGGER.debug("Reading test properties before preparing Notion workspace for running tests");
 
     String testsHomeId = lookupForProp(TESTS_HOME_ID, context, true);
@@ -122,8 +124,7 @@ public class NotionTestPageExtension implements BeforeAllCallback, BeforeEachCal
             page ->
                 page.title(StringUtils.isBlank(pageName) ? "Integration tests session" : pageName)
                     .parent(testsParent)
-                    .template(template))
-        .getId();
+                    .template(template));
   }
 
   /**

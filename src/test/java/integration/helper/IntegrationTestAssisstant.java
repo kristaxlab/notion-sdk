@@ -10,9 +10,7 @@ import java.net.URL;
 public class IntegrationTestAssisstant {
 
   private static IntegrationTestAssisstant INSTANCE;
-  private static Prerequisites prerequisites;
-
-  public static NotionClient getNotion() {
+  private static NotionClient getNotion() {
     return NotionTestClientProvider.internalTestingClient();
   }
 
@@ -25,47 +23,8 @@ public class IntegrationTestAssisstant {
 
   private static synchronized void createInstance() {
     INSTANCE = new IntegrationTestAssisstant();
-
-    BlockList rootPageBlocks = getNotion().blocks().retrieveChildren(getRootPageId());
-    loadPrerequisites(findPrerequisitesPageId(rootPageBlocks));
   }
 
-  private static String findPrerequisitesPageId(BlockList rootPageBlocks) {
-    String pageName = "Integration Test Prerequisites";
-    return rootPageBlocks.getResults().stream()
-        .filter(block -> block.getType().equals("child_page"))
-        .filter(block -> block.asChildPage().getChildPage().getTitle().equals(pageName))
-        .findFirst()
-        .orElseThrow(
-            () -> new IllegalStateException("Prerequisites page '" + pageName + "' is not found"))
-        .getId();
-  }
-
-  private static String getRootPageId() {
-    String envValue = System.getenv("IT_NOTION_ROOT_PAGE_ID");
-    return envValue != null ? envValue : "2f4cd6cf14068001ac57e261d1c18fda";
-  }
-
-  private static String findTestSessionsDatabase(BlockList rootPageBlocks) {
-    String databaseName = "Integration Test Sessions";
-    return rootPageBlocks.getResults().stream()
-        .filter(block -> block.getType().equals("child_database"))
-        .filter(block -> block.asChildDatabase().getChildDatabase().getTitle().equals(databaseName))
-        .findFirst()
-        .orElseThrow(
-            () ->
-                new IllegalStateException(
-                    "Test sessions database page '" + databaseName + "' is not found"))
-        .getId();
-  }
-
-  private static void loadPrerequisites(String pageId) {
-    prerequisites = PrerequisitesLoader.load(getNotion(), pageId);
-  }
-
-  public static Prerequisites getPrerequisites() {
-    return getInstance().prerequisites;
-  }
 
   public static File loadFileFailIfMissing(String filePath, ClassLoader classLoader) {
     URL url = classLoader.getResource(filePath);

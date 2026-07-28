@@ -1,5 +1,6 @@
 package io.kristaxlab.notion.model.page.property;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,7 +10,9 @@ public class PlaceProperty extends PageProperty {
 
   private final String type = PropertyType.PLACE.type();
 
-  private Place place = new Place();
+  // Always included is needed to support clearing a property value
+  @JsonInclude(JsonInclude.Include.ALWAYS)
+  private Place place;
 
   @Getter
   @Setter

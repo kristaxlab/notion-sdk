@@ -13,20 +13,14 @@ import io.kristaxlab.notion.model.block.*;
 import io.kristaxlab.notion.model.common.*;
 import io.kristaxlab.notion.model.common.richtext.RichText;
 import java.util.List;
+
+import io.kristaxlab.notion.model.database.CreateDatabaseParams;
 import org.junit.jupiter.api.*;
 
 public class BlocksIT extends BaseIntegrationTest {
 
   @NotionTestPage private String blockTestsPageId;
   private String currTestPageId;
-
-  @BeforeEach
-  public void beforeEachTest(TestInfo info) {
-    super.beforeEach(info);
-    currTestPageId =
-        IntegrationTestAssisstant.createPageForTests(
-            info.getDisplayName(), Parent.pageParent(blockTestsPageId));
-  }
 
   @Test
   @DisplayName("[IT-22]: Blocks - Creation / update / retrieval for a paragraph block")
@@ -206,10 +200,15 @@ public class BlocksIT extends BaseIntegrationTest {
     assertEquals(insertedBlockId, allBlocks.getResults().get(1).getId());
   }
 
+  private static final String FILE_NAME = "image.jpg";
+  private static final String FILE_PATH = "files/it-23/image.jpg";
+
   @Test
   @DisplayName("[IT-23]: Blocks & File Uploads - Insert an uploaded file as an image")
   public void insertUploadedFileAsImage() {
-    String fileUploadId = IntegrationTestAssisstant.getPrerequisites().getImageFileUploadId();
+    // TODO move it to prerequisites
+    String fileUploadId = uploadFile(FILE_NAME, FILE_PATH);
+
     ImageBlock imageBlock =
         NotionBlocks.image(
             i -> i.fileUpload(fileUploadId).caption("[IT-23]: An image from uploaded file"));
@@ -323,6 +322,14 @@ public class BlocksIT extends BaseIntegrationTest {
   @Test
   @DisplayName("[IT-59]: Blocks - Append links and media block types")
   public void testAppendLinksAndMediaBlocks() {
+    // TODO move it to prerequisites
+    String dbId = getNotionClient().databases().create(
+            CreateDatabaseParams.builder()
+                    .inPage(currTestPageId)
+                    .title("Test datapbase for links and media blocks")
+                    .properties(p -> p.title("Name"))
+                    .build()).getId();
+
     List<Block> linksAndMedia =
         blocksBuilder()
             .bookmark("https://www.notion.so")
@@ -334,7 +341,7 @@ public class BlocksIT extends BaseIntegrationTest {
                 "https://www.notion.com/_next/image?url=%2Ffront-static%2Fagents%2Fglobe.png&w=96&q=75")
             .embed("https://www.youtube.com/watch?v=dQw4w9WgXcQ")
             .linkToPage(currTestPageId)
-            .linkToDatabase(IntegrationTestAssisstant.getPrerequisites().getTestDatabaseId())
+            .linkToDatabase(dbId)
             .build();
 
     BlockList result = getNotionClient().blocks().appendChildren(currTestPageId, linksAndMedia);

@@ -131,7 +131,7 @@ public class FileUploadIT extends BaseIntegrationTest {
     // Step 1 - Create File Upload
     FileUploadCreateParams request =
         FileUploadCreateParams.external(
-            "int-19-image.jpg", IntegrationTestAssisstant.getPrerequisites().getExternalImageUrl());
+            "spring.svg", "https://docs.spring.io/spring-ai/reference/_/img/spring-logo.svg");
     FileUpload createRs = getNotionClient().fileUploads().create(request);
 
     // Step 2 - Retrieve File Upload

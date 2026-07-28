@@ -10,10 +10,12 @@ public class NotionTestContext implements ExtensionContext.Store.CloseableResour
   private static final AtomicReference<NotionTestContext> INSTANCE = new AtomicReference<>();
 
   private final String rootTestPageId;
+  private final String testBotUserId;
   private final Map<String, String> preAddedPages;
 
-  public NotionTestContext(String rootTestPageId, Map<String, String> preAddedPages) {
+  public NotionTestContext(String rootTestPageId, Map<String, String> preAddedPages, String testBotUserId) {
     this.rootTestPageId = rootTestPageId;
+    this.testBotUserId = testBotUserId;
     if (preAddedPages != null) {
       this.preAddedPages = Map.copyOf(preAddedPages);
     } else {
@@ -21,8 +23,8 @@ public class NotionTestContext implements ExtensionContext.Store.CloseableResour
     }
   }
 
-  public static void initialize(String pageId, Map<String, String> preAddedPages) {
-    if (!INSTANCE.compareAndSet(null, new NotionTestContext(pageId, preAddedPages))) {
+  public static void initialize(String pageId, Map<String, String> preAddedPages, String testBotUserId) {
+    if (!INSTANCE.compareAndSet(null, new NotionTestContext(pageId, preAddedPages, testBotUserId))) {
       throw new IllegalStateException("Notion context was already initialized!");
     }
   }
@@ -41,6 +43,10 @@ public class NotionTestContext implements ExtensionContext.Store.CloseableResour
 
   public Map<String, String> getPrefilledPages() {
     return preAddedPages;
+  }
+
+  public String getTestBotUserId() {
+    return testBotUserId;
   }
 
   @Override

@@ -66,6 +66,16 @@ public final class NotionPageViewer {
     return new NotionPageViewer(page);
   }
 
+  public static NotionPageViewer of(Map<String, PageProperty> properties) {
+    // TODO create a separate viewer for properties (and standalone and as delegate here)
+    if (properties == null) {
+      throw new IllegalArgumentException("properties cannot be null");
+    }
+    Page page = new Page();
+    page.setProperties(properties);
+    return new NotionPageViewer(page);
+  }
+
   // ────────────────────────────────────────────────────────────────────────
   // Underlying page
   // ────────────────────────────────────────────────────────────────────────

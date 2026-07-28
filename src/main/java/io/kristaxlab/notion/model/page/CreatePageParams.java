@@ -125,6 +125,11 @@ public class CreatePageParams {
       return this;
     }
 
+    public Builder properties(Map<String, PageProperty> properties) {
+      this.properties.putAll(properties);
+      return this;
+    }
+
     /**
      * Sets multiple properties with the {@link NotionPropertiesBuilder} DSL.
      *
@@ -140,7 +145,7 @@ public class CreatePageParams {
      * @return this builder
      */
     public Builder properties(Consumer<NotionPropertiesBuilder> consumer) {
-      NotionPropertiesBuilder propertiesBuilder = NotionProperties.propertiesBuilder();
+      NotionPropertiesBuilder propertiesBuilder = NotionProperties.builder();
       consumer.accept(propertiesBuilder);
       this.properties.putAll(propertiesBuilder.build());
       return this;

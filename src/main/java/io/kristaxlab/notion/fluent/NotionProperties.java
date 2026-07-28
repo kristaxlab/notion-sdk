@@ -1,13 +1,11 @@
 package io.kristaxlab.notion.fluent;
 
-import static io.kristaxlab.notion.fluent.NotionText.plainText;
-import static io.kristaxlab.notion.fluent.NotionText.textBuilder;
-
 import io.kristaxlab.notion.model.common.DateData;
 import io.kristaxlab.notion.model.common.FileData;
 import io.kristaxlab.notion.model.common.richtext.RichText;
 import io.kristaxlab.notion.model.page.property.*;
 import io.kristaxlab.notion.model.user.User;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -15,6 +13,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
+
+import static io.kristaxlab.notion.fluent.NotionText.plainText;
+import static io.kristaxlab.notion.fluent.NotionText.textBuilder;
 
 /**
  * Static factory helpers for constructing common Notion page property values.
@@ -56,7 +57,7 @@ public class NotionProperties {
    *
    * @return new properties builder
    */
-  public static NotionPropertiesBuilder propertiesBuilder() {
+  public static NotionPropertiesBuilder builder() {
     return new NotionPropertiesBuilder();
   }
 
@@ -298,7 +299,7 @@ public class NotionProperties {
    * Creates a date-range property from two {@link LocalDate}s.
    *
    * @param start range start
-   * @param end range end
+   * @param end   range end
    * @return date property
    */
   public static DateProperty dateRange(LocalDate start, LocalDate end) {
@@ -309,21 +310,21 @@ public class NotionProperties {
    * Creates a date-range property from two {@link LocalDateTime}s.
    *
    * @param start range start
-   * @param end range end
+   * @param end   range end
    * @return date property
    */
   public static DateProperty dateRange(LocalDateTime start, LocalDateTime end) {
     return dateRange(
-        start.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME),
-        end.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME),
-        null);
+            start.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME),
+            end.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME),
+            null);
   }
 
   /**
    * Creates a date-range property from two ISO 8601 strings.
    *
    * @param start ISO 8601 start
-   * @param end ISO 8601 end
+   * @param end   ISO 8601 end
    * @return date property
    */
   public static DateProperty dateRange(String start, String end) {
@@ -333,8 +334,8 @@ public class NotionProperties {
   /**
    * Creates a date-range property from two ISO 8601 strings and a time zone.
    *
-   * @param start ISO 8601 start
-   * @param end ISO 8601 end
+   * @param start    ISO 8601 start
+   * @param end      ISO 8601 end
    * @param timeZone IANA time zone (e.g. {@code "America/New_York"})
    * @return date property
    */
@@ -553,27 +554,27 @@ public class NotionProperties {
    */
   public static PlaceProperty place(double lat, double lon) {
     return place(
-        p -> {
-          p.setLat(lat);
-          p.setLon(lon);
-        });
+            p -> {
+              p.setLat(lat);
+              p.setLon(lon);
+            });
   }
 
   /**
    * Creates a place property with latitude, longitude and a display name.
    *
-   * @param lat latitude
-   * @param lon longitude
+   * @param lat  latitude
+   * @param lon  longitude
    * @param name display name
    * @return place property
    */
   public static PlaceProperty place(double lat, double lon, String name) {
     return place(
-        p -> {
-          p.setLat(lat);
-          p.setLon(lon);
-          p.setName(name);
-        });
+            p -> {
+              p.setLat(lat);
+              p.setLon(lon);
+              p.setName(name);
+            });
   }
 
   /**
@@ -584,7 +585,14 @@ public class NotionProperties {
    */
   public static PlaceProperty place(Consumer<PlaceProperty.Place> consumer) {
     PlaceProperty property = new PlaceProperty();
+    property.setPlace(new PlaceProperty.Place());
     consumer.accept(property.getPlace());
+    return property;
+  }
+
+  public static PlaceProperty place(PlaceProperty.Place place) {
+    PlaceProperty property = new PlaceProperty();
+    property.setPlace(place);
     return property;
   }
 }

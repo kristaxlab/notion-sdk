@@ -30,7 +30,7 @@ class NotionPageViewerTest {
     @Test
     @DisplayName("of null page throws illegal argument")
     void ofNullPage_throwsIllegalArgumentException() {
-      assertThrows(IllegalArgumentException.class, () -> NotionPageViewer.of(null));
+      assertThrows(IllegalArgumentException.class, () -> NotionPageViewer.of((Page) null));
     }
 
     @Test
