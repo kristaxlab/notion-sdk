@@ -1,57 +1,10 @@
-package integration.helper;
+package io.kristaxlab.notion.config;
 
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import org.apache.logging.log4j.util.Strings;
-import org.junit.jupiter.api.extension.ExtensionContext;
-import org.junit.platform.engine.ConfigurationParameters;
 
-public class ConfigurationLookupHelper {
-
-  public static Optional<Boolean> lookupBoolean(String key, ConfigurationParameters params) {
-    String value = lookup(key, params).orElse(null);
-    return Strings.isBlank(value) ? Optional.empty() : Optional.of(Boolean.parseBoolean(value));
-  }
-
-  public static Optional<String> lookup(String key, ConfigurationParameters params) {
-    Optional<String> value = lookup(key);
-    if (value.isPresent() && !Strings.isBlank(value.get())) {
-      return value;
-    }
-
-    List<String> keyModifications = getKeyModifications(key);
-    for (String modifiedKey : keyModifications) {
-      value = params.get(modifiedKey);
-      if (value.isPresent() && !Strings.isBlank(value.get())) {
-        return value;
-      }
-    }
-
-    return Optional.empty();
-  }
-
-  public static Optional<Boolean> lookupBoolean(String key, ExtensionContext testExtensionContext) {
-    String value = lookup(key, testExtensionContext).orElse(null);
-    return Strings.isBlank(value) ? Optional.empty() : Optional.of(Boolean.parseBoolean(value));
-  }
-
-  public static Optional<String> lookup(String key, ExtensionContext testExtensionContext) {
-    Optional<String> value = lookup(key);
-    if (value.isPresent() && !Strings.isBlank(value.get())) {
-      return value;
-    }
-
-    List<String> keyModifications = getKeyModifications(key);
-    for (String modifiedKey : keyModifications) {
-      value = testExtensionContext.getConfigurationParameter(modifiedKey);
-      if (value.isPresent() && !Strings.isBlank(value.get())) {
-        return value;
-      }
-    }
-
-    return Optional.empty();
-  }
+public class ConfigurationLookup {
 
   public static boolean lookupBoolean(String key, boolean defaultValue) {
     return lookupBoolean(key).orElse(defaultValue);
@@ -59,7 +12,7 @@ public class ConfigurationLookupHelper {
 
   public static Optional<Boolean> lookupBoolean(String key) {
     String value = lookup(key).orElse(null);
-    return Strings.isBlank(value) ? Optional.empty() : Optional.of(Boolean.parseBoolean(value));
+    return (value == null || value.trim().isEmpty()) ? Optional.empty() : Optional.of(Boolean.parseBoolean(value));
   }
 
   public static String lookup(String key, String defaultValue) {
@@ -72,14 +25,14 @@ public class ConfigurationLookupHelper {
     List<String> keyModifications = getKeyModifications(key);
     for (String modifiedKey : keyModifications) {
       String value = System.getenv(modifiedKey);
-      if (!Strings.isBlank(value)) {
+      if (value != null && !value.trim().isEmpty()) {
         return Optional.of(value);
       }
     }
 
     for (String modifiedKey : keyModifications) {
       String value = System.getProperty(modifiedKey);
-      if (!Strings.isBlank(value)) {
+      if (value != null && !value.trim().isEmpty()) {
         return Optional.of(value);
       }
     }

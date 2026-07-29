@@ -5,7 +5,6 @@ import static io.kristaxlab.notion.fluent.NotionText.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import integration.extension.NotionTestPage;
 import io.kristaxlab.notion.fluent.NotionBlocks;
 import io.kristaxlab.notion.http.error.ValidationException;
 import io.kristaxlab.notion.model.block.*;
@@ -17,8 +16,7 @@ import org.junit.jupiter.api.*;
 
 public class BlocksIT extends BaseIntegrationTest {
 
-  @NotionTestPage private String blockTestsPageId;
-  private String currTestPageId;
+  private String currTestPageId = getTestPageId();
 
   @Test
   @DisplayName("[IT-22]: Blocks - Creation / update / retrieval for a paragraph block")
@@ -75,7 +73,7 @@ public class BlocksIT extends BaseIntegrationTest {
     String blockId = createdBlock.getId();
 
     // Step 2: Delete the block
-    Block deletedBlock = getNotionClient().blocks().delete(blockId);
+    Block deletedBlock = getNotionClient().blocks().moveToTrash(blockId);
     assertNotNull(deletedBlock);
     assertEquals(blockId, deletedBlock.getId());
 

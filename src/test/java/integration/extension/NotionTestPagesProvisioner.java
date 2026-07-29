@@ -1,7 +1,7 @@
 package integration.extension;
 
-import integration.helper.ConfigurationLookupHelper;
 import integration.helper.NotionTestClientProvider;
+import integration.helper.TestAwareConfigurationLookup;
 import io.kristaxlab.notion.NotionClient;
 import io.kristaxlab.notion.fluent.NotionBlocksViewer;
 import io.kristaxlab.notion.model.block.Block;
@@ -11,24 +11,23 @@ import io.kristaxlab.notion.model.block.ChildPageBlock;
 import io.kristaxlab.notion.model.common.Parent;
 import io.kristaxlab.notion.model.common.ParentType;
 import io.kristaxlab.notion.model.database.Database;
+import io.kristaxlab.notion.model.page.CreatePageParams;
 import io.kristaxlab.notion.model.page.Page;
 import io.kristaxlab.notion.model.page.templates.TemplateParams;
-import java.lang.reflect.Field;
+import org.apache.logging.log4j.util.Strings;
+import org.jspecify.annotations.NonNull;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.extension.*;
+import org.junit.platform.commons.util.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import org.apache.logging.log4j.util.Strings;
-import org.jspecify.annotations.NonNull;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.extension.BeforeAllCallback;
-import org.junit.jupiter.api.extension.BeforeEachCallback;
-import org.junit.jupiter.api.extension.ExtensionContext;
-import org.junit.platform.commons.util.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Creates a dedicated Notion page for the ongoing test session {@link #beforeAll}.
@@ -43,15 +42,16 @@ import org.slf4j.LoggerFactory;
  * <p>Required configuration parameter: {@link TESTS_HOME_ID} - may be set via environment variable,
  * system or junit property
  */
-public class NotionTestPageExtension implements BeforeAllCallback, BeforeEachCallback {
+public class NotionTestPagesProvisioner implements BeforeAllCallback, AfterEachCallback, ParameterResolver {
 
   private static AtomicBoolean rootTestPageCreated = new AtomicBoolean(false);
   private static NotionClient notionClient;
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(NotionTestPageExtension.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(NotionTestPagesProvisioner.class);
   private static final String TESTS_HOME_ID = "notion.tests.home.id";
   private static final String TEMPLATE_ID = "notion.tests.template.id";
   private static final String PAGE_NAME = "notion.tests.page.name";
+  private static final String PAGE_BASE_URL = "notion.tests.page.base.url";
   private static final String PAGE_CLEANUP = "notion.tests.page.cleanup.enabled";
 
   static {
@@ -70,16 +70,16 @@ public class NotionTestPageExtension implements BeforeAllCallback, BeforeEachCal
       Map<String, String> preAddedPages = null;
       BlockList testHomeBlocks = notionClient.blocks().retrieveChildren(testSessionPage.getId());
       Optional<Block> databaseBlock =
-          NotionBlocksViewer.of(testHomeBlocks)
-              .first(b -> BlockType.CHILD_DATABASE.getValue().equals(b.getType()));
+              NotionBlocksViewer.of(testHomeBlocks)
+                      .first(b -> BlockType.CHILD_DATABASE.getValue().equals(b.getType()));
       if (databaseBlock.isPresent()) {
         Database database = notionClient.databases().retrieve(databaseBlock.get().getId());
         if (database.getDataSources() != null && !database.getDataSources().isEmpty()) {
           LOGGER.info(
-              "Test session page {} contains a database {}. Setting this database as home for"
-                  + " tests of current test session",
-              testSessionPage.getId(),
-              databaseBlock.get().getId());
+                  "Test session page {} contains a database {}. Setting this database as home for"
+                          + " tests of current test session",
+                  testSessionPage.getId(),
+                  databaseBlock.get().getId());
           String dataSourceId = database.getDataSources().get(0).getId();
           // TODO implement lookup of pages in a database or data source with query endpoint
         }
@@ -87,7 +87,7 @@ public class NotionTestPageExtension implements BeforeAllCallback, BeforeEachCal
 
       preAddedPages = retrievePreAddedPages(testHomeBlocks);
       NotionTestContext.initialize(
-          testSessionPage.getId(), preAddedPages, testSessionPage.getCreatedBy().getId());
+              testSessionPage.getId(), preAddedPages, testSessionPage.getCreatedBy().getId());
     }
   }
 
@@ -105,10 +105,10 @@ public class NotionTestPageExtension implements BeforeAllCallback, BeforeEachCal
     String pageName = lookupForProp(PAGE_NAME, context, false);
 
     LOGGER.info(
-        "Creating Notion page for tests in {}, template={}, name={}",
-        testsHomeId,
-        templateId,
-        pageName);
+            "Creating Notion page for tests in {}, template={}, name={}",
+            testsHomeId,
+            templateId,
+            pageName);
 
     // TODO implement dynamic choice between database / datasource and page - retrieve with Notion
     // search and then
@@ -116,17 +116,17 @@ public class NotionTestPageExtension implements BeforeAllCallback, BeforeEachCal
     Parent testsParent = Parent.of(testsHomeId, ParentType.DATABASE);
 
     TemplateParams template =
-        (templateId == null || "default".equals(templateId))
-            ? TemplateParams.defaultTemplate()
-            : TemplateParams.templateId(templateId);
+            (templateId == null || "default".equals(templateId))
+                    ? TemplateParams.defaultTemplate()
+                    : TemplateParams.templateId(templateId);
 
     return notionClient
-        .pages()
-        .create(
-            page ->
-                page.title(StringUtils.isBlank(pageName) ? "Integration tests session" : pageName)
-                    .parent(testsParent)
-                    .template(template));
+            .pages()
+            .create(
+                    page ->
+                            page.title(StringUtils.isBlank(pageName) ? "Integration tests session" : pageName)
+                                    .parent(testsParent)
+                                    .template(template));
   }
 
   /**
@@ -142,33 +142,33 @@ public class NotionTestPageExtension implements BeforeAllCallback, BeforeEachCal
     Map<String, String> preAddedPages = new HashMap<>();
 
     blocks.getResults().stream()
-        .filter(b -> BlockType.CHILD_PAGE.getValue().equals(b.getType()))
-        .forEach(
-            // preadded pages should be named according to corresponding tests (ex. IT-123)
-            b -> {
-              String testId =
-                  Optional.ofNullable(b.asChildPage())
-                      .map(ChildPageBlock::getChildPage)
-                      .map(ChildPageBlock.ChildPage::getTitle)
-                      .orElse("")
-                      .trim();
-              if (Strings.isNotBlank(testId)) {
-                preAddedPages.put(testId, b.getId());
-              }
-            });
+            .filter(b -> BlockType.CHILD_PAGE.getValue().equals(b.getType()))
+            .forEach(
+                    // preadded pages should be named according to corresponding tests (ex. IT-123)
+                    b -> {
+                      String testId =
+                              Optional.ofNullable(b.asChildPage())
+                                      .map(ChildPageBlock::getChildPage)
+                                      .map(ChildPageBlock.ChildPage::getTitle)
+                                      .orElse("")
+                                      .trim();
+                      if (Strings.isNotBlank(testId)) {
+                        preAddedPages.put(testId, b.getId());
+                      }
+                    });
     return preAddedPages;
   }
 
   /**
    * Looks up for property value (in environment, system and junit properties)
    *
-   * @param key property key
-   * @param context {@link ExtensionContext}
+   * @param key      property key
+   * @param context  {@link ExtensionContext}
    * @param required if set to true an exception will be thrown if no property is found
    * @return property value or null
    */
   private @NonNull String lookupForProp(String key, ExtensionContext context, boolean required) {
-    Optional<String> value = ConfigurationLookupHelper.lookup(key, context);
+    Optional<String> value = TestAwareConfigurationLookup.lookup(key, context);
     LOGGER.debug("{}: {}", key, value.orElse(null));
 
     if (required && value.isEmpty()) {
@@ -178,7 +178,31 @@ public class NotionTestPageExtension implements BeforeAllCallback, BeforeEachCal
   }
 
   @Override
-  public void beforeEach(ExtensionContext context) throws Exception {
+  public void afterEach(ExtensionContext context) throws Exception {
+    String currentTestPageId = NotionTestContext.getInstance().getCurrentTestPageId();
+    if (currentTestPageId == null) {
+      return;
+    }
+
+    String testPageUrl = toNotionPageUrl(context, currentTestPageId);
+    LOGGER.info("Completed {}. Notion test page: {}", context.getDisplayName(), testPageUrl);
+    NotionTestContext.getInstance().clearCurrentTestPageId();
+  }
+
+
+  public static String toNotionPageUrl(ExtensionContext context, String pageId) {
+    String baseUrl = context.getConfigurationParameter(PAGE_BASE_URL).orElse("https://www.notion.so/");
+    return baseUrl + pageId.replace("-", "");
+  }
+
+
+  @Override
+  public boolean supportsParameter(ParameterContext parameterContext, ExtensionContext extensionContext) throws ParameterResolutionException {
+    return parameterContext.isAnnotated(NotionTestPage.class) && parameterContext.getParameter().getType() == String.class;
+  }
+
+  @Override
+  public Object resolveParameter(ParameterContext parameterContext, ExtensionContext context) throws ParameterResolutionException {
     // TODO thread safety - reading here should be guaranteed to happen AFTER
     //  the previous block is fully executed at least once (blocking read operation to get test id
     // and templates map?)
@@ -186,50 +210,35 @@ public class NotionTestPageExtension implements BeforeAllCallback, BeforeEachCal
     String testSessionPageId = NotionTestContext.getInstance().getRootTestPageId();
     Assertions.assertNotNull(testSessionPageId, "Test session page ID should not be null");
 
-    String testClassPageId = createTestPage(context, testSessionPageId);
-
-    for (Field field : context.getRequiredTestClass().getDeclaredFields()) {
-      if (field.isAnnotationPresent(NotionTestPage.class)) {
-        Assertions.assertEquals(
-            String.class,
-            field.getType(),
-            "Field annotated with @NotionTestPage must be of type String");
-        field.setAccessible(true);
-        field.set(context.getRequiredTestInstance(), testClassPageId);
-      }
+    String testId = getTestId(context);
+    String testPageId = NotionTestContext.getInstance().getPrefilledPages().get(testId);
+    if (testPageId == null) {
+      testPageId = createTestPage(testSessionPageId, context.getDisplayName());
     }
+    NotionTestContext.getInstance().setCurrentTestPageId(testPageId);
+    return testPageId;
   }
 
-  private String createTestPage(ExtensionContext context, String testSessionPageId) {
-    String testId = getTestId(context);
-
-    String testClassPageId =
-        notionClient
+  private String createTestPage(String testSessionPageId, String title) {
+    String testClassPageId = notionClient
             .pages()
-            .create(
-                page ->
-                    page.inPage(testSessionPageId).title(testId + ": " + getTestPageName(context)))
+            .create(CreatePageParams.builder()
+                    .inPage(testSessionPageId)
+                    .title(title)
+                    .build())
             .getId();
 
     return testClassPageId;
   }
 
   private String getTestId(ExtensionContext context) {
-    if (Strings.isBlank(context.getDisplayName())) {
-      return context.getRequiredTestClass().getSimpleName();
-    }
-
     Pattern pattern = Pattern.compile("(?i)\\bIT-\\d+\\b");
     Matcher matcher = pattern.matcher(context.getDisplayName());
     if (matcher.find()) {
       return matcher.group(0).toUpperCase();
     }
-    return context.getRequiredTestClass().getSimpleName();
+    throw new NotionFixtureException("Notion Test Id was not found. Mark test method with " +
+            "@DisplayName(\"IT-XXX: ...\") annotation to specify a test id for the test");
   }
 
-  private String getTestPageName(ExtensionContext context) {
-    return context.getRequiredTestClass().getSimpleName()
-        + "."
-        + context.getRequiredTestMethod().getName();
-  }
 }

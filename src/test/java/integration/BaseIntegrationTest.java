@@ -1,21 +1,22 @@
 package integration;
 
 import integration.extension.NotionTestPage;
-import integration.extension.NotionTestPageExtension;
+import integration.extension.NotionTestPagesProvisioner;
 import integration.helper.NotionTestClientProvider;
 import io.kristaxlab.notion.NotionClient;
 import io.kristaxlab.notion.model.file.FileUpload;
 import io.kristaxlab.notion.model.file.FileUploadCreateParams;
 import io.kristaxlab.notion.model.file.FileUploadSendParams;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.TestInfo;
+import org.junit.jupiter.api.extension.ExtendWith;
+
 import java.io.File;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Tag;
-import org.junit.jupiter.api.TestInfo;
-import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
  * Provides common setup for integration tests that use a {@link NotionClient}.
@@ -28,10 +29,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
  * {@code @BeforeAll} runs and a convenience link is logged after every test method.
  */
 @Tag("integration")
-@ExtendWith({NotionTestPageExtension.class, NotionTstPageLogExtension.class})
+@ExtendWith({NotionTestPagesProvisioner.class})
 public abstract class BaseIntegrationTest {
 
-  @NotionTestPage private static String testPageId;
+  private String testPageId;
 
   private NotionClient notionClient;
 
@@ -41,7 +42,8 @@ public abstract class BaseIntegrationTest {
    * @param testInfo metadata for the currently executing test, used to derive log directory names
    */
   @BeforeEach
-  protected void beforeEach(TestInfo testInfo) {
+  protected void beforeEach(TestInfo testInfo, @NotionTestPage String testPageId) {
+    setTestPageId(testPageId);
     String testClass = testInfo.getTestClass().map(Class::getSimpleName).orElse("unknownClass");
 
     String testMethod = sanitize(testInfo.getDisplayName());
@@ -67,9 +69,9 @@ public abstract class BaseIntegrationTest {
   private static String sanitize(String name) {
     if (name == null) return "";
     return name.replaceAll("[/\\\\:*?\"<>|()\\[\\]]", "_")
-        .replaceAll("[\\s.]+", "_")
-        .replaceAll("_+", "_")
-        .replaceAll("^_|_$", "");
+            .replaceAll("[\\s.]+", "_")
+            .replaceAll("_+", "_")
+            .replaceAll("^_|_$", "");
   }
 
   /**
@@ -90,21 +92,25 @@ public abstract class BaseIntegrationTest {
     URL url = BaseIntegrationTest.class.getClassLoader().getResource(filePath);
     if (url == null) {
       throw new IllegalStateException(
-          String.format("File %s should exist to proceed with the test", filePath));
+              String.format("File %s should exist to proceed with the test", filePath));
     }
 
     File file = new File(url.getFile());
     FileUpload fu =
-        getSetupClient().fileUploads().create(FileUploadCreateParams.singlePart(fileName));
+            getSetupClient().fileUploads().create(FileUploadCreateParams.singlePart(fileName));
     getSetupClient()
-        .fileUploads()
-        .upload(
-            fu.getId(),
-            FileUploadSendParams.builder().file(file).contentType(fu.getContentType()).build());
+            .fileUploads()
+            .upload(
+                    fu.getId(),
+                    FileUploadSendParams.builder().file(file).contentType(fu.getContentType()).build());
     return fu.getId();
   }
 
   protected String getTestPageId() {
     return testPageId;
+  }
+
+  protected void setTestPageId(String testPageId) {
+    this.testPageId = testPageId;
   }
 }

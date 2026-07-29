@@ -51,7 +51,41 @@ public interface DataSourcesEndpoint {
   DataSourcePageList query(
       String dataSourceId, DataSourceQuery request, String startCursor, Integer pageSize);
 
+  /**
+   * Lists templates available for a data source using Notion defaults (no name filter /
+   * pagination).
+   *
+   * @param dataSourceId data source identifier
+   * @return paginated template list
+   */
   Templates retrieveTemplates(String dataSourceId);
+
+  /**
+   * Lists templates with optional pagination.
+   *
+   * @param dataSourceId data source identifier
+   * @param startCursor cursor for the next page; {@code null} starts from the first page
+   * @param pageSize number of results to request per page (1–100); {@code null} uses Notion default
+   * @return paginated template list
+   */
+  Templates retrieveTemplates(String dataSourceId, String startCursor, Integer pageSize);
+
+  /**
+   * Lists templates with optional name filter and pagination.
+   *
+   * <p>The {@code name} query parameter performs a case-insensitive substring match against
+   * template names.
+   *
+   * @param dataSourceId data source identifier
+   * @param name substring filter for template names; {@code null} or blank omits the filter
+   * @param startCursor cursor for the next page; {@code null} starts from the first page
+   * @param pageSize number of results to request per page (1–100); {@code null} uses Notion default
+   * @return paginated template list
+   * @see <a href="https://developers.notion.com/reference/list-data-source-templates">List data
+   *     source templates</a>
+   */
+  Templates retrieveTemplates(
+      String dataSourceId, String name, String startCursor, Integer pageSize);
 
   DataSource moveToTrash(String dataSourceId);
 

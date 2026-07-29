@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import integration.BaseIntegrationTest;
-import integration.NotionTstPageLogExtension;
 import integration.extension.NotionTestPage;
 import io.kristaxlab.notion.fluent.NotionSchema;
 import io.kristaxlab.notion.model.database.CreateDatabaseParams;
@@ -14,36 +13,30 @@ import io.kristaxlab.notion.model.datasource.properties.DataSourcePropertySchema
 import io.kristaxlab.notion.model.datasource.properties.NumberFormatType;
 import io.kristaxlab.notion.model.datasource.properties.RollupFunctionType;
 import java.util.Map;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+
+import org.junit.jupiter.api.*;
 
 public class DataSources_IT3_CreateSchema extends BaseIntegrationTest {
 
   private static final String TITLE_PROP_NAME = "Name";
 
-  @NotionTestPage private static String testPageId;
-
   private static String parentDatabaseId;
   private static String initialDataSourceId;
 
-  @BeforeAll
-  public static void setup() {
-    NotionTstPageLogExtension.register(DataSources_IT3_CreateSchema.class, testPageId);
-
+  @BeforeEach
+  public void setup() {
     Database db = createDatabase();
     parentDatabaseId = db.getId();
     initialDataSourceId = db.getDataSources().get(0).getId();
   }
 
-  private static Database createDatabase() {
+  private Database createDatabase() {
     Database db =
         getSetupClient()
             .databases()
             .create(
                 CreateDatabaseParams.builder()
-                    .inPage(testPageId)
+                    .inPage(getTestPageId())
                     .title("Test Database")
                     .properties(p -> p.title(TITLE_PROP_NAME))
                     .build());

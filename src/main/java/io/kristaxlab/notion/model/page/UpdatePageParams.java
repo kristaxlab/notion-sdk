@@ -6,7 +6,9 @@ import io.kristaxlab.notion.model.common.Cover;
 import io.kristaxlab.notion.model.common.Icon;
 import io.kristaxlab.notion.model.page.property.PageProperty;
 import io.kristaxlab.notion.model.page.templates.TemplateParams;
-import java.util.*;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.UUID;
 import java.util.function.Consumer;
 import lombok.Getter;
 import lombok.Setter;
@@ -45,6 +47,8 @@ public class UpdatePageParams {
     private Cover cover;
     private Boolean inTrash;
     private Boolean isLocked;
+    private TemplateParams template;
+    private Boolean eraseContent;
 
     /** Sets the title property. */
     public Builder title(String text) {
@@ -67,6 +71,11 @@ public class UpdatePageParams {
       return this;
     }
 
+    public Builder properties(Map<String, PageProperty> properties) {
+      this.properties.putAll(properties);
+      return this;
+    }
+
     /**
      * Updates multiple properties with the {@link NotionPropertiesBuilder} DSL.
      *
@@ -81,7 +90,7 @@ public class UpdatePageParams {
      * @return this builder
      */
     public Builder properties(Consumer<NotionPropertiesBuilder> consumer) {
-      NotionPropertiesBuilder propertiesBuilder = NotionProperties.propertiesBuilder();
+      NotionPropertiesBuilder propertiesBuilder = NotionProperties.builder();
       consumer.accept(propertiesBuilder);
       this.properties.putAll(propertiesBuilder.build());
       return this;
@@ -105,9 +114,57 @@ public class UpdatePageParams {
       return this;
     }
 
+    /** Sets the page icon using an emoji. */
+    public Builder icon(String emoji) {
+      this.icon = new Icon();
+      this.icon.setEmoji(emoji);
+      return this;
+    }
+
     /** Sets the page cover. */
     public Builder cover(Cover cover) {
       this.cover = cover;
+      return this;
+    }
+
+    /**
+     * Cover image: UUID string is treated as a file upload ID; otherwise as an external image URL.
+     *
+     * @param fileUploadId file upload id or external image URL
+     * @return this builder
+     */
+    public Builder cover(String fileUploadId) {
+      try {
+        UUID.fromString(fileUploadId);
+        this.cover = Cover.fileUpload(fileUploadId);
+      } catch (IllegalArgumentException e) {
+        // If the string is not a valid UUID, treat it as an external URL
+        this.cover = Cover.external(fileUploadId);
+      }
+      return this;
+    }
+
+    /**
+     * Applies a data source template to the page. By default Notion appends the template content;
+     * use {@link #eraseContent(boolean)} to replace existing content instead.
+     *
+     * @param template template descriptor ({@code default} or {@code template_id})
+     * @return this builder
+     */
+    public Builder template(TemplateParams template) {
+      this.template = template;
+      return this;
+    }
+
+    /**
+     * When {@code true}, existing page content is erased before the template is applied (replace
+     * mode). When {@code false} or omitted, template content is appended.
+     *
+     * @param eraseContent whether to erase existing content
+     * @return this builder
+     */
+    public Builder eraseContent(boolean eraseContent) {
+      this.eraseContent = eraseContent;
       return this;
     }
 
@@ -118,6 +175,8 @@ public class UpdatePageParams {
       params.setCover(cover);
       params.setInTrash(inTrash);
       params.setIsLocked(isLocked);
+      params.setTemplate(template);
+      params.setEraseContent(eraseContent);
       return params;
     }
   }

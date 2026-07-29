@@ -3,6 +3,7 @@ package integration.helper;
 import static io.kristaxlab.notion.NotionTestEnvironmentConstants.NOTION_TEST_AUTH_TOKEN;
 
 import io.kristaxlab.notion.NotionClient;
+import io.kristaxlab.notion.config.ConfigurationLookup;
 import io.kristaxlab.notion.http.base.interceptor.ExchangeRecordingInterceptor;
 import io.kristaxlab.notion.http.base.json.TestSerializer;
 import java.nio.file.Path;
@@ -58,19 +59,8 @@ public class NotionTestClientProvider {
    *     blank
    */
   public static NotionClient internalTestingClient(Path exchangeLogDir, String clientName) {
-    String apiKey = System.getenv(NOTION_TEST_AUTH_TOKEN);
-
-    if (apiKey == null) {
-      apiKey = System.getProperty(NOTION_TEST_AUTH_TOKEN);
-    }
-
-    if (apiKey == null) {
-      apiKey = System.getProperty(NOTION_TEST_AUTH_TOKEN.toLowerCase().replace("_", "."));
-    }
-
-    if (apiKey == null || apiKey.isEmpty()) {
-      throw new IllegalStateException(NOTION_TEST_AUTH_TOKEN + " environment variable is not set");
-    }
+    String apiKey = ConfigurationLookup.lookup(NOTION_TEST_AUTH_TOKEN).orElseThrow(
+        () -> new IllegalStateException(NOTION_TEST_AUTH_TOKEN + " environment variable is not set"));
 
     clientName = (clientName == null || clientName.isBlank()) ? "Notion Client" : clientName;
     return NotionClient.builder()

@@ -194,11 +194,39 @@ public class DataSourcesEndpointImpl extends BaseEndpointImpl implements DataSou
    * @return Templates
    */
   public Templates retrieveTemplates(String dataSourceId) {
+    return retrieveTemplates(dataSourceId, null, null, null);
+  }
+
+  /**
+   * Lists templates with optional pagination.
+   *
+   * @param dataSourceId The ID of the data source to retrieve templates for
+   * @param startCursor cursor for the next page; {@code null} starts from the first page
+   * @param pageSize number of results to request per page; {@code null} uses Notion default
+   * @return Templates
+   */
+  public Templates retrieveTemplates(String dataSourceId, String startCursor, Integer pageSize) {
+    return retrieveTemplates(dataSourceId, null, startCursor, pageSize);
+  }
+
+  /**
+   * Lists templates with optional name filter and pagination.
+   *
+   * @param dataSourceId The ID of the data source to retrieve templates for
+   * @param name substring filter for template names; {@code null} or blank omits the filter
+   * @param startCursor cursor for the next page; {@code null} starts from the first page
+   * @param pageSize number of results to request per page; {@code null} uses Notion default
+   * @return Templates
+   */
+  public Templates retrieveTemplates(
+      String dataSourceId, String name, String startCursor, Integer pageSize) {
     checkNotNullOrEmpty(dataSourceId, "dataSourceId");
-    ApiPath urlInfo =
-        ApiPath.builder("/data_sources/{data_source_id}/templates")
-            .pathParam(DATA_SOURCE_ID, dataSourceId)
-            .build();
-    return getClient().call("GET", urlInfo, Templates.class);
+    ApiPath.Builder urlInfo =
+        paginatedPath("/data_sources/{data_source_id}/templates", startCursor, pageSize)
+            .pathParam(DATA_SOURCE_ID, dataSourceId);
+    if (name != null && !name.isBlank()) {
+      urlInfo.queryParam("name", name);
+    }
+    return getClient().call(GET, urlInfo.build(), Templates.class);
   }
 }

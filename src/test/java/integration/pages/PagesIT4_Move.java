@@ -3,7 +3,6 @@ package integration.pages;
 import static org.junit.Assert.*;
 
 import integration.BaseIntegrationTest;
-import integration.NotionTstPageLogExtension;
 import integration.extension.NotionTestPage;
 import io.kristaxlab.notion.http.error.ValidationException;
 import io.kristaxlab.notion.model.block.BlockList;
@@ -16,10 +15,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-@DisplayName("IT-4: Pages - Move page to other parents")
-public class Pages_IT4_Move extends BaseIntegrationTest {
-
-  @NotionTestPage private static String testPageId;
+public class PagesIT4_Move extends BaseIntegrationTest {
 
   private static String databaseId;
   private static String dataSourceId;
@@ -27,42 +23,16 @@ public class Pages_IT4_Move extends BaseIntegrationTest {
 
   @BeforeEach
   public void setup() {
-    NotionTstPageLogExtension.register(Pages_IT4_Move.class, testPageId);
-
-    Database db = createDatabase(testPageId);
+    Database db = createDatabase(getTestPageId());
     databaseId = db.getId();
     dataSourceId = db.getDataSources().get(0).getId();
-    blockId = createBlock(testPageId);
-  }
-
-  private static String createBlock(String parentPageId) {
-    BlockList blockList =
-        getSetupClient().blocks().appendChildren(parentPageId, b -> b.toggle("Toggle block"));
-    if (blockList == null || blockList.getResults().isEmpty()) {
-      throw new IllegalStateException("Failed to create toggle block");
-    }
-    return blockList.getResults().get(0).getId();
-  }
-
-  private static Database createDatabase(String parentPageId) {
-    Database db =
-        getSetupClient()
-            .databases()
-            .create(
-                CreateDatabaseParams.builder()
-                    .inPage(parentPageId)
-                    .title("IT-7 Test Database")
-                    .build());
-    if (db.getDataSources() == null || db.getDataSources().size() != 1) {
-      throw new IllegalStateException("A testing database is supposed to have 1 data source");
-    }
-    return db;
+    blockId = createBlock(getTestPageId());
   }
 
   @Test
   @DisplayName("IT-4: Pages - Move page to other parents")
-  public void testDataSourceSchemaCrudOperations() {
-
+  public void testMove() {
+    String testPageId = getTestPageId();
     // Create an anchor row in the related data source so we can demonstrate the relation properties
     Page page = getNotionClient().pages().create(p -> p.inPage(testPageId));
 
@@ -101,4 +71,30 @@ public class Pages_IT4_Move extends BaseIntegrationTest {
 
   @AfterAll
   public static void tearDown() {}
+
+  // Setup methods
+
+  private static String createBlock(String parentPageId) {
+    BlockList blockList =
+            getSetupClient().blocks().appendChildren(parentPageId, b -> b.toggle("Toggle block"));
+    if (blockList == null || blockList.getResults().isEmpty()) {
+      throw new IllegalStateException("Failed to create toggle block");
+    }
+    return blockList.getResults().get(0).getId();
+  }
+
+  private static Database createDatabase(String parentPageId) {
+    Database db =
+            getSetupClient()
+                    .databases()
+                    .create(
+                            CreateDatabaseParams.builder()
+                                    .inPage(parentPageId)
+                                    .title("IT-7 Test Database")
+                                    .build());
+    if (db.getDataSources() == null || db.getDataSources().size() != 1) {
+      throw new IllegalStateException("A testing database is supposed to have 1 data source");
+    }
+    return db;
+  }
 }

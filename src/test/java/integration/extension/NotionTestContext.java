@@ -12,6 +12,7 @@ public class NotionTestContext implements ExtensionContext.Store.CloseableResour
   private final String rootTestPageId;
   private final String testBotUserId;
   private final Map<String, String> preAddedPages;
+  private final ThreadLocal<String> currentTestPageId = new ThreadLocal<>();
 
   public NotionTestContext(
       String rootTestPageId, Map<String, String> preAddedPages, String testBotUserId) {
@@ -50,6 +51,18 @@ public class NotionTestContext implements ExtensionContext.Store.CloseableResour
 
   public String getTestBotUserId() {
     return testBotUserId;
+  }
+
+  public void setCurrentTestPageId(String testPageId) {
+    currentTestPageId.set(testPageId);
+  }
+
+  public String getCurrentTestPageId() {
+    return currentTestPageId.get();
+  }
+
+  public void clearCurrentTestPageId() {
+    currentTestPageId.set(null);
   }
 
   @Override

@@ -11,16 +11,13 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-@DisplayName("IT-1: Pages - Basic checks of Pages CRUD operations")
-public class Pages_IT1_BasicCRUD extends BaseIntegrationTest {
+public class PagesIT1_BasicCRUD extends BaseIntegrationTest {
 
   private static final String FIRST_COVER_PATH = "files/it-1/first-cover.jpg";
   private static final String FIRST_COVER_NAME = "first-cover.jpg";
 
   private static final String SECOND_COVER_PATH = "files/it-1/second-cover.jpg";
   private static final String SECOND_COVER_NAME = "second-cover.jpg";
-
-  @NotionTestPage private static String testPageId;
 
   private static String firstCoverId;
   private static String secondCoverId;
@@ -42,7 +39,7 @@ public class Pages_IT1_BasicCRUD extends BaseIntegrationTest {
             .pages()
             .create(
                 page ->
-                    page.inPage(testPageId)
+                    page.inPage(getTestPageId())
                         .title("[IT-1] Initial Title")
                         .icon("🧪")
                         .cover(Cover.fileUpload(firstCoverId))

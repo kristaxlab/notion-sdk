@@ -3,9 +3,7 @@ package integration.pages;
 import static org.junit.jupiter.api.Assertions.*;
 
 import integration.BaseIntegrationTest;
-import integration.NotionTstPageLogExtension;
 import integration.extension.NotionTestContext;
-import integration.extension.NotionTestPage;
 import io.kristaxlab.notion.fluent.NotionPageViewer;
 import io.kristaxlab.notion.fluent.NotionProperties;
 import io.kristaxlab.notion.fluent.NotionSchema;
@@ -21,18 +19,18 @@ import io.kristaxlab.notion.model.page.property.NumberProperty;
 import io.kristaxlab.notion.model.page.property.PageProperty;
 import java.time.LocalDate;
 import java.util.Map;
+
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-@DisplayName("IT-6: Pages - Full CRUD cycle for all supported property values")
-public class Pages_IT6_PropertyValuesCRUD extends BaseIntegrationTest {
+public class PagesIT6_PropertyValuesCRUD extends BaseIntegrationTest {
 
   private static final String TITLE_PROP_NAME = "Name";
   private static final String FILE_PATH = "files/it-7/image.jpg";
   private static final String FILE_NAME = "image.jpg";
 
-  @NotionTestPage private static String testPageId;
   private String firstDataSourceId;
   private String secondDataSourceId;
   private String fileUploadId;
@@ -43,9 +41,9 @@ public class Pages_IT6_PropertyValuesCRUD extends BaseIntegrationTest {
   @BeforeEach
   public void setup() {
     fileUploadId = uploadFile(FILE_PATH, FILE_NAME);
-    NotionTstPageLogExtension.register(Pages_IT6_PropertyValuesCRUD.class, testPageId);
 
-    Database db = createDatabaseWithFirstDataSource();
+    String testPageId = getTestPageId();
+    Database db = createDatabaseWithFirstDataSource(testPageId);
     firstDataSourceId = db.getDataSources().get(0).getId();
     secondDataSourceId = createSecondDataSource(db.getId());
     userId = NotionTestContext.getInstance().getTestBotUserId();
@@ -55,59 +53,9 @@ public class Pages_IT6_PropertyValuesCRUD extends BaseIntegrationTest {
     anchorPageId2 = createAnchorPage(firstDataSourceId);
   }
 
-  private Database createDatabaseWithFirstDataSource() {
-    return getSetupClient()
-        .databases()
-        .create(
-            CreateDatabaseParams.builder()
-                .inPage(testPageId)
-                .title("Test Database")
-                .properties(p -> p.title(TITLE_PROP_NAME))
-                .build());
-  }
-
-  private String createSecondDataSource(String databaseId) {
-    Map<String, DataSourcePropertySchema> schema =
-        NotionSchema.schemaBuilder()
-            .title("Name")
-            .richText("Notes")
-            .number("Score", NumberFormatType.NUMBER)
-            .select("Category", "Alpha", "Beta", "Gamma")
-            .multiSelect("Tags", "x", "y", "z")
-            .status("Status")
-            .date("Due")
-            .checkbox("Done")
-            .url("Link")
-            .email("Contact")
-            .phoneNumber("Phone")
-            .people("Assignee")
-            .files("Attachments")
-            .relation("Related", firstDataSourceId)
-            .rollup("Count", "Related", TITLE_PROP_NAME, RollupFunctionType.UNIQUE)
-            .formula("Doubled", "prop(\"Score\") * 2")
-            .place("Location")
-            .build();
-
-    DataSource ds =
-        getSetupClient()
-            .dataSources()
-            .create(r -> r.inDatabase(databaseId).title("Data Source").properties(schema));
-    return ds.getId();
-  }
-
-  private String createAnchorPage(String dataSourceId) {
-    return getSetupClient()
-        .pages()
-        .create(
-            p ->
-                p.inDataSource(dataSourceId)
-                    .properties(props -> props.title(TITLE_PROP_NAME, "Anchor")))
-        .getId();
-  }
-
   @Test
-  @DisplayName("IT-6")
-  public void testPropertyCrud() {
+  @DisplayName("IT-6: Pages - Full CRUD cycle for all supported property values")
+  public void testPropertyValuesCrud() {
     // Phase 1: CREATE with initial values
     Map<String, PageProperty> phase1Props =
         NotionProperties.builder()
@@ -140,7 +88,7 @@ public class Pages_IT6_PropertyValuesCRUD extends BaseIntegrationTest {
 
     PageProperty scoreProp = getNotionClient().pages().retrieveProperty(created.getId(), "Score");
     assertNotNull(scoreProp, "Score property should not be null");
-    assertTrue(scoreProp instanceof NumberProperty, "Score property should be a NumberProperty");
+    assertInstanceOf(NumberProperty.class, scoreProp, "Score property should be a NumberProperty");
     assertEquals(
         phase1Props.get("Score").as(NumberProperty.class).getNumber(),
         scoreProp.as(NumberProperty.class).getNumber());
@@ -232,5 +180,58 @@ public class Pages_IT6_PropertyValuesCRUD extends BaseIntegrationTest {
       assertEquals(
           expectedValue, actualValue, String.format("Property '%s' mismatch", propertyName));
     }
+  }
+
+
+  // Setup methods
+
+  private Database createDatabaseWithFirstDataSource(String testPageId) {
+    return getSetupClient()
+            .databases()
+            .create(
+                    CreateDatabaseParams.builder()
+                            .inPage(testPageId)
+                            .title("Test Database")
+                            .properties(p -> p.title(TITLE_PROP_NAME))
+                            .build());
+  }
+
+  private String createSecondDataSource(String databaseId) {
+    Map<String, DataSourcePropertySchema> schema =
+            NotionSchema.schemaBuilder()
+                    .title("Name")
+                    .richText("Notes")
+                    .number("Score", NumberFormatType.NUMBER)
+                    .select("Category", "Alpha", "Beta", "Gamma")
+                    .multiSelect("Tags", "x", "y", "z")
+                    .status("Status")
+                    .date("Due")
+                    .checkbox("Done")
+                    .url("Link")
+                    .email("Contact")
+                    .phoneNumber("Phone")
+                    .people("Assignee")
+                    .files("Attachments")
+                    .relation("Related", firstDataSourceId)
+                    .rollup("Count", "Related", TITLE_PROP_NAME, RollupFunctionType.UNIQUE)
+                    .formula("Doubled", "prop(\"Score\") * 2")
+                    .place("Location")
+                    .build();
+
+    DataSource ds =
+            getSetupClient()
+                    .dataSources()
+                    .create(r -> r.inDatabase(databaseId).title("Data Source").properties(schema));
+    return ds.getId();
+  }
+
+  private String createAnchorPage(String dataSourceId) {
+    return getSetupClient()
+            .pages()
+            .create(
+                    p ->
+                            p.inDataSource(dataSourceId)
+                                    .properties(props -> props.title(TITLE_PROP_NAME, "Anchor")))
+            .getId();
   }
 }

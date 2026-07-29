@@ -3,29 +3,18 @@ package integration.pages;
 import static org.junit.jupiter.api.Assertions.*;
 
 import integration.BaseIntegrationTest;
-import integration.NotionTstPageLogExtension;
 import integration.extension.NotionTestPage;
 import io.kristaxlab.notion.model.page.Page;
 import io.kristaxlab.notion.model.page.PageAsMarkdown;
 import io.kristaxlab.notion.model.page.markdown.UpdatePageAsMarkdownParams;
 import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-@DisplayName("IT-43: Pages - Markdown - create, retrieve, and update page as markdown (all modes)")
-public class Pages_IT43_Markdown extends BaseIntegrationTest {
-
-  @NotionTestPage private static String testPageId;
-
-  @BeforeAll
-  public static void setup() {
-    NotionTstPageLogExtension.register(Pages_IT43_Markdown.class, testPageId);
-  }
+public class PagesIT43_Markdown extends BaseIntegrationTest {
 
   @Test
-  @DisplayName(
-      "IT-43: Pages - Markdown - create, retrieve, and update page as markdown (all modes)")
+  @DisplayName("IT-43: Pages - Markdown - create, retrieve, and update page as markdown (all modes)")
   public void testMarkdownCRUD() {
     // 1. Create page with markdown content
     Page created =
@@ -33,7 +22,7 @@ public class Pages_IT43_Markdown extends BaseIntegrationTest {
             .pages()
             .create(
                 page ->
-                    page.inPage(testPageId)
+                    page.inPage(getTestPageId())
                         .title("Page as markdown")
                         .markdown("Paragraph one.\n## Second section\nParagraph two."));
 
