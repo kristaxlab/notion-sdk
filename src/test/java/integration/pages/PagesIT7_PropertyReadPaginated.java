@@ -1,7 +1,6 @@
 package integration.pages;
 
 import integration.BaseIntegrationTest;
-import integration.extension.NotionTestPage;
 import io.kristaxlab.notion.fluent.NotionProperties;
 import io.kristaxlab.notion.model.database.CreateDatabaseParams;
 import io.kristaxlab.notion.model.page.property.PageProperty;

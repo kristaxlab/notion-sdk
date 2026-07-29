@@ -1,16 +1,17 @@
 package integration.helper;
 
 import io.kristaxlab.notion.config.ConfigurationLookup;
+import java.util.*;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.platform.engine.ConfigurationParameters;
-
-import java.util.*;
 
 public class TestAwareConfigurationLookup {
 
   public static Optional<Boolean> lookupBoolean(String key, ConfigurationParameters params) {
     String value = lookup(key, params).orElse(null);
-    return value == null || value.trim().isEmpty() ? Optional.empty() : Optional.of(Boolean.parseBoolean(value));
+    return value == null || value.trim().isEmpty()
+        ? Optional.empty()
+        : Optional.of(Boolean.parseBoolean(value));
   }
 
   public static Optional<String> lookup(String key, ConfigurationParameters params) {
@@ -32,7 +33,9 @@ public class TestAwareConfigurationLookup {
 
   public static Optional<Boolean> lookupBoolean(String key, ExtensionContext testExtensionContext) {
     String value = lookup(key, testExtensionContext).orElse(null);
-    return value == null || value.trim().isEmpty() ? Optional.empty() : Optional.of(Boolean.parseBoolean(value));
+    return value == null || value.trim().isEmpty()
+        ? Optional.empty()
+        : Optional.of(Boolean.parseBoolean(value));
   }
 
   public static Optional<String> lookup(String key, ExtensionContext testExtensionContext) {

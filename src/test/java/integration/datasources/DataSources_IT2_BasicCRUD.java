@@ -3,7 +3,6 @@ package integration.datasources;
 import static org.junit.jupiter.api.Assertions.*;
 
 import integration.BaseIntegrationTest;
-import integration.extension.NotionTestPage;
 import io.kristaxlab.notion.model.database.CreateDatabaseParams;
 import io.kristaxlab.notion.model.database.Database;
 import io.kristaxlab.notion.model.datasource.DataSource;

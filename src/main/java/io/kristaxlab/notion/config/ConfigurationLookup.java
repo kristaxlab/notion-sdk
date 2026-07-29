@@ -12,7 +12,9 @@ public class ConfigurationLookup {
 
   public static Optional<Boolean> lookupBoolean(String key) {
     String value = lookup(key).orElse(null);
-    return (value == null || value.trim().isEmpty()) ? Optional.empty() : Optional.of(Boolean.parseBoolean(value));
+    return (value == null || value.trim().isEmpty())
+        ? Optional.empty()
+        : Optional.of(Boolean.parseBoolean(value));
   }
 
   public static String lookup(String key, String defaultValue) {

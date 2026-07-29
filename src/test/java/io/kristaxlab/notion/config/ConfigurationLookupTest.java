@@ -1,17 +1,14 @@
 package io.kristaxlab.notion.config;
 
-import integration.helper.TestAwareConfigurationLookup;
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
 import org.junit.jupiter.params.provider.ValueSource;
-import org.junit.platform.engine.ConfigurationParameters;
-
-import java.util.*;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class ConfigurationLookupTest {
 
@@ -95,8 +92,7 @@ class ConfigurationLookupTest {
   @DisplayName("lookup with default returns default when key is absent")
   void lookup_withDefault_returnsDefaultWhenAbsent() {
     assertEquals(
-        "fallback",
-        ConfigurationLookup.lookup("definitely.missing.config.lookup.key", "fallback"));
+        "fallback", ConfigurationLookup.lookup("definitely.missing.config.lookup.key", "fallback"));
   }
 
   @Test
@@ -110,8 +106,7 @@ class ConfigurationLookupTest {
   @Test
   @DisplayName("lookupBoolean returns empty when key is absent")
   void lookupBoolean_absentKey_returnsEmpty() {
-    assertTrue(
-        ConfigurationLookup.lookupBoolean("definitely.missing.config.lookup.key").isEmpty());
+    assertTrue(ConfigurationLookup.lookupBoolean("definitely.missing.config.lookup.key").isEmpty());
   }
 
   @Test
@@ -127,10 +122,8 @@ class ConfigurationLookupTest {
   @Test
   @DisplayName("lookupBoolean with default returns default when key is absent")
   void lookupBoolean_withDefault_returnsDefaultWhenAbsent() {
-    assertTrue(
-        ConfigurationLookup.lookupBoolean("definitely.missing.config.lookup.key", true));
-    assertFalse(
-        ConfigurationLookup.lookupBoolean("definitely.missing.config.lookup.key", false));
+    assertTrue(ConfigurationLookup.lookupBoolean("definitely.missing.config.lookup.key", true));
+    assertFalse(ConfigurationLookup.lookupBoolean("definitely.missing.config.lookup.key", false));
   }
 
   @Test

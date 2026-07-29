@@ -19,8 +19,6 @@ import io.kristaxlab.notion.model.page.property.NumberProperty;
 import io.kristaxlab.notion.model.page.property.PageProperty;
 import java.time.LocalDate;
 import java.util.Map;
-
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -182,56 +180,55 @@ public class PagesIT6_PropertyValuesCRUD extends BaseIntegrationTest {
     }
   }
 
-
   // Setup methods
 
   private Database createDatabaseWithFirstDataSource(String testPageId) {
     return getSetupClient()
-            .databases()
-            .create(
-                    CreateDatabaseParams.builder()
-                            .inPage(testPageId)
-                            .title("Test Database")
-                            .properties(p -> p.title(TITLE_PROP_NAME))
-                            .build());
+        .databases()
+        .create(
+            CreateDatabaseParams.builder()
+                .inPage(testPageId)
+                .title("Test Database")
+                .properties(p -> p.title(TITLE_PROP_NAME))
+                .build());
   }
 
   private String createSecondDataSource(String databaseId) {
     Map<String, DataSourcePropertySchema> schema =
-            NotionSchema.schemaBuilder()
-                    .title("Name")
-                    .richText("Notes")
-                    .number("Score", NumberFormatType.NUMBER)
-                    .select("Category", "Alpha", "Beta", "Gamma")
-                    .multiSelect("Tags", "x", "y", "z")
-                    .status("Status")
-                    .date("Due")
-                    .checkbox("Done")
-                    .url("Link")
-                    .email("Contact")
-                    .phoneNumber("Phone")
-                    .people("Assignee")
-                    .files("Attachments")
-                    .relation("Related", firstDataSourceId)
-                    .rollup("Count", "Related", TITLE_PROP_NAME, RollupFunctionType.UNIQUE)
-                    .formula("Doubled", "prop(\"Score\") * 2")
-                    .place("Location")
-                    .build();
+        NotionSchema.schemaBuilder()
+            .title("Name")
+            .richText("Notes")
+            .number("Score", NumberFormatType.NUMBER)
+            .select("Category", "Alpha", "Beta", "Gamma")
+            .multiSelect("Tags", "x", "y", "z")
+            .status("Status")
+            .date("Due")
+            .checkbox("Done")
+            .url("Link")
+            .email("Contact")
+            .phoneNumber("Phone")
+            .people("Assignee")
+            .files("Attachments")
+            .relation("Related", firstDataSourceId)
+            .rollup("Count", "Related", TITLE_PROP_NAME, RollupFunctionType.UNIQUE)
+            .formula("Doubled", "prop(\"Score\") * 2")
+            .place("Location")
+            .build();
 
     DataSource ds =
-            getSetupClient()
-                    .dataSources()
-                    .create(r -> r.inDatabase(databaseId).title("Data Source").properties(schema));
+        getSetupClient()
+            .dataSources()
+            .create(r -> r.inDatabase(databaseId).title("Data Source").properties(schema));
     return ds.getId();
   }
 
   private String createAnchorPage(String dataSourceId) {
     return getSetupClient()
-            .pages()
-            .create(
-                    p ->
-                            p.inDataSource(dataSourceId)
-                                    .properties(props -> props.title(TITLE_PROP_NAME, "Anchor")))
-            .getId();
+        .pages()
+        .create(
+            p ->
+                p.inDataSource(dataSourceId)
+                    .properties(props -> props.title(TITLE_PROP_NAME, "Anchor")))
+        .getId();
   }
 }

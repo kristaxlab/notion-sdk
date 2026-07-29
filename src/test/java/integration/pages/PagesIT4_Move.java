@@ -3,7 +3,6 @@ package integration.pages;
 import static org.junit.Assert.*;
 
 import integration.BaseIntegrationTest;
-import integration.extension.NotionTestPage;
 import io.kristaxlab.notion.http.error.ValidationException;
 import io.kristaxlab.notion.model.block.BlockList;
 import io.kristaxlab.notion.model.common.Parent;
@@ -76,7 +75,7 @@ public class PagesIT4_Move extends BaseIntegrationTest {
 
   private static String createBlock(String parentPageId) {
     BlockList blockList =
-            getSetupClient().blocks().appendChildren(parentPageId, b -> b.toggle("Toggle block"));
+        getSetupClient().blocks().appendChildren(parentPageId, b -> b.toggle("Toggle block"));
     if (blockList == null || blockList.getResults().isEmpty()) {
       throw new IllegalStateException("Failed to create toggle block");
     }
@@ -85,13 +84,13 @@ public class PagesIT4_Move extends BaseIntegrationTest {
 
   private static Database createDatabase(String parentPageId) {
     Database db =
-            getSetupClient()
-                    .databases()
-                    .create(
-                            CreateDatabaseParams.builder()
-                                    .inPage(parentPageId)
-                                    .title("IT-7 Test Database")
-                                    .build());
+        getSetupClient()
+            .databases()
+            .create(
+                CreateDatabaseParams.builder()
+                    .inPage(parentPageId)
+                    .title("IT-7 Test Database")
+                    .build());
     if (db.getDataSources() == null || db.getDataSources().size() != 1) {
       throw new IllegalStateException("A testing database is supposed to have 1 data source");
     }

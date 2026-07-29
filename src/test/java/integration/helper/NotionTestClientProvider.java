@@ -59,8 +59,12 @@ public class NotionTestClientProvider {
    *     blank
    */
   public static NotionClient internalTestingClient(Path exchangeLogDir, String clientName) {
-    String apiKey = ConfigurationLookup.lookup(NOTION_TEST_AUTH_TOKEN).orElseThrow(
-        () -> new IllegalStateException(NOTION_TEST_AUTH_TOKEN + " environment variable is not set"));
+    String apiKey =
+        ConfigurationLookup.lookup(NOTION_TEST_AUTH_TOKEN)
+            .orElseThrow(
+                () ->
+                    new IllegalStateException(
+                        NOTION_TEST_AUTH_TOKEN + " environment variable is not set"));
 
     clientName = (clientName == null || clientName.isBlank()) ? "Notion Client" : clientName;
     return NotionClient.builder()

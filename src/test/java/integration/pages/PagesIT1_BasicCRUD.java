@@ -3,7 +3,6 @@ package integration.pages;
 import static org.junit.jupiter.api.Assertions.*;
 
 import integration.BaseIntegrationTest;
-import integration.extension.NotionTestPage;
 import io.kristaxlab.notion.model.common.Cover;
 import io.kristaxlab.notion.model.page.Page;
 import org.junit.jupiter.api.AfterAll;

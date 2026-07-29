@@ -1,18 +1,15 @@
 package integration.pages;
 
+import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.fail;
+
 import integration.BaseIntegrationTest;
 import io.kristaxlab.notion.model.block.BlockList;
 import io.kristaxlab.notion.model.page.Page;
-import io.kristaxlab.notion.model.page.UpdatePageParams;
 import io.kristaxlab.notion.model.page.templates.TemplateParams;
-import org.junit.jupiter.api.AfterAll;
+import java.util.function.Predicate;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import java.util.function.Predicate;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.fail;
 
 public class PagesIT9_Duplicate extends BaseIntegrationTest {
 
@@ -21,20 +18,20 @@ public class PagesIT9_Duplicate extends BaseIntegrationTest {
   public void testDuplicatePageUsingTemplateId() {
     // 1. Creating a source page with title and 2 blocks
     Page source =
-            getNotionClient()
-                    .pages()
-                    .create(p -> p
-                            .inPage(getTestPageId())
-                            .title("Page for testing duplication")
-                            .children(c -> c.paragraph("Simple texte").todo("To do")));
+        getNotionClient()
+            .pages()
+            .create(
+                p ->
+                    p.inPage(getTestPageId())
+                        .title("Page for testing duplication")
+                        .children(c -> c.paragraph("Simple texte").todo("To do")));
 
     // 2. Duplicating a source page
     Page duplicated =
         getNotionClient()
             .pages()
-            .create(p -> p
-                    .inPage(getTestPageId())
-                    .template(TemplateParams.templateId(source.getId())));
+            .create(
+                p -> p.inPage(getTestPageId()).template(TemplateParams.templateId(source.getId())));
 
     BlockList content = waitForChildren(duplicated.getId(), 2);
     // refreshing page state after template is fully applied
@@ -47,16 +44,18 @@ public class PagesIT9_Duplicate extends BaseIntegrationTest {
 
     // 3. Duplicating a source page but setting a custom title
     Page duplicatedWithCustomTitle =
-            getNotionClient()
-                    .pages()
-                    .create(p -> p
-                            .inPage(getTestPageId())
-                            .title("Duplicated page")
-                            .template(TemplateParams.templateId(source.getId())));
+        getNotionClient()
+            .pages()
+            .create(
+                p ->
+                    p.inPage(getTestPageId())
+                        .title("Duplicated page")
+                        .template(TemplateParams.templateId(source.getId())));
 
     BlockList content2 = waitForChildren(duplicatedWithCustomTitle.getId(), 2);
     // refreshing page state after template is fully applied
-    duplicatedWithCustomTitle = getNotionClient().pages().retrieve(duplicatedWithCustomTitle.getId());
+    duplicatedWithCustomTitle =
+        getNotionClient().pages().retrieve(duplicatedWithCustomTitle.getId());
 
     assertEquals("Duplicated page", duplicatedWithCustomTitle.getTitle());
     assertEquals(2, content2.getResults().size());
@@ -67,7 +66,7 @@ public class PagesIT9_Duplicate extends BaseIntegrationTest {
   // applying template works asynchronously
   private BlockList waitForChildren(String pageId, int bloeckCount) {
     return waitForChildren(
-            pageId, blocks -> blocks.getResults() != null && blocks.getResults().size() == bloeckCount);
+        pageId, blocks -> blocks.getResults() != null && blocks.getResults().size() == bloeckCount);
   }
 
   private BlockList waitForChildren(String pageId, Predicate<BlockList> ready) {
@@ -85,10 +84,10 @@ public class PagesIT9_Duplicate extends BaseIntegrationTest {
       }
     }
     fail(
-            "Timed out waiting for template content on page "
-                    + pageId
-                    + "; last count="
-                    + (last == null || last.getResults() == null ? 0 : last.getResults().size()));
+        "Timed out waiting for template content on page "
+            + pageId
+            + "; last count="
+            + (last == null || last.getResults() == null ? 0 : last.getResults().size()));
     return last;
   }
 }

@@ -1,26 +1,22 @@
 package integration.pages;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import integration.BaseIntegrationTest;
 import integration.extension.NotionFixtureException;
 import io.kristaxlab.notion.fluent.NotionBlocksViewer;
 import io.kristaxlab.notion.fluent.NotionPageViewer;
 import io.kristaxlab.notion.model.block.BlockList;
 import io.kristaxlab.notion.model.block.ChildDatabaseBlock;
-import io.kristaxlab.notion.model.common.richtext.RichText;
 import io.kristaxlab.notion.model.page.Page;
-import io.kristaxlab.notion.model.page.property.SelectProperty;
 import io.kristaxlab.notion.model.page.templates.Template;
 import io.kristaxlab.notion.model.page.templates.TemplateParams;
 import io.kristaxlab.notion.model.page.templates.Templates;
-import org.junit.jupiter.api.*;
-import org.junit.platform.commons.util.StringUtils;
-
 import java.util.List;
 import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
-
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.*;
 
 /**
  * Integration coverage for data source templates: listing (filter + pagination), creating a page
@@ -48,21 +44,30 @@ public class PagesIT8_Templates extends BaseIntegrationTest {
   public void setup() {
     String testPageId = getTestPageId();
     BlockList blocks = getNotionClient().blocks().retrieveChildren(testPageId);
-    ChildDatabaseBlock childDb = NotionBlocksViewer.of(blocks).first(ChildDatabaseBlock.class)
-            .orElseThrow(() -> new NotionFixtureException("IT-8 test requires prerequisite page with a data source in it"));
+    ChildDatabaseBlock childDb =
+        NotionBlocksViewer.of(blocks)
+            .first(ChildDatabaseBlock.class)
+            .orElseThrow(
+                () ->
+                    new NotionFixtureException(
+                        "IT-8 test requires prerequisite page with a data source in it"));
 
-    dataSourceWithTemplates = getSetupClient().databases().retrieve(childDb.getId()).getDataSources().get(0).getId();
+    dataSourceWithTemplates =
+        getSetupClient().databases().retrieve(childDb.getId()).getDataSources().get(0).getId();
     Templates templates = getSetupClient().dataSources().retrieveTemplates(dataSourceWithTemplates);
 
     assertNotNull(templates);
     assertNotNull(templates.getResults());
-    assertEquals(2, templates.getResults().size(), "Prerequisite data source must expose 3 templates");
+    assertEquals(
+        2, templates.getResults().size(), "Prerequisite data source must expose 3 templates");
 
     todoTemplate = findTemplate(templates.getResults(), TODO_TEMPLATE_NAME);
     bulletTemplate = findTemplate(templates.getResults(), BULLET_TEMPLATE_NAME);
 
-    todoTemplateBlockCount = getNotionClient().blocks().retrieveChildren(todoTemplate.getId()).getResults().size();
-    bulletTemplateBlockCount = getNotionClient().blocks().retrieveChildren(bulletTemplate.getId()).getResults().size();
+    todoTemplateBlockCount =
+        getNotionClient().blocks().retrieveChildren(todoTemplate.getId()).getResults().size();
+    bulletTemplateBlockCount =
+        getNotionClient().blocks().retrieveChildren(bulletTemplate.getId()).getResults().size();
   }
 
   @Test
@@ -89,23 +94,26 @@ public class PagesIT8_Templates extends BaseIntegrationTest {
   }
 
   private void checkCreateAppendReplace() {
-    Page pageWithText = getNotionClient()
+    Page pageWithText =
+        getNotionClient()
             .pages()
-            .create(page -> page
-                    .inDataSource(dataSourceWithTemplates)
-                    .title("Page with text")
-                    .children(b -> b.paragraph("simple text")));
+            .create(
+                page ->
+                    page.inDataSource(dataSourceWithTemplates)
+                        .title("Page with text")
+                        .children(b -> b.paragraph("simple text")));
 
     BlockList children1 = getNotionClient().blocks().retrieveChildren(pageWithText.getId());
     assertTrue(containsBlockType(children1, "paragraph"));
     assertTrue(propertyValueEquals(pageWithText, "Type", null));
 
     // appending the bulleted list template (+2 blocks and selec property should be updated)
-    Page bulletAppended = getNotionClient()
+    Page bulletAppended =
+        getNotionClient()
             .pages()
             .update(
-                    pageWithText.getId(),
-                    params -> params.template(TemplateParams.templateId(bulletTemplate.getId())));
+                pageWithText.getId(),
+                params -> params.template(TemplateParams.templateId(bulletTemplate.getId())));
 
     BlockList children2 = waitForChildren(bulletAppended.getId(), 1 + bulletTemplateBlockCount);
     assertTrue(containsBlockType(children2, "paragraph"));
@@ -113,15 +121,18 @@ public class PagesIT8_Templates extends BaseIntegrationTest {
     bulletAppended = getNotionClient().pages().retrieve(bulletAppended.getId());
     assertTrue(propertyValueEquals(bulletAppended, "Type", "Bulleted List"));
 
-    // appending the to do  list template (+2 more blocks and selec property should NOT be updated as it already has value)
-    Page bulletAndTodoAppended = getNotionClient()
+    // appending the to do  list template (+2 more blocks and selec property should NOT be updated
+    // as it already has value)
+    Page bulletAndTodoAppended =
+        getNotionClient()
             .pages()
             .update(
-                    pageWithText.getId(),
-                    params -> params.template(TemplateParams.templateId(todoTemplate.getId())));
+                pageWithText.getId(),
+                params -> params.template(TemplateParams.templateId(todoTemplate.getId())));
 
-    BlockList children3 = waitForChildren(bulletAndTodoAppended.getId(),
-            1 + bulletTemplateBlockCount + todoTemplateBlockCount);
+    BlockList children3 =
+        waitForChildren(
+            bulletAndTodoAppended.getId(), 1 + bulletTemplateBlockCount + todoTemplateBlockCount);
     assertTrue(containsBlockType(children3, "paragraph"));
     assertTrue(containsBlockType(children3, "bulleted_list_item"));
     assertTrue(containsBlockType(children3, "to_do"));
@@ -129,13 +140,15 @@ public class PagesIT8_Templates extends BaseIntegrationTest {
     // applied template does not change properties that already have values
     assertFalse(propertyValueEquals(bulletAndTodoAppended, "Type", "To Do List"));
 
-
     // apply a to do template in replace mode
-    getNotionClient().pages().update(
-                    bulletAndTodoAppended.getId(),
-                    params -> params
-                                    .template(TemplateParams.templateId(todoTemplate.getId()))
-                                    .eraseContent(true));
+    getNotionClient()
+        .pages()
+        .update(
+            bulletAndTodoAppended.getId(),
+            params ->
+                params
+                    .template(TemplateParams.templateId(todoTemplate.getId()))
+                    .eraseContent(true));
 
     // Replace is async: wait until old content is gone and the new template is present.
     // A plain min-count wait is insufficient because the previous append already had enough blocks.
@@ -147,48 +160,52 @@ public class PagesIT8_Templates extends BaseIntegrationTest {
 
   private void checkCreateWithTemplateId() {
     Page fromToDoTemplate =
-            getNotionClient()
-                    .pages()
-                    .create(page -> page
-                            .inDataSource(dataSourceWithTemplates)
-                            .template(TemplateParams.templateId(todoTemplate.getId())));
+        getNotionClient()
+            .pages()
+            .create(
+                page ->
+                    page.inDataSource(dataSourceWithTemplates)
+                        .template(TemplateParams.templateId(todoTemplate.getId())));
 
-    BlockList fromTemplateChildren = waitForChildren(fromToDoTemplate.getId(), todoTemplateBlockCount);
+    BlockList fromTemplateChildren =
+        waitForChildren(fromToDoTemplate.getId(), todoTemplateBlockCount);
     assertTrue(containsBlockType(fromTemplateChildren, "to_do"));
   }
 
   private void checkCreateWithDefaultTemplate() {
     Page fromDefaultBulletTemplate =
-            getNotionClient()
-                    .pages()
-                    .create(page -> page
-                            .inDataSource(dataSourceWithTemplates)
-                            .template(TemplateParams.defaultTemplate()));
+        getNotionClient()
+            .pages()
+            .create(
+                page ->
+                    page.inDataSource(dataSourceWithTemplates)
+                        .template(TemplateParams.defaultTemplate()));
 
-    BlockList fromDefaultBulletTemplateChildren = waitForChildren(fromDefaultBulletTemplate.getId(), bulletTemplateBlockCount);
+    BlockList fromDefaultBulletTemplateChildren =
+        waitForChildren(fromDefaultBulletTemplate.getId(), bulletTemplateBlockCount);
     assertTrue(containsBlockType(fromDefaultBulletTemplateChildren, "bulleted_list_item"));
   }
 
   private void checkRetrieveTemplatesPaginated() {
     Templates firstPage =
-            getNotionClient().dataSources().retrieveTemplates(dataSourceWithTemplates, null, 1);
+        getNotionClient().dataSources().retrieveTemplates(dataSourceWithTemplates, null, 1);
     assertEquals(1, firstPage.getResults().size());
     assertEquals(Boolean.TRUE, firstPage.getHasMore());
     assertNotNull(firstPage.getNextCursor());
 
     Templates secondPage =
-            getNotionClient()
-                    .dataSources()
-                    .retrieveTemplates(dataSourceWithTemplates, firstPage.getNextCursor(), 1);
+        getNotionClient()
+            .dataSources()
+            .retrieveTemplates(dataSourceWithTemplates, firstPage.getNextCursor(), 1);
     assertEquals(1, secondPage.getResults().size());
     assertNotEquals(firstPage.getResults().get(0).getId(), secondPage.getResults().get(0).getId());
   }
 
   private void checkRetrieveTemplatesFiltered() {
     Templates filtered =
-            getNotionClient()
-                    .dataSources()
-                    .retrieveTemplates(dataSourceWithTemplates, "bullet", null, null);
+        getNotionClient()
+            .dataSources()
+            .retrieveTemplates(dataSourceWithTemplates, "bullet", null, null);
 
     assertEquals(1, filtered.getResults().size());
     assertEquals(BULLET_TEMPLATE_NAME, filtered.getResults().get(0).getName());
@@ -202,28 +219,27 @@ public class PagesIT8_Templates extends BaseIntegrationTest {
     assertNull(all.getNextCursor());
 
     Set<String> names =
-            all.getResults().stream().map(Template::getName).collect(Collectors.toSet());
+        all.getResults().stream().map(Template::getName).collect(Collectors.toSet());
     assertTrue(names.contains(TODO_TEMPLATE_NAME));
     assertTrue(names.contains(BULLET_TEMPLATE_NAME));
   }
 
   @AfterAll
-  public static void tearDown() {
-  }
+  public static void tearDown() {}
 
   private static Template findTemplate(List<Template> templates, String name) {
     return templates.stream()
-            .filter(t -> name.equals(t.getName()))
-            .findFirst()
-            .orElseThrow(
-                    () ->
-                            new IllegalStateException(
-                                    "Template '" + name + "' is missing from prerequisite data source"));
+        .filter(t -> name.equals(t.getName()))
+        .findFirst()
+        .orElseThrow(
+            () ->
+                new IllegalStateException(
+                    "Template '" + name + "' is missing from prerequisite data source"));
   }
 
   private BlockList waitForChildren(String pageId, int bloeckCount) {
     return waitForChildren(
-            pageId, blocks -> blocks.getResults() != null && blocks.getResults().size() == bloeckCount);
+        pageId, blocks -> blocks.getResults() != null && blocks.getResults().size() == bloeckCount);
   }
 
   private BlockList waitForChildren(String pageId, Predicate<BlockList> ready) {
@@ -241,10 +257,10 @@ public class PagesIT8_Templates extends BaseIntegrationTest {
       }
     }
     fail(
-            "Timed out waiting for template content on page "
-                    + pageId
-                    + "; last count="
-                    + (last == null || last.getResults() == null ? 0 : last.getResults().size()));
+        "Timed out waiting for template content on page "
+            + pageId
+            + "; last count="
+            + (last == null || last.getResults() == null ? 0 : last.getResults().size()));
     return last;
   }
 
@@ -258,6 +274,4 @@ public class PagesIT8_Templates extends BaseIntegrationTest {
     }
     return value.equals(NotionPageViewer.of(page).select("Type"));
   }
-
-
 }

@@ -3,7 +3,6 @@ package integration.pages;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import integration.BaseIntegrationTest;
-import integration.extension.NotionTestPage;
 import io.kristaxlab.notion.model.page.Page;
 import io.kristaxlab.notion.model.page.UpdatePageParams;
 import org.junit.jupiter.api.AfterAll;
