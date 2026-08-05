@@ -11,7 +11,7 @@ import java.util.function.Predicate;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-public class PagesIT9_Duplicate extends BaseIntegrationTest {
+public class IT9_Pages_Duplicate extends BaseIntegrationTest {
 
   @Test
   @DisplayName("IT-9: Pages - Duplicate page using its id as template id")

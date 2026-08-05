@@ -75,17 +75,18 @@ Every integration test must extend `BaseIntegrationTest`, which:
 Minimal example:
 
 ```java
-package integration;
+package integration.pages;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import integration.BaseIntegrationTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-public class PagesIT extends BaseIntegrationTest {
+public class IT5_Pages_Retrieve extends BaseIntegrationTest {
 
   @Test
-  @DisplayName("[INT-XX]: Pages - Retrieve a page by id")
+  @DisplayName("IT-5: Pages - Retrieve a page by id")
   public void testRetrievePage() {
     // Use getNotion() to access the pre-configured client
     var page = getNotion().pages().retrieve("<page-id>");
@@ -97,9 +98,11 @@ public class PagesIT extends BaseIntegrationTest {
 
 Key points:
 
-- Place the class in the `integration` package (`src/test/java/integration/`).
+- Place the class in the package of the endpoint it covers (e.g. `src/test/java/integration/pages/`),
+  and register it in the matching suite under `src/test/java/suites/`.
+- Name the class `IT<id>_<Endpoint>_<Details>` (e.g. `IT1_Pages_CRUD`) and keep one test per class.
 - Use `getNotion()` to obtain the client — do **not** create your own `NotionClient`.
-- Give each test a descriptive `@DisplayName` with a ticket reference (e.g. `[INT-42]`).
+- Give the test method a `@DisplayName` of the form `IT-<id>: <Endpoint> - <description>`.
 
 ## Test Reports
 

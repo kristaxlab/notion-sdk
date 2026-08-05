@@ -17,11 +17,9 @@ import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.junit.runners.Suite;
 
-public class PagesIT7_PropertyStandalone extends BaseIntegrationTest {
+public class IT7_Pages_PropertyStandalone extends BaseIntegrationTest {
 
   private static final String NOTES_PROP = "Notes";
   private static final String RICH_TEXT_CONTENT = "Simple text ==";
@@ -56,16 +54,20 @@ public class PagesIT7_PropertyStandalone extends BaseIntegrationTest {
         () ->
             getNotionClient()
                 .pages()
-                .create(page -> page
-                        .inDataSource(dataSourceId)
-                        .properties(prop -> prop
-                                        .richText(NOTES_PROP, createRichTexts("text", 150))
+                .create(
+                    page ->
+                        page.inDataSource(dataSourceId)
+                            .properties(
+                                prop ->
+                                    prop.richText(NOTES_PROP, createRichTexts("text", 150))
                                         .checkbox("Done", true))));
 
     Page newPage =
         getNotionClient()
             .pages()
-            .create(page -> page.inDataSource(dataSourceId)
+            .create(
+                page ->
+                    page.inDataSource(dataSourceId)
                         .property(
                             NOTES_PROP,
                             NotionProperties.richText(

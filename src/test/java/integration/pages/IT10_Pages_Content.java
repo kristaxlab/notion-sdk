@@ -8,7 +8,7 @@ import io.kristaxlab.notion.model.page.Page;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-public class PagesIT10_Content extends BaseIntegrationTest {
+public class IT10_Pages_Content extends BaseIntegrationTest {
 
   @Test
   @DisplayName("IT-10: Pages - Create page with content and then append more content")

@@ -23,7 +23,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-public class PagesIT6_PropertyValuesCRUD extends BaseIntegrationTest {
+public class IT6_Pages_PropertyValuesCRUD extends BaseIntegrationTest {
 
   private static final String TITLE_PROP_NAME = "Name";
   private static final String FILE_PATH = "files/it-7/image.jpg";

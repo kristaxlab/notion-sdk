@@ -11,7 +11,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-public class DataSources_IT2_BasicCRUD extends BaseIntegrationTest {
+public class IT2_DataSources_CRUD extends BaseIntegrationTest {
 
   private static final String FIRST_COVER_PATH = "files/it-1/first-cover.jpg";
   private static final String FIRST_COVER_NAME = "first-cover.jpg";

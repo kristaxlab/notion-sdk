@@ -10,7 +10,7 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-public class PagesIT43_Markdown extends BaseIntegrationTest {
+public class IT43_Pages_Markdown extends BaseIntegrationTest {
 
   @Test
   @DisplayName(

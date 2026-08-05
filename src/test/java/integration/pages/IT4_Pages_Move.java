@@ -12,7 +12,7 @@ import io.kristaxlab.notion.model.page.Page;
 import org.junit.jupiter.api.*;
 
 @Tag("pages")
-public class PagesIT4_Move extends BaseIntegrationTest {
+public class IT4_Pages_Move extends BaseIntegrationTest {
 
   private static String databaseId;
   private static String dataSourceId;

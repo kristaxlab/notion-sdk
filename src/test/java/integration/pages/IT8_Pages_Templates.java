@@ -26,7 +26,7 @@ import org.junit.jupiter.api.*;
  * created via the Notion API). Uses the shared "DB with templates" data source.
  */
 @Tags({@Tag("advanced"), @Tag("long")})
-public class PagesIT8_Templates extends BaseIntegrationTest {
+public class IT8_Pages_Templates extends BaseIntegrationTest {
 
   private String dataSourceWithTemplates;
 

@@ -15,5 +15,4 @@ public class Template {
 
   @JsonProperty("is_default")
   private boolean isDefault;
-
 }

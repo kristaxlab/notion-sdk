@@ -14,7 +14,7 @@ import io.kristaxlab.notion.model.datasource.properties.RollupFunctionType;
 import java.util.Map;
 import org.junit.jupiter.api.*;
 
-public class DataSources_IT3_CreateSchema extends BaseIntegrationTest {
+public class IT3_DataSources_CreateSchema extends BaseIntegrationTest {
 
   private static final String TITLE_PROP_NAME = "Name";
 
