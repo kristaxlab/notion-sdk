@@ -16,8 +16,13 @@ import org.junit.jupiter.api.*;
 
 public class BlocksIT extends BaseIntegrationTest {
 
-  private String currTestPageId = getTestPageId();
+  private String currTestPageId;
 
+  @BeforeEach
+  private void setup() {
+    currTestPageId = getTestPageId();
+
+  }
   @Test
   @DisplayName("[IT-22]: Blocks - Creation / update / retrieval for a paragraph block")
   public void testBlockCreationUpdateRetrieval() {
@@ -203,7 +208,7 @@ public class BlocksIT extends BaseIntegrationTest {
   @DisplayName("[IT-23]: Blocks & File Uploads - Insert an uploaded file as an image")
   public void insertUploadedFileAsImage() {
     // TODO move it to prerequisites
-    String fileUploadId = uploadFile(FILE_NAME, FILE_PATH);
+    String fileUploadId = uploadFile(FILE_PATH, FILE_NAME);
 
     ImageBlock imageBlock =
         NotionBlocks.image(

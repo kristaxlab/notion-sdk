@@ -10,7 +10,12 @@ The SDK's top priority is **convenience of library usage and an intuitive API**.
 complex Notion models should feel lightweight and effortless. Every design decision should be
 evaluated against the question: *"Will an SDK user immediately understand how to use this?"*
 
-Key principles:
+## Resources to use
+
+Use this link to get missing information about Notion API needed to fulfill current request:
+https://developers.notion.com/llms.txt
+
+## Key principles:
 
 - **`of(...)` static factories** for simple, common construction (single value, list of values, no
   optional parameters). Named after Java conventions (`List.of(...)`, `Optional.of(...)`).
@@ -116,6 +121,3 @@ When implementing a builder, think at two levels:
 ## Resources:
 Use this link to retrieve, add or update integration tests status info with Notion MCP:
 https://www.notion.so/kristalamenweb/2e8c5b968ec4804d8b91c99c1e04b0ca
-
-Use this link to get information aout API needed to fulfill current request:
-https://developers.notion.com/llms.txt

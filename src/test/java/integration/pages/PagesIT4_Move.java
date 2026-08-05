@@ -9,11 +9,9 @@ import io.kristaxlab.notion.model.common.Parent;
 import io.kristaxlab.notion.model.database.CreateDatabaseParams;
 import io.kristaxlab.notion.model.database.Database;
 import io.kristaxlab.notion.model.page.Page;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
+@Tag("pages")
 public class PagesIT4_Move extends BaseIntegrationTest {
 
   private static String databaseId;

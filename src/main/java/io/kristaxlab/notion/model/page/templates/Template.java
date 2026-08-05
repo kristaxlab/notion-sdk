@@ -1,5 +1,6 @@
 package io.kristaxlab.notion.model.page.templates;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,5 +13,7 @@ public class Template {
 
   private String name;
 
+  @JsonProperty("is_default")
   private boolean isDefault;
+
 }
