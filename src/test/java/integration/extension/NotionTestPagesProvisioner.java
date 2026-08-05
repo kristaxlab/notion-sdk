@@ -14,6 +14,7 @@ import io.kristaxlab.notion.model.database.Database;
 import io.kristaxlab.notion.model.page.CreatePageParams;
 import io.kristaxlab.notion.model.page.Page;
 import io.kristaxlab.notion.model.page.templates.TemplateParams;
+import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -31,12 +32,18 @@ import org.slf4j.LoggerFactory;
 /**
  * Creates a dedicated Notion page for the ongoing test session {@link #beforeAll}.
  *
- * <p>And before each test creates a dedicated Notion page for this particular test (checks first
- * for a prefilled page that could be added within creating a tests session page, this possibility
- * allows for setting up prerequisites that are not possible to set through API). Test page id will
- * be injected into the field marked with {@link NotionTestPage} annotation
+ * <p>Before each test resolves the Notion page the test will run on, in the following order:
  *
- * <p>
+ * <ol>
+ *   <li>a prefilled page added by the test session template and named after the test id (ex.
+ *       IT-123) - allows setting up prerequisites that are not possible to set through API;
+ *   <li>the test session page itself, when {@link RUN_SAME_PAGE} is enabled - avoids creating a
+ *       page per test;
+ *   <li>a dedicated page created under the test session page.
+ * </ol>
+ *
+ * <p>The resolved page id will be injected into the parameter marked with {@link NotionTestPage}
+ * annotation.
  *
  * <p>Required configuration parameter: {@link TESTS_HOME_ID} - may be set via environment variable,
  * system or junit property
@@ -45,6 +52,7 @@ public class NotionTestPagesProvisioner
     implements BeforeAllCallback, AfterEachCallback, ParameterResolver {
 
   private static AtomicBoolean rootTestPageCreated = new AtomicBoolean(false);
+  private static final AtomicBoolean parallelWarningLogged = new AtomicBoolean(false);
   private static NotionClient notionClient;
 
   private static final Logger LOGGER = LoggerFactory.getLogger(NotionTestPagesProvisioner.class);
@@ -53,6 +61,11 @@ public class NotionTestPagesProvisioner
   private static final String PAGE_NAME = "notion.tests.page.name";
   private static final String PAGE_BASE_URL = "notion.tests.page.base.url";
   private static final String PAGE_CLEANUP = "notion.tests.page.cleanup.enabled";
+  private static final String RUN_SAME_PAGE = "notion.tests.run.same.page";
+  private static final String PARALLEL_ENABLED = "junit.jupiter.execution.parallel.enabled";
+
+  private static final Duration TEMPLATE_APPLY_TIMEOUT = Duration.ofSeconds(15);
+  private static final Duration TEMPLATE_POLL_INTERVAL = Duration.ofMillis(500);
 
   static {
     notionClient = NotionTestClientProvider.getInfraSetupClient();
@@ -65,10 +78,8 @@ public class NotionTestPagesProvisioner
     if (rootTestPageCreated.compareAndSet(false, true)) {
       Page testSessionPage = createRootTestPage(context);
 
-      // TODO Template needs time to apply
-      Thread.sleep(2000);
+      BlockList testHomeBlocks = waitForTemplateContent(testSessionPage.getId());
       Map<String, String> preAddedPages = null;
-      BlockList testHomeBlocks = notionClient.blocks().retrieveChildren(testSessionPage.getId());
       Optional<Block> databaseBlock =
           NotionBlocksViewer.of(testHomeBlocks)
               .first(b -> BlockType.CHILD_DATABASE.getValue().equals(b.getType()));
@@ -89,6 +100,33 @@ public class NotionTestPagesProvisioner
       NotionTestContext.initialize(
           testSessionPage.getId(), preAddedPages, testSessionPage.getCreatedBy().getId());
     }
+  }
+
+  /**
+   * Notion applies page templates asynchronously, so right after page creation its content may not
+   * be there yet. Polls the page children every {@link #TEMPLATE_POLL_INTERVAL} until any content
+   * appears or {@link #TEMPLATE_APPLY_TIMEOUT} elapses. An empty page after the timeout is not an
+   * error (a template may have no blocks), so the last retrieved result is returned either way.
+   *
+   * @param pageId id of the page the template is being applied to
+   * @return children of the page, possibly empty if the timeout was reached
+   */
+  private BlockList waitForTemplateContent(String pageId) throws InterruptedException {
+    long deadline = System.currentTimeMillis() + TEMPLATE_APPLY_TIMEOUT.toMillis();
+    BlockList blocks = notionClient.blocks().retrieveChildren(pageId);
+    while (blocks.getResults() == null || blocks.getResults().isEmpty()) {
+      if (System.currentTimeMillis() >= deadline) {
+        LOGGER.warn(
+            "Test session page {} still has no content after {}; proceeding assuming the"
+                + " template is empty",
+            pageId,
+            TEMPLATE_APPLY_TIMEOUT);
+        break;
+      }
+      Thread.sleep(TEMPLATE_POLL_INTERVAL.toMillis());
+      blocks = notionClient.blocks().retrieveChildren(pageId);
+    }
+    return blocks;
   }
 
   /**
@@ -215,11 +253,38 @@ public class NotionTestPagesProvisioner
 
     String testId = getTestId(context);
     String testPageId = NotionTestContext.getInstance().getPrefilledPages().get(testId);
+    if (testPageId == null && runTestsOnSamePage(context)) {
+      testPageId = testSessionPageId;
+    }
     if (testPageId == null) {
       testPageId = createTestPage(testSessionPageId, context.getDisplayName());
     }
     NotionTestContext.getInstance().setCurrentTestPageId(testPageId);
     return testPageId;
+  }
+
+  /**
+   * Tells whether tests without prerequisites should share the test session page instead of getting
+   * a dedicated page each ({@link RUN_SAME_PAGE} property, disabled by default).
+   *
+   * <p>Sharing a page is unsafe with parallel test execution: concurrent tests would see (and may
+   * modify) each other's content, so a warning is logged once if both are enabled.
+   */
+  private boolean runTestsOnSamePage(ExtensionContext context) {
+    boolean samePage =
+        TestAwareConfigurationLookup.lookupBoolean(RUN_SAME_PAGE, context).orElse(false);
+    if (samePage
+        && context
+            .getConfigurationParameter(PARALLEL_ENABLED)
+            .map(Boolean::parseBoolean)
+            .orElse(false)
+        && parallelWarningLogged.compareAndSet(false, true)) {
+      LOGGER.warn(
+          "{} is enabled together with parallel test execution; tests sharing the session page"
+              + " may interfere with each other",
+          RUN_SAME_PAGE);
+    }
+    return samePage;
   }
 
   private String createTestPage(String testSessionPageId, String title) {

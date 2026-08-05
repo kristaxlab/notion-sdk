@@ -97,7 +97,7 @@ public class IT7_Pages_PropertyStandalone extends BaseIntegrationTest {
       assertTrue(propertyItem.getResults().size() <= PAGE_SIZE);
 
       for (ListedPageProperty listed : propertyItem.getResults()) {
-        assertTrue(listed.isRichText());
+        assertInstanceOf(ListedRichTextProperty.class, listed);
         ListedRichTextProperty richTextItem = listed.asRichText();
         assertNotNull(richTextItem.getRichText());
         retrieved.add(richTextItem.getRichText());

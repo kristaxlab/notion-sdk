@@ -1,6 +1,5 @@
 package io.kristaxlab.notion.model.page.property.list;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import lombok.Getter;
@@ -26,26 +25,6 @@ public class ListedPageProperty {
   private String id;
 
   private String type;
-
-  @JsonIgnore
-  public boolean isRichText() {
-    return "rich_text".equals(type);
-  }
-
-  @JsonIgnore
-  public boolean isPeople() {
-    return "people".equals(type);
-  }
-
-  @JsonIgnore
-  public boolean isRelation() {
-    return "relation".equals(type);
-  }
-
-  @JsonIgnore
-  public boolean isTitle() {
-    return "title".equals(type);
-  }
 
   public ListedRichTextProperty asRichText() {
     return (ListedRichTextProperty) this;
