@@ -1,0 +1,104 @@
+package testkit.ext;
+
+import io.kristaxlab.notion.NotionClient;
+import io.kristaxlab.notion.model.page.CreatePageParams;
+import java.util.Map;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.extension.ExtensionContext;
+import org.junit.jupiter.api.extension.ParameterContext;
+import org.junit.jupiter.api.extension.ParameterResolutionException;
+import org.junit.jupiter.api.extension.ParameterResolver;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import testkit.ext.client.NotionTestClientProvider;
+import testkit.util.NotionTestIdRetriever;
+
+/**
+ * Resolves the Notion page each test runs on within the test session provisioned by {@link
+ * TestSessionBeforeAll}, in the following order:
+ *
+ * <ol>
+ *   <li>a prefilled page added by the test session template and named after the test id (ex.
+ *       IT-123) - allows setting up prerequisites that are not possible to set through API;
+ *   <li>a dedicated page created under the test session page.
+ * </ol>
+ *
+ * <p>The resolved page id will be injected into the parameter marked with {@link TestPage}
+ * annotation.
+ */
+public class TestPagesProvisioner implements ParameterResolver {
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(TestPagesProvisioner.class);
+
+  private NotionClient notionClient = NotionTestClientProvider.getInfraSetupClient();
+
+  @Override
+  public boolean supportsParameter(
+      ParameterContext parameterContext, ExtensionContext extensionContext)
+      throws ParameterResolutionException {
+    return parameterContext.isAnnotated(TestPage.class)
+        && parameterContext.getParameter().getType() == String.class;
+  }
+
+  @Override
+  public Object resolveParameter(ParameterContext parameterContext, ExtensionContext context)
+      throws ParameterResolutionException {
+    String testSessionPageId = TestSession.get().getSessionPageId();
+    Assertions.assertNotNull(testSessionPageId, "Test session page ID should not be null");
+
+    String testId = getTestId(context);
+    boolean fixtureRequired =
+        parameterContext.findAnnotation(TestPage.class).map(TestPage::fixture).orElse(false);
+
+    String testPageId =
+        resolvePageId(testId, testSessionPageId, fixtureRequired, context.getDisplayName());
+    return testPageId;
+  }
+
+  /**
+   * Resolves the Notion page ID for the current test, either from a fixture page or by creating a
+   * dedicated page.
+   *
+   * @param testId the test ID extracted from the display name
+   * @param testSessionPageId the ID of the test session page
+   * @param fixtureRequired whether a fixture page is required for this test
+   * @param displayName the display name of the test (used for naming dedicated pages)
+   * @return the resolved Notion page ID
+   */
+  private String resolvePageId(
+      String testId, String testSessionPageId, boolean fixtureRequired, String displayName) {
+
+    Map<String, String> fixturePages = TestSession.get().getFixturePages();
+    String fixturePageId = fixturePages.get(testId);
+
+    if (fixturePageId != null) {
+      LOGGER.debug("Fixture page is found for test {}", testId);
+      return fixturePageId;
+    }
+
+    if (fixtureRequired) {
+      throw new NotionFixtureException(
+          "Fixture page for test ID " + testId + " was not found in the test session page.");
+    }
+
+    String dedicatedPageId = createDedicatedPage(testSessionPageId, displayName);
+    LOGGER.debug("Created dedicated page {} for test {}", dedicatedPageId, testId);
+    return dedicatedPageId;
+  }
+
+  private String createDedicatedPage(String sessionPageId, String title) {
+    return notionClient
+        .pages()
+        .create(CreatePageParams.builder().inPage(sessionPageId).title(title).build())
+        .getId();
+  }
+
+  private String getTestId(ExtensionContext context) {
+    return NotionTestIdRetriever.retrieveTestId(context.getDisplayName())
+        .orElseThrow(
+            () ->
+                new NotionFixtureException(
+                    "Notion Test Id was not found. Check if your test method is annotated with "
+                        + "@DisplayName(\"IT-XXX: ...\") annotation to specify a test id of the test"));
+  }
+}

@@ -4,12 +4,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import integration.BaseIntegrationTest;
 import io.kristaxlab.notion.model.file.FileUpload;
 import io.kristaxlab.notion.model.file.FileUploadList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import testkit.BaseIntegrationTest;
 
 public class IT16_FileUploads_ListAll extends BaseIntegrationTest {
 

@@ -3,15 +3,15 @@ package integration.pages;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.fail;
 
-import integration.BaseIntegrationTest;
 import io.kristaxlab.notion.model.block.BlockList;
 import io.kristaxlab.notion.model.page.Page;
 import io.kristaxlab.notion.model.page.templates.TemplateParams;
 import java.util.function.Predicate;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import testkit.WithEmptyTestPage;
 
-public class IT9_Pages_Duplicate extends BaseIntegrationTest {
+public class IT9_Pages_Duplicate extends WithEmptyTestPage {
 
   @Test
   @DisplayName("IT-9: Pages - Duplicate page using its id as template id")

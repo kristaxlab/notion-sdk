@@ -3,7 +3,6 @@ package integration.blocks;
 import static io.kristaxlab.notion.fluent.NotionBlocks.paragraph;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import integration.BaseIntegrationTest;
 import io.kristaxlab.notion.model.block.AppendBlockChildrenParams;
 import io.kristaxlab.notion.model.block.Block;
 import io.kristaxlab.notion.model.block.BlockList;
@@ -12,8 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import testkit.WithEmptyTestPage;
 
-public class IT31_Blocks_InsertToPosition extends BaseIntegrationTest {
+public class IT31_Blocks_InsertToPosition extends WithEmptyTestPage {
 
   @Test
   @DisplayName("IT-31: Blocks - Insert blocks into a specific position")

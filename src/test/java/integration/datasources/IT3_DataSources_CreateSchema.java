@@ -3,7 +3,6 @@ package integration.datasources;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import integration.BaseIntegrationTest;
 import io.kristaxlab.notion.fluent.NotionSchema;
 import io.kristaxlab.notion.model.database.CreateDatabaseParams;
 import io.kristaxlab.notion.model.database.Database;
@@ -13,8 +12,9 @@ import io.kristaxlab.notion.model.datasource.properties.NumberFormatType;
 import io.kristaxlab.notion.model.datasource.properties.RollupFunctionType;
 import java.util.Map;
 import org.junit.jupiter.api.*;
+import testkit.WithEmptyTestPage;
 
-public class IT3_DataSources_CreateSchema extends BaseIntegrationTest {
+public class IT3_DataSources_CreateSchema extends WithEmptyTestPage {
 
   private static final String TITLE_PROP_NAME = "Name";
 

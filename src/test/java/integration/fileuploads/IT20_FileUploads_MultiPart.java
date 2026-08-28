@@ -4,8 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import integration.BaseIntegrationTest;
-import integration.helper.IntegrationTestAssisstant;
 import io.kristaxlab.notion.endpoints.util.FileUploadUtils;
 import io.kristaxlab.notion.model.file.FileUpload;
 import io.kristaxlab.notion.model.file.FileUploadCreateParams;
@@ -17,6 +15,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import testkit.BaseIntegrationTest;
+import testkit.util.FileLoader;
 
 /**
  * Multi-part uploads are rejected for files under 5 MB, so this test needs a large file and a paid
@@ -36,8 +36,7 @@ public class IT20_FileUploads_MultiPart extends BaseIntegrationTest {
 
   @BeforeEach
   public void setup() throws Exception {
-    videoFile =
-        IntegrationTestAssisstant.loadFileFailIfMissing(VIDEO_PATH, getClass().getClassLoader());
+    videoFile = FileLoader.loadFileFailIfMissing(VIDEO_PATH, getClass().getClassLoader());
     numberOfParts = FileUploadUtils.calculateNumberOfParts(videoFile.length(), PART_SIZE_IN_BYTES);
     assertTrue(numberOfParts > 1, "The test file must be large enough to be split into parts");
 

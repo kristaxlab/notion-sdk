@@ -1,4 +1,4 @@
-package integration.extension;
+package testkit.ext;
 
 public class NotionFixtureException extends RuntimeException {
   public NotionFixtureException(String message) {

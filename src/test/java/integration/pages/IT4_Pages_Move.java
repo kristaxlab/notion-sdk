@@ -2,7 +2,6 @@ package integration.pages;
 
 import static org.junit.Assert.*;
 
-import integration.BaseIntegrationTest;
 import io.kristaxlab.notion.http.error.ValidationException;
 import io.kristaxlab.notion.model.block.BlockList;
 import io.kristaxlab.notion.model.common.Parent;
@@ -10,9 +9,10 @@ import io.kristaxlab.notion.model.database.CreateDatabaseParams;
 import io.kristaxlab.notion.model.database.Database;
 import io.kristaxlab.notion.model.page.Page;
 import org.junit.jupiter.api.*;
+import testkit.WithEmptyTestPage;
 
 @Tag("pages")
-public class IT4_Pages_Move extends BaseIntegrationTest {
+public class IT4_Pages_Move extends WithEmptyTestPage {
 
   private static String databaseId;
   private static String dataSourceId;

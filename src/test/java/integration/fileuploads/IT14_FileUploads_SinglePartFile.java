@@ -3,8 +3,6 @@ package integration.fileuploads;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import integration.BaseIntegrationTest;
-import integration.helper.IntegrationTestAssisstant;
 import io.kristaxlab.notion.model.file.FileUpload;
 import io.kristaxlab.notion.model.file.FileUploadCreateParams;
 import io.kristaxlab.notion.model.file.FileUploadSendParams;
@@ -12,6 +10,8 @@ import java.io.File;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import testkit.BaseIntegrationTest;
+import testkit.util.FileLoader;
 
 public class IT14_FileUploads_SinglePartFile extends BaseIntegrationTest {
 
@@ -23,8 +23,7 @@ public class IT14_FileUploads_SinglePartFile extends BaseIntegrationTest {
 
   @BeforeEach
   public void setup() {
-    imageFile =
-        IntegrationTestAssisstant.loadFileFailIfMissing(IMAGE_PATH, getClass().getClassLoader());
+    imageFile = FileLoader.loadFileFailIfMissing(IMAGE_PATH, getClass().getClassLoader());
   }
 
   @Test

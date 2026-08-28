@@ -2,8 +2,6 @@ package integration.pages;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import integration.BaseIntegrationTest;
-import integration.extension.NotionTestContext;
 import io.kristaxlab.notion.fluent.NotionPageViewer;
 import io.kristaxlab.notion.fluent.NotionProperties;
 import io.kristaxlab.notion.fluent.NotionSchema;
@@ -22,8 +20,10 @@ import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import testkit.WithEmptyTestPage;
+import testkit.ext.TestSession;
 
-public class IT6_Pages_PropertyValuesCRUD extends BaseIntegrationTest {
+public class IT6_Pages_PropertyValuesCRUD extends WithEmptyTestPage {
 
   private static final String TITLE_PROP_NAME = "Name";
   private static final String FILE_PATH = "files/it-7/image.jpg";
@@ -44,7 +44,7 @@ public class IT6_Pages_PropertyValuesCRUD extends BaseIntegrationTest {
     Database db = createDatabaseWithFirstDataSource(testPageId);
     firstDataSourceId = db.getDataSources().get(0).getId();
     secondDataSourceId = createSecondDataSource(db.getId());
-    userId = NotionTestContext.getInstance().getTestBotUserId();
+    userId = TestSession.get().getBotUserId();
 
     // Create anchor page for relations
     anchorPageId1 = createAnchorPage(firstDataSourceId);

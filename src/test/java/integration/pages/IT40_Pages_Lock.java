@@ -2,14 +2,14 @@ package integration.pages;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import integration.BaseIntegrationTest;
 import io.kristaxlab.notion.model.page.Page;
 import io.kristaxlab.notion.model.page.UpdatePageParams;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import testkit.WithEmptyTestPage;
 
-public class IT40_Pages_Lock extends BaseIntegrationTest {
+public class IT40_Pages_Lock extends WithEmptyTestPage {
 
   @Test
   @DisplayName("IT-40: Pages - Lock and unlock a page")

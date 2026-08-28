@@ -3,7 +3,6 @@ package integration.blocks;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import integration.BaseIntegrationTest;
 import io.kristaxlab.notion.fluent.NotionBlocks;
 import io.kristaxlab.notion.model.block.Block;
 import io.kristaxlab.notion.model.block.BlockList;
@@ -15,8 +14,9 @@ import java.util.stream.Collectors;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import testkit.WithEmptyTestPage;
 
-public class IT23_Blocks_UploadedImage extends BaseIntegrationTest {
+public class IT23_Blocks_UploadedImage extends WithEmptyTestPage {
 
   private static final String IMAGE_PATH = "files/it-23/image.jpg";
   private static final String IMAGE_NAME = "image.jpg";

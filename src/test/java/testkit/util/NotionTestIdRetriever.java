@@ -1,4 +1,4 @@
-package integration.extension;
+package testkit.util;
 
 import java.util.Optional;
 import java.util.regex.Matcher;

@@ -1,8 +1,9 @@
-package integration;
+package testkit.ext.client;
 
 import static io.kristaxlab.notion.NotionTestEnvironmentConstants.NOTION_TEST_AUTH_TOKEN;
 
 import io.kristaxlab.notion.NotionClient;
+import io.kristaxlab.notion.config.ConfigurationLookup;
 import io.kristaxlab.notion.http.base.interceptor.ExchangeRecordingInterceptor;
 import io.kristaxlab.notion.http.base.json.TestSerializer;
 import java.nio.file.Path;
@@ -26,18 +27,8 @@ import java.nio.file.Path;
  */
 public class NotionTestClientProvider {
 
-  /**
-   * Creates a {@link NotionClient} for internal integration tests without exchange logging.
-   *
-   * <p>Prefer {@link #internalTestingClient(Path)} when you need per-test exchange files written to
-   * disk for offline inspection or regression snapshots.
-   *
-   * @return a fully-wired {@link NotionClient} backed by the NOTION_TEST_AUTH_TOKEN token
-   * @throws IllegalStateException if the NOTION_TEST_AUTH_TOKEN environment variable is absent or
-   *     blank
-   */
-  public static NotionClient internalTestingClient() {
-    return internalTestingClient(null);
+  public static NotionClient getInfraSetupClient() {
+    return internalTestingClient(null, "Notion Test Env Setup");
   }
 
   /**
@@ -53,16 +44,20 @@ public class NotionTestClientProvider {
    * @throws IllegalStateException if the NOTION_TEST_AUTH_TOKEN environment variable is absent or
    *     blank
    */
-  public static NotionClient internalTestingClient(Path exchangeLogDir) {
-    String apiKey = System.getenv(NOTION_TEST_AUTH_TOKEN);
-    if (apiKey == null || apiKey.isEmpty()) {
-      throw new IllegalStateException(NOTION_TEST_AUTH_TOKEN + " environment variable is not set");
-    }
+  public static NotionClient internalTestingClient(Path exchangeLogDir, String clientName) {
+    String apiKey =
+        ConfigurationLookup.lookup(NOTION_TEST_AUTH_TOKEN)
+            .orElseThrow(
+                () ->
+                    new IllegalStateException(
+                        NOTION_TEST_AUTH_TOKEN + " environment variable is not set"));
 
+    clientName = (clientName == null || clientName.isBlank()) ? "Notion Client" : clientName;
     return NotionClient.builder()
         .authToken(apiKey)
         .jsonSerializer(new TestSerializer()) // strict serializer
         .exchangeLogging(exchangeLogDir)
+        .clientName(clientName)
         .build();
   }
 }

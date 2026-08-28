@@ -4,7 +4,6 @@ import static io.kristaxlab.notion.fluent.NotionBlocks.blocksBuilder;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import integration.BaseIntegrationTest;
 import io.kristaxlab.notion.fluent.NotionBlocksViewer;
 import io.kristaxlab.notion.model.block.Block;
 import io.kristaxlab.notion.model.block.BlockList;
@@ -13,8 +12,9 @@ import io.kristaxlab.notion.model.common.Color;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import testkit.WithEmptyTestPage;
 
-public class IT61_Blocks_OtherBlocks extends BaseIntegrationTest {
+public class IT61_Blocks_OtherBlocks extends WithEmptyTestPage {
 
   @Test
   @DisplayName("IT-61: Blocks - Append other block types (not included in IT-42, 57, 58, 59, 60)")

@@ -2,15 +2,15 @@ package integration.pages;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import integration.BaseIntegrationTest;
 import io.kristaxlab.notion.model.common.Cover;
 import io.kristaxlab.notion.model.page.Page;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import testkit.WithEmptyTestPage;
 
-public class IT1_Pages_CRUD extends BaseIntegrationTest {
+public class IT1_Pages_CRUD extends WithEmptyTestPage {
 
   private static final String FIRST_COVER_PATH = "files/it-1/first-cover.jpg";
   private static final String FIRST_COVER_NAME = "first-cover.jpg";

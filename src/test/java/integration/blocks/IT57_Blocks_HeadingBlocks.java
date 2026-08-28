@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import integration.BaseIntegrationTest;
 import io.kristaxlab.notion.fluent.NotionBlocksViewer;
 import io.kristaxlab.notion.model.block.Block;
 import io.kristaxlab.notion.model.block.BlockList;
@@ -14,8 +13,9 @@ import io.kristaxlab.notion.model.common.Color;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import testkit.WithEmptyTestPage;
 
-public class IT57_Blocks_HeadingBlocks extends BaseIntegrationTest {
+public class IT57_Blocks_HeadingBlocks extends WithEmptyTestPage {
 
   @Test
   @DisplayName("IT-57: Blocks - Append heading block types")

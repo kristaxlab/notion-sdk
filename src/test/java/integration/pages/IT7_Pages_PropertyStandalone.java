@@ -2,7 +2,6 @@ package integration.pages;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import integration.BaseIntegrationTest;
 import io.kristaxlab.notion.fluent.NotionProperties;
 import io.kristaxlab.notion.fluent.NotionText;
 import io.kristaxlab.notion.http.error.ValidationException;
@@ -18,8 +17,9 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import testkit.WithEmptyTestPage;
 
-public class IT7_Pages_PropertyStandalone extends BaseIntegrationTest {
+public class IT7_Pages_PropertyStandalone extends WithEmptyTestPage {
 
   private static final String NOTES_PROP = "Notes";
   private static final String RICH_TEXT_CONTENT = "Simple text ==";

@@ -5,15 +5,15 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import integration.BaseIntegrationTest;
 import io.kristaxlab.notion.model.block.Block;
 import io.kristaxlab.notion.model.block.BlockList;
 import io.kristaxlab.notion.model.block.BlockType;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import testkit.WithEmptyTestPage;
 
-public class IT26_Blocks_SeveralBlocksAtOnce extends BaseIntegrationTest {
+public class IT26_Blocks_SeveralBlocksAtOnce extends WithEmptyTestPage {
 
   @Test
   @DisplayName("IT-26: Blocks - Create several blocks at once")

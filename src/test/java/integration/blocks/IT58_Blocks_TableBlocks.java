@@ -3,7 +3,6 @@ package integration.blocks;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import integration.BaseIntegrationTest;
 import io.kristaxlab.notion.model.block.Block;
 import io.kristaxlab.notion.model.block.BlockList;
 import io.kristaxlab.notion.model.block.BlockType;
@@ -13,8 +12,9 @@ import io.kristaxlab.notion.model.common.richtext.RichText;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import testkit.WithEmptyTestPage;
 
-public class IT58_Blocks_TableBlocks extends BaseIntegrationTest {
+public class IT58_Blocks_TableBlocks extends WithEmptyTestPage {
 
   private static final List<String> HEADER_ROW = List.of("Mon", "Tue", "Wed", "Thu", "Fri");
   private static final List<String> DATA_ROW = List.of("gym", "run", "bike", "gym", "run");

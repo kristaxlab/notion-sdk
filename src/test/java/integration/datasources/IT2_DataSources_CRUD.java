@@ -2,7 +2,6 @@ package integration.datasources;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import integration.BaseIntegrationTest;
 import io.kristaxlab.notion.model.database.CreateDatabaseParams;
 import io.kristaxlab.notion.model.database.Database;
 import io.kristaxlab.notion.model.datasource.DataSource;
@@ -10,8 +9,9 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import testkit.WithEmptyTestPage;
 
-public class IT2_DataSources_CRUD extends BaseIntegrationTest {
+public class IT2_DataSources_CRUD extends WithEmptyTestPage {
 
   private static final String FIRST_COVER_PATH = "files/it-1/first-cover.jpg";
   private static final String FIRST_COVER_NAME = "first-cover.jpg";

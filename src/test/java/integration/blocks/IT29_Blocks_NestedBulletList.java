@@ -3,7 +3,6 @@ package integration.blocks;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import integration.BaseIntegrationTest;
 import io.kristaxlab.notion.fluent.NotionBlocksViewer;
 import io.kristaxlab.notion.model.block.Block;
 import io.kristaxlab.notion.model.block.BlockList;
@@ -12,8 +11,9 @@ import io.kristaxlab.notion.model.block.ParagraphBlock;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import testkit.WithEmptyTestPage;
 
-public class IT29_Blocks_NestedBulletList extends BaseIntegrationTest {
+public class IT29_Blocks_NestedBulletList extends WithEmptyTestPage {
 
   @Test
   @DisplayName("IT-29: Blocks - Create empty Paragraph block with nested bullet list")

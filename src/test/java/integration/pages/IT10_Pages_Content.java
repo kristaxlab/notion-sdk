@@ -2,13 +2,13 @@ package integration.pages;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import integration.BaseIntegrationTest;
 import io.kristaxlab.notion.model.block.BlockList;
 import io.kristaxlab.notion.model.page.Page;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import testkit.WithEmptyTestPage;
 
-public class IT10_Pages_Content extends BaseIntegrationTest {
+public class IT10_Pages_Content extends WithEmptyTestPage {
 
   @Test
   @DisplayName("IT-10: Pages - Create page with content and then append more content")

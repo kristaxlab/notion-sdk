@@ -1,4 +1,4 @@
-package integration.extension;
+package testkit.test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
+import testkit.util.NotionTestIdRetriever;
 
 class NotionTestIdRetrieverTest {
 

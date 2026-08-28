@@ -2,15 +2,15 @@ package integration.pages;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import integration.BaseIntegrationTest;
 import io.kristaxlab.notion.model.page.Page;
 import io.kristaxlab.notion.model.page.PageAsMarkdown;
 import io.kristaxlab.notion.model.page.markdown.UpdatePageAsMarkdownParams;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import testkit.WithEmptyTestPage;
 
-public class IT43_Pages_Markdown extends BaseIntegrationTest {
+public class IT43_Pages_Markdown extends WithEmptyTestPage {
 
   @Test
   @DisplayName(

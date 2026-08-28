@@ -5,7 +5,6 @@ import static io.kristaxlab.notion.fluent.NotionText.plainText;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import integration.BaseIntegrationTest;
 import io.kristaxlab.notion.fluent.NotionBlocksViewer;
 import io.kristaxlab.notion.model.block.Block;
 import io.kristaxlab.notion.model.block.BlockList;
@@ -15,8 +14,9 @@ import io.kristaxlab.notion.model.common.Icon;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import testkit.WithEmptyTestPage;
 
-public class IT42_Blocks_TextualBlocks extends BaseIntegrationTest {
+public class IT42_Blocks_TextualBlocks extends WithEmptyTestPage {
 
   @Test
   @DisplayName("IT-42: Blocks - Append textual block types")

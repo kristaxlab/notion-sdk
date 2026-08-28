@@ -4,7 +4,6 @@ import static io.kristaxlab.notion.fluent.NotionBlocks.blocksBuilder;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import integration.BaseIntegrationTest;
 import io.kristaxlab.notion.model.block.Block;
 import io.kristaxlab.notion.model.block.BlockList;
 import io.kristaxlab.notion.model.block.BlockType;
@@ -15,8 +14,9 @@ import java.util.stream.Collectors;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import testkit.WithEmptyTestPage;
 
-public class IT59_Blocks_LinksAndMedia extends BaseIntegrationTest {
+public class IT59_Blocks_LinksAndMedia extends WithEmptyTestPage {
 
   private static final String BOOKMARK_URL = "https://www.notion.so";
   private static final String CAPTIONED_BOOKMARK_URL = "https://github.com/kristaxlab/notion-sdk";

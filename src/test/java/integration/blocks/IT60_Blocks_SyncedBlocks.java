@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import integration.BaseIntegrationTest;
 import io.kristaxlab.notion.fluent.NotionBlocks;
 import io.kristaxlab.notion.fluent.NotionBlocksViewer;
 import io.kristaxlab.notion.http.error.ValidationException;
@@ -15,8 +14,9 @@ import io.kristaxlab.notion.model.block.SyncedBlock;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import testkit.WithEmptyTestPage;
 
-public class IT60_Blocks_SyncedBlocks extends BaseIntegrationTest {
+public class IT60_Blocks_SyncedBlocks extends WithEmptyTestPage {
 
   private static final List<String> ORIGINAL_CONTENT =
       List.of("This is the original synced block content.", "Original item 1", "Original item 2");

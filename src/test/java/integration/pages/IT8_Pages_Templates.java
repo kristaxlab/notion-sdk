@@ -2,8 +2,6 @@ package integration.pages;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import integration.BaseIntegrationTest;
-import integration.extension.NotionFixtureException;
 import io.kristaxlab.notion.fluent.NotionBlocksViewer;
 import io.kristaxlab.notion.fluent.NotionPageViewer;
 import io.kristaxlab.notion.model.block.BlockList;
@@ -17,6 +15,8 @@ import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import org.junit.jupiter.api.*;
+import testkit.WithTestPageFixture;
+import testkit.ext.NotionFixtureException;
 
 /**
  * Integration coverage for data source templates: listing (filter + pagination), creating a page
@@ -26,7 +26,7 @@ import org.junit.jupiter.api.*;
  * created via the Notion API). Uses the shared "DB with templates" data source.
  */
 @Tags({@Tag("advanced"), @Tag("long")})
-public class IT8_Pages_Templates extends BaseIntegrationTest {
+public class IT8_Pages_Templates extends WithTestPageFixture {
 
   private String dataSourceWithTemplates;
 

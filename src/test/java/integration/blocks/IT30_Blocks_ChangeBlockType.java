@@ -5,7 +5,6 @@ import static io.kristaxlab.notion.fluent.NotionBlocks.paragraph;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
 
-import integration.BaseIntegrationTest;
 import io.kristaxlab.notion.http.error.ValidationException;
 import io.kristaxlab.notion.model.block.Block;
 import io.kristaxlab.notion.model.block.BlockList;
@@ -13,8 +12,9 @@ import io.kristaxlab.notion.model.block.BlockType;
 import io.kristaxlab.notion.model.block.HeadingThreeBlock;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import testkit.WithEmptyTestPage;
 
-public class IT30_Blocks_ChangeBlockType extends BaseIntegrationTest {
+public class IT30_Blocks_ChangeBlockType extends WithEmptyTestPage {
 
   @Test
   @DisplayName("IT-30: Blocks - Change block type (should be validation error)")
