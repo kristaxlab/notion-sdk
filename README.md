@@ -112,4 +112,6 @@ Examples of common tasks and patterns, organized by operation:
 
 ## License
 
-The MIT License
+[PolyForm Shield License 1.0.0](https://polyformproject.org/licenses/shield/1.0.0/)
+
+You may use this SDK freely for any purpose — including in commercial applications — except to provide a product that competes with this SDK itself. See [LICENSE](LICENSE) for the full terms.
