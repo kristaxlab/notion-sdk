@@ -82,12 +82,6 @@ public class TestSessionBeforeAll implements BeforeAllCallback {
       registerSessionFinalizer(context, sessionData.getSessionPageId(), config);
 
       return sessionData;
-    } catch (InterruptedException e) {
-      Thread.currentThread().interrupt();
-      NotionWorkspaseException failure =
-          new NotionWorkspaseException("Interrupted while provisioning the Notion test session", e);
-      TestSession.failInitialization(failure);
-      throw failure;
     } catch (RuntimeException e) {
       TestSession.failInitialization(e);
       throw e;

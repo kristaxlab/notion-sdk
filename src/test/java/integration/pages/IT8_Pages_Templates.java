@@ -1,5 +1,7 @@
 package integration.pages;
 
+import static java.time.Duration.ofMillis;
+import static java.time.Duration.ofSeconds;
 import static org.junit.jupiter.api.Assertions.*;
 
 import io.kristaxlab.notion.fluent.NotionBlocksViewer;
@@ -10,9 +12,10 @@ import io.kristaxlab.notion.model.page.Page;
 import io.kristaxlab.notion.model.page.templates.Template;
 import io.kristaxlab.notion.model.page.templates.TemplateParams;
 import io.kristaxlab.notion.model.page.templates.Templates;
+import io.kristaxlab.notion.util.PollingConfig;
+import io.kristaxlab.notion.util.TemplatePoller;
 import java.util.List;
 import java.util.Set;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import org.junit.jupiter.api.*;
 import testkit.WithTestPageFixture;
@@ -33,6 +36,8 @@ public class IT8_Pages_Templates extends WithTestPageFixture {
   private static final String TITLE_PROP = "Name";
   private static final String TODO_TEMPLATE_NAME = "To Do List";
   private static final String BULLET_TEMPLATE_NAME = "Bulleted List";
+  private static final PollingConfig TEMPLATE_POLLING =
+      PollingConfig.of(ofSeconds(10), ofMillis(500));
 
   private Template todoTemplate;
   private Template bulletTemplate;
@@ -115,7 +120,12 @@ public class IT8_Pages_Templates extends WithTestPageFixture {
                 pageWithText.getId(),
                 params -> params.template(TemplateParams.templateId(bulletTemplate.getId())));
 
-    BlockList children2 = waitForChildren(bulletAppended.getId(), 1 + bulletTemplateBlockCount);
+    BlockList children2 =
+        TemplatePoller.awaitBlockCount(
+            getNotionClient(),
+            bulletAppended.getId(),
+            1 + bulletTemplateBlockCount,
+            TEMPLATE_POLLING);
     assertTrue(containsBlockType(children2, "paragraph"));
     assertTrue(containsBlockType(children2, "bulleted_list_item"));
     bulletAppended = getNotionClient().pages().retrieve(bulletAppended.getId());
@@ -131,8 +141,11 @@ public class IT8_Pages_Templates extends WithTestPageFixture {
                 params -> params.template(TemplateParams.templateId(todoTemplate.getId())));
 
     BlockList children3 =
-        waitForChildren(
-            bulletAndTodoAppended.getId(), 1 + bulletTemplateBlockCount + todoTemplateBlockCount);
+        TemplatePoller.awaitBlockCount(
+            getNotionClient(),
+            bulletAndTodoAppended.getId(),
+            1 + bulletTemplateBlockCount + todoTemplateBlockCount,
+            TEMPLATE_POLLING);
     assertTrue(containsBlockType(children3, "paragraph"));
     assertTrue(containsBlockType(children3, "bulleted_list_item"));
     assertTrue(containsBlockType(children3, "to_do"));
@@ -151,8 +164,17 @@ public class IT8_Pages_Templates extends WithTestPageFixture {
                     .eraseContent(true));
 
     // Replace is async: wait until old content is gone and the new template is present.
-    // A plain min-count wait is insufficient because the previous append already had enough blocks.
-    BlockList replaced = waitForChildren(bulletAndTodoAppended.getId(), todoTemplateBlockCount);
+    BlockList replaced =
+        TemplatePoller.awaitBlocks(
+            getNotionClient(),
+            bulletAndTodoAppended.getId(),
+            blocks ->
+                blocks.getResults() != null
+                    && blocks.getResults().size() == todoTemplateBlockCount
+                    && containsBlockType(blocks, "to_do")
+                    && !containsBlockType(blocks, "paragraph")
+                    && !containsBlockType(blocks, "bulleted_list_item"),
+            TEMPLATE_POLLING);
     assertTrue(containsBlockType(replaced, "to_do"));
     assertFalse(containsBlockType(replaced, "paragraph"));
     assertFalse(containsBlockType(replaced, "bulleted_list_item"));
@@ -168,7 +190,8 @@ public class IT8_Pages_Templates extends WithTestPageFixture {
                         .template(TemplateParams.templateId(todoTemplate.getId())));
 
     BlockList fromTemplateChildren =
-        waitForChildren(fromToDoTemplate.getId(), todoTemplateBlockCount);
+        TemplatePoller.awaitBlockCount(
+            getNotionClient(), fromToDoTemplate.getId(), todoTemplateBlockCount, TEMPLATE_POLLING);
     assertTrue(containsBlockType(fromTemplateChildren, "to_do"));
   }
 
@@ -182,7 +205,11 @@ public class IT8_Pages_Templates extends WithTestPageFixture {
                         .template(TemplateParams.defaultTemplate()));
 
     BlockList fromDefaultBulletTemplateChildren =
-        waitForChildren(fromDefaultBulletTemplate.getId(), bulletTemplateBlockCount);
+        TemplatePoller.awaitBlockCount(
+            getNotionClient(),
+            fromDefaultBulletTemplate.getId(),
+            bulletTemplateBlockCount,
+            TEMPLATE_POLLING);
     assertTrue(containsBlockType(fromDefaultBulletTemplateChildren, "bulleted_list_item"));
   }
 
@@ -235,33 +262,6 @@ public class IT8_Pages_Templates extends WithTestPageFixture {
             () ->
                 new IllegalStateException(
                     "Template '" + name + "' is missing from prerequisite data source"));
-  }
-
-  private BlockList waitForChildren(String pageId, int bloeckCount) {
-    return waitForChildren(
-        pageId, blocks -> blocks.getResults() != null && blocks.getResults().size() == bloeckCount);
-  }
-
-  private BlockList waitForChildren(String pageId, Predicate<BlockList> ready) {
-    BlockList last = null;
-    for (int attempt = 0; attempt < 20; attempt++) {
-      last = getNotionClient().blocks().retrieveChildren(pageId);
-      if (last != null && ready.test(last)) {
-        return last;
-      }
-      try {
-        Thread.sleep(500);
-      } catch (InterruptedException e) {
-        Thread.currentThread().interrupt();
-        fail("Interrupted while waiting for template content on page " + pageId);
-      }
-    }
-    fail(
-        "Timed out waiting for template content on page "
-            + pageId
-            + "; last count="
-            + (last == null || last.getResults() == null ? 0 : last.getResults().size()));
-    return last;
   }
 
   private static boolean containsBlockType(BlockList blocks, String type) {

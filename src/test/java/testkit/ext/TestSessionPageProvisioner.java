@@ -9,6 +9,8 @@ import io.kristaxlab.notion.model.database.Database;
 import io.kristaxlab.notion.model.datasource.DataSource;
 import io.kristaxlab.notion.model.page.Page;
 import io.kristaxlab.notion.model.page.templates.TemplateParams;
+import io.kristaxlab.notion.util.PollingConfig;
+import io.kristaxlab.notion.util.TemplatePoller;
 import java.time.Duration;
 import java.util.Map;
 import org.slf4j.Logger;
@@ -33,8 +35,8 @@ public class TestSessionPageProvisioner {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(TestSessionPageProvisioner.class);
 
-  private static final Duration TEMPLATE_APPLY_TIMEOUT = Duration.ofSeconds(15);
-  private static final Duration TEMPLATE_POLL_INTERVAL = Duration.ofMillis(500);
+  private static final PollingConfig TEMPLATE_POLLING =
+      PollingConfig.of(Duration.ofSeconds(15), Duration.ofMillis(500));
 
   private final NotionClient notionClient;
   private final FixturePagesDiscoverer fixtureDiscoverer;
@@ -59,15 +61,15 @@ public class TestSessionPageProvisioner {
    *
    * @param config the session configuration
    * @return immutable session data containing page ID, bot user ID, and fixtures
-   * @throws InterruptedException if waiting for template content is interrupted
    */
-  public TestSession.Data provision(TestSessionConfig config) throws InterruptedException {
+  public TestSession.Data provision(TestSessionConfig config) {
     LOGGER.info("Provisioning test session from configuration");
 
     Page sessionPage =
         createSessionPage(config.getParentId(), config.getTemplateId(), config.getSessionTitle());
 
-    BlockList blocks = waitForTemplateContent(sessionPage.getId());
+    BlockList blocks =
+        TemplatePoller.awaitAnyBlocks(notionClient, sessionPage.getId(), TEMPLATE_POLLING);
     Map<String, String> fixturePages = fixtureDiscoverer.discoverFixturePages(blocks);
 
     TestSession.Data sessionData =
@@ -98,36 +100,6 @@ public class TestSessionPageProvisioner {
         (pageName == null || pageName.isBlank()) ? "Integration tests session" : pageName;
 
     return notionClient.pages().create(page -> page.title(title).parent(parent).template(template));
-  }
-
-  /**
-   * Waits for template content to be applied to a newly created page.
-   *
-   * <p>Notion applies page templates asynchronously, so right after page creation its content may
-   * not be there yet. This method polls the page children every {@link #TEMPLATE_POLL_INTERVAL}
-   * until any content appears or {@link #TEMPLATE_APPLY_TIMEOUT} elapses.
-   *
-   * @param pageId the ID of the page to wait for
-   * @return the page's child blocks (may be empty if template has no content)
-   * @throws InterruptedException if interrupted while waiting
-   */
-  private BlockList waitForTemplateContent(String pageId) throws InterruptedException {
-    long deadline = System.currentTimeMillis() + TEMPLATE_APPLY_TIMEOUT.toMillis();
-    BlockList blocks = notionClient.blocks().retrieveChildren(pageId);
-
-    while (blocks.getResults() == null || blocks.getResults().isEmpty()) {
-      if (System.currentTimeMillis() >= deadline) {
-        LOGGER.warn(
-            "Test session page {} still has no content after {}; proceeding assuming the template is empty",
-            pageId,
-            TEMPLATE_APPLY_TIMEOUT);
-        break;
-      }
-      Thread.sleep(TEMPLATE_POLL_INTERVAL.toMillis());
-      blocks = notionClient.blocks().retrieveChildren(pageId);
-    }
-
-    return blocks;
   }
 
   /**
