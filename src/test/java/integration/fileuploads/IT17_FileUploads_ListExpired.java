@@ -9,6 +9,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import testkit.BaseIntegrationTest;
+import testkit.util.FileLoader;
 
 public class IT17_FileUploads_ListExpired extends BaseIntegrationTest {
 
@@ -23,7 +24,7 @@ public class IT17_FileUploads_ListExpired extends BaseIntegrationTest {
 
   @BeforeEach
   public void setup() {
-    uploadedFileId = uploadFile(IMAGE_PATH, UPLOADED_FILENAME);
+    uploadedFileId = FileLoader.uploadFile(IMAGE_PATH, UPLOADED_FILENAME, getSetupClient());
   }
 
   @Test

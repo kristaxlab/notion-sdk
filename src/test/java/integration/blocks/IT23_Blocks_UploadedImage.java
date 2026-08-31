@@ -15,6 +15,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import testkit.WithEmptyTestPage;
+import testkit.util.FileLoader;
 
 public class IT23_Blocks_UploadedImage extends WithEmptyTestPage {
 
@@ -26,7 +27,7 @@ public class IT23_Blocks_UploadedImage extends WithEmptyTestPage {
 
   @BeforeEach
   public void setup() {
-    fileUploadId = uploadFile(IMAGE_PATH, IMAGE_NAME);
+    fileUploadId = FileLoader.uploadFile(IMAGE_PATH, IMAGE_NAME, getSetupClient());
   }
 
   @Test

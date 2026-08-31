@@ -22,6 +22,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import testkit.WithEmptyTestPage;
 import testkit.ext.TestSession;
+import testkit.util.FileLoader;
 
 public class IT6_Pages_PropertyValuesCRUD extends WithEmptyTestPage {
 
@@ -38,7 +39,7 @@ public class IT6_Pages_PropertyValuesCRUD extends WithEmptyTestPage {
 
   @BeforeEach
   public void setup() {
-    fileUploadId = uploadFile(FILE_PATH, FILE_NAME);
+    fileUploadId = FileLoader.uploadFile(FILE_PATH, FILE_NAME, getSetupClient());
 
     String testPageId = getTestPageId();
     Database db = createDatabaseWithFirstDataSource(testPageId);

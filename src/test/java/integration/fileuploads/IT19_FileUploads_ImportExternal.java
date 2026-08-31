@@ -48,7 +48,7 @@ public class IT19_FileUploads_ImportExternal extends BaseIntegrationTest {
     FileUpload last = null;
     for (int attempt = 0; attempt < 20; attempt++) {
       last = getNotionClient().fileUploads().retrieve(fileUploadId);
-      if ("uploaded".equals(last.getStatus())) {
+      if (last.getFileImportResult() != null) {
         return last;
       }
       if ("failed".equals(last.getStatus())) {

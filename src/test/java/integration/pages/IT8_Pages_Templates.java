@@ -16,7 +16,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import org.junit.jupiter.api.*;
 import testkit.WithTestPageFixture;
-import testkit.ext.NotionFixtureException;
+import testkit.ext.NotionWorkspaseException;
 
 /**
  * Integration coverage for data source templates: listing (filter + pagination), creating a page
@@ -49,7 +49,7 @@ public class IT8_Pages_Templates extends WithTestPageFixture {
             .first(ChildDatabaseBlock.class)
             .orElseThrow(
                 () ->
-                    new NotionFixtureException(
+                    new NotionWorkspaseException(
                         "IT-8 test requires prerequisite page with a data source in it"));
 
     dataSourceWithTemplates =

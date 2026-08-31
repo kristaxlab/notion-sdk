@@ -21,5 +21,5 @@ import testkit.ext.TestSessionBeforeAll;
 @ExtendWith(NotionTestClientProvisioner.class)
 public @interface NotionTestClient {
 
-  boolean logExchanges() default false;
+  boolean forSetup() default false;
 }

@@ -4,11 +4,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import io.kristaxlab.notion.model.common.Cover;
 import io.kristaxlab.notion.model.page.Page;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import testkit.WithEmptyTestPage;
+import testkit.util.FileLoader;
 
 public class IT1_Pages_CRUD extends WithEmptyTestPage {
 
@@ -21,10 +19,10 @@ public class IT1_Pages_CRUD extends WithEmptyTestPage {
   private static String firstCoverId;
   private static String secondCoverId;
 
-  @BeforeAll
-  public static void setup() {
-    firstCoverId = uploadFile(FIRST_COVER_PATH, FIRST_COVER_NAME);
-    secondCoverId = uploadFile(SECOND_COVER_PATH, SECOND_COVER_NAME);
+  @BeforeEach
+  public void setup() {
+    firstCoverId = FileLoader.uploadFile(FIRST_COVER_PATH, FIRST_COVER_NAME, getSetupClient());
+    secondCoverId = FileLoader.uploadFile(SECOND_COVER_PATH, SECOND_COVER_NAME, getSetupClient());
   }
 
   @Test

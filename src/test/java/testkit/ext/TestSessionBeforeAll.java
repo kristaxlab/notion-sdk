@@ -5,7 +5,7 @@ import org.junit.jupiter.api.extension.BeforeAllCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import testkit.ext.client.NotionTestClientProvider;
+import testkit.ext.client.NotionTestClientProvisioner;
 
 /**
  * Provisions the Notion test session: creates a dedicated "home" Notion page all tests of the
@@ -42,7 +42,7 @@ public class TestSessionBeforeAll implements BeforeAllCallback {
    * <p>Creates a provisioner with production dependencies.
    */
   public TestSessionBeforeAll() {
-    this.notionClient = NotionTestClientProvider.getInfraSetupClient();
+    this.notionClient = NotionTestClientProvisioner.getInfraSetupClient();
     this.provisioner =
         new TestSessionPageProvisioner(notionClient, new FixturePagesDiscoverer(notionClient));
   }
@@ -84,8 +84,8 @@ public class TestSessionBeforeAll implements BeforeAllCallback {
       return sessionData;
     } catch (InterruptedException e) {
       Thread.currentThread().interrupt();
-      NotionFixtureException failure =
-          new NotionFixtureException("Interrupted while provisioning the Notion test session", e);
+      NotionWorkspaseException failure =
+          new NotionWorkspaseException("Interrupted while provisioning the Notion test session", e);
       TestSession.failInitialization(failure);
       throw failure;
     } catch (RuntimeException e) {

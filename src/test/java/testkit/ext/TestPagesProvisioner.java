@@ -10,7 +10,7 @@ import org.junit.jupiter.api.extension.ParameterResolutionException;
 import org.junit.jupiter.api.extension.ParameterResolver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import testkit.ext.client.NotionTestClientProvider;
+import testkit.ext.client.NotionTestClientProvisioner;
 import testkit.util.NotionTestIdRetriever;
 
 /**
@@ -30,7 +30,7 @@ public class TestPagesProvisioner implements ParameterResolver {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(TestPagesProvisioner.class);
 
-  private NotionClient notionClient = NotionTestClientProvider.getInfraSetupClient();
+  private NotionClient notionClient = NotionTestClientProvisioner.getInfraSetupClient();
 
   @Override
   public boolean supportsParameter(
@@ -50,9 +50,13 @@ public class TestPagesProvisioner implements ParameterResolver {
     boolean fixtureRequired =
         parameterContext.findAnnotation(TestPage.class).map(TestPage::fixture).orElse(false);
 
-    String testPageId =
-        resolvePageId(testId, testSessionPageId, fixtureRequired, context.getDisplayName());
-    return testPageId;
+    try {
+      return resolvePageId(testId, testSessionPageId, fixtureRequired, context.getDisplayName());
+    } catch (Exception e) {
+      String message = "Failed to prepare test page for test " + testId + ": " + e.getMessage();
+      LOGGER.error(message);
+      throw new NotionWorkspaseException(message, e);
+    }
   }
 
   /**
@@ -77,8 +81,8 @@ public class TestPagesProvisioner implements ParameterResolver {
     }
 
     if (fixtureRequired) {
-      throw new NotionFixtureException(
-          "Fixture page for test ID " + testId + " was not found in the test session page.");
+      throw new NotionWorkspaseException(
+          "Fixture page for test " + testId + " was not found in the test session page.");
     }
 
     String dedicatedPageId = createDedicatedPage(testSessionPageId, displayName);
@@ -97,7 +101,7 @@ public class TestPagesProvisioner implements ParameterResolver {
     return NotionTestIdRetriever.retrieveTestId(context.getDisplayName())
         .orElseThrow(
             () ->
-                new NotionFixtureException(
+                new NotionWorkspaseException(
                     "Notion Test Id was not found. Check if your test method is annotated with "
                         + "@DisplayName(\"IT-XXX: ...\") annotation to specify a test id of the test"));
   }

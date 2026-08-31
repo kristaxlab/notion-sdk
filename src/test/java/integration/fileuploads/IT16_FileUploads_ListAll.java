@@ -10,6 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import testkit.BaseIntegrationTest;
+import testkit.util.FileLoader;
 
 public class IT16_FileUploads_ListAll extends BaseIntegrationTest {
 
@@ -21,7 +22,7 @@ public class IT16_FileUploads_ListAll extends BaseIntegrationTest {
   /** The listing is only meaningful when at least one upload belongs to the integration. */
   @BeforeEach
   public void setup() {
-    uploadedFileId = uploadFile(IMAGE_PATH, UPLOADED_FILENAME);
+    uploadedFileId = FileLoader.uploadFile(IMAGE_PATH, UPLOADED_FILENAME, getSetupClient());
   }
 
   @Test

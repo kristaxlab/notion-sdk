@@ -71,7 +71,7 @@ public class IT4_Pages_Move extends WithEmptyTestPage {
 
   // Setup methods
 
-  private static String createBlock(String parentPageId) {
+  private String createBlock(String parentPageId) {
     BlockList blockList =
         getSetupClient().blocks().appendChildren(parentPageId, b -> b.toggle("Toggle block"));
     if (blockList == null || blockList.getResults().isEmpty()) {
@@ -80,7 +80,7 @@ public class IT4_Pages_Move extends WithEmptyTestPage {
     return blockList.getResults().get(0).getId();
   }
 
-  private static Database createDatabase(String parentPageId) {
+  private Database createDatabase(String parentPageId) {
     Database db =
         getSetupClient()
             .databases()
