@@ -6,7 +6,7 @@ import testkit.ext.TestPage;
 import testkit.ext.client.NotionTestClient;
 
 /**
- * Provides common setup for integration tests that use a {@link NotionClient}.
+ * Provides common setup for tests tests that use a {@link NotionClient}.
  *
  * <p>Before each test, this base class creates a client configured to write HTTP exchange logs
  * under a deterministic directory derived from the test class and method names.
@@ -20,7 +20,7 @@ public abstract class BaseIntegrationTest {
   private NotionClient notionEnvSetupClient;
   private NotionClient notionClient;
 
-  /** Initializes the integration test client */
+  /** Initializes the tests test client */
   @BeforeEach
   protected void beforeEach(
       @NotionTestClient NotionClient client,
@@ -30,7 +30,7 @@ public abstract class BaseIntegrationTest {
   }
 
   /**
-   * Returns the client configured for the current integration test. This client logs all the
+   * Returns the client configured for the current tests test. This client logs all the
    * requests / responses
    *
    * @return the initialized {@link NotionClient} instance

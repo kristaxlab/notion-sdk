@@ -1,7 +1,5 @@
 package testkit.ext.client;
 
-import static io.kristaxlab.notion.NotionTestEnvironmentConstants.NOTION_TEST_AUTH_TOKEN;
-
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.kristaxlab.notion.NotionClient;
@@ -35,6 +33,7 @@ import testkit.ext.TestSessionBeforeAll;
 public class NotionTestClientProvisioner implements ParameterResolver {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(NotionTestClientProvisioner.class);
+  private static final String NOTION_TEST_AUTH_TOKEN = "NOTION_TEST_AUTH_TOKEN";
   private static final String BASE_LOGS_DIR = "test-logs/rqrs";
 
   @Override

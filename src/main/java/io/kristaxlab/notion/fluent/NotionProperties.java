@@ -501,6 +501,9 @@ public class NotionProperties {
    * @return relation property
    */
   public static RelationProperty relation(List<String> pageIds) {
+    if (pageIds == null) {
+      throw new IllegalArgumentException("pageIds must not be null");
+    }
     List<RelationProperty.RelationValue> values = new ArrayList<>();
     for (String id : pageIds) {
       RelationProperty.RelationValue value = new RelationProperty.RelationValue();
