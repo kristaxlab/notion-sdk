@@ -33,7 +33,7 @@ import testkit.ext.TestSessionBeforeAll;
 public class NotionTestClientProvisioner implements ParameterResolver {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(NotionTestClientProvisioner.class);
-  private static final String BASE_LOGS_DIR = "notion-tests-rqrs-logs";
+  private static final String BASE_LOGS_DIR = "test-logs/rqrs";
 
   @Override
   public boolean supportsParameter(
@@ -83,7 +83,7 @@ public class NotionTestClientProvisioner implements ParameterResolver {
    * @return
    */
   public static NotionClient getInfraSetupClient() {
-    return internalTestingClient(Path.of("notion-test-log/setup"), "Notion Test Env Setup");
+    return internalTestingClient(Path.of(BASE_LOGS_DIR, "setup"), "Notion Test Env Setup");
   }
 
   /**

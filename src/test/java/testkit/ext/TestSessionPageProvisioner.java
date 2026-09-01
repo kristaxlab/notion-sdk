@@ -15,6 +15,7 @@ import java.time.Duration;
 import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import testkit.util.NotionPageUrlResolver;
 
 /**
  * Provisions test session pages with template support and fixture discovery.
@@ -65,8 +66,7 @@ public class TestSessionPageProvisioner {
   public TestSession.Data provision(TestSessionConfig config) {
     LOGGER.info("Provisioning test session from configuration");
 
-    Page sessionPage =
-        createSessionPage(config.getParentId(), config.getTemplateId(), config.getSessionTitle());
+    Page sessionPage = createSessionPage(config);
 
     BlockList blocks =
         TemplatePoller.awaitAnyBlocks(notionClient, sessionPage.getId(), TEMPLATE_POLLING);
@@ -84,22 +84,25 @@ public class TestSessionPageProvisioner {
   /**
    * Creates a test session page with the specified name and template.
    *
-   * @param parentId the ID of the parent page, database, or data source
-   * @param templateId the template ID to use, "default" for database default template, or null
-   * @param pageName the name for the session page
+   * @param config
    * @return the created page
    */
-  private Page createSessionPage(String parentId, String templateId, String pageName) {
-    LOGGER.info(
-        "Creating test session page in {}, template={}, name={}", parentId, templateId, pageName);
+  private Page createSessionPage(TestSessionConfig config) {
+
+    String parentId = config.getParentId();
+    String templateId = config.getTemplateId();
+    String title = config.getSessionTitle() == null ? "Integration tests session" : config.getSessionTitle();
+
+    LOGGER.info("Creating test session page in {}, template={}, name={}", parentId, templateId, title);
 
     Parent parent = resolveParent(parentId);
     TemplateParams template = resolveTemplate(templateId, parent);
 
-    String title =
-        (pageName == null || pageName.isBlank()) ? "Integration tests session" : pageName;
-
-    return notionClient.pages().create(page -> page.title(title).parent(parent).template(template));
+    Page sessionPage = notionClient.pages().create(page -> page.title(title).parent(parent).template(template));
+    LOGGER.info(
+        "Test session page created: {}",
+            NotionPageUrlResolver.resolveNotionPageUrl(config.getNotionBaseUrl(), sessionPage.getId()));
+    return sessionPage;
   }
 
   /**
