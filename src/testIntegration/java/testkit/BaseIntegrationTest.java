@@ -30,8 +30,8 @@ public abstract class BaseIntegrationTest {
   }
 
   /**
-   * Returns the client configured for the current tests test. This client logs all the
-   * requests / responses
+   * Returns the client configured for the current tests test. This client logs all the requests /
+   * responses
    *
    * @return the initialized {@link NotionClient} instance
    */

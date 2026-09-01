@@ -4,7 +4,6 @@ import io.kristaxlab.notion.NotionClient;
 import io.kristaxlab.notion.model.page.CreatePageParams;
 import java.util.Map;
 import java.util.Optional;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.ParameterContext;
@@ -54,7 +53,12 @@ public class TestPagesProvisioner implements ParameterResolver {
         parameterContext.findAnnotation(TestPage.class).map(TestPage::fixture).orElse(false);
 
     try {
-      return resolvePageId(testId, testSessionPageId, fixtureRequired, context.getDisplayName(), getNotionBaseUrl(context));
+      return resolvePageId(
+          testId,
+          testSessionPageId,
+          fixtureRequired,
+          context.getDisplayName(),
+          getNotionBaseUrl(context));
     } catch (Exception e) {
       String message = "Failed to prepare test page for test " + testId + ": " + e.getMessage();
       LOGGER.error(message);
@@ -73,7 +77,11 @@ public class TestPagesProvisioner implements ParameterResolver {
    * @return the resolved Notion page ID
    */
   private String resolvePageId(
-      String testId, String testSessionPageId, boolean fixtureRequired, String displayName, String notionBaseUrl) {
+      String testId,
+      String testSessionPageId,
+      boolean fixtureRequired,
+      String displayName,
+      String notionBaseUrl) {
 
     Map<String, String> fixturePages = TestSession.get().getFixturePages();
     String fixturePageId = fixturePages.get(testId);
@@ -89,8 +97,10 @@ public class TestPagesProvisioner implements ParameterResolver {
     }
 
     String dedicatedPageId = createDedicatedPage(testSessionPageId, displayName);
-    LOGGER.debug("Created dedicated page for test {}: {}", testId,
-            NotionPageUrlResolver.resolveNotionPageUrl(notionBaseUrl, dedicatedPageId));
+    LOGGER.debug(
+        "Created dedicated page for test {}: {}",
+        testId,
+        NotionPageUrlResolver.resolveNotionPageUrl(notionBaseUrl, dedicatedPageId));
     return dedicatedPageId;
   }
 
@@ -111,11 +121,11 @@ public class TestPagesProvisioner implements ParameterResolver {
   }
 
   private String getNotionBaseUrl(ExtensionContext context) {
-    return Optional.ofNullable(context.getStore(ExtensionContext.Namespace.GLOBAL).get("session-config", TestSessionConfig.class))
+    return Optional.ofNullable(
+            context
+                .getStore(ExtensionContext.Namespace.GLOBAL)
+                .get("session-config", TestSessionConfig.class))
         .map(TestSessionConfig::getNotionBaseUrl)
-        .orElseThrow(
-            () ->
-                new NotionWorkspaseException(
-                    "Test session configuration is missing."));
+        .orElseThrow(() -> new NotionWorkspaseException("Test session configuration is missing."));
   }
 }
