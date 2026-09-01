@@ -91,17 +91,20 @@ public class TestSessionPageProvisioner {
 
     String parentId = config.getParentId();
     String templateId = config.getTemplateId();
-    String title = config.getSessionTitle() == null ? "Integration tests session" : config.getSessionTitle();
+    String title =
+        config.getSessionTitle() == null ? "Integration tests session" : config.getSessionTitle();
 
-    LOGGER.info("Creating test session page in {}, template={}, name={}", parentId, templateId, title);
+    LOGGER.info(
+        "Creating test session page in {}, template={}, name={}", parentId, templateId, title);
 
     Parent parent = resolveParent(parentId);
     TemplateParams template = resolveTemplate(templateId, parent);
 
-    Page sessionPage = notionClient.pages().create(page -> page.title(title).parent(parent).template(template));
+    Page sessionPage =
+        notionClient.pages().create(page -> page.title(title).parent(parent).template(template));
     LOGGER.info(
         "Test session page created: {}",
-            NotionPageUrlResolver.resolveNotionPageUrl(config.getNotionBaseUrl(), sessionPage.getId()));
+        NotionPageUrlResolver.resolveNotionPageUrl(config.getNotionBaseUrl(), sessionPage.getId()));
     return sessionPage;
   }
 
