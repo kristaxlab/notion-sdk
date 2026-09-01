@@ -2,7 +2,6 @@ package testkit;
 
 import io.kristaxlab.notion.NotionClient;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Tag;
 import testkit.ext.TestPage;
 import testkit.ext.client.NotionTestClient;
 
@@ -16,7 +15,6 @@ import testkit.ext.client.NotionTestClient;
  * String} field annotated with {@link TestPage}; the page is created before {@code @BeforeAll} runs
  * and a convenience link is logged after every test method.
  */
-@Tag("integration")
 public abstract class BaseIntegrationTest {
 
   private NotionClient notionEnvSetupClient;

@@ -1,6 +1,6 @@
 package integration.pages;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import io.kristaxlab.notion.http.error.ValidationException;
 import io.kristaxlab.notion.model.block.BlockList;
@@ -51,19 +51,19 @@ public class IT4_Pages_Move extends WithEmptyTestPage {
     assertEquals(testPageId, movedBack.getParent().getPageId());
 
     assertThrows(
-        "Moving a page to a block parent should throw ValidationException",
         ValidationException.class,
-        () -> getNotionClient().pages().move(page.getId(), Parent.blockParent(blockId)));
+        () -> getNotionClient().pages().move(page.getId(), Parent.blockParent(blockId)),
+        "Moving a page to a block parent should throw ValidationException");
 
     assertThrows(
-        "Moving a page to a database should throw ValidationException",
         ValidationException.class,
-        () -> getNotionClient().pages().move(page.getId(), Parent.databaseParent(databaseId)));
+        () -> getNotionClient().pages().move(page.getId(), Parent.databaseParent(databaseId)),
+        "Moving a page to a database should throw ValidationException");
 
     assertThrows(
-        "Moving a page to workspace root should throw ValidationException",
         ValidationException.class,
-        () -> getNotionClient().pages().move(page.getId(), Parent.workspaceParent()));
+        () -> getNotionClient().pages().move(page.getId(), Parent.workspaceParent()),
+        "Moving a page to workspace root should throw ValidationException");
   }
 
   @AfterAll

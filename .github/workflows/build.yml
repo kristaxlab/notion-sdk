@@ -43,7 +43,7 @@ jobs:
         if: success() || failure()  # Run even if unit tests fail
         env:
           NOTION_TEST_AUTH_TOKEN: ${{ secrets.NOTION_TEST_AUTH_TOKEN }}
-        run: ./gradlew integrationTest
+        run: ./gradlew testIntegration
 
       # 6
       - name: 6. Upload test reports
@@ -54,5 +54,5 @@ jobs:
           if-no-files-found: warn
           path: |
             build/reports/tests/test
-            build/reports/tests/integrationTest
+            build/reports/tests/testIntegration
             build/reports/jacoco/test

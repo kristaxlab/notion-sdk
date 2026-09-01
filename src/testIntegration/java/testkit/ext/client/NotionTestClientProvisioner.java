@@ -2,10 +2,12 @@ package testkit.ext.client;
 
 import static io.kristaxlab.notion.NotionTestEnvironmentConstants.NOTION_TEST_AUTH_TOKEN;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.kristaxlab.notion.NotionClient;
 import io.kristaxlab.notion.config.ConfigurationLookup;
 import io.kristaxlab.notion.http.base.interceptor.ExchangeRecordingInterceptor;
-import io.kristaxlab.notion.http.base.json.TestSerializer;
+import io.kristaxlab.notion.http.base.json.JacksonSerializer;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import org.junit.jupiter.api.extension.ExtensionContext;
@@ -110,9 +112,15 @@ public class NotionTestClientProvisioner implements ParameterResolver {
     clientName = (clientName == null || clientName.isBlank()) ? "Notion Client" : clientName;
     return NotionClient.builder()
         .authToken(apiKey)
-        .jsonSerializer(new TestSerializer()) // strict serializer
+        .jsonSerializer(strictSerializer())
         .exchangeLogging(exchangeLogDir)
         .clientName(clientName)
         .build();
+  }
+
+  private static JacksonSerializer strictSerializer() {
+    ObjectMapper mapper = JacksonSerializer.defaultMapper();
+    mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, true);
+    return new JacksonSerializer(mapper);
   }
 }

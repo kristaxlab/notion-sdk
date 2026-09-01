@@ -6,4 +6,4 @@ https://www.notion.so/kristalamenweb/2e8c5b968ec4804d8b91c99c1e04b0ca
 # Evaludaion
 
 check if test passes with:
-'./gradlew integrationTest --tests "io.kristaxlab.notion.integration.DataSourcesIT"
+'./gradlew testIntegration --tests "io.kristaxlab.notion.integration.DataSourcesIT"

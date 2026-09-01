@@ -18,11 +18,23 @@
     </Appenders>
 
     <Loggers>
+        <Logger name="io.kristaxlab.notion.http.base.interceptor.LoggingHttpInterceptor" level="DEBUG" additivity="false">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="RollingFile"/>
+        </Logger>
 
         <Logger name="io.kristaxlab.notion" level="DEBUG" additivity="false">
             <AppenderRef ref="Console"/>
             <AppenderRef ref="RollingFile"/>
         </Logger>
+
+        <Logger name="testkit" level="DEBUG" additivity="false">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="RollingFile"/>
+        </Logger>
+
+        <Logger name="okhttp3" level="WARN"/>
+        <Logger name="com.fasterxml.jackson" level="WARN"/>
 
         <Root level="INFO">
             <AppenderRef ref="Console"/>
