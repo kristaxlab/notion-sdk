@@ -192,6 +192,7 @@ Jackson is the most widely used JSON library in Java, has excellent polymorphic 
 
 ## See Also
 
+- [Architecture Decision Records](../adr/README.md) — rationale for model choices (e.g. page property vs paginated retrieve)
 - [Installation](../../README.md#installation) -- dependency setup
 - [Testing Guide](testing-guide.md) -- test doubles and patterns
 - [Custom Interceptors](custom-interceptors.md) -- writing custom interceptors
