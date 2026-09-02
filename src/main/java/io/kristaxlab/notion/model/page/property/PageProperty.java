@@ -2,10 +2,18 @@ package io.kristaxlab.notion.model.page.property;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import io.kristaxlab.notion.model.common.NotionList;
+import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import io.kristaxlab.notion.model.BaseNotionObject;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * A page property value embedded in {@link io.kristaxlab.notion.model.page.Page#getProperties()}.
+ *
+ * <p>Also returned by {@link io.kristaxlab.notion.endpoints.PagesEndpoint#retrieveProperty} for
+ * scalar types. For full paginated {@code results}, see {@link PagePropertyList}.
+ */
 @JsonTypeInfo(
     use = JsonTypeInfo.Id.NAME,
     defaultImpl = UnknownProperty.class,
@@ -23,7 +31,6 @@ import lombok.Setter;
   @JsonSubTypes.Type(value = FormulaProperty.class, name = "formula"),
   @JsonSubTypes.Type(value = LastEditedByProperty.class, name = "last_edited_by"), // read-only
   @JsonSubTypes.Type(value = LastEditedTimeProperty.class, name = "last_edited_time"), // read-only
-  @JsonSubTypes.Type(value = PropertyItem.class, name = "property_item"),
   @JsonSubTypes.Type(value = MultiSelectProperty.class, name = "multi_select"),
   @JsonSubTypes.Type(value = NumberProperty.class, name = "number"),
   @JsonSubTypes.Type(value = PeopleProperty.class, name = "people"),
@@ -41,27 +48,14 @@ import lombok.Setter;
 })
 @Getter
 @Setter
-public abstract class PageProperty extends NotionList<PageProperty> {
+@JsonDeserialize(using = JsonDeserializer.None.class)
+public non-sealed abstract class PageProperty extends BaseNotionObject implements RetrievedProperty {
 
   private String id;
 
   public abstract String getType();
 
-  /**
-   * Casts this property to a concrete subtype.
-   *
-   * <p>Convenience for downcasting after retrieving a {@link PageProperty} polymorphically:
-   *
-   * <pre>{@code
-   * page.getProperties().get("Priority").as(NumberProperty.class).getNumber();
-   * }</pre>
-   *
-   * @param type concrete property type
-   * @param <T> property subtype
-   * @return this instance cast to {@code T}
-   * @throws ClassCastException if this property is not an instance of {@code type}
-   */
-  public <T extends PageProperty> T as(Class<T> type) {
+  public <P extends PageProperty> P as(Class<P> type) {
     return type.cast(this);
   }
 }

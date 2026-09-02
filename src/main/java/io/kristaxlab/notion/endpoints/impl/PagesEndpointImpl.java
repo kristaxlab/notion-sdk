@@ -11,7 +11,9 @@ import io.kristaxlab.notion.model.block.Block;
 import io.kristaxlab.notion.model.common.Parent;
 import io.kristaxlab.notion.model.page.*;
 import io.kristaxlab.notion.model.page.markdown.UpdatePageAsMarkdownParams;
-import io.kristaxlab.notion.model.page.property.PageProperty;
+import io.kristaxlab.notion.model.page.property.PagePropertyList;
+import io.kristaxlab.notion.model.page.property.RetrievedProperty;
+
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
@@ -158,20 +160,26 @@ public class PagesEndpointImpl extends BaseEndpointImpl implements PagesEndpoint
    * @param propertyId The ID of the property to retrieve
    * @return The property object
    */
-  public PageProperty retrieveProperty(String pageId, String propertyId) {
-    return retrieveProperty(pageId, propertyId, null, null);
+  @Override
+  public RetrievedProperty retrieveProperty(String pageId, String propertyId) {
+    checkNotNullOrEmpty(pageId, "pageId");
+    checkNotNullOrEmpty(propertyId, "propertyId");
+
+    ApiPath urlInfo =
+        ApiPath.builder("/pages/{page_id}/properties/{property_id}")
+            .pathParam("page_id", pageId)
+            .pathParam("property_id", URLDecoder.decode(propertyId, StandardCharsets.UTF_8))
+            .build();
+    return getClient().call("GET", urlInfo, RetrievedProperty.class);
   }
 
-  /**
-   * Retrieve a specific page property with pagination.
-   *
-   * @param pageId The ID of the page
-   * @param propertyId The ID of the property to retrieve
-   * @param startCursor Cursor for pagination (optional)
-   * @param pageSize Number of items to return (optional, max 100)
-   * @return The property object
-   */
-  public PageProperty retrieveProperty(
+  @Override
+  public PagePropertyList retrievePaginatedProperty(String pageId, String propertyId) {
+    return retrievePaginatedProperty(pageId, propertyId, null, null);
+  }
+
+  @Override
+  public PagePropertyList retrievePaginatedProperty(
       String pageId, String propertyId, String startCursor, Integer pageSize) {
     checkNotNullOrEmpty(pageId, "pageId");
     checkNotNullOrEmpty(propertyId, "propertyId");
@@ -180,7 +188,7 @@ public class PagesEndpointImpl extends BaseEndpointImpl implements PagesEndpoint
         paginatedPath("/pages/{page_id}/properties/{property_id}", startCursor, pageSize)
             .pathParam("page_id", pageId)
             .pathParam("property_id", URLDecoder.decode(propertyId, StandardCharsets.UTF_8));
-    return getClient().call("GET", urlInfo.build(), PageProperty.class);
+    return getClient().call("GET", urlInfo.build(), PagePropertyList.class);
   }
 
   @Override
