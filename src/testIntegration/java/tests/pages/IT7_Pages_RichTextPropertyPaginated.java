@@ -8,6 +8,7 @@ import io.kristaxlab.notion.http.error.ValidationException;
 import io.kristaxlab.notion.model.common.richtext.RichText;
 import io.kristaxlab.notion.model.database.CreateDatabaseParams;
 import io.kristaxlab.notion.model.page.Page;
+import io.kristaxlab.notion.model.page.property.ListedRichText;
 import io.kristaxlab.notion.model.page.property.RichTextPropertyList;
 import java.util.ArrayList;
 import java.util.List;
@@ -81,8 +82,7 @@ public class IT7_Pages_RichTextPropertyPaginated extends WithEmptyTestPage {
       RichTextPropertyList propertyList =
           getNotionClient()
               .pages()
-              .<RichTextPropertyList>retrievePaginatedProperty(
-                  newPage.getId(), notesPropertyId, cursor, PAGE_SIZE)
+              .retrievePaginatedProperty(newPage.getId(), notesPropertyId, cursor, PAGE_SIZE)
               .asRichTextList();
 
       assertNotNull(propertyList.getPropertyItem());
@@ -91,8 +91,9 @@ public class IT7_Pages_RichTextPropertyPaginated extends WithEmptyTestPage {
       assertFalse(propertyList.getResults().isEmpty());
       assertTrue(propertyList.getResults().size() <= PAGE_SIZE);
 
-      for (RichText item : propertyList.getResults()) {
-        assertNotNull(item.getPlainText());
+      for (ListedRichText item : propertyList.getResults()) {
+        assertNotNull(item.getRichText());
+        retrieved.add(item.getRichText());
       }
 
       pageCount++;

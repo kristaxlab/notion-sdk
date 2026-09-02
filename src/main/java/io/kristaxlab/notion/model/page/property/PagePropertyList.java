@@ -8,8 +8,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @JsonDeserialize(using = PagePropertyListDeserializer.class)
-public abstract sealed class PagePropertyList<I extends PropertyItem, L> extends NotionList<L>
-    implements RetrievedProperty
+public abstract sealed class PagePropertyList<I extends PropertyItem, L extends ListedItem>
+    extends NotionList<L> implements RetrievedProperty
     permits RelationPropertyList,
         RichTextPropertyList,
         TitlePropertyList,
