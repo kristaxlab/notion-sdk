@@ -1,1 +1,0 @@
-# ADR 0001: Complex hierarchy and custom deserializers for 'RetrievedProperty', `PageProperty`, 'PagePropertyList'
