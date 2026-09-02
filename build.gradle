@@ -96,7 +96,10 @@ tasks.register('testIntegration', Test) {
 
     useJUnitPlatform {
         excludeTags 'paid_plan', 'examples'
-        includePackages 'tests'
+    }
+
+    filter {
+        includeTestsMatching 'tests.*'
     }
 
     reports {
