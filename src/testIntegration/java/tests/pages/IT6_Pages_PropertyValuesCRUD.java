@@ -15,6 +15,7 @@ import io.kristaxlab.notion.model.datasource.properties.RollupFunctionType;
 import io.kristaxlab.notion.model.page.Page;
 import io.kristaxlab.notion.model.page.property.NumberProperty;
 import io.kristaxlab.notion.model.page.property.PageProperty;
+import io.kristaxlab.notion.model.page.property.RetrievedProperty;
 import java.time.LocalDate;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
@@ -85,12 +86,13 @@ public class IT6_Pages_PropertyValuesCRUD extends WithEmptyTestPage {
     assertEquals(created.getId(), retrieved.getId(), "Page ID mismatch after creation");
     assertPropertyValues(phase1Props, retrieved.getProperties());
 
-    PageProperty scoreProp = getNotionClient().pages().retrieveProperty(created.getId(), "Score");
+    RetrievedProperty scoreProp =
+        getNotionClient().pages().retrieveProperty(created.getId(), "Score");
     assertNotNull(scoreProp, "Score property should not be null");
     assertInstanceOf(NumberProperty.class, scoreProp, "Score property should be a NumberProperty");
     assertEquals(
         phase1Props.get("Score").as(NumberProperty.class).getNumber(),
-        scoreProp.as(NumberProperty.class).getNumber());
+        scoreProp.asValue(NumberProperty.class).getNumber());
 
     // Phase 2: UPDATE with new values
     Map<String, PageProperty> phase2Props =
