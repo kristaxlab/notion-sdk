@@ -9,8 +9,8 @@ import lombok.Setter;
 /**
  * Nested {@code property_item} metadata on list-shaped property retrieve responses.
  *
- * <p>Notion also includes an empty object keyed by the property type (e.g. {@code "rich_text":
- * {}}) which varies by type and is ignored here.
+ * <p>Notion also includes an empty object keyed by the property type (e.g. {@code "rich_text": {}})
+ * which varies by type and is ignored here.
  */
 @JsonTypeInfo(
     use = JsonTypeInfo.Id.NAME,
@@ -26,7 +26,12 @@ import lombok.Setter;
 })
 @Getter
 @Setter
-public sealed class PropertyItem permits PeoplePropertyItem, RelationPropertyItem, RichTextPropertyItem, TitlePropertyItem, UnknownPropertyItem {
+public sealed class PropertyItem
+    permits PeoplePropertyItem,
+        RelationPropertyItem,
+        RichTextPropertyItem,
+        TitlePropertyItem,
+        UnknownPropertyItem {
 
   private String id;
 

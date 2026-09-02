@@ -8,10 +8,7 @@ import io.kristaxlab.notion.http.error.ValidationException;
 import io.kristaxlab.notion.model.common.richtext.RichText;
 import io.kristaxlab.notion.model.database.CreateDatabaseParams;
 import io.kristaxlab.notion.model.page.Page;
-import io.kristaxlab.notion.model.page.property.PageProperty;
-import io.kristaxlab.notion.model.page.property.PropertyItem;
-import io.kristaxlab.notion.model.page.property.list.ListedPageProperty;
-import io.kristaxlab.notion.model.page.property.list.ListedRichTextProperty;
+import io.kristaxlab.notion.model.page.property.RichTextPropertyList;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,7 +16,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import testkit.WithEmptyTestPage;
 
-public class IT7_Pages_PropertyStandalone extends WithEmptyTestPage {
+public class IT7_Pages_RichTextPropertyPaginated extends WithEmptyTestPage {
 
   private static final String NOTES_PROP = "Notes";
   private static final String RICH_TEXT_CONTENT = "Simple text ==";
@@ -79,36 +76,31 @@ public class IT7_Pages_PropertyStandalone extends WithEmptyTestPage {
     List<RichText> retrieved = new ArrayList<>();
     String cursor = null;
     int pageCount = 0;
-    boolean sawPartialPage = false;
 
     do {
-      PageProperty prop =
+      RichTextPropertyList propertyList =
           getNotionClient()
               .pages()
-              .retrieveProperty(newPage.getId(), notesPropertyId, cursor, PAGE_SIZE);
+              .<RichTextPropertyList>retrievePaginatedProperty(
+                  newPage.getId(), notesPropertyId, cursor, PAGE_SIZE)
+              .asRichTextList();
 
-      assertInstanceOf(PropertyItem.class, prop);
-      PropertyItem propertyItem = prop.as(PropertyItem.class);
-      assertEquals("property_item", propertyItem.getType());
-      assertNotNull(propertyItem.getPropertyItem());
-      assertEquals("rich_text", propertyItem.getPropertyItem().getType());
-      assertNotNull(propertyItem.getResults());
-      assertFalse(propertyItem.getResults().isEmpty());
-      assertTrue(propertyItem.getResults().size() <= PAGE_SIZE);
+      assertNotNull(propertyList.getPropertyItem());
+      assertEquals("rich_text", propertyList.getPropertyItem().getType());
+      assertNotNull(propertyList.getResults());
+      assertFalse(propertyList.getResults().isEmpty());
+      assertTrue(propertyList.getResults().size() <= PAGE_SIZE);
 
-      for (ListedPageProperty listed : propertyItem.getResults()) {
-        assertInstanceOf(ListedRichTextProperty.class, listed);
-        ListedRichTextProperty richTextItem = listed.asRichText();
-        assertNotNull(richTextItem.getRichText());
-        retrieved.add(richTextItem.getRichText());
+      for (RichText item : propertyList.getResults()) {
+        assertNotNull(item.getPlainText());
       }
 
       pageCount++;
-      if (Boolean.TRUE.equals(propertyItem.getHasMore())) {
-        assertNotNull(propertyItem.getNextCursor());
-        cursor = propertyItem.getNextCursor();
+      if (Boolean.TRUE.equals(propertyList.getHasMore())) {
+        assertNotNull(propertyList.getNextCursor());
+        cursor = propertyList.getNextCursor();
       } else {
-        assertNull(propertyItem.getNextCursor());
+        assertNull(propertyList.getNextCursor());
         cursor = null;
       }
     } while (cursor != null);

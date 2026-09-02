@@ -3,7 +3,6 @@ package io.kristaxlab.notion.model.page.property;
 import static org.junit.jupiter.api.Assertions.*;
 
 import io.kristaxlab.notion.http.base.json.JacksonSerializer;
-
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import org.junit.jupiter.api.DisplayName;
@@ -54,8 +53,7 @@ class RetrievePropertyDeserializeTest {
   void deserializesPaginatedTitle() throws IOException {
     PagePropertyList list =
         JacksonSerializer.withDefaults()
-            .toObject(
-                fixture("retrieve-property-paginated-title.json"), PagePropertyList.class);
+            .toObject(fixture("retrieve-property-paginated-title.json"), PagePropertyList.class);
 
     assertEquals("title", list.getPropertyItem().getType());
     assertEquals(1, list.getResults().size());

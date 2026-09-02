@@ -1,6 +1,5 @@
 package io.kristaxlab.notion.model.page.property;
 
-import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import io.kristaxlab.notion.model.common.NotionList;
 import lombok.Getter;
@@ -9,10 +8,13 @@ import lombok.Setter;
 @Getter
 @Setter
 @JsonDeserialize(using = PagePropertyListDeserializer.class)
-public abstract sealed class PagePropertyList<I extends PropertyItem, L>
-        extends NotionList<L>
-        implements RetrievedProperty
-        permits RelationPropertyList, RichTextPropertyList, TitlePropertyList, PeoplePropertyList, UnknownPropertyList {
+public abstract sealed class PagePropertyList<I extends PropertyItem, L> extends NotionList<L>
+    implements RetrievedProperty
+    permits RelationPropertyList,
+        RichTextPropertyList,
+        TitlePropertyList,
+        PeoplePropertyList,
+        UnknownPropertyList {
 
   private I propertyItem;
 

@@ -14,5 +14,4 @@ import lombok.Setter;
 public class BlockList extends NotionList<Block> {
 
   private Object block;
-
 }

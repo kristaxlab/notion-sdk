@@ -9,7 +9,6 @@ import io.kristaxlab.notion.model.page.markdown.UpdatePageAsMarkdownParams;
 import io.kristaxlab.notion.model.page.property.PageProperty;
 import io.kristaxlab.notion.model.page.property.PagePropertyList;
 import io.kristaxlab.notion.model.page.property.RetrievedProperty;
-
 import java.util.function.Consumer;
 
 /**
@@ -57,7 +56,8 @@ public interface PagesEndpoint {
   RetrievedProperty retrieveProperty(String pageId, String propertyId);
 
   /**
-   * Returns a paginated property list for collection types ('relation', 'title', 'people', 'rich_text')
+   * Returns a paginated property list for collection types ('relation', 'title', 'people',
+   * 'rich_text')
    *
    * @param pageId page identifier
    * @param propertyId property identifier
@@ -66,8 +66,8 @@ public interface PagesEndpoint {
   PagePropertyList retrievePaginatedProperty(String pageId, String propertyId);
 
   /**
-   * Returns a paginated property list for collection types ('relation', 'title', 'people', 'rich_text')
-   * with cursor and page size.
+   * Returns a paginated property list for collection types ('relation', 'title', 'people',
+   * 'rich_text') with cursor and page size.
    *
    * @param pageId page identifier
    * @param propertyId property identifier

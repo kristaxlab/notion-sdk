@@ -20,7 +20,7 @@ import tests.users.IT32_Users_ListAll;
   IT1_Pages_CRUD.class,
   IT4_Pages_Move.class,
   IT6_Pages_PropertyValuesCRUD.class,
-  IT7_Pages_PropertyStandalone.class,
+  IT7_Pages_RichTextPropertyPaginated.class,
   IT10_Pages_Content.class,
   IT14_FileUploads_SinglePartFile.class,
   IT16_FileUploads_ListAll.class,

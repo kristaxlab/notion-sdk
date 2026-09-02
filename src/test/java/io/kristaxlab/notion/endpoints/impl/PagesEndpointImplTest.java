@@ -11,7 +11,6 @@ import io.kristaxlab.notion.model.page.PageAsMarkdown;
 import io.kristaxlab.notion.model.page.UpdatePageParams;
 import io.kristaxlab.notion.model.page.markdown.UpdatePageAsMarkdownParams;
 import io.kristaxlab.notion.model.page.property.*;
-
 import java.util.List;
 import java.util.function.Consumer;
 import org.junit.jupiter.api.BeforeEach;
@@ -310,8 +309,7 @@ class PagesEndpointImplTest {
       PagePropertyList expected = new RelationPropertyList();
       client.setResponse(expected);
 
-      PagePropertyList result =
-          endpoint.retrievePaginatedProperty("page-id-1", "title");
+      PagePropertyList result = endpoint.retrievePaginatedProperty("page-id-1", "title");
 
       assertEquals("GET", client.getLastMethod());
       assertEquals("/pages/{page_id}/properties/{property_id}", client.getLastUrlInfo().getUrl());

@@ -49,7 +49,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @JsonDeserialize(using = JsonDeserializer.None.class)
-public non-sealed abstract class PageProperty extends BaseNotionObject implements RetrievedProperty {
+public abstract non-sealed class PageProperty extends BaseNotionObject
+    implements RetrievedProperty {
 
   private String id;
 

@@ -13,7 +13,6 @@ import io.kristaxlab.notion.model.page.*;
 import io.kristaxlab.notion.model.page.markdown.UpdatePageAsMarkdownParams;
 import io.kristaxlab.notion.model.page.property.PagePropertyList;
 import io.kristaxlab.notion.model.page.property.RetrievedProperty;
-
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
