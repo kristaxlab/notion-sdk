@@ -57,6 +57,6 @@ class RetrievePropertyDeserializeTest {
 
     assertEquals("title", list.getPropertyItem().getType());
     assertEquals(1, list.getResults().size());
-    assertInstanceOf(TitlePropertyItem.class, list.getResults().get(0));
+    assertInstanceOf(ListedRichText.class, list.getResults().get(0));
   }
 }
