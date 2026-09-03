@@ -7,10 +7,10 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * Nested {@code property_item} metadata on list-shaped property retrieve responses.
+ * The property item metadata: the nested {@code property_item} object of a retrieved property list.
  *
  * <p>Notion also includes an empty object keyed by the property type (e.g. {@code "rich_text": {}})
- * which varies by type and is ignored here.
+ * which varies by property type and is ignored here.
  */
 @JsonTypeInfo(
     use = JsonTypeInfo.Id.NAME,

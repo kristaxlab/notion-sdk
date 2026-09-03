@@ -46,34 +46,35 @@ public interface PagesEndpoint {
   /**
    * Returns a property from a page via {@code GET /pages/{id}/properties/{property_id}}.
    *
-   * <p>Scalar types deserialize to typed {@link PageProperty} subclasses. Collection types
-   * deserialize to {@link io.kristaxlab.notion.model.page.property.PagePropertyList} subclasses
+   * <p>A non-paginated property deserializes to a typed {@link PageProperty} subclass. A paginated
+   * property ({@code relation}, {@code rich_text}, {@code title}, {@code people}) deserializes to a
+   * {@link PagePropertyList} subclass.
    *
    * @param pageId page identifier
    * @param propertyId property identifier
-   * @return retrieved property
+   * @return retrieved property value or retrieved property list
    */
   RetrievedProperty retrieveProperty(String pageId, String propertyId);
 
   /**
-   * Returns a paginated property list for collection types ('relation', 'title', 'people',
-   * 'rich_text')
+   * Returns the retrieved property list of a paginated property ({@code relation}, {@code title},
+   * {@code people}, {@code rich_text}).
    *
    * @param pageId page identifier
    * @param propertyId property identifier
-   * @return first page of the paginated property list
+   * @return first page of the retrieved property list
    */
   PagePropertyList retrievePaginatedProperty(String pageId, String propertyId);
 
   /**
-   * Returns a paginated property list for collection types ('relation', 'title', 'people',
-   * 'rich_text') with cursor and page size.
+   * Returns the retrieved property list of a paginated property ({@code relation}, {@code title},
+   * {@code people}, {@code rich_text}) with start cursor and page size.
    *
    * @param pageId page identifier
    * @param propertyId property identifier
-   * @param startCursor pagination cursor
+   * @param startCursor start cursor, {@code null} for the first page
    * @param pageSize max page size
-   * @return paginated property list page
+   * @return one page of the retrieved property list
    */
   PagePropertyList retrievePaginatedProperty(
       String pageId, String propertyId, String startCursor, Integer pageSize);

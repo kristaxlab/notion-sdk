@@ -76,5 +76,5 @@ client.pages().updateAsMarkdown(
 
 - [Creating pages](01-creating-pages.md)
 - [Reading page content](05-reading-content.md)
-- [Files and media uploads](08-files-and-media.md)
+- [Files and media uploads](09-files-and-media.md)
 - [Back to README](../../README.md#cookbook)

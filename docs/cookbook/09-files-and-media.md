@@ -85,6 +85,6 @@ FileUpload imported = client.fileUploads().create(
 ## Related cookbook pages
 
 - [Structured layouts](04-structured-layouts.md)
-- [Updating pages](06-updating-pages.md)
-- [End-to-end recipes](09-end-to-end-recipes.md)
+- [Updating pages](07-updating-pages.md)
+- [End-to-end recipes](10-end-to-end-recipes.md)
 - [Back to README](../../README.md#cookbook)

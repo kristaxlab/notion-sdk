@@ -49,6 +49,7 @@ System.out.println(markdown.getMarkdown());
 ## Related cookbook pages
 
 - [Adding blocks](02-adding-blocks.md)
-- [Updating blocks](07-updating-blocks.md)
-- [End-to-end recipes](09-end-to-end-recipes.md)
+- [Page properties and pagination](06-page-properties.md)
+- [Updating blocks](08-updating-blocks.md)
+- [End-to-end recipes](10-end-to-end-recipes.md)
 - [Back to README](../../README.md#cookbook)

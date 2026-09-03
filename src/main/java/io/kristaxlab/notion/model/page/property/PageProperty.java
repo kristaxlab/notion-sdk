@@ -9,10 +9,12 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * A page property value embedded in {@link io.kristaxlab.notion.model.page.Page#getProperties()}.
+ * An embedded property value, as held by the property map of a {@link
+ * io.kristaxlab.notion.model.page.Page}.
  *
- * <p>Also returned by {@link io.kristaxlab.notion.endpoints.PagesEndpoint#retrieveProperty} for
- * scalar types. For full paginated {@code results}, see {@link PagePropertyList}.
+ * <p>Also models the retrieved property value that {@link
+ * io.kristaxlab.notion.endpoints.PagesEndpoint#retrieveProperty} returns for a non-paginated
+ * property. For a paginated property, that method returns a {@link PagePropertyList} instead.
  */
 @JsonTypeInfo(
     use = JsonTypeInfo.Id.NAME,

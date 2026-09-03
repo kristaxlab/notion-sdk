@@ -56,5 +56,5 @@ client.blocks().appendChildren("page-id", tableOfContents());
 
 - [Adding blocks](02-adding-blocks.md)
 - [Rich text and inline formatting](03-rich-text.md)
-- [Files and media uploads](08-files-and-media.md)
+- [Files and media uploads](09-files-and-media.md)
 - [Back to README](../../README.md#cookbook)

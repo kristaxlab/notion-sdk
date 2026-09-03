@@ -5,6 +5,14 @@ import io.kristaxlab.notion.model.common.NotionList;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * A retrieved property list: the paginated response the property retrieve endpoint returns for a
+ * paginated property ({@code relation}, {@code rich_text}, {@code title}, {@code people}).
+ *
+ * @param <I> the property item metadata type
+ * @param <L> the listed item type held by {@code results}
+ * @see io.kristaxlab.notion.endpoints.PagesEndpoint#retrievePaginatedProperty
+ */
 @Getter
 @Setter
 @JsonDeserialize(using = PagePropertyListDeserializer.class)
