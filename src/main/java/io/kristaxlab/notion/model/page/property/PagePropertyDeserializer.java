@@ -7,13 +7,12 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 
-public class RetrievedPropertyDeserializer extends JsonDeserializer<RetrievedProperty> {
+public class PagePropertyDeserializer extends JsonDeserializer<PageProperty> {
 
-  public RetrievedPropertyDeserializer() {}
+  public PagePropertyDeserializer() {}
 
   @Override
-  public RetrievedProperty deserialize(JsonParser p, DeserializationContext ctxt)
-      throws IOException {
+  public PageProperty deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
     ObjectMapper mapper = (ObjectMapper) p.getCodec();
     JsonNode node = mapper.readTree(p);
 
@@ -22,7 +21,7 @@ public class RetrievedPropertyDeserializer extends JsonDeserializer<RetrievedPro
     if (isList) {
       return mapper.treeToValue(node, PagePropertyList.class);
     } else {
-      return mapper.treeToValue(node, PageProperty.class);
+      return mapper.treeToValue(node, PagePropertyValue.class);
     }
   }
 }

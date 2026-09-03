@@ -11,8 +11,8 @@ import io.kristaxlab.notion.model.block.Block;
 import io.kristaxlab.notion.model.common.Parent;
 import io.kristaxlab.notion.model.page.*;
 import io.kristaxlab.notion.model.page.markdown.UpdatePageAsMarkdownParams;
+import io.kristaxlab.notion.model.page.property.PageProperty;
 import io.kristaxlab.notion.model.page.property.PagePropertyList;
-import io.kristaxlab.notion.model.page.property.RetrievedProperty;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
@@ -160,7 +160,7 @@ public class PagesEndpointImpl extends BaseEndpointImpl implements PagesEndpoint
    * @return The property object
    */
   @Override
-  public RetrievedProperty retrieveProperty(String pageId, String propertyId) {
+  public PageProperty retrieveProperty(String pageId, String propertyId) {
     checkNotNullOrEmpty(pageId, "pageId");
     checkNotNullOrEmpty(propertyId, "propertyId");
 
@@ -169,7 +169,7 @@ public class PagesEndpointImpl extends BaseEndpointImpl implements PagesEndpoint
             .pathParam("page_id", pageId)
             .pathParam("property_id", URLDecoder.decode(propertyId, StandardCharsets.UTF_8))
             .build();
-    return getClient().call("GET", urlInfo, RetrievedProperty.class);
+    return getClient().call("GET", urlInfo, PageProperty.class);
   }
 
   @Override

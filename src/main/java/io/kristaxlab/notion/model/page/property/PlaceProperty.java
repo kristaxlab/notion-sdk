@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class PlaceProperty extends PageProperty {
+public class PlaceProperty extends PagePropertyValue {
 
   private final String type = PropertyType.PLACE.type();
 

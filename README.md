@@ -90,7 +90,8 @@ DEBUG for any of the following packages:
 
 ## Cookbook
 
-Examples of common tasks and patterns, organized by operation:
+Examples of common tasks and patterns, organized by operation. Terminology used across these pages
+is defined in [CONTEXT.md](CONTEXT.md).
 
 ### Creating content
 
@@ -102,13 +103,14 @@ Examples of common tasks and patterns, organized by operation:
 ### Reading and updating
 
 - [Reading page content](docs/cookbook/05-reading-content.md)
-- [Updating pages](docs/cookbook/06-updating-pages.md)
-- [Updating blocks](docs/cookbook/07-updating-blocks.md)
+- [Page properties and pagination](docs/cookbook/06-page-properties.md)
+- [Updating pages](docs/cookbook/07-updating-pages.md)
+- [Updating blocks](docs/cookbook/08-updating-blocks.md)
 
 ### Files and workflows
 
-- [Files and media uploads](docs/cookbook/08-files-and-media.md)
-- [End-to-end recipes](docs/cookbook/09-end-to-end-recipes.md)
+- [Files and media uploads](docs/cookbook/09-files-and-media.md)
+- [End-to-end recipes](docs/cookbook/10-end-to-end-recipes.md)
 
 ## License
 

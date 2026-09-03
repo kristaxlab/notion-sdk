@@ -14,7 +14,6 @@ public class PagePropertyListDeserializer extends JsonDeserializer<PagePropertyL
     ObjectMapper mapper = (ObjectMapper) p.getCodec();
     JsonNode node = mapper.readTree(p);
 
-    boolean isList = node.has("results") || node.isArray();
     String nestedType = node.path("property_item").path("type").asText();
 
     Class<? extends PagePropertyList> targetClass =

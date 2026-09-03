@@ -7,7 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * The property item metadata: the nested {@code property_item} object of a retrieved property list.
+ * The property item metadata: the nested {@code property_item} object of a page property list.
  *
  * <p>Notion also includes an empty object keyed by the property type (e.g. {@code "rich_text": {}})
  * which varies by property type and is ignored here.

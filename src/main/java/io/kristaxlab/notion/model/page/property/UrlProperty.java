@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class UrlProperty extends PageProperty {
+public class UrlProperty extends PagePropertyValue {
   private final String type = PropertyType.URL.type();
 
   // Always included is needed to support clearing a property value

@@ -7,7 +7,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class DateProperty extends PageProperty {
+public class DateProperty extends PagePropertyValue {
   private final String type = PropertyType.DATE.type();
 
   // Always included is needed to support clearing a property value

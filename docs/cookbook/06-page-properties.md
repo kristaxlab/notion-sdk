@@ -7,13 +7,16 @@ Notion returns property values in two different representations, and which one y
 the endpoint **and** on the property type. **Paginated properties** are `rich_text`, `relation`,
 `title` and `people`; every other property type is **non-paginated**.
 
-| Endpoint | Non-paginated property | Paginated property |
-| --- | --- | --- |
-| Page retrieve — `pages().retrieve(...)` | `PageProperty` subclass | `PageProperty` subclass, value possibly truncated (`has_more`) |
-| Property retrieve — `pages().retrieveProperty(...)` | `PageProperty` subclass | `PagePropertyList` subclass with `results` / `next_cursor` |
+| SDK method | HTTP endpoint | Returns | What comes back |
+| --- | --- | --- | --- |
+| `pages().retrieve(pageId)` | `GET /pages/{page_id}` | `Page` | `Map<String, PagePropertyValue>` under `getProperties()`; a paginated property may be truncated (`has_more`) |
+| `pages().retrieveProperty(pageId, propertyId)` | `GET /pages/{page_id}/properties/{property_id}` | `PageProperty` | a `PagePropertyValue` subclass for a non-paginated property, a `PagePropertyList` subclass for a paginated one |
+| `pages().retrievePaginatedProperty(pageId, propertyId)` | `GET /pages/{page_id}/properties/{property_id}` | `PagePropertyList` | the first page of `results`, plus `has_more` / `next_cursor` |
+| `pages().retrievePaginatedProperty(pageId, propertyId, startCursor, pageSize)` | `GET /pages/{page_id}/properties/{property_id}` | `PagePropertyList` | one page of `results` starting at `startCursor`, at most `pageSize` listed items |
 
-`retrieveProperty` therefore declares the union type `RetrievedProperty`, which is either a
-`PageProperty` or a `PagePropertyList`. See
+Only `retrieveProperty` returns the union type `PageProperty`, so it is the only method whose result
+you have to narrow. `retrievePaginatedProperty` hits the same endpoint but commits to
+`PagePropertyList`, and it is the only method that accepts a start cursor and a page size. See
 [ADR 0001](../adr/0001-complex-hierarchy-and-deserialization-of-page-properties.md) for why the
 model is split this way, and [CONTEXT.md](../../CONTEXT.md) for the terms used on this page.
 
@@ -22,7 +25,7 @@ model is split this way, and [CONTEXT.md](../../CONTEXT.md) for the terms used o
 ```java
 Page page = client.pages().retrieve("page-id");
 
-Map<String, PageProperty> properties = page.getProperties();
+Map<String, PagePropertyValue> properties = page.getProperties();
 CheckboxProperty done = properties.get("Done").as(CheckboxProperty.class);
 boolean isDone = Boolean.TRUE.equals(done.getCheckbox());
 ```
@@ -81,28 +84,28 @@ strings like `"Done"` and `"Children Pages"`.
 ## Retrieve a non-paginated property
 
 ```java
-RetrievedProperty retrieved = client.pages().retrieveProperty("page-id", "Done");
+PageProperty property = client.pages().retrieveProperty("page-id", "Done");
 
-CheckboxProperty checkbox = retrieved.asValue(CheckboxProperty.class);
+CheckboxProperty checkbox = property.asValue(CheckboxProperty.class);
 boolean done = Boolean.TRUE.equals(checkbox.getCheckbox());
 ```
 
-## Narrow `RetrievedProperty` when the type is unknown
+## Narrow `PageProperty` when the type is unknown
 
 Use `instanceof` pattern matching when the same code path handles both representations:
 
 ```java
-RetrievedProperty retrieved = client.pages().retrieveProperty("page-id", propertyId);
+PageProperty property = client.pages().retrieveProperty("page-id", propertyId);
 
-if (retrieved instanceof CheckboxProperty checkbox) {
+if (property instanceof CheckboxProperty checkbox) {
   boolean done = Boolean.TRUE.equals(checkbox.getCheckbox());
-} else if (retrieved instanceof RichTextProperty richText) {
-  // retrieved property value: a List<RichText> under getRichText()
+} else if (property instanceof RichTextProperty richText) {
+  // page property value: a List<RichText> under getRichText()
   String text = richText.getRichText().stream()
       .map(RichText::getPlainText)
       .collect(Collectors.joining());
-} else if (retrieved instanceof RichTextPropertyList richTextList) {
-  // retrieved property list: one RichText per listed item, possibly paginated
+} else if (property instanceof RichTextPropertyList richTextList) {
+  // page property list: one RichText per listed item, possibly paginated
   String firstPageText = richTextList.getResults().stream()
       .map(item -> item.getRichText().getPlainText())
       .collect(Collectors.joining());
@@ -189,7 +192,7 @@ List<String> relatedTitles = relatedPageIds.stream()
 
 ## Paginate `title` and `people`
 
-`title` and `people` behave identically — the property retrieve endpoint always returns a retrieved
+`title` and `people` behave identically — the property retrieve endpoint always returns a page
 property list for them, even when the value is short or empty.
 
 ```java
@@ -261,7 +264,7 @@ nothing.
 ## Inspect the property item metadata
 
 Every `PagePropertyList` exposes the nested `property_item` object, which tells you the real
-property type — the top-level `type` of a retrieved property list is always `"property_item"`.
+property type — the top-level `type` of a page property list is always `"property_item"`.
 
 ```java
 PagePropertyList<?, ?> list = client.pages().retrievePaginatedProperty("page-id", propertyId);
@@ -283,11 +286,11 @@ Unknown property types deserialize into fallback classes instead of failing, so 
 introduced by Notion after this SDK release will not break a read.
 
 ```java
-RetrievedProperty retrieved = client.pages().retrieveProperty("page-id", propertyId);
+PageProperty property = client.pages().retrieveProperty("page-id", propertyId);
 
-if (retrieved instanceof UnknownProperty unknown) {
+if (property instanceof UnknownProperty unknown) {
   // unsupported non-paginated property; unknown.getType() reports what Notion sent
-} else if (retrieved instanceof UnknownPropertyList unknownList) {
+} else if (property instanceof UnknownPropertyList unknownList) {
   // unsupported paginated property; listed items are bare ListedItem without a typed payload
 }
 ```

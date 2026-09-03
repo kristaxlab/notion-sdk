@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class EmailProperty extends PageProperty {
+public class EmailProperty extends PagePropertyValue {
   private final String type = PropertyType.EMAIL.type();
 
   // Always included is needed to support clearing a property value

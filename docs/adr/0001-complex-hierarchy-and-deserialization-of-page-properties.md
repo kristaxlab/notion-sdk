@@ -1,15 +1,19 @@
-# ADR 0001: Complex hierarchy and custom deserializers for `RetrievedProperty`, `PageProperty`, `PagePropertyList`
+# ADR 0001: Complex hierarchy and custom deserializers for `PageProperty`, `PagePropertyValue`, `PagePropertyList`
 
 **Status:** Accepted
 
-Terms used below — *embedded property value*, *retrieved property value*, *retrieved property list*,
-*paginated property*, *non-paginated property*, *property item metadata*, *listed item* — are
-defined in [CONTEXT.md](../../CONTEXT.md).
+Terms used below — *page property*, *embedded property value*, *page property value*, *page
+property list*, *paginated property*, *non-paginated property*, *property item metadata*, *listed
+item* — are defined in [CONTEXT.md](../../CONTEXT.md).
 
 ## Context
 
 Notion exposes page property values through two endpoints that describe the *same* domain objects in
-two different representations.
+two different representations. The divergence is not uniform across property types: a non-paginated
+property such as `checkbox` or `select` comes back in the same shape from both endpoints, while the
+four paginated properties — `relation`, `people`, `rich_text` and `title` — are represented
+differently depending on which endpoint returned them. Those four are the entire reason this model
+needs more than one class.
 
 ### Page retrieve endpoint — `GET /pages/{page_id}`
 
@@ -29,18 +33,18 @@ These entries are *embedded property values*. For paginated properties the array
 
 This endpoint returns one of two different representations depending on the property type:
 
-- **Non-paginated properties** (`checkbox`, `select`, `number`, `email`, …) come back as a
-  *retrieved property value*: a single object, nearly identical to the embedded property value, with
-  `type` still holding the property type.
+- **Non-paginated properties** (`checkbox`, `select`, `number`, `email`, …) come back as a *page
+  property value*: a single object, nearly identical to the embedded property value, with `type`
+  still holding the property type.
 
   ```json
   { "object": "property_item", "type": "checkbox", "id": "Done", "checkbox": false }
   ```
 
-- **Paginated properties** (`relation`, `title`, `rich_text`, `people`) come back as a *retrieved
-  property list*: a `results` array of listed items plus `has_more` / `next_cursor`. Here `type` is
-  the literal string `"property_item"`, and the real property type is nested inside the property
-  item metadata under `property_item.type`. The individual values live in `results[]`, not in a
+- **Paginated properties** (`relation`, `title`, `rich_text`, `people`) come back as a *page property
+  list*: a `results` array of listed items plus `has_more` / `next_cursor`. Here `type` is the
+  literal string `"property_item"`, and the real property type is nested inside the property item
+  metadata under `property_item.type`. The individual values live in `results[]`, not in a
   type-named value field.
 
   ```json
@@ -54,9 +58,8 @@ This endpoint returns one of two different representations depending on the prop
   }
   ```
 
-So `checkbox` and `select` look the same from both endpoints, while `relation`, `people`, `title`
-and `rich_text` look fundamentally different depending on which endpoint produced them. Any Java
-model has to reconcile that.
+A Java model therefore has to carry both representations without forcing callers to guess which one
+they are holding, and without duplicating the property types that never diverge.
 
 ## Decision
 
@@ -65,42 +68,43 @@ serves as the return type of the property retrieve endpoint.
 
 | Java type | Represents | Base hierarchy |
 | --- | --- | --- |
-| `PageProperty` | Embedded property values **and** retrieved property values — the two are interchangeable | `BaseNotionObject` → `PageProperty` |
-| `PagePropertyList<I, L>` | Retrieved property lists | `BaseNotionObject` → `NotionList<L>` → `PagePropertyList` |
-| `RetrievedProperty` | Union of the two; the declared return type of `retrieveProperty` | sealed interface, `permits PageProperty, PagePropertyList` |
+| `PagePropertyValue` | Embedded property values **and** page property values — the two are interchangeable | `BaseNotionObject` → `PagePropertyValue` |
+| `PagePropertyList<I, L>` | Page property lists | `BaseNotionObject` → `NotionList<L>` → `PagePropertyList` |
+| `PageProperty` | Union of the two; the declared return type of `retrieveProperty` | sealed interface, `permits PagePropertyValue, PagePropertyList` |
 
-- `Page.properties` is typed `Map<String, PageProperty>`. The page retrieve endpoint never yields a
-  retrieved property list, so callers reading a page are never exposed to `RetrievedProperty` at
-  all.
-- `retrieveProperty(pageId, propertyId)` returns `RetrievedProperty`, which resolves at runtime to a
-  `PageProperty` subclass for non-paginated properties and to a `PagePropertyList` subclass for
+- `Page.properties` is typed `Map<String, PagePropertyValue>`. The page retrieve endpoint never
+  yields a page property list, so callers reading a page are never exposed to the `PageProperty`
+  union at all.
+- `retrieveProperty(pageId, propertyId)` returns `PageProperty`, which resolves at runtime to a
+  `PagePropertyValue` subclass for non-paginated properties and to a `PagePropertyList` subclass for
   paginated ones.
-- `RetrievedProperty` is an **interface**, not a class, because `PageProperty` and `PagePropertyList`
-  sit in different base hierarchies (a `BaseNotionObject` descendant vs. a `NotionList` descendant).
-  An aggregating interface is the only way to pull them under a single nominal Java type.
-- The list side of the hierarchy is **sealed**: `RetrievedProperty` permits exactly two subtypes,
-  and `PagePropertyList`, `PropertyItem` and `ListedItem` each permit only their own
-  implementations. Beyond exhaustive pattern matching, sealing keeps the hierarchy readable — the
-  permits clause lists every implementation right next to the abstraction. `PageProperty` is
-  declared `non-sealed` because its 25 subclasses are registered through Jackson `@JsonSubTypes`
-  instead, which would make a permits clause pure duplication.
+- `PageProperty` is an **interface**, not a class, because `PagePropertyValue` and
+  `PagePropertyList` sit in different base hierarchies (a `BaseNotionObject` descendant vs. a
+  `NotionList` descendant). An aggregating interface is the only way to pull them under a single
+  nominal Java type.
+- The list side of the hierarchy is **sealed**: `PageProperty` permits exactly two subtypes, and
+  `PagePropertyList`, `PropertyItem` and `ListedItem` each permit only their own implementations.
+  Beyond exhaustive pattern matching, sealing keeps the hierarchy readable — the permits clause
+  lists every implementation right next to the abstraction. `PagePropertyValue` is declared
+  `non-sealed` because its 25 subclasses are registered through Jackson `@JsonSubTypes` instead,
+  which would make a permits clause pure duplication.
 
 ## Hierarchy schema
 
 The union, and which representation each side carries:
 
 ```
-                            RetrievedProperty                      «sealed interface»
-                     return type of retrieveProperty(...)
+                               PageProperty                  «sealed interface»
+                   return type of retrieveProperty(...)
                                      │
                 ┌────────────────────┴─────────────────────┐
                 │                                          │
-          PageProperty                            PagePropertyList<I, L>
-     «abstract non-sealed»                            «abstract sealed»
+        PagePropertyValue                       PagePropertyList<I, L>
+      «abstract non-sealed»                        «abstract sealed»
                 │                                          │
-  embedded property value                        retrieved property list
-  retrieved property value                       (paginated properties only)
-  (non-paginated properties)
+   embedded property value                     page property list
+   page property value                         (paginated properties only)
+   (non-paginated properties)
 ```
 
 Both sides in the context of the SDK's base model classes:
@@ -109,10 +113,10 @@ Both sides in the context of the SDK's base model classes:
 BaseNotionObject                                    object, requestId
 │
 ├── NotionObject                                    id, parent, createdTime, …
-│   └── Page
-│         properties : Map<String, PageProperty>    ← embedded property values
+│   └── Page                                        ← holds embedded property values
+│         properties : Map<String, PagePropertyValue>
 │
-├── PageProperty                                    «non-sealed» @JsonTypeInfo on "type"
+├── PagePropertyValue                               «non-sealed» @JsonTypeInfo on "type"
 │   │                                               id + type-named value field
 │   ├── CheckboxProperty          checkbox          Boolean
 │   ├── RichTextProperty          rich_text         List<RichText>
@@ -154,9 +158,9 @@ Which JSON node each Java type covers:
 
 | JSON node | Concept | Java type |
 | --- | --- | --- |
-| An entry of the page's `properties` map | Embedded property value | `PageProperty` subclass |
-| A single-object property retrieve response | Retrieved property value | `PageProperty` subclass |
-| A list-shaped property retrieve response | Retrieved property list | `PagePropertyList` subclass |
+| An entry of the page's `properties` map | Embedded property value | `PagePropertyValue` subclass |
+| A single-object property retrieve response | Page property value | `PagePropertyValue` subclass |
+| A list-shaped property retrieve response | Page property list | `PagePropertyList` subclass |
 | Its nested `property_item` | Property item metadata | `PropertyItem` subclass |
 | An element of its `results` | Listed item | `ListedItem` subclass |
 
@@ -165,24 +169,24 @@ Which JSON node each Java type covers:
 `retrievePaginatedProperty(pageId, propertyId[, startCursor, pageSize])` calls the same
 `GET /pages/{page_id}/properties/{property_id}` endpoint but declares `PagePropertyList` as its
 return type. When a caller already knows the property is paginated, this avoids narrowing down from
-`RetrievedProperty`, and it is the only overload that accepts a start cursor and a page size.
+`PageProperty`, and it is the only overload that accepts a start cursor and a page size.
 
-Narrowing helpers keep call sites free of explicit casts: `RetrievedProperty.asValue(Class)` /
-`asList(Class)`, `PageProperty.as(Class)`, and `PagePropertyList.asRelationList()` /
+Narrowing helpers keep call sites free of explicit casts: `PageProperty.asValue(Class)` /
+`asList(Class)`, `PagePropertyValue.as(Class)`, and `PagePropertyList.asRelationList()` /
 `asRichTextList()` / `asTitleList()` / `asPeopleList()`.
 
 ### Type resolution and deserialization
 
 The project's preferred mechanism is `@JsonTypeInfo` on an `EXISTING_PROPERTY` named `type`. That
-works directly for embedded property values and for retrieved property values, where `type` holds
-the property type. It does **not** work for retrieved property lists, where `type` is always
+works directly for embedded property values and for page property values, where `type` holds the
+property type. It does **not** work for page property lists, where `type` is always
 `"property_item"` and the discriminating value sits in the nested `property_item.type` —
 `@JsonTypeInfo` cannot read a nested field. Hence two custom deserializers:
 
-- **`RetrievedPropertyDeserializer`** (bound to `RetrievedProperty`) decides which of the two
-  representations arrived by checking for a `results` field (or a top-level array). It then delegates
-  to `PagePropertyList` or to `PageProperty`, letting the latter's `@JsonTypeInfo` / `@JsonSubTypes`
-  take over.
+- **`PagePropertyDeserializer`** (bound to `PageProperty`) decides which of the two representations
+  arrived by checking for a `results` field (or a top-level array). It then delegates to
+  `PagePropertyList` or to `PagePropertyValue`, letting the latter's `@JsonTypeInfo` /
+  `@JsonSubTypes` take over.
 - **`PagePropertyListDeserializer`** (bound to `PagePropertyList`) reads `property_item.type` and
   maps it to `RelationPropertyList`, `RichTextPropertyList`, `TitlePropertyList`,
   `PeoplePropertyList`, or `UnknownPropertyList` as the fallback.
@@ -190,10 +194,10 @@ the property type. It does **not** work for retrieved property lists, where `typ
 Two guards are needed to keep the delegation from looping back into the deserializer that started
 it:
 
-- `PageProperty` is annotated `@JsonDeserialize(using = JsonDeserializer.None.class)` so that
-  deserializing a `PageProperty` directly (as in `Page.properties`, or after delegation from
-  `RetrievedPropertyDeserializer`) uses annotation-driven subtype resolution rather than inheriting
-  `RetrievedPropertyDeserializer` from the interface.
+- `PagePropertyValue` is annotated `@JsonDeserialize(using = JsonDeserializer.None.class)` so that
+  deserializing a `PagePropertyValue` directly (as in `Page.properties`, or after delegation from
+  `PagePropertyDeserializer`) uses annotation-driven subtype resolution rather than inheriting
+  `PagePropertyDeserializer` from the interface.
 - Every concrete `PagePropertyList` implementation carries the same
   `@JsonDeserialize(using = JsonDeserializer.None.class)`. Without it, resolving the concrete class
   re-enters `PagePropertyListDeserializer` and overflows the stack.
@@ -206,8 +210,8 @@ after this SDK release still deserializes.
 
 ### 1. One Java class for both representations
 
-A single `PageProperty` extending `NotionList`, able to represent either a single value or a list of
-listed items. Rejected because:
+A single `PagePropertyValue` extending `NotionList`, able to represent either a single value or a
+list of listed items. Rejected because:
 
 - the class accumulates fields that are meaningless for most property types;
 - the hierarchy becomes hard to read — every non-paginated property inherits list machinery
@@ -219,8 +223,9 @@ listed items. Rejected because:
 
 ### 2. Fully separate models per endpoint
 
-A distinct class tree for embedded property values and another for retrieved property values (e.g.
-`CheckboxProperty` vs. `RetrievedCheckboxProperty`). Rejected because:
+A distinct class tree for embedded property values and another for page property values — a
+`CheckboxProperty` for what a page carries, plus a second near-identical class for what the property
+retrieve endpoint returns. Rejected because:
 
 - it duplicates nearly identical classes for every non-paginated property, even though only the four
   paginated properties genuinely differ between endpoints;
@@ -235,11 +240,12 @@ properties that really do arrive in a different representation.
 
 **Positive**
 
-- One Java type for `Page.properties` (`PageProperty`) with no list machinery; the common read path
-  stays simple.
+- One Java type for `Page.properties` (`PagePropertyValue`) with no list machinery; the common read
+  path stays simple.
 - Each field holds exactly one thing: a non-paginated value lives in the type-named value field, a
   paginated value lives in `results`. There is no "it depends on the endpoint" rule.
-- No conversion step between the embedded and retrieved representations of the same value.
+- No conversion step between a value read from a page and the same value read from the property
+  retrieve endpoint — both are the same `PagePropertyValue` subclass.
 - Sealed hierarchies document themselves and enable exhaustive `switch` / pattern matching.
 - Unknown property types are tolerated rather than fatal.
 
@@ -259,9 +265,9 @@ properties that really do arrive in a different representation.
 
 - [CONTEXT.md](../../CONTEXT.md) — vocabulary used in this ADR
 - Cookbook: [Page properties and pagination](../cookbook/06-page-properties.md)
-- `io.kristaxlab.notion.model.page.property.RetrievedProperty`
 - `io.kristaxlab.notion.model.page.property.PageProperty`
+- `io.kristaxlab.notion.model.page.property.PagePropertyValue`
 - `io.kristaxlab.notion.model.page.property.PagePropertyList`
-- `io.kristaxlab.notion.model.page.property.RetrievedPropertyDeserializer`
+- `io.kristaxlab.notion.model.page.property.PagePropertyDeserializer`
 - `io.kristaxlab.notion.model.page.property.PagePropertyListDeserializer`
 - `io.kristaxlab.notion.endpoints.PagesEndpoint`

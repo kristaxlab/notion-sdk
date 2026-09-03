@@ -3,7 +3,7 @@ package io.kristaxlab.notion.fluent;
 import io.kristaxlab.notion.model.common.DateData;
 import io.kristaxlab.notion.model.common.FileData;
 import io.kristaxlab.notion.model.common.richtext.RichText;
-import io.kristaxlab.notion.model.page.property.PageProperty;
+import io.kristaxlab.notion.model.page.property.PagePropertyValue;
 import io.kristaxlab.notion.model.page.property.PlaceProperty;
 import io.kristaxlab.notion.model.page.property.SelectValue;
 import java.time.LocalDate;
@@ -24,11 +24,12 @@ import java.util.function.Consumer;
  * ids survive renames; pick whichever fits your use case.
  *
  * <p>Each method delegates to the matching static factory in {@link NotionProperties} and adds the
- * resulting {@link PageProperty} under the supplied key. Call {@link #build()} for the accumulated
- * map, or pass the builder via the {@code properties(Consumer)} hook on the page request builders.
+ * resulting {@link PagePropertyValue} under the supplied key. Call {@link #build()} for the
+ * accumulated map, or pass the builder via the {@code properties(Consumer)} hook on the page
+ * request builders.
  *
  * <pre>{@code
- * Map<String, PageProperty> props = NotionProperties.propertiesBuilder()
+ * Map<String, PagePropertyValue> props = NotionProperties.propertiesBuilder()
  *     .title("Build a SaaS")
  *     .number("Priority", 5)
  *     .select("Status", "In progress")
@@ -37,7 +38,7 @@ import java.util.function.Consumer;
  */
 public class NotionPropertiesBuilder {
 
-  private final Map<String, PageProperty> properties = new LinkedHashMap<>();
+  private final Map<String, PagePropertyValue> properties = new LinkedHashMap<>();
 
   protected NotionPropertiesBuilder() {}
 
@@ -46,7 +47,7 @@ public class NotionPropertiesBuilder {
    *
    * @return a copy of the property map preserving insertion order
    */
-  public Map<String, PageProperty> build() {
+  public Map<String, PagePropertyValue> build() {
     return new LinkedHashMap<>(properties);
   }
 
@@ -58,7 +59,7 @@ public class NotionPropertiesBuilder {
    * @param property property payload
    * @return this builder
    */
-  public NotionPropertiesBuilder property(String nameOrId, PageProperty property) {
+  public NotionPropertiesBuilder property(String nameOrId, PagePropertyValue property) {
     properties.put(nameOrId, property);
     return this;
   }
@@ -70,7 +71,7 @@ public class NotionPropertiesBuilder {
    * @param values name-or-id to property mapping
    * @return this builder
    */
-  public NotionPropertiesBuilder properties(Map<String, ? extends PageProperty> values) {
+  public NotionPropertiesBuilder properties(Map<String, ? extends PagePropertyValue> values) {
     properties.putAll(values);
     return this;
   }

@@ -6,7 +6,7 @@ import lombok.Setter;
 /** Page property payload for Notion's {@code last_edited_time} system property. */
 @Getter
 @Setter
-public class LastEditedTimeProperty extends PageProperty {
+public class LastEditedTimeProperty extends PagePropertyValue {
   private final String type = PropertyType.LAST_EDITED_TIME.type();
 
   private String lastEditedTime;

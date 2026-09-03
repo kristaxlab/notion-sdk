@@ -16,9 +16,9 @@ import org.junit.jupiter.api.Test;
 
 class NotionPageViewerTest {
 
-  private static Page pageWith(String name, PageProperty property) {
+  private static Page pageWith(String name, PagePropertyValue property) {
     Page page = new Page();
-    Map<String, PageProperty> props = new LinkedHashMap<>();
+    Map<String, PagePropertyValue> props = new LinkedHashMap<>();
     props.put(name, property);
     page.setProperties(props);
     return page;
@@ -382,7 +382,7 @@ class NotionPageViewerTest {
     void properties_unmodifiable() {
       Page page = pageWith("Priority", NotionProperties.number(5));
 
-      Map<String, PageProperty> props = NotionPageViewer.of(page).properties();
+      Map<String, PagePropertyValue> props = NotionPageViewer.of(page).properties();
       assertThrows(
           UnsupportedOperationException.class, () -> props.put("Other", new UnknownProperty()));
     }
@@ -400,7 +400,7 @@ class NotionPageViewerTest {
     @DisplayName("property names exposes keys")
     void propertyNames_exposesKeys() {
       Page page = new Page();
-      Map<String, PageProperty> props = new LinkedHashMap<>();
+      Map<String, PagePropertyValue> props = new LinkedHashMap<>();
       props.put("Name", NotionProperties.title("X"));
       props.put("Priority", NotionProperties.number(1));
       page.setProperties(props);
@@ -461,7 +461,7 @@ class NotionPageViewerTest {
     @DisplayName("properties of type filters and preserves order")
     void propertiesOfType_filtersAndPreservesOrder() {
       Page page = new Page();
-      Map<String, PageProperty> props = new LinkedHashMap<>();
+      Map<String, PagePropertyValue> props = new LinkedHashMap<>();
       props.put("Title", NotionProperties.title("X"));
       props.put("A", NotionProperties.number(1));
       props.put("B", NotionProperties.number(2));
@@ -930,7 +930,7 @@ class NotionPageViewerTest {
       lastEditedTime.setLastEditedTime("2024-02-01T00:00:00.000Z");
 
       Page page = new Page();
-      Map<String, PageProperty> props = new LinkedHashMap<>();
+      Map<String, PagePropertyValue> props = new LinkedHashMap<>();
       props.put("Created by", createdBy);
       props.put("Created at", createdTime);
       props.put("Edited by", lastEditedBy);
@@ -1245,7 +1245,7 @@ class NotionPageViewerTest {
     @DisplayName("ignores property types without searchable text")
     void ignoresUnsupportedTypes() {
       Page page = new Page();
-      Map<String, PageProperty> props = new LinkedHashMap<>();
+      Map<String, PagePropertyValue> props = new LinkedHashMap<>();
       props.put("Priority", NotionProperties.number(42));
       props.put("Done", NotionProperties.checkbox(true));
       props.put("People", NotionProperties.people("user-1"));

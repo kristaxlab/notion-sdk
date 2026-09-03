@@ -8,7 +8,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class RichTextProperty extends PageProperty {
+public class RichTextProperty extends PagePropertyValue {
   private final String type = PropertyType.RICH_TEXT.type();
 
   private List<RichText> richText = new ArrayList<>();

@@ -4,7 +4,7 @@ import io.kristaxlab.notion.fluent.NotionProperties;
 import io.kristaxlab.notion.fluent.NotionPropertiesBuilder;
 import io.kristaxlab.notion.model.common.Cover;
 import io.kristaxlab.notion.model.common.Icon;
-import io.kristaxlab.notion.model.page.property.PageProperty;
+import io.kristaxlab.notion.model.page.property.PagePropertyValue;
 import io.kristaxlab.notion.model.page.templates.TemplateParams;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -21,7 +21,7 @@ import lombok.Setter;
 @Setter
 public class UpdatePageParams {
 
-  private Map<String, PageProperty> properties;
+  private Map<String, PagePropertyValue> properties;
 
   private Icon icon;
 
@@ -42,7 +42,7 @@ public class UpdatePageParams {
   /** Fluent builder (title, properties, trash, lock, icon, cover). */
   public static class Builder {
 
-    private final Map<String, PageProperty> properties = new LinkedHashMap<>();
+    private final Map<String, PagePropertyValue> properties = new LinkedHashMap<>();
     private Icon icon;
     private Cover cover;
     private Boolean inTrash;
@@ -66,12 +66,12 @@ public class UpdatePageParams {
      * @param property property payload
      * @return this builder
      */
-    public Builder property(String nameOrId, PageProperty property) {
+    public Builder property(String nameOrId, PagePropertyValue property) {
       this.properties.put(nameOrId, property);
       return this;
     }
 
-    public Builder properties(Map<String, PageProperty> properties) {
+    public Builder properties(Map<String, PagePropertyValue> properties) {
       this.properties.putAll(properties);
       return this;
     }

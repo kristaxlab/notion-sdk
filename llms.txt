@@ -121,6 +121,7 @@ When endpoint wrappers do not cover your use case, use:
 ## Documentation map (current repo)
 
 - `../README.md`
+- `../CONTEXT.md`
 - `authentication.md`
 - `error-handling.md`
 - `cookbook/01-creating-pages.md`
@@ -128,10 +129,11 @@ When endpoint wrappers do not cover your use case, use:
 - `cookbook/03-rich-text.md`
 - `cookbook/04-structured-layouts.md`
 - `cookbook/05-reading-content.md`
-- `cookbook/06-updating-pages.md`
-- `cookbook/07-updating-blocks.md`
-- `cookbook/08-files-and-media.md`
-- `cookbook/09-end-to-end-recipes.md`
+- `cookbook/06-page-properties.md`
+- `cookbook/07-updating-pages.md`
+- `cookbook/08-updating-blocks.md`
+- `cookbook/09-files-and-media.md`
+- `cookbook/10-end-to-end-recipes.md`
 - `internals/notion-http-client.md`
 - `internals/custom-http-client.md`
 - `internals/custom-interceptors.md`

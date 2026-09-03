@@ -8,21 +8,21 @@ import java.nio.charset.StandardCharsets;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-class RetrievePropertyDeserializeTest {
+class PagePropertyDeserializeTest {
 
   private static String fixture(String name) throws IOException {
-    try (var stream = RetrievePropertyDeserializeTest.class.getResourceAsStream("/json/" + name)) {
+    try (var stream = PagePropertyDeserializeTest.class.getResourceAsStream("/json/" + name)) {
       assertNotNull(stream, "Missing fixture: " + name);
       return new String(stream.readAllBytes(), StandardCharsets.UTF_8);
     }
   }
 
   @Test
-  @DisplayName("retrieveProperty deserializes flat checkbox as PageProperty")
+  @DisplayName("retrieveProperty deserializes flat checkbox as PagePropertyValue")
   void deserializesFlatCheckbox() throws IOException {
-    RetrievedProperty property =
+    PageProperty property =
         JacksonSerializer.withDefaults()
-            .toObject(fixture("retrieve-property-flat-checkbox.json"), RetrievedProperty.class);
+            .toObject(fixture("retrieve-property-flat-checkbox.json"), PageProperty.class);
 
     assertInstanceOf(CheckboxProperty.class, property);
     CheckboxProperty checkbox = property.asValue(CheckboxProperty.class);
@@ -34,10 +34,9 @@ class RetrievePropertyDeserializeTest {
   @Test
   @DisplayName("retrievePaginatedProperty deserializes full relation list response")
   void deserializesPaginatedRelation() throws IOException {
-    RetrievedProperty list =
+    PageProperty list =
         JacksonSerializer.withDefaults()
-            .toObject(
-                fixture("retrieve-property-paginated-relation.json"), RetrievedProperty.class);
+            .toObject(fixture("retrieve-property-paginated-relation.json"), PageProperty.class);
 
     RelationPropertyList relation = list.asList(RelationPropertyList.class);
     assertEquals("property_item", relation.getType());

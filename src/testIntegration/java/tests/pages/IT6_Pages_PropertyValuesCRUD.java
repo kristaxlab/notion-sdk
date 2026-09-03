@@ -15,7 +15,7 @@ import io.kristaxlab.notion.model.datasource.properties.RollupFunctionType;
 import io.kristaxlab.notion.model.page.Page;
 import io.kristaxlab.notion.model.page.property.NumberProperty;
 import io.kristaxlab.notion.model.page.property.PageProperty;
-import io.kristaxlab.notion.model.page.property.RetrievedProperty;
+import io.kristaxlab.notion.model.page.property.PagePropertyValue;
 import java.time.LocalDate;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
@@ -57,7 +57,7 @@ public class IT6_Pages_PropertyValuesCRUD extends WithEmptyTestPage {
   @DisplayName("IT-6: Pages - Full CRUD cycle for all supported property values")
   public void testPropertyValuesCrud() {
     // Phase 1: CREATE with initial values
-    Map<String, PageProperty> phase1Props =
+    Map<String, PagePropertyValue> phase1Props =
         NotionProperties.builder()
             .title("Name", "Initial Title")
             .richText("Notes", "Initial notes")
@@ -86,8 +86,7 @@ public class IT6_Pages_PropertyValuesCRUD extends WithEmptyTestPage {
     assertEquals(created.getId(), retrieved.getId(), "Page ID mismatch after creation");
     assertPropertyValues(phase1Props, retrieved.getProperties());
 
-    RetrievedProperty scoreProp =
-        getNotionClient().pages().retrieveProperty(created.getId(), "Score");
+    PageProperty scoreProp = getNotionClient().pages().retrieveProperty(created.getId(), "Score");
     assertNotNull(scoreProp, "Score property should not be null");
     assertInstanceOf(NumberProperty.class, scoreProp, "Score property should be a NumberProperty");
     assertEquals(
@@ -95,7 +94,7 @@ public class IT6_Pages_PropertyValuesCRUD extends WithEmptyTestPage {
         scoreProp.asValue(NumberProperty.class).getNumber());
 
     // Phase 2: UPDATE with new values
-    Map<String, PageProperty> phase2Props =
+    Map<String, PagePropertyValue> phase2Props =
         NotionProperties.builder()
             .title("Name", "Updated Title")
             .richText("Notes", "Updated notes")
@@ -120,7 +119,7 @@ public class IT6_Pages_PropertyValuesCRUD extends WithEmptyTestPage {
 
     // Phase 3: CLEAR properties (except Status as it may only be set with another value, never
     // empty)
-    Map<String, PageProperty> phase3Props =
+    Map<String, PagePropertyValue> phase3Props =
         NotionProperties.builder()
             .clearTitle("Name")
             .clearRichText("Notes")
@@ -147,7 +146,7 @@ public class IT6_Pages_PropertyValuesCRUD extends WithEmptyTestPage {
     assertPropertyValues(phase3Props, cleared.getProperties());
   }
 
-  private Map<String, Object> notmalizePropertyValues(Map<String, PageProperty> properties) {
+  private Map<String, Object> notmalizePropertyValues(Map<String, PagePropertyValue> properties) {
     NotionPageViewer viewer = NotionPageViewer.of(properties);
     Map<String, Object> values = new java.util.HashMap<>();
 
@@ -170,7 +169,7 @@ public class IT6_Pages_PropertyValuesCRUD extends WithEmptyTestPage {
   }
 
   private void assertPropertyValues(
-      Map<String, PageProperty> expectedProps, Map<String, PageProperty> actualProps) {
+      Map<String, PagePropertyValue> expectedProps, Map<String, PagePropertyValue> actualProps) {
     Map<String, Object> expected = notmalizePropertyValues(expectedProps);
     Map<String, Object> actual = notmalizePropertyValues(actualProps);
     for (Map.Entry<String, Object> entry : expected.entrySet()) {

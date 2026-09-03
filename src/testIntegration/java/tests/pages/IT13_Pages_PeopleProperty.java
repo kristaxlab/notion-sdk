@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import io.kristaxlab.notion.fluent.NotionProperties;
 import io.kristaxlab.notion.model.database.CreateDatabaseParams;
 import io.kristaxlab.notion.model.page.Page;
-import io.kristaxlab.notion.model.page.property.PageProperty;
+import io.kristaxlab.notion.model.page.property.PagePropertyValue;
 import io.kristaxlab.notion.model.page.property.PeopleProperty;
 import io.kristaxlab.notion.model.page.property.PeoplePropertyList;
 import org.junit.jupiter.api.BeforeEach;
@@ -50,7 +50,7 @@ public class IT13_Pages_PeopleProperty extends WithEmptyTestPage {
                     page.inDataSource(dataSourceId)
                         .property(PEOPLE_PROP, NotionProperties.people(userId)));
 
-    PageProperty peopleProperty = newPage.getProperties().get(PEOPLE_PROP);
+    PagePropertyValue peopleProperty = newPage.getProperties().get(PEOPLE_PROP);
 
     assertNotNull(peopleProperty);
     assertInstanceOf(PeopleProperty.class, peopleProperty);

@@ -42,7 +42,7 @@ import java.util.stream.Collectors;
  * </ul>
  *
  * @see Page
- * @see PageProperty
+ * @see PagePropertyValue
  */
 public final class NotionPageViewer {
 
@@ -66,7 +66,7 @@ public final class NotionPageViewer {
     return new NotionPageViewer(page);
   }
 
-  public static NotionPageViewer of(Map<String, PageProperty> properties) {
+  public static NotionPageViewer of(Map<String, PagePropertyValue> properties) {
     // TODO create a separate viewer for properties (and standalone and as delegate here)
     if (properties == null) {
       throw new IllegalArgumentException("properties cannot be null");
@@ -247,8 +247,8 @@ public final class NotionPageViewer {
   // ────────────────────────────────────────────────────────────────────────
 
   /** Returns an unmodifiable view of the property map. */
-  public Map<String, PageProperty> properties() {
-    Map<String, PageProperty> props = page.getProperties();
+  public Map<String, PagePropertyValue> properties() {
+    Map<String, PagePropertyValue> props = page.getProperties();
     return props == null ? Collections.emptyMap() : Collections.unmodifiableMap(props);
   }
 
@@ -259,13 +259,13 @@ public final class NotionPageViewer {
 
   /** Returns whether the page defines a property with the given name. */
   public boolean hasProperty(String name) {
-    Map<String, PageProperty> props = page.getProperties();
+    Map<String, PagePropertyValue> props = page.getProperties();
     return props != null && props.containsKey(name);
   }
 
   /** Returns the raw property under the given name, or {@code null} if not present. */
-  public PageProperty property(String name) {
-    Map<String, PageProperty> props = page.getProperties();
+  public PagePropertyValue property(String name) {
+    Map<String, PagePropertyValue> props = page.getProperties();
     if (props == null) {
       return null;
     }
@@ -276,19 +276,19 @@ public final class NotionPageViewer {
    * Returns the property under the given name cast to the requested type, or {@code null} if absent
    * or of the wrong type.
    */
-  public <T extends PageProperty> T property(String name, Class<T> type) {
-    PageProperty prop = property(name);
+  public <T extends PagePropertyValue> T property(String name, Class<T> type) {
+    PagePropertyValue prop = property(name);
     return type.isInstance(prop) ? type.cast(prop) : null;
   }
 
   /** Returns all properties of the given type, preserving insertion order. */
-  public <T extends PageProperty> Map<String, T> propertiesOfType(Class<T> type) {
-    Map<String, PageProperty> props = page.getProperties();
+  public <T extends PagePropertyValue> Map<String, T> propertiesOfType(Class<T> type) {
+    Map<String, PagePropertyValue> props = page.getProperties();
     if (props == null || props.isEmpty()) {
       return Collections.emptyMap();
     }
     Map<String, T> result = new LinkedHashMap<>();
-    for (Map.Entry<String, PageProperty> entry : props.entrySet()) {
+    for (Map.Entry<String, PagePropertyValue> entry : props.entrySet()) {
       if (type.isInstance(entry.getValue())) {
         result.put(entry.getKey(), type.cast(entry.getValue()));
       }
@@ -305,7 +305,7 @@ public final class NotionPageViewer {
    * unset, or unsupported.
    */
   public String propertyAsPlainText(String propertyName) {
-    PageProperty prop = property(propertyName);
+    PagePropertyValue prop = property(propertyName);
     if (prop == null) {
       return "";
     }
@@ -577,11 +577,11 @@ public final class NotionPageViewer {
   public boolean contains(String keyword) {
     Objects.requireNonNull(keyword, "keyword must not be null");
     String lower = keyword.toLowerCase(Locale.ROOT);
-    Map<String, PageProperty> props = page.getProperties();
+    Map<String, PagePropertyValue> props = page.getProperties();
     if (props == null || props.isEmpty()) {
       return false;
     }
-    for (PageProperty prop : props.values()) {
+    for (PagePropertyValue prop : props.values()) {
       if (propertyContainsKeyword(prop, lower)) {
         return true;
       }
@@ -593,12 +593,12 @@ public final class NotionPageViewer {
   // Helpers
   // ────────────────────────────────────────────────────────────────────────
 
-  private <T extends PageProperty> T first(Class<T> type) {
-    Map<String, PageProperty> props = page.getProperties();
+  private <T extends PagePropertyValue> T first(Class<T> type) {
+    Map<String, PagePropertyValue> props = page.getProperties();
     if (props == null || props.isEmpty()) {
       return null;
     }
-    for (PageProperty prop : props.values()) {
+    for (PagePropertyValue prop : props.values()) {
       if (type.isInstance(prop)) {
         return type.cast(prop);
       }
@@ -726,7 +726,7 @@ public final class NotionPageViewer {
     };
   }
 
-  private static boolean propertyContainsKeyword(PageProperty prop, String lower) {
+  private static boolean propertyContainsKeyword(PagePropertyValue prop, String lower) {
     if (prop instanceof TitleProperty title) {
       return containsLower(joinPlainText(title.getTitle()), lower);
     }

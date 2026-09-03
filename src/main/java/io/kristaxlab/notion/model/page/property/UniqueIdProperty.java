@@ -7,7 +7,7 @@ import lombok.Setter;
 /* readonly */
 @Getter
 @Setter
-public class UniqueIdProperty extends PageProperty {
+public class UniqueIdProperty extends PagePropertyValue {
   private final String type = PropertyType.UNIQUE_ID.type();
 
   private UniqueIdValue uniqueId;

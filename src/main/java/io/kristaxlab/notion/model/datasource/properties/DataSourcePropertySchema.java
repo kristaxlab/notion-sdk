@@ -61,7 +61,7 @@ public abstract class DataSourcePropertySchema {
     this.name = name;
   }
 
-  // Type conversion methods similar to PageProperty
+  // Type conversion methods similar to PagePropertyValue
   public CheckboxSchema asCheckbox() {
     return (CheckboxSchema) this;
   }

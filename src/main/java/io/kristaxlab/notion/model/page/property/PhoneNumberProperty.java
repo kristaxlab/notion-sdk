@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class PhoneNumberProperty extends PageProperty {
+public class PhoneNumberProperty extends PagePropertyValue {
   private final String type = PropertyType.PHONE_NUMBER.type();
 
   // Always included is needed to support clearing a property value

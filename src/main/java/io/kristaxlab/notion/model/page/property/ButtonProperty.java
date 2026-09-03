@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ButtonProperty extends PageProperty {
+public class ButtonProperty extends PagePropertyValue {
 
   private final String type = PropertyType.BUTTON.type();
 

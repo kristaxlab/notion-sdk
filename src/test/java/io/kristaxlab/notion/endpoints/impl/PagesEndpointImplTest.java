@@ -259,10 +259,10 @@ class PagesEndpointImplTest {
     @Test
     @DisplayName("works for valid page id and property id")
     void retrieveProperty_buildsGetRequest() {
-      RetrievedProperty expected = new UnknownProperty();
+      PageProperty expected = new UnknownProperty();
       client.setResponse(expected);
 
-      RetrievedProperty result = endpoint.retrieveProperty("page-id-1", "title");
+      PageProperty result = endpoint.retrieveProperty("page-id-1", "title");
 
       assertEquals("GET", client.getLastMethod());
       assertEquals("/pages/{page_id}/properties/{property_id}", client.getLastUrlInfo().getUrl());

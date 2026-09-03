@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class RollupProperty extends PageProperty {
+public class RollupProperty extends PagePropertyValue {
   private final String type = PropertyType.ROLLUP.type();
 
   private RollupValue rollup;

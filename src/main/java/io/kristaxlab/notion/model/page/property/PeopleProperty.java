@@ -7,7 +7,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class PeopleProperty extends PageProperty {
+public class PeopleProperty extends PagePropertyValue {
   private final String type = PropertyType.PEOPLE.type();
 
   private List<User> people;

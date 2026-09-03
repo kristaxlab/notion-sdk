@@ -36,8 +36,9 @@ import java.util.function.Consumer;
  *         .checkbox("Done", false)));
  * }</pre>
  *
- * <p>The static methods on this class return individual {@link PageProperty} instances; use {@link
- * NotionPropertiesBuilder} to assemble a {@code key -> property} map for create/update payloads.
+ * <p>The static methods on this class return individual {@link PagePropertyValue} instances; use
+ * {@link NotionPropertiesBuilder} to assemble a {@code key -> property} map for create/update
+ * payloads.
  *
  * <p>Notion accepts <b>property names and ids interchangeably</b> as map keys. {@link
  * NotionPropertiesBuilder} reflects that with a {@code nameOrId} parameter on every property

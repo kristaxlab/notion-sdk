@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * A retrieved property list: the paginated response the property retrieve endpoint returns for a
+ * A page property list: the paginated response the property retrieve endpoint returns for a
  * paginated property ({@code relation}, {@code rich_text}, {@code title}, {@code people}).
  *
  * @param <I> the property item metadata type
@@ -17,7 +17,7 @@ import lombok.Setter;
 @Setter
 @JsonDeserialize(using = PagePropertyListDeserializer.class)
 public abstract sealed class PagePropertyList<I extends PropertyItem, L extends ListedItem>
-    extends NotionList<L> implements RetrievedProperty
+    extends NotionList<L> implements PageProperty
     permits RelationPropertyList,
         RichTextPropertyList,
         TitlePropertyList,

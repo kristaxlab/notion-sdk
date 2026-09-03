@@ -8,7 +8,7 @@ import io.kristaxlab.notion.model.page.UpdatePageParams;
 import io.kristaxlab.notion.model.page.markdown.UpdatePageAsMarkdownParams;
 import io.kristaxlab.notion.model.page.property.PageProperty;
 import io.kristaxlab.notion.model.page.property.PagePropertyList;
-import io.kristaxlab.notion.model.page.property.RetrievedProperty;
+import io.kristaxlab.notion.model.page.property.PagePropertyValue;
 import java.util.function.Consumer;
 
 /**
@@ -46,35 +46,35 @@ public interface PagesEndpoint {
   /**
    * Returns a property from a page via {@code GET /pages/{id}/properties/{property_id}}.
    *
-   * <p>A non-paginated property deserializes to a typed {@link PageProperty} subclass. A paginated
-   * property ({@code relation}, {@code rich_text}, {@code title}, {@code people}) deserializes to a
-   * {@link PagePropertyList} subclass.
+   * <p>A non-paginated property deserializes to a typed {@link PagePropertyValue} subclass. A
+   * paginated property ({@code relation}, {@code rich_text}, {@code title}, {@code people})
+   * deserializes to a {@link PagePropertyList} subclass.
    *
    * @param pageId page identifier
    * @param propertyId property identifier
-   * @return retrieved property value or retrieved property list
+   * @return page property value or page property list
    */
-  RetrievedProperty retrieveProperty(String pageId, String propertyId);
+  PageProperty retrieveProperty(String pageId, String propertyId);
 
   /**
-   * Returns the retrieved property list of a paginated property ({@code relation}, {@code title},
-   * {@code people}, {@code rich_text}).
+   * Returns the page property list of a paginated property ({@code relation}, {@code title}, {@code
+   * people}, {@code rich_text}).
    *
    * @param pageId page identifier
    * @param propertyId property identifier
-   * @return first page of the retrieved property list
+   * @return the page property list, starting at its first page of results
    */
   PagePropertyList retrievePaginatedProperty(String pageId, String propertyId);
 
   /**
-   * Returns the retrieved property list of a paginated property ({@code relation}, {@code title},
-   * {@code people}, {@code rich_text}) with start cursor and page size.
+   * Returns the page property list of a paginated property ({@code relation}, {@code title}, {@code
+   * people}, {@code rich_text}) with start cursor and page size.
    *
    * @param pageId page identifier
    * @param propertyId property identifier
    * @param startCursor start cursor, {@code null} for the first page
    * @param pageSize max page size
-   * @return one page of the retrieved property list
+   * @return one page of results from the page property list
    */
   PagePropertyList retrievePaginatedProperty(
       String pageId, String propertyId, String startCursor, Integer pageSize);

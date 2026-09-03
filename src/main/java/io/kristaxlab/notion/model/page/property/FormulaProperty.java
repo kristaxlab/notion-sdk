@@ -7,7 +7,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class FormulaProperty extends PageProperty {
+public class FormulaProperty extends PagePropertyValue {
 
   private final String type = PropertyType.FORMULA.type();
 
