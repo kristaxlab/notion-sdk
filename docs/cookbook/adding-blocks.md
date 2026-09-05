@@ -74,7 +74,7 @@ client.blocks().appendChildren(
 
 ## Related cookbook pages
 
-- [Creating pages](01-creating-pages.md)
-- [Rich text and inline formatting](03-rich-text.md)
-- [Updating blocks](08-updating-blocks.md)
+- [Creating pages](creating-pages.md)
+- [Rich text and inline formatting](rich-text.md)
+- [Updating blocks](updating-blocks.md)
 - [Back to README](../../README.md#cookbook)

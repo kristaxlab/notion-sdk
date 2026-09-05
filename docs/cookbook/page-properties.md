@@ -297,8 +297,8 @@ if (property instanceof UnknownProperty unknown) {
 
 ## Related cookbook pages
 
-- [Creating pages](01-creating-pages.md)
-- [Reading page content](05-reading-content.md)
-- [Updating pages](07-updating-pages.md)
+- [Creating pages](creating-pages.md)
+- [Reading page content](reading-content.md)
+- [Updating pages](updating-pages.md)
 - [CONTEXT.md](../../CONTEXT.md) — glossary
 - [Back to README](../../README.md#cookbook)

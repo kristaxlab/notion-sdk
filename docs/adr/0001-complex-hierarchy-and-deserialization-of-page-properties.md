@@ -264,7 +264,7 @@ properties that really do arrive in a different representation.
 ## References
 
 - [CONTEXT.md](../../CONTEXT.md) — vocabulary used in this ADR
-- Cookbook: [Page properties and pagination](../cookbook/06-page-properties.md)
+- Cookbook: [Page properties and pagination](../cookbook/page-properties.md)
 - `io.kristaxlab.notion.model.page.property.PageProperty`
 - `io.kristaxlab.notion.model.page.property.PagePropertyValue`
 - `io.kristaxlab.notion.model.page.property.PagePropertyList`

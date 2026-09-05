@@ -120,24 +120,33 @@ When endpoint wrappers do not cover your use case, use:
 
 ## Documentation map (current repo)
 
-- `../README.md`
-- `../CONTEXT.md`
-- `authentication.md`
-- `error-handling.md`
-- `cookbook/01-creating-pages.md`
-- `cookbook/02-adding-blocks.md`
-- `cookbook/03-rich-text.md`
-- `cookbook/04-structured-layouts.md`
-- `cookbook/05-reading-content.md`
-- `cookbook/06-page-properties.md`
-- `cookbook/07-updating-pages.md`
-- `cookbook/08-updating-blocks.md`
-- `cookbook/09-files-and-media.md`
-- `cookbook/10-end-to-end-recipes.md`
-- `internals/notion-http-client.md`
-- `internals/custom-http-client.md`
-- `internals/custom-interceptors.md`
-- `internals/exchange-recording.md`
-- `internals/architecture.md`
-- `internals/testing-guide.md`
-- `internals/release-process.md`
+Paths are relative to the repository root.
+
+Start here:
+- `README.md` — install, quickstart, documentation index
+- `CONTEXT.md` — glossary; use these terms when writing code, Javadoc or docs
+
+Guides:
+- `docs/authentication.md`
+- `docs/error-handling.md`
+
+Cookbook:
+- `docs/cookbook/README.md` — table of contents for every recipe, grouped by task; the
+  authoritative list. Cookbook filenames carry no ordering, so read the index rather than
+  guessing paths.
+
+Design decisions (read before changing a model):
+- `docs/adr/README.md` — index of all ADRs
+- `docs/adr/0001-complex-hierarchy-and-deserialization-of-page-properties.md`
+
+Internals (contributor-facing):
+- `docs/internals/documentation-guide.md` — which document owns which kind of knowledge
+- `docs/internals/architecture.md`
+- `docs/internals/adding-a-property-type.md`
+- `docs/internals/notion-api-constraints.md` — Notion rules the types cannot enforce
+- `docs/internals/notion-http-client.md`
+- `docs/internals/custom-http-client.md`
+- `docs/internals/custom-interceptors.md`
+- `docs/internals/exchange-recording.md`
+- `docs/internals/testing-guide.md`
+- `docs/internals/release-process.md`

@@ -54,7 +54,7 @@ client.blocks().restore("block-id");
 
 ## Related cookbook pages
 
-- [Adding blocks](02-adding-blocks.md)
-- [Reading page content](05-reading-content.md)
-- [Updating pages](07-updating-pages.md)
+- [Adding blocks](adding-blocks.md)
+- [Reading page content](reading-content.md)
+- [Updating pages](updating-pages.md)
 - [Back to README](../../README.md#cookbook)

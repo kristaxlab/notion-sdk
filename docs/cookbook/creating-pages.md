@@ -59,8 +59,8 @@ Page page = client.pages().create(params);
 
 ## Related cookbook pages
 
-- [Adding blocks](02-adding-blocks.md)
-- [Structured layouts](04-structured-layouts.md)
-- [Page properties and pagination](06-page-properties.md)
-- [Updating pages](07-updating-pages.md)
+- [Adding blocks](adding-blocks.md)
+- [Structured layouts](structured-layouts.md)
+- [Page properties and pagination](page-properties.md)
+- [Updating pages](updating-pages.md)
 - [Back to README](../../README.md#cookbook)
