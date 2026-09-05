@@ -10,7 +10,7 @@ to it from elsewhere instead of restating it.
 - [ ] **Public API changed** → Javadoc updated on the changed types (`./gradlew javadoc` passes)
 - [ ] **New or changed usage pattern** → the matching page under `docs/cookbook/` updated
 - [ ] **A design decision was made or reversed** → new ADR in `docs/adr/`, or an existing one marked `Superseded`
-- [ ] **A new term entered the vocabulary** → defined once in `CONTEXT.md` and used consistently
+- [ ] **A new term entered the vocabulary** → agreed and defined once in `CONTEXT.md` and used consistently
 - [ ] **A Notion API rule was discovered the hard way** → `docs/internals/notion-api-constraints.md`
 - [ ] **Contributor-facing mechanics changed** → `docs/internals/`
 - [ ] **Agent task framing changed** → the matching file under `.github/prompts/` (goal, required reading, evaluation — not a second how-to)

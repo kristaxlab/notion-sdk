@@ -105,6 +105,7 @@ fluent block DSL through property pagination, file uploads and end-to-end workfl
 | [Error handling](docs/error-handling.md) | Full exception hierarchy and retry guidance |
 | [Architecture decisions](docs/adr/README.md) | Why the models look the way they do |
 | [Internals](docs/internals/architecture.md) | HTTP pipeline, interceptors, testing, releases — for contributors |
+| [Javadoc conventions](docs/internals/javadoc.md) | How to write Javadoc in this repository |
 | [Documentation guide](docs/internals/documentation-guide.md) | Where each kind of knowledge belongs, and how docs are maintained |
 
 ## License

@@ -125,6 +125,7 @@ Paths are relative to the repository root.
 Start here:
 - `README.md` — install, quickstart, documentation index
 - `CONTEXT.md` — glossary; use these terms when writing code, Javadoc or docs
+- `AGENTS.md` — pointers at contributor conventions for agents
 
 Guides:
 - `docs/authentication.md` — tokens and NotionClient auth configuration

@@ -51,7 +51,8 @@ public interface PagesEndpoint {
    * rollup}) deserializes to a {@link PagePropertyList} subclass.
    *
    * @param pageId page identifier
-   * @param propertyId property id from {@link PagePropertyValue#getId()}, not the property name
+   * @param propertyId property id from {@link PagePropertyValue} ({@code getId()}), not the
+   *     property name
    * @return page property value or page property list
    */
   PageProperty retrieveProperty(String pageId, String propertyId);
@@ -61,7 +62,8 @@ public interface PagesEndpoint {
    * people}, {@code rich_text}, {@code rollup}).
    *
    * @param pageId page identifier
-   * @param propertyId property id from {@link PagePropertyValue#getId()}, not the property name
+   * @param propertyId property id from {@link PagePropertyValue} ({@code getId()}), not the
+   *     property name
    * @return the page property list, starting at its first page of results
    */
   PagePropertyList retrievePaginatedProperty(String pageId, String propertyId);
@@ -71,7 +73,8 @@ public interface PagesEndpoint {
    * people}, {@code rich_text}, {@code rollup}) with start cursor and page size.
    *
    * @param pageId page identifier
-   * @param propertyId property id from {@link PagePropertyValue#getId()}, not the property name
+   * @param propertyId property id from {@link PagePropertyValue} ({@code getId()}), not the
+   *     property name
    * @param startCursor start cursor, {@code null} for the first page
    * @param pageSize max page size
    * @return one page of results from the page property list

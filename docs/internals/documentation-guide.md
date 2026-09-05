@@ -13,18 +13,21 @@ down, this table tells you where it goes.
 | Javadoc | public API changed | signatures, contracts, nullability, thrown exceptions |
 | `docs/cookbook/` | API surface or usage changed | runnable task recipes, minimal prose |
 | `docs/adr/` | a decision was made or reversed | context, decision, rejected alternatives, consequences |
-| `CONTEXT.md` | a term was coined or disputed | one definition per concept, plus the synonyms to avoid |
+| `CONTEXT.md` | a term was agreed, or an existing term was disputed | one definition per concept, plus the synonyms to avoid |
 | `docs/internals/` | contributor-facing mechanics changed | how to extend, invariants, gotchas |
+| `docs/internals/javadoc.md` | Javadoc conventions or a project-specific pitfall changed | how to write Javadoc in this repository |
 | `docs/internals/notion-api-constraints.md` | a Notion rule was discovered the hard way | constraints the types cannot express |
+| `AGENTS.md` | how an agent finds contributor conventions changed | pointers at the documents that own the facts |
 | `.github/prompts/` | how an agent job is launched or evaluated changed | goal, required reading, agent-only pitfalls, how to know the job is done |
 | `llms.txt` | the documentation map changed | paths only, for machine readers |
 
 Do not restate a fact that another document owns — link to it. Duplication is not redundancy here; it
-is two copies that will disagree within a few months.
+is two copies that will disagree within a few months. A term is added to `CONTEXT.md` only after it
+is agreed. Agents propose a term; they do not decide one or append a definition on their own.
 
 A prompt owns only task framing. It points at the document that owns the facts — an internals
-page, an ADR, a cookbook recipe, `CONTEXT.md` — and does not grow a second how-to. A skill, if
-one is added later, follows the same rule.
+page, an ADR, a cookbook recipe, `CONTEXT.md` — and does not grow a second how-to. `AGENTS.md`
+and a skill, if one is added later, follow the same rule.
 
 ## How much detail
 

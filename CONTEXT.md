@@ -4,6 +4,10 @@ Shared vocabulary for this project. Notion describes the same concept differentl
 endpoint, and several of the obvious words for these concepts are ambiguous or overloaded — this
 file fixes one term per concept so the ADRs, the cookbook and the javadoc stay consistent.
 
+This glossary is binding for code, Javadoc, docs, and agent prose. Use each listed term exactly.
+Names on an `_Avoid_` line are rejected, not casual alternatives. If a concept you need is missing,
+stop and ask — do not invent a term, and do not add a definition here until it has been agreed.
+
 The vocabulary below covers API-wide conventions, page properties, data sources, the Markdown
 endpoints, and the integration testkit; other areas are added as they get documented.
 

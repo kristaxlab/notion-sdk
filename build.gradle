@@ -83,6 +83,10 @@ test {
     }
 }
 
+tasks.named('check') {
+    dependsOn tasks.named('javadoc')
+}
+
 
 tasks.register('testIntegration', Test) {
     description = 'Runs integration tests'

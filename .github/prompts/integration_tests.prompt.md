@@ -13,8 +13,7 @@ one is assigned.
 Read these before writing code or prose:
 
 - `docs/internals/testing-guide.md` — how the suite is run and how a test is written
-- `CONTEXT.md` — binding vocabulary; use its terms, do not invent synonyms. If a concept you
-  need is missing, say so instead of inventing a term.
+- `CONTEXT.md` — binding vocabulary (see `AGENTS.md`)
 - `docs/internals/notion-api-constraints.md` — Notion rules that produce a 400 if you ignore them
 
 Tracking board for existing tests (ids and status):

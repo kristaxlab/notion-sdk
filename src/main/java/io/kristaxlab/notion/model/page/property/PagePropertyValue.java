@@ -54,10 +54,30 @@ import lombok.Setter;
 public abstract non-sealed class PagePropertyValue extends BaseNotionObject
     implements PageProperty {
 
+  /**
+   * Property id assigned by Notion.
+   *
+   * <p>This identifier is used by the property retrieve endpoint path parameter.
+   */
   private String id;
 
+  /**
+   * Returns the property type.
+   *
+   * <p>The returned value matches the type-named value field that carries this property's payload.
+   *
+   * @return property type string such as {@code title}, {@code number}, or {@code relation}
+   */
   public abstract String getType();
 
+  /**
+   * Casts this page property value to a concrete subtype.
+   *
+   * @param type target subtype class
+   * @param <P> target subtype of {@link PagePropertyValue}
+   * @return this instance cast to the requested subtype
+   * @throws ClassCastException if this value is not an instance of {@code type}
+   */
   public <P extends PagePropertyValue> P as(Class<P> type) {
     return type.cast(this);
   }
