@@ -2,7 +2,7 @@ package testkit;
 
 import io.kristaxlab.notion.NotionClient;
 import org.junit.jupiter.api.BeforeEach;
-import testkit.ext.TestPage;
+import testkit.ext.TestPageId;
 import testkit.ext.client.NotionTestClient;
 
 /**
@@ -12,8 +12,8 @@ import testkit.ext.client.NotionTestClient;
  * under a deterministic directory derived from the test class and method names.
  *
  * <p>Subclasses that need a dedicated Notion page for their fixtures declare a static {@code
- * String} field annotated with {@link TestPage}; the page is created before {@code @BeforeAll} runs
- * and a convenience link is logged after every test method.
+ * String} field annotated with {@link TestPageId}; the page is created before {@code @BeforeAll}
+ * runs and a convenience link is logged after every test method.
  */
 public abstract class BaseIntegrationTest {
 

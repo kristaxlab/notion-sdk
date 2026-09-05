@@ -60,8 +60,6 @@ public class TestSessionFinalizer implements ExtensionContext.Store.CloseableRes
 
   @Override
   public void close() {
-    String sessionPageId = TestSession.get().getSessionPageId();
-
     logCompletion();
 
     if (cleanupEnabled) {
@@ -83,9 +81,5 @@ public class TestSessionFinalizer implements ExtensionContext.Store.CloseableRes
     } catch (Exception e) {
       LOGGER.error("Failed to delete session page {}: {}", sessionPageId, e.getMessage(), e);
     }
-  }
-
-  private String toNotionPageUrl(String pageId) {
-    return notionBaseUrl + pageId.replace("-", "");
   }
 }

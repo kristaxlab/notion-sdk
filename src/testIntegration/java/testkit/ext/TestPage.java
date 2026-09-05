@@ -1,23 +1,31 @@
 package testkit.ext;
 
-import java.lang.annotation.*;
-import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.extension.ExtensionContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import testkit.util.NotionPageUrlResolver;
 
-/**
- * Marks a {@code String} parameter that receives the ID of a Notion page created for the test
- * class.
- *
- * <p>{@link TestSessionBeforeAll} provisions the test session and {@link TestPagesProvisioner}
- * resolves the page for the test within it (a prefilled prerequisite page, the shared session page,
- * or a dedicated page created under the session page).
- *
- * <p>Parameters are populated right after the test instance is created.
- */
-@Documented
-@Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.PARAMETER})
-@ExtendWith({TestSessionBeforeAll.class, TestPagesProvisioner.class, TestPageAfterEach.class})
-public @interface TestPage {
+public class TestPage implements ExtensionContext.Store.CloseableResource {
 
-  boolean fixture() default false;
+  private static final Logger LOGGER = LoggerFactory.getLogger(TestPage.class);
+
+  private final String testId;
+  private final String pageId;
+  private final String notionBaseUrl;
+
+  public TestPage(String testId, String pageId, String notionBaseUrl) {
+    this.testId = testId;
+    this.pageId = pageId;
+    this.notionBaseUrl = notionBaseUrl;
+  }
+
+  @Override
+  public void close() {
+    logCompletion();
+  }
+
+  private void logCompletion() {
+    String url = NotionPageUrlResolver.resolveNotionPageUrl(notionBaseUrl, pageId);
+    LOGGER.info("Completed {}. Notion test page: {}", testId, url);
+  }
 }

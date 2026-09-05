@@ -6,6 +6,7 @@ import org.junit.jupiter.api.extension.ExtensionContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import testkit.ext.client.NotionTestClientProvisioner;
+import testkit.util.NotionPageUrlResolver;
 
 /**
  * Provisions the Notion test session: creates a dedicated "home" Notion page all tests of the
@@ -79,7 +80,7 @@ public class TestSessionBeforeAll implements BeforeAllCallback {
       TestSession.Data sessionData = provisioner.provision(config);
       TestSession.initialize(sessionData);
 
-      registerSessionFinalizer(context, sessionData.getSessionPageId(), config);
+      registerTestSession(context, sessionData.getSessionPageId(), config);
 
       return sessionData;
     } catch (RuntimeException e) {
@@ -104,18 +105,22 @@ public class TestSessionBeforeAll implements BeforeAllCallback {
    * @param sessionPageId the ID of the session page
    * @param config the session configuration
    */
-  private void registerSessionFinalizer(
+  private void registerTestSession(
       ExtensionContext context, String sessionPageId, TestSessionConfig config) {
-    LOGGER.debug("Registering Test Session Finalizer");
+    String baseUrl = NotionPageUrlResolver.getNotionBaseUrl(context);
 
-    String baseUrl = config.getNotionBaseUrl();
+    LOGGER.debug(
+        "Test Session page: {}",
+        NotionPageUrlResolver.resolveNotionPageUrl(baseUrl, sessionPageId));
     boolean cleanupEnabled = config.isCleanupEnabled();
 
     context
         .getRoot()
         .getStore(ExtensionContext.Namespace.GLOBAL)
         .put(
-            "session-finalizer",
+            "test-session",
             new TestSessionFinalizer(notionClient, sessionPageId, baseUrl, cleanupEnabled));
+
+    LOGGER.debug("Registered Test Session in Global Context");
   }
 }

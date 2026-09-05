@@ -14,7 +14,7 @@ import org.junit.jupiter.api.extension.ParameterResolutionException;
 import org.junit.jupiter.api.extension.ParameterResolver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import testkit.ext.TestPage;
+import testkit.ext.TestPageId;
 import testkit.ext.TestSessionBeforeAll;
 import testkit.util.TestConfigurationLookup;
 
@@ -28,7 +28,7 @@ import testkit.util.TestConfigurationLookup;
  *   <li>a dedicated page created under the test session page.
  * </ol>
  *
- * <p>The resolved page id will be injected into the parameter marked with {@link TestPage}
+ * <p>The resolved page id will be injected into the parameter marked with {@link TestPageId}
  * annotation.
  */
 public class NotionTestClientProvisioner implements ParameterResolver {

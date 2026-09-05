@@ -3,7 +3,6 @@ package testkit.ext;
 import io.kristaxlab.notion.NotionClient;
 import io.kristaxlab.notion.model.page.CreatePageParams;
 import java.util.Map;
-import java.util.Optional;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.ParameterContext;
@@ -25,7 +24,7 @@ import testkit.util.NotionTestIdRetriever;
  *   <li>a dedicated page created under the test session page.
  * </ol>
  *
- * <p>The resolved page id will be injected into the parameter marked with {@link TestPage}
+ * <p>The resolved page id will be injected into the parameter marked with {@link TestPageId}
  * annotation.
  */
 public class TestPagesProvisioner implements ParameterResolver {
@@ -38,27 +37,29 @@ public class TestPagesProvisioner implements ParameterResolver {
   public boolean supportsParameter(
       ParameterContext parameterContext, ExtensionContext extensionContext)
       throws ParameterResolutionException {
-    return parameterContext.isAnnotated(TestPage.class)
+    return parameterContext.isAnnotated(TestPageId.class)
         && parameterContext.getParameter().getType() == String.class;
   }
 
   @Override
   public Object resolveParameter(ParameterContext parameterContext, ExtensionContext context)
       throws ParameterResolutionException {
-    String testSessionPageId = TestSession.get().getSessionPageId();
-    Assertions.assertNotNull(testSessionPageId, "Test session page ID should not be null");
+    String sessionPageId = TestSession.get().getSessionPageId();
+    Assertions.assertNotNull(sessionPageId, "Test session page ID should not be null");
 
     String testId = getTestId(context);
     boolean fixtureRequired =
-        parameterContext.findAnnotation(TestPage.class).map(TestPage::fixture).orElse(false);
+        parameterContext.findAnnotation(TestPageId.class).map(TestPageId::fixture).orElse(false);
+    String pageTitle = context.getDisplayName();
 
     try {
-      return resolvePageId(
-          testId,
-          testSessionPageId,
-          fixtureRequired,
-          context.getDisplayName(),
-          getNotionBaseUrl(context));
+      String notionBaseUrl = NotionPageUrlResolver.getNotionBaseUrl(context);
+      String pageId =
+          resolvePageId(testId, pageTitle, sessionPageId, fixtureRequired, notionBaseUrl);
+
+      registerTestPage(context, testId, pageId, notionBaseUrl);
+
+      return pageId;
     } catch (Exception e) {
       String message = "Failed to prepare test page for test " + testId + ": " + e.getMessage();
       LOGGER.error(message);
@@ -68,19 +69,24 @@ public class TestPagesProvisioner implements ParameterResolver {
 
   /**
    * Resolves the Notion page ID for the current test, either from a fixture page or by creating a
-   * dedicated page.
+   * getNotionBaseUrl(context)); } catch (Exception e) { String message = "Failed to prepare test
+   * page for test " + testId + ": " + e.getMessage(); LOGGER.error(message); throw new
+   * NotionWorkspaseException(message, e); } }
+   *
+   * <p>/** Resolves the Notion page ID for the current test, either from a fixture page or by
+   * creating a dedicated page.
    *
    * @param testId the test ID extracted from the display name
-   * @param testSessionPageId the ID of the test session page
+   * @param pageTitle the display name of the test (used for naming dedicated pages)
+   * @param sessionPageId the ID of the test session page
    * @param fixtureRequired whether a fixture page is required for this test
-   * @param displayName the display name of the test (used for naming dedicated pages)
    * @return the resolved Notion page ID
    */
   private String resolvePageId(
       String testId,
-      String testSessionPageId,
+      String pageTitle,
+      String sessionPageId,
       boolean fixtureRequired,
-      String displayName,
       String notionBaseUrl) {
 
     Map<String, String> fixturePages = TestSession.get().getFixturePages();
@@ -96,7 +102,7 @@ public class TestPagesProvisioner implements ParameterResolver {
           "Fixture page for test " + testId + " was not found in the test session page.");
     }
 
-    String dedicatedPageId = createDedicatedPage(testSessionPageId, displayName);
+    String dedicatedPageId = createDedicatedPage(sessionPageId, pageTitle);
     LOGGER.debug(
         "Created dedicated page for test {}: {}",
         testId,
@@ -120,12 +126,12 @@ public class TestPagesProvisioner implements ParameterResolver {
                         + "@DisplayName(\"IT-XXX: ...\") annotation to specify a test id of the test"));
   }
 
-  private String getNotionBaseUrl(ExtensionContext context) {
-    return Optional.ofNullable(
-            context
-                .getStore(ExtensionContext.Namespace.GLOBAL)
-                .get("session-config", TestSessionConfig.class))
-        .map(TestSessionConfig::getNotionBaseUrl)
-        .orElseThrow(() -> new NotionWorkspaseException("Test session configuration is missing."));
+  private void registerTestPage(
+      ExtensionContext context, String testId, String pageId, String notionBaseUrl) {
+    TestPage finalizer = new TestPage(testId, pageId, notionBaseUrl);
+
+    ExtensionContext.Namespace classNamespace =
+        ExtensionContext.Namespace.create(context.getRequiredTestClass());
+    context.getStore(classNamespace).put(testId, finalizer);
   }
 }

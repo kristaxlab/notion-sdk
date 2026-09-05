@@ -25,19 +25,13 @@ public class TestSessionConfig {
   private final String templateId;
   private final String sessionTitle;
   private final boolean cleanupEnabled;
-  private final String notionBaseUrl;
 
   private TestSessionConfig(
-      String parentId,
-      String templateId,
-      String sessionTitle,
-      boolean cleanupEnabled,
-      String notionBaseUrl) {
+      String parentId, String templateId, String sessionTitle, boolean cleanupEnabled) {
     this.parentId = parentId;
     this.templateId = templateId;
     this.sessionTitle = sessionTitle;
     this.cleanupEnabled = cleanupEnabled;
-    this.notionBaseUrl = notionBaseUrl;
   }
 
   /**
@@ -94,16 +88,11 @@ public class TestSessionConfig {
     return cleanupEnabled;
   }
 
-  public String getNotionBaseUrl() {
-    return notionBaseUrl;
-  }
-
   public static class Builder {
     private String parentId;
     private String templateId;
     private String sessionTitle;
     private boolean cleanupEnabled;
-    private String basePageUrl;
 
     public Builder parentId(String parentId) {
       this.parentId = parentId;
@@ -122,11 +111,6 @@ public class TestSessionConfig {
 
     public Builder cleanupEnabled(boolean cleanupEnabled) {
       this.cleanupEnabled = cleanupEnabled;
-      return this;
-    }
-
-    public Builder basePageUrl(String basePageUrl) {
-      this.basePageUrl = basePageUrl;
       return this;
     }
 

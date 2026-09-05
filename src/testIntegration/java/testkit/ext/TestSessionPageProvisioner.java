@@ -15,7 +15,6 @@ import java.time.Duration;
 import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import testkit.util.NotionPageUrlResolver;
 
 /**
  * Provisions test session pages with template support and fixture discovery.
@@ -102,9 +101,7 @@ public class TestSessionPageProvisioner {
 
     Page sessionPage =
         notionClient.pages().create(page -> page.title(title).parent(parent).template(template));
-    LOGGER.info(
-        "Test session page created: {}",
-        NotionPageUrlResolver.resolveNotionPageUrl(config.getNotionBaseUrl(), sessionPage.getId()));
+    LOGGER.info("Test session page created: {}", sessionPage.getId());
     return sessionPage;
   }
 
