@@ -17,13 +17,11 @@ public abstract class BaseIntegrationTest {
   private NotionClient notionEnvSetupClient;
   private NotionClient notionClient;
 
-  /**
-   * Initializes the tests test client
-   */
+  /** Initializes the tests test client */
   @BeforeEach
   protected void beforeEach(
-          @NotionTestClient NotionClient client,
-          @NotionTestClient(forSetup = true) NotionClient envSetupClient) {
+      @NotionTestClient NotionClient client,
+      @NotionTestClient(forSetup = true) NotionClient envSetupClient) {
     notionClient = client;
     notionEnvSetupClient = envSetupClient;
   }
