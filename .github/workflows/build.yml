@@ -34,6 +34,10 @@ jobs:
       - name: 4. Code style check (Spotless)
         run: ./gradlew spotlessCheck
 
+      # 4a
+      - name: 4a. Documentation link check
+        run: python3 .github/scripts/check_doc_links.py
+
       # 5
       - name: 5. Build with Gradle
         run: ./gradlew build
@@ -44,6 +48,11 @@ jobs:
         env:
           NOTION_TEST_AUTH_TOKEN: ${{ secrets.NOTION_TEST_AUTH_TOKEN }}
         run: ./gradlew testIntegration
+
+      # 5b
+      - name: 5b. Javadoc
+        if: success() || failure()  # report Javadoc breakage even if tests fail
+        run: ./gradlew javadoc
 
       # 6
       - name: 6. Upload test reports
