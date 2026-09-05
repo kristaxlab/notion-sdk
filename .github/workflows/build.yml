@@ -46,7 +46,7 @@ jobs:
       - name: 5a. Run Integration Tests
         if: success() || failure()  # Run even if unit tests fail
         env:
-          NOTION_TEST_AUTH_TOKEN: ${{ secrets.NOTION_TEST_AUTH_TOKEN }}
+          NOTION_TESTS_AUTH_TOKEN: ${{ secrets.NOTION_TESTS_AUTH_TOKEN }}
         run: ./gradlew testIntegration
 
       # 5b

@@ -206,4 +206,5 @@ Add a custom deserializer only when the discriminator is not a top-level field. 
 - [Architecture Decision Records](../adr/README.md) — rationale for model choices (e.g. page property vs paginated retrieve)
 - [Installation](../../README.md#installation) -- dependency setup
 - [Testing Guide](testing-guide.md) -- test doubles and patterns
+- [Testkit](testkit.md) -- integration testkit internals
 - [Custom Interceptors](custom-interceptors.md) -- writing custom interceptors

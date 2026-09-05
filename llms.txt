@@ -127,26 +127,10 @@ Start here:
 - `CONTEXT.md` — glossary; use these terms when writing code, Javadoc or docs
 
 Guides:
-- `docs/authentication.md`
-- `docs/error-handling.md`
+- `docs/authentication.md` — tokens and NotionClient auth configuration
+- `docs/error-handling.md` — exception hierarchy and retry guidance
 
 Cookbook:
 - `docs/cookbook/README.md` — table of contents for every recipe, grouped by task; the
   authoritative list. Cookbook filenames carry no ordering, so read the index rather than
   guessing paths.
-
-Design decisions (read before changing a model):
-- `docs/adr/README.md` — index of all ADRs
-- `docs/adr/0001-complex-hierarchy-and-deserialization-of-page-properties.md`
-
-Internals (contributor-facing):
-- `docs/internals/documentation-guide.md` — which document owns which kind of knowledge
-- `docs/internals/architecture.md`
-- `docs/internals/adding-a-property-type.md`
-- `docs/internals/notion-api-constraints.md` — Notion rules the types cannot enforce
-- `docs/internals/notion-http-client.md`
-- `docs/internals/custom-http-client.md`
-- `docs/internals/custom-interceptors.md`
-- `docs/internals/exchange-recording.md`
-- `docs/internals/testing-guide.md`
-- `docs/internals/release-process.md`

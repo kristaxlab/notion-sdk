@@ -31,7 +31,7 @@ committed default lives there). The same value is also accepted as the environme
 `NOTION_TESTS_SESSION_PARENT_ID`, which overrides the properties file when both are set.
 2. **Auth token** — Notion auth token, create one at <https://www.notion.so/my-integrations>
 (the prerequisites page mentioned above should be accessible with this token). Auth token should be provided as an
-environment variable `NOTION_TEST_AUTH_TOKEN`.
+environment variable `NOTION_TESTS_AUTH_TOKEN`.
 
 ### Environment Setup
 
@@ -43,7 +43,7 @@ cp .env.test.sample .env.test.local
 
 ```dotenv
 # .env.test.local  (git-ignored)
-NOTION_TEST_AUTH_TOKEN=secret_xxx
+NOTION_TESTS_AUTH_TOKEN=secret_xxx
 # optional — overrides notion.tests.session.parent.id from junit-platform.properties
 NOTION_TESTS_SESSION_PARENT_ID=<your-duplicated-page-id>
 ```
@@ -56,7 +56,7 @@ Alternatively, export the variables directly. The session parent id is optional 
 `junit-platform.properties` already has the page you want:
 
 ```bash
-export NOTION_TEST_AUTH_TOKEN=secret_xxx
+export NOTION_TESTS_AUTH_TOKEN=secret_xxx
 export NOTION_TESTS_SESSION_PARENT_ID=<your-duplicated-page-id>
 ```
 
@@ -71,7 +71,7 @@ all resolve to the same setting. Defaults for the suite live in
 
 | Setting | Required | Purpose                                                                                                                                              |
 | --- | --- |------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `NOTION_TEST_AUTH_TOKEN` | yes | Integration token; env var only                                                                                                                      |
+| `NOTION_TESTS_AUTH_TOKEN` | yes | Integration token; env var only                                                                                                                      |
 | `notion.tests.session.parent.id` | yes | Page the session page and all test data are created under. Set in `junit-platform.properties`, or as `NOTION_TESTS_SESSION_PARENT_ID` (env var wins) |
 | `notion.tests.session.title` | no | Title given to the session page                                                                                                                      |
 | `notion.tests.session.template.id` | no | Template used to provision the session page                                                                                                          |
@@ -111,7 +111,8 @@ specification.
 Pick a base class according to what the test needs. All three provide a `NotionClient` configured
 with a strict JSON serializer that fails on unknown properties — which is what keeps SDK models in
 sync with the live API — and write HTTP exchange logs to a per-test directory. Do not construct a
-`NotionClient` yourself.
+`NotionClient` yourself. The JUnit extensions behind these bases are described in
+[Testkit](testkit.md).
 
 | Base class | Use when | Gives you |
 | --- | --- | --- |
@@ -209,5 +210,6 @@ Look for the **Artifacts** section at the bottom of the workflow run summary pag
 
 - [Installation](../../README.md#installation) — dependency setup and basics
 - [Architecture](architecture.md) — understanding what to test
+- [Testkit](testkit.md) — responsibilities, data shapes and extension points of the integration testkit
 - [Exchange Recording](exchange-recording.md) — HTTP exchange files written during tests
 - [Integration tests prompt](../../.github/prompts/integration_tests.prompt.md) — agent launcher for writing a test

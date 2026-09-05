@@ -16,6 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import testkit.ext.TestPage;
 import testkit.ext.TestSessionBeforeAll;
+import testkit.util.TestConfigurationLookup;
 
 /**
  * Resolves the Notion page each test runs on within the test session provisioned by {@link
@@ -33,7 +34,8 @@ import testkit.ext.TestSessionBeforeAll;
 public class NotionTestClientProvisioner implements ParameterResolver {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(NotionTestClientProvisioner.class);
-  private static final String NOTION_TEST_AUTH_TOKEN = "NOTION_TEST_AUTH_TOKEN";
+  private static final String NOTION_TESTS_AUTH_TOKEN = "NOTION_TESTS_AUTH_TOKEN";
+  private static final String NOTION_TESTS_JSON_STRICT = "notion.tests.json.strict";
   private static final String BASE_LOGS_DIR = "test-logs/rqrs";
 
   @Override
@@ -60,7 +62,8 @@ public class NotionTestClientProvisioner implements ParameterResolver {
         testClassName,
         logPath);
 
-    return internalTestingClient(logPath, "Notion Client");
+    boolean strictJson = TestConfigurationLookup.lookupBoolean(NOTION_TESTS_JSON_STRICT, context);
+    return internalTestingClient(logPath, "Notion Client", strictJson);
   }
 
   private String resolveTestClassName(ExtensionContext context) {
@@ -84,7 +87,7 @@ public class NotionTestClientProvisioner implements ParameterResolver {
    * @return
    */
   public static NotionClient getInfraSetupClient() {
-    return internalTestingClient(Path.of(BASE_LOGS_DIR, "setup"), "Notion Test Env Setup");
+    return internalTestingClient(Path.of(BASE_LOGS_DIR, "setup"), "Notion Test Env Setup", false);
   }
 
   /**
@@ -96,30 +99,34 @@ public class NotionTestClientProvisioner implements ParameterResolver {
    *
    * @param exchangeLogDir target directory for HTTP exchange files; {@code null} disables exchange
    *     logging
-   * @return a fully-wired {@link NotionClient} backed by the NOTION_TEST_AUTH_TOKENtoken
-   * @throws IllegalStateException if the NOTION_TEST_AUTH_TOKEN environment variable is absent or
+   * @return a fully-wired {@link NotionClient} backed by the NOTION_TESTS_AUTH_TOKENtoken
+   * @throws IllegalStateException if the NOTION_TESTS_AUTH_TOKEN environment variable is absent or
    *     blank
    */
-  public static NotionClient internalTestingClient(Path exchangeLogDir, String clientName) {
+  public static NotionClient internalTestingClient(
+      Path exchangeLogDir, String clientName, boolean strictJson) {
     String apiKey =
-        ConfigurationLookup.lookup(NOTION_TEST_AUTH_TOKEN)
+        ConfigurationLookup.lookup(NOTION_TESTS_AUTH_TOKEN)
             .orElseThrow(
                 () ->
                     new IllegalStateException(
-                        NOTION_TEST_AUTH_TOKEN + " environment variable is not set"));
+                        NOTION_TESTS_AUTH_TOKEN + " environment variable is not set"));
 
     clientName = (clientName == null || clientName.isBlank()) ? "Notion Client" : clientName;
     return NotionClient.builder()
         .authToken(apiKey)
-        .jsonSerializer(strictSerializer())
+        .jsonSerializer(serializer(strictJson))
         .exchangeLogging(exchangeLogDir)
         .clientName(clientName)
         .build();
   }
 
-  private static JacksonSerializer strictSerializer() {
+  private static JacksonSerializer serializer(boolean strictJson) {
     ObjectMapper mapper = JacksonSerializer.defaultMapper();
-    mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, true);
+    if (strictJson) {
+      LOGGER.debug("Enabling strict JSON deserialization for Notion test client");
+      mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, true);
+    }
     return new JacksonSerializer(mapper);
   }
 }

@@ -21,7 +21,7 @@ No documentation change needed because: <!-- e.g. internal refactor, no behavior
 
 ## Verification
 
-<!-- What you ran. Integration tests need NOTION_TEST_AUTH_TOKEN; see docs/internals/testing-guide.md -->
+<!-- What you ran. Integration tests need NOTION_TESTS_AUTH_TOKEN; see docs/internals/testing-guide.md -->
 
 - [ ] `./gradlew build`
 - [ ] `./gradlew testIntegration`
