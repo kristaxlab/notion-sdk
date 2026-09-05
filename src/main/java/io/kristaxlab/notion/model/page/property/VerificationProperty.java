@@ -8,8 +8,8 @@ import lombok.Setter;
 /** readonly */
 @Getter
 @Setter
-public class VerificationProperty extends PageProperty {
-  private final String type = PagePropertyType.VERIFICATION.type();
+public class VerificationProperty extends PagePropertyValue {
+  private final String type = PropertyType.VERIFICATION.type();
 
   private VerificationValue verification;
 

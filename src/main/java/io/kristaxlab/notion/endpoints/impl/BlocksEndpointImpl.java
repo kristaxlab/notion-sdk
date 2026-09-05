@@ -202,7 +202,7 @@ public class BlocksEndpointImpl extends BaseEndpointImpl implements BlocksEndpoi
    * @param blockId The ID of the block to delete
    * @return The deleted block (marked as archived)
    */
-  public Block delete(String blockId) {
+  public Block moveToTrash(String blockId) {
     checkNotNullOrEmpty(blockId, "blockId");
     ApiPath urlInfo = ApiPath.builder("/blocks/{block_id}").pathParam("block_id", blockId).build();
     return getClient().call("DELETE", urlInfo, Block.class);

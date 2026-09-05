@@ -1,0 +1,26 @@
+{
+  "object": "list",
+  "results": [
+    {
+      "object": "property_item",
+      "id": "vYdV",
+      "type": "relation",
+      "relation": {
+        "id": "535c3fb2-95e6-4b37-a696-036e5eac5cf6"
+      }
+    }
+  ],
+  "next_cursor": null,
+  "has_more": false,
+  "type": "property_item",
+  "property_item": {
+    "id": "y}~p",
+    "next_url": null,
+    "type": "rollup",
+    "rollup": {
+      "function": "count",
+      "type": "number",
+      "number": 1
+    }
+  }
+}

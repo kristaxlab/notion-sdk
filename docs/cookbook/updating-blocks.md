@@ -1,9 +1,11 @@
-# Updating & managing blocks
+# Updating blocks
 
-Retrieve, update, delete, and restore blocks on a page.
+Update, delete, and restore content blocks with the `BlocksEndpoint` (`client.blocks()`).
+
+This page uses `NotionText` fluent helpers for concise rich-text updates. Use static import:
 
 ```java
-
+import static io.kristaxlab.notion.fluent.NotionText.*;
 ```
 
 ## Retrieve a block
@@ -15,48 +17,44 @@ Block block = client.blocks().retrieve("block-id");
 ## Retrieve a page's blocks
 
 ```java
-BlockList page = client.blocks().retrieveChildren("page-id");
-
-for (Block block : page.getResults()) {
-    System.out.println(block.getType() + ": " + block.getId());
-}
+BlockList blocks = client.blocks().retrieveChildren("page-id");
 ```
 
-Retrieve a specific window of blocks using a cursor and page size:
-
-```java
-BlockList page = client.blocks().retrieveChildren("page-id", startCursor, 50);
-String nextCursor = page.getNextCursor();
-```
-
-## Update a block
-
-Retrieve a block, modify it in place, then send it back. All block types follow the same pattern.
+## Update paragraph text
 
 ```java
 Block block = client.blocks().retrieve("block-id");
 
 if (block instanceof ParagraphBlock paragraph) {
-    paragraph.getParagraph().setText(List.of(plainText("Updated paragraph text.")));
-    client.blocks().update("block-id", paragraph);
+  paragraph.getParagraph().setRichText(List.of(
+      plainText("Status: "),
+      green("updated").bold()
+  ));
+  client.blocks().update("block-id", paragraph);
 }
 ```
 
-## Delete a block
+## Update a to-do checked state
 
-Moves the block to the trash. The block still exists and can be restored.
+```java
+Block block = client.blocks().retrieve("todo-block-id");
+
+if (block instanceof ToDoBlock todo) {
+  todo.getToDo().setChecked(true);
+  client.blocks().update("todo-block-id", todo);
+}
+```
+
+## Delete and restore a block
 
 ```java
 client.blocks().delete("block-id");
-```
-
-## Restore a block
-
-```java
 client.blocks().restore("block-id");
 ```
 
-## See also
+## Related cookbook pages
 
-- [Adding blocks](blocks.md) — append new blocks
-- [Page lifecycle](page-lifecycle.md) — archive and restore pages
+- [Adding blocks](adding-blocks.md)
+- [Reading page content](reading-content.md)
+- [Updating pages](updating-pages.md)
+- [Back to README](../../README.md#cookbook)

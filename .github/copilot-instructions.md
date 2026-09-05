@@ -10,7 +10,12 @@ The SDK's top priority is **convenience of library usage and an intuitive API**.
 complex Notion models should feel lightweight and effortless. Every design decision should be
 evaluated against the question: *"Will an SDK user immediately understand how to use this?"*
 
-Key principles:
+## Resources to use
+
+Use this link to get missing information about Notion API needed to fulfill current request:
+https://developers.notion.com/llms.txt
+
+## Key principles:
 
 - **`of(...)` static factories** for simple, common construction (single value, list of values, no
   optional parameters). Named after Java conventions (`List.of(...)`, `Optional.of(...)`).
@@ -113,56 +118,6 @@ When implementing a builder, think at two levels:
 - **Pre-initialize the builder with one entry** so the user can start setting fields immediately
   without needing a separate "start" method.
 
-
-## Java doc principles
-
-### 1. Start with a summary
-
-- Begin with a one-sentence summary describing what the class or method does.
-- End the summary sentence with a period.
-
-### 2. Describe parameters, return values, and exceptions
-
-- Use `@param` for each parameter (what it represents).
-- Use `@return` for methods that return a value.
-- Use `@throws` (or `@exception`) for thrown exceptions that callers should know about.
-
-### 3. Favor complete, clear, and concise language
-
-- Use correct grammar, punctuation, and terminology.
-- Use present tense and third person (e.g., “Returns…”, “Computes…”).
-- Write for an international audience; avoid idioms and slang.
-- Prefer concise descriptions without losing meaning.
-- Prefer clear terms and consistent naming in prose and examples.
-- Stick to the main points and avoid overcomplicating explanations.
-
-### 4. Use tags appropriately
-
-- Use `@deprecated` with clear migration guidance and an alternative API suggestion.
-- Use `@see`, `{@link ...}`, and `{@linkplain ...}` to connect related API elements.
-- Avoid `@author` (version control provides authorship).
-
-### 5. Explain the “why,” not just the “what”
-
-- Capture intent, constraints, tradeoffs, and important side effects.
-- Call out key behavioral contracts (e.g., thread-safety, immutability, synchronization expectations).
-
-### 6. Avoid redundancy
-
-- Don’t restate the method name or repeat what is obvious from the signature.
-- Don’t duplicate implementation details that are likely to change.
-
-### 7. Use HTML markup sparingly and correctly
-
-- Use simple HTML when it improves readability (`<p>`, `<ul>`, `<li>`, `<code>`, `<pre>`).
-- Avoid excessive formatting that reduces maintainability.
-
-### 8. Include code examples where they add real value
-
-- For non-trivial APIs, include short, focused usage examples (often best in `<pre><code>...</code></pre>`).
-- Keep examples correct, minimal, and representative.
-
-### 9. Don’t expose internals or sensitive information
-
-- Avoid documenting secrets, credentials, internal-only endpoints, or security-sensitive details.
-- Don’t leak implementation details that could become attack surfaces or lock you into internals.
+## Resources:
+Use this link to retrieve, add or update integration tests status info with Notion MCP:
+https://www.notion.so/kristalamenweb/2e8c5b968ec4804d8b91c99c1e04b0ca

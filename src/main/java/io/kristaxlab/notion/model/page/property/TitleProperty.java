@@ -7,9 +7,9 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class TitleProperty extends PageProperty {
-  public static final String NAME = PagePropertyType.TITLE.type();
-  private final String type = PagePropertyType.TITLE.type();
+public class TitleProperty extends PagePropertyValue {
+  public static final String NAME = PropertyType.TITLE.type();
+  private final String type = PropertyType.TITLE.type();
 
   private List<RichText> title;
 }

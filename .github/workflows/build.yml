@@ -34,16 +34,25 @@ jobs:
       - name: 4. Code style check (Spotless)
         run: ./gradlew spotlessCheck
 
+      # 4a
+      - name: 4a. Documentation link check
+        run: python3 .github/scripts/check_doc_links.py
+
       # 5
       - name: 5. Build with Gradle
         run: ./gradlew build
 
       #5a
-      - name: 5a. Run Integration Tests
+      - name: 5a. Run Quick Integration Tests Suite
         if: success() || failure()  # Run even if unit tests fail
         env:
-          NOTION_TEST_AUTH_TOKEN: ${{ secrets.NOTION_TEST_AUTH_TOKEN }}
-        run: ./gradlew integrationTest
+          NOTION_TESTS_AUTH_TOKEN: ${{ secrets.NOTION_TESTS_AUTH_TOKEN }}
+        run: ./gradlew testIntegrationQuick
+
+      # 5b
+      - name: 5b. Javadoc
+        if: success() || failure()  # report Javadoc breakage even if tests fail
+        run: ./gradlew javadoc
 
       # 6
       - name: 6. Upload test reports
@@ -54,5 +63,5 @@ jobs:
           if-no-files-found: warn
           path: |
             build/reports/tests/test
-            build/reports/tests/integrationTest
+            build/reports/tests/testIntegration
             build/reports/jacoco/test

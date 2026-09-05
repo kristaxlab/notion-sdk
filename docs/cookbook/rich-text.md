@@ -1,94 +1,70 @@
-# Text Formatting and Styles
+# Rich text and inline formatting
 
-Build styled text for paragraphs, headings, list items, and any other block that accepts rich text. The examples 
-below use static helper methods from `NotionText` for brevity, but you can also construct `RichText` objects directly.
+Build `RichText` with `NotionText` helpers, then plug it into block helpers from `NotionBlocks`.
+
+This page uses fluent helpers from `NotionBlocks` and `NotionText`. Use static imports in examples for readability:
 
 ```java
+import static io.kristaxlab.notion.fluent.NotionBlocks.*;
 import static io.kristaxlab.notion.fluent.NotionText.*;
 ```
 
-## Plain text
+## Basic rich text runs
 
 ```java
-RichText text = plainText("Hello, Notion!");
+RichText normal = plainText("Normal");
+RichText strong = bold("Important");
+RichText mono = code("System.out.println()");
+RichText link = url("https://developers.notion.com/");
 ```
 
-## Inline formatting
+## Colors and combined styles
 
 ```java
-RichText boldText        = bold("Important");
-RichText italicText      = italic("emphasis");
-RichText underlineText   = underline("underlined");
-RichText strikeText      = strikethrough("outdated");
-RichText inlineCode      = code("System.out.println()");
-RichText linkedText      = url("https://notion.so");
+RichText success = green("DONE");
+RichText warning = yellowBackground(bold("ATTENTION"));
+RichText subtle = gray(italic("optional"));
 ```
 
-## Colors
+## Compose a mixed paragraph
 
 ```java
-RichText blueText        = blue("info");
-RichText redText         = red("error");
-RichText greenText       = green("success");
-RichText highlighted     = yellowBackground("highlight");
+client.blocks().appendChildren("page-id", paragraph(
+    plainText("Build status: "),
+    green("PASS").bold(),
+    plainText(" | "),
+    plainText("Coverage: "),
+    blue("86%")
+));
 ```
 
-All Notion colors are available as static helpers on `NotionText`.
-
-## Combine styles
-
-Call helpers on the result of another helper to combine styles:
+## Use `textBuilder()` for longer inline text
 
 ```java
-RichText boldBlue = bold("Warning").blue();   // RichText is mutable
-```
+List<RichText> text = textBuilder()
+    .plainText("Owner: ")
+    .plainText("Alice").bold()
+    .plainText(" | Due: ")
+    .plainText("2026-05-01").blue()
+    .build();
 
-## Compose a mixed-format paragraph
-
-Pass multiple `RichText` objects to any block factory:
-
-```java
-ParagraphBlock para = paragraph(
-    plainText("This is "),
-    bold("bold"),
-    plainText(", this is "),
-    italic("italic and ").blue(),
-    code("monospace"),
-    plainText(".")
-);
-
-client.blocks().appendChildren("page-id", para);
-```
-
-## Use NotionTextBuilder for a fluent chain
-
-`NotionTextBuilder` lets you compose a list of rich text runs in a single expression.
-Use it when there are many runs, or when you want to attach the list to a block builder.
-
-```java
-client.blocks().appendChildren(
-         "page-id",
-         content -> content.paragraph(
-              t -> t.text(
-                    textBuilder()
-                        .plainText("Status: ")
-                        .plainText("DONE").green().bold()
-                        .build()
-    ))
-);
+client.blocks().appendChildren("page-id", paragraph(text));
 ```
 
 ## Mentions
 
 ```java
-RichText userRef  = userMention("user-id");
-RichText dateRef  = dateMention("2026-06-01");
-RichText dateRange = dateMention("2026-06-01", "2026-06-30");
-RichText pageRef  = blockMention("page-or-block-id");
+client.blocks().appendChildren("page-id", paragraph(
+    plainText("Assigned to "),
+    userMention("user-id"),
+    plainText(", target "),
+    dateMention("2026-05-01", "2026-05-15")
+));
 ```
 
-## See also
+## Related cookbook pages
 
-- [Adding blocks](blocks.md) — append blocks that contain rich text
-- [Structured layouts](structured-layouts.md) — block types that support rich text
+- [Adding blocks](adding-blocks.md)
+- [Structured layouts](structured-layouts.md)
+- [End-to-end recipes](end-to-end-recipes.md)
 - [Back to README](../../README.md#cookbook)

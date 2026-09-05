@@ -120,22 +120,18 @@ When endpoint wrappers do not cover your use case, use:
 
 ## Documentation map (current repo)
 
-- `../README.md`
-- `authentication.md`
-- `error-handling.md`
-- `cookbook/01-creating-pages.md`
-- `cookbook/02-adding-blocks.md`
-- `cookbook/03-rich-text.md`
-- `cookbook/04-structured-layouts.md`
-- `cookbook/05-reading-content.md`
-- `cookbook/06-updating-pages.md`
-- `cookbook/07-updating-blocks.md`
-- `cookbook/08-files-and-media.md`
-- `cookbook/09-end-to-end-recipes.md`
-- `internals/notion-http-client.md`
-- `internals/custom-http-client.md`
-- `internals/custom-interceptors.md`
-- `internals/exchange-recording.md`
-- `internals/architecture.md`
-- `internals/testing-guide.md`
-- `internals/release-process.md`
+Paths are relative to the repository root.
+
+Start here:
+- `README.md` — install, quickstart, documentation index
+- `CONTEXT.md` — glossary; use these terms when writing code, Javadoc or docs
+- `AGENTS.md` — pointers at contributor conventions for agents
+
+Guides:
+- `docs/authentication.md` — tokens and NotionClient auth configuration
+- `docs/error-handling.md` — exception hierarchy and retry guidance
+
+Cookbook:
+- `docs/cookbook/README.md` — table of contents for every recipe, grouped by task; the
+  authoritative list. Cookbook filenames carry no ordering, so read the index rather than
+  guessing paths.
