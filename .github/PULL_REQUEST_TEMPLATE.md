@@ -14,6 +14,7 @@ to it from elsewhere instead of restating it.
 - [ ] **A Notion API rule was discovered the hard way** → `docs/internals/notion-api-constraints.md`
 - [ ] **Contributor-facing mechanics changed** → `docs/internals/`
 - [ ] **A new doc was added** → linked from `README.md` and `llms.txt`, so it cannot rot unnoticed
+- [ ] **User-visible change** → one line under `[Unreleased]` in `CHANGELOG.md` (`Added` / `Changed` / `Fixed`)
 
 No documentation change needed because: <!-- e.g. internal refactor, no behavior or vocabulary change -->
 
