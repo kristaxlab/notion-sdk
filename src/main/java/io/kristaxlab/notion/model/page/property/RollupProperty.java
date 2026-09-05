@@ -1,5 +1,6 @@
 package io.kristaxlab.notion.model.page.property;
 
+import io.kristaxlab.notion.model.common.DateData;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,10 +15,11 @@ public class RollupProperty extends PagePropertyValue {
   @Setter
   public static class RollupValue {
     private String type;
+    private String function;
     private Object array;
     private Double number;
-    private String date;
-    private String function;
-    // Add more fields as needed for rollup result types
+    private DateData date;
+    private Object unsupported;
+    private Object incomplete;
   }
 }

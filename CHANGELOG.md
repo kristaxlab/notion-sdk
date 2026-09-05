@@ -13,6 +13,9 @@ list from git history at the last minute.
 
 ### Added
 
+- `UpdateDataSourceParams.Builder` exposes `parent` / `inDatabase` so a data source can be moved to
+  another database through the fluent update API.
+
 ### Changed
 
 ### Fixed

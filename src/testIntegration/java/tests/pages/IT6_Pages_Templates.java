@@ -28,8 +28,8 @@ import testkit.ext.NotionWorkspaseException;
  * <p>Requires a pre-provisioned data source with at least two named templates (templates cannot be
  * created via the Notion API). Uses the shared "DB with templates" data source.
  */
-@Tags({@Tag("advanced"), @Tag("long")})
-public class IT8_Pages_Templates extends WithTestPageFixture {
+@Tag("heavy")
+public class IT6_Pages_Templates extends WithTestPageFixture {
 
   private String dataSourceWithTemplates;
 
@@ -76,7 +76,7 @@ public class IT8_Pages_Templates extends WithTestPageFixture {
   }
 
   @Test
-  @DisplayName("IT-8: Pages - Data source templates")
+  @DisplayName("IT-6: Pages - Data source templates")
   public void testDataSourceTemplates() {
     // 1. List all templates
     checkRetrieveTemplates();

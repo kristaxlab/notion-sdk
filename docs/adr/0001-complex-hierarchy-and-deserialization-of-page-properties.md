@@ -11,8 +11,8 @@ item* — are defined in [CONTEXT.md](../../CONTEXT.md).
 Notion exposes page property values through two endpoints that describe the *same* domain objects in
 two different representations. The divergence is not uniform across property types: a non-paginated
 property such as `checkbox` or `select` comes back in the same shape from both endpoints, while the
-four paginated properties — `relation`, `people`, `rich_text` and `title` — are represented
-differently depending on which endpoint returned them. Those four are the entire reason this model
+five paginated properties — `relation`, `people`, `rich_text`, `title` and `rollup` — are represented
+differently depending on which endpoint returned them. Those five are the entire reason this model
 needs more than one class.
 
 ### Page retrieve endpoint — `GET /pages/{page_id}`
@@ -41,7 +41,7 @@ This endpoint returns one of two different representations depending on the prop
   { "object": "property_item", "type": "checkbox", "id": "Done", "checkbox": false }
   ```
 
-- **Paginated properties** (`relation`, `title`, `rich_text`, `people`) come back as a *page property
+- **Paginated properties** (`relation`, `title`, `rich_text`, `people`, `rollup`) come back as a *page property
   list*: a `results` array of listed items plus `has_more` / `next_cursor`. Here `type` is the
   literal string `"property_item"`, and the real property type is nested inside the property item
   metadata under `property_item.type`. The individual values live in `results[]`, not in a
@@ -133,6 +133,7 @@ BaseNotionObject                                    object, requestId
         ├── RichTextPropertyList  <RichTextPropertyItem, ListedRichText>
         ├── TitlePropertyList     <TitlePropertyItem,    ListedRichText>
         ├── PeoplePropertyList    <PeoplePropertyItem,   ListedPeople>
+        ├── RollupPropertyList    <RollupPropertyItem,   ListedItem>
         └── UnknownPropertyList   <PropertyItem,         ListedItem>      «fallback»
 ```
 
@@ -145,13 +146,16 @@ PropertyItem            «sealed» @JsonTypeInfo on "type"    ← property item 
 ├── RichTextPropertyItem
 ├── TitlePropertyItem
 ├── PeoplePropertyItem
+├── RollupPropertyItem
 └── UnknownPropertyItem                                     «defaultImpl»
 
-ListedItem              «sealed»                            ← listed items, results[]
+ListedItem              «sealed» @JsonTypeInfo on "type"    ← listed items, results[]
 │                        object, type, id
 ├── ListedRichText       richText : RichText                 one run, not a list
-├── ListedRelation       (related page id in the inherited id)
-└── ListedPeople         people : User
+├── ListedRelation       relation : RelationValue            related page id
+├── ListedPeople         people : User
+├── ListedNumber         number : Double
+└── ListedUnknown                                            «defaultImpl»
 ```
 
 Which JSON node each Java type covers:
@@ -172,8 +176,9 @@ return type. When a caller already knows the property is paginated, this avoids 
 `PageProperty`, and it is the only overload that accepts a start cursor and a page size.
 
 Narrowing helpers keep call sites free of explicit casts: `PageProperty.asValue(Class)` /
-`asList(Class)`, `PagePropertyValue.as(Class)`, and `PagePropertyList.asRelationList()` /
-`asRichTextList()` / `asTitleList()` / `asPeopleList()`.
+`asList(Class)`, `PagePropertyValue.as(Class)`, `ListedItem.as(Class)`, and
+`PagePropertyList.asRelationList()` / `asRichTextList()` / `asTitleList()` / `asPeopleList()` /
+`asRollupList()`.
 
 ### Type resolution and deserialization
 
@@ -189,7 +194,7 @@ property type. It does **not** work for page property lists, where `type` is alw
   `@JsonSubTypes` take over.
 - **`PagePropertyListDeserializer`** (bound to `PagePropertyList`) reads `property_item.type` and
   maps it to `RelationPropertyList`, `RichTextPropertyList`, `TitlePropertyList`,
-  `PeoplePropertyList`, or `UnknownPropertyList` as the fallback.
+  `PeoplePropertyList`, `RollupPropertyList`, or `UnknownPropertyList` as the fallback.
 
 Two guards are needed to keep the delegation from looping back into the deserializer that started
 it:
@@ -227,13 +232,13 @@ A distinct class tree for embedded property values and another for page property
 `CheckboxProperty` for what a page carries, plus a second near-identical class for what the property
 retrieve endpoint returns. Rejected because:
 
-- it duplicates nearly identical classes for every non-paginated property, even though only the four
+- it duplicates nearly identical classes for every non-paginated property, even though only the five
   paginated properties genuinely differ between endpoints;
 - callers would need to convert between the two representations of the same semantic value, which is
   both boilerplate and a fresh source of confusion.
 
 The accepted design keeps a single class per property type for everything that is genuinely
-identical across endpoints, and introduces separate list classes only for the four paginated
+identical across endpoints, and introduces separate list classes only for the five paginated
 properties that really do arrive in a different representation.
 
 ## Consequences

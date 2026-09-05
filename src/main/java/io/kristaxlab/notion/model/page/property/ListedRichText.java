@@ -1,5 +1,6 @@
 package io.kristaxlab.notion.model.page.property;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
 import io.kristaxlab.notion.model.common.richtext.RichText;
 import lombok.Getter;
 import lombok.Setter;
@@ -8,5 +9,6 @@ import lombok.Setter;
 @Setter
 public final class ListedRichText extends ListedItem {
 
+  @JsonAlias("title")
   private RichText richText;
 }

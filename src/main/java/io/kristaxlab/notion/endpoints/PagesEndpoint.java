@@ -47,8 +47,8 @@ public interface PagesEndpoint {
    * Returns a property from a page via {@code GET /pages/{id}/properties/{property_id}}.
    *
    * <p>A non-paginated property deserializes to a typed {@link PagePropertyValue} subclass. A
-   * paginated property ({@code relation}, {@code rich_text}, {@code title}, {@code people})
-   * deserializes to a {@link PagePropertyList} subclass.
+   * paginated property ({@code relation}, {@code rich_text}, {@code title}, {@code people}, {@code
+   * rollup}) deserializes to a {@link PagePropertyList} subclass.
    *
    * @param pageId page identifier
    * @param propertyId property identifier
@@ -58,7 +58,7 @@ public interface PagesEndpoint {
 
   /**
    * Returns the page property list of a paginated property ({@code relation}, {@code title}, {@code
-   * people}, {@code rich_text}).
+   * people}, {@code rich_text}, {@code rollup}).
    *
    * @param pageId page identifier
    * @param propertyId property identifier
@@ -68,7 +68,7 @@ public interface PagesEndpoint {
 
   /**
    * Returns the page property list of a paginated property ({@code relation}, {@code title}, {@code
-   * people}, {@code rich_text}) with start cursor and page size.
+   * people}, {@code rich_text}, {@code rollup}) with start cursor and page size.
    *
    * @param pageId page identifier
    * @param propertyId property identifier

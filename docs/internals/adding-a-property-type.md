@@ -4,7 +4,7 @@ Notion adds property types over time (`place` and `verification` are recent exam
 
 ## Step 0 — decide whether the property is paginated
 
-This is the only decision that changes the amount of work. Notion paginates exactly four property types today: `relation`, `people`, `rich_text` and `title`. Everything else is non-paginated.
+This is the only decision that changes the amount of work. Notion paginates exactly five property types today: `relation`, `people`, `rich_text`, `title` and `rollup`. Everything else is non-paginated.
 
 Check the property retrieve endpoint response for the new type:
 
@@ -76,7 +76,7 @@ Update only what actually changed:
 | Change | Update |
 | --- | --- |
 | Any new type | Javadoc on the new classes |
-| A new paginated type | The paginated-property list in [ADR-0001](../adr/0001-complex-hierarchy-and-deserialization-of-page-properties.md), [CONTEXT.md](../../CONTEXT.md) and [Page properties](../cookbook/page-properties.md) — all three enumerate the four current types |
+| A new paginated type | The paginated-property list in [ADR-0001](../adr/0001-complex-hierarchy-and-deserialization-of-page-properties.md), [CONTEXT.md](../../CONTEXT.md) and [Page properties](../cookbook/page-properties.md) — those enumerate `relation`, `people`, `rich_text`, `title` and `rollup` |
 | A response shape the model cannot express | A new ADR superseding 0001 — do not quietly rewrite 0001 |
 
 A non-paginated type needs no prose changes. It is one more entry in a list the docs deliberately do not enumerate.

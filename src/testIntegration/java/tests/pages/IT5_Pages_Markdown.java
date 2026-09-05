@@ -10,11 +10,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import testkit.WithEmptyTestPage;
 
-public class IT43_Pages_Markdown extends WithEmptyTestPage {
+public class IT5_Pages_Markdown extends WithEmptyTestPage {
 
   @Test
-  @DisplayName(
-      "IT-43: Pages - Markdown - create, retrieve, and update page as markdown (all modes)")
+  @DisplayName("IT-5: Pages - Markdown - create, retrieve, and update page as markdown (all modes)")
   public void testMarkdownCRUD() {
     // 1. Create page with markdown content
     Page created =

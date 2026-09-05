@@ -8,10 +8,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import testkit.WithEmptyTestPage;
 
-public class IT10_Pages_Content extends WithEmptyTestPage {
+public class IT4_Pages_Content extends WithEmptyTestPage {
 
   @Test
-  @DisplayName("IT-10: Pages - Create page with content and then append more content")
+  @DisplayName("IT-4: Pages - Create page with content and then append more content")
   public void testCreatePageAndAppendContent() {
     Page created =
         getNotionClient()

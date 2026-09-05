@@ -25,7 +25,7 @@ import testkit.WithEmptyTestPage;
 import testkit.ext.SessionUserId;
 import testkit.util.FileLoader;
 
-public class IT6_Pages_PropertyValuesCRUD extends WithEmptyTestPage {
+public class IT3_Pages_PropertyValuesCRUD extends WithEmptyTestPage {
 
   private static final String TITLE_PROP_NAME = "Name";
   private static final String FILE_PATH = "files/it-7/image.jpg";
@@ -54,7 +54,7 @@ public class IT6_Pages_PropertyValuesCRUD extends WithEmptyTestPage {
   }
 
   @Test
-  @DisplayName("IT-6: Pages - Full CRUD cycle for all supported property values")
+  @DisplayName("IT-3: Pages - Full CRUD cycle for all supported property values")
   public void testPropertyValuesCrud() {
     // Phase 1: CREATE with initial values
     Map<String, PagePropertyValue> phase1Props =

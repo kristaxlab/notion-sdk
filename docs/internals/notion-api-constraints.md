@@ -8,7 +8,7 @@ Rules the Notion API enforces that the SDK cannot express in its types, and that
 
 - **`unique_id` is singular and server-owned.** A page in a data source can carry at most one `unique_id` property. Its numeric part is auto-incremented by Notion and cannot be set through the API; only the prefix can be changed, and only on properties that already exist. Tests must therefore read the value rather than seed it.
 - **The `title` property id is always `title`.** Every other property has a URL-encoded short id. Title is auto-added and cannot be removed, so `title` is safe to hard-code as an id.
-- **Paginated property values can arrive truncated.** The page retrieve endpoint may return a partial value for `relation`, `people`, `rich_text` and `title`. See [ADR-0001](../adr/0001-complex-hierarchy-and-deserialization-of-page-properties.md) and [Page properties](../cookbook/page-properties.md).
+- **Paginated property values can arrive truncated.** The page retrieve endpoint may return a partial value for `relation`, `people`, `rich_text`, `title` and `rollup`. See [ADR-0001](../adr/0001-complex-hierarchy-and-deserialization-of-page-properties.md) and [Page properties](../cookbook/page-properties.md).
 
 ## Data sources and databases
 

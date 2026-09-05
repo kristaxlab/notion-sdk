@@ -148,7 +148,7 @@ public class IT5_Pages_Retrieve extends WithEmptyTestPage {
 - Place the class under `src/testIntegration/java/tests/<endpoint>/` (`tests.pages`, `tests.blocks`,
   `tests.datasources`, `tests.fileuploads`, `tests.users`).
 - Class name: `IT<id>_<Endpoint>_<Details>` (e.g. `IT1_Pages_CRUD`). With a placeholder id:
-  `IT_Pages_RelationProperty`.
+  `IT12_Pages_RelationPropertyPaginated`.
 - `@DisplayName` on the test method: `IT-<id>: <Endpoint> - <description>`. Placeholder:
   `IT-?: Pages - Create and retrieve 'people' property`. Both page provisioners extract the
   `IT-8` / `IT-?` prefix from this display name — empty-page tests use it for logging, fixture

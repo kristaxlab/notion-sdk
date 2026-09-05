@@ -22,6 +22,7 @@ public class PagePropertyListDeserializer extends JsonDeserializer<PagePropertyL
           case "rich_text" -> RichTextPropertyList.class;
           case "title" -> TitlePropertyList.class;
           case "people" -> PeoplePropertyList.class;
+          case "rollup" -> RollupPropertyList.class;
           default -> UnknownPropertyList.class;
         };
 

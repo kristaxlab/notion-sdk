@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public final class ListedRelation extends ListedItem {
+public final class RollupPropertyItem extends PropertyItem {
 
-  private RelationProperty.RelationValue relation;
+  private RollupProperty.RollupValue rollup;
 }

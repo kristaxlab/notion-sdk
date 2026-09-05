@@ -10,11 +10,17 @@
       }
     }
   ],
+  "next_cursor": null,
   "has_more": false,
   "type": "property_item",
   "property_item": {
-    "id": "Children Pages",
-    "type": "relation",
-    "relation": {}
+    "id": "y}~p",
+    "next_url": null,
+    "type": "rollup",
+    "rollup": {
+      "function": "count",
+      "type": "number",
+      "number": 1
+    }
   }
 }

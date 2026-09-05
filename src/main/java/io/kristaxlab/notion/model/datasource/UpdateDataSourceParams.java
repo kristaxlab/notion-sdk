@@ -46,10 +46,33 @@ public class UpdateDataSourceParams {
   }
 
   public static class Builder {
+    private Parent parent;
     private List<RichText> title;
     private Map<String, DataSourcePropertySchema> properties = new LinkedHashMap<>();
     private Icon icon;
     private Boolean inTrash;
+
+    /**
+     * Moves the data source into another database.
+     *
+     * @param parentDatabaseId destination database identifier
+     * @return this builder
+     */
+    public Builder inDatabase(String parentDatabaseId) {
+      return parent(Parent.databaseParent(parentDatabaseId));
+    }
+
+    /**
+     * Sets a fully constructed {@link Parent} (overrides any prior {@link #inDatabase(String)}
+     * call). Notion accepts a database parent to move the data source.
+     *
+     * @param parent parent descriptor
+     * @return this builder
+     */
+    public Builder parent(Parent parent) {
+      this.parent = parent;
+      return this;
+    }
 
     public Builder title(String title) {
       return title(NotionText.plainText(title).asList());
@@ -127,6 +150,7 @@ public class UpdateDataSourceParams {
 
     public UpdateDataSourceParams build() {
       UpdateDataSourceParams params = new UpdateDataSourceParams();
+      params.setParent(parent);
       params.setTitle(title);
       params.setProperties(properties);
       params.setIcon(icon);

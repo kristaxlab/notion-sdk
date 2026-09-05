@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public final class ListedRelation extends ListedItem {
+public final class ListedNumber extends ListedItem {
 
-  private RelationProperty.RelationValue relation;
+  private Double number;
 }

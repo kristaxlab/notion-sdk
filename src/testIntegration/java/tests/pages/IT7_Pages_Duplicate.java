@@ -13,10 +13,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import testkit.WithEmptyTestPage;
 
-public class IT9_Pages_Duplicate extends WithEmptyTestPage {
+public class IT7_Pages_Duplicate extends WithEmptyTestPage {
 
   @Test
-  @DisplayName("IT-9: Pages - Duplicate page using its id as template id")
+  @DisplayName("IT-7: Pages - Duplicate page using its id as template id")
   public void testDuplicatePageUsingTemplateId() {
     // 1. Creating a source page with title and 2 blocks
     Page source =

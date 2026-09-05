@@ -46,7 +46,7 @@ different things).
 
 **Paginated property**:
 A property type whose value the property retrieve endpoint returns as a paginated list:
-`relation`, `rich_text`, `title`, `people`.
+`relation`, `rich_text`, `title`, `people`, `rollup`.
 Paginated properties are represented as a page property value in a page response, and as a page property
 list in a property retrieve response.
 _Avoid_: collection property, list property (`multi_select` and `files` are collections that never
@@ -88,6 +88,8 @@ _Avoid_: retrieved property value, property item (Notion's own word, but it coll
 **Page property list**:
 The paginated response of the property retrieve endpoint, returned for every paginated property.
 Modelled by `PagePropertyList` subclasses, which carry `results`, `has_more` and `next_cursor`.
+For `rollup`, `results` are the related pages or values used to compute the aggregation; the
+computed result lives in the property item metadata.
 _Avoid_: retrieved property list, property item list, list shape.
 
 **Property item metadata**:
@@ -98,8 +100,8 @@ _Avoid_: property item, list header.
 
 **Listed item**:
 One element of the `results` array of a page property list, modelled by `ListedItem` subclasses
-(`ListedRichText`, `ListedRelation`, `ListedPeople`). Each listed item holds a single value, not a
-list — one `RichText` run, one related page id, one user.
+(`ListedRichText`, `ListedRelation`, `ListedPeople`, `ListedNumber`). Each listed item holds a
+single value, not a list — one `RichText` run, one related page id, one user, one number.
 _Avoid_: result item, property item, entry.
 
 ### Data sources

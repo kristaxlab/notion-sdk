@@ -12,7 +12,7 @@ import org.junit.jupiter.api.*;
 import testkit.WithEmptyTestPage;
 
 @Tag("pages")
-public class IT4_Pages_Move extends WithEmptyTestPage {
+public class IT2_Pages_Move extends WithEmptyTestPage {
 
   private static String databaseId;
   private static String dataSourceId;
@@ -27,7 +27,7 @@ public class IT4_Pages_Move extends WithEmptyTestPage {
   }
 
   @Test
-  @DisplayName("IT-4: Pages - Move page to other parents")
+  @DisplayName("IT-2: Pages - Move page to other parents")
   public void testMove() {
     String testPageId = getTestPageId();
     // Create an anchor row in the related data source so we can demonstrate the relation properties

@@ -1,11 +1,12 @@
 # Page properties and pagination
 
 Read property values from a retrieved `Page`, fetch a single property with `PagesEndpoint`
-(`client.pages()`), and page through long `rich_text`, `relation`, `title` and `people` values.
+(`client.pages()`), and page through long `rich_text`, `relation`, `title`, `people` and `rollup`
+values.
 
 Notion returns property values in two different representations, and which one you get depends on
 the endpoint **and** on the property type. **Paginated properties** are `rich_text`, `relation`,
-`title` and `people`; every other property type is **non-paginated**.
+`title`, `people` and `rollup`; every other property type is **non-paginated**.
 
 | SDK method | HTTP endpoint | Returns | What comes back |
 | --- | --- | --- | --- |
@@ -56,7 +57,7 @@ RelationProperty relation =
 List<String> ids;
 if (Boolean.TRUE.equals(relation.getHasMore())) {
   ids = collectAll(client, "page-id", relation.getId(), ListedRelation.class)
-      .stream().map(ListedRelation::getId).toList();
+      .stream().map(item -> item.getRelation().getId()).toList();
 } else {
   ids = relation.getRelation().stream().map(RelationValue::getId).toList();
 }
@@ -163,7 +164,7 @@ RichTextPropertyList firstPage = client.pages()
 
 ## Paginate a long `relation` property
 
-A `ListedRelation` carries only the related page id, in the inherited `id` field.
+A `ListedRelation` carries the related page id in `getRelation().getId()`.
 
 ```java
 List<String> relatedPageIds = new ArrayList<>();
@@ -175,7 +176,7 @@ do {
       .asRelationList();
 
   for (ListedRelation item : chunk.getResults()) {
-    relatedPageIds.add(item.getId());
+    relatedPageIds.add(item.getRelation().getId());
   }
 
   cursor = Boolean.TRUE.equals(chunk.getHasMore()) ? chunk.getNextCursor() : null;
@@ -218,6 +219,28 @@ List<User> assignees = peopleList.getResults().stream()
 For a single-run title, reading `NotionPageViewer.title()` off the page is cheaper than a dedicated
 property call.
 
+## Paginate a `rollup` property
+
+`RollupPropertyList.getResults()` is a list of `ListedItem`, not one fixed subclass. The concrete
+type depends on the rollup function: aggregations typically yield `ListedRelation`, while functions
+that flatten the rolled-up property (`show_original`, `show_unique`, `unique`, `median`) yield that
+property's listed item — `ListedRichText`, `ListedNumber`, `ListedPeople`, and so on. Narrow with
+`ListedItem.as(Class)` (or `instanceof`) the same way you narrow a `PagePropertyValue`.
+
+```java
+RollupPropertyList chunk = client.pages()
+    .retrievePaginatedProperty("page-id", "Count")
+    .asRollupList();
+
+for (ListedItem item : chunk.getResults()) {
+  if (item instanceof ListedRelation) {
+    String relatedId = item.as(ListedRelation.class).getRelation().getId();
+  } else if (item instanceof ListedRichText) {
+    String text = item.as(ListedRichText.class).getRichText().getPlainText();
+  }
+}
+```
+
 ## A reusable "collect all pages" helper
 
 The loop above is the same for every paginated property, so it is worth extracting once. `ListedItem`
@@ -237,7 +260,7 @@ static <L extends ListedItem> List<L> collectAll(
         client.pages().retrievePaginatedProperty(pageId, propertyId, cursor, MAX_PAGE_SIZE);
 
     for (ListedItem item : chunk.getResults()) {
-      all.add(itemType.cast(item));
+      all.add(item.as(itemType));
     }
 
     cursor = Boolean.TRUE.equals(chunk.getHasMore()) ? chunk.getNextCursor() : null;
@@ -254,12 +277,12 @@ List<RichText> notes = collectAll(client, pageId, notesPropertyId, ListedRichTex
     .stream().map(ListedRichText::getRichText).toList();
 
 List<String> childIds = collectAll(client, pageId, "Children Pages", ListedRelation.class)
-    .stream().map(ListedRelation::getId).toList();
+    .stream().map(item -> item.getRelation().getId()).toList();
 ```
 
-`itemType.cast` throws `ClassCastException` if the property turns out to be a different paginated
+`ListedItem.as` throws `ClassCastException` if the property turns out to be a different paginated
 property than expected, which surfaces a wrong property id immediately instead of silently returning
-nothing.
+nothing. For a rollup, pass the listed-item class that function actually returns.
 
 ## Inspect the property item metadata
 
@@ -270,7 +293,7 @@ property type — the top-level `type` of a page property list is always `"prope
 PagePropertyList<?, ?> list = client.pages().retrievePaginatedProperty("page-id", propertyId);
 
 list.getType();                      // always "property_item"
-list.getPropertyItem().getType();    // "rich_text", "relation", "title" or "people"
+list.getPropertyItem().getType();    // "rich_text", "relation", "title", "people" or "rollup"
 list.getPropertyItem().getId();      // the property id
 list.getPropertyItem().getNextUrl(); // API-provided next-page URL, informational
 list.getHasMore();

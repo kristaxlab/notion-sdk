@@ -22,6 +22,7 @@ import lombok.Setter;
   @JsonSubTypes.Type(value = PeoplePropertyItem.class, name = "people"),
   @JsonSubTypes.Type(value = RelationPropertyItem.class, name = "relation"),
   @JsonSubTypes.Type(value = RichTextPropertyItem.class, name = "rich_text"),
+  @JsonSubTypes.Type(value = RollupPropertyItem.class, name = "rollup"),
   @JsonSubTypes.Type(value = TitlePropertyItem.class, name = "title")
 })
 @Getter
@@ -30,6 +31,7 @@ public sealed class PropertyItem
     permits PeoplePropertyItem,
         RelationPropertyItem,
         RichTextPropertyItem,
+        RollupPropertyItem,
         TitlePropertyItem,
         UnknownPropertyItem {
 

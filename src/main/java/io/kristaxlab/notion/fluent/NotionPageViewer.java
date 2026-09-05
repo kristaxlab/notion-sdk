@@ -681,7 +681,7 @@ public final class NotionPageViewer {
       return rollup.getNumber() == null ? "" : String.valueOf(rollup.getNumber());
     }
     if ("date".equals(rollup.getType())) {
-      return rollup.getDate() == null ? "" : rollup.getDate();
+      return stringifyDate(rollup.getDate());
     }
     if ("array".equals(rollup.getType())) {
       return rollup.getArray() == null ? "" : String.valueOf(rollup.getArray());
