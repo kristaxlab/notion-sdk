@@ -1,14 +1,15 @@
-package io.kristaxlab.notion.http.base.json;
+package io.kristaxlab.notion;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
+import io.kristaxlab.notion.http.base.json.JacksonSerializer;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
 
-public class TestSerializer extends JacksonSerializer {
+public class StrictJsonSerializer extends JacksonSerializer {
 
-  public TestSerializer() {
+  public StrictJsonSerializer() {
     super();
     getMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, true);
   }
@@ -31,7 +32,8 @@ public class TestSerializer extends JacksonSerializer {
   }
 
   public <T> T fromFile(String filePath, Class<T> targetClass) {
-    try (InputStream is = TestSerializer.class.getClassLoader().getResourceAsStream(filePath)) {
+    try (InputStream is =
+        StrictJsonSerializer.class.getClassLoader().getResourceAsStream(filePath)) {
       if (is == null) {
         throw new IllegalArgumentException("Resource not found: " + filePath);
       }

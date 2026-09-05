@@ -1,11 +1,9 @@
 package testkit.ext;
 
-import io.kristaxlab.notion.config.ConfigurationLookup;
-import java.util.List;
-import java.util.Optional;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import testkit.util.TestConfigurationLookup;
 
 /**
  * Immutable configuration for a test session.
@@ -55,11 +53,12 @@ public class TestSessionConfig {
   public static TestSessionConfig from(ExtensionContext context) {
     LOGGER.debug("Resolving session configuration from environment, system, and JUnit properties");
 
-    String parentId = lookupRequired(SESSION_PARENT_ID, context);
-    String templateId = lookupOptional(SESSION_TEMPLATE_ID, context);
-    String sessionTitle = lookupOptional(SESSION_TITLE, context);
-    boolean cleanupEnabled = lookupBoolean(CLEANUP_ENABLED, context);
-    String basePageUrl = lookup(NOTION_BASE_URL, context).orElse("https://www.notion.so/");
+    String parentId = TestConfigurationLookup.lookupRequired(SESSION_PARENT_ID, context);
+    String templateId = TestConfigurationLookup.lookupOptional(SESSION_TEMPLATE_ID, context);
+    String sessionTitle = TestConfigurationLookup.lookupOptional(SESSION_TITLE, context);
+    boolean cleanupEnabled = TestConfigurationLookup.lookupBoolean(CLEANUP_ENABLED, context);
+    String basePageUrl =
+        TestConfigurationLookup.lookup(NOTION_BASE_URL, context).orElse("https://www.notion.so/");
 
     return builder()
         .parentId(parentId)
@@ -97,45 +96,6 @@ public class TestSessionConfig {
 
   public String getNotionBaseUrl() {
     return notionBaseUrl;
-  }
-
-  private static String lookupRequired(String key, ExtensionContext context) {
-    Optional<String> value = lookup(key, context);
-    LOGGER.debug("{}: {}", key, value.orElse(null));
-
-    if (value.isEmpty()) {
-      throw new IllegalStateException("Required property " + key + " is missing");
-    }
-    return value.get();
-  }
-
-  private static String lookupOptional(String key, ExtensionContext context) {
-    Optional<String> value = lookup(key, context);
-    LOGGER.debug("{}: {}", key, value.orElse(null));
-    return value.orElse(null);
-  }
-
-  private static boolean lookupBoolean(String key, ExtensionContext context) {
-    String value = lookup(key, context).orElse(null);
-    LOGGER.debug("{}: {}", key, value);
-    return value == null || value.trim().isEmpty() ? false : (Boolean.parseBoolean(value));
-  }
-
-  private static Optional<String> lookup(String key, ExtensionContext testExtensionContext) {
-    Optional<String> value = ConfigurationLookup.lookup(key);
-    if (value.isPresent() && !value.get().trim().isEmpty()) {
-      return value;
-    }
-
-    List<String> keyModifications = ConfigurationLookup.getKeyModifications(key);
-    for (String modifiedKey : keyModifications) {
-      value = testExtensionContext.getConfigurationParameter(modifiedKey);
-      if (value.isPresent() && !value.get().trim().isEmpty()) {
-        return value;
-      }
-    }
-
-    return Optional.empty();
   }
 
   public static class Builder {
