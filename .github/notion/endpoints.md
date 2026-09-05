@@ -1,1 +1,0 @@
-Prompt: "list all the endpoints grouped by resource name, treat every method + url on as a separate bullet point"

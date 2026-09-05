@@ -190,6 +190,17 @@ Logs request and response summaries via SLF4J. The logger name includes the serv
 
 Jackson is the most widely used JSON library in Java, has excellent polymorphic type support (critical for block deserialization), and integrates with Lombok's `@Builder` and Java records.
 
+### Polymorphic type resolution
+
+Notion returns many polymorphic objects (blocks, page property values, filters, property schemas) that are distinguished by a `type` discriminator. The project convention is **annotation-driven resolution**: declare `@JsonTypeInfo` on the base type and enumerate subtypes with `@JsonSubTypes`, as `Block` and `PagePropertyValue` do. Prefer this in new code — it keeps the mapping declarative and visible on the type itself.
+
+Hand-written deserializers are the exception, not the norm. The codebase has exactly two, both under `model.page.property`:
+
+- `PagePropertyDeserializer` — decides whether a property retrieve response is a single value or a paginated list, then delegates
+- `PagePropertyListDeserializer` — resolves the property type from the *nested* `property_item.type` field, which `@JsonTypeInfo` cannot express
+
+Add a custom deserializer only when the discriminator is not a top-level field. If you do, read [ADR-0001](../adr/0001-complex-hierarchy-and-deserialization-of-page-properties.md) first — it explains why these two exist, why `JsonDeserializer.None` is load-bearing on the `PagePropertyList` subclasses, and which simpler designs were rejected.
+
 ## See Also
 
 - [Architecture Decision Records](../adr/README.md) — rationale for model choices (e.g. page property vs paginated retrieve)

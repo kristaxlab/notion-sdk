@@ -18,11 +18,11 @@ class PagePropertyDeserializeTest {
   }
 
   @Test
-  @DisplayName("retrieveProperty deserializes flat checkbox as PagePropertyValue")
-  void deserializesFlatCheckbox() throws IOException {
+  @DisplayName("retrieveProperty deserializes checkbox as PagePropertyValue")
+  void deserializesCheckboxValue() throws IOException {
     PageProperty property =
         JacksonSerializer.withDefaults()
-            .toObject(fixture("retrieve-property-flat-checkbox.json"), PageProperty.class);
+            .toObject(fixture("retrieve-property-value-checkbox.json"), PageProperty.class);
 
     assertInstanceOf(CheckboxProperty.class, property);
     CheckboxProperty checkbox = property.asValue(CheckboxProperty.class);
@@ -36,7 +36,7 @@ class PagePropertyDeserializeTest {
   void deserializesPaginatedRelation() throws IOException {
     PageProperty list =
         JacksonSerializer.withDefaults()
-            .toObject(fixture("retrieve-property-paginated-relation.json"), PageProperty.class);
+            .toObject(fixture("retrieve-property-list-relation.json"), PageProperty.class);
 
     RelationPropertyList relation = list.asList(RelationPropertyList.class);
     assertEquals("property_item", relation.getType());
@@ -52,7 +52,7 @@ class PagePropertyDeserializeTest {
   void deserializesPaginatedTitle() throws IOException {
     PagePropertyList list =
         JacksonSerializer.withDefaults()
-            .toObject(fixture("retrieve-property-paginated-title.json"), PagePropertyList.class);
+            .toObject(fixture("retrieve-property-list-title.json"), PagePropertyList.class);
 
     assertEquals("title", list.getPropertyItem().getType());
     assertEquals(1, list.getResults().size());
