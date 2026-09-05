@@ -297,15 +297,6 @@ belongs on the annotation's `@ExtendWith` list, not in the base.
 | Change how a test session parent id is classified | `TestSessionPageProvisioner.resolveParent` / `resolveTemplate`. |
 | Change the test-id grammar | `NotionTestIdRetriever` and its tests; then the Testing Guide display-name rule. |
 
-## Wiring gaps
-
-These are unfinished or stale. Read them before assuming a hook already works.
-
-- **`PathSanitizer` is unused.** Exchange-log directories currently use the raw class simple name.
-- **`testkit.test` is never executed.** `NotionTestIdRetrieverTest` compiles in the
-  `testIntegration` source set but is excluded by the `tests.*` filter, and the unit `test` task
-  does not see that source set.
-
 ## See also
 
 - [Testing Guide](testing-guide.md) — how to run the suite and write a test

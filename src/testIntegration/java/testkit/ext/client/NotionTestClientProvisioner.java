@@ -14,15 +14,16 @@ import org.junit.jupiter.api.extension.ParameterResolutionException;
 import org.junit.jupiter.api.extension.ParameterResolver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import testkit.util.PathSanitizer;
 import testkit.util.TestConfigurationLookup;
 
 /**
  * Resolves a {@link NotionClient} for a parameter marked {@link NotionTestClient}.
  *
- * <p>The Notion Test Http Client records exchanges under the test class name and honours {@code
- * notion.tests.json.strict}. The setup client ({@link NotionTestClient#forSetup()} {@code true} and
- * {@link #getInfraSetupClient()}) always uses non-strict JSON and logs under {@code
- * test-logs/rqrs/setup}.
+ * <p>The Notion Test Http Client records exchanges under a {@link PathSanitizer sanitized} test
+ * class name and honours {@code notion.tests.json.strict}. The setup client ({@link
+ * NotionTestClient#forSetup()} {@code true} and {@link #getInfraSetupClient()}) always uses
+ * non-strict JSON and logs under {@code test-logs/rqrs/setup}.
  */
 public class NotionTestClientProvisioner implements ParameterResolver {
 
@@ -60,7 +61,9 @@ public class NotionTestClientProvisioner implements ParameterResolver {
   }
 
   private String resolveTestClassName(ExtensionContext context) {
-    return context.getTestClass().map(Class::getSimpleName).orElse("unknownClass");
+    String raw = context.getTestClass().map(Class::getSimpleName).orElse("unknownClass");
+    String sanitized = PathSanitizer.sanitize(raw);
+    return sanitized.isEmpty() ? "unknownClass" : sanitized;
   }
 
   private boolean isForSetup(ParameterContext parameterContext) {
