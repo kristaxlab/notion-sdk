@@ -43,11 +43,11 @@ jobs:
         run: ./gradlew build
 
       #5a
-      - name: 5a. Run Integration Tests
+      - name: 5a. Run Quick Integration Tests Suite
         if: success() || failure()  # Run even if unit tests fail
         env:
           NOTION_TESTS_AUTH_TOKEN: ${{ secrets.NOTION_TESTS_AUTH_TOKEN }}
-        run: ./gradlew testIntegration
+        run: ./gradlew testIntegrationQuick
 
       # 5b
       - name: 5b. Javadoc

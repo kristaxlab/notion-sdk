@@ -18,10 +18,11 @@ import java.util.function.Consumer;
  * Fluent builder for assembling a {@code property key -> value} map for create / update page
  * payloads.
  *
- * <p>The Notion API treats <b>property names and property ids interchangeably</b> as map keys, so
- * every method on this builder accepts a {@code nameOrId} string — either the schema column name
- * (e.g. {@code "Status"}) or its stable id (e.g. {@code "%5B%3DZf"}). Names are easier to write,
- * ids survive renames; pick whichever fits your use case.
+ * <p>Create and update property maps treat <b>property names and property ids interchangeably as
+ * keys</b>, so every method on this builder accepts a {@code nameOrId} string — either the schema
+ * column name (e.g. {@code "Status"}) or its stable id (e.g. {@code "%5B%3DZf"}). Names are easier
+ * to write, ids survive renames. This does not apply to the property retrieve endpoint, which
+ * requires a property id.
  *
  * <p>Each method delegates to the matching static factory in {@link NotionProperties} and adds the
  * resulting {@link PagePropertyValue} under the supplied key. Call {@link #build()} for the

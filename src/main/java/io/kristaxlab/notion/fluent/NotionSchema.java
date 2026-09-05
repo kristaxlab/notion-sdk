@@ -59,8 +59,8 @@ import java.util.List;
  *
  * <p>The static methods on this class return individual {@link DataSourcePropertySchema} instances;
  * use {@link NotionSchemaBuilder} to assemble a {@code name -> schema} map for create/update
- * payloads. As with property values, Notion accepts <b>property names and ids interchangeably</b>
- * as map keys.
+ * payloads. Schema maps accept <b>property names and ids interchangeably as keys</b>. This does not
+ * apply to the property retrieve endpoint, which requires a property id.
  */
 public final class NotionSchema {
 

@@ -40,9 +40,10 @@ import java.util.function.Consumer;
  * {@link NotionPropertiesBuilder} to assemble a {@code key -> property} map for create/update
  * payloads.
  *
- * <p>Notion accepts <b>property names and ids interchangeably</b> as map keys. {@link
- * NotionPropertiesBuilder} reflects that with a {@code nameOrId} parameter on every property
- * method.
+ * <p>Create and update property maps accept <b>property names and ids interchangeably as keys</b>.
+ * {@link NotionPropertiesBuilder} reflects that with a {@code nameOrId} parameter on every property
+ * method. This does not apply to {@code retrieveProperty} / {@code retrievePaginatedProperty},
+ * which require a property id.
  */
 public class NotionProperties {
 

@@ -77,15 +77,18 @@ Page page = client.pages().retrieve("page-id");
 String notesPropertyId = page.getProperties().get("Notes").getId();
 ```
 
-Two shortcuts save that extra page read. The `title` property's id is always literally `title`,
-because Notion adds it automatically and it cannot be removed. And a **property name** is usually
-accepted wherever an id is expected, encoded or not — which is why examples below pass readable
-strings like `"Done"` and `"Children Pages"`.
+Do **not** pass a property name. Notion's property retrieve endpoint does not treat names as ids the
+way create/update property maps do. A name can return HTTP 200 with an empty `results` list instead
+of an error. The one exception is `title`: that property's id is always literally `title`, because
+Notion adds it automatically and it cannot be removed.
+
+See [Notion API constraints](../internals/notion-api-constraints.md).
 
 ## Retrieve a non-paginated property
 
 ```java
-PageProperty property = client.pages().retrieveProperty("page-id", "Done");
+String doneId = client.pages().retrieve("page-id").getProperties().get("Done").getId();
+PageProperty property = client.pages().retrieveProperty("page-id", doneId);
 
 CheckboxProperty checkbox = property.asValue(CheckboxProperty.class);
 boolean done = Boolean.TRUE.equals(checkbox.getCheckbox());
@@ -118,11 +121,11 @@ you expect:
 
 ```java
 NumberProperty number = client.pages()
-    .retrieveProperty("page-id", "Estimate")
+    .retrieveProperty("page-id", estimatePropertyId)
     .asValue(NumberProperty.class);
 
 RelationPropertyList relations = client.pages()
-    .retrieveProperty("page-id", "Children Pages")
+    .retrieveProperty("page-id", relationPropertyId)
     .asList(RelationPropertyList.class);
 ```
 
@@ -167,12 +170,15 @@ RichTextPropertyList firstPage = client.pages()
 A `ListedRelation` carries the related page id in `getRelation().getId()`.
 
 ```java
+String relationPropertyId =
+    client.pages().retrieve("page-id").getProperties().get("Children Pages").getId();
+
 List<String> relatedPageIds = new ArrayList<>();
 String cursor = null;
 
 do {
   RelationPropertyList chunk = client.pages()
-      .retrievePaginatedProperty("page-id", "Children Pages", cursor, 100)
+      .retrievePaginatedProperty("page-id", relationPropertyId, cursor, 100)
       .asRelationList();
 
   for (ListedRelation item : chunk.getResults()) {
@@ -207,8 +213,11 @@ String title = titleList.getResults().stream()
 ```
 
 ```java
+String assigneesPropertyId =
+    client.pages().retrieve("page-id").getProperties().get("Assignees").getId();
+
 PeoplePropertyList peopleList = client.pages()
-    .retrievePaginatedProperty("page-id", "Assignees")
+    .retrievePaginatedProperty("page-id", assigneesPropertyId)
     .asPeopleList();
 
 List<User> assignees = peopleList.getResults().stream()
@@ -228,8 +237,11 @@ property's listed item — `ListedRichText`, `ListedNumber`, `ListedPeople`, and
 `ListedItem.as(Class)` (or `instanceof`) the same way you narrow a `PagePropertyValue`.
 
 ```java
+String countPropertyId =
+    client.pages().retrieve("page-id").getProperties().get("Count").getId();
+
 RollupPropertyList chunk = client.pages()
-    .retrievePaginatedProperty("page-id", "Count")
+    .retrievePaginatedProperty("page-id", countPropertyId)
     .asRollupList();
 
 for (ListedItem item : chunk.getResults()) {
@@ -276,7 +288,7 @@ Call sites stay one-liners:
 List<RichText> notes = collectAll(client, pageId, notesPropertyId, ListedRichText.class)
     .stream().map(ListedRichText::getRichText).toList();
 
-List<String> childIds = collectAll(client, pageId, "Children Pages", ListedRelation.class)
+List<String> childIds = collectAll(client, pageId, relationPropertyId, ListedRelation.class)
     .stream().map(item -> item.getRelation().getId()).toList();
 ```
 

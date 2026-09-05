@@ -66,6 +66,10 @@ spotless {
     }
 }
 
+tasks.withType(Javadoc).configureEach {
+    options.addBooleanOption('Xdoclint:all,-missing', true)
+}
+
 test {
     finalizedBy jacocoTestReport
 

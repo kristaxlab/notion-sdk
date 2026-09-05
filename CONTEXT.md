@@ -33,7 +33,8 @@ _Avoid_: property kind, kind.
 
 **Property name**:
 The human-readable label of a property, and the key under which its value appears in a page's
-property map. A URL-encoded property name is usually accepted wherever a property id is expected.
+property map. Create and update property maps accept either this name or the property id as the
+key. The property retrieve endpoint does not — it requires the property id.
 _Avoid_: property label, property title, property key.
 
 **Property id**:
@@ -41,8 +42,8 @@ The identifier Notion assigns to a property, used as the path parameter of the p
 endpoint. Normally a short URL-encoded character sequence (`Zl%5B%3E`, `%5ExJ%60`). The one stable
 exception is the `title` property, whose id is always literally `title` — Notion adds that property
 automatically and it cannot be removed.
-_Avoid_: property key, property name (a name may be accepted in place of an id, but the two are
-different things).
+_Avoid_: property key, property name (the two are different things; only the id is valid on the
+property retrieve endpoint).
 
 **Paginated property**:
 A property type whose value the property retrieve endpoint returns as a paginated list:

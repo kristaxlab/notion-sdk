@@ -60,7 +60,8 @@ public class UpdatePageParams {
      * covered by the named convenience methods above.
      *
      * <p>The key may be either the schema property name (e.g. {@code "Status"}) or its id (e.g.
-     * {@code "%5B%3DZf"}); the Notion API accepts both interchangeably.
+     * {@code "%5B%3DZf"}); create and update property maps accept both. The property retrieve
+     * endpoint requires the id.
      *
      * @param nameOrId schema property name or id
      * @param property property payload
