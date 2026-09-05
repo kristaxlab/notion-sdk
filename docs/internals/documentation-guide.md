@@ -16,10 +16,15 @@ down, this table tells you where it goes.
 | `CONTEXT.md` | a term was coined or disputed | one definition per concept, plus the synonyms to avoid |
 | `docs/internals/` | contributor-facing mechanics changed | how to extend, invariants, gotchas |
 | `docs/internals/notion-api-constraints.md` | a Notion rule was discovered the hard way | constraints the types cannot express |
+| `.github/prompts/` | how an agent job is launched or evaluated changed | goal, required reading, agent-only pitfalls, how to know the job is done |
 | `llms.txt` | the documentation map changed | paths only, for machine readers |
 
 Do not restate a fact that another document owns — link to it. Duplication is not redundancy here; it
 is two copies that will disagree within a few months.
+
+A prompt owns only task framing. It points at the document that owns the facts — an internals
+page, an ADR, a cookbook recipe, `CONTEXT.md` — and does not grow a second how-to. A skill, if
+one is added later, follows the same rule.
 
 ## How much detail
 
@@ -92,6 +97,7 @@ Prose using the vocabulary from `CONTEXT.md` is not automated and relies on revi
 ## Adding a new document
 
 Link it from the index it belongs to — the cookbook table of contents, the ADR index, or the root
-`README.md` documentation table — and add it to `llms.txt`. An unlinked document is invisible: it
+`README.md` documentation table — and add it to `llms.txt`. A new prompt is linked from the
+document it launches; it does not belong on `llms.txt`. An unlinked document is invisible: it
 will not be found when it is needed, it will not be updated when the code changes, and it will still
 be published to GitHub Pages while quietly going stale.

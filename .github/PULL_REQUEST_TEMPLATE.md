@@ -13,6 +13,7 @@ to it from elsewhere instead of restating it.
 - [ ] **A new term entered the vocabulary** → defined once in `CONTEXT.md` and used consistently
 - [ ] **A Notion API rule was discovered the hard way** → `docs/internals/notion-api-constraints.md`
 - [ ] **Contributor-facing mechanics changed** → `docs/internals/`
+- [ ] **Agent task framing changed** → the matching file under `.github/prompts/` (goal, required reading, evaluation — not a second how-to)
 - [ ] **A new doc was added** → linked from `README.md` and `llms.txt`, so it cannot rot unnoticed
 - [ ] **User-visible change** → one line under `[Unreleased]` in `CHANGELOG.md` (`Added` / `Changed` / `Fixed`)
 
