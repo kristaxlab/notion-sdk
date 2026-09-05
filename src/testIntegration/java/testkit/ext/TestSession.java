@@ -1,76 +1,71 @@
 package testkit.ext;
 
+import io.kristaxlab.notion.NotionClient;
 import java.time.Duration;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-import java.util.concurrent.atomic.AtomicReference;
+import org.junit.jupiter.api.extension.ExtensionContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import testkit.util.NotionPageUrlResolver;
 
 /**
- * Manages the test session lifecycle, configuration, and per-thread state.
+ * The integration-test session: provisioned data for the run, plus suite-end cleanup.
  *
- * <p>This class unifies session management responsibilities:
- *
- * <ul>
- *   <li>Thread-safe singleton initialization via {@link CompletableFuture}
- *   <li>Immutable session data storage (page ID, bot user ID, fixture pages)
- *   <li>Configuration resolution from environment/system/JUnit properties
- *   <li>Thread-local current page tracking for parallel test execution
- *   <li>Cleanup - removes root test page when tests complete if set in configuration
- * </ul>
- *
- * <p>The session is initialized once per test run. Parallel tests that request the session while
- * it's being provisioned will block until initialization completes.
+ * <p>One instance is created per JVM run, published through {@link #initialize}, and stored on the
+ * root {@link ExtensionContext.Store} so JUnit calls {@link #close()} when the store is closed.
+ * Tests and extensions read it via {@link #get()}, which blocks until initialization completes.
  */
-public class TestSession {
+public class TestSession implements ExtensionContext.Store.CloseableResource {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(TestSession.class);
 
-  private static final CompletableFuture<Data> INSTANCE = new CompletableFuture<>();
+  private static final CompletableFuture<TestSession> INSTANCE = new CompletableFuture<>();
   private static final Duration INIT_TIMEOUT = Duration.ofSeconds(60);
-  private static final ThreadLocal<String> currentPageId = new ThreadLocal<>();
-  private static final AtomicReference<TestSessionConfig> config = new AtomicReference<>();
 
-  /**
-   * Initializes the test session with the provided data.
-   *
-   * <p>This method should be called exactly once per test run. Subsequent calls will throw.
-   *
-   * @param data the session data to register
-   * @throws IllegalStateException if the session was already initialized
-   */
-  public static void initialize(Data data) {
-    if (!INSTANCE.complete(data)) {
-      throw new IllegalStateException("Test session was already initialized");
-    }
+  private final Data data;
+  private final NotionClient notionClient;
+  private final String notionBaseUrl;
+  private final boolean cleanupEnabled;
+
+  TestSession(Data data, NotionClient notionClient, String notionBaseUrl, boolean cleanupEnabled) {
+    this.data = data;
+    this.notionClient = notionClient;
+    this.notionBaseUrl = notionBaseUrl;
+    this.cleanupEnabled = cleanupEnabled;
   }
 
   /**
-   * Marks the session initialization as failed.
+   * Registers the session for this run. Must be called exactly once; subsequent calls throw.
    *
-   * <p>This allows threads blocked in {@link #get()} to fail immediately instead of waiting for the
-   * timeout.
-   *
-   * @param cause the initialization failure cause
+   * @return the same instance, so the caller can put it in the JUnit store
+   */
+  public static TestSession initialize(
+      Data data, NotionClient notionClient, String notionBaseUrl, boolean cleanupEnabled) {
+    TestSession session = new TestSession(data, notionClient, notionBaseUrl, cleanupEnabled);
+    if (!INSTANCE.complete(session)) {
+      throw new IllegalStateException("Test session was already initialized");
+    }
+    return session;
+  }
+
+  /**
+   * Marks initialization as failed so threads blocked in {@link #get()} fail immediately instead of
+   * waiting for the timeout.
    */
   public static void failInitialization(Throwable cause) {
     INSTANCE.completeExceptionally(cause);
   }
 
   /**
-   * Returns the session data, waiting up to {@link #INIT_TIMEOUT} if needed.
+   * Returns the session, waiting up to {@link #INIT_TIMEOUT} if it is still being provisioned.
    *
-   * <p>This method blocks if the session is still being initialized, making it safe to call from
-   * parallel test threads.
-   *
-   * @return the session data
    * @throws IllegalStateException if initialization fails, times out, or is interrupted
    */
-  public static Data get() {
+  public static TestSession get() {
     try {
       return INSTANCE.get(INIT_TIMEOUT.toMillis(), TimeUnit.MILLISECONDS);
     } catch (InterruptedException e) {
@@ -83,37 +78,22 @@ public class TestSession {
     }
   }
 
-  /**
-   * Sets the current page ID for the calling thread.
-   *
-   * <p>Used for tracking which page a test is currently operating on, useful for logging and
-   * debugging parallel test execution.
-   *
-   * @param pageId the page ID to set as current
-   */
-  public static void setCurrentPage(String pageId) {
-    currentPageId.set(pageId);
+  public String getSessionPageId() {
+    return data.getSessionPageId();
+  }
+
+  public String getBotUserId() {
+    return data.getBotUserId();
+  }
+
+  public Map<String, String> getFixturePages() {
+    return data.getFixturePages();
   }
 
   /**
-   * Gets the current page ID for the calling thread.
+   * Immutable snapshot of what was provisioned: session page, bot user, and fixture pages.
    *
-   * @return the current page ID, or null if not set
-   */
-  public static String getCurrentPage() {
-    return currentPageId.get();
-  }
-
-  /** Clears the current page ID for the calling thread. */
-  public static void clearCurrentPage() {
-    currentPageId.remove();
-  }
-
-  /**
-   * Immutable data holder for a test session.
-   *
-   * <p>Contains all information about a provisioned test session: the session page ID, the bot user
-   * that created it, and any prefilled fixture pages discovered in the template.
+   * <p>Add a field here only when several tests need the same extra read.
    */
   public static class Data {
 
@@ -121,13 +101,6 @@ public class TestSession {
     private final String botUserId;
     private final Map<String, String> fixturePages;
 
-    /**
-     * Creates session data with the specified values.
-     *
-     * @param sessionPageId the ID of the session page
-     * @param botUserId the ID of the bot user that created the session
-     * @param fixturePages map of test IDs to fixture page IDs (will be copied for immutability)
-     */
     public Data(String sessionPageId, String botUserId, Map<String, String> fixturePages) {
       this.sessionPageId = sessionPageId;
       this.botUserId = botUserId;
@@ -144,6 +117,32 @@ public class TestSession {
 
     public Map<String, String> getFixturePages() {
       return fixturePages;
+    }
+  }
+
+  @Override
+  public void close() {
+    logCompletion();
+
+    if (cleanupEnabled) {
+      deleteSessionPage();
+    }
+  }
+
+  private void logCompletion() {
+    String url = NotionPageUrlResolver.resolveNotionPageUrl(notionBaseUrl, getSessionPageId());
+    LOGGER.info("Test session completed. Session page: {}", url);
+  }
+
+  private void deleteSessionPage() {
+    String sessionPageId = getSessionPageId();
+    LOGGER.info("Cleaning up: moving session page {} to trash", sessionPageId);
+
+    try {
+      notionClient.pages().moveToTrash(sessionPageId);
+      LOGGER.info("Successfully deleted session page {}", sessionPageId);
+    } catch (Exception e) {
+      LOGGER.error("Failed to delete session page {}: {}", sessionPageId, e.getMessage(), e);
     }
   }
 }

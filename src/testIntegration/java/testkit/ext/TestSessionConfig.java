@@ -19,7 +19,6 @@ public class TestSessionConfig {
   private static final String SESSION_TEMPLATE_ID = "notion.tests.session.template.id";
   private static final String SESSION_TITLE = "notion.tests.session.title";
   private static final String CLEANUP_ENABLED = "notion.tests.session.cleanup";
-  private static final String NOTION_BASE_URL = "notion.tests.base.url";
 
   private final String parentId;
   private final String templateId;
@@ -51,15 +50,12 @@ public class TestSessionConfig {
     String templateId = TestConfigurationLookup.lookupOptional(SESSION_TEMPLATE_ID, context);
     String sessionTitle = TestConfigurationLookup.lookupOptional(SESSION_TITLE, context);
     boolean cleanupEnabled = TestConfigurationLookup.lookupBoolean(CLEANUP_ENABLED, context);
-    String basePageUrl =
-        TestConfigurationLookup.lookup(NOTION_BASE_URL, context).orElse("https://www.notion.so/");
 
     return builder()
         .parentId(parentId)
         .templateId(templateId)
         .sessionTitle(sessionTitle)
         .cleanupEnabled(cleanupEnabled)
-        .basePageUrl(basePageUrl)
         .build();
   }
 
@@ -115,7 +111,7 @@ public class TestSessionConfig {
     }
 
     public TestSessionConfig build() {
-      return new TestSessionConfig(parentId, templateId, sessionTitle, cleanupEnabled, basePageUrl);
+      return new TestSessionConfig(parentId, templateId, sessionTitle, cleanupEnabled);
     }
   }
 }

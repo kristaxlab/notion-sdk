@@ -53,9 +53,8 @@ flowchart TB
     FD["FixturePagesDiscoverer"]
     TS["TestSession"]
     CFG["TestSessionConfig"]
-    FIN["TestSessionFinalizer"]
     TPP["TestPagesProvisioner"]
-    TPA["TestPageAfterEach"]
+    TPAGE["TestPage"]
   end
 
   subgraph client["testkit.ext.client"]
@@ -68,14 +67,14 @@ flowchart TB
   E --> B
   F --> B
   B -->|"@NotionTestClient"| NCP
-  E -->|"@TestPage"| TPP
-  F -->|"@TestPage fixture=true"| TPP
+  E -->|"@TestPageId"| TPP
+  F -->|"@TestPageId fixture=true"| TPP
   TPP --> SBA
+  TPP --> TPAGE
   SBA --> SPP
   SPP --> FD
   SBA --> TS
   SBA --> CFG
-  SBA --> FIN
 ```
 
 ## Workspace model
@@ -119,8 +118,9 @@ flowchart TB
 
 ### `TestSession.Data`
 
-Immutable snapshot published once `TestSession.initialize` completes. `TestSession.get()` blocks up
-to 60 s for it; a failed init completes the same future exceptionally so waiters fail immediately.
+Immutable snapshot of what was provisioned. `TestSession.get()` returns the session (which exposes
+the same accessors) and blocks up to 60 s; a failed init completes the same future exceptionally so
+waiters fail immediately.
 
 ```
 TestSession.Data
@@ -136,8 +136,8 @@ fields here unless several tests need the same extra read.
 
 Resolved by `TestSessionConfig.from(ExtensionContext)` through `TestConfigurationLookup` (env, then
 system property, then JUnit platform parameters). Key spelling is normalized; the Testing Guide
-owns the setting list. `notion.tests.json.strict` is not a session field — the client provisioner
-reads it separately.
+owns the setting list. `notion.tests.json.strict` and `notion.links.base.url` are not session
+fields — the client provisioner and `NotionPageUrlResolver` read them separately.
 
 ```
 TestSessionConfig
@@ -145,28 +145,25 @@ TestSessionConfig
   templateId      : String?  null / "default" / a page id
   sessionTitle    : String?  provisioner default: "Integration tests session"
   cleanupEnabled  : boolean  default false
-  notionBaseUrl   : String   default https://www.notion.so/
 ```
 
 ### Root `ExtensionContext` store
 
-`TestSessionBeforeAll` writes these on `context.getRoot().getStore(Namespace.GLOBAL)`:
+`TestSessionBeforeAll` writes one value on `context.getRoot().getStore(Namespace.GLOBAL)`:
 
 | Key | Type | Why it is there |
 | --- | --- | --- |
-| `TestSession.Data.class` | `TestSession.Data` | `getOrComputeIfAbsent` so parallel `beforeAll` calls share one init |
-| `"session-config"` | `TestSessionConfig` | URL logging and page-id formatting after init |
-| `"session-finalizer"` | `TestSessionFinalizer` | `CloseableResource`; `close()` runs when the root store is closed |
+| `TestSession.class` | `TestSession` | `getOrComputeIfAbsent` so parallel `beforeAll` calls share one init; `CloseableResource` so JUnit calls `close()` when the run ends |
 
-`TestSession` is a second, static copy of the same `Data`. JUnit's store makes init idempotent;
-`TestSession.get()` is what tests and later extensions actually call. A second `initialize` throws.
+`TestSession.get()` is the same instance: `initialize` completes a static future so tests can read
+it without the store. A second `initialize` throws.
 
 ## Lifecycle
 
-`@TestPage` registers `TestSessionBeforeAll`, `TestPagesProvisioner` and `TestPageAfterEach`.
+`@TestPageId` registers `TestSessionBeforeAll` and `TestPagesProvisioner`.
 `@NotionTestClient` registers only `NotionTestClientProvisioner`.
 
-That split matters: a class that extends `BaseIntegrationTest` and never uses `@TestPage` does
+That split matters: a class that extends `BaseIntegrationTest` and never uses `@TestPageId` does
 **not** start a session. `TestSession.get()` then waits 60 s and fails. `IT32_Users_ListAll` has
 this dependency — it is safe in a full suite (some other class provisioned the session) and not
 safe in isolation.
@@ -181,29 +178,28 @@ sequenceDiagram
   participant TP as TestPagesProvisioner
   participant NC as NotionTestClientProvisioner
   participant T as Test
-  participant FN as TestSessionFinalizer
 
-  J->>BA: beforeAll (first @TestPage class)
+  J->>BA: beforeAll (first @TestPageId class)
   BA->>BA: TestSessionConfig.from(context)
   BA->>PP: provision(config)
   PP->>PP: create session page + poll template
   PP->>FD: discoverFixturePages(blocks)
   FD-->>PP: Map testId → pageId
   PP-->>BA: TestSession.Data
-  BA->>TS: initialize(data)
-  BA->>J: put session-finalizer on root store
+  BA->>TS: initialize(data, client, baseUrl, cleanup)
+  BA->>J: put TestSession on root store
 
   J->>NC: resolve @NotionTestClient
   NC-->>T: Notion Test Http Client + setup client
-  J->>TP: resolve @TestPage
+  J->>TP: resolve @TestPageId
   TP->>TS: get()
   TP->>TP: fixture lookup or create dedicated page
   TP-->>T: page id
 
   T->>T: @Test
 
-  J->>FN: CloseableResource.close()
-  FN->>FN: log session URL; optional moveToTrash
+  J->>TS: CloseableResource.close()
+  TS->>TS: log session URL; optional moveToTrash
 ```
 
 ## Page resolution
@@ -215,10 +211,10 @@ the kit actually enforces.
 
 ```mermaid
 flowchart TD
-  A["@TestPage parameter"] --> B["test id from @DisplayName"]
+  A["@TestPageId parameter"] --> B["test id from @DisplayName"]
   B --> C{"fixturePages has that id?"}
   C -->|yes| D["inject fixture page id"]
-  C -->|no| E{"@TestPage fixture=true?"}
+  C -->|no| E{"@TestPageId fixture=true?"}
   E -->|yes| F["NotionWorkspaseException<br/>do not fall back"]
   E -->|no| G["create dedicated page<br/>under session page"]
 ```
@@ -231,7 +227,7 @@ id (`IT-8`), not `IT-8: Templates`.
 There is an in-code TODO to drop standalone child-page fixtures once the API can express everything
 as a data source.
 
-The session page itself is never injected as the test page. Javadoc on `@TestPage` that mentions a
+The session page itself is never injected as the test page. Javadoc on `@TestPageId` that mentions a
 "shared session page" is stale.
 
 ## Clients
@@ -257,9 +253,9 @@ Exchange file format is owned by [Exchange Recording](exchange-recording.md).
 
 - **`BaseIntegrationTest`** — injects the two clients. No page. Enough for users and most file
   uploads.
-- **`WithEmptyTestPage`** — `@TestPage` (fixture flag off). Dedicated page unless a fixture happens
+- **`WithEmptyTestPage`** — `@TestPageId` (fixture flag off). Dedicated page unless a fixture happens
   to exist for that id.
-- **`WithTestPageFixture`** — `@TestPage(fixture = true)` and tag `fixture`. Missing fixture is a
+- **`WithTestPageFixture`** — `@TestPageId(fixture = true)` and tag `fixture`. Missing fixture is a
   hard failure.
 
 A new "needs X" base should stay this thin: a `@BeforeEach` parameter plus a getter. Lifecycle
@@ -267,37 +263,32 @@ belongs on the annotation's `@ExtendWith` list, not in the base.
 
 ### Session (once per run)
 
-- **`TestSessionBeforeAll`** — JUnit entry. Resolves config, delegates provisioning, publishes
-  `TestSession.Data`, registers the finalizer. Package-private constructor exists for unit tests
-  with mocks.
+- **`TestSessionBeforeAll`** — JUnit entry. Resolves config, delegates provisioning, stores the
+  `TestSession` on the root store. Package-private constructor exists for unit tests with mocks.
 - **`TestSessionPageProvisioner`** — creates the session page, waits for template blocks, asks the
   discoverer for fixtures. Parent and template resolution live here.
 - **`FixturePagesDiscoverer`** — walks session-page blocks. Child pages plus the first child
   database. The place to add another discovery source.
-- **`TestSession`** — static holder + thread-local "current page" (intended for parallel runs;
-  parallel execution is off because of `409` — see the Testing Guide). It does **not** resolve
-  config or clean up, despite older javadoc.
-- **`TestSessionConfig`** — immutable settings object.
-- **`TestSessionFinalizer`** — logs the session URL; optionally `pages().moveToTrash`. The
-  documented hook for "when the run is over" work (upload results, write stats).
+- **`TestSession`** — the run's session: provisioned data, `get()` for tests, and `close()` for
+  suite-end logging and optional trash. The hook for "when the run is over" work.
+- **`TestSessionConfig`** — immutable settings for provisioning (parent, template, title, cleanup).
 
 ### Per-test page
 
-- **`@TestPage`** — parameter annotation; wires the three extensions above.
-- **`TestPagesProvisioner`** — `ParameterResolver` for `@TestPage String`. Owns the
-  fixture-or-create decision.
-- **`TestPageAfterEach`** — intended to log the test page URL and clear the thread-local. See
-  [Wiring gaps](#wiring-gaps).
+- **`@TestPageId`** — parameter annotation; wires session init and page resolution.
+- **`TestPagesProvisioner`** — `ParameterResolver` for `@TestPageId String`. Owns the
+  fixture-or-create decision, then stores a `TestPage` on the class store.
+- **`TestPage`** — `CloseableResource` that logs the test page URL when the class store closes.
 
 ### Clients and utilities
 
 - **`@NotionTestClient` / `NotionTestClientProvisioner`** — `ParameterResolver` for
   `NotionClient`. Applies `notion.tests.json.strict` to the Notion Test Http Client only. The
-  annotation's javadoc is a leftover copy of `@TestPage` and is wrong.
+  annotation's javadoc is a leftover copy of `@TestPageId` and is wrong.
 - **`TestConfigurationLookup`** — env / system property / JUnit parameter lookup used by
   `TestSessionConfig` and the client provisioner.
 - **`NotionTestIdRetriever`** — display-name → test id. Covered by `testkit.test.NotionTestIdRetrieverTest`.
-- **`NotionPageUrlResolver`** — `baseUrl` + hyphen-stripped page id.
+- **`NotionPageUrlResolver`** — `notion.links.base.url` + hyphen-stripped page id.
 - **`FileLoader`** — classpath resource → file upload via the setup client. Fixture files live under
   `src/testIntegration/resources/`.
 - **`NotionWorkspaseException`** — unchecked failure for missing fixture / missing test id / missing
@@ -311,9 +302,9 @@ belongs on the annotation's `@ExtendWith` list, not in the base.
 | Need a page that cannot be created through the API | Child page or database row on the session template, titled as the test id; extend `WithTestPageFixture`. |
 | Discover fixtures from a new place (second database, a data source block) | `FixturePagesDiscoverer` only. |
 | Share another rarely-changing id across tests | Field on `TestSession.Data`, populated in `TestSessionPageProvisioner`. Do not add one for a single test. |
-| Run work at the end of the suite | `TestSessionFinalizer.close()`. |
+| Run work at the end of the suite | `TestSession.close()`. |
 | Add a configuration knob | Read it through `TestConfigurationLookup`. Session-provisioning keys also belong on `TestSessionConfig`. Document the setting in the Testing Guide, not here. |
-| Start a session for tests that have no page | Register `TestSessionBeforeAll` on `@NotionTestClient` (or a dedicated annotation). Today only `@TestPage` starts the session. |
+| Start a session for tests that have no page | Register `TestSessionBeforeAll` on `@NotionTestClient` (or a dedicated annotation). Today only `@TestPageId` starts the session. |
 | Change how a parent id is classified | `TestSessionPageProvisioner.resolveParent` / `resolveTemplate`. |
 | Change the test-id grammar | `NotionTestIdRetriever` and its tests; then the Testing Guide display-name rule. |
 
@@ -321,16 +312,9 @@ belongs on the annotation's `@ExtendWith` list, not in the base.
 
 These are unfinished or stale. Read them before assuming a hook already works.
 
-- **`TestSession.setCurrentPage` is never called.** `TestPageAfterEach` therefore always sees
-  `null` and skips URL logging. The intended write is in `TestPagesProvisioner` after it resolves
-  an id.
-- **`"session-config"` is stored on the root store**, but `TestPagesProvisioner` and
-  `TestPageAfterEach` read `context.getStore(...)` (the current context). Treat the root store as
-  the source of truth when touching this.
-- **`TestBeforeEach` is an empty `BeforeEachCallback`.** Not registered on any annotation.
 - **`PathSanitizer` is unused.** Exchange-log directories currently use the raw class simple name.
-- **Stale javadoc:** `@NotionTestClient` describes page resolution; `TestSession` claims it resolves
-  config and cleans up; `@TestPage` mentions a shared session page that is never injected.
+- **Stale javadoc:** `@NotionTestClient` describes page resolution; `@TestPageId` mentions a shared
+  session page that is never injected.
 
 ## See also
 

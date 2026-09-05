@@ -69,12 +69,7 @@ public class TestPagesProvisioner implements ParameterResolver {
 
   /**
    * Resolves the Notion page ID for the current test, either from a fixture page or by creating a
-   * getNotionBaseUrl(context)); } catch (Exception e) { String message = "Failed to prepare test
-   * page for test " + testId + ": " + e.getMessage(); LOGGER.error(message); throw new
-   * NotionWorkspaseException(message, e); } }
-   *
-   * <p>/** Resolves the Notion page ID for the current test, either from a fixture page or by
-   * creating a dedicated page.
+   * dedicated page.
    *
    * @param testId the test ID extracted from the display name
    * @param pageTitle the display name of the test (used for naming dedicated pages)

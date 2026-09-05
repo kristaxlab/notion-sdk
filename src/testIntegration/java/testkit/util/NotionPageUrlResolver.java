@@ -3,8 +3,8 @@ package testkit.util;
 import org.junit.jupiter.api.extension.ExtensionContext;
 
 /**
- * If base url changed from "https://www.notion.so/", see TestSessionConfig for the configuration
- * parameter to change it.
+ * Builds inspectable Notion web URLs. The base URL is {@code notion.links.base.url} (default {@code
+ * https://www.notion.so/}).
  */
 public class NotionPageUrlResolver {
 

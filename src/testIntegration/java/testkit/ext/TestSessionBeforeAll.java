@@ -9,26 +9,20 @@ import testkit.ext.client.NotionTestClientProvisioner;
 import testkit.util.NotionPageUrlResolver;
 
 /**
- * Provisions the Notion test session: creates a dedicated "home" Notion page all tests of the
- * current run work under and initializes session data for test access.
+ * Provisions the Notion test session once per run and stores the {@link TestSession} on the root
+ * {@link ExtensionContext.Store}.
  *
- * <p>The session is provisioned once per test run, no matter how many test classes register this
- * extension: the context is kept in the root {@link ExtensionContext.Store}, whose atomic {@code
- * getOrComputeIfAbsent} also makes concurrent {@code beforeAll} calls of parallel test classes wait
- * for the ongoing initialization. When the whole run is over, the store closes the context, which
- * (optionally) cleans the session page up.
+ * <p>{@code getOrComputeIfAbsent} makes concurrent {@code beforeAll} calls of parallel test classes
+ * wait for the same initialization. When the run ends, the store closes the session, which logs the
+ * session URL and optionally moves the session page to trash.
  *
- * <p>The session page is created from a template (see {@link TestSession.Config}) which may contain
- * prefilled pages named after test ids (ex. IT-123) - child pages or database rows. Those are
- * collected and made available via {@link TestSession.Data#getFixturePages()}. This allows tests to
- * run against prerequisites that are impossible to set up through the API. Per-test page resolution
+ * <p>The session page is created from a template (see {@link TestSessionConfig}) which may contain
+ * prefilled pages named after test ids (ex. IT-123) — child pages or database rows. Those are
+ * collected and made available via {@link TestSession#getFixturePages()}. Per-test page resolution
  * is performed by {@link TestPagesProvisioner}.
  *
- * <p>Configuration is resolved via {@link TestSession.Config#from(ExtensionContext)}, which reads
- * from environment variables, system properties, and JUnit properties.
- *
- * <p>This class follows the Single Responsibility Principle by focusing solely on JUnit lifecycle
- * integration. Actual session provisioning is delegated to {@link TestSessionPageProvisioner}.
+ * <p>This class only integrates with the JUnit lifecycle. Provisioning is delegated to {@link
+ * TestSessionPageProvisioner}.
  */
 public class TestSessionBeforeAll implements BeforeAllCallback {
 
@@ -52,9 +46,6 @@ public class TestSessionBeforeAll implements BeforeAllCallback {
    * Test constructor for dependency injection.
    *
    * <p>Allows tests to inject mocks and verify behavior without hitting the Notion API.
-   *
-   * @param provisioner the session provisioner to use
-   * @param notionClient the Notion client to use
    */
   TestSessionBeforeAll(TestSessionPageProvisioner provisioner, NotionClient notionClient) {
     this.provisioner = provisioner;
@@ -67,60 +58,22 @@ public class TestSessionBeforeAll implements BeforeAllCallback {
         .getRoot()
         .getStore(ExtensionContext.Namespace.GLOBAL)
         .getOrComputeIfAbsent(
-            TestSession.Data.class, key -> initializeSession(context), TestSession.Data.class);
+            TestSession.class, key -> initializeSession(context), TestSession.class);
   }
 
-  private TestSession.Data initializeSession(ExtensionContext context) {
+  private TestSession initializeSession(ExtensionContext context) {
     try {
       LOGGER.debug("Initializing test session");
 
       TestSessionConfig config = TestSessionConfig.from(context);
-      saveSessionConfig(context, config);
-
       TestSession.Data sessionData = provisioner.provision(config);
-      TestSession.initialize(sessionData);
+      String notionBaseUrl = NotionPageUrlResolver.getNotionBaseUrl(context);
 
-      registerTestSession(context, sessionData.getSessionPageId(), config);
-
-      return sessionData;
+      return TestSession.initialize(
+          sessionData, notionClient, notionBaseUrl, config.isCleanupEnabled());
     } catch (RuntimeException e) {
       TestSession.failInitialization(e);
       throw e;
     }
-  }
-
-  private void saveSessionConfig(ExtensionContext context, TestSessionConfig config) {
-    LOGGER.debug("Saving Test Session Config {}", config);
-
-    context.getRoot().getStore(ExtensionContext.Namespace.GLOBAL).put("session-config", config);
-  }
-
-  /**
-   * Registers a session finalizer in the global extension store.
-   *
-   * <p>The finalizer is responsible for logging the session completion and optionally cleaning up
-   * the session page when the test run is over.
-   *
-   * @param context the extension context
-   * @param sessionPageId the ID of the session page
-   * @param config the session configuration
-   */
-  private void registerTestSession(
-      ExtensionContext context, String sessionPageId, TestSessionConfig config) {
-    String baseUrl = NotionPageUrlResolver.getNotionBaseUrl(context);
-
-    LOGGER.debug(
-        "Test Session page: {}",
-        NotionPageUrlResolver.resolveNotionPageUrl(baseUrl, sessionPageId));
-    boolean cleanupEnabled = config.isCleanupEnabled();
-
-    context
-        .getRoot()
-        .getStore(ExtensionContext.Namespace.GLOBAL)
-        .put(
-            "test-session",
-            new TestSessionFinalizer(notionClient, sessionPageId, baseUrl, cleanupEnabled));
-
-    LOGGER.debug("Registered Test Session in Global Context");
   }
 }

@@ -75,7 +75,7 @@ Defaults for the suite live in `src/testIntegration/resources/junit-platform.pro
 | `notion.tests.session.title` | no | Title given to the session page                                                                                                                      |
 | `notion.tests.session.template.id` | no | Template used to provision the session page                                                                                                          |
 | `notion.tests.session.cleanup` | no | Moves the session page to trash when the run finishes; off by default so failed runs stay inspectable                                                |
-| `notion.tests.base.url` | no | Base URL used when logging test page links (default `https://www.notion.so/`). Added here to future-proof in case Notion changes its base URL                    |
+| `notion.links.base.url` | no | Base URL used when logging test page links (default `https://www.notion.so/`) |
 | `notion.tests.json.strict` | no | When `true`, the Notion Test Http Client fails on unknown JSON properties. Off by default so the suite reports whether the SDK still works against the live API, not whether every new Notion field is modelled |
 
 Parallel execution is intentionally disabled: most tests write to the same parent page, and
