@@ -4,8 +4,8 @@ Shared vocabulary for this project. Notion describes the same concept differentl
 endpoint, and several of the obvious words for these concepts are ambiguous or overloaded — this
 file fixes one term per concept so the ADRs, the cookbook and the javadoc stay consistent.
 
-The vocabulary below covers API-wide conventions, page properties, data sources and the Markdown
-endpoints; other areas are added as they get documented.
+The vocabulary below covers API-wide conventions, page properties, data sources, the Markdown
+endpoints, and the integration testkit; other areas are added as they get documented.
 
 ## Language
 
@@ -165,8 +165,72 @@ The `page_size` request parameter capping how many listed items one response may
 from a Notion page — always spelled "page size" in full.
 _Avoid_: limit, batch size.
 
+### Integration testkit
+
+Terms for the live-API suite under `src/testIntegration`. How a test is written is in
+[Testing Guide](docs/internals/testing-guide.md); how the kit is structured is in
+[Testkit](docs/internals/testkit.md).
+
+**Test session**:
+The per-run store of integration-test prerequisites. Provisioners read it through
+`TestSession.get(context)`; tests do not.
+_Avoid_: test run, suite context.
+
+**Prerequisite**:
+A value a test needs that a provisioner injects — session user id, test page, or fixture page.
+_Avoid_: fixture (that is one kind of prerequisite), dependency.
+
+**Provisioner**:
+The JUnit `ParameterResolver` that materializes one prerequisite and injects it. Tests never call
+`TestSession`; provisioners do.
+_Avoid_: helper, factory, setup method.
+
+**Session user id**:
+The user id of the integration token running the suite, resolved once via `users().me()`. In code
+the identifier is `sessionUserId` (`ensureSessionUserId`).
+_Avoid_: bot user id, bot id.
+
+**Test id**:
+The `IT-*` identifier taken from `@DisplayName` (`IT-8`, `IT-?`). Fixture pages are titled as this
+value.
+_Avoid_: test name, display name (the display name may contain more than the id).
+
+**Test Sessions Home**:
+The hand-built workspace location contributors duplicate, under which the test session page is
+created. Configured as `notion.tests.session.parent.id`.
+Also: test session parent.
+_Avoid_: prerequisites page, test root.
+
+**Test session parent**:
+Synonym of Test Sessions Home.
+
+**Test session page**:
+The page created for a run under the Test Sessions Home, under which test pages and fixture pages
+live. When the home is a database, its default template is applied. In code the identifier is
+`testSessionPage` (`testSessionPageId`, `ensureTestSessionPage`).
+_Avoid_: scratch page, session page, fixtures page.
+
+**Fixture page**:
+A prefilled page titled as a test id (`IT-8`), copied onto the test session page from the session
+template.
+_Avoid_: prerequisite page, test page (that is the empty page created for one test).
+
+**Test page**:
+A dedicated empty page created for one test, as a child of the test session page.
+_Avoid_: dedicated page, empty page, scratch page.
+
+**Notion Test Http Client**:
+The `NotionClient` used for the call the test is checking, injected as `@NotionTestClient`.
+_Avoid_: assertion client, test client (unqualified).
+
+**Setup client**:
+The `NotionClient` used for arrange-only calls, injected as `@NotionTestClient(forSetup = true)`.
+_Avoid_: infra client, env client.
+
 ## Related documentation
 
 - [ADR 0001: Complex hierarchy and custom deserializers for page properties](docs/adr/0001-complex-hierarchy-and-deserialization-of-page-properties.md)
 - [Cookbook: Page properties and pagination](docs/cookbook/page-properties.md)
 - [Notion API constraints](docs/internals/notion-api-constraints.md) — rules the API enforces that the types cannot
+- [Testing Guide](docs/internals/testing-guide.md) — how to run the suite and write a test
+- [Testkit](docs/internals/testkit.md) — integration testkit internals

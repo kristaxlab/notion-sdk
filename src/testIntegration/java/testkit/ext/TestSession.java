@@ -1,123 +1,111 @@
 package testkit.ext;
 
 import io.kristaxlab.notion.NotionClient;
-import java.time.Duration;
 import java.util.Map;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import testkit.ext.client.NotionTestClientProvisioner;
 import testkit.util.NotionPageUrlResolver;
 
 /**
- * The integration-test session: provisioned data for the run, plus suite-end cleanup.
+ * Run-scoped store for integration-test prerequisites. Provisioners obtain it with {@link
+ * #get(ExtensionContext)}; test classes do not call this type.
  *
- * <p>One instance is created per JVM run, published through {@link #initialize}, and stored on the
- * root {@link ExtensionContext.Store} so JUnit calls {@link #close()} when the store is closed.
- * Tests and extensions read it via {@link #get()}, which blocks until initialization completes.
+ * <p>The instance is a thread-safe singleton on the root {@link ExtensionContext.Store}. JUnit
+ * calls {@link #close()} when the store is closed. Each prerequisite (session user id, test session
+ * page, fixture pages) is initialized once, on first demand.
  */
 public class TestSession implements ExtensionContext.Store.CloseableResource {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(TestSession.class);
 
-  private static final CompletableFuture<TestSession> INSTANCE = new CompletableFuture<>();
-  private static final Duration INIT_TIMEOUT = Duration.ofSeconds(60);
-
-  private final Data data;
   private final NotionClient notionClient;
+  private final TestSessionPageProvisioner provisioner;
   private final String notionBaseUrl;
   private final boolean cleanupEnabled;
 
-  TestSession(Data data, NotionClient notionClient, String notionBaseUrl, boolean cleanupEnabled) {
-    this.data = data;
+  private String sessionUserId;
+  private String testSessionPageId;
+  private Map<String, String> fixturePages = Map.of();
+  private boolean fixturesDiscovered;
+
+  TestSession(
+      NotionClient notionClient,
+      TestSessionPageProvisioner provisioner,
+      String notionBaseUrl,
+      boolean cleanupEnabled) {
     this.notionClient = notionClient;
+    this.provisioner = provisioner;
     this.notionBaseUrl = notionBaseUrl;
     this.cleanupEnabled = cleanupEnabled;
   }
 
   /**
-   * Registers the session for this run. Must be called exactly once; subsequent calls throw.
-   *
-   * @return the same instance, so the caller can put it in the JUnit store
+   * Returns the session for this run, creating it if needed. Safe to call from parallel
+   * provisioners — the root store's {@code getOrComputeIfAbsent} publishes one instance.
    */
-  public static TestSession initialize(
-      Data data, NotionClient notionClient, String notionBaseUrl, boolean cleanupEnabled) {
-    TestSession session = new TestSession(data, notionClient, notionBaseUrl, cleanupEnabled);
-    if (!INSTANCE.complete(session)) {
-      throw new IllegalStateException("Test session was already initialized");
+  public static TestSession get(ExtensionContext context) {
+    return context
+        .getRoot()
+        .getStore(ExtensionContext.Namespace.GLOBAL)
+        .getOrComputeIfAbsent(TestSession.class, key -> create(context), TestSession.class);
+  }
+
+  private static TestSession create(ExtensionContext context) {
+    NotionClient client = NotionTestClientProvisioner.getInfraSetupClient();
+    TestSessionPageProvisioner provisioner =
+        new TestSessionPageProvisioner(client, new FixturePagesDiscoverer(client));
+    return new TestSession(
+        client,
+        provisioner,
+        NotionPageUrlResolver.getNotionBaseUrl(context),
+        TestSessionConfig.cleanupEnabled(context));
+  }
+
+  /** Resolves {@code users().me()} once and returns the session user id. */
+  public synchronized String ensureSessionUserId() {
+    if (sessionUserId == null) {
+      sessionUserId = notionClient.users().me().getId();
+      LOGGER.info("Session user id: {}", sessionUserId);
     }
-    return session;
+    return sessionUserId;
   }
 
   /**
-   * Marks initialization as failed so threads blocked in {@link #get()} fail immediately instead of
-   * waiting for the timeout.
+   * Creates the test session page on first use. Parent of test pages and fixture pages.
+   *
+   * @return the test session page id
    */
-  public static void failInitialization(Throwable cause) {
-    INSTANCE.completeExceptionally(cause);
+  public synchronized String ensureTestSessionPage(ExtensionContext context) {
+    if (testSessionPageId != null) {
+      return testSessionPageId;
+    }
+    TestSessionConfig config = TestSessionConfig.from(context);
+    testSessionPageId = provisioner.createTestSessionPage(config);
+    LOGGER.info(
+        "Test session page: {}",
+        NotionPageUrlResolver.resolveNotionPageUrl(notionBaseUrl, testSessionPageId));
+    return testSessionPageId;
   }
 
   /**
-   * Returns the session, waiting up to {@link #INIT_TIMEOUT} if it is still being provisioned.
+   * Ensures the test session page and discovers fixture pages under it.
    *
-   * @throws IllegalStateException if initialization fails, times out, or is interrupted
+   * @return the fixture map (test id → page id)
    */
-  public static TestSession get() {
-    try {
-      return INSTANCE.get(INIT_TIMEOUT.toMillis(), TimeUnit.MILLISECONDS);
-    } catch (InterruptedException e) {
-      Thread.currentThread().interrupt();
-      throw new IllegalStateException("Interrupted while waiting for session initialization", e);
-    } catch (ExecutionException e) {
-      throw new IllegalStateException("Session initialization failed", e.getCause());
-    } catch (TimeoutException e) {
-      throw new IllegalStateException("Session was not initialized within " + INIT_TIMEOUT, e);
-    }
-  }
-
-  public String getSessionPageId() {
-    return data.getSessionPageId();
-  }
-
-  public String getBotUserId() {
-    return data.getBotUserId();
-  }
-
-  public Map<String, String> getFixturePages() {
-    return data.getFixturePages();
-  }
-
-  /**
-   * Immutable snapshot of what was provisioned: session page, bot user, and fixture pages.
-   *
-   * <p>Add a field here only when several tests need the same extra read.
-   */
-  public static class Data {
-
-    private final String sessionPageId;
-    private final String botUserId;
-    private final Map<String, String> fixturePages;
-
-    public Data(String sessionPageId, String botUserId, Map<String, String> fixturePages) {
-      this.sessionPageId = sessionPageId;
-      this.botUserId = botUserId;
-      this.fixturePages = (fixturePages != null) ? Map.copyOf(fixturePages) : Map.of();
-    }
-
-    public String getSessionPageId() {
-      return sessionPageId;
-    }
-
-    public String getBotUserId() {
-      return botUserId;
-    }
-
-    public Map<String, String> getFixturePages() {
+  public synchronized Map<String, String> ensureFixtures(ExtensionContext context) {
+    if (fixturesDiscovered) {
       return fixturePages;
     }
+    String pageId = ensureTestSessionPage(context);
+    fixturePages = provisioner.discoverFixtures(pageId);
+    fixturesDiscovered = true;
+    LOGGER.info(
+        "Fixture pages: {} ({} fixture(s))",
+        NotionPageUrlResolver.resolveNotionPageUrl(notionBaseUrl, pageId),
+        fixturePages.size());
+    return fixturePages;
   }
 
   @Override
@@ -125,24 +113,30 @@ public class TestSession implements ExtensionContext.Store.CloseableResource {
     logCompletion();
 
     if (cleanupEnabled) {
-      deleteSessionPage();
+      deletePage(testSessionPageId);
     }
   }
 
   private void logCompletion() {
-    String url = NotionPageUrlResolver.resolveNotionPageUrl(notionBaseUrl, getSessionPageId());
-    LOGGER.info("Test session completed. Session page: {}", url);
+    if (testSessionPageId == null) {
+      LOGGER.info("Test session completed (no test session page)");
+      return;
+    }
+    LOGGER.info(
+        "Test session completed. Test session page: {}",
+        NotionPageUrlResolver.resolveNotionPageUrl(notionBaseUrl, testSessionPageId));
   }
 
-  private void deleteSessionPage() {
-    String sessionPageId = getSessionPageId();
-    LOGGER.info("Cleaning up: moving session page {} to trash", sessionPageId);
-
+  private void deletePage(String pageId) {
+    if (pageId == null) {
+      return;
+    }
+    LOGGER.info("Cleaning up: moving test session page {} to trash", pageId);
     try {
-      notionClient.pages().moveToTrash(sessionPageId);
-      LOGGER.info("Successfully deleted session page {}", sessionPageId);
+      notionClient.pages().moveToTrash(pageId);
+      LOGGER.info("Successfully deleted test session page {}", pageId);
     } catch (Exception e) {
-      LOGGER.error("Failed to delete session page {}: {}", sessionPageId, e.getMessage(), e);
+      LOGGER.error("Failed to delete test session page {}: {}", pageId, e.getMessage(), e);
     }
   }
 }

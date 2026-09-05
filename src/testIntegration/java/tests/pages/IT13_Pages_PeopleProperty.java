@@ -12,7 +12,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import testkit.WithEmptyTestPage;
-import testkit.ext.TestSession;
+import testkit.ext.SessionUserId;
 
 public class IT13_Pages_PeopleProperty extends WithEmptyTestPage {
 
@@ -21,8 +21,8 @@ public class IT13_Pages_PeopleProperty extends WithEmptyTestPage {
   private static String userId;
 
   @BeforeEach
-  public void setup() {
-    userId = TestSession.get().getBotUserId();
+  public void setup(@SessionUserId String sessionUserId) {
+    userId = sessionUserId;
     dataSourceId =
         getSetupClient()
             .databases()

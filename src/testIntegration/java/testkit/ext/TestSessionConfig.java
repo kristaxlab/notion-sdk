@@ -60,6 +60,14 @@ public class TestSessionConfig {
   }
 
   /**
+   * Whether the test session page should be moved to trash when the run ends. Safe to call without
+   * a parent id (identity layer).
+   */
+  public static boolean cleanupEnabled(ExtensionContext context) {
+    return TestConfigurationLookup.lookupBoolean(CLEANUP_ENABLED, context);
+  }
+
+  /**
    * Creates a builder for constructing session configuration.
    *
    * @return a new builder instance

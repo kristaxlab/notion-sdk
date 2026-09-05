@@ -21,16 +21,16 @@ Unit tests live under `src/test/java` and do not require any environment setup.
 
 Integration tests run against the live Notion API and require two things:
 
-1. **A Notion page that contains the prerequisites** structure for the tests. Prerequisites include things like databases 
-with specific properties, media content, etc. The tests will use the content of this page and also every test run will 
-have a corresponding record added to the Integration Tests Database in this page. You can duplicate the prerequisites 
-page into your own workspace from [this URL](https://sdk-integration.notion.site/Integration-tests-2f4cd6cf14068001ac57e261d1c18fda).
-The id of that page is the **test session parent id**. Set it in
+1. **Test Sessions Home** — the workspace location that holds the structures tests need (databases
+with specific properties, media content, and so on). Every run also adds a record to the Integration
+Tests Database there. Duplicate it into your own workspace from
+[this URL](https://sdk-integration.notion.site/Integration-tests-2f4cd6cf14068001ac57e261d1c18fda).
+Its id is the test session parent id. Set it in
 `src/testIntegration/resources/junit-platform.properties` as `notion.tests.session.parent.id` (the
 committed default lives there). The same value is also accepted as the environment variable
 `NOTION_TESTS_SESSION_PARENT_ID`, which overrides the properties file when both are set.
 2. **Auth token** — Notion auth token, create one at <https://www.notion.so/my-integrations>
-(the prerequisites page mentioned above should be accessible with this token). Auth token should be provided as an
+(the Test Sessions Home should be accessible with this token). Auth token should be provided as an
 environment variable `NOTION_TESTS_AUTH_TOKEN`.
 
 ### Environment Setup
@@ -52,8 +52,9 @@ The Gradle `testIntegration` task loads `.env.test` and `.env.test.local` automa
 (later files override earlier ones). `.env.test.local` is listed in `.gitignore`
 so your token is never committed.
 
-Alternatively, export the variables directly. The session parent id is optional here if
-`junit-platform.properties` already has the page you want:
+Alternatively, export the variables directly. The Test Sessions Home id is optional for tests that
+do not create pages (users, most file uploads) and is otherwise taken from
+`junit-platform.properties` when unset:
 
 ```bash
 export NOTION_TESTS_AUTH_TOKEN=secret_xxx
@@ -71,10 +72,10 @@ Defaults for the suite live in `src/testIntegration/resources/junit-platform.pro
 | Setting | Required | Purpose                                                                                                                                              |
 | --- | --- |------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `NOTION_TESTS_AUTH_TOKEN` | yes | Integration token; env var only                                                                                                                      |
-| `notion.tests.session.parent.id` | yes | Page the session page and all test data are created under. Set in `junit-platform.properties`, or as `NOTION_TESTS_SESSION_PARENT_ID` (env var wins) |
-| `notion.tests.session.title` | no | Title given to the session page                                                                                                                      |
-| `notion.tests.session.template.id` | no | Template used to provision the session page                                                                                                          |
-| `notion.tests.session.cleanup` | no | Moves the session page to trash when the run finishes; off by default so failed runs stay inspectable                                                |
+| `notion.tests.session.parent.id` | for tests that create pages | Test Sessions Home (test session parent) — the data source or database the test session page is created under. Not required for tests that only need a client or `@SessionUserId`. Set in `junit-platform.properties`, or as `NOTION_TESTS_SESSION_PARENT_ID` (env var wins) |
+| `notion.tests.session.title` | no | Title given to the test session page |
+| `notion.tests.session.template.id` | no | Template used for the test session page |
+| `notion.tests.session.cleanup` | no | Moves the test session page to trash when the run finishes; off by default so failed runs stay inspectable |
 | `notion.links.base.url` | no | Base URL used when logging test page links (default `https://www.notion.so/`) |
 | `notion.tests.json.strict` | no | When `true`, the Notion Test Http Client fails on unknown JSON properties. Off by default so the suite reports whether the SDK still works against the live API, not whether every new Notion field is modelled |
 
@@ -116,9 +117,9 @@ bases are described in [Testkit](testkit.md).
 
 | Base class | Use when | Gives you |
 | --- | --- | --- |
-| `BaseIntegrationTest` | the test needs no page of its own (users, most file uploads) | `getNotionClient()` |
-| `WithEmptyTestPage` | the test provisions its own content — most tests | `getTestPageId()` for a fresh empty page |
-| `WithTestPageFixture` | the test needs prerequisites built by hand in the UI | `getTestPageId()` for the prefilled page; tagged `fixture` |
+| `BaseIntegrationTest` | the test needs no page of its own (users, most file uploads) | `getNotionClient()`; add `@SessionUserId` if you need the session user id |
+| `WithEmptyTestPage` | the test provisions its own content — most tests | `getTestPageId()` (`@NotionPageId`) |
+| `WithTestPageFixture` | the test needs a fixture page built by hand in the UI | `getTestPageId()` (`@FixtureNotionPageId`); tagged `fixture` |
 
 Minimal example:
 
@@ -178,9 +179,10 @@ exceptions:
    id (`IT-8`). Database rows in a child database on that template are discovered the same way.
    Extend `WithTestPageFixture`. If that page is missing, the provisioner fails — do not fall back
    to an empty page.
-2. **A shared, rarely changing entity that costs an API read.** The bot user is already on the
-   session: `TestSession.get().getBotUserId()`. Do not add a new session field unless several tests
-   need the same extra read.
+2. **A shared, rarely changing entity that costs an API read.** Inject it with its own annotation
+   (the session user id is `@SessionUserId`). The provisioner stores it once on `TestSession`. Do not call
+   `TestSession` from a test. Do not add a new session field unless several tests need the same
+   extra read — add an annotation and provisioner instead.
 
 Constraints Notion imposes on test data — server-owned `unique_id` values, one title column per data
 source, template polling, and similar — are listed in [Notion API constraints](notion-api-constraints.md).

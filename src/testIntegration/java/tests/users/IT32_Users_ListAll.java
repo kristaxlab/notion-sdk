@@ -10,15 +10,13 @@ import io.kristaxlab.notion.model.user.UserList;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import testkit.BaseIntegrationTest;
-import testkit.ext.TestSession;
+import testkit.ext.SessionUserId;
 
 public class IT32_Users_ListAll extends BaseIntegrationTest {
 
   @Test
   @DisplayName("IT-32: Users - Retrieve all users list")
-  public void testListAllUsers() {
-    // the integration running the tests is a common entity resolved once per test session
-    String testBotUserId = TestSession.get().getBotUserId();
+  public void testListAllUsers(@SessionUserId String sessionUserId) {
 
     UserList users = getNotionClient().users().listUsers();
 
@@ -52,7 +50,7 @@ public class IT32_Users_ListAll extends BaseIntegrationTest {
 
     User testBot =
         users.getResults().stream()
-            .filter(user -> testBotUserId.equals(user.getId()))
+            .filter(user -> sessionUserId.equals(user.getId()))
             .findFirst()
             .orElse(null);
 

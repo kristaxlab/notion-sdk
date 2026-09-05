@@ -23,6 +23,19 @@ public class NotionPageUrlResolver {
     return baseUrl + pageId.replace("-", "");
   }
 
+  public static String resolveNotionPageUrl(ExtensionContext context, String pageId) {
+    String baseUrl = getNotionBaseUrl(context);
+    if (baseUrl == null || baseUrl.trim().isEmpty()) {
+      throw new IllegalArgumentException("baseUrl cannot be null or empty");
+    }
+
+    if (!baseUrl.endsWith("/")) {
+      baseUrl += "/";
+    }
+
+    return baseUrl + pageId.replace("-", "");
+  }
+
   public static String getNotionBaseUrl(ExtensionContext context) {
     return TestConfigurationLookup.lookup(NOTION_LINKS_BASE_URL, context).orElse(DEFAULT_BASE_URL);
   }

@@ -3,8 +3,9 @@
 Internals of `src/testIntegration/java/testkit`: the JUnit extensions that provision a live Notion
 workspace for a run, inject a page and clients into each test, and log inspectable URLs.
 
-How to **write or run** a test is owned by the [Testing Guide](testing-guide.md). This page is for
-editing the kit itself — class responsibilities, data shapes, and where a change should land.
+How to **write or run** a test is owned by the [Testing Guide](testing-guide.md). Terms used here
+are defined in [CONTEXT.md](../../CONTEXT.md). This page is for editing the kit itself — class
+responsibilities, data shapes, and where a change should land.
 
 ## What the kit is for
 
@@ -16,9 +17,11 @@ setting and the reason it is off.
 
 The kit therefore does three jobs:
 
-1. **Session** — once per JVM run, create a session page under a configured parent and discover any
-   prefilled fixture pages the template copied in.
-2. **Per-test page** — inject either a discovered fixture page or a freshly created dedicated page.
+1. **Prerequisites** — each injected value has its own annotation and provisioner. Run-scoped
+   values (session user id, test session page, fixture pages) are singletons on `TestSession`. Tests
+   never call `TestSession`; provisioners do, via `TestSession.get(context)`.
+2. **Per-test page** — `@NotionPageId` creates a test page under the test session page;
+   `@FixtureNotionPageId` looks up the fixture page named after the test id.
 3. **Clients** — inject a Notion Test Http Client and a second client whose exchanges land under
    `test-logs/rqrs/setup`.
 
@@ -48,13 +51,13 @@ flowchart TB
   end
 
   subgraph ext["testkit.ext"]
-    SBA["TestSessionBeforeAll"]
+    TS["TestSession"]
+    SUID["SessionUserIdProvisioner"]
+    TPP["NotionPagesProvisioner"]
+    FPP["FixturePageIdProvisioner"]
     SPP["TestSessionPageProvisioner"]
     FD["FixturePagesDiscoverer"]
-    TS["TestSession"]
     CFG["TestSessionConfig"]
-    TPP["TestPagesProvisioner"]
-    TPAGE["TestPage"]
   end
 
   subgraph client["testkit.ext.client"]
@@ -67,156 +70,141 @@ flowchart TB
   E --> B
   F --> B
   B -->|"@NotionTestClient"| NCP
-  E -->|"@TestPageId"| TPP
-  F -->|"@TestPageId fixture=true"| TPP
-  TPP --> SBA
-  TPP --> TPAGE
-  SBA --> SPP
+  T -->|"@SessionUserId"| SUID
+  E -->|"@NotionPageId"| TPP
+  F -->|"@FixtureNotionPageId"| FPP
+  SUID --> TS
+  TPP --> TS
+  FPP --> TS
+  TS --> SPP
   SPP --> FD
-  SBA --> TS
-  SBA --> CFG
+  SPP --> CFG
 ```
 
 ## Workspace model
 
-The session parent is **not** a page. `TestSessionPageProvisioner` resolves
+The [Test Sessions Home](../../CONTEXT.md) (also test session parent) is the configured location
+under which the test session page is created. `TestSessionPageProvisioner` resolves
 `notion.tests.session.parent.id` by retrieving it as a [data source](../../CONTEXT.md) first, then
 falling back to a [database](../../CONTEXT.md). There is no page-parent path.
 
-If a template id is set (and is not the literal `default`), Notion duplicates that page into the
-parent. If the parent is a database and no template id is set, the database's default template is
-used. A data-source parent with no template id creates an empty session page.
+The [test session page](../../CONTEXT.md) is created under the Test Sessions Home. If a template id
+is set (and is not the literal `default`), Notion duplicates that page into the home. If the home
+is a database and no template id is set, the database's default template is used. A data-source
+home with no template id creates a page without an explicit template.
 
 Template content is applied asynchronously — see [Notion API constraints](notion-api-constraints.md).
 The provisioner polls with `TemplatePoller.awaitAnyBlocks` (15 s timeout, 500 ms interval) before
-discovering fixtures.
+discovering fixture pages. Tests that only need a test page never wait for that.
 
 ```mermaid
 flowchart TB
-  P["Session parent<br/>data source or database"]
-  SP["Session page<br/>one per JVM run"]
-  CP["Child pages<br/>title = test id"]
+  P["Test Sessions Home<br/>data source or database"]
+  TSP["Test session page"]
+  CP["Fixture pages<br/>title = test id"]
   DB["First child_database only"]
   ROW["Rows<br/>title = test id"]
-  DP["Dedicated pages<br/>title = @DisplayName"]
+  TP["Test pages<br/>title = @DisplayName"]
 
-  P -->|"pages.create + optional template"| SP
-  SP --> CP
-  SP --> DB
+  P -->|"first @NotionPageId / @FixtureNotionPageId"| TSP
+  TSP --> TP
+  TSP --> CP
+  TSP --> DB
   DB --> ROW
-  SP --> DP
 ```
 
 | Object | Created by | Lifetime |
 | --- | --- | --- |
-| Session parent | Hand-built in the workspace; id is configuration | Permanent |
-| Session page | `TestSessionPageProvisioner` | The run; trashed only if cleanup is on |
-| Fixture page | Copied from the template (child page or database row) | Lives under the session page |
-| Dedicated page | `TestPagesProvisioner` when no fixture matches | Lives under the session page |
+| Test Sessions Home | Hand-built in the workspace; id is configuration | Permanent |
+| Test session page | `ensureTestSessionPage` — first page prerequisite | The run; trashed only if cleanup is on |
+| Fixture page | Copied from the template (child page or database row) | Lives under the test session page |
+| Test page | `NotionPageIdProvisioner` for `@NotionPageId` | Lives under the test session page |
 
 ## Data shapes
 
-### `TestSession.Data`
+### `TestSession`
 
-Immutable snapshot of what was provisioned. `TestSession.get()` returns the session (which exposes
-the same accessors) and blocks up to 60 s; a failed init completes the same future exceptionally so
-waiters fail immediately.
+`TestSession.get(context)` is the provisioner entry point. The first call puts one instance on the
+root store (`getOrComputeIfAbsent`). Prerequisites are filled in when their provisioner first asks.
 
 ```
-TestSession.Data
-  sessionPageId : String          page created for this run
-  botUserId     : String          session page's createdBy id
-  fixturePages  : Map<id, pageId>  test id → page id (defensive copy)
+TestSession
+  sessionUserId      : String?           users().me() — @SessionUserId
+  testSessionPageId  : String?           test session page — @NotionPageId / @FixtureNotionPageId
+  fixturePages       : Map<id, pageId>   test id → fixture page
 ```
-
-`botUserId` is the shared "costs an API read" value the Testing Guide already documents. Do not add
-fields here unless several tests need the same extra read.
 
 ### `TestSessionConfig`
 
-Resolved by `TestSessionConfig.from(ExtensionContext)` through `TestConfigurationLookup` (env, then
-system property, then JUnit platform parameters). Key spelling is normalized; the Testing Guide
-owns the setting list. `notion.tests.json.strict` and `notion.links.base.url` are not session
-fields — the client provisioner and `NotionPageUrlResolver` read them separately.
+Resolved by `TestSessionConfig.from(ExtensionContext)` through `TestConfigurationLookup` when a
+**page** prerequisite starts — so a session-user-only test does not need a parent id. Key spelling is
+normalized; the Testing Guide owns the setting list. `notion.tests.json.strict` and
+`notion.links.base.url` are not session-provisioning fields. Cleanup is read when the session
+object is first created.
 
 ```
 TestSessionConfig
-  parentId        : String   required
+  parentId        : String   required when a page prerequisite starts
   templateId      : String?  null / "default" / a page id
-  sessionTitle    : String?  provisioner default: "Integration tests session"
+  sessionTitle    : String?  test session page default: "Integration tests session"
   cleanupEnabled  : boolean  default false
 ```
 
 ### Root `ExtensionContext` store
 
-`TestSessionBeforeAll` writes one value on `context.getRoot().getStore(Namespace.GLOBAL)`:
-
 | Key | Type | Why it is there |
 | --- | --- | --- |
-| `TestSession.class` | `TestSession` | `getOrComputeIfAbsent` so parallel `beforeAll` calls share one init; `CloseableResource` so JUnit calls `close()` when the run ends |
-
-`TestSession.get()` is the same instance: `initialize` completes a static future so tests can read
-it without the store. A second `initialize` throws.
+| `TestSession.class` | `TestSession` | Singleton prerequisites + `CloseableResource` for suite-end cleanup |
 
 ## Lifecycle
 
-`@TestPageId` registers `TestSessionBeforeAll` and `TestPagesProvisioner`.
-`@NotionTestClient` registers only `NotionTestClientProvisioner`.
-
-That split matters: a class that extends `BaseIntegrationTest` and never uses `@TestPageId` does
-**not** start a session. `TestSession.get()` then waits 60 s and fails. `IT32_Users_ListAll` has
-this dependency — it is safe in a full suite (some other class provisioned the session) and not
-safe in isolation.
+Each annotation's provisioner calls `TestSession.get(context)`, then ensures only the prerequisite
+it owns. `@NotionPageId` depends on the test session page; `@FixtureNotionPageId` depends on the
+test session page and then discovers fixture pages.
 
 ```mermaid
 sequenceDiagram
   participant J as JUnit
-  participant BA as TestSessionBeforeAll
-  participant PP as TestSessionPageProvisioner
-  participant FD as FixturePagesDiscoverer
+  participant P as Provisioner
   participant TS as TestSession
-  participant TP as TestPagesProvisioner
-  participant NC as NotionTestClientProvisioner
+  participant API as TestSessionPageProvisioner
   participant T as Test
 
-  J->>BA: beforeAll (first @TestPageId class)
-  BA->>BA: TestSessionConfig.from(context)
-  BA->>PP: provision(config)
-  PP->>PP: create session page + poll template
-  PP->>FD: discoverFixturePages(blocks)
-  FD-->>PP: Map testId → pageId
-  PP-->>BA: TestSession.Data
-  BA->>TS: initialize(data, client, baseUrl, cleanup)
-  BA->>J: put TestSession on root store
-
-  J->>NC: resolve @NotionTestClient
-  NC-->>T: Notion Test Http Client + setup client
-  J->>TP: resolve @TestPageId
-  TP->>TS: get()
-  TP->>TP: fixture lookup or create dedicated page
-  TP-->>T: page id
+  J->>P: resolve annotation
+  P->>TS: get context
+  alt @SessionUserId
+    P->>TS: ensureSessionUserId
+    TS-->>T: session user id
+  else @NotionPageId
+    P->>TS: ensureTestSessionPage
+    TS->>API: createTestSessionPage
+    P->>P: create test page
+    P-->>T: test page id
+  else @FixtureNotionPageId
+    P->>TS: ensureFixtures
+    TS->>API: createTestSessionPage
+    TS->>API: discoverFixtures
+    P-->>T: fixture page id
+  end
 
   T->>T: @Test
-
-  J->>TS: CloseableResource.close()
-  TS->>TS: log session URL; optional moveToTrash
+  J->>TS: close
 ```
 
 ## Page resolution
 
-`TestPagesProvisioner` extracts a test id from the method `@DisplayName` via
-`NotionTestIdRetriever` (`(?i)\bIT-(?:\d+|\?+)`, then uppercased). `IT-8`, `IT-?` and `IT-??` match;
-`IT-abc` does not. The Testing Guide owns the display-name convention; the regex is the contract
-the kit actually enforces.
+`NotionPageIdProvisioner` and `FixturePageIdProvisioner` extract a test id from the method
+`@DisplayName` via `NotionTestIdRetriever` (`(?i)\bIT-(?:\d+|\?+)`, then uppercased). `IT-8`,
+`IT-?` and `IT-??` match; `IT-abc` does not. The Testing Guide owns the display-name convention.
 
 ```mermaid
 flowchart TD
-  A["@TestPageId parameter"] --> B["test id from @DisplayName"]
-  B --> C{"fixturePages has that id?"}
-  C -->|yes| D["inject fixture page id"]
-  C -->|no| E{"@TestPageId fixture=true?"}
-  E -->|yes| F["NotionWorkspaseException<br/>do not fall back"]
-  E -->|no| G["create dedicated page<br/>under session page"]
+  A["@NotionPageId"] --> B["ensureTestSessionPage"]
+  B --> C["create test page"]
+  D["@FixtureNotionPageId"] --> E["ensureFixtures / test session page"]
+  E --> F{"map has test id?"}
+  F -->|yes| G["inject fixture page id"]
+  F -->|no| H["NotionWorkspaseException"]
 ```
 
 Discovery (`FixturePagesDiscoverer`) does **not** apply the `IT-*` regex. Every non-blank child-page
@@ -227,8 +215,7 @@ id (`IT-8`), not `IT-8: Templates`.
 There is an in-code TODO to drop standalone child-page fixtures once the API can express everything
 as a data source.
 
-The session page itself is never injected as the test page. Javadoc on `@TestPageId` that mentions a
-"shared session page" is stale.
+The test session page is not injected as the test page.
 
 ## Clients
 
@@ -253,38 +240,33 @@ Exchange file format is owned by [Exchange Recording](exchange-recording.md).
 
 - **`BaseIntegrationTest`** — injects the two clients. No page. Enough for users and most file
   uploads.
-- **`WithEmptyTestPage`** — `@TestPageId` (fixture flag off). Dedicated page unless a fixture happens
-  to exist for that id.
-- **`WithTestPageFixture`** — `@TestPageId(fixture = true)` and tag `fixture`. Missing fixture is a
+- **`WithEmptyTestPage`** — `@NotionPageId`. Test page under the test session page.
+- **`WithTestPageFixture`** — `@FixtureNotionPageId` and tag `fixture`. Missing fixture page is a
   hard failure.
 
 A new "needs X" base should stay this thin: a `@BeforeEach` parameter plus a getter. Lifecycle
 belongs on the annotation's `@ExtendWith` list, not in the base.
 
-### Session (once per run)
+### Prerequisites (annotation + provisioner)
 
-- **`TestSessionBeforeAll`** — JUnit entry. Resolves config, delegates provisioning, stores the
-  `TestSession` on the root store. Package-private constructor exists for unit tests with mocks.
-- **`TestSessionPageProvisioner`** — creates the session page, waits for template blocks, asks the
-  discoverer for fixtures. Parent and template resolution live here.
-- **`FixturePagesDiscoverer`** — walks session-page blocks. Child pages plus the first child
-  database. The place to add another discovery source.
-- **`TestSession`** — the run's session: provisioned data, `get()` for tests, and `close()` for
-  suite-end logging and optional trash. The hook for "when the run is over" work.
-- **`TestSessionConfig`** — immutable settings for provisioning (parent, template, title, cleanup).
+- **`@SessionUserId` / `SessionUserIdProvisioner`** — session user id, once per run.
+- **`@NotionPageId` / `NotionPageIdProvisioner`** — test page. Depends on `ensureTestSessionPage`.
+- **`@FixtureNotionPageId` / `FixturePageIdProvisioner`** — fixture page named after the test id.
+  Depends on `ensureFixtures`.
 
-### Per-test page
+### Session store
 
-- **`@TestPageId`** — parameter annotation; wires session init and page resolution.
-- **`TestPagesProvisioner`** — `ParameterResolver` for `@TestPageId String`. Owns the
-  fixture-or-create decision, then stores a `TestPage` on the class store.
-- **`TestPage`** — `CloseableResource` that logs the test page URL when the class store closes.
+- **`TestSession`** — `get(context)` for provisioners only. Lazy singletons + `close()`.
+- **`TestSessionPageProvisioner`** — Notion calls: `createTestSessionPage` and `discoverFixtures`.
+- **`FixturePagesDiscoverer`** — walks test session page blocks.
+- **`TestSessionConfig`** — parent / template / title; loaded when a page prerequisite starts.
+- **`NotionPage`** — logs the injected page URL when the class store closes.
 
 ### Clients and utilities
 
 - **`@NotionTestClient` / `NotionTestClientProvisioner`** — `ParameterResolver` for
-  `NotionClient`. Applies `notion.tests.json.strict` to the Notion Test Http Client only. The
-  annotation's javadoc is a leftover copy of `@TestPageId` and is wrong.
+  `NotionClient`. Applies `notion.tests.json.strict` to the Notion Test Http Client only. Does not
+  start a session.
 - **`TestConfigurationLookup`** — env / system property / JUnit parameter lookup used by
   `TestSessionConfig` and the client provisioner.
 - **`NotionTestIdRetriever`** — display-name → test id. Covered by `testkit.test.NotionTestIdRetrieverTest`.
@@ -301,10 +283,9 @@ belongs on the annotation's `@ExtendWith` list, not in the base.
 | Give tests a new injected prerequisite (a second page, a data source id) | New parameter annotation + `ParameterResolver`, registered on that annotation. Keep the base class to a field + getter. |
 | Need a page that cannot be created through the API | Child page or database row on the session template, titled as the test id; extend `WithTestPageFixture`. |
 | Discover fixtures from a new place (second database, a data source block) | `FixturePagesDiscoverer` only. |
-| Share another rarely-changing id across tests | Field on `TestSession.Data`, populated in `TestSessionPageProvisioner`. Do not add one for a single test. |
+| Share another rarely-changing id across tests | New annotation + provisioner that calls `TestSession.get(context)` and stores a singleton field. Tests must not call `TestSession`. |
 | Run work at the end of the suite | `TestSession.close()`. |
 | Add a configuration knob | Read it through `TestConfigurationLookup`. Session-provisioning keys also belong on `TestSessionConfig`. Document the setting in the Testing Guide, not here. |
-| Start a session for tests that have no page | Register `TestSessionBeforeAll` on `@NotionTestClient` (or a dedicated annotation). Today only `@TestPageId` starts the session. |
 | Change how a parent id is classified | `TestSessionPageProvisioner.resolveParent` / `resolveTemplate`. |
 | Change the test-id grammar | `NotionTestIdRetriever` and its tests; then the Testing Guide display-name rule. |
 
@@ -313,8 +294,6 @@ belongs on the annotation's `@ExtendWith` list, not in the base.
 These are unfinished or stale. Read them before assuming a hook already works.
 
 - **`PathSanitizer` is unused.** Exchange-log directories currently use the raw class simple name.
-- **Stale javadoc:** `@NotionTestClient` describes page resolution; `@TestPageId` mentions a shared
-  session page that is never injected.
 
 ## See also
 

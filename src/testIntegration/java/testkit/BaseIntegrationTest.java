@@ -2,29 +2,28 @@ package testkit;
 
 import io.kristaxlab.notion.NotionClient;
 import org.junit.jupiter.api.BeforeEach;
-import testkit.ext.TestPageId;
+import testkit.ext.FixtureNotionPageId;
+import testkit.ext.NotionPageId;
+import testkit.ext.SessionUserId;
 import testkit.ext.client.NotionTestClient;
 
 /**
- * Provides common setup for tests tests that use a {@link NotionClient}.
- *
- * <p>Before each test, this base class creates a client configured to write HTTP exchange logs
- * under a deterministic directory derived from the test class and method names.
- *
- * <p>Subclasses that need a dedicated Notion page for their fixtures declare a static {@code
- * String} field annotated with {@link TestPageId}; the page is created before {@code @BeforeAll}
- * runs and a convenience link is logged after every test method.
+ * Provides the Notion Test Http Client and setup client. Page and session-user prerequisites are
+ * injected by their own annotations ({@link NotionPageId}, {@link FixtureNotionPageId}, {@link
+ * SessionUserId}).
  */
 public abstract class BaseIntegrationTest {
 
   private NotionClient notionEnvSetupClient;
   private NotionClient notionClient;
 
-  /** Initializes the tests test client */
+  /**
+   * Initializes the tests test client
+   */
   @BeforeEach
   protected void beforeEach(
-      @NotionTestClient NotionClient client,
-      @NotionTestClient(forSetup = true) NotionClient envSetupClient) {
+          @NotionTestClient NotionClient client,
+          @NotionTestClient(forSetup = true) NotionClient envSetupClient) {
     notionClient = client;
     notionEnvSetupClient = envSetupClient;
   }

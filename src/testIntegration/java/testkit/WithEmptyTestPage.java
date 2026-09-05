@@ -1,14 +1,14 @@
 package testkit;
 
 import org.junit.jupiter.api.BeforeEach;
-import testkit.ext.TestPageId;
+import testkit.ext.NotionPageId;
 
 public abstract class WithEmptyTestPage extends BaseIntegrationTest {
 
   private String testPageId;
 
   @BeforeEach
-  protected void beforeEach(@TestPageId String testPageId) {
+  protected void beforeEach(@NotionPageId String testPageId) {
     setTestPageId(testPageId);
   }
 

@@ -22,7 +22,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import testkit.WithEmptyTestPage;
-import testkit.ext.TestSession;
+import testkit.ext.SessionUserId;
 import testkit.util.FileLoader;
 
 public class IT6_Pages_PropertyValuesCRUD extends WithEmptyTestPage {
@@ -39,14 +39,14 @@ public class IT6_Pages_PropertyValuesCRUD extends WithEmptyTestPage {
   private String anchorPageId2;
 
   @BeforeEach
-  public void setup() {
+  public void setup(@SessionUserId String sessionUserId) {
     fileUploadId = FileLoader.uploadFile(FILE_PATH, FILE_NAME, getSetupClient());
 
     String testPageId = getTestPageId();
     Database db = createDatabaseWithFirstDataSource(testPageId);
     firstDataSourceId = db.getDataSources().get(0).getId();
     secondDataSourceId = createSecondDataSource(db.getId());
-    userId = TestSession.get().getBotUserId();
+    userId = sessionUserId;
 
     // Create anchor page for relations
     anchorPageId1 = createAnchorPage(firstDataSourceId);

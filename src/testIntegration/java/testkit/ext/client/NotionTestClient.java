@@ -1,23 +1,20 @@
 package testkit.ext.client;
 
-import java.lang.annotation.*;
+import io.kristaxlab.notion.NotionClient;
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 import org.junit.jupiter.api.extension.ExtendWith;
-import testkit.ext.TestPagesProvisioner;
-import testkit.ext.TestSessionBeforeAll;
 
 /**
- * Marks a {@code String} parameter that receives the ID of a Notion page created for the test
- * class.
- *
- * <p>{@link TestSessionBeforeAll} provisions the test session and {@link TestPagesProvisioner}
- * resolves the page for the test within it (a prefilled prerequisite page, the shared session page,
- * or a dedicated page created under the session page).
- *
- * <p>Parameters are populated right after the test instance is created.
+ * Marks a {@link NotionClient} parameter that receives a client for the current test. Use {@link
+ * #forSetup()} {@code true} for arrange-only calls.
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.PARAMETER})
+@Target(ElementType.PARAMETER)
 @ExtendWith(NotionTestClientProvisioner.class)
 public @interface NotionTestClient {
 

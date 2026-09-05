@@ -17,17 +17,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Discovers fixture (prefilled) test pages within a test session page.
+ * Discovers fixture pages within a test session page.
  *
- * <p>Fixture pages are prerequisite pages added to the template, named after test IDs (e.g.,
- * "IT-123"). These allow tests to run against prerequisites that cannot be set up through the API.
- *
- * <p>This class searches for fixture pages in two locations:
- *
- * <ul>
- *   <li>Child pages directly under the session page
- *   <li>Rows in a database contained within the session page
- * </ul>
+ * <p>Fixture pages are prefilled pages added to the template, named after test ids (e.g. {@code
+ * IT-123}). This class searches child pages and rows in the first child database.
  */
 public class FixturePagesDiscoverer {
 
@@ -40,24 +33,24 @@ public class FixturePagesDiscoverer {
   }
 
   /**
-   * Discovers all fixture test pages within the session page content.
+   * Discovers fixture pages within the test session page content.
    *
    * <p>Searches for:
    *
    * <ul>
-   *   <li>Child pages named after test IDs
-   *   <li>Database rows (if a database block exists) named after test IDs
+   *   <li>Child pages named after test ids
+   *   <li>Database rows (if a database block exists) named after test ids
    * </ul>
    *
-   * @param sessionPageBlocks the blocks of the session page
-   * @return map of test IDs to page IDs
+   * @param testSessionPageBlocks the blocks of the test session page
+   * @return map of test ids to page ids
    */
-  public Map<String, String> discoverFixturePages(BlockList sessionPageBlocks) {
-    // TODO move everything to datasource after Notion API supports it, and remove fisture support
+  public Map<String, String> discoverFixturePages(BlockList testSessionPageBlocks) {
+    // TODO move everything to datasource after Notion API supports it, and remove fixture support
     // for standalone pages
-    Map<String, String> fixturePages = new HashMap<>(discoverChildPages(sessionPageBlocks));
+    Map<String, String> fixturePages = new HashMap<>(discoverChildPages(testSessionPageBlocks));
 
-    Optional<Block> databaseBlock = findDatabaseBlock(sessionPageBlocks);
+    Optional<Block> databaseBlock = findDatabaseBlock(testSessionPageBlocks);
     databaseBlock.ifPresent(block -> fixturePages.putAll(discoverDatabasePages(block.getId())));
 
     if (!fixturePages.isEmpty()) {
@@ -69,13 +62,12 @@ public class FixturePagesDiscoverer {
   }
 
   /**
-   * Finds child pages within the session page blocks.
+   * Finds child pages within the test session page blocks.
    *
-   * <p>Child pages named after test IDs (e.g., "IT-123") are considered fixture prerequisite pages
-   * for those tests.
+   * <p>Child pages named after test ids (e.g. {@code IT-123}) are fixture pages for those tests.
    *
-   * @param blocks the session page blocks
-   * @return map of test IDs to child page IDs
+   * @param blocks the test session page blocks
+   * @return map of test ids to child page ids
    */
   private Map<String, String> discoverChildPages(BlockList blocks) {
     Map<String, String> childPages = new HashMap<>();
@@ -152,9 +144,9 @@ public class FixturePagesDiscoverer {
   }
 
   /**
-   * Finds the first child_database block in the session page.
+   * Finds the first child_database block on the test session page.
    *
-   * @param blocks the session page blocks
+   * @param blocks the test session page blocks
    * @return the database block if found
    */
   private Optional<Block> findDatabaseBlock(BlockList blocks) {

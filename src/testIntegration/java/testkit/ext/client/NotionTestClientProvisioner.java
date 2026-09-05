@@ -14,22 +14,15 @@ import org.junit.jupiter.api.extension.ParameterResolutionException;
 import org.junit.jupiter.api.extension.ParameterResolver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import testkit.ext.TestPageId;
-import testkit.ext.TestSessionBeforeAll;
 import testkit.util.TestConfigurationLookup;
 
 /**
- * Resolves the Notion page each test runs on within the test session provisioned by {@link
- * TestSessionBeforeAll}, in the following order:
+ * Resolves a {@link NotionClient} for a parameter marked {@link NotionTestClient}.
  *
- * <ol>
- *   <li>a prefilled page added by the test session template and named after the test id (ex.
- *       IT-123) - allows setting up prerequisites that are not possible to set through API;
- *   <li>a dedicated page created under the test session page.
- * </ol>
- *
- * <p>The resolved page id will be injected into the parameter marked with {@link TestPageId}
- * annotation.
+ * <p>The Notion Test Http Client records exchanges under the test class name and honours {@code
+ * notion.tests.json.strict}. The setup client ({@link NotionTestClient#forSetup()} {@code true} and
+ * {@link #getInfraSetupClient()}) always uses non-strict JSON and logs under {@code
+ * test-logs/rqrs/setup}.
  */
 public class NotionTestClientProvisioner implements ParameterResolver {
 
