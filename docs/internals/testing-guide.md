@@ -62,12 +62,11 @@ export NOTION_TESTS_SESSION_PARENT_ID=<your-duplicated-page-id>
 
 ### Configuration reference
 
-Every setting except the auth token is resolved by `TestSessionConfig` through
-`ConfigurationLookup`, which accepts the same key as an environment variable, a system property or a
-JUnit platform parameter — in that order of precedence. Key spelling is normalized, so
-`notion.tests.session.parent.id`, `NOTION_TESTS_SESSION_PARENT_ID` and `notionTestsSessionParentId`
-all resolve to the same setting. Defaults for the suite live in
-`src/testIntegration/resources/junit-platform.properties`.
+Every setting except the auth token is resolved by `TestConfigurationLookup`, which accepts the same
+key as an environment variable, a system property or a JUnit platform parameter — in that order of
+precedence. Key spelling is normalized, so `notion.tests.session.parent.id`,
+`NOTION_TESTS_SESSION_PARENT_ID` and `notionTestsSessionParentId` all resolve to the same setting.
+Defaults for the suite live in `src/testIntegration/resources/junit-platform.properties`.
 
 | Setting | Required | Purpose                                                                                                                                              |
 | --- | --- |------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -77,6 +76,7 @@ all resolve to the same setting. Defaults for the suite live in
 | `notion.tests.session.template.id` | no | Template used to provision the session page                                                                                                          |
 | `notion.tests.session.cleanup` | no | Moves the session page to trash when the run finishes; off by default so failed runs stay inspectable                                                |
 | `notion.tests.base.url` | no | Base URL used when logging test page links (default `https://www.notion.so/`). Added here to future-proof in case Notion changes its base URL                    |
+| `notion.tests.json.strict` | no | When `true`, the Notion Test Http Client fails on unknown JSON properties. Off by default so the suite reports whether the SDK still works against the live API, not whether every new Notion field is modelled |
 
 Parallel execution is intentionally disabled: most tests write to the same parent page, and
 concurrent writes make Notion return `409 Conflict`.
@@ -108,11 +108,11 @@ To have an agent write or finish a test, start
 That file is a task launcher — goal, required reading, how to evaluate. The facts below are the
 specification.
 
-Pick a base class according to what the test needs. All three provide a `NotionClient` configured
-with a strict JSON serializer that fails on unknown properties — which is what keeps SDK models in
-sync with the live API — and write HTTP exchange logs to a per-test directory. Do not construct a
-`NotionClient` yourself. The JUnit extensions behind these bases are described in
-[Testkit](testkit.md).
+Pick a base class according to what the test needs. All three provide a Notion Test Http Client
+(`getNotionClient()`) that writes HTTP exchange logs to a per-test directory. Do not construct a
+`NotionClient` yourself. That client uses the same JSON defaults as production unless
+`notion.tests.json.strict` is on — see the configuration table. The JUnit extensions behind these
+bases are described in [Testkit](testkit.md).
 
 | Base class | Use when | Gives you |
 | --- | --- | --- |
@@ -164,8 +164,9 @@ public class IT5_Pages_Retrieve extends WithEmptyTestPage {
 - Upload files with `testkit.util.FileLoader.uploadFile(path, name, getSetupClient())`. Fixture
   files live under `src/testIntegration/resources/`.
 
-A deserialization failure on an unknown property is a model bug, not a flaky test — fix the model
-(or record it) rather than loosening the serializer.
+An unknown property in a live response does not fail the test unless `notion.tests.json.strict` is
+on. That is intentional: new backward-compatible Notion fields must not break the suite. Turn strict
+mode on only when you want this run to fail on unmodelled fields.
 
 ### Where prerequisites belong
 

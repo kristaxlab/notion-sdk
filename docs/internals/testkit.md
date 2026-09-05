@@ -9,16 +9,18 @@ editing the kit itself — class responsibilities, data shapes, and where a chan
 ## What the kit is for
 
 A run needs a disposable place in the caller's workspace to put pages, plus two `NotionClient`
-instances that fail on unknown JSON properties (so a live-API drift is a model bug). Tests must not
-construct that themselves.
+instances that record HTTP exchanges. Tests must not construct those themselves. The Notion Test
+Http Client (`getNotionClient()`, `@NotionTestClient`) matches production JSON defaults unless
+`notion.tests.json.strict` is on; the setup client is never strict. The Testing Guide owns that
+setting and the reason it is off.
 
 The kit therefore does three jobs:
 
 1. **Session** — once per JVM run, create a session page under a configured parent and discover any
    prefilled fixture pages the template copied in.
 2. **Per-test page** — inject either a discovered fixture page or a freshly created dedicated page.
-3. **Clients** — inject a recording client for the assertion and a second client whose exchanges
-   land under `test-logs/rqrs/setup`.
+3. **Clients** — inject a Notion Test Http Client and a second client whose exchanges land under
+   `test-logs/rqrs/setup`.
 
 ## Package map
 
@@ -26,7 +28,7 @@ The kit therefore does three jobs:
 testkit/                      test-facing bases (the only types a test should extend)
 testkit/ext/                  JUnit lifecycle + session + page resolution
 testkit/ext/client/           NotionClient parameter injection
-testkit/util/                 test-id parsing, URL formatting, file upload
+testkit/util/                 test-id parsing, URL formatting, file upload, config lookup
 testkit/test/                 kit unit tests (compiled here; see Gradle filter below)
 ```
 
@@ -132,9 +134,10 @@ fields here unless several tests need the same extra read.
 
 ### `TestSessionConfig`
 
-Resolved by `TestSessionConfig.from(ExtensionContext)` through `ConfigurationLookup` (env, then
-system property) and then JUnit platform parameters. Key spelling is normalized; the Testing Guide
-owns the setting list.
+Resolved by `TestSessionConfig.from(ExtensionContext)` through `TestConfigurationLookup` (env, then
+system property, then JUnit platform parameters). Key spelling is normalized; the Testing Guide
+owns the setting list. `notion.tests.json.strict` is not a session field — the client provisioner
+reads it separately.
 
 ```
 TestSessionConfig
@@ -191,7 +194,7 @@ sequenceDiagram
   BA->>J: put session-finalizer on root store
 
   J->>NC: resolve @NotionTestClient
-  NC-->>T: assertion client + setup client
+  NC-->>T: Notion Test Http Client + setup client
   J->>TP: resolve @TestPage
   TP->>TS: get()
   TP->>TP: fixture lookup or create dedicated page
@@ -233,13 +236,16 @@ The session page itself is never injected as the test page. Javadoc on `@TestPag
 
 ## Clients
 
-`NotionTestClientProvisioner` builds every client with `FAIL_ON_UNKNOWN_PROPERTIES` and
-`NOTION_TESTS_AUTH_TOKEN` via `ConfigurationLookup`. Instances are not cached — each resolution
-constructs a new `NotionClient`.
+`NotionTestClientProvisioner` builds every client with `NOTION_TESTS_AUTH_TOKEN` via
+`ConfigurationLookup`. The Notion Test Http Client (`@NotionTestClient`) turns on
+`FAIL_ON_UNKNOWN_PROPERTIES` only when `TestConfigurationLookup` resolves
+`notion.tests.json.strict` to `true`; unset and empty values are `false`. Setup and infra clients
+always pass `strictJson = false`, so provisioning cannot fail on an unmodelled field. Instances are
+not cached — each resolution constructs a new `NotionClient`.
 
 | Injection | Log directory | Use |
 | --- | --- | --- |
-| `@NotionTestClient` | `test-logs/rqrs/<test class simple name>` | The call under assertion |
+| `@NotionTestClient` | `test-logs/rqrs/<test class simple name>` | Notion Test Http Client |
 | `@NotionTestClient(forSetup = true)` | `test-logs/rqrs/setup` | Arrange-only calls |
 | `getInfraSetupClient()` | same setup directory | Session and page provisioners |
 
@@ -286,7 +292,10 @@ belongs on the annotation's `@ExtendWith` list, not in the base.
 ### Clients and utilities
 
 - **`@NotionTestClient` / `NotionTestClientProvisioner`** — `ParameterResolver` for
-  `NotionClient`. The annotation's javadoc is a leftover copy of `@TestPage` and is wrong.
+  `NotionClient`. Applies `notion.tests.json.strict` to the Notion Test Http Client only. The
+  annotation's javadoc is a leftover copy of `@TestPage` and is wrong.
+- **`TestConfigurationLookup`** — env / system property / JUnit parameter lookup used by
+  `TestSessionConfig` and the client provisioner.
 - **`NotionTestIdRetriever`** — display-name → test id. Covered by `testkit.test.NotionTestIdRetrieverTest`.
 - **`NotionPageUrlResolver`** — `baseUrl` + hyphen-stripped page id.
 - **`FileLoader`** — classpath resource → file upload via the setup client. Fixture files live under
@@ -303,7 +312,7 @@ belongs on the annotation's `@ExtendWith` list, not in the base.
 | Discover fixtures from a new place (second database, a data source block) | `FixturePagesDiscoverer` only. |
 | Share another rarely-changing id across tests | Field on `TestSession.Data`, populated in `TestSessionPageProvisioner`. Do not add one for a single test. |
 | Run work at the end of the suite | `TestSessionFinalizer.close()`. |
-| Add a configuration knob | Key on `TestSessionConfig` + default in `junit-platform.properties`. Document the setting in the Testing Guide, not here. |
+| Add a configuration knob | Read it through `TestConfigurationLookup`. Session-provisioning keys also belong on `TestSessionConfig`. Document the setting in the Testing Guide, not here. |
 | Start a session for tests that have no page | Register `TestSessionBeforeAll` on `@NotionTestClient` (or a dedicated annotation). Today only `@TestPage` starts the session. |
 | Change how a parent id is classified | `TestSessionPageProvisioner.resolveParent` / `resolveTemplate`. |
 | Change the test-id grammar | `NotionTestIdRetriever` and its tests; then the Testing Guide display-name rule. |
