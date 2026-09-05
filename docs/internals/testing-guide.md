@@ -1,6 +1,6 @@
 # Testing Guide
 
-The SDK uses JUnit 5 for unit and tests testing. Tests live in two Gradle source sets:
+The SDK uses JUnit 5 for unit and integration testing. Tests live in two Gradle source sets:
 
 | Category          | Source set        | Gradle task        | Runs by default | Purpose                                     |
 |-------------------|-------------------|--------------------|-----------------|---------------------------------------------|
@@ -21,17 +21,17 @@ Unit tests live under `src/test/java` and do not require any environment setup.
 
 Integration tests run against the live Notion API and require two things:
 
-1. **Test Session Parent Id** — the data source or database that holds the structures tests need
-(databases with specific properties, media content, and so on). Every run also adds a record to the
-Integration Tests Database there. Duplicate the workspace location into your own workspace from
-[this URL](https://sdk-integration.notion.site/Integration-tests-2f4cd6cf14068001ac57e261d1c18fda)
-and set its id in `src/testIntegration/resources/junit-platform.properties` as
-`notion.tests.session.parent.id` (the committed default lives there). The same value is also
-accepted as the environment variable `NOTION_TESTS_SESSION_PARENT_ID`, which overrides the
-properties file when both are set.
+1. **Test session parent id** — a data source or database the token can access, under which the
+suite creates a [test session page](../../CONTEXT.md). This is not a page id; the kit has no
+page-parent path. A published workspace you can duplicate is
+[this URL](https://sdk-integration.notion.site/Integration-tests-2f4cd6cf14068001ac57e261d1c18fda).
+After duplicating, set the data source or database id from your copy — not the landing page id in
+that URL. The committed default lives in `src/testIntegration/resources/junit-platform.properties`
+as `notion.tests.session.parent.id`. `NOTION_TESTS_SESSION_PARENT_ID` overrides it when both are
+set.
 2. **Auth token** — Notion auth token, create one at <https://www.notion.so/my-integrations>
-(the Test Session Parent Id should be accessible with this token). Auth token should be provided as
-an environment variable `NOTION_TESTS_AUTH_TOKEN`.
+(it must be able to access the test session parent id). Provide it as the environment variable
+`NOTION_TESTS_AUTH_TOKEN`.
 
 ### Environment Setup
 
@@ -45,20 +45,20 @@ cp .env.test.sample .env.test.local
 # .env.test.local  (git-ignored)
 NOTION_TESTS_AUTH_TOKEN=secret_xxx
 # optional — overrides notion.tests.session.parent.id from junit-platform.properties
-NOTION_TESTS_SESSION_PARENT_ID=<your-duplicated-page-id>
+NOTION_TESTS_SESSION_PARENT_ID=<data-source-or-database-id>
 ```
 
 The Gradle `testIntegration` task loads `.env.test` and `.env.test.local` automatically
 (later files override earlier ones). `.env.test.local` is listed in `.gitignore`
 so your token is never committed.
 
-Alternatively, export the variables directly. The Test Session Parent Id is optional for tests that
+Alternatively, export the variables directly. The test session parent id is optional for tests that
 do not create pages (users, most file uploads) and is otherwise taken from
 `junit-platform.properties` when unset:
 
 ```bash
 export NOTION_TESTS_AUTH_TOKEN=secret_xxx
-export NOTION_TESTS_SESSION_PARENT_ID=<your-duplicated-page-id>
+export NOTION_TESTS_SESSION_PARENT_ID=<data-source-or-database-id>
 ```
 
 ### Configuration reference
@@ -69,12 +69,12 @@ precedence. Key spelling is normalized, so `notion.tests.session.parent.id`,
 `NOTION_TESTS_SESSION_PARENT_ID` and `notionTestsSessionParentId` all resolve to the same setting.
 Defaults for the suite live in `src/testIntegration/resources/junit-platform.properties`.
 
-| Setting | Required | Purpose                                                                                                                                              |
-| --- | --- |------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `NOTION_TESTS_AUTH_TOKEN` | yes | Integration token; env var only                                                                                                                      |
-| `notion.tests.session.parent.id` | for tests that create pages | Test Session Parent Id — the data source or database the test session page is created under. Not required for tests that only need a client or `@SessionUserId`. Set in `junit-platform.properties`, or as `NOTION_TESTS_SESSION_PARENT_ID` (env var wins) |
-| `notion.tests.session.title` | no | Title given to the test session page |
-| `notion.tests.session.template.id` | no | Template used for the test session page |
+| Setting | Required | Purpose |
+| --- | --- | --- |
+| `NOTION_TESTS_AUTH_TOKEN` | yes | Integration token. Set the environment variable (`.env.test.local` is the usual place) |
+| `notion.tests.session.parent.id` | for tests that create pages | Test session parent id — the data source or database the test session page is created under. Not a page id. Not required for tests that only need a client or `@SessionUserId`. Set in `junit-platform.properties`, or as `NOTION_TESTS_SESSION_PARENT_ID` (env var wins) |
+| `notion.tests.session.title` | no | Title of the test session page (default `Integration tests session`) |
+| `notion.tests.session.template.id` | no | Template for the test session page. Unset or the literal `default`: a database parent uses the database default template; a data-source parent gets no explicit template. Any other value is a page id Notion duplicates into the parent |
 | `notion.tests.session.cleanup` | no | Moves the test session page to trash when the run finishes; off by default so failed runs stay inspectable |
 | `notion.links.base.url` | no | Base URL used when logging test page links (default `https://www.notion.so/`) |
 | `notion.tests.json.strict` | no | When `true`, the Notion Test Http Client fails on unknown JSON properties. Off by default so the suite reports whether the SDK still works against the live API, not whether every new Notion field is modelled |
@@ -84,7 +84,7 @@ concurrent writes make Notion return `409 Conflict`.
 
 ### Running Integration Tests
 
-The whole suite (`paid_plan` tests are excluded):
+The whole suite (`paid_plan` and `examples` tests are excluded):
 
 ```bash
 ./gradlew testIntegration
@@ -117,9 +117,9 @@ bases are described in [Testkit](testkit.md).
 
 | Base class | Use when | Gives you |
 | --- | --- | --- |
-| `BaseIntegrationTest` | the test needs no page of its own (users, most file uploads) | `getNotionClient()`; add `@SessionUserId` if you need the session user id |
-| `WithEmptyTestPage` | the test provisions its own content — most tests | `getTestPageId()` (`@NotionPageId`) |
-| `WithTestPageFixture` | the test needs a fixture page built by hand in the UI | `getTestPageId()` (`@FixtureNotionPageId`); tagged `fixture` |
+| `BaseIntegrationTest` | the test needs no page of its own (users, most file uploads) | `getNotionClient()`, `getSetupClient()`; add `@SessionUserId` if you need the session user id |
+| `WithEmptyTestPage` | the test provisions its own content — most tests | the two clients, plus `getTestPageId()` (`@NotionPageId`) |
+| `WithTestPageFixture` | the test needs a fixture page built by hand in the UI | the two clients, plus `getTestPageId()` (`@FixtureNotionPageId`); tagged `fixture` |
 
 Minimal example:
 
@@ -150,8 +150,9 @@ public class IT5_Pages_Retrieve extends WithEmptyTestPage {
 - Class name: `IT<id>_<Endpoint>_<Details>` (e.g. `IT1_Pages_CRUD`). With a placeholder id:
   `IT_Pages_RelationProperty`.
 - `@DisplayName` on the test method: `IT-<id>: <Endpoint> - <description>`. Placeholder:
-  `IT-?: Pages - Create and retrieve 'people' property`. The provisioner extracts the `IT-8` /
-  `IT-?` prefix from this display name to resolve a fixture page, so keep that prefix exact.
+  `IT-?: Pages - Create and retrieve 'people' property`. Both page provisioners extract the
+  `IT-8` / `IT-?` prefix from this display name — empty-page tests use it for logging, fixture
+  tests use it as the fixture-page key. A missing or invalid prefix fails the test.
 - Use `getNotionClient()` for the call the test is asserting. Use `getSetupClient()` for
   arrange-only calls (create a database, upload a cover) so their exchanges land in a separate
   log directory.
@@ -162,8 +163,9 @@ public class IT5_Pages_Retrieve extends WithEmptyTestPage {
   `WithTestPageFixture`), `advanced`, `long`.
 - Prefer the fluent builders the production API already exposes (`CreatePageParams`,
   `NotionSchema.schemaBuilder()`, `NotionProperties`).
-- Upload files with `testkit.util.FileLoader.uploadFile(path, name, getSetupClient())`. Fixture
-  files live under `src/testIntegration/resources/`.
+- Upload files with `testkit.util.FileLoader.uploadFile(path, name, getSetupClient())`. When the
+  test needs a `File` rather than an upload id, use `FileLoader.loadFileFailIfMissing(path, ...)`.
+  Fixture files live under `src/testIntegration/resources/files/`.
 
 An unknown property in a live response does not fail the test unless `notion.tests.json.strict` is
 on. That is intentional: new backward-compatible Notion fields must not break the suite. Turn strict
@@ -212,6 +214,7 @@ Look for the **Artifacts** section at the bottom of the workflow run summary pag
 ## See Also
 
 - [Installation](../../README.md#installation) — dependency setup and basics
+- [CONTEXT.md](../../CONTEXT.md) — binding vocabulary, including testkit terms
 - [Architecture](architecture.md) — understanding what to test
 - [Testkit](testkit.md) — responsibilities, data shapes and extension points of the integration testkit
 - [Exchange Recording](exchange-recording.md) — HTTP exchange files written during tests

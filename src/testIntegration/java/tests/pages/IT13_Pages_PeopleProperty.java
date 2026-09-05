@@ -39,7 +39,7 @@ public class IT13_Pages_PeopleProperty extends WithEmptyTestPage {
   }
 
   @Test
-  @DisplayName("IT-?: Pages - Create and retrieve 'people' property")
+  @DisplayName("IT-13: Pages - Create and retrieve 'people' property")
   public void testPaginatedPropertyRetrieve() {
 
     Page newPage =

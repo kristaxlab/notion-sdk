@@ -136,4 +136,4 @@ When you provide a custom `rawHttpClient`, the builder still wraps it:
 
 - [Create a client](../../README.md#create-a-client) -- `rawHttpClient()` builder option
 - [Interceptors](architecture.md#interceptors) -- the pipeline that wraps your transport
-- [Testing Guide](testing-guide.md) -- MockWebServer patterns
+- [Testing Guide](testing-guide.md) -- unit and integration test tasks

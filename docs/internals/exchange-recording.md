@@ -123,4 +123,4 @@ Write failures are logged at WARN level and never propagate -- exchange logging 
 ## See Also
 
 - [Interceptors](architecture.md#interceptors) -- where exchange logging sits in the pipeline
-- [Testing Guide](testing-guide.md) -- using exchange files as test fixtures
+- [Testing Guide](testing-guide.md) -- where the integration suite writes HTTP exchange files

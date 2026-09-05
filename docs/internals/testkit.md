@@ -36,7 +36,7 @@ testkit/test/                 kit unit tests (compiled here; see Gradle filter b
 ```
 
 `./gradlew testIntegration` includes only `tests.*`. Classes under `testkit.test` compile with the
-source set but are not executed by that task.
+source set but are not executed by that task — or by `test`. See Wiring gaps.
 
 ```mermaid
 flowchart TB
@@ -83,15 +83,16 @@ flowchart TB
 
 ## Workspace model
 
-The [Test Session Parent Id](../../CONTEXT.md) is the configured data source or database under
+The [test session parent id](../../CONTEXT.md) is the configured data source or database under
 which the test session page is created. `TestSessionPageProvisioner` resolves
 `notion.tests.session.parent.id` by retrieving it as a [data source](../../CONTEXT.md) first, then
 falling back to a [database](../../CONTEXT.md). There is no page-parent path.
 
-The [test session page](../../CONTEXT.md) is created under the Test Session Parent Id. If a
+The [test session page](../../CONTEXT.md) is created under the test session parent id. If a
 template id is set (and is not the literal `default`), Notion duplicates that page into the parent.
-If the parent is a database and no template id is set, the database's default template is used. A
-data-source parent with no template id creates a page without an explicit template.
+If the parent is a database and the template id is unset or `default`, the database's default
+template is used. A data-source parent with no template id, or with `default`, creates a page
+without an explicit template.
 
 Template content is applied asynchronously — see [Notion API constraints](notion-api-constraints.md).
 The provisioner polls with `TemplatePoller.awaitAnyBlocks` (15 s timeout, 500 ms interval) before
@@ -99,7 +100,7 @@ discovering fixture pages. Tests that only need a test page never wait for that.
 
 ```mermaid
 flowchart TB
-  P["Test Session Parent Id<br/>data source or database"]
+  P["Test session parent id<br/>data source or database"]
   TSP["Test session page"]
   CP["Fixture pages<br/>title = test id"]
   DB["First child_database only"]
@@ -115,7 +116,7 @@ flowchart TB
 
 | Object | Created by | Lifetime |
 | --- | --- | --- |
-| Test Session Parent Id | Hand-built in the workspace; id is configuration | Permanent |
+| Test session parent id | Hand-built in the workspace; id is configuration | Permanent |
 | Test session page | `ensureTestSessionPage` — first page prerequisite | The run; trashed only if cleanup is on |
 | Fixture page | Copied from the template (child page or database row) | Lives under the test session page |
 | Test page | `NotionPageIdProvisioner` for `@NotionPageId` | Lives under the test session page |
@@ -137,7 +138,7 @@ TestSession
 ### `TestSessionConfig`
 
 Resolved by `TestSessionConfig.from(ExtensionContext)` through `TestConfigurationLookup` when a
-**page** prerequisite starts — so a session-user-only test does not need a Test Session Parent Id.
+**page** prerequisite starts — so a session-user-only test does not need a test session parent id.
 Key spelling is
 normalized; the Testing Guide owns the setting list. `notion.tests.json.strict` and
 `notion.links.base.url` are not session-provisioning fields. Cleanup is read when the session
@@ -145,7 +146,7 @@ object is first created.
 
 ```
 TestSessionConfig
-  parentId        : String   Test Session Parent Id; required when a page prerequisite starts
+  parentId        : String   test session parent id; required when a page prerequisite starts
   templateId      : String?  null / "default" / a page id
   sessionTitle    : String?  test session page default: "Integration tests session"
   cleanupEnabled  : boolean  default false
@@ -196,16 +197,21 @@ sequenceDiagram
 
 `NotionPageIdProvisioner` and `FixturePageIdProvisioner` extract a test id from the method
 `@DisplayName` via `NotionTestIdRetriever` (`(?i)\bIT-(?:\d+|\?+)`, then uppercased). `IT-8`,
-`IT-?` and `IT-??` match; `IT-abc` does not. The Testing Guide owns the display-name convention.
+`IT-?` and `IT-??` match; `IT-abc` does not. A missing match throws `NotionWorkspaseException`.
+The Testing Guide owns the display-name convention.
 
 ```mermaid
 flowchart TD
-  A["@NotionPageId"] --> B["ensureTestSessionPage"]
-  B --> C["create test page"]
-  D["@FixtureNotionPageId"] --> E["ensureFixtures / test session page"]
-  E --> F{"map has test id?"}
-  F -->|yes| G["inject fixture page id"]
-  F -->|no| H["NotionWorkspaseException"]
+  A["@NotionPageId"] --> B{"test id in @DisplayName?"}
+  B -->|no| C["NotionWorkspaseException"]
+  B -->|yes| D["ensureTestSessionPage"]
+  D --> E["create test page titled @DisplayName"]
+  F["@FixtureNotionPageId"] --> G{"test id in @DisplayName?"}
+  G -->|no| C
+  G -->|yes| H["ensureFixtures / test session page"]
+  H --> I{"map has test id?"}
+  I -->|yes| J["inject fixture page id"]
+  I -->|no| C
 ```
 
 Discovery (`FixturePagesDiscoverer`) treats each page title as the test id. Every non-blank
@@ -272,8 +278,9 @@ belongs on the annotation's `@ExtendWith` list, not in the base.
   `TestSessionConfig` and the client provisioner.
 - **`NotionTestIdRetriever`** — display-name → test id. Covered by `testkit.test.NotionTestIdRetrieverTest`.
 - **`NotionPageUrlResolver`** — `notion.links.base.url` + hyphen-stripped page id.
-- **`FileLoader`** — classpath resource → file upload via the setup client. Fixture files live under
-  `src/testIntegration/resources/`.
+- **`FileLoader`** — classpath resource helpers. `uploadFile` sends the file through the setup
+  client and returns the upload id; `loadFileFailIfMissing` returns a `File`. Fixture files live
+  under `src/testIntegration/resources/files/`.
 - **`NotionWorkspaseException`** — unchecked failure for missing fixture / missing test id / missing
   config. The typo is the actual type name.
 
@@ -287,7 +294,7 @@ belongs on the annotation's `@ExtendWith` list, not in the base.
 | Share another rarely-changing id across tests | New annotation + provisioner that calls `TestSession.get(context)` and stores a singleton field. Tests must not call `TestSession`. |
 | Run work at the end of the suite | `TestSession.close()`. |
 | Add a configuration knob | Read it through `TestConfigurationLookup`. Session-provisioning keys also belong on `TestSessionConfig`. Document the setting in the Testing Guide, not here. |
-| Change how a Test Session Parent Id is classified | `TestSessionPageProvisioner.resolveParent` / `resolveTemplate`. |
+| Change how a test session parent id is classified | `TestSessionPageProvisioner.resolveParent` / `resolveTemplate`. |
 | Change the test-id grammar | `NotionTestIdRetriever` and its tests; then the Testing Guide display-name rule. |
 
 ## Wiring gaps
@@ -295,6 +302,9 @@ belongs on the annotation's `@ExtendWith` list, not in the base.
 These are unfinished or stale. Read them before assuming a hook already works.
 
 - **`PathSanitizer` is unused.** Exchange-log directories currently use the raw class simple name.
+- **`testkit.test` is never executed.** `NotionTestIdRetrieverTest` compiles in the
+  `testIntegration` source set but is excluded by the `tests.*` filter, and the unit `test` task
+  does not see that source set.
 
 ## See also
 
