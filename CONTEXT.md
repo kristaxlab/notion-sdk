@@ -4,8 +4,8 @@ Shared vocabulary for this project. Notion describes the same concept differentl
 endpoint, and several of the obvious words for these concepts are ambiguous or overloaded — this
 file fixes one term per concept so the ADRs, the cookbook and the javadoc stay consistent.
 
-The vocabulary below covers API-wide conventions and page properties; other areas are added as they
-get documented.
+The vocabulary below covers API-wide conventions, page properties, data sources and the Markdown
+endpoints; other areas are added as they get documented.
 
 ## Language
 
@@ -102,6 +102,40 @@ One element of the `results` array of a page property list, modelled by `ListedI
 list — one `RichText` run, one related page id, one user.
 _Avoid_: result item, property item, entry.
 
+### Data sources
+
+**Database**:
+The container Notion exposes as `/databases`. It holds no schema of its own; since API version
+`2025-09-03` it can host several data sources. It is the required parent when creating a data source.
+_Avoid_: table, collection.
+
+**Data source**:
+The schema-bearing entity inside a database, exposed as `/data_sources`. It owns the property schema
+and is the thing you query to get pages. Pages live in a data source, not directly in a database.
+_Avoid_: database (the two are distinct since `2025-09-03`), table, view.
+
+**Column**:
+One entry of a data source's property schema — the *definition* of a property, modelled by
+`DataSourcePropertySchema`. A property is the value that a page carries for a column.
+_Avoid_: property (that is the value on the page), field, schema property.
+
+### Markdown
+
+**Enhanced Markdown**:
+Notion-flavored Markdown covering all block types, including databases, embeds and advanced blocks.
+The dialect the Markdown endpoints read and write.
+_Avoid_: markdown (unqualified, when the Notion dialect specifically is meant), notion markdown.
+
+**Replace content mode**:
+The `updateAsMarkdown` mode that overwrites a page's entire content, sent as
+`type: "replace_content"`.
+_Avoid_: overwrite mode, full update.
+
+**Update content mode**:
+The `updateAsMarkdown` mode that applies a batch of targeted search-and-replace operations, sent as
+`type: "update_content"`. Mutually exclusive with replace content mode.
+_Avoid_: patch mode, partial update, edit mode.
+
 ### Endpoints
 
 **Page retrieve endpoint**:
@@ -134,4 +168,5 @@ _Avoid_: limit, batch size.
 ## Related documentation
 
 - [ADR 0001: Complex hierarchy and custom deserializers for page properties](docs/adr/0001-complex-hierarchy-and-deserialization-of-page-properties.md)
-- [Cookbook: Page properties and pagination](docs/cookbook/06-page-properties.md)
+- [Cookbook: Page properties and pagination](docs/cookbook/page-properties.md)
+- [Notion API constraints](docs/internals/notion-api-constraints.md) — rules the API enforces that the types cannot
