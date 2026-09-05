@@ -6,10 +6,7 @@ import org.slf4j.LoggerFactory;
 import testkit.util.TestConfigurationLookup;
 
 /**
- * Immutable configuration for a test session.
- *
- * <p>Encapsulates all parameters needed to provision a test session including parent container,
- * template, naming, and lifecycle settings.
+ * Immutable configuration for a test session: Test Session Parent Id, template, title, and cleanup.
  */
 public class TestSessionConfig {
 
@@ -34,14 +31,12 @@ public class TestSessionConfig {
   }
 
   /**
-   * Resolves session configuration from the JUnit extension context.
-   *
-   * <p>Reads configuration from environment variables, system properties, and JUnit properties in
-   * that order of precedence.
+   * Resolves session configuration through {@link TestConfigurationLookup}. Requires the Test
+   * Session Parent Id.
    *
    * @param context the JUnit extension context
    * @return resolved configuration
-   * @throws IllegalStateException if required configuration is missing
+   * @throws IllegalStateException if the Test Session Parent Id is missing
    */
   public static TestSessionConfig from(ExtensionContext context) {
     LOGGER.debug("Resolving session configuration from environment, system, and JUnit properties");
@@ -61,7 +56,7 @@ public class TestSessionConfig {
 
   /**
    * Whether the test session page should be moved to trash when the run ends. Safe to call without
-   * a parent id (identity layer).
+   * a Test Session Parent Id.
    */
   public static boolean cleanupEnabled(ExtensionContext context) {
     return TestConfigurationLookup.lookupBoolean(CLEANUP_ENABLED, context);

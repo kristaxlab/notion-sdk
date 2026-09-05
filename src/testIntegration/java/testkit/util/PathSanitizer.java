@@ -1,5 +1,6 @@
 package testkit.util;
 
+/** Converts a name into a filesystem-safe identifier. */
 public class PathSanitizer {
 
   /**

@@ -45,8 +45,9 @@ public class TestSessionPageProvisioner {
   }
 
   /**
-   * Creates the test session page under the Test Sessions Home. When the home is a database, Notion
-   * applies the default template unless a template id is configured.
+   * Creates the test session page under the Test Session Parent Id. Does not wait for template
+   * content. When the parent is a database, Notion applies the default template unless a template
+   * id is configured.
    *
    * @return the created page id
    */
@@ -84,7 +85,7 @@ public class TestSessionPageProvisioner {
   }
 
   /**
-   * Determines whether the Test Sessions Home id refers to a data source or database.
+   * Determines whether the Test Session Parent Id refers to a data source or database.
    *
    * <p>The Notion API has no single endpoint telling what kind of object an ID refers to, so we try
    * to retrieve it as a data source first, then fall back to database.

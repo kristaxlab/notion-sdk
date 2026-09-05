@@ -71,30 +71,27 @@ public class NotionTestClientProvisioner implements ParameterResolver {
   }
 
   /**
-   * Returns a {@link NotionClient} for internal integration tests that is configured to log HTTP
-   * exchanges to a separate directory no to confuse with logs related to the actual test execution.
+   * Returns the setup client used by provisioners. Logs under {@code test-logs/rqrs/setup} and
+   * never uses strict JSON.
    *
-   * <p>This client is intended for use in infrastructure setup tasks, such as provisioning a test
-   * session page.
-   *
-   * @return
+   * @return the setup client
    */
   public static NotionClient getInfraSetupClient() {
     return internalTestingClient(Path.of(BASE_LOGS_DIR, "setup"), "Notion Test Env Setup", false);
   }
 
   /**
-   * Creates a {@link NotionClient} for internal integration tests.
+   * Creates a {@link NotionClient} for integration tests.
    *
-   * <p>When {@code exchangeLogDir} is non-{@code null}, an {@link ExchangeRecordingInterceptor} is
-   * added to the HTTP pipeline and writes each request/response pair as a pretty-printed JSON file
-   * into the given directory. The directory is created automatically if it does not exist.
+   * <p>When {@code exchangeLogDir} is non-{@code null}, an {@link ExchangeRecordingInterceptor}
+   * writes each request/response pair as a JSON file into that directory.
    *
    * @param exchangeLogDir target directory for HTTP exchange files; {@code null} disables exchange
    *     logging
-   * @return a fully-wired {@link NotionClient} backed by the NOTION_TESTS_AUTH_TOKENtoken
-   * @throws IllegalStateException if the NOTION_TESTS_AUTH_TOKEN environment variable is absent or
-   *     blank
+   * @param clientName display name for the client
+   * @param strictJson when {@code true}, unknown JSON properties fail deserialization
+   * @return a {@link NotionClient} authenticated with {@code NOTION_TESTS_AUTH_TOKEN}
+   * @throws IllegalStateException if {@code NOTION_TESTS_AUTH_TOKEN} is absent or blank
    */
   public static NotionClient internalTestingClient(
       Path exchangeLogDir, String clientName, boolean strictJson) {

@@ -3,6 +3,7 @@ package testkit;
 import org.junit.jupiter.api.BeforeEach;
 import testkit.ext.NotionPageId;
 
+/** Injects a test page under the test session page via {@link NotionPageId}. */
 public abstract class WithEmptyTestPage extends BaseIntegrationTest {
 
   private String testPageId;

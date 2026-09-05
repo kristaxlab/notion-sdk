@@ -9,8 +9,8 @@ import java.lang.annotation.Target;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
- * Marks a {@link NotionClient} parameter that receives a client for the current test. Use {@link
- * #forSetup()} {@code true} for arrange-only calls.
+ * Marks a {@link NotionClient} parameter. Default is the Notion Test Http Client. Set {@link
+ * #forSetup()} to {@code true} for the setup client.
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)

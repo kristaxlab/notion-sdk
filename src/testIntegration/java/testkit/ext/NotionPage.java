@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import testkit.util.NotionPageUrlResolver;
 
+/** Logs the injected test page or fixture page URL when the test class store closes. */
 public class NotionPage implements ExtensionContext.Store.CloseableResource {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(NotionPage.class);
@@ -19,7 +20,7 @@ public class NotionPage implements ExtensionContext.Store.CloseableResource {
     this.notionBaseUrl = notionBaseUrl;
   }
 
-  /** Stores this page on the test class store so {@link #close()} logs its URL. */
+  /** Stores the page on the test class store so {@link #close()} logs its URL. */
   public static void register(ExtensionContext context, String testId, String pageId) {
     ExtensionContext.Namespace classNamespace =
         ExtensionContext.Namespace.create(context.getRequiredTestClass());

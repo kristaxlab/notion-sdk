@@ -21,17 +21,17 @@ Unit tests live under `src/test/java` and do not require any environment setup.
 
 Integration tests run against the live Notion API and require two things:
 
-1. **Test Sessions Home** — the workspace location that holds the structures tests need (databases
-with specific properties, media content, and so on). Every run also adds a record to the Integration
-Tests Database there. Duplicate it into your own workspace from
-[this URL](https://sdk-integration.notion.site/Integration-tests-2f4cd6cf14068001ac57e261d1c18fda).
-Its id is the test session parent id. Set it in
-`src/testIntegration/resources/junit-platform.properties` as `notion.tests.session.parent.id` (the
-committed default lives there). The same value is also accepted as the environment variable
-`NOTION_TESTS_SESSION_PARENT_ID`, which overrides the properties file when both are set.
+1. **Test Session Parent Id** — the data source or database that holds the structures tests need
+(databases with specific properties, media content, and so on). Every run also adds a record to the
+Integration Tests Database there. Duplicate the workspace location into your own workspace from
+[this URL](https://sdk-integration.notion.site/Integration-tests-2f4cd6cf14068001ac57e261d1c18fda)
+and set its id in `src/testIntegration/resources/junit-platform.properties` as
+`notion.tests.session.parent.id` (the committed default lives there). The same value is also
+accepted as the environment variable `NOTION_TESTS_SESSION_PARENT_ID`, which overrides the
+properties file when both are set.
 2. **Auth token** — Notion auth token, create one at <https://www.notion.so/my-integrations>
-(the Test Sessions Home should be accessible with this token). Auth token should be provided as an
-environment variable `NOTION_TESTS_AUTH_TOKEN`.
+(the Test Session Parent Id should be accessible with this token). Auth token should be provided as
+an environment variable `NOTION_TESTS_AUTH_TOKEN`.
 
 ### Environment Setup
 
@@ -52,7 +52,7 @@ The Gradle `testIntegration` task loads `.env.test` and `.env.test.local` automa
 (later files override earlier ones). `.env.test.local` is listed in `.gitignore`
 so your token is never committed.
 
-Alternatively, export the variables directly. The Test Sessions Home id is optional for tests that
+Alternatively, export the variables directly. The Test Session Parent Id is optional for tests that
 do not create pages (users, most file uploads) and is otherwise taken from
 `junit-platform.properties` when unset:
 
@@ -72,7 +72,7 @@ Defaults for the suite live in `src/testIntegration/resources/junit-platform.pro
 | Setting | Required | Purpose                                                                                                                                              |
 | --- | --- |------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `NOTION_TESTS_AUTH_TOKEN` | yes | Integration token; env var only                                                                                                                      |
-| `notion.tests.session.parent.id` | for tests that create pages | Test Sessions Home (test session parent) — the data source or database the test session page is created under. Not required for tests that only need a client or `@SessionUserId`. Set in `junit-platform.properties`, or as `NOTION_TESTS_SESSION_PARENT_ID` (env var wins) |
+| `notion.tests.session.parent.id` | for tests that create pages | Test Session Parent Id — the data source or database the test session page is created under. Not required for tests that only need a client or `@SessionUserId`. Set in `junit-platform.properties`, or as `NOTION_TESTS_SESSION_PARENT_ID` (env var wins) |
 | `notion.tests.session.title` | no | Title given to the test session page |
 | `notion.tests.session.template.id` | no | Template used for the test session page |
 | `notion.tests.session.cleanup` | no | Moves the test session page to trash when the run finishes; off by default so failed runs stay inspectable |

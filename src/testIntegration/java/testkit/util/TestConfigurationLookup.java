@@ -7,6 +7,9 @@ import org.junit.jupiter.api.extension.ExtensionContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Resolves a test setting from the environment, a system property, or a JUnit platform parameter.
+ */
 public class TestConfigurationLookup {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(TestConfigurationLookup.class);

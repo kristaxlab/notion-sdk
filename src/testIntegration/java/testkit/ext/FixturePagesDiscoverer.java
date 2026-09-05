@@ -19,8 +19,8 @@ import org.slf4j.LoggerFactory;
 /**
  * Discovers fixture pages within a test session page.
  *
- * <p>Fixture pages are prefilled pages added to the template, named after test ids (e.g. {@code
- * IT-123}). This class searches child pages and rows in the first child database.
+ * <p>Each fixture page's title is the test id (e.g. {@code IT-123}). This class searches child
+ * pages and rows in the first child database.
  */
 public class FixturePagesDiscoverer {
 
@@ -28,6 +28,9 @@ public class FixturePagesDiscoverer {
 
   private final NotionClient notionClient;
 
+  /**
+   * @param notionClient the setup client used to retrieve databases and query data sources
+   */
   public FixturePagesDiscoverer(NotionClient notionClient) {
     this.notionClient = notionClient;
   }
@@ -35,12 +38,8 @@ public class FixturePagesDiscoverer {
   /**
    * Discovers fixture pages within the test session page content.
    *
-   * <p>Searches for:
-   *
-   * <ul>
-   *   <li>Child pages named after test ids
-   *   <li>Database rows (if a database block exists) named after test ids
-   * </ul>
+   * <p>Each non-blank child-page title and each non-blank title of a row in the first {@code
+   * child_database} is supposed to equal the corresponding test id and becomes a map key.
    *
    * @param testSessionPageBlocks the blocks of the test session page
    * @return map of test ids to page ids
@@ -62,9 +61,7 @@ public class FixturePagesDiscoverer {
   }
 
   /**
-   * Finds child pages within the test session page blocks.
-   *
-   * <p>Child pages named after test ids (e.g. {@code IT-123}) are fixture pages for those tests.
+   * Finds child pages within the test session page blocks. Each child's title is the test id.
    *
    * @param blocks the test session page blocks
    * @return map of test ids to child page ids
@@ -96,12 +93,10 @@ public class FixturePagesDiscoverer {
   }
 
   /**
-   * Finds database pages (rows) that are named after test IDs.
+   * Finds rows in the first child database. Each row's title is the test id.
    *
-   * <p>Queries all pages in the database and includes those whose title matches a test ID pattern.
-   *
-   * @param databaseBlockId the ID of the database block
-   * @return map of test IDs to database page IDs
+   * @param databaseBlockId the id of the database block
+   * @return map of test ids to page ids
    */
   private Map<String, String> discoverDatabasePages(String databaseBlockId) {
     Map<String, String> databasePages = new HashMap<>();

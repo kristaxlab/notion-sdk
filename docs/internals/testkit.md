@@ -53,7 +53,7 @@ flowchart TB
   subgraph ext["testkit.ext"]
     TS["TestSession"]
     SUID["SessionUserIdProvisioner"]
-    TPP["NotionPagesProvisioner"]
+    TPP["NotionPageIdProvisioner"]
     FPP["FixturePageIdProvisioner"]
     SPP["TestSessionPageProvisioner"]
     FD["FixturePagesDiscoverer"]
@@ -83,15 +83,15 @@ flowchart TB
 
 ## Workspace model
 
-The [Test Sessions Home](../../CONTEXT.md) (also test session parent) is the configured location
-under which the test session page is created. `TestSessionPageProvisioner` resolves
+The [Test Session Parent Id](../../CONTEXT.md) is the configured data source or database under
+which the test session page is created. `TestSessionPageProvisioner` resolves
 `notion.tests.session.parent.id` by retrieving it as a [data source](../../CONTEXT.md) first, then
 falling back to a [database](../../CONTEXT.md). There is no page-parent path.
 
-The [test session page](../../CONTEXT.md) is created under the Test Sessions Home. If a template id
-is set (and is not the literal `default`), Notion duplicates that page into the home. If the home
-is a database and no template id is set, the database's default template is used. A data-source
-home with no template id creates a page without an explicit template.
+The [test session page](../../CONTEXT.md) is created under the Test Session Parent Id. If a
+template id is set (and is not the literal `default`), Notion duplicates that page into the parent.
+If the parent is a database and no template id is set, the database's default template is used. A
+data-source parent with no template id creates a page without an explicit template.
 
 Template content is applied asynchronously — see [Notion API constraints](notion-api-constraints.md).
 The provisioner polls with `TemplatePoller.awaitAnyBlocks` (15 s timeout, 500 ms interval) before
@@ -99,7 +99,7 @@ discovering fixture pages. Tests that only need a test page never wait for that.
 
 ```mermaid
 flowchart TB
-  P["Test Sessions Home<br/>data source or database"]
+  P["Test Session Parent Id<br/>data source or database"]
   TSP["Test session page"]
   CP["Fixture pages<br/>title = test id"]
   DB["First child_database only"]
@@ -115,7 +115,7 @@ flowchart TB
 
 | Object | Created by | Lifetime |
 | --- | --- | --- |
-| Test Sessions Home | Hand-built in the workspace; id is configuration | Permanent |
+| Test Session Parent Id | Hand-built in the workspace; id is configuration | Permanent |
 | Test session page | `ensureTestSessionPage` — first page prerequisite | The run; trashed only if cleanup is on |
 | Fixture page | Copied from the template (child page or database row) | Lives under the test session page |
 | Test page | `NotionPageIdProvisioner` for `@NotionPageId` | Lives under the test session page |
@@ -137,14 +137,15 @@ TestSession
 ### `TestSessionConfig`
 
 Resolved by `TestSessionConfig.from(ExtensionContext)` through `TestConfigurationLookup` when a
-**page** prerequisite starts — so a session-user-only test does not need a parent id. Key spelling is
+**page** prerequisite starts — so a session-user-only test does not need a Test Session Parent Id.
+Key spelling is
 normalized; the Testing Guide owns the setting list. `notion.tests.json.strict` and
 `notion.links.base.url` are not session-provisioning fields. Cleanup is read when the session
 object is first created.
 
 ```
 TestSessionConfig
-  parentId        : String   required when a page prerequisite starts
+  parentId        : String   Test Session Parent Id; required when a page prerequisite starts
   templateId      : String?  null / "default" / a page id
   sessionTitle    : String?  test session page default: "Integration tests session"
   cleanupEnabled  : boolean  default false
@@ -207,10 +208,10 @@ flowchart TD
   F -->|no| H["NotionWorkspaseException"]
 ```
 
-Discovery (`FixturePagesDiscoverer`) does **not** apply the `IT-*` regex. Every non-blank child-page
-title and every non-blank title of a row in the **first** `child_database` becomes a map key. A
-database row overwrites a child page with the same title. Titles must therefore be exactly the test
-id (`IT-8`), not `IT-8: Templates`.
+Discovery (`FixturePagesDiscoverer`) treats each page title as the test id. Every non-blank
+child-page title and every non-blank title of a row in the **first** `child_database` is a map
+key. A database row overwrites a child page with the same test id. Titles must therefore be exactly
+the test id (`IT-8`), not `IT-8: Templates`.
 
 There is an in-code TODO to drop standalone child-page fixtures once the API can express everything
 as a data source.
@@ -286,7 +287,7 @@ belongs on the annotation's `@ExtendWith` list, not in the base.
 | Share another rarely-changing id across tests | New annotation + provisioner that calls `TestSession.get(context)` and stores a singleton field. Tests must not call `TestSession`. |
 | Run work at the end of the suite | `TestSession.close()`. |
 | Add a configuration knob | Read it through `TestConfigurationLookup`. Session-provisioning keys also belong on `TestSessionConfig`. Document the setting in the Testing Guide, not here. |
-| Change how a parent id is classified | `TestSessionPageProvisioner.resolveParent` / `resolveTemplate`. |
+| Change how a Test Session Parent Id is classified | `TestSessionPageProvisioner.resolveParent` / `resolveTemplate`. |
 | Change the test-id grammar | `NotionTestIdRetriever` and its tests; then the Testing Guide display-name rule. |
 
 ## Wiring gaps

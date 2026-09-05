@@ -11,6 +11,11 @@ public class NotionPageUrlResolver {
   private static final String NOTION_LINKS_BASE_URL = "notion.links.base.url";
   private static final String DEFAULT_BASE_URL = "https://www.notion.so/";
 
+  /**
+   * @param baseUrl Notion web origin, with or without a trailing slash
+   * @param pageId hyphenated or compact page id
+   * @return an inspectable page URL
+   */
   public static String resolveNotionPageUrl(String baseUrl, String pageId) {
     if (baseUrl == null || baseUrl.trim().isEmpty()) {
       throw new IllegalArgumentException("baseUrl cannot be null or empty");
@@ -36,6 +41,7 @@ public class NotionPageUrlResolver {
     return baseUrl + pageId.replace("-", "");
   }
 
+  /** Resolves {@code notion.links.base.url}, defaulting to {@code https://www.notion.so/}. */
   public static String getNotionBaseUrl(ExtensionContext context) {
     return TestConfigurationLookup.lookup(NOTION_LINKS_BASE_URL, context).orElse(DEFAULT_BASE_URL);
   }

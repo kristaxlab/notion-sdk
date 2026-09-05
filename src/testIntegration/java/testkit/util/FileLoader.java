@@ -9,6 +9,7 @@ import io.kristaxlab.notion.model.file.FileUploadSendParams;
 import java.io.File;
 import java.net.URL;
 
+/** Uploads a classpath resource through the setup client. */
 public class FileLoader {
 
   public static String uploadFile(String filePath, String fileName, NotionClient client) {

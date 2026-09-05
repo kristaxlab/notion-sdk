@@ -42,8 +42,9 @@ public class TestSession implements ExtensionContext.Store.CloseableResource {
   }
 
   /**
-   * Returns the session for this run, creating it if needed. Safe to call from parallel
-   * provisioners — the root store's {@code getOrComputeIfAbsent} publishes one instance.
+   * Returns the session for this run, creating it if needed. For provisioners only. Safe to call
+   * from parallel provisioners — the root store's {@code getOrComputeIfAbsent} publishes one
+   * instance.
    */
   public static TestSession get(ExtensionContext context) {
     return context
@@ -73,7 +74,8 @@ public class TestSession implements ExtensionContext.Store.CloseableResource {
   }
 
   /**
-   * Creates the test session page on first use. Parent of test pages and fixture pages.
+   * Creates the test session page on first use. Does not wait for template content or discover
+   * fixture pages.
    *
    * @return the test session page id
    */
@@ -90,9 +92,10 @@ public class TestSession implements ExtensionContext.Store.CloseableResource {
   }
 
   /**
-   * Ensures the test session page and discovers fixture pages under it.
+   * Ensures the test session page, waits for template content, and discovers fixture pages under
+   * it.
    *
-   * @return the fixture map (test id → page id)
+   * @return test id → fixture page id
    */
   public synchronized Map<String, String> ensureFixtures(ExtensionContext context) {
     if (fixturesDiscovered) {
@@ -108,6 +111,7 @@ public class TestSession implements ExtensionContext.Store.CloseableResource {
     return fixturePages;
   }
 
+  /** Logs the test session page URL and, if cleanup is on, moves that page to trash. */
   @Override
   public void close() {
     logCompletion();

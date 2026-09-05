@@ -195,19 +195,16 @@ The `IT-*` identifier taken from `@DisplayName` (`IT-8`, `IT-?`). Fixture pages 
 value.
 _Avoid_: test name, display name (the display name may contain more than the id).
 
-**Test Sessions Home**:
-The hand-built workspace location contributors duplicate, under which the test session page is
-created. Configured as `notion.tests.session.parent.id`.
-Also: test session parent.
-_Avoid_: prerequisites page, test root.
-
-**Test session parent**:
-Synonym of Test Sessions Home.
+**Test session parent id**:
+The configured data source or database id under which the test session page is created. In code
+the identifier is `parentId` (`notion.tests.session.parent.id`).
+_Avoid_: Test Sessions Home, Test Session Home, test session parent (unqualified), prerequisites
+page, test root.
 
 **Test session page**:
-The page created for a run under the Test Sessions Home, under which test pages and fixture pages
-live. When the home is a database, its default template is applied. In code the identifier is
-`testSessionPage` (`testSessionPageId`, `ensureTestSessionPage`).
+The page created for a run under the test session parent id, under which test pages and fixture
+pages live. When the parent is a database, its default template is applied. In code the identifier
+is `testSessionPage` (`testSessionPageId`, `ensureTestSessionPage`).
 _Avoid_: scratch page, session page, fixtures page.
 
 **Fixture page**:

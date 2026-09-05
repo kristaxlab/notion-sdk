@@ -8,8 +8,8 @@ import testkit.ext.SessionUserId;
 import testkit.ext.client.NotionTestClient;
 
 /**
- * Provides the Notion Test Http Client and setup client. Page and session-user prerequisites are
- * injected by their own annotations ({@link NotionPageId}, {@link FixtureNotionPageId}, {@link
+ * Provides the Notion Test Http Client and the setup client. Page and session-user prerequisites
+ * are injected by their own annotations ({@link NotionPageId}, {@link FixtureNotionPageId}, {@link
  * SessionUserId}).
  */
 public abstract class BaseIntegrationTest {
@@ -17,7 +17,7 @@ public abstract class BaseIntegrationTest {
   private NotionClient notionEnvSetupClient;
   private NotionClient notionClient;
 
-  /** Initializes the tests test client */
+  /** Injects the Notion Test Http Client and the setup client. */
   @BeforeEach
   protected void beforeEach(
       @NotionTestClient NotionClient client,
@@ -27,15 +27,19 @@ public abstract class BaseIntegrationTest {
   }
 
   /**
-   * Returns the client configured for the current tests test. This client logs all the requests /
-   * responses
+   * Returns the Notion Test Http Client for the call the test is checking.
    *
-   * @return the initialized {@link NotionClient} instance
+   * @return the injected {@link NotionClient}
    */
   public NotionClient getNotionClient() {
     return notionClient;
   }
 
+  /**
+   * Returns the setup client for arrange-only calls.
+   *
+   * @return the injected setup {@link NotionClient}
+   */
   public NotionClient getSetupClient() {
     return notionEnvSetupClient;
   }

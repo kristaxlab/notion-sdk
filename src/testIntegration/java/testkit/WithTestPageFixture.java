@@ -4,6 +4,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import testkit.ext.FixtureNotionPageId;
 
+/**
+ * Injects the fixture page named after the test id via {@link FixtureNotionPageId}. Tagged {@code
+ * fixture}.
+ */
 @Tag("fixture")
 public abstract class WithTestPageFixture extends BaseIntegrationTest {
 

@@ -4,6 +4,7 @@ import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/** Extracts the test id ({@code IT-8}, {@code IT-?}) from a method {@code @DisplayName}. */
 public class NotionTestIdRetriever {
 
   public static Optional<String> retrieveTestId(String displayName) {
