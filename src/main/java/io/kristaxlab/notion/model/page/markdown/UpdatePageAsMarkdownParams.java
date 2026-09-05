@@ -67,6 +67,7 @@ public class UpdatePageAsMarkdownParams {
       ReplaceContent rc = new ReplaceContent();
       rc.setNewStr(newStr);
       rc.setAllowDeletingContent(false);
+      replaceContent = rc;
       return this;
     }
 
