@@ -22,3 +22,8 @@ When adding a REST area, follow [docs/internals/adding-an-endpoint.md](docs/inte
 ## Property types
 
 When adding a property type, follow [docs/internals/adding-a-property-type.md](docs/internals/adding-a-property-type.md).
+
+## Known API tokens
+
+When a Notion field has a limited set of values, follow
+[ADR 0002](docs/adr/0002-enums-for-known-api-tokens-stay-decoupled-from-models.md).

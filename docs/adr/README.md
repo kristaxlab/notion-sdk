@@ -5,5 +5,6 @@ Lightweight records of significant design choices in the Notion SDK. Each ADR ca
 | ADR | Title | Status |
 | --- | --- | --- |
 | [0001](0001-complex-hierarchy-and-deserialization-of-page-properties.md) | Separate `PagePropertyValue` from paginated property retrieve | Accepted |
+| [0002](0002-enums-for-known-api-tokens-stay-decoupled-from-models.md) | Enums for known API tokens stay decoupled from models | Accepted |
 
 When adding a new ADR, use the next sequential number and set status to `Proposed`, `Accepted`, or `Superseded`.

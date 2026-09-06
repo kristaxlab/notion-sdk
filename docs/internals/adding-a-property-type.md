@@ -29,7 +29,9 @@ Every property type needs a `PagePropertyValue` subclass, because the page retri
    }
    ```
 
-2. Add the constant to `PropertyType`.
+2. Add the constant to `PropertyType`. The model field stays a `String`; the enum is only the
+   catalogue of tokens the SDK can write. See
+   [ADR 0002](../adr/0002-enums-for-known-api-tokens-stay-decoupled-from-models.md).
 3. Register the subtype in the `@JsonSubTypes` list on `PagePropertyValue`, keeping the list alphabetical. Mark read-only types with a `// read-only` comment as the neighbouring entries do.
 
 If you skip registration, the value silently deserializes to `UnknownProperty` instead of failing — so always cover the new type with a test.

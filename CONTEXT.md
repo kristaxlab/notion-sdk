@@ -284,6 +284,7 @@ _Avoid_: infra client, env client.
 ## Related documentation
 
 - [ADR 0001: Complex hierarchy and custom deserializers for page properties](docs/adr/0001-complex-hierarchy-and-deserialization-of-page-properties.md)
+- [ADR 0002: Enums for known API tokens stay decoupled from models](docs/adr/0002-enums-for-known-api-tokens-stay-decoupled-from-models.md)
 - [Cookbook: Page properties and pagination](docs/cookbook/page-properties.md)
 - [Notion API constraints](docs/internals/notion-api-constraints.md) — rules the API enforces that the types cannot
 - [Testing Guide](docs/internals/testing-guide.md) — how to run the suite and write a test
