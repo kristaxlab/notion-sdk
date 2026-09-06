@@ -14,3 +14,11 @@ has been agreed.
 ## Javadoc
 
 When writing or changing Javadoc, follow [docs/internals/javadoc.md](docs/internals/javadoc.md).
+
+## Endpoints
+
+When adding a REST area, follow [docs/internals/adding-an-endpoint.md](docs/internals/adding-an-endpoint.md).
+
+## Property types
+
+When adding a property type, follow [docs/internals/adding-a-property-type.md](docs/internals/adding-a-property-type.md).

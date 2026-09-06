@@ -1,7 +1,7 @@
 # Notion SDK for Java - LLM Guide
 
 Typed Java SDK for the Notion API with:
-- endpoint-oriented client API (`pages`, `blocks`, `users`, `fileUploads`)
+- endpoint-oriented client API (`pages`, `blocks`, `users`, `fileUploads`, `comments`)
 - fluent DSL helpers for content creation (`NotionBlocks`, `NotionText`, `NotionProperties`)
 - typed exception mapping for all common Notion API error codes
 - configurable HTTP pipeline (auth/version/logging/exchange recording/custom transport)
@@ -29,6 +29,7 @@ NotionClient client = NotionClient.builder()
    - `client.blocks()`
    - `client.users()`
    - `client.fileUploads()`
+   - `client.comments()`
 
 2. Fluent DSL for writing content:
    - `io.kristaxlab.notion.fluent.NotionBlocks`
@@ -101,6 +102,17 @@ client.fileUploads().upload(
 );
 ```
 
+### Comments endpoint
+
+```java
+Comment created = client.comments().create(
+    CommentCreateParams.builder().inPage("page-id").richText("Hello").build());
+CommentList comments = client.comments().listComments("page-id");
+Comment loaded = client.comments().retrieve(created.getId());
+client.comments().update(loaded.getId(), CommentUpdateParams.builder().richText("Updated").build());
+client.comments().delete(loaded.getId());
+```
+
 ## Builder options
 
 | Option | Default | Purpose |
@@ -135,3 +147,5 @@ Cookbook:
 - `docs/cookbook/README.md` — table of contents for every recipe, grouped by task; the
   authoritative list. Cookbook filenames carry no ordering, so read the index rather than
   guessing paths.
+- `docs/cookbook/comments.md` — create, list, retrieve, update, and delete comments
+

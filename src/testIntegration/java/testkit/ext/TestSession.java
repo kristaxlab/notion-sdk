@@ -137,7 +137,7 @@ public class TestSession implements ExtensionContext.Store.CloseableResource {
     }
     LOGGER.info("Cleaning up: moving test session page {} to trash", pageId);
     try {
-      notionClient.pages().moveToTrash(pageId);
+      notionClient.pages().delete(pageId);
       LOGGER.info("Successfully deleted test session page {}", pageId);
     } catch (Exception e) {
       LOGGER.error("Failed to delete test session page {}: {}", pageId, e.getMessage(), e);

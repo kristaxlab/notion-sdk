@@ -85,4 +85,5 @@ A non-paginated type needs no prose changes. It is one more entry in a list the 
 
 - [ADR-0001](../adr/0001-complex-hierarchy-and-deserialization-of-page-properties.md) — why the hierarchy has three types
 - [Architecture](architecture.md#polymorphic-type-resolution) — the project-wide type-resolution convention
+- [Adding an endpoint](adding-an-endpoint.md) — when the new area is a REST resource, not a property type
 - [Page properties cookbook](../cookbook/page-properties.md) — the client-facing view

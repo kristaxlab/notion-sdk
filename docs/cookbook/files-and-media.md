@@ -86,5 +86,6 @@ FileUpload imported = client.fileUploads().create(
 
 - [Structured layouts](structured-layouts.md)
 - [Updating pages](updating-pages.md)
+- [Comments](comments.md)
 - [End-to-end recipes](end-to-end-recipes.md)
 - [Back to README](../../README.md#cookbook)

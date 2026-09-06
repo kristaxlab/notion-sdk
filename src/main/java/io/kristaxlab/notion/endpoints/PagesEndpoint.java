@@ -115,7 +115,7 @@ public interface PagesEndpoint {
    * @param pageId page identifier
    * @return archived page
    */
-  Page moveToTrash(String pageId);
+  Page delete(String pageId);
 
   /**
    * Restores the page from trash.

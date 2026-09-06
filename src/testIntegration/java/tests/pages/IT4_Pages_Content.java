@@ -42,7 +42,7 @@ public class IT4_Pages_Content extends WithEmptyTestPage {
     assertEquals("paragraph", afterAppend.getResults().get(2).getType());
     assertEquals("bulleted_list_item", afterAppend.getResults().get(3).getType());
 
-    getNotionClient().blocks().moveToTrash(afterAppend.getResults().get(1).getId());
+    getNotionClient().blocks().delete(afterAppend.getResults().get(1).getId());
 
     BlockList afterDelete = getNotionClient().blocks().retrieveChildren(created.getId());
     assertEquals(3, afterDelete.getResults().size());

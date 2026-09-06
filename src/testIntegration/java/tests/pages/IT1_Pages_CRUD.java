@@ -75,7 +75,7 @@ public class IT1_Pages_CRUD extends WithEmptyTestPage {
     assertEquals("🟢", updated.getIcon().getEmoji(), "Icon emoji should match");
 
     // Step 4 = Move page to trash
-    Page deleted = getNotionClient().pages().moveToTrash(updated.getId());
+    Page deleted = getNotionClient().pages().delete(updated.getId());
     assertTrue(deleted.getInTrash(), "Page should be deleted");
 
     // Step 5 = Restore a page

@@ -7,6 +7,7 @@ This document describes the Notion SDK's internal architecture, package structur
 ```
 io.kristaxlab.notion
 ├── auth/        # Authentication providers and interceptors
+├── endpoints/   # Public API interfaces and BaseEndpointImpl wrappers
 ├── http/        # Notion-specific HTTP layer and reusable HTTP infrastructure
 ├── model/       # Notion object models (blocks, pages, users, etc.)
 ```
@@ -204,6 +205,8 @@ Add a custom deserializer only when the discriminator is not a top-level field. 
 ## See Also
 
 - [Architecture Decision Records](../adr/README.md) — rationale for model choices (e.g. page property vs paginated retrieve)
+- [Adding an endpoint](adding-an-endpoint.md) — runbook for a new REST area
+- [Adding a page property type](adding-a-property-type.md) — every registration point for a new property type
 - [Installation](../../README.md#installation) -- dependency setup
 - [Testing Guide](testing-guide.md) -- how to run the suite and write a test
 - [Testkit](testkit.md) -- integration testkit internals

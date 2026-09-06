@@ -27,6 +27,7 @@ sense without renaming anything. See the
 | [Page properties and pagination](page-properties.md) | Reading property values and paging through paginated properties |
 | [Updating pages](updating-pages.md) | Title, icon, cover, lock, move, archive, Markdown updates |
 | [Updating blocks](updating-blocks.md) | Editing, deleting and restoring blocks |
+| [Comments](comments.md) | Create, list, retrieve, update and delete comments on pages and blocks |
 
 ## Files and workflows
 
