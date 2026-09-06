@@ -16,7 +16,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import testkit.WithEmptyTestPage;
 
-public class IT59_Blocks_LinksAndMedia extends WithEmptyTestPage {
+public class IT20_Blocks_LinksAndMedia extends WithEmptyTestPage {
 
   private static final String BOOKMARK_URL = "https://www.notion.so";
   private static final String CAPTIONED_BOOKMARK_URL = "https://github.com/kristaxlab/notion-sdk";
@@ -43,7 +43,7 @@ public class IT59_Blocks_LinksAndMedia extends WithEmptyTestPage {
   }
 
   @Test
-  @DisplayName("IT-59: Blocks - Append links and media block types")
+  @DisplayName("IT-20: Blocks - Append links and media block types")
   public void testAppendLinksAndMediaBlocks() {
     List<Block> linksAndMedia =
         blocksBuilder()

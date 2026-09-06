@@ -16,13 +16,13 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import testkit.WithEmptyTestPage;
 
-public class IT60_Blocks_SyncedBlocks extends WithEmptyTestPage {
+public class IT21_Blocks_SyncedBlocks extends WithEmptyTestPage {
 
   private static final List<String> ORIGINAL_CONTENT =
       List.of("This is the original synced block content.", "Original item 1", "Original item 2");
 
   @Test
-  @DisplayName("IT-60: Blocks - Append synced blocks")
+  @DisplayName("IT-21: Blocks - Append synced blocks")
   public void testAppendSyncedBlocks() {
     // 1. Append the original synced block - the one that owns the content
     SyncedBlock original =

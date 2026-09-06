@@ -16,10 +16,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import testkit.WithEmptyTestPage;
 
-public class IT42_Blocks_TextualBlocks extends WithEmptyTestPage {
+public class IT17_Blocks_TextualBlocks extends WithEmptyTestPage {
 
   @Test
-  @DisplayName("IT-42: Blocks - Append textual block types")
+  @DisplayName("IT-17: Blocks - Append textual block types")
   public void testAppendTextualBlocks() {
     List<Block> blocks =
         blocksBuilder()

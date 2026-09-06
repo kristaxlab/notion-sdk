@@ -13,10 +13,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import testkit.WithEmptyTestPage;
 
-public class IT29_Blocks_NestedBulletList extends WithEmptyTestPage {
+public class IT14_Blocks_NestedBulletList extends WithEmptyTestPage {
 
   @Test
-  @DisplayName("IT-29: Blocks - Create empty Paragraph block with nested bullet list")
+  @DisplayName("IT-14: Blocks - Create empty Paragraph block with nested bullet list")
   public void testEmptyParagraphWithNestedBulletList() {
     // 1. Create an empty paragraph block carrying a nested bulleted list
     ParagraphBlock paragraphWithBullets =

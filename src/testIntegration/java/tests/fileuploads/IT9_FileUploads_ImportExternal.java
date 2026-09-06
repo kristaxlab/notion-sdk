@@ -10,7 +10,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import testkit.BaseIntegrationTest;
 
-public class IT19_FileUploads_ImportExternal extends BaseIntegrationTest {
+public class IT9_FileUploads_ImportExternal extends BaseIntegrationTest {
 
   private static final String FILENAME = "spring.svg";
   private static final String EXTERNAL_URL =
@@ -18,7 +18,7 @@ public class IT19_FileUploads_ImportExternal extends BaseIntegrationTest {
   private static final String EXPECTED_CONTENT_TYPE = "image/svg+xml";
 
   @Test
-  @DisplayName("IT-19: File Uploads - Import external file")
+  @DisplayName("IT-9: File Uploads - Import external file")
   public void testImportExternalFile() {
     // 1. Ask Notion to pull the file from an external URL
     FileUpload created =

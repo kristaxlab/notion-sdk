@@ -14,13 +14,13 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import testkit.WithEmptyTestPage;
 
-public class IT58_Blocks_TableBlocks extends WithEmptyTestPage {
+public class IT19_Blocks_TableBlocks extends WithEmptyTestPage {
 
   private static final List<String> HEADER_ROW = List.of("Mon", "Tue", "Wed", "Thu", "Fri");
   private static final List<String> DATA_ROW = List.of("gym", "run", "bike", "gym", "run");
 
   @Test
-  @DisplayName("IT-58: Blocks - Append table block types")
+  @DisplayName("IT-19: Blocks - Append table block types")
   public void testAppendTableBlock() {
     TableBlock table =
         TableBlock.builder()

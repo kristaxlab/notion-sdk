@@ -23,7 +23,7 @@ import testkit.util.FileLoader;
  * plan to run.
  */
 @Tag("paid_plan")
-public class IT20_FileUploads_MultiPart extends BaseIntegrationTest {
+public class IT10_FileUploads_MultiPart extends BaseIntegrationTest {
 
   private static final String VIDEO_PATH = "files/video_sakura_18mb.MOV";
   private static final String UPLOADED_FILENAME = "it-20-video_18mb.MOV";
@@ -45,7 +45,7 @@ public class IT20_FileUploads_MultiPart extends BaseIntegrationTest {
   }
 
   @Test
-  @DisplayName("IT-20: File Uploads - Upload a multi-part file")
+  @DisplayName("IT-10: File Uploads - Upload a multi-part file")
   public void testUploadMultiPartFile() {
     // 1. Create the multi-part upload announcing how many parts will follow
     FileUpload created =

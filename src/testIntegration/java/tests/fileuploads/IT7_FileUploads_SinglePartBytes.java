@@ -14,10 +14,10 @@ import org.junit.jupiter.api.Test;
 import testkit.BaseIntegrationTest;
 import testkit.util.FileLoader;
 
-public class IT18_FileUploads_SinglePartBytes extends BaseIntegrationTest {
+public class IT7_FileUploads_SinglePartBytes extends BaseIntegrationTest {
 
   private static final String IMAGE_PATH = "files/image_357kb.jpg";
-  private static final String UPLOADED_FILENAME = "it-18-image.jpg";
+  private static final String UPLOADED_FILENAME = "it-7-image.jpg";
 
   private byte[] imageContent;
 
@@ -29,7 +29,7 @@ public class IT18_FileUploads_SinglePartBytes extends BaseIntegrationTest {
   }
 
   @Test
-  @DisplayName("IT-18: File Uploads - Upload a single-part file as byte array")
+  @DisplayName("IT-7: File Uploads - Upload a single-part file as byte array")
   public void testUploadSinglePartAsBytes() {
     // 1. Create the file upload
     FileUpload created =

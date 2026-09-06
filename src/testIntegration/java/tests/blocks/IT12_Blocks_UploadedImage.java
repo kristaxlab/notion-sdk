@@ -17,7 +17,7 @@ import org.junit.jupiter.api.Test;
 import testkit.WithEmptyTestPage;
 import testkit.util.FileLoader;
 
-public class IT23_Blocks_UploadedImage extends WithEmptyTestPage {
+public class IT12_Blocks_UploadedImage extends WithEmptyTestPage {
 
   private static final String IMAGE_PATH = "files/it-23/image.jpg";
   private static final String IMAGE_NAME = "image.jpg";
@@ -31,7 +31,7 @@ public class IT23_Blocks_UploadedImage extends WithEmptyTestPage {
   }
 
   @Test
-  @DisplayName("IT-23: Blocks - Insert an uploaded file as an image")
+  @DisplayName("IT-12: Blocks - Insert an uploaded file as an image")
   public void testInsertUploadedFileAsImage() {
     ImageBlock imageBlock =
         NotionBlocks.image(image -> image.fileUpload(fileUploadId).caption(CAPTION));

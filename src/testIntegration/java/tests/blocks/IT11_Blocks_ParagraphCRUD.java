@@ -15,10 +15,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import testkit.WithEmptyTestPage;
 
-public class IT22_Blocks_ParagraphCRUD extends WithEmptyTestPage {
+public class IT11_Blocks_ParagraphCRUD extends WithEmptyTestPage {
 
   @Test
-  @DisplayName("IT-22: Blocks - Creation / update / retrieval for a paragraph block")
+  @DisplayName("IT-11: Blocks - Creation / update / retrieval for a paragraph block")
   public void testParagraphCreateUpdateRetrieve() {
     // 1. Create a paragraph block
     BlockList created =

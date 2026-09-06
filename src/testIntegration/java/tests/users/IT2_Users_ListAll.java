@@ -12,10 +12,10 @@ import org.junit.jupiter.api.Test;
 import testkit.BaseIntegrationTest;
 import testkit.ext.SessionUserId;
 
-public class IT32_Users_ListAll extends BaseIntegrationTest {
+public class IT2_Users_ListAll extends BaseIntegrationTest {
 
   @Test
-  @DisplayName("IT-32: Users - Retrieve all users list")
+  @DisplayName("IT-2: Users - Retrieve all users list")
   public void testListAllUsers(@SessionUserId String sessionUserId) {
 
     UserList users = getNotionClient().users().listUsers();

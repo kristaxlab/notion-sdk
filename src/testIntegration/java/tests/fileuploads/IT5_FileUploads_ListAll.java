@@ -12,10 +12,10 @@ import org.junit.jupiter.api.Test;
 import testkit.BaseIntegrationTest;
 import testkit.util.FileLoader;
 
-public class IT16_FileUploads_ListAll extends BaseIntegrationTest {
+public class IT5_FileUploads_ListAll extends BaseIntegrationTest {
 
   private static final String IMAGE_PATH = "files/image_357kb.jpg";
-  private static final String UPLOADED_FILENAME = "it-16-image.jpg";
+  private static final String UPLOADED_FILENAME = "it-5-image.jpg";
 
   private String uploadedFileId;
 
@@ -26,7 +26,7 @@ public class IT16_FileUploads_ListAll extends BaseIntegrationTest {
   }
 
   @Test
-  @DisplayName("IT-16: File Uploads - List all file uploads")
+  @DisplayName("IT-5: File Uploads - List all file uploads")
   public void testListAllFileUploads() {
     FileUploadList uploads = getNotionClient().fileUploads().listFileUploads();
 

@@ -16,7 +16,7 @@ import org.junit.jupiter.api.Test;
 import testkit.BaseIntegrationTest;
 import testkit.util.FileLoader;
 
-public class IT15_FileUploads_SinglePartStream extends BaseIntegrationTest {
+public class IT4_FileUploads_SinglePartStream extends BaseIntegrationTest {
 
   private static final String IMAGE_PATH = "files/image_357kb.jpg";
   private static final String UPLOADED_FILENAME = "it-15-image.jpg";
@@ -29,7 +29,7 @@ public class IT15_FileUploads_SinglePartStream extends BaseIntegrationTest {
   }
 
   @Test
-  @DisplayName("IT-15: File Uploads - Upload a single-part file as input stream")
+  @DisplayName("IT-4: File Uploads - Upload a single-part file as input stream")
   public void testUploadSinglePartAsStream() throws IOException {
     // 1. Create the file upload
     FileUpload created =

@@ -14,10 +14,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import testkit.WithEmptyTestPage;
 
-public class IT61_Blocks_OtherBlocks extends WithEmptyTestPage {
+public class IT22_Blocks_OtherBlocks extends WithEmptyTestPage {
 
   @Test
-  @DisplayName("IT-61: Blocks - Append other block types (not included in IT-42, 57, 58, 59, 60)")
+  @DisplayName("IT-22: Blocks - Append other block types (not included in IT-17-21)")
   public void testAppendOtherBlocks() {
     List<Block> other =
         blocksBuilder()

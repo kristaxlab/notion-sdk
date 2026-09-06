@@ -15,10 +15,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import testkit.WithEmptyTestPage;
 
-public class IT57_Blocks_HeadingBlocks extends WithEmptyTestPage {
+public class IT18_Blocks_HeadingBlocks extends WithEmptyTestPage {
 
   @Test
-  @DisplayName("IT-57: Blocks - Append heading block types")
+  @DisplayName("IT-18: Blocks - Append heading block types")
   public void testAppendHeadingBlocks() {
     List<Block> headings =
         blocksBuilder()

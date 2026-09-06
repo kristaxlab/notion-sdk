@@ -11,13 +11,13 @@ import org.junit.jupiter.api.Test;
 import testkit.BaseIntegrationTest;
 import testkit.util.FileLoader;
 
-public class IT17_FileUploads_ListExpired extends BaseIntegrationTest {
+public class IT6_FileUploads_ListExpired extends BaseIntegrationTest {
 
   private static final String EXPIRED = "expired";
   private static final String UPLOADED = "uploaded";
 
   private static final String IMAGE_PATH = "files/image_357kb.jpg";
-  private static final String UPLOADED_FILENAME = "it-17-image.jpg";
+  private static final String UPLOADED_FILENAME = "it-6-image.jpg";
 
   /** A completed upload gives the filter something it must not return. */
   private String uploadedFileId;
@@ -28,7 +28,7 @@ public class IT17_FileUploads_ListExpired extends BaseIntegrationTest {
   }
 
   @Test
-  @DisplayName("IT-17: File Uploads - List all expired file uploads")
+  @DisplayName("IT-6: File Uploads - List all expired file uploads")
   public void testListExpiredFileUploads() {
     FileUploadList expired = getNotionClient().fileUploads().listFileUploads(EXPIRED);
 

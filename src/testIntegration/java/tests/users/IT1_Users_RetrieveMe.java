@@ -9,10 +9,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import testkit.BaseIntegrationTest;
 
-public class IT25_Users_RetrieveMe extends BaseIntegrationTest {
+public class IT1_Users_RetrieveMe extends BaseIntegrationTest {
 
   @Test
-  @DisplayName("IT-25: Users - Retrieve me, then retrieve me by id")
+  @DisplayName("IT-1: Users - Retrieve me, then retrieve me by id")
   public void testRetrieveMeAndThenById() {
     // 1. Retrieve the user behind the token the client authenticates with
     User me = getNotionClient().users().me();

@@ -13,10 +13,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import testkit.WithEmptyTestPage;
 
-public class IT26_Blocks_SeveralBlocksAtOnce extends WithEmptyTestPage {
+public class IT13_Blocks_SeveralBlocksAtOnce extends WithEmptyTestPage {
 
   @Test
-  @DisplayName("IT-26: Blocks - Create several blocks at once")
+  @DisplayName("IT-13: Blocks - Create several blocks at once")
   public void testCreateSeveralBlocksAtOnce() {
     List<Block> blocks =
         blocksBuilder()

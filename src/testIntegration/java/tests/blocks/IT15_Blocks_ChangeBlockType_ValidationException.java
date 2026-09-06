@@ -14,10 +14,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import testkit.WithEmptyTestPage;
 
-public class IT30_Blocks_ChangeBlockType extends WithEmptyTestPage {
+public class IT15_Blocks_ChangeBlockType_ValidationException extends WithEmptyTestPage {
 
   @Test
-  @DisplayName("IT-30: Blocks - Change block type (should be validation error)")
+  @DisplayName("IT-15: Blocks - Change block type (should be validation error)")
   public void testTypeChangeIsRejected() {
     // 1. Create a paragraph block
     BlockList created =

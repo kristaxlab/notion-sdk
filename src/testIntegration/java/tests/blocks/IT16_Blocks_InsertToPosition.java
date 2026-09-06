@@ -13,10 +13,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import testkit.WithEmptyTestPage;
 
-public class IT31_Blocks_InsertToPosition extends WithEmptyTestPage {
+public class IT16_Blocks_InsertToPosition extends WithEmptyTestPage {
 
   @Test
-  @DisplayName("IT-31: Blocks - Insert blocks into a specific position")
+  @DisplayName("IT-16: Blocks - Insert blocks into a specific position")
   public void testInsertBlocksToPosition() {
     // 1. Create two text blocks
     BlockList initial =

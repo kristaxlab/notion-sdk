@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 import testkit.BaseIntegrationTest;
 import testkit.util.FileLoader;
 
-public class IT14_FileUploads_SinglePartFile extends BaseIntegrationTest {
+public class IT3_FileUploads_SinglePartFile extends BaseIntegrationTest {
 
   private static final String IMAGE_PATH = "files/image_357kb.jpg";
   private static final String UPLOADED_FILENAME = "it-14-image.jpg";
@@ -27,7 +27,7 @@ public class IT14_FileUploads_SinglePartFile extends BaseIntegrationTest {
   }
 
   @Test
-  @DisplayName("IT-14: File Uploads - Upload a single-part file")
+  @DisplayName("IT-3: File Uploads - Upload a single-part file")
   public void testUploadSinglePartFile() {
     // 1. Create the file upload - Notion derives the content type from the file name
     FileUpload created =
