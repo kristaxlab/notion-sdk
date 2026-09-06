@@ -74,7 +74,7 @@ public class JacksonSerializer implements JsonSerializer {
     return mapper;
   }
 
-  private static ObjectMapper defaultMapper() {
+  public static ObjectMapper defaultMapper() {
     ObjectMapper mapper = new ObjectMapper();
     mapper.setPropertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE);
     mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);

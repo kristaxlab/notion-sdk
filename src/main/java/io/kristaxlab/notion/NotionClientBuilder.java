@@ -5,7 +5,6 @@ import io.kristaxlab.notion.auth.NotionAuthInterceptor;
 import io.kristaxlab.notion.http.NotionHttpClient;
 import io.kristaxlab.notion.http.NotionHttpClientImpl;
 import io.kristaxlab.notion.http.NotionVersionInterceptor;
-import io.kristaxlab.notion.http.base.client.*;
 import io.kristaxlab.notion.http.base.client.ErrorHandlingHttpClient;
 import io.kristaxlab.notion.http.base.client.HttpClient;
 import io.kristaxlab.notion.http.base.client.InterceptingHttpClient;
@@ -31,10 +30,12 @@ public class NotionClientBuilder {
 
   private static final String DEFAULT_VERSION = "2026-03-11";
   private static final String DEFAULT_BASE_URL = "https://api.notion.com/v1";
+  private static final String DEFAULT_CLIENT_ID = "Notion Client";
 
   private String authToken;
   private String version = DEFAULT_VERSION;
   private String baseUrl = DEFAULT_BASE_URL;
+  private String clientName = DEFAULT_CLIENT_ID;
 
   private HttpClient rawHttpClient;
 
@@ -50,6 +51,11 @@ public class NotionClientBuilder {
 
   public NotionClientBuilder jsonSerializer(JsonSerializer jsonSerializer) {
     this.jsonSerializer = jsonSerializer;
+    return this;
+  }
+
+  public NotionClientBuilder clientName(String clientName) {
+    this.clientName = clientName;
     return this;
   }
 
@@ -138,7 +144,7 @@ public class NotionClientBuilder {
       interceptors.add(
           new ExchangeRecordingInterceptor(exchangeRecordsPath, JacksonSerializer.pretty()));
     }
-    interceptors.add(new LoggingHttpInterceptor("Notion"));
+    interceptors.add(new LoggingHttpInterceptor(clientName));
     return interceptors;
   }
 

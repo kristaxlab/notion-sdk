@@ -90,26 +90,26 @@ DEBUG for any of the following packages:
 
 ## Cookbook
 
-Examples of common tasks and patterns, organized by operation:
+Task-oriented recipes for creating, reading and updating Notion content, from page creation and the
+fluent block DSL through property pagination, file uploads and end-to-end workflows.
 
-### Creating content
+**→ [Browse the cookbook](docs/cookbook/README.md)**
 
-- [Creating pages](docs/cookbook/01-creating-pages.md)
-- [Adding blocks](docs/cookbook/02-adding-blocks.md)
-- [Rich text and inline formatting](docs/cookbook/03-rich-text.md)
-- [Structured layouts (columns, tables, callouts)](docs/cookbook/04-structured-layouts.md)
+## Documentation
 
-### Reading and updating
-
-- [Reading page content](docs/cookbook/05-reading-content.md)
-- [Updating pages](docs/cookbook/06-updating-pages.md)
-- [Updating blocks](docs/cookbook/07-updating-blocks.md)
-
-### Files and workflows
-
-- [Files and media uploads](docs/cookbook/08-files-and-media.md)
-- [End-to-end recipes](docs/cookbook/09-end-to-end-recipes.md)
+| Document | What it covers |
+| --- | --- |
+| [Cookbook](docs/cookbook/README.md) | Task-oriented recipes with runnable examples |
+| [CONTEXT.md](CONTEXT.md) | Glossary — the terminology used across all docs and Javadoc |
+| [Authentication](docs/authentication.md) | Token providers and auth configuration |
+| [Error handling](docs/error-handling.md) | Full exception hierarchy and retry guidance |
+| [Architecture decisions](docs/adr/README.md) | Why the models look the way they do |
+| [Internals](docs/internals/architecture.md) | HTTP pipeline, interceptors, testing, releases — for contributors |
+| [Javadoc conventions](docs/internals/javadoc.md) | How to write Javadoc in this repository |
+| [Documentation guide](docs/internals/documentation-guide.md) | Where each kind of knowledge belongs, and how docs are maintained |
 
 ## License
 
-The MIT License
+[PolyForm Shield License 1.0.0](https://polyformproject.org/licenses/shield/1.0.0/)
+
+You may use this SDK freely for any purpose — including in commercial applications — except to provide a product that competes with this SDK itself. See [LICENSE](LICENSE) for the full terms.

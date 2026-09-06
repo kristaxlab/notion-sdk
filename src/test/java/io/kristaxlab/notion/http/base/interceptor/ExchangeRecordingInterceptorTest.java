@@ -5,10 +5,10 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import io.kristaxlab.notion.StrictJsonSerializer;
 import io.kristaxlab.notion.http.base.client.HttpClient.HttpMethod;
 import io.kristaxlab.notion.http.base.client.HttpClient.HttpRequest;
 import io.kristaxlab.notion.http.base.client.HttpClient.HttpResponse;
-import io.kristaxlab.notion.http.base.json.TestSerializer;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -99,7 +99,7 @@ class ExchangeRecordingInterceptorTest {
   void writesRequestAndResponseFiles_andRedactsAuthorization(@TempDir Path tempDir)
       throws IOException {
     ExchangeRecordingInterceptor interceptor =
-        new ExchangeRecordingInterceptor(tempDir, new TestSerializer());
+        new ExchangeRecordingInterceptor(tempDir, new StrictJsonSerializer());
     HttpRequest request =
         HttpRequest.builder()
             .url(BASE + "/pages")

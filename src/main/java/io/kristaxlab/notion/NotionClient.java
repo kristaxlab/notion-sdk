@@ -1,10 +1,14 @@
 package io.kristaxlab.notion;
 
 import io.kristaxlab.notion.endpoints.BlocksEndpoint;
+import io.kristaxlab.notion.endpoints.DataSourcesEndpoint;
+import io.kristaxlab.notion.endpoints.DatabasesEndpoint;
 import io.kristaxlab.notion.endpoints.FileUploadsEndpoint;
 import io.kristaxlab.notion.endpoints.PagesEndpoint;
 import io.kristaxlab.notion.endpoints.UsersEndpoint;
 import io.kristaxlab.notion.endpoints.impl.BlocksEndpointImpl;
+import io.kristaxlab.notion.endpoints.impl.DataSourcesEndpointImpl;
+import io.kristaxlab.notion.endpoints.impl.DatabasesEndpointImpl;
 import io.kristaxlab.notion.endpoints.impl.FileUploadsEndpointImpl;
 import io.kristaxlab.notion.endpoints.impl.PagesEndpointImpl;
 import io.kristaxlab.notion.endpoints.impl.UsersEndpointImpl;
@@ -24,6 +28,8 @@ public class NotionClient {
   private BlocksEndpoint blocksEndpoint;
   private PagesEndpoint pagesEndpoint;
   private FileUploadsEndpoint fileUploadsEndpoint;
+  private DatabasesEndpoint databasesEndpoint;
+  private DataSourcesEndpoint dataSourcesEndpoint;
 
   NotionClient(NotionHttpClient httpClient) {
     this.httpClient = httpClient;
@@ -31,6 +37,8 @@ public class NotionClient {
     this.blocksEndpoint = new BlocksEndpointImpl(httpClient);
     this.pagesEndpoint = new PagesEndpointImpl(httpClient);
     this.fileUploadsEndpoint = new FileUploadsEndpointImpl(httpClient);
+    this.databasesEndpoint = new DatabasesEndpointImpl(httpClient);
+    this.dataSourcesEndpoint = new DataSourcesEndpointImpl(httpClient);
   }
 
   /** Low-level HTTP client used by this instance (same pipeline as the endpoint accessors). */
@@ -52,6 +60,14 @@ public class NotionClient {
 
   public FileUploadsEndpoint fileUploads() {
     return fileUploadsEndpoint;
+  }
+
+  public DatabasesEndpoint databases() {
+    return databasesEndpoint;
+  }
+
+  public DataSourcesEndpoint dataSources() {
+    return dataSourcesEndpoint;
   }
 
   /**

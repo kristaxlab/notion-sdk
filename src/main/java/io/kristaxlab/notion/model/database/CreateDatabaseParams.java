@@ -1,0 +1,229 @@
+package io.kristaxlab.notion.model.database;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import io.kristaxlab.notion.fluent.NotionSchema;
+import io.kristaxlab.notion.fluent.NotionSchemaBuilder;
+import io.kristaxlab.notion.fluent.NotionText;
+import io.kristaxlab.notion.model.common.Cover;
+import io.kristaxlab.notion.model.common.Icon;
+import io.kristaxlab.notion.model.common.Parent;
+import io.kristaxlab.notion.model.common.richtext.RichText;
+import io.kristaxlab.notion.model.datasource.properties.DataSourcePropertySchema;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
+import lombok.Getter;
+import lombok.Setter;
+
+/**
+ * Request body for creating a database and its first data source.
+ *
+ * <p>Pass {@code databaseType} to create a typed database. That field cannot be combined with
+ * {@code initial_data_source}; see the Notion API constraints page.
+ */
+@Getter
+@Setter
+public class CreateDatabaseParams {
+
+  @JsonProperty("parent")
+  private Parent parent;
+
+  @JsonProperty("title")
+  private List<RichText> title;
+
+  @JsonProperty("description")
+  private List<RichText> description;
+
+  @JsonProperty("icon")
+  private Icon icon;
+
+  @JsonProperty("cover")
+  private Cover cover;
+
+  @JsonProperty("is_inline")
+  private Boolean isInline;
+
+  @JsonProperty("initial_data_source")
+  private InitialDatasource initialDataSource;
+
+  @JsonProperty("database_type")
+  private String databaseType;
+
+  public static Builder builder() {
+    return new Builder();
+  }
+
+  public static class Builder {
+    private Parent parent;
+    private List<RichText> title;
+    private List<RichText> description;
+    private Icon icon;
+    private Cover cover;
+    private Boolean isInline;
+    private InitialDatasource initialDataSource;
+    private String databaseType;
+
+    public Builder inPage(String pageId) {
+      return parent(Parent.pageParent(pageId));
+    }
+
+    public Builder parent(Parent parent) {
+      this.parent = parent;
+      return this;
+    }
+
+    public Builder title(String title) {
+      return title(NotionText.plainText(title).asList());
+    }
+
+    public Builder title(List<RichText> title) {
+      this.title = title;
+      return this;
+    }
+
+    public Builder description(String description) {
+      return description(NotionText.plainText(description).asList());
+    }
+
+    public Builder description(List<RichText> description) {
+      this.description = description;
+      return this;
+    }
+
+    public Builder icon(Icon icon) {
+      this.icon = icon;
+      return this;
+    }
+
+    public Builder icon(String emoji) {
+      this.icon = Icon.emoji(emoji);
+      return this;
+    }
+
+    public Builder cover(Cover cover) {
+      this.cover = cover;
+      return this;
+    }
+
+    public Builder cover(String fileUploadId) {
+      this.cover = Cover.fileUpload(fileUploadId);
+      return this;
+    }
+
+    public Builder isInline(Boolean isInline) {
+      this.isInline = isInline;
+      return this;
+    }
+
+    /**
+     * Configures the initial data source properties via a pre-built schema map.
+     *
+     * <p>Prefer {@link #properties(Consumer)} for the concise fluent DSL.
+     *
+     * @param initialDataSourceProperties name-or-id to schema mapping
+     * @return this builder
+     */
+    public Builder properties(Map<String, DataSourcePropertySchema> initialDataSourceProperties) {
+      InitialDatasource initialDataSource = new InitialDatasource();
+      initialDataSource.setProperties(initialDataSourceProperties);
+      this.initialDataSource = initialDataSource;
+      return this;
+    }
+
+    /**
+     * Configures the initial data source properties via a lambda that receives a fresh {@link
+     * NotionSchemaBuilder}.
+     *
+     * <p>This is the most concise option — no explicit {@code schemaBuilder()} / {@code build()}:
+     *
+     * <pre>{@code
+     * CreateDatabaseParams.builder()
+     *     .inPage(pageId)
+     *     .title("My DB")
+     *     .properties(s -> s
+     *         .title("Name")
+     *         .number("Price", NumberFormatType.EURO))
+     *     .build();
+     * }</pre>
+     *
+     * @param configurator a lambda that chains property methods on the provided schema builder
+     * @return this builder
+     */
+    public Builder properties(Consumer<NotionSchemaBuilder> configurator) {
+      NotionSchemaBuilder schema = NotionSchema.schemaBuilder();
+      configurator.accept(schema);
+      return properties(schema.build());
+    }
+
+    /**
+     * Configures the initial data source properties using a custom producer.
+     *
+     * <p>The supplier is called exactly once during this method and its result is forwarded to
+     * {@link #properties(Map)}. Use this overload to inject a dedicated schema factory, a
+     * Spring/CDI bean, or any other externally managed producer:
+     *
+     * <pre>{@code
+     * CreateDatabaseParams.builder()
+     *     .inPage(pageId)
+     *     .title("My DB")
+     *     .properties(catalogSchemaFactory::defaultSchema)
+     *     .build();
+     * }</pre>
+     *
+     * @param producer a supplier that returns the property schema map
+     * @return this builder
+     */
+    public Builder properties(Supplier<Map<String, DataSourcePropertySchema>> producer) {
+      return properties(producer.get());
+    }
+
+    /**
+     * Creates a typed database from Notion's canonical schema for {@code databaseType}.
+     *
+     * <p>Cannot be combined with {@link #properties(Consumer)} or an {@code initial_data_source}.
+     * When {@link #title(String)} is omitted, Notion names the database after this database type.
+     *
+     * <pre>{@code
+     * CreateDatabaseParams.builder()
+     *     .inPage(pageId)
+     *     .databaseType(DatabaseType.TASKS)
+     *     .build();
+     * }</pre>
+     *
+     * @param databaseType {@code tasks}, {@code projects}, or {@code skills}
+     * @return this builder
+     */
+    public Builder databaseType(DatabaseType databaseType) {
+      this.databaseType = databaseType == null ? null : databaseType.type();
+      return this;
+    }
+
+    /**
+     * Creates a typed database from Notion's canonical schema for {@code databaseType}.
+     *
+     * <p>Cannot be combined with {@link #properties(Consumer)} or an {@code initial_data_source}.
+     * When {@link #title(String)} is omitted, Notion names the database after this database type.
+     *
+     * @param databaseType API token {@code tasks}, {@code projects}, or {@code skills}
+     * @return this builder
+     */
+    public Builder databaseType(String databaseType) {
+      this.databaseType = databaseType;
+      return this;
+    }
+
+    public CreateDatabaseParams build() {
+      CreateDatabaseParams params = new CreateDatabaseParams();
+      params.setParent(parent);
+      params.setTitle(title);
+      params.setDescription(description);
+      params.setIcon(icon);
+      params.setCover(cover);
+      params.setIsInline(isInline);
+      params.setInitialDataSource(initialDataSource);
+      params.setDatabaseType(databaseType);
+      return params;
+    }
+  }
+}

@@ -12,6 +12,7 @@ import io.kristaxlab.notion.model.common.Parent;
 import io.kristaxlab.notion.model.page.*;
 import io.kristaxlab.notion.model.page.markdown.UpdatePageAsMarkdownParams;
 import io.kristaxlab.notion.model.page.property.PageProperty;
+import io.kristaxlab.notion.model.page.property.PagePropertyList;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
@@ -56,7 +57,7 @@ public class PagesEndpointImpl extends BaseEndpointImpl implements PagesEndpoint
    * @return the created page
    */
   private Page create(Parent parent, String title) {
-    return create(CreatePageParams.of(parent, title));
+    return create(CreatePageParams.builder().parent(parent).title(title).build());
   }
 
   /**
@@ -68,7 +69,8 @@ public class PagesEndpointImpl extends BaseEndpointImpl implements PagesEndpoint
    * @return the created page
    */
   private Page create(Parent parent, String title, String markdownContent) {
-    return create(CreatePageParams.of(parent, title, markdownContent));
+    return create(
+        CreatePageParams.builder().parent(parent).title(title).markdown(markdownContent).build());
   }
 
   /**
@@ -133,6 +135,23 @@ public class PagesEndpointImpl extends BaseEndpointImpl implements PagesEndpoint
     return getClient().call("PATCH", urlInfo, request, PageAsMarkdown.class);
   }
 
+  public PageAsMarkdown updateAsMarkdown(
+      String pageId, Consumer<UpdatePageAsMarkdownParams.Builder> consumer) {
+    checkNotNullOrEmpty(pageId, "pageId");
+    checkNotNull(consumer, "consumer");
+
+    UpdatePageAsMarkdownParams.Builder builder = UpdatePageAsMarkdownParams.builder();
+    consumer.accept(builder);
+    return updateAsMarkdown(pageId, builder.build());
+  }
+
+  public PageAsMarkdown updateAsMarkdown(String pageId, String markdown) {
+    checkNotNullOrEmpty(pageId, "pageId");
+    checkNotNull(markdown, "markdown");
+
+    return updateAsMarkdown(pageId, UpdatePageAsMarkdownParams.replaceContent(markdown));
+  }
+
   /**
    * Retrieve a specific page property.
    *
@@ -140,20 +159,26 @@ public class PagesEndpointImpl extends BaseEndpointImpl implements PagesEndpoint
    * @param propertyId The ID of the property to retrieve
    * @return The property object
    */
+  @Override
   public PageProperty retrieveProperty(String pageId, String propertyId) {
-    return retrieveProperty(pageId, propertyId, null, null);
+    checkNotNullOrEmpty(pageId, "pageId");
+    checkNotNullOrEmpty(propertyId, "propertyId");
+
+    ApiPath urlInfo =
+        ApiPath.builder("/pages/{page_id}/properties/{property_id}")
+            .pathParam("page_id", pageId)
+            .pathParam("property_id", URLDecoder.decode(propertyId, StandardCharsets.UTF_8))
+            .build();
+    return getClient().call("GET", urlInfo, PageProperty.class);
   }
 
-  /**
-   * Retrieve a specific page property with pagination.
-   *
-   * @param pageId The ID of the page
-   * @param propertyId The ID of the property to retrieve
-   * @param startCursor Cursor for pagination (optional)
-   * @param pageSize Number of items to return (optional, max 100)
-   * @return The property object
-   */
-  public PageProperty retrieveProperty(
+  @Override
+  public PagePropertyList retrievePaginatedProperty(String pageId, String propertyId) {
+    return retrievePaginatedProperty(pageId, propertyId, null, null);
+  }
+
+  @Override
+  public PagePropertyList retrievePaginatedProperty(
       String pageId, String propertyId, String startCursor, Integer pageSize) {
     checkNotNullOrEmpty(pageId, "pageId");
     checkNotNullOrEmpty(propertyId, "propertyId");
@@ -162,7 +187,14 @@ public class PagesEndpointImpl extends BaseEndpointImpl implements PagesEndpoint
         paginatedPath("/pages/{page_id}/properties/{property_id}", startCursor, pageSize)
             .pathParam("page_id", pageId)
             .pathParam("property_id", URLDecoder.decode(propertyId, StandardCharsets.UTF_8));
-    return getClient().call("GET", urlInfo.build(), PageProperty.class);
+    return getClient().call("GET", urlInfo.build(), PagePropertyList.class);
+  }
+
+  @Override
+  public Page update(String pageId, Consumer<UpdatePageParams.Builder> consumer) {
+    UpdatePageParams.Builder builder = UpdatePageParams.builder();
+    consumer.accept(builder);
+    return update(pageId, builder.build());
   }
 
   /**
@@ -197,7 +229,7 @@ public class PagesEndpointImpl extends BaseEndpointImpl implements PagesEndpoint
    * @param pageId The ID of the page to archive
    * @return The archived page
    */
-  public Page delete(String pageId) {
+  public Page moveToTrash(String pageId) {
     UpdatePageParams updatePageParams = new UpdatePageParams();
     updatePageParams.setInTrash(true);
     return update(pageId, updatePageParams);

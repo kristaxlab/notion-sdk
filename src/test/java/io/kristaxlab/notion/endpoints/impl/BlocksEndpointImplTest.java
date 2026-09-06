@@ -403,7 +403,7 @@ class BlocksEndpointImplTest {
       Block expected = new Block();
       client.setResponse(expected);
 
-      Block result = endpoint.delete("block-id-9");
+      Block result = endpoint.moveToTrash("block-id-9");
 
       assertEquals("DELETE", client.getLastMethod());
       assertEquals("/blocks/{block_id}", client.getLastUrlInfo().getUrl());
@@ -417,7 +417,7 @@ class BlocksEndpointImplTest {
     @ValueSource(strings = {"   "})
     @DisplayName("rejects blank or null block id")
     void delete_rejectsBlankOrNullBlockId(String blockId) {
-      assertThrows(IllegalArgumentException.class, () -> endpoint.delete(blockId));
+      assertThrows(IllegalArgumentException.class, () -> endpoint.moveToTrash(blockId));
     }
   }
 

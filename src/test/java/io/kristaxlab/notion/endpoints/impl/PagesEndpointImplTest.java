@@ -10,9 +10,9 @@ import io.kristaxlab.notion.model.page.Page;
 import io.kristaxlab.notion.model.page.PageAsMarkdown;
 import io.kristaxlab.notion.model.page.UpdatePageParams;
 import io.kristaxlab.notion.model.page.markdown.UpdatePageAsMarkdownParams;
-import io.kristaxlab.notion.model.page.property.PageProperty;
-import io.kristaxlab.notion.model.page.property.UnknownProperty;
+import io.kristaxlab.notion.model.page.property.*;
 import java.util.List;
+import java.util.function.Consumer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DisplayNameGeneration;
@@ -189,7 +189,66 @@ class PagesEndpointImplTest {
     @DisplayName("rejects null markdown update request")
     void updateAsMarkdown_rejectsNullRequest() {
       assertThrows(
-          IllegalArgumentException.class, () -> endpoint.updateAsMarkdown("page-id-1", null));
+          IllegalArgumentException.class,
+          () -> endpoint.updateAsMarkdown("page-id-1", (UpdatePageAsMarkdownParams) null));
+    }
+
+    @Test
+    @DisplayName("works with markdown string convenience method")
+    void updateAsMarkdown_worksWithStringConvenience() {
+      PageAsMarkdown expected = new PageAsMarkdown();
+      client.setResponse(expected);
+
+      PageAsMarkdown result = endpoint.updateAsMarkdown("page-id-1", "# New content");
+
+      assertEquals("PATCH", client.getLastMethod());
+      assertEquals("/pages/{page_id}/markdown", client.getLastUrlInfo().getUrl());
+      assertEquals("page-id-1", client.getLastUrlInfo().getPathParams().get("page_id"));
+      assertSame(expected, result);
+
+      UpdatePageAsMarkdownParams body = (UpdatePageAsMarkdownParams) client.getLastBody();
+      assertNotNull(body);
+      assertEquals("replace_content", body.getType());
+      assertNotNull(body.getReplaceContent());
+      assertEquals("# New content", body.getReplaceContent().getNewStr());
+    }
+
+    @Test
+    @DisplayName("rejects null markdown string")
+    void updateAsMarkdown_rejectsNullString() {
+      assertThrows(
+          IllegalArgumentException.class,
+          () -> endpoint.updateAsMarkdown("page-id-1", (String) null));
+    }
+
+    @Test
+    @DisplayName("works with builder consumer convenience method")
+    void updateAsMarkdown_worksWithBuilderConsumer() {
+      PageAsMarkdown expected = new PageAsMarkdown();
+      client.setResponse(expected);
+
+      PageAsMarkdown result =
+          endpoint.updateAsMarkdown(
+              "page-id-1", builder -> builder.updateContent("old", "new", false));
+
+      assertEquals("PATCH", client.getLastMethod());
+      assertEquals("/pages/{page_id}/markdown", client.getLastUrlInfo().getUrl());
+      assertEquals("page-id-1", client.getLastUrlInfo().getPathParams().get("page_id"));
+      assertSame(expected, result);
+
+      UpdatePageAsMarkdownParams body = (UpdatePageAsMarkdownParams) client.getLastBody();
+      assertNotNull(body);
+      assertEquals("update_content", body.getType());
+    }
+
+    @Test
+    @DisplayName("rejects null consumer")
+    void updateAsMarkdown_rejectsNullConsumer() {
+      assertThrows(
+          IllegalArgumentException.class,
+          () ->
+              endpoint.updateAsMarkdown(
+                  "page-id-1", (Consumer<UpdatePageAsMarkdownParams.Builder>) null));
     }
   }
 
@@ -211,16 +270,6 @@ class PagesEndpointImplTest {
       assertEquals("title", client.getLastUrlInfo().getPathParams().get("property_id"));
       assertTrue(client.getLastUrlInfo().getQueryParams().isEmpty());
       assertSame(expected, result);
-    }
-
-    @Test
-    @DisplayName("works with pagination and adds query params")
-    void retrieveProperty_withPagination_addsQueryParams() {
-      endpoint.retrieveProperty("page-id-1", "title", "cursor-1", 20);
-
-      assertEquals(
-          List.of("cursor-1"), client.getLastUrlInfo().getQueryParams().get("start_cursor"));
-      assertEquals(List.of("20"), client.getLastUrlInfo().getQueryParams().get("page_size"));
     }
 
     @Test
@@ -247,6 +296,37 @@ class PagesEndpointImplTest {
     void retrieveProperty_rejectsBlankOrNullPropertyId(String propertyId) {
       assertThrows(
           IllegalArgumentException.class, () -> endpoint.retrieveProperty("page-id-1", propertyId));
+    }
+  }
+
+  @Nested
+  @DisplayName("Retrieve paginated page property")
+  class RetrievePaginatedProperty {
+
+    @Test
+    @DisplayName("works for valid page id and property id")
+    void retrievePaginatedProperty_buildsGetRequest() {
+      PagePropertyList expected = new RelationPropertyList();
+      client.setResponse(expected);
+
+      PagePropertyList result = endpoint.retrievePaginatedProperty("page-id-1", "title");
+
+      assertEquals("GET", client.getLastMethod());
+      assertEquals("/pages/{page_id}/properties/{property_id}", client.getLastUrlInfo().getUrl());
+      assertEquals("page-id-1", client.getLastUrlInfo().getPathParams().get("page_id"));
+      assertEquals("title", client.getLastUrlInfo().getPathParams().get("property_id"));
+      assertTrue(client.getLastUrlInfo().getQueryParams().isEmpty());
+      assertSame(expected, result);
+    }
+
+    @Test
+    @DisplayName("works with pagination and adds query params")
+    void retrievePaginatedProperty_withPagination_addsQueryParams() {
+      endpoint.retrievePaginatedProperty("page-id-1", "title", "cursor-1", 20);
+
+      assertEquals(
+          List.of("cursor-1"), client.getLastUrlInfo().getQueryParams().get("start_cursor"));
+      assertEquals(List.of("20"), client.getLastUrlInfo().getQueryParams().get("page_size"));
     }
   }
 
@@ -283,7 +363,9 @@ class PagesEndpointImplTest {
     @Test
     @DisplayName("rejects null update request")
     void update_rejectsNullRequest() {
-      assertThrows(IllegalArgumentException.class, () -> endpoint.update("page-id-1", null));
+      assertThrows(
+          IllegalArgumentException.class,
+          () -> endpoint.update("page-id-1", (UpdatePageParams) null));
     }
   }
 
@@ -334,7 +416,7 @@ class PagesEndpointImplTest {
       Page expected = new Page();
       client.setResponse(expected);
 
-      Page result = endpoint.delete("page-id-1");
+      Page result = endpoint.moveToTrash("page-id-1");
 
       assertEquals("PATCH", client.getLastMethod());
       assertEquals("/pages/{page_id}", client.getLastUrlInfo().getUrl());
@@ -350,7 +432,7 @@ class PagesEndpointImplTest {
     @ValueSource(strings = {"   "})
     @DisplayName("rejects blank or null page id")
     void delete_rejectsBlankOrNullPageId(String pageId) {
-      assertThrows(IllegalArgumentException.class, () -> endpoint.delete(pageId));
+      assertThrows(IllegalArgumentException.class, () -> endpoint.moveToTrash(pageId));
     }
   }
 
