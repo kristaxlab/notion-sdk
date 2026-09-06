@@ -36,7 +36,8 @@ testkit/test/                 kit unit tests (compiled here; see Gradle filter b
 ```
 
 `./gradlew testIntegration` includes only `tests.*`. Classes under `testkit.test` compile with the
-source set but are not executed by that task — or by `test`. See Wiring gaps.
+source set but are not executed by that task — or by `test`. See
+[Known gaps and future improvements](#known-gaps-and-future-improvements).
 
 ```mermaid
 flowchart TB
@@ -219,9 +220,6 @@ child-page title and every non-blank title of a row in the **first** `child_data
 key. A database row overwrites a child page with the same test id. Titles must therefore be exactly
 the test id (`IT-8`), not `IT-8: Templates`.
 
-There is an in-code TODO to drop standalone child-page fixtures once the API can express everything
-as a data source.
-
 The test session page is not injected as the test page.
 
 ## Clients
@@ -296,6 +294,29 @@ belongs on the annotation's `@ExtendWith` list, not in the base.
 | Add a configuration knob | Read it through `TestConfigurationLookup`. Session-provisioning keys also belong on `TestSessionConfig`. Document the setting in the Testing Guide, not here. |
 | Change how a test session parent id is classified | `TestSessionPageProvisioner.resolveParent` / `resolveTemplate`. |
 | Change the test-id grammar | `NotionTestIdRetriever` and its tests; then the Testing Guide display-name rule. |
+
+## Known gaps and future improvements
+
+Limitations, trade-offs, and deferred work in the kit. Record new ones here — not in the Testing
+Guide, and not as asides in the sections above.
+
+### Kit unit tests have no running task
+
+Classes under `testkit.test` compile with the integration source set but are not executed by
+`testIntegration` (that task includes only `tests.*`) or by `test`.
+
+### Tests that never add content still get a test page
+
+Some tests never add content — they only send requests Notion rejects, or they do not write to the
+injected page. `IT2_Databases_CreateTyped_ValidationException` and
+`IT9_Pages_PaginatedPropertyLimit` are examples. Those tests could run against the test session
+page itself. `WithEmptyTestPage` still creates a test page for them. This is a known trade-off,
+left for a later change.
+
+### Child-page fixtures
+
+There is an in-code TODO to drop standalone child-page fixtures once the API can express everything
+as a data source.
 
 ## See also
 

@@ -16,6 +16,8 @@ Rules the Notion API enforces that the SDK cannot express in its types, and that
 - **A database is a container; a data source holds the schema.** Since API version `2025-09-03` one database can host several data sources. The parent of a data source is always a **database** — not a page and not another data source.
 - **Exactly one title column per data source.** A schema without a title column, or with two, is rejected.
 - **Deleting a column means sending an explicit `null`.** `UpdateDataSourceParams.properties` is annotated so that `null` map values are serialized rather than omitted; that null is what removes the column. Dropping the entry from the map instead leaves the column untouched. `NotionSchemaBuilder.remove(nameOrId)` encodes this correctly.
+- **`database_type` cannot be combined with `initial_data_source`.** A typed database always uses Notion's schema. Sending both returns HTTP 400. When `title` is omitted, Notion names the database after its database type.
+- **Property names on a typed database follow the token owner's language.** Internal integrations have no owner and receive English names. Read the data source after create before writing pages; do not hard-code property names if the token may be user-scoped. Status option names and ids are also assigned by Notion.
 
 ## Markdown endpoints
 

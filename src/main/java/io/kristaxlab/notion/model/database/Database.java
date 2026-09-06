@@ -8,7 +8,12 @@ import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 
-/** Represents a Notion database object. Contains the database schema, properties, and metadata. */
+/**
+ * Represents a Notion database object. Contains metadata and the list of child data sources.
+ *
+ * <p>{@code databaseType} is the database type of a typed database, or {@code null} for a regular
+ * database.
+ */
 @Getter
 @Setter
 public class Database extends NotionObject {
@@ -30,4 +35,7 @@ public class Database extends NotionObject {
   private Boolean isLocked;
 
   private List<DataSourceRef> dataSources;
+
+  /** Database type of a typed database; {@code null} for a regular database. */
+  private String databaseType;
 }

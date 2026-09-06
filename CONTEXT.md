@@ -126,6 +126,16 @@ One entry of a data source's property schema — the *definition* of a property,
 `DataSourcePropertySchema`. A property is the value that a page carries for a column.
 _Avoid_: property (that is the value on the page), field, schema property.
 
+**Typed database**:
+A database created from one of Notion's built-in type schemas. Notion assigns the schema and type
+metadata so the result matches a database of that type created in the Notion app.
+_Avoid_: typed DB, predefined database, template database (templates are a different concept).
+
+**Database type**:
+The classification of a typed database: `tasks`, `projects`, or `skills`. `null` on a regular
+database. The JSON field is `database_type`. Read-only on retrieve.
+_Avoid_: type (ambiguous), database kind, schema type.
+
 ### Markdown
 
 **Enhanced Markdown**:

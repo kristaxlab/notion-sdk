@@ -17,6 +17,7 @@ down, this table tells you where it goes.
 | `docs/internals/` | contributor-facing mechanics changed | how to extend, invariants, gotchas |
 | `docs/internals/javadoc.md` | Javadoc conventions or a project-specific pitfall changed | how to write Javadoc in this repository |
 | `docs/internals/notion-api-constraints.md` | a Notion rule was discovered the hard way | constraints the types cannot express |
+| `docs/internals/testkit.md` — [Known gaps and future improvements](testkit.md#known-gaps-and-future-improvements) | a testkit limitation, trade-off, or future improvement was found | deferred work and known issues in the integration testkit |
 | `AGENTS.md` | how an agent finds contributor conventions changed | pointers at the documents that own the facts |
 | `.github/prompts/` | how an agent job is launched or evaluated changed | goal, required reading, agent-only pitfalls, how to know the job is done |
 | `llms.txt` | the documentation map changed | paths only, for machine readers |

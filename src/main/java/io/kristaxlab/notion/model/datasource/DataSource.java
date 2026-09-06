@@ -14,6 +14,9 @@ import lombok.Setter;
 /**
  * Represents a Notion data source object. Contains the data source schema, properties, and
  * metadata.
+ *
+ * <p>{@code databaseType} is the database type of the containing typed database, or {@code null}
+ * for a regular data source.
  */
 @Getter
 @Setter
@@ -36,4 +39,7 @@ public class DataSource extends NotionObject {
   private String url;
 
   private String publicUrl;
+
+  /** Database type of the containing typed database; {@code null} for a regular data source. */
+  private String databaseType;
 }

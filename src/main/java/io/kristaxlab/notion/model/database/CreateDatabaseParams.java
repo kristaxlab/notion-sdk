@@ -16,6 +16,12 @@ import java.util.function.Supplier;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * Request body for creating a database and its first data source.
+ *
+ * <p>Pass {@code databaseType} to create a typed database. That field cannot be combined with
+ * {@code initial_data_source}; see the Notion API constraints page.
+ */
 @Getter
 @Setter
 public class CreateDatabaseParams {
@@ -41,6 +47,9 @@ public class CreateDatabaseParams {
   @JsonProperty("initial_data_source")
   private InitialDatasource initialDataSource;
 
+  @JsonProperty("database_type")
+  private String databaseType;
+
   public static Builder builder() {
     return new Builder();
   }
@@ -53,6 +62,7 @@ public class CreateDatabaseParams {
     private Cover cover;
     private Boolean isInline;
     private InitialDatasource initialDataSource;
+    private String databaseType;
 
     public Builder inPage(String pageId) {
       return parent(Parent.pageParent(pageId));
@@ -168,6 +178,41 @@ public class CreateDatabaseParams {
       return properties(producer.get());
     }
 
+    /**
+     * Creates a typed database from Notion's canonical schema for {@code databaseType}.
+     *
+     * <p>Cannot be combined with {@link #properties(Consumer)} or an {@code initial_data_source}.
+     * When {@link #title(String)} is omitted, Notion names the database after this database type.
+     *
+     * <pre>{@code
+     * CreateDatabaseParams.builder()
+     *     .inPage(pageId)
+     *     .databaseType(DatabaseType.TASKS)
+     *     .build();
+     * }</pre>
+     *
+     * @param databaseType {@code tasks}, {@code projects}, or {@code skills}
+     * @return this builder
+     */
+    public Builder databaseType(DatabaseType databaseType) {
+      this.databaseType = databaseType == null ? null : databaseType.type();
+      return this;
+    }
+
+    /**
+     * Creates a typed database from Notion's canonical schema for {@code databaseType}.
+     *
+     * <p>Cannot be combined with {@link #properties(Consumer)} or an {@code initial_data_source}.
+     * When {@link #title(String)} is omitted, Notion names the database after this database type.
+     *
+     * @param databaseType API token {@code tasks}, {@code projects}, or {@code skills}
+     * @return this builder
+     */
+    public Builder databaseType(String databaseType) {
+      this.databaseType = databaseType;
+      return this;
+    }
+
     public CreateDatabaseParams build() {
       CreateDatabaseParams params = new CreateDatabaseParams();
       params.setParent(parent);
@@ -177,6 +222,7 @@ public class CreateDatabaseParams {
       params.setCover(cover);
       params.setIsInline(isInline);
       params.setInitialDataSource(initialDataSource);
+      params.setDatabaseType(databaseType);
       return params;
     }
   }

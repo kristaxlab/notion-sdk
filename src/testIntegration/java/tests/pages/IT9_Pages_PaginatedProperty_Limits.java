@@ -14,7 +14,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import testkit.WithEmptyTestPage;
 
-public class IT9_Pages_PaginatedPropertyLimit extends WithEmptyTestPage {
+public class IT9_Pages_PaginatedProperty_Limits extends WithEmptyTestPage {
 
   private static final String NOTES_PROP = "Notes";
   private String dataSourceId;

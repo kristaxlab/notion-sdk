@@ -35,12 +35,7 @@ public class DatabasesEndpointImpl extends BaseEndpointImpl implements Databases
     return getClient().call("GET", urlInfo, Database.class);
   }
 
-  /**
-   * Create a new database.
-   *
-   * @param request The request containing database data
-   * @return The created database
-   */
+  /** {@inheritDoc} */
   public Database create(CreateDatabaseParams request) {
     checkNotNull(request, "request");
     ApiPath urlInfo = ApiPath.from("/databases");
