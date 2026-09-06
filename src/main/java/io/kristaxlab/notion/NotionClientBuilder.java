@@ -30,12 +30,12 @@ public class NotionClientBuilder {
 
   private static final String DEFAULT_VERSION = "2026-03-11";
   private static final String DEFAULT_BASE_URL = "https://api.notion.com/v1";
-  private static final String DEFAULT_CLIENT_IDL = "Notion Client";
+  private static final String DEFAULT_CLIENT_ID = "Notion Client";
 
   private String authToken;
   private String version = DEFAULT_VERSION;
   private String baseUrl = DEFAULT_BASE_URL;
-  private String clientName = DEFAULT_CLIENT_IDL;
+  private String clientName = DEFAULT_CLIENT_ID;
 
   private HttpClient rawHttpClient;
 
