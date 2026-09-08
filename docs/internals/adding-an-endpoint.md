@@ -19,11 +19,8 @@ If you need a concept that is not in the glossary, stop and propose a term. Do n
 append [CONTEXT.md](../../CONTEXT.md) yourself.
 
 If you see any misalignment between the API and the glossary, propose a correction. The glossary is the source of truth
-for the SDK. For example, if Notion calls a resource "file upload"
-but the glossary calls it "file", the SDK must use "file upload" in the public API.
-
-If there is any misalignment among the Notion API documentation (accessed via https://developers.notion.com/...), signal
-it before you start coding to resolve any ambiguity.
+for the SDK. For example, if Notion calls a resource "file upload" but the glossary calls it "file",
+the SDK must use "file upload" in the public API.
 
 ## Step 1 — models
 
