@@ -29,16 +29,29 @@ public class FileLoader {
     return fu.getId();
   }
 
+  public static File loadFileFailIfMissing(String filePath) {
+    return loadFileFailIfMissing(filePath, FileLoader.class.getClassLoader());
+  }
+
   public static File loadFileFailIfMissing(String filePath, ClassLoader classLoader) {
     URL url = FileLoader.class.getClassLoader().getResource(filePath);
 
     if (url == null) {
       fail(
           String.format(
-              "File %s should exist in resources/files directory to proceed with the test",
-              filePath));
+              "File %s should exist in resources directory to proceed with the test", filePath));
     }
 
     return new File(url.getFile());
+  }
+
+  public static String readFileToString(File file) {
+    try (java.util.Scanner scanner = new java.util.Scanner(file)) {
+      scanner.useDelimiter("\\A");
+      return scanner.hasNext() ? scanner.next() : "";
+    } catch (java.io.FileNotFoundException e) {
+      fail(String.format("File %s should exist to proceed with the test", file.getPath()));
+      return null; // Unreachable, but required for compilation
+    }
   }
 }
