@@ -107,7 +107,7 @@ public class IT2_DataSources_CRUD extends WithEmptyTestPage {
 
     // Step 4 = Move data source to trash
 
-    DataSource trashed = getNotionClient().dataSources().moveToTrash(updated.getId());
+    DataSource trashed = getNotionClient().dataSources().delete(updated.getId());
 
     assertNotNull(trashed);
     assertTrue(trashed.getInTrash(), "Data source should be in trash after moveToTrash operation");

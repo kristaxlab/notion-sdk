@@ -72,7 +72,7 @@ public class IT11_Blocks_ParagraphCRUD extends WithEmptyTestPage {
     assertEquals("Text - updated", NotionBlocksViewer.of(retrieved).plainText());
 
     // 5. Delete the block
-    Block deleted = getNotionClient().blocks().moveToTrash(blockId);
+    Block deleted = getNotionClient().blocks().delete(blockId);
     assertTrue(deleted.getInTrash(), "Block should be archived after deletion");
 
     // 6. Restore the block

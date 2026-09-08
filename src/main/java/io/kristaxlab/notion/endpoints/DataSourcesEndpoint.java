@@ -87,7 +87,7 @@ public interface DataSourcesEndpoint {
   Templates retrieveTemplates(
       String dataSourceId, String name, String startCursor, Integer pageSize);
 
-  DataSource moveToTrash(String dataSourceId);
+  DataSource delete(String dataSourceId);
 
   DataSource restore(String dataSourceId);
 }

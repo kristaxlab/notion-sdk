@@ -416,7 +416,7 @@ class PagesEndpointImplTest {
       Page expected = new Page();
       client.setResponse(expected);
 
-      Page result = endpoint.moveToTrash("page-id-1");
+      Page result = endpoint.delete("page-id-1");
 
       assertEquals("PATCH", client.getLastMethod());
       assertEquals("/pages/{page_id}", client.getLastUrlInfo().getUrl());
@@ -432,7 +432,7 @@ class PagesEndpointImplTest {
     @ValueSource(strings = {"   "})
     @DisplayName("rejects blank or null page id")
     void delete_rejectsBlankOrNullPageId(String pageId) {
-      assertThrows(IllegalArgumentException.class, () -> endpoint.moveToTrash(pageId));
+      assertThrows(IllegalArgumentException.class, () -> endpoint.delete(pageId));
     }
   }
 

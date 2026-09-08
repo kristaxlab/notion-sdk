@@ -9,7 +9,7 @@ Names on an `_Avoid_` line are rejected, not casual alternatives. If a concept y
 stop and ask — do not invent a term, and do not add a definition here until it has been agreed.
 
 The vocabulary below covers API-wide conventions, page properties, data sources, the Markdown
-endpoints, and the integration testkit; other areas are added as they get documented.
+endpoints, comments, and the integration testkit; other areas are added as they get documented.
 
 ## Language
 
@@ -165,6 +165,46 @@ _Avoid_: page endpoint, retrieve endpoint.
 `pages().retrievePaginatedProperty(...)`. Returns one property.
 _Avoid_: property endpoint, property item endpoint, retrieve endpoint.
 
+### Comments
+
+**Comment**:
+A comment on a Notion page or block, modelled by `Comment`.
+_Avoid_: note, annotation, remark.
+
+**Comment attachment**:
+A file attached to a comment, modelled by `CommentAttachment`. Create requests send a file upload
+id; responses return a category and a file URL.
+_Avoid_: comment file, attached file.
+
+**Comment display name**:
+The author name shown for a comment, modelled by `CommentDisplayName`. Overrides the default
+author name when specified.
+_Avoid_: comment author, comment name, author name.
+
+**Comment create endpoint**:
+`POST /comments`, exposed as `comments().create(...)`. Creates a comment on a page, a block, or
+an existing `discussion_id`.
+_Avoid_: create comment endpoint, comments endpoint.
+
+**Comment retrieve endpoint**:
+`GET /comments/{comment_id}`, exposed as `comments().retrieve(...)`. Returns one comment.
+_Avoid_: get comment, comment endpoint, retrieve endpoint.
+
+**Comment update endpoint**:
+`PATCH /comments/{comment_id}`, exposed as `comments().update(...)`. Updates a comment created by
+the current integration.
+_Avoid_: edit comment, patch comment.
+
+**Comment delete endpoint**:
+`DELETE /comments/{comment_id}`, exposed as `comments().delete(...)`. Deletes a comment created by
+the current integration.
+_Avoid_: remove comment, trash comment.
+
+**Comment list endpoint**:
+`GET /comments`, exposed as `comments().listComments(...)`. Returns unresolved comments on a page
+or block. The query parameter is `block_id` for both pages and blocks.
+_Avoid_: list comments endpoint, retrieve comments, comments endpoint.
+
 ### Pagination
 
 **Start cursor**:
@@ -244,6 +284,7 @@ _Avoid_: infra client, env client.
 ## Related documentation
 
 - [ADR 0001: Complex hierarchy and custom deserializers for page properties](docs/adr/0001-complex-hierarchy-and-deserialization-of-page-properties.md)
+- [ADR 0002: Enums for known API tokens stay decoupled from models](docs/adr/0002-enums-for-known-api-tokens-stay-decoupled-from-models.md)
 - [Cookbook: Page properties and pagination](docs/cookbook/page-properties.md)
 - [Notion API constraints](docs/internals/notion-api-constraints.md) — rules the API enforces that the types cannot
 - [Testing Guide](docs/internals/testing-guide.md) — how to run the suite and write a test

@@ -57,4 +57,5 @@ client.blocks().restore("block-id");
 - [Adding blocks](adding-blocks.md)
 - [Reading page content](reading-content.md)
 - [Updating pages](updating-pages.md)
+- [Comments](comments.md)
 - [Back to README](../../README.md#cookbook)

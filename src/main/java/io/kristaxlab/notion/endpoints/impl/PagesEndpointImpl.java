@@ -229,7 +229,7 @@ public class PagesEndpointImpl extends BaseEndpointImpl implements PagesEndpoint
    * @param pageId The ID of the page to archive
    * @return The archived page
    */
-  public Page moveToTrash(String pageId) {
+  public Page delete(String pageId) {
     UpdatePageParams updatePageParams = new UpdatePageParams();
     updatePageParams.setInTrash(true);
     return update(pageId, updatePageParams);

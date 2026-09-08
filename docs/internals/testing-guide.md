@@ -146,7 +146,7 @@ public class IT5_Pages_Retrieve extends WithEmptyTestPage {
 
 - One test method per class.
 - Place the class under `src/testIntegration/java/tests/<endpoint>/` (`tests.pages`, `tests.blocks`,
-  `tests.datasources`, `tests.fileuploads`, `tests.users`).
+  `tests.datasources`, `tests.fileuploads`, `tests.users`, `tests.comments`).
 - Class name: `IT<id>_<Endpoint>_<Details>` (e.g. `IT1_Pages_CRUD`). With a placeholder id:
   `IT12_Pages_RelationPropertyPaginated`.
 - `@DisplayName` on the test method: `IT-<id>: <Endpoint> - <description>`. Placeholder:

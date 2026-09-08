@@ -111,7 +111,7 @@ public interface BlocksEndpoint {
    * @param blockId block identifier
    * @return archived block
    */
-  Block moveToTrash(String blockId);
+  Block delete(String blockId);
 
   /**
    * Restores a block from trash by clearing the archived state.

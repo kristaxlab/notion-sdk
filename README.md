@@ -91,7 +91,7 @@ DEBUG for any of the following packages:
 ## Cookbook
 
 Task-oriented recipes for creating, reading and updating Notion content, from page creation and the
-fluent block DSL through property pagination, file uploads and end-to-end workflows.
+fluent block DSL through property pagination, file uploads, comments and end-to-end workflows.
 
 **→ [Browse the cookbook](docs/cookbook/README.md)**
 
@@ -105,6 +105,7 @@ fluent block DSL through property pagination, file uploads and end-to-end workfl
 | [Error handling](docs/error-handling.md) | Full exception hierarchy and retry guidance |
 | [Architecture decisions](docs/adr/README.md) | Why the models look the way they do |
 | [Internals](docs/internals/architecture.md) | HTTP pipeline, interceptors, testing, releases — for contributors |
+| [Adding an endpoint](docs/internals/adding-an-endpoint.md) | Runbook for wiring a new REST area |
 | [Javadoc conventions](docs/internals/javadoc.md) | How to write Javadoc in this repository |
 | [Documentation guide](docs/internals/documentation-guide.md) | Where each kind of knowledge belongs, and how docs are maintained |
 

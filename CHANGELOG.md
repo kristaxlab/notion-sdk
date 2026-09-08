@@ -12,6 +12,7 @@ and open a new empty **[Unreleased]** section above it. Do not reconstruct the l
 
 ### Added
 
+- Comments - all operations
 - File Uploads - all operations.
 - Databases - all operations
 - Data Sources - all operations
