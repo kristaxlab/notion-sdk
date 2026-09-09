@@ -40,7 +40,8 @@ The SDK follows [Semantic Versioning](https://semver.org/):
 
 4. **Update documentation**
    - Update version numbers in `README.md`
-   - Update changelog (see below)
+   - In `CHANGELOG.md`, rename `## [Unreleased]` to `## [x.y.z] - YYYY-MM-DD` and add a fresh empty
+     `[Unreleased]` section above it. The notes should already be there from the PRs that landed.
 
 5. **Tag the release**
 

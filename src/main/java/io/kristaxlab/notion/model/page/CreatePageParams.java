@@ -3,12 +3,13 @@ package io.kristaxlab.notion.model.page;
 import io.kristaxlab.notion.fluent.NotionBlocks;
 import io.kristaxlab.notion.fluent.NotionBlocksBuilder;
 import io.kristaxlab.notion.fluent.NotionProperties;
+import io.kristaxlab.notion.fluent.NotionPropertiesBuilder;
 import io.kristaxlab.notion.model.block.Block;
 import io.kristaxlab.notion.model.common.Cover;
 import io.kristaxlab.notion.model.common.Icon;
 import io.kristaxlab.notion.model.common.Parent;
 import io.kristaxlab.notion.model.common.Position;
-import io.kristaxlab.notion.model.page.property.PageProperty;
+import io.kristaxlab.notion.model.page.property.PagePropertyValue;
 import io.kristaxlab.notion.model.page.templates.TemplateParams;
 import java.util.*;
 import java.util.function.Consumer;
@@ -25,7 +26,7 @@ public class CreatePageParams {
 
   private Parent parent;
 
-  private Map<String, PageProperty> properties;
+  private Map<String, PagePropertyValue> properties;
 
   private Icon icon;
 
@@ -41,29 +42,6 @@ public class CreatePageParams {
   private Position position;
 
   /**
-   * Shorthand for {@code builder().parent(parent).title(title).build()}.
-   *
-   * @param parent destination parent
-   * @param title page title
-   * @return page creation payload
-   */
-  public static CreatePageParams of(Parent parent, String title) {
-    return CreatePageParams.builder().parent(parent).title(title).build();
-  }
-
-  /**
-   * Shorthand for a titled page with Markdown body content.
-   *
-   * @param parent destination parent
-   * @param title page title
-   * @param markdown markdown body content
-   * @return page creation payload
-   */
-  public static CreatePageParams of(Parent parent, String title, String markdown) {
-    return CreatePageParams.builder().parent(parent).title(title).markdown(markdown).build();
-  }
-
-  /**
    * Creates a fluent builder for {@link CreatePageParams}.
    *
    * @return new builder
@@ -76,7 +54,7 @@ public class CreatePageParams {
   public static class Builder {
 
     private Parent parent;
-    private final Map<String, PageProperty> properties = new LinkedHashMap<>();
+    private final Map<String, PagePropertyValue> properties = new LinkedHashMap<>();
     private final List<Block> children = new ArrayList<>();
     private Icon icon;
     private Cover cover;
@@ -89,7 +67,7 @@ public class CreatePageParams {
      * @param dataSourceId data source identifier
      * @return this builder
      */
-    public Builder underDataSource(String dataSourceId) {
+    public Builder inDataSource(String dataSourceId) {
       return parent(Parent.dataSourceParent(dataSourceId));
     }
 
@@ -99,7 +77,7 @@ public class CreatePageParams {
      * @param pageId parent page identifier
      * @return this builder
      */
-    public Builder underPage(String pageId) {
+    public Builder inPage(String pageId) {
       return parent(Parent.pageParent(pageId));
     }
 
@@ -109,7 +87,7 @@ public class CreatePageParams {
      *
      * @return this builder
      */
-    public Builder underWorkspace() {
+    public Builder inWorkspace() {
       return parent(Parent.workspaceParent());
     }
 
@@ -138,12 +116,38 @@ public class CreatePageParams {
      * Sets a schema property by name. Use for types beyond {@link #title(String)} (e.g. select,
      * date).
      *
-     * @param name property schema name
+     * @param name schema property name
      * @param property property payload
      * @return this builder
      */
-    public Builder property(String name, PageProperty property) {
+    public Builder property(String name, PagePropertyValue property) {
       this.properties.put(name, property);
+      return this;
+    }
+
+    public Builder properties(Map<String, PagePropertyValue> properties) {
+      this.properties.putAll(properties);
+      return this;
+    }
+
+    /**
+     * Sets multiple properties with the {@link NotionPropertiesBuilder} DSL.
+     *
+     * <pre>{@code
+     * .properties(p -> p
+     *     .title("Build a SaaS")
+     *     .number("Priority", 5)
+     *     .select("Status", "In progress")
+     *     .multiSelect("Tags", "urgent", "review"))
+     * }</pre>
+     *
+     * @param consumer callback used to populate properties
+     * @return this builder
+     */
+    public Builder properties(Consumer<NotionPropertiesBuilder> consumer) {
+      NotionPropertiesBuilder propertiesBuilder = NotionProperties.builder();
+      consumer.accept(propertiesBuilder);
+      this.properties.putAll(propertiesBuilder.build());
       return this;
     }
 
@@ -245,16 +249,16 @@ public class CreatePageParams {
     /**
      * Cover image: UUID string is treated as a file upload ID; otherwise as an external image URL.
      *
-     * @param coverRef file upload id or external image URL
+     * @param fileUploadId file upload id or external image URL
      * @return this builder
      */
-    public Builder cover(String coverRef) {
+    public Builder cover(String fileUploadId) {
       try {
-        UUID.fromString(coverRef);
-        this.cover = Cover.fileUpload(coverRef);
+        UUID.fromString(fileUploadId);
+        this.cover = Cover.fileUpload(fileUploadId);
       } catch (IllegalArgumentException e) {
         // If the string is not a valid UUID, treat it as an external URL
-        this.cover = Cover.external(coverRef);
+        this.cover = Cover.external(fileUploadId);
       }
       return this;
     }

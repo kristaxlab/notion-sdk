@@ -10,12 +10,12 @@ import java.nio.file.Path;
 
 NotionClient client = NotionClient.builder()
         .authToken("ntn_abc123...")
-        .writeExchangeTo(Path.of("exchanges"))
+        .exchangeLogging(Path.of("exchanges"))
         .build();
 ```
 
-The directory is created automatically if it does not exist. Pass `null` or skip interacting with '
-writeExchangeTo' method to leave it disabled.
+The directory is created automatically if it does not exist. Pass `null`, or leave `exchangeLogging`
+out of the builder chain, to keep recording disabled.
 
 ## File Naming
 
@@ -123,4 +123,4 @@ Write failures are logged at WARN level and never propagate -- exchange logging 
 ## See Also
 
 - [Interceptors](architecture.md#interceptors) -- where exchange logging sits in the pipeline
-- [Testing Guide](testing-guide.md) -- using exchange files as test fixtures
+- [Testing Guide](testing-guide.md) -- where the integration suite writes HTTP exchange files

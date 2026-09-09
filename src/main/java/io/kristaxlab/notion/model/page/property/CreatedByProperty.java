@@ -7,8 +7,8 @@ import lombok.Setter;
 /** Page property payload for Notion's {@code created_by} system property. */
 @Getter
 @Setter
-public class CreatedByProperty extends PageProperty {
-  private final String type = PagePropertyType.CREATED_BY.type();
+public class CreatedByProperty extends PagePropertyValue {
+  private final String type = PropertyType.CREATED_BY.type();
 
   private User createdBy;
 }

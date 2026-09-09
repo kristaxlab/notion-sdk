@@ -1,0 +1,32 @@
+{
+  "object": "list",
+  "results": [
+    {
+      "object": "property_item",
+      "type": "title",
+      "id": "Test datasource",
+      "title": {
+        "type": "text",
+        "text": {
+          "content": "Parent"
+        },
+        "annotations": {
+          "bold": false,
+          "italic": false,
+          "strikethrough": false,
+          "underline": false,
+          "code": false,
+          "color": "default"
+        },
+        "plain_text": "Parent"
+      }
+    }
+  ],
+  "has_more": false,
+  "type": "property_item",
+  "property_item": {
+    "id": "Test datasource",
+    "type": "title",
+    "title": {}
+  }
+}

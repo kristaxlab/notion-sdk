@@ -2,8 +2,8 @@ package io.kristaxlab.notion.http.error;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import io.kristaxlab.notion.StrictJsonSerializer;
 import io.kristaxlab.notion.http.base.client.HttpClient.*;
-import io.kristaxlab.notion.http.base.json.TestSerializer;
 import io.kristaxlab.notion.model.NotionError;
 import java.util.Map;
 import org.junit.jupiter.api.*;
@@ -15,7 +15,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 class NotionErrorResponseHandlerTest {
 
   private final NotionErrorResponseHandler handler =
-      new NotionErrorResponseHandler(new TestSerializer());
+      new NotionErrorResponseHandler(new StrictJsonSerializer());
 
   private static HttpRequest anyRequest() {
     return HttpRequest.builder()
@@ -35,7 +35,7 @@ class NotionErrorResponseHandlerTest {
     error.setMessage(message);
     error.setRequestId(requestId);
     error.setStatus(400); // status in the body isn't used for mapping
-    return new TestSerializer().toJson(error);
+    return new StrictJsonSerializer().toJson(error);
   }
 
   @ParameterizedTest(name = "HTTP {0} does not throw")
@@ -156,7 +156,7 @@ class NotionErrorResponseHandlerTest {
     error.setCode(null);
     error.setMessage("Token expired");
     error.setRequestId("req-012");
-    String body = new TestSerializer().toJson(error);
+    String body = new StrictJsonSerializer().toJson(error);
 
     UnauthorizedException ex =
         assertThrows(

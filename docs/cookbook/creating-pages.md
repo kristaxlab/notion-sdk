@@ -1,69 +1,66 @@
 # Creating pages
 
-Create pages under a parent page. Full support for title, icon, cover, and initial block content.
+Create pages with `PagesEndpoint` (`client.pages()`), from a minimal page to a page with initial content.
 
-> **Note:** Creating pages inside a database (with typed properties such as Status, Assignee, or Date)
-> will be covered once database property support is finalized.
-
-
-## Create a page with a title
+This page uses fluent helpers from `NotionBlocks` and `NotionText`. Use static imports in examples for readability:
 
 ```java
-Page page = client.pages().create(p -> p
-    .underPage("parent-page-id")
-    .title("My new page"));
+import static io.kristaxlab.notion.fluent.NotionBlocks.*;
+import static io.kristaxlab.notion.fluent.NotionText.*;
 ```
 
-## Create a page with an icon and cover
+## Create a minimal page
 
 ```java
 Page page = client.pages().create(p -> p
     .underPage("parent-page-id")
-    .title("Project Aurora — Q2 Dashboard")
-    .icon("📊")
+    .title("Weekly Notes"));
+```
+
+## Create a page with icon and cover
+
+```java
+Page page = client.pages().create(p -> p
+    .underPage("parent-page-id")
+    .title("Project Aurora")
+    .icon("🚀")
     .cover("https://images.unsplash.com/photo-1518770660439-4636190af475"));
 ```
 
-Pass a UUID string to `.cover()` to reference a previously uploaded file instead of an external URL.
-
-## Create a page with initial content
-
-Use `.children()` to set the page body at creation time — no separate append call needed.
+## Create a page with initial content (fluent DSL)
 
 ```java
 Page page = client.pages().create(p -> p
     .underPage("parent-page-id")
-    .title("Error Handling Best Practices")
-    .icon("🛡️")
+    .title("Release checklist")
     .children(content -> content
-        .heading2("Principles")
-        .numbered("Fail fast — detect errors at the boundary.")
-        .numbered("Be specific — throw the most precise exception type.")
-        .numbered("Log once — avoid duplicate log entries.")
-        .divider()
-        .callout("💡", "Use typed exceptions from the SDK's exception hierarchy.")));
+        .heading2("Before deploy")
+        .todo("Run integration tests")
+        .todo("Check feature flags")
+        .paragraph(plainText("Owner: "), bold("Platform Team"))
+        .callout("💡", "Use rollback plan for production changes")));
 ```
 
-## Use a pre-built params object
-
-When you need to construct the request separately from the API call, use `CreatePageParams.builder()`.
+## Build params first, create later
 
 ```java
 CreatePageParams params = CreatePageParams.builder()
     .underPage("parent-page-id")
-    .title("Weekly Retrospective")
-    .icon("🔁")
+    .title("Retro")
     .children(content -> content
         .heading2("What went well")
-        .bullet("Shipped the feature on time")
+        .bullets("Fast feedback loop", "Clean release process")
         .heading2("What to improve")
-        .bullet("Add more integration tests"))
+        .bullets("Earlier QA involvement"))
     .build();
 
 Page page = client.pages().create(params);
 ```
 
-## See also
+## Related cookbook pages
 
-- [Page lifecycle](page-lifecycle.md) — update, archive, restore, move
-- [Adding blocks](blocks.md) — append blocks after creation
+- [Adding blocks](adding-blocks.md)
+- [Structured layouts](structured-layouts.md)
+- [Page properties and pagination](page-properties.md)
+- [Updating pages](updating-pages.md)
+- [Back to README](../../README.md#cookbook)

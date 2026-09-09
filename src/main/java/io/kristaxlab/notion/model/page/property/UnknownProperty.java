@@ -6,7 +6,7 @@ import lombok.Setter;
 /* readonly */
 @Getter
 @Setter
-public class UnknownProperty extends PageProperty {
+public class UnknownProperty extends PagePropertyValue {
 
   private String type;
 }

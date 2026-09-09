@@ -6,8 +6,8 @@ import lombok.Setter;
 /** Page property payload for Notion's {@code created_time} system property. */
 @Getter
 @Setter
-public class CreatedTimeProperty extends PageProperty {
-  private final String type = PagePropertyType.CREATED_TIME.type();
+public class CreatedTimeProperty extends PagePropertyValue {
+  private final String type = PropertyType.CREATED_TIME.type();
 
   private String createdTime;
 }
