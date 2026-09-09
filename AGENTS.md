@@ -41,3 +41,17 @@ When adding a property type, follow [docs/internals/adding-a-property-type.md](d
 
 When a Notion field has a limited set of values, follow
 [ADR 0002](docs/adr/0002-enums-for-known-api-tokens-stay-decoupled-from-models.md).
+
+## Agent skills
+
+### Issue tracker
+
+Issues live in this repo's GitHub Issues (via `gh`). See `docs/agents/issue-tracker.md`.
+
+### Triage labels
+
+Default labels: `needs-triage`, `needs-info`, `ready-for-agent`, `ready-for-human`, `wontfix`. See `docs/agents/triage-labels.md`.
+
+### Domain docs
+
+Single-context: root `CONTEXT.md` + `docs/adr/`. See `docs/agents/domain.md`.
