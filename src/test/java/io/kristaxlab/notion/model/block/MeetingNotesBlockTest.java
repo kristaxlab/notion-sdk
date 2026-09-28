@@ -122,7 +122,7 @@ class MeetingNotesBlockTest {
     Block block = JSON.toObject(json, Block.class);
 
     assertInstanceOf(MeetingNotesBlock.class, block);
-    assertEquals("transcription", block.getType());
+    assertEquals("meeting_notes", block.getType());
     MeetingNotesBlock.MeetingNotes payload = block.asMeetingNotes().getMeetingNotes();
     assertEquals("Legacy Sync", payload.getTitle().get(0).getPlainText());
     assertEquals("transcription_in_progress", payload.getStatus());
@@ -152,6 +152,36 @@ class MeetingNotesBlockTest {
     assertEquals("notes_ready", root.get("meeting_notes").get("status").asText());
     assertEquals(
         "a1b2c3d4-5678-9abc-def0-1234567890ab",
+        root.get("meeting_notes").get("children").get("summary_block_id").asText());
+  }
+
+  @Test
+  @DisplayName("round-trip legacy transcription write emits only meeting_notes")
+  void serialize_afterTranscriptionDeserialize_writesMeetingNotesOnly() {
+    String json =
+        """
+        {
+          "object": "block",
+          "id": "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee",
+          "type": "transcription",
+          "transcription": {
+            "status": "notes_ready",
+            "children": {
+              "summary_block_id": "11111111-1111-1111-1111-111111111111"
+            }
+          }
+        }
+        """;
+
+    Block block = JSON.toObject(json, Block.class);
+    JsonNode root = JSON.toObject(JSON.toJson(block), JsonNode.class);
+
+    assertEquals("meeting_notes", root.get("type").asText());
+    assertTrue(root.has("meeting_notes"));
+    assertFalse(root.has("transcription"));
+    assertEquals("notes_ready", root.get("meeting_notes").get("status").asText());
+    assertEquals(
+        "11111111-1111-1111-1111-111111111111",
         root.get("meeting_notes").get("children").get("summary_block_id").asText());
   }
 }
