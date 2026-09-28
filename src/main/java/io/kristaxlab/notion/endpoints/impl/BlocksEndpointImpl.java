@@ -12,6 +12,10 @@ import io.kristaxlab.notion.http.base.request.ApiPath;
 import io.kristaxlab.notion.model.block.AppendBlockChildrenParams;
 import io.kristaxlab.notion.model.block.Block;
 import io.kristaxlab.notion.model.block.BlockList;
+import io.kristaxlab.notion.model.block.CreateMeetingNotesParams;
+import io.kristaxlab.notion.model.block.MeetingNotesBlock;
+import io.kristaxlab.notion.model.block.MeetingNotesList;
+import io.kristaxlab.notion.model.block.QueryMeetingNotesParams;
 import io.kristaxlab.notion.model.common.Position;
 import java.util.List;
 import java.util.function.Consumer;
@@ -220,5 +224,32 @@ public class BlocksEndpointImpl extends BaseEndpointImpl implements BlocksEndpoi
     Block body = new Block();
     body.setInTrash(false);
     return update(blockId, body);
+  }
+
+  @Override
+  public MeetingNotesBlock createMeetingNotes(CreateMeetingNotesParams params) {
+    checkNotNull(params, "params");
+    return getClient()
+        .call(POST, ApiPath.from("/blocks/meeting_notes"), params, MeetingNotesBlock.class);
+  }
+
+  @Override
+  public MeetingNotesBlock createMeetingNotesFromFileUpload(String pageId, String fileUploadId) {
+    checkNotNullOrEmpty(pageId, "pageId");
+    checkNotNullOrEmpty(fileUploadId, "fileUploadId");
+    return createMeetingNotes(CreateMeetingNotesParams.fromFileUpload(pageId, fileUploadId));
+  }
+
+  @Override
+  public MeetingNotesBlock createMeetingNotesFromBlock(String blockId) {
+    checkNotNullOrEmpty(blockId, "blockId");
+    return createMeetingNotes(CreateMeetingNotesParams.fromBlock(blockId));
+  }
+
+  @Override
+  public MeetingNotesList queryMeetingNotes(QueryMeetingNotesParams params) {
+    checkNotNull(params, "params");
+    return getClient()
+        .call(POST, ApiPath.from("/blocks/meeting_notes/query"), params, MeetingNotesList.class);
   }
 }

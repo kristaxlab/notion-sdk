@@ -4,13 +4,18 @@ import io.kristaxlab.notion.fluent.NotionBlocksBuilder;
 import io.kristaxlab.notion.model.block.AppendBlockChildrenParams;
 import io.kristaxlab.notion.model.block.Block;
 import io.kristaxlab.notion.model.block.BlockList;
+import io.kristaxlab.notion.model.block.CreateMeetingNotesParams;
+import io.kristaxlab.notion.model.block.MeetingNotesBlock;
+import io.kristaxlab.notion.model.block.MeetingNotesList;
+import io.kristaxlab.notion.model.block.QueryMeetingNotesParams;
 import io.kristaxlab.notion.model.common.Position;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 /**
- * Block CRUD, child listing, and appending children (with optional {@link Position}).
+ * Block CRUD, child listing, appending children (with optional {@link Position}), and meeting-notes
+ * create/query.
  *
  * @see <a href="https://developers.notion.com/reference/blocks">Notion Blocks API</a>
  */
@@ -120,4 +125,45 @@ public interface BlocksEndpoint {
    * @return restored block
    */
   Block restore(String blockId);
+
+  /**
+   * Creates a meeting notes block from the given params and begins processing its source media.
+   *
+   * @param params create body (file_upload+parent or block source)
+   * @return created meeting notes block (full payload when the integration can read content)
+   * @throws IllegalArgumentException if {@code params} is {@code null}
+   * @see <a href="https://developers.notion.com/reference/create-meeting-note">Create a meeting
+   *     note</a>
+   */
+  MeetingNotesBlock createMeetingNotes(CreateMeetingNotesParams params);
+
+  /**
+   * Creates a meeting notes block from a completed file upload under a page parent.
+   *
+   * @param pageId parent page id
+   * @param fileUploadId completed file upload id
+   * @return created meeting notes block
+   * @throws IllegalArgumentException if either id is null or blank
+   */
+  MeetingNotesBlock createMeetingNotesFromFileUpload(String pageId, String fileUploadId);
+
+  /**
+   * Creates a meeting notes block from an existing audio, video, or file block.
+   *
+   * @param blockId source block id
+   * @return created meeting notes block
+   * @throws IllegalArgumentException if {@code blockId} is null or blank
+   */
+  MeetingNotesBlock createMeetingNotesFromBlock(String blockId);
+
+  /**
+   * Queries meeting notes in the workspace with optional filter, sort, and limit.
+   *
+   * @param params query body; use an empty instance for the server default (limit 50)
+   * @return meeting notes list ({@code results} + {@code has_more}; not cursor-paginated)
+   * @throws IllegalArgumentException if {@code params} is {@code null}
+   * @see <a href="https://developers.notion.com/reference/query-meeting-notes">Query meeting
+   *     notes</a>
+   */
+  MeetingNotesList queryMeetingNotes(QueryMeetingNotesParams params);
 }

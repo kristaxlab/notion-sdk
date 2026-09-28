@@ -7,6 +7,12 @@ import io.kristaxlab.notion.http.base.client.ApiClientStub;
 import io.kristaxlab.notion.model.block.AppendBlockChildrenParams;
 import io.kristaxlab.notion.model.block.Block;
 import io.kristaxlab.notion.model.block.BlockList;
+import io.kristaxlab.notion.model.block.CreateMeetingNotesParams;
+import io.kristaxlab.notion.model.block.MeetingNotesBlock;
+import io.kristaxlab.notion.model.block.MeetingNotesFilter;
+import io.kristaxlab.notion.model.block.MeetingNotesList;
+import io.kristaxlab.notion.model.block.MeetingNotesSort;
+import io.kristaxlab.notion.model.block.QueryMeetingNotesParams;
 import io.kristaxlab.notion.model.common.Position;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -449,6 +455,112 @@ class BlocksEndpointImplTest {
     @DisplayName("rejects blank or null block id")
     void restore_rejectsBlankOrNullBlockId(String blockId) {
       assertThrows(IllegalArgumentException.class, () -> endpoint.restore(blockId));
+    }
+  }
+
+  @Nested
+  @DisplayName("Create meeting notes")
+  class CreateMeetingNotes {
+
+    @Test
+    @DisplayName("posts params to /blocks/meeting_notes")
+    void createMeetingNotes_buildsPostRequest() {
+      MeetingNotesBlock expected = new MeetingNotesBlock();
+      client.setResponse(expected);
+      CreateMeetingNotesParams params = CreateMeetingNotesParams.fromBlock("audio-1");
+
+      MeetingNotesBlock result = endpoint.createMeetingNotes(params);
+
+      assertEquals("POST", client.getLastMethod());
+      assertEquals("/blocks/meeting_notes", client.getLastUrlInfo().getUrl());
+      assertSame(params, client.getLastBody());
+      assertSame(expected, result);
+    }
+
+    @Test
+    @DisplayName("from file upload overload builds file_upload source and page parent")
+    void createMeetingNotesFromFileUpload_buildsParams() {
+      MeetingNotesBlock expected = new MeetingNotesBlock();
+      client.setResponse(expected);
+
+      endpoint.createMeetingNotesFromFileUpload("page-1", "upload-1");
+
+      assertEquals("POST", client.getLastMethod());
+      assertEquals("/blocks/meeting_notes", client.getLastUrlInfo().getUrl());
+      CreateMeetingNotesParams body = (CreateMeetingNotesParams) client.getLastBody();
+      assertEquals("file_upload", body.getSource().getType());
+      assertEquals("upload-1", body.getSource().getFileUploadId());
+      assertEquals("page_id", body.getParent().getType());
+      assertEquals("page-1", body.getParent().getPageId());
+    }
+
+    @Test
+    @DisplayName("from block overload builds block source without parent")
+    void createMeetingNotesFromBlock_buildsParams() {
+      client.setResponse(new MeetingNotesBlock());
+
+      endpoint.createMeetingNotesFromBlock("block-99");
+
+      CreateMeetingNotesParams body = (CreateMeetingNotesParams) client.getLastBody();
+      assertEquals("block", body.getSource().getType());
+      assertEquals("block-99", body.getSource().getBlockId());
+      assertNull(body.getParent());
+    }
+
+    @Test
+    @DisplayName("rejects null params")
+    void createMeetingNotes_rejectsNullParams() {
+      assertThrows(IllegalArgumentException.class, () -> endpoint.createMeetingNotes(null));
+    }
+
+    @ParameterizedTest
+    @NullAndEmptySource
+    @ValueSource(strings = {"   "})
+    @DisplayName("from file upload rejects blank page id")
+    void createMeetingNotesFromFileUpload_rejectsBlankPageId(String pageId) {
+      assertThrows(
+          IllegalArgumentException.class,
+          () -> endpoint.createMeetingNotesFromFileUpload(pageId, "upload-1"));
+    }
+
+    @ParameterizedTest
+    @NullAndEmptySource
+    @ValueSource(strings = {"   "})
+    @DisplayName("from block rejects blank block id")
+    void createMeetingNotesFromBlock_rejectsBlankBlockId(String blockId) {
+      assertThrows(
+          IllegalArgumentException.class, () -> endpoint.createMeetingNotesFromBlock(blockId));
+    }
+  }
+
+  @Nested
+  @DisplayName("Query meeting notes")
+  class QueryMeetingNotes {
+
+    @Test
+    @DisplayName("posts params to /blocks/meeting_notes/query")
+    void queryMeetingNotes_buildsPostRequest() {
+      MeetingNotesList expected = new MeetingNotesList();
+      client.setResponse(expected);
+      QueryMeetingNotesParams params =
+          QueryMeetingNotesParams.builder()
+              .filter(MeetingNotesFilter.titleContains("Sync"))
+              .sort(MeetingNotesSort.byLastEditedTimeDescending())
+              .limit(10)
+              .build();
+
+      MeetingNotesList result = endpoint.queryMeetingNotes(params);
+
+      assertEquals("POST", client.getLastMethod());
+      assertEquals("/blocks/meeting_notes/query", client.getLastUrlInfo().getUrl());
+      assertSame(params, client.getLastBody());
+      assertSame(expected, result);
+    }
+
+    @Test
+    @DisplayName("rejects null params")
+    void queryMeetingNotes_rejectsNullParams() {
+      assertThrows(IllegalArgumentException.class, () -> endpoint.queryMeetingNotes(null));
     }
   }
 }
