@@ -453,13 +453,21 @@ public class NotionBlocks {
   // Embed
 
   /**
-   * Creates an embed block for a URL.
+   * Creates an embed block from a URL or file upload id.
    *
-   * @param url embed URL
+   * <p>A UUID string is treated as a file upload id (HTML embed write shape); any other string is
+   * treated as an external URL.
+   *
+   * @param urlOrFileUploadId an external URL or a file upload UUID string
    * @return embed block
    */
-  public static EmbedBlock embed(String url) {
-    return EmbedBlock.builder().url(url).build();
+  public static EmbedBlock embed(String urlOrFileUploadId) {
+    try {
+      UUID.fromString(urlOrFileUploadId);
+      return EmbedBlock.builder().fileUpload(urlOrFileUploadId).build();
+    } catch (IllegalArgumentException e) {
+      return EmbedBlock.builder().url(urlOrFileUploadId).build();
+    }
   }
 
   /**

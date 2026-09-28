@@ -451,6 +451,24 @@ class NotionBlocksTest {
       assertEquals(
           "https://example.com", NotionBlocks.embed("https://example.com").getEmbed().getUrl());
     }
+
+    @Test
+    @DisplayName("from uuid sets file upload type and id")
+    void fromUuid_setsFileUploadType() {
+      EmbedBlock embed = NotionBlocks.embed(UUID_STRING);
+      assertEquals("file_upload", embed.getEmbed().getType());
+      assertEquals(UUID_STRING, embed.getEmbed().getFileUpload().getId());
+    }
+
+    @Test
+    @DisplayName("from consumer with file upload")
+    void fromConsumer_withFileUpload() {
+      EmbedBlock block = NotionBlocks.embed(b -> b.fileUpload(UUID_STRING).caption("HTML embed"));
+
+      assertEquals("file_upload", block.getEmbed().getType());
+      assertEquals(UUID_STRING, block.getEmbed().getFileUpload().getId());
+      assertEquals("HTML embed", block.getEmbed().getCaption().get(0).getPlainText());
+    }
   }
 
   @Nested
