@@ -1,5 +1,6 @@
 package io.kristaxlab.notion.model.search;
 
+import io.kristaxlab.notion.model.common.SortDirection;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -30,12 +31,29 @@ public class SearchSort {
   }
 
   /**
+   * Sorts by last edited time with the given direction.
+   *
+   * @param direction ascending or descending
+   * @return sort with {@code timestamp=last_edited_time} and the given direction
+   * @throws IllegalArgumentException if {@code direction} is {@code null}
+   */
+  public static SearchSort byLastEditedTime(SortDirection direction) {
+    if (direction == null) {
+      throw new IllegalArgumentException("direction cannot be null");
+    }
+    SearchSort sort = new SearchSort();
+    sort.setTimestamp("last_edited_time");
+    sort.setDirection(direction.getValue());
+    return sort;
+  }
+
+  /**
    * Sorts by last edited time ascending.
    *
    * @return sort with {@code timestamp=last_edited_time} and {@code direction=ascending}
    */
   public static SearchSort byLastEditedTimeAscending() {
-    return byLastEditedTime("ascending");
+    return byLastEditedTime(SortDirection.ASCENDING);
   }
 
   /**
@@ -44,13 +62,6 @@ public class SearchSort {
    * @return sort with {@code timestamp=last_edited_time} and {@code direction=descending}
    */
   public static SearchSort byLastEditedTimeDescending() {
-    return byLastEditedTime("descending");
-  }
-
-  private static SearchSort byLastEditedTime(String direction) {
-    SearchSort sort = new SearchSort();
-    sort.setTimestamp("last_edited_time");
-    sort.setDirection(direction);
-    return sort;
+    return byLastEditedTime(SortDirection.DESCENDING);
   }
 }

@@ -1,4 +1,4 @@
-package io.kristaxlab.notion.model.datasource.sort;
+package io.kristaxlab.notion.model.common;
 
 public enum SortDirection {
   ASCENDING("ascending"),

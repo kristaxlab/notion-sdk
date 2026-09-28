@@ -1,12 +1,13 @@
 package io.kristaxlab.notion.model.datasource.sort;
 
+import io.kristaxlab.notion.model.common.SortDirection;
 import lombok.Getter;
 import lombok.Setter;
 
 /** Sort configuration for database queries. */
 @Getter
 @Setter
-public class Sort {
+public class QuerySort {
 
   private String property;
 
@@ -14,15 +15,15 @@ public class Sort {
 
   private String timestamp;
 
-  public static Sort by(String property, SortDirection direction) {
-    Sort sort = new Sort();
+  public static QuerySort by(String property, SortDirection direction) {
+    QuerySort sort = new QuerySort();
     sort.setProperty(property);
     sort.setDirection(direction.getValue());
     return sort;
   }
 
-  public static Sort by(Timestamp timestamp, SortDirection direction) {
-    Sort sort = new Sort();
+  public static QuerySort by(Timestamp timestamp, SortDirection direction) {
+    QuerySort sort = new QuerySort();
     sort.setTimestamp(timestamp.getValue());
     sort.setDirection(direction.getValue());
     return sort;

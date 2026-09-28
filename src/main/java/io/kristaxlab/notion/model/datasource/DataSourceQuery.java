@@ -1,8 +1,8 @@
 package io.kristaxlab.notion.model.datasource;
 
+import io.kristaxlab.notion.model.common.SortDirection;
 import io.kristaxlab.notion.model.datasource.filter.Filter;
-import io.kristaxlab.notion.model.datasource.sort.Sort;
-import io.kristaxlab.notion.model.datasource.sort.SortDirection;
+import io.kristaxlab.notion.model.datasource.sort.QuerySort;
 import io.kristaxlab.notion.model.datasource.sort.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +16,7 @@ public class DataSourceQuery {
 
   private Filter filter;
 
-  private List<Sort> sorts;
+  private List<QuerySort> sorts;
 
   private String startCursor;
 
@@ -27,7 +27,7 @@ public class DataSourceQuery {
     this.filter = filter;
   }
 
-  public void addSort(Sort sort) {
+  public void addSort(QuerySort sort) {
     if (this.sorts == null) {
       this.sorts = new ArrayList<>();
     }
@@ -38,13 +38,13 @@ public class DataSourceQuery {
     if (this.sorts == null) {
       this.sorts = new ArrayList<>();
     }
-    this.sorts.add(Sort.by(property, direction));
+    this.sorts.add(QuerySort.by(property, direction));
   }
 
   public void addSort(Timestamp timestamp, SortDirection direction) {
     if (this.sorts == null) {
       this.sorts = new ArrayList<>();
     }
-    this.sorts.add(Sort.by(timestamp, direction));
+    this.sorts.add(QuerySort.by(timestamp, direction));
   }
 }

@@ -230,7 +230,7 @@ _Avoid_: Search filter, SearchObjectFilter, object filter (unqualified), data-so
 **Search endpoint sort**:
 The `sort` object on search endpoint params. Modelled by `SearchSort`. Either relevance or
 last-edited-time with a direction.
-_Avoid_: SearchSortOrder, relevance sort (as the type name), data-source Sort.
+_Avoid_: SearchSortOrder, relevance sort (as the type name), data-source QuerySort.
 
 **Result completeness**:
 Whether a search endpoint response or a data-source query response includes the full matching set
