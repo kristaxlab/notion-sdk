@@ -139,7 +139,6 @@ class TemplatePollerTest {
               () ->
                   TemplatePoller.awaitPage(client, "page-1", page -> page.getId() != null, config));
 
-      assertInstanceOf(PollingException.class, exception);
       assertTrue(exception.getMessage().contains("exceeded max attempts (2)"));
       assertTrue(exception.getMessage().contains("page-1"));
       assertEquals(2, httpClient.getCallCount());
