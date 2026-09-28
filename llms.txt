@@ -1,7 +1,7 @@
 # Notion SDK for Java - LLM Guide
 
 Typed Java SDK for the Notion API with:
-- endpoint-oriented client API (`pages`, `blocks`, `users`, `fileUploads`, `comments`)
+- endpoint-oriented client API (`pages`, `blocks`, `users`, `fileUploads`, `comments`, `search`)
 - fluent DSL helpers for content creation (`NotionBlocks`, `NotionText`, `NotionProperties`)
 - typed exception mapping for all common Notion API error codes
 - configurable HTTP pipeline (auth/version/logging/exchange recording/custom transport)
@@ -30,6 +30,7 @@ NotionClient client = NotionClient.builder()
    - `client.users()`
    - `client.fileUploads()`
    - `client.comments()`
+   - `client.search()`
 
 2. Fluent DSL for writing content:
    - `io.kristaxlab.notion.fluent.NotionBlocks`
@@ -113,6 +114,18 @@ client.comments().update(loaded.getId(), CommentUpdateParams.builder().richText(
 client.comments().delete(loaded.getId());
 ```
 
+### Search endpoint
+
+```java
+SearchList results = client.search().search(p -> p
+    .query("meeting notes")
+    .filter(SearchFilter.pages())
+    .sort(SearchSort.byLastEditedTimeDescending()));
+
+NotionSearchViewer view = NotionSearchViewer.of(results);
+List<Page> pages = view.pages();
+```
+
 ## Builder options
 
 | Option | Default | Purpose |
@@ -148,4 +161,5 @@ Cookbook:
   authoritative list. Cookbook filenames carry no ordering, so read the index rather than
   guessing paths.
 - `docs/cookbook/comments.md` — create, list, retrieve, update, and delete comments
+- `docs/cookbook/search.md` — search pages and data sources by title, filter, sort, partition results
 

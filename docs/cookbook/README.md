@@ -28,6 +28,7 @@ sense without renaming anything. See the
 | [Updating pages](updating-pages.md) | Title, icon, cover, lock, move, archive, Markdown updates |
 | [Updating blocks](updating-blocks.md) | Editing, deleting and restoring blocks |
 | [Comments](comments.md) | Create, list, retrieve, update and delete comments on pages and blocks |
+| [Search by title](search.md) | Search pages and data sources by title, filter, sort, and partition results |
 
 ## Files and workflows
 

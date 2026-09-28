@@ -18,6 +18,9 @@ and open a new empty **[Unreleased]** section above it. Do not reconstruct the l
 - Data Sources - all operations
 - Pages - added support for all the page properties types (including property retrieve endpoint
   support), markdown support for pages content.
+- Search - search by title (`client.search()`), with filter, sort, and pagination; `NotionSearchViewer`
+  to partition pages and data sources; `SearchPoller` for create-then-search indexing delay;
+  `RequestStatus` (result completeness) on `SearchList` and `QueryList`.
 
 - `NotionProperties` / `NotionPropertiesBuilder` fluent DSL for declaring properties
 - `NotionSchema` / `NotionSchemaBuilder` fluent DSL for declaring data source columns.
