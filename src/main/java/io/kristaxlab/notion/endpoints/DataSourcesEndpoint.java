@@ -3,8 +3,8 @@ package io.kristaxlab.notion.endpoints;
 import io.kristaxlab.notion.fluent.NotionSchemaBuilder;
 import io.kristaxlab.notion.model.datasource.CreateDataSourceParams;
 import io.kristaxlab.notion.model.datasource.DataSource;
-import io.kristaxlab.notion.model.datasource.DataSourcePageList;
 import io.kristaxlab.notion.model.datasource.DataSourceQuery;
+import io.kristaxlab.notion.model.datasource.QueryList;
 import io.kristaxlab.notion.model.datasource.UpdateDataSourceParams;
 import io.kristaxlab.notion.model.page.templates.Templates;
 import java.util.function.Consumer;
@@ -42,13 +42,13 @@ public interface DataSourcesEndpoint {
 
   DataSource retrieve(String dataSourceId);
 
-  DataSourcePageList query(String dataSourceId);
+  QueryList query(String dataSourceId);
 
-  DataSourcePageList query(String dataSourceId, DataSourceQuery request);
+  QueryList query(String dataSourceId, DataSourceQuery request);
 
-  DataSourcePageList query(String dataSourceId, String startCursor, Integer pageSize);
+  QueryList query(String dataSourceId, String startCursor, Integer pageSize);
 
-  DataSourcePageList query(
+  QueryList query(
       String dataSourceId, DataSourceQuery request, String startCursor, Integer pageSize);
 
   /**

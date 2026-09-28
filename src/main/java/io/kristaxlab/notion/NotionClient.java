@@ -6,6 +6,7 @@ import io.kristaxlab.notion.endpoints.DataSourcesEndpoint;
 import io.kristaxlab.notion.endpoints.DatabasesEndpoint;
 import io.kristaxlab.notion.endpoints.FileUploadsEndpoint;
 import io.kristaxlab.notion.endpoints.PagesEndpoint;
+import io.kristaxlab.notion.endpoints.SearchEndpoint;
 import io.kristaxlab.notion.endpoints.UsersEndpoint;
 import io.kristaxlab.notion.endpoints.impl.BlocksEndpointImpl;
 import io.kristaxlab.notion.endpoints.impl.CommentsEndpointImpl;
@@ -13,14 +14,15 @@ import io.kristaxlab.notion.endpoints.impl.DataSourcesEndpointImpl;
 import io.kristaxlab.notion.endpoints.impl.DatabasesEndpointImpl;
 import io.kristaxlab.notion.endpoints.impl.FileUploadsEndpointImpl;
 import io.kristaxlab.notion.endpoints.impl.PagesEndpointImpl;
+import io.kristaxlab.notion.endpoints.impl.SearchEndpointImpl;
 import io.kristaxlab.notion.endpoints.impl.UsersEndpointImpl;
 import io.kristaxlab.notion.http.NotionHttpClient;
 import io.kristaxlab.notion.http.base.client.*;
 
 /**
  * Entry point for the Notion REST API: {@link #users()}, {@link #blocks()}, {@link #pages()},
- * {@link #fileUploads()}, {@link #comments()}. Use {@link #builder()} or {@link #forToken(String)}
- * to construct an instance.
+ * {@link #fileUploads()}, {@link #comments()}, {@link #search()}. Use {@link #builder()} or {@link
+ * #forToken(String)} to construct an instance.
  */
 public class NotionClient {
 
@@ -33,6 +35,7 @@ public class NotionClient {
   private DatabasesEndpoint databasesEndpoint;
   private DataSourcesEndpoint dataSourcesEndpoint;
   private CommentsEndpoint commentsEndpoint;
+  private SearchEndpoint searchEndpoint;
 
   NotionClient(NotionHttpClient httpClient) {
     this.httpClient = httpClient;
@@ -43,6 +46,7 @@ public class NotionClient {
     this.databasesEndpoint = new DatabasesEndpointImpl(httpClient);
     this.dataSourcesEndpoint = new DataSourcesEndpointImpl(httpClient);
     this.commentsEndpoint = new CommentsEndpointImpl(httpClient);
+    this.searchEndpoint = new SearchEndpointImpl(httpClient);
   }
 
   /** Low-level HTTP client used by this instance (same pipeline as the endpoint accessors). */
@@ -76,6 +80,10 @@ public class NotionClient {
 
   public CommentsEndpoint comments() {
     return commentsEndpoint;
+  }
+
+  public SearchEndpoint search() {
+    return searchEndpoint;
   }
 
   /**

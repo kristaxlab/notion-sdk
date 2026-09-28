@@ -9,7 +9,8 @@ Names on an `_Avoid_` line are rejected, not casual alternatives. If a concept y
 stop and ask — do not invent a term, and do not add a definition here until it has been agreed.
 
 The vocabulary below covers API-wide conventions, page properties, data sources, the Markdown
-endpoints, comments, and the integration testkit; other areas are added as they get documented.
+endpoints, comments, search, and the integration testkit; other areas are added as they get
+documented.
 
 ## Language
 
@@ -204,6 +205,37 @@ _Avoid_: remove comment, trash comment.
 `GET /comments`, exposed as `comments().listComments(...)`. Returns unresolved comments on a page
 or block. The query parameter is `block_id` for both pages and blocks.
 _Avoid_: list comments endpoint, retrieve comments, comments endpoint.
+
+**Search endpoint**:
+`POST /search`, exposed as `search().search(...)`. Returns pages and data sources shared with the
+connection whose titles match the optional query.
+_Avoid_: title search, workspace search, AI search, search (unqualified, when Markdown
+search-and-replace or a fluent local text helper is meant).
+
+**Search endpoint response**:
+The paginated response of the search endpoint. Modelled by `SearchList`. Results are pages and
+data sources interleaved; each element is a `NotionObject` narrowed by the caller.
+_Avoid_: search list, search result list, page or data source list, SearchResponse.
+
+**Search endpoint params**:
+The request body of the search endpoint. Modelled by `SearchParams`. Carries the optional title
+query, filter, sort, start cursor, and page size.
+_Avoid_: Search params, SearchRequest, search query (unqualified — that names only the text field).
+
+**Search endpoint filter**:
+The `filter` object on search endpoint params. Modelled by `SearchFilter`. Limits results by
+object (`page` or `data_source`) and/or whether the match is in the trash.
+_Avoid_: Search filter, SearchObjectFilter, object filter (unqualified), data-source Filter.
+
+**Search endpoint sort**:
+The `sort` object on search endpoint params. Modelled by `SearchSort`. Either relevance or
+last-edited-time with a direction.
+_Avoid_: SearchSortOrder, relevance sort (as the type name), data-source Sort.
+
+**Result completeness**:
+Whether a search endpoint response or a data-source query response includes the full matching set
+or was capped by Notion. Modelled by `RequestStatus` (`type` and optional `incomplete_reason`).
+_Avoid_: Request status, SearchStatus, query status, Result set status.
 
 ### Pagination
 

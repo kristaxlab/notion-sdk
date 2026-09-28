@@ -8,8 +8,8 @@ import io.kristaxlab.notion.http.base.client.ApiClient;
 import io.kristaxlab.notion.http.base.request.ApiPath;
 import io.kristaxlab.notion.model.datasource.CreateDataSourceParams;
 import io.kristaxlab.notion.model.datasource.DataSource;
-import io.kristaxlab.notion.model.datasource.DataSourcePageList;
 import io.kristaxlab.notion.model.datasource.DataSourceQuery;
+import io.kristaxlab.notion.model.datasource.QueryList;
 import io.kristaxlab.notion.model.datasource.UpdateDataSourceParams;
 import io.kristaxlab.notion.model.page.templates.Templates;
 import java.util.function.Consumer;
@@ -131,7 +131,7 @@ public class DataSourcesEndpointImpl extends BaseEndpointImpl implements DataSou
    * @param dataSourceId The ID of the data source to query
    * @return Response containing matching pages
    */
-  public DataSourcePageList query(String dataSourceId) {
+  public QueryList query(String dataSourceId) {
     return query(dataSourceId, null, null, null);
   }
 
@@ -142,7 +142,7 @@ public class DataSourcesEndpointImpl extends BaseEndpointImpl implements DataSou
    * @param request The query request containing filter and sort criteria
    * @return Response containing matching pages
    */
-  public DataSourcePageList query(String dataSourceId, DataSourceQuery request) {
+  public QueryList query(String dataSourceId, DataSourceQuery request) {
     return query(dataSourceId, request, null, null);
   }
 
@@ -154,7 +154,7 @@ public class DataSourcesEndpointImpl extends BaseEndpointImpl implements DataSou
    * @param pageSize The number of items to return (max 100)
    * @return Response containing matching pages
    */
-  public DataSourcePageList query(String dataSourceId, String startCursor, Integer pageSize) {
+  public QueryList query(String dataSourceId, String startCursor, Integer pageSize) {
     return query(dataSourceId, new DataSourceQuery(), startCursor, pageSize);
   }
 
@@ -167,7 +167,7 @@ public class DataSourcesEndpointImpl extends BaseEndpointImpl implements DataSou
    * @param startCursor The cursor to start pagination from
    * @return Response containing matching pages
    */
-  public DataSourcePageList query(
+  public QueryList query(
       String dataSourceId, DataSourceQuery request, String startCursor, Integer pageSize) {
     checkNotNullOrEmpty(dataSourceId, "dataSourceId");
 
@@ -184,7 +184,7 @@ public class DataSourcesEndpointImpl extends BaseEndpointImpl implements DataSou
             .pathParam(DATA_SOURCE_ID, dataSourceId)
             .build();
 
-    return getClient().call("POST", urlInfo, request, DataSourcePageList.class);
+    return getClient().call("POST", urlInfo, request, QueryList.class);
   }
 
   /**

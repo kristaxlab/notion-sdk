@@ -7,7 +7,7 @@ import io.kristaxlab.notion.model.block.BlockList;
 import io.kristaxlab.notion.model.block.BlockType;
 import io.kristaxlab.notion.model.block.ChildPageBlock;
 import io.kristaxlab.notion.model.database.Database;
-import io.kristaxlab.notion.model.datasource.DataSourcePageList;
+import io.kristaxlab.notion.model.datasource.QueryList;
 import io.kristaxlab.notion.model.page.Page;
 import java.util.HashMap;
 import java.util.Map;
@@ -117,7 +117,7 @@ public class FixturePagesDiscoverer {
 
       String cursor = null;
       do {
-        DataSourcePageList pages = notionClient.dataSources().query(dataSourceId, cursor, null);
+        QueryList pages = notionClient.dataSources().query(dataSourceId, cursor, null);
         for (Page page : pages.getResults()) {
           String testId = Optional.ofNullable(page.getTitle()).orElse("").trim();
           if (Strings.isNotBlank(testId)) {
