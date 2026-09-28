@@ -28,6 +28,10 @@ Rules the Notion API enforces that the SDK cannot express in its types, and that
 
 - **Template content is applied asynchronously.** A page created with a template comes back before its blocks and properties exist, so reading it immediately returns an incomplete page. There is no completion signal — the caller has to poll until the expected content appears. `TemplatePoller` does this; see [Creating pages from templates](../cookbook/templates.md).
 
+## Search
+
+- **Search indexing is eventually consistent.** A page or data source created, shared, or moved to trash may be missing from search endpoint responses for a short time. Directly shared content is more reliable, but create-then-search and trash-then-search flows still need a retry. `SearchPoller` does this; see its Javadoc. Prefer the [Query a data source](https://developers.notion.com/reference/query-a-data-source) endpoint when searching inside one data source.
+
 ## Concurrency
 
 - **Concurrent writes to the same parent page can return `409 Conflict`.** This is why parallel execution is disabled for the integration suite; see [Testing Guide](testing-guide.md).
