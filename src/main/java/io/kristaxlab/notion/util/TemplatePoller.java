@@ -41,6 +41,9 @@ import java.util.function.Predicate;
  *     PollingConfig.of(Duration.ofSeconds(10), Duration.ofMillis(500))
  * );
  * }</pre>
+ *
+ * <p>{@link TemplatePollingException} is a {@link PollingException}; catch the base type when any
+ * poller failure should be handled the same way.
  */
 public class TemplatePoller {
 
