@@ -178,6 +178,13 @@ class BlockCastTest {
   }
 
   @Test
+  @DisplayName("as meeting notes success")
+  void asMeetingNotes_success() {
+    Block block = new MeetingNotesBlock();
+    assertNotNull(block.asMeetingNotes());
+  }
+
+  @Test
   @DisplayName("as equation success")
   void asEquation_success() {
     Block block = NotionBlocks.equation("x^2");

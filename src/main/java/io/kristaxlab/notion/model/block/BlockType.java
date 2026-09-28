@@ -57,6 +57,11 @@ public enum BlockType {
   LINK_PREVIEW("link_preview"),
   /** Link-to-page block. */
   LINK_TO_PAGE("link_to_page"),
+  /**
+   * Meeting notes block. Writes use {@code meeting_notes}; legacy reads may use {@code
+   * transcription}.
+   */
+  MEETING_NOTES("meeting_notes"),
   /** Numbered list item block. */
   NUMBERED_LIST_ITEM("numbered_list_item"),
   /** Paragraph block. */
