@@ -745,6 +745,53 @@ class NotionBlocksTest {
   }
 
   @Nested
+  class Tab {
+
+    @Test
+    @DisplayName("from varargs returns tab block")
+    void fromVarargs_returnsTabBlock() {
+      assertInstanceOf(TabBlock.class, NotionBlocks.tab(NotionBlocks.paragraph("Overview")));
+    }
+
+    @Test
+    @DisplayName("from varargs sets paragraph children")
+    void fromVarargs_setsParagraphChildren() {
+      TabBlock tab =
+          NotionBlocks.tab(NotionBlocks.paragraph("Overview"), NotionBlocks.paragraph("Details"));
+      assertEquals(2, tab.getTab().getChildren().size());
+      assertEquals(
+          "Overview",
+          tab.getTab().getChildren().get(0).getParagraph().getRichText().get(0).getPlainText());
+    }
+
+    @Test
+    @DisplayName("from list returns tab block")
+    void fromList_returnsTabBlock() {
+      assertInstanceOf(
+          TabBlock.class, NotionBlocks.tab(List.of(NotionBlocks.paragraph("Overview"))));
+    }
+
+    @Test
+    @DisplayName("empty varargs throws illegal argument")
+    void emptyVarargs_throwsIllegalArgument() {
+      assertThrows(IllegalArgumentException.class, () -> NotionBlocks.tab());
+    }
+
+    @Test
+    @DisplayName("empty list throws illegal argument")
+    void emptyList_throwsIllegalArgument() {
+      assertThrows(IllegalArgumentException.class, () -> NotionBlocks.tab(List.of()));
+    }
+
+    @Test
+    @DisplayName("null list throws illegal argument")
+    void nullList_throwsIllegalArgument() {
+      assertThrows(
+          IllegalArgumentException.class, () -> NotionBlocks.tab((List<ParagraphBlock>) null));
+    }
+  }
+
+  @Nested
   class Table {
 
     @Test

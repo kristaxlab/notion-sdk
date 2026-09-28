@@ -67,6 +67,8 @@ public enum BlockType {
   QUOTE("quote"),
   /** Synced block. */
   SYNCED_BLOCK("synced_block"),
+  /** Tab block. */
+  TAB("tab"),
   /** Table block. */
   TABLE("table"),
   /** Table of contents block. */

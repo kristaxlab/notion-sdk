@@ -63,6 +63,7 @@ public class ParagraphBlock extends Block {
   @Setter
   public static final class Paragraph extends BlockWithChildren {
 
+    /** Icon only supported for tab paragraphs that represent tab labels */
     private Icon icon;
   }
 }

@@ -171,6 +171,13 @@ class BlockCastTest {
   }
 
   @Test
+  @DisplayName("as tab success")
+  void asTab_success() {
+    Block block = NotionBlocks.tab(NotionBlocks.paragraph("Overview"));
+    assertNotNull(block.asTab());
+  }
+
+  @Test
   @DisplayName("as equation success")
   void asEquation_success() {
     Block block = NotionBlocks.equation("x^2");

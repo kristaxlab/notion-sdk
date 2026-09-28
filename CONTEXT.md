@@ -8,9 +8,9 @@ This glossary is binding for code, Javadoc, docs, and agent prose. Use each list
 Names on an `_Avoid_` line are rejected, not casual alternatives. If a concept you need is missing,
 stop and ask — do not invent a term, and do not add a definition here until it has been agreed.
 
-The vocabulary below covers API-wide conventions, page properties, data sources, the Markdown
-endpoints, comments, search, and the integration testkit; other areas are added as they get
-documented.
+The vocabulary below covers API-wide conventions, page properties, data sources, blocks, the
+Markdown endpoints, comments, search, and the integration testkit; other areas are added as they
+get documented.
 
 ## Language
 
@@ -136,6 +136,31 @@ _Avoid_: typed DB, predefined database, template database (templates are a diffe
 The classification of a typed database: `tasks`, `projects`, or `skills`. `null` on a regular
 database. The JSON field is `database_type`. Read-only on retrieve.
 _Avoid_: type (ambiguous), database kind, schema type.
+
+### Blocks
+
+**Tab block**:
+A container block with `type: "tab"`. Its type-named value field `tab` is empty on read; the strip
+of tabs is expressed as its direct child blocks.
+_Avoid_: tab container, tabs block.
+
+**Tab label**:
+A paragraph that is a direct child of a tab block — its `rich_text`, optional `icon`, 
+and block color are the label shown on the tab; its nested `children`
+are that tab's panel content. Only paragraph blocks may be direct children of a tab block.
+_Avoid_: tab title, tab item (as if it were a distinct block type), tab name; treating "tab label"
+as only the `rich_text` string.
+
+**Meeting notes block**:
+A block with `type: "meeting_notes"` (legacy wire token `transcription` on older API versions).
+Holds title, transcription status, linked child block ids, and optional calendar/recording
+metadata. Created and queried via dedicated meeting-notes endpoints, not append/update children.
+_Avoid_: transcription block (except when naming the legacy wire token), AI notes block.
+
+**HTML embed**:
+An embed block whose create or update payload uses a `file_upload` of an `.html` or `.htm` file.
+Not a separate block type; responses still expose a temporary `url` plus caption.
+_Avoid_: html block, HTML block (as a type token).
 
 ### Markdown
 

@@ -1043,6 +1043,44 @@ public class NotionBlocks {
     return block;
   }
 
+  // Tab
+
+  /**
+   * Creates a tab block from paragraph children (each paragraph is one tab label).
+   *
+   * <p>Each paragraph is a tab label ({@code rich_text}, optional icon, color); its nested children
+   * are that tab's panel content. At least one paragraph is required.
+   *
+   * @param items tab labels (paragraph children of the tab block)
+   * @return tab block
+   * @throws IllegalArgumentException if {@code items} is null or empty
+   */
+  public static TabBlock tab(ParagraphBlock... items) {
+    if (items == null || items.length == 0) {
+      throw new IllegalArgumentException("At least one paragraph child is required");
+    }
+    return tab(Arrays.asList(items));
+  }
+
+  /**
+   * Creates a tab block from paragraph children (each paragraph is one tab label).
+   *
+   * <p>Each paragraph is a tab label ({@code rich_text}, optional icon, color); its nested children
+   * are that tab's panel content. At least one paragraph is required.
+   *
+   * @param items tab labels (paragraph children of the tab block)
+   * @return tab block
+   * @throws IllegalArgumentException if {@code items} is null or empty
+   */
+  public static TabBlock tab(List<ParagraphBlock> items) {
+    if (items == null || items.isEmpty()) {
+      throw new IllegalArgumentException("At least one paragraph child is required");
+    }
+    TabBlock block = new TabBlock();
+    block.getTab().setChildren(new ArrayList<>(items));
+    return block;
+  }
+
   // Plain table
 
   /**

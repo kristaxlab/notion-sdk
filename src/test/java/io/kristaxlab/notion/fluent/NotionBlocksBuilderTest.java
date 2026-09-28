@@ -570,6 +570,29 @@ class NotionBlocksBuilderTest {
   }
 
   @Nested
+  class Tab {
+
+    @Test
+    @DisplayName("from varargs adds tab block")
+    void fromVarargs_addsTabBlock() {
+      assertInstanceOf(
+          TabBlock.class,
+          builder()
+              .tab(NotionBlocks.paragraph("Overview"), NotionBlocks.paragraph("Details"))
+              .build()
+              .get(0));
+    }
+
+    @Test
+    @DisplayName("from list adds tab block with children")
+    void fromList_addsTabBlockWithChildren() {
+      TabBlock tab =
+          (TabBlock) builder().tab(List.of(NotionBlocks.paragraph("Overview"))).build().get(0);
+      assertEquals(1, tab.getTab().getChildren().size());
+    }
+  }
+
+  @Nested
   class Table {
 
     @Test

@@ -600,4 +600,26 @@ public class NotionBlocksBuilder {
     blocks.add(NotionBlocks.tableOfContents(color));
     return this;
   }
+
+  /**
+   * Appends a tab block built from paragraph children (each paragraph is one tab label).
+   *
+   * @param items tab labels (paragraph children of the tab block)
+   * @return this builder
+   */
+  public NotionBlocksBuilder tab(ParagraphBlock... items) {
+    blocks.add(NotionBlocks.tab(items));
+    return this;
+  }
+
+  /**
+   * Appends a tab block built from paragraph children (each paragraph is one tab label).
+   *
+   * @param items tab labels (paragraph children of the tab block)
+   * @return this builder
+   */
+  public NotionBlocksBuilder tab(List<ParagraphBlock> items) {
+    blocks.add(NotionBlocks.tab(items));
+    return this;
+  }
 }
