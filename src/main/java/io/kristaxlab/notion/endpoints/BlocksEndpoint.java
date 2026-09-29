@@ -30,6 +30,17 @@ public interface BlocksEndpoint {
   BlockList appendChildren(String parentBlockId, Block child);
 
   /**
+   * Appends a single child block at the given position.
+   *
+   * @param parentBlockId parent block identifier
+   * @param child block to append
+   * @param position optional insert position relative to existing children; {@code null} appends at
+   *     the end
+   * @return API response containing appended blocks
+   */
+  BlockList appendChildren(String parentBlockId, Block child, Position position);
+
+  /**
    * Appends multiple child blocks under a parent block.
    *
    * @param parentBlockId parent block identifier
@@ -37,6 +48,17 @@ public interface BlocksEndpoint {
    * @return API response containing appended blocks
    */
   BlockList appendChildren(String parentBlockId, List<? extends Block> children);
+
+  /**
+   * Appends multiple child blocks at the given position.
+   *
+   * @param parentBlockId parent block identifier
+   * @param children blocks to append
+   * @param position optional insert position relative to existing children; {@code null} appends at
+   *     the end
+   * @return API response containing appended blocks
+   */
+  BlockList appendChildren(String parentBlockId, List<? extends Block> children, Position position);
 
   /**
    * Appends blocks built from the {@link NotionBlocksBuilder} DSL.
@@ -48,11 +70,25 @@ public interface BlocksEndpoint {
   BlockList appendChildren(String parentBlockId, Consumer<NotionBlocksBuilder> consumer);
 
   /**
+   * Appends blocks built from the {@link NotionBlocksBuilder} DSL at the given position.
+   *
+   * @param parentBlockId parent block identifier
+   * @param consumer builder consumer that produces child blocks
+   * @param position optional insert position relative to existing children; {@code null} appends at
+   *     the end
+   * @return API response containing appended blocks
+   * @throws IllegalArgumentException if {@code consumer} is {@code null}
+   */
+  BlockList appendChildren(
+      String parentBlockId, Consumer<NotionBlocksBuilder> consumer, Position position);
+
+  /**
    * Appends lazily built blocks at the given position.
    *
    * @param parentBlockId parent block identifier
    * @param supplier supplier of child blocks
-   * @param position optional insert position relative to existing children
+   * @param position optional insert position relative to existing children; {@code null} appends at
+   *     the end
    * @return API response containing appended blocks
    */
   BlockList appendChildren(
@@ -96,13 +132,32 @@ public interface BlocksEndpoint {
   /**
    * Updates a block using the id embedded in the request payload.
    *
-   * @param request partial block payload with update fields
+   * <p>The PATCH body is block-shaped; there is no {@code UpdateBlockParams}. Build the typed
+   * payload with {@link io.kristaxlab.notion.fluent.NotionBlocks} factories (including their {@link
+   * Consumer} overloads), set the block id on the payload, then pass it here.
+   *
+   * <pre>{@code
+   * Block patch = paragraph(p -> p.text(plainText("updated")));
+   * patch.setId(blockId);
+   * client.blocks().update(patch);
+   * }</pre>
+   *
+   * @param request partial block payload with update fields and a non-blank id
    * @return updated block
    */
   Block update(Block request);
 
   /**
    * Updates an existing block.
+   *
+   * <p>The PATCH body is block-shaped; there is no {@code UpdateBlockParams}. Prefer {@link
+   * io.kristaxlab.notion.fluent.NotionBlocks} factories (including their {@link Consumer}
+   * overloads) to build the typed partial payload.
+   *
+   * <pre>{@code
+   * client.blocks().update(blockId, paragraph(p -> p.text(plainText("updated"))));
+   * client.blocks().update(blockId, todo(t -> t.text("done").checked(true)));
+   * }</pre>
    *
    * @param blockId block identifier
    * @param request partial block payload with update fields

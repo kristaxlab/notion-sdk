@@ -52,6 +52,20 @@ class BlockCastTest {
   }
 
   @Test
+  @DisplayName("as heading four success")
+  void asHeadingFour_success() {
+    Block block = NotionBlocks.heading4("H4");
+    assertNotNull(block.asHeadingFour());
+  }
+
+  @Test
+  @DisplayName("as heading four wrong type throws class cast")
+  void asHeadingFour_wrongType_throwsClassCast() {
+    Block block = NotionBlocks.heading1("H1");
+    assertThrows(ClassCastException.class, block::asHeadingFour);
+  }
+
+  @Test
   @DisplayName("as to do success")
   void asToDo_success() {
     Block block = NotionBlocks.todo("Task");

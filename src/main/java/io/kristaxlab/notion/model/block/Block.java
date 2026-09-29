@@ -129,6 +129,16 @@ public class Block extends NotionObject {
   }
 
   /**
+   * Casts this block to a HeadingFourBlock.
+   *
+   * @return this block cast to HeadingFourBlock
+   * @throws ClassCastException if this block is not a HeadingFourBlock
+   */
+  public HeadingFourBlock asHeadingFour() {
+    return (HeadingFourBlock) this;
+  }
+
+  /**
    * Casts this block to a ToDoBlock.
    *
    * @return this block cast to ToDoBlock

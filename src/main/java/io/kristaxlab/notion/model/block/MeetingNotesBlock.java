@@ -11,8 +11,8 @@ import lombok.Setter;
  *
  * <p>On retrieve the type-named value field holds title, status, child block ids, and optional
  * calendar/recording metadata. Legacy API versions use wire type {@code transcription} with the
- * same payload under that key; both deserialize to this class. The legacy type token is coerced to
- * {@code meeting_notes} on read, so writes always emit {@code meeting_notes}.
+ * same payload under that key; both deserialize to this class. New instances and writes use {@code
+ * meeting_notes} only.
  *
  * <p>Create and query use dedicated meeting-notes endpoints, not append/update children.
  *
@@ -21,8 +21,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class MeetingNotesBlock extends Block {
-
-  private static final String LEGACY_TYPE = "transcription";
 
   /**
    * Type-named value field. Also accepts the legacy {@code transcription} key on deserialize; only
@@ -37,20 +35,6 @@ public class MeetingNotesBlock extends Block {
   public MeetingNotesBlock() {
     setType(BlockType.MEETING_NOTES.getValue());
     meetingNotes = new MeetingNotes();
-  }
-
-  /**
-   * Sets the block type, coercing the legacy {@code transcription} token to {@code meeting_notes}.
-   *
-   * @param type wire type from Notion or a caller
-   */
-  @Override
-  public void setType(String type) {
-    if (LEGACY_TYPE.equals(type)) {
-      super.setType(BlockType.MEETING_NOTES.getValue());
-      return;
-    }
-    super.setType(type);
   }
 
   /** The inner content object of a meeting notes block. */
