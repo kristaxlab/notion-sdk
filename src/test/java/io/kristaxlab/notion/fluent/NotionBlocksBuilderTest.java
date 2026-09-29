@@ -390,6 +390,24 @@ class NotionBlocksBuilderTest {
     void fromString_addsEmbedBlock() {
       assertInstanceOf(EmbedBlock.class, builder().embed("https://example.com").build().get(0));
     }
+
+    @Test
+    @DisplayName("from uuid adds embed block with file upload")
+    void fromUuid_addsEmbedBlockWithFileUpload() {
+      EmbedBlock b = (EmbedBlock) builder().embed(UUID_STRING).build().get(0);
+      assertEquals("file_upload", b.getEmbed().getType());
+      assertEquals(UUID_STRING, b.getEmbed().getFileUpload().getId());
+    }
+
+    @Test
+    @DisplayName("from consumer with file upload")
+    void fromConsumer_withFileUpload() {
+      EmbedBlock b =
+          (EmbedBlock)
+              builder().embed(e -> e.fileUpload(UUID_STRING).caption("widget")).build().get(0);
+      assertEquals("file_upload", b.getEmbed().getType());
+      assertEquals("widget", b.getEmbed().getCaption().get(0).getPlainText());
+    }
   }
 
   @Nested
@@ -566,6 +584,29 @@ class NotionBlocksBuilderTest {
     @DisplayName("synced from adds synced block")
     void syncedFrom_addsSyncedBlock() {
       assertInstanceOf(SyncedBlock.class, builder().syncedFrom("block-123").build().get(0));
+    }
+  }
+
+  @Nested
+  class Tab {
+
+    @Test
+    @DisplayName("from varargs adds tab block")
+    void fromVarargs_addsTabBlock() {
+      assertInstanceOf(
+          TabBlock.class,
+          builder()
+              .tab(NotionBlocks.paragraph("Overview"), NotionBlocks.paragraph("Details"))
+              .build()
+              .get(0));
+    }
+
+    @Test
+    @DisplayName("from list adds tab block with children")
+    void fromList_addsTabBlockWithChildren() {
+      TabBlock tab =
+          (TabBlock) builder().tab(List.of(NotionBlocks.paragraph("Overview"))).build().get(0);
+      assertEquals(1, tab.getTab().getChildren().size());
     }
   }
 

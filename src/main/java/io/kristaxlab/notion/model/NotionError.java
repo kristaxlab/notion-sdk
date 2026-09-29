@@ -29,5 +29,7 @@ public class NotionError extends BaseNotionObject {
     private List<String> childDataSourceIds;
 
     private String minimumApiVersion;
+
+    private String integration_id;
   }
 }

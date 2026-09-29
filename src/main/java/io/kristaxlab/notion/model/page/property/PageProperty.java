@@ -1,31 +1,24 @@
 package io.kristaxlab.notion.model.page.property;
 
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import io.kristaxlab.notion.model.common.NotionList;
-import lombok.Getter;
-import lombok.Setter;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
-@JsonTypeInfo(
-    use = JsonTypeInfo.Id.NAME,
-    defaultImpl = UnknownProperty.class,
-    include = JsonTypeInfo.As.EXISTING_PROPERTY,
-    property = "type",
-    visible = true)
-@JsonSubTypes({
-  @JsonSubTypes.Type(value = CreatedByProperty.class, name = "created_by"), // read-only
-  @JsonSubTypes.Type(value = CreatedTimeProperty.class, name = "created_time"), // read-only
-  @JsonSubTypes.Type(value = LastEditedByProperty.class, name = "last_edited_by"), // read-only
-  @JsonSubTypes.Type(value = LastEditedTimeProperty.class, name = "last_edited_time"), // read-only
-  @JsonSubTypes.Type(value = TitleProperty.class, name = "title"),
-  @JsonSubTypes.Type(value = UniqueIdProperty.class, name = "unique_id"), // read-only
-  @JsonSubTypes.Type(value = VerificationProperty.class, name = "verification") // read-only
-})
-@Getter
-@Setter
-public abstract class PageProperty extends NotionList<PageProperty> {
+/**
+ * What the property retrieve endpoint returns: either a page property value ({@link
+ * PagePropertyValue}) for a non-paginated property, or a page property list ({@link
+ * PagePropertyList}) for a paginated one.
+ *
+ * @see io.kristaxlab.notion.endpoints.PagesEndpoint#retrieveProperty
+ */
+@JsonDeserialize(using = PagePropertyDeserializer.class)
+public sealed interface PageProperty permits PagePropertyValue, PagePropertyList {
 
-  private String id;
+  String getType();
 
-  public abstract String getType();
+  default <T extends PagePropertyValue> T asValue(Class<T> type) {
+    return type.cast(this);
+  }
+
+  default <T extends PagePropertyList> T asList(Class<T> type) {
+    return type.cast(this);
+  }
 }

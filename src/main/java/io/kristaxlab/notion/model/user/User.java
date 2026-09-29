@@ -1,11 +1,13 @@
 package io.kristaxlab.notion.model.user;
 
 import io.kristaxlab.notion.model.BaseNotionObject;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
+@EqualsAndHashCode
 public class User extends BaseNotionObject {
 
   private String id;

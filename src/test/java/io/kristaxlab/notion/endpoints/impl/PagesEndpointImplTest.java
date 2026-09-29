@@ -3,6 +3,7 @@ package io.kristaxlab.notion.endpoints.impl;
 import static org.junit.jupiter.api.Assertions.*;
 
 import io.kristaxlab.notion.http.base.client.ApiClientStub;
+import io.kristaxlab.notion.model.asynctask.AsyncTask;
 import io.kristaxlab.notion.model.common.Parent;
 import io.kristaxlab.notion.model.page.CreatePageParams;
 import io.kristaxlab.notion.model.page.MovePageParams;
@@ -10,9 +11,9 @@ import io.kristaxlab.notion.model.page.Page;
 import io.kristaxlab.notion.model.page.PageAsMarkdown;
 import io.kristaxlab.notion.model.page.UpdatePageParams;
 import io.kristaxlab.notion.model.page.markdown.UpdatePageAsMarkdownParams;
-import io.kristaxlab.notion.model.page.property.PageProperty;
-import io.kristaxlab.notion.model.page.property.UnknownProperty;
+import io.kristaxlab.notion.model.page.property.*;
 import java.util.List;
+import java.util.function.Consumer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DisplayNameGeneration;
@@ -85,6 +86,52 @@ class PagesEndpointImplTest {
     void create_withRequest_rejectsNullRequest() {
       assertThrows(IllegalArgumentException.class, () -> endpoint.create((CreatePageParams) null));
     }
+
+    @Test
+    @DisplayName("createAsync posts with allow_async and markdown")
+    void createAsync_withMarkdown_setsAllowAsync() {
+      CreatePageParams request =
+          CreatePageParams.builder()
+              .parent(Parent.pageParent("parent-1"))
+              .markdown("# Body")
+              .build();
+      AsyncTask expected = new AsyncTask();
+      client.setResponse(expected);
+
+      AsyncTask result = endpoint.createAsync(request);
+
+      assertEquals("POST", client.getLastMethod());
+      assertEquals("/pages", client.getLastUrlInfo().getUrl());
+      CreatePageParams body = (CreatePageParams) client.getLastBody();
+      assertEquals(Boolean.TRUE, body.getAllowAsync());
+      assertEquals("# Body", body.getMarkdown());
+      assertSame(expected, result);
+    }
+
+    @Test
+    @DisplayName("createAsync rejects missing markdown")
+    void createAsync_rejectsMissingMarkdown() {
+      CreatePageParams request =
+          CreatePageParams.builder().parent(Parent.pageParent("parent-1")).title("No md").build();
+
+      assertThrows(IllegalArgumentException.class, () -> endpoint.createAsync(request));
+    }
+
+    @Test
+    @DisplayName("createAsync works with consumer")
+    void createAsync_withConsumer_buildsPostRequest() {
+      AsyncTask expected = new AsyncTask();
+      client.setResponse(expected);
+
+      AsyncTask result =
+          endpoint.createAsync(
+              builder -> builder.parent(Parent.pageParent("parent-1")).markdown("# Hi"));
+
+      assertEquals("POST", client.getLastMethod());
+      CreatePageParams body = (CreatePageParams) client.getLastBody();
+      assertEquals(Boolean.TRUE, body.getAllowAsync());
+      assertSame(expected, result);
+    }
   }
 
   @Nested
@@ -112,6 +159,30 @@ class PagesEndpointImplTest {
     @DisplayName("rejects blank or null page id")
     void retrieve_rejectsBlankOrNullPageId(String pageId) {
       assertThrows(IllegalArgumentException.class, () -> endpoint.retrieve(pageId));
+    }
+
+    @Test
+    @DisplayName("works with filter properties")
+    void retrieve_withFilterProperties_setsQueryParams() {
+      Page expected = new Page();
+      client.setResponse(expected);
+
+      Page result = endpoint.retrieve("page-id-1", List.of("title", "Status"));
+
+      assertEquals("GET", client.getLastMethod());
+      assertEquals("/pages/{page_id}", client.getLastUrlInfo().getUrl());
+      assertEquals(
+          List.of("title", "Status"),
+          client.getLastUrlInfo().getQueryParams().get("filter_properties"));
+      assertSame(expected, result);
+    }
+
+    @Test
+    @DisplayName("rejects null filter properties collection")
+    void retrieve_rejectsNullFilterProperties() {
+      assertThrows(
+          IllegalArgumentException.class,
+          () -> endpoint.retrieve("page-id-1", (java.util.Collection<String>) null));
     }
   }
 
@@ -189,7 +260,82 @@ class PagesEndpointImplTest {
     @DisplayName("rejects null markdown update request")
     void updateAsMarkdown_rejectsNullRequest() {
       assertThrows(
-          IllegalArgumentException.class, () -> endpoint.updateAsMarkdown("page-id-1", null));
+          IllegalArgumentException.class,
+          () -> endpoint.updateAsMarkdown("page-id-1", (UpdatePageAsMarkdownParams) null));
+    }
+
+    @Test
+    @DisplayName("updateAsMarkdownAsync sets allow_async")
+    void updateAsMarkdownAsync_setsAllowAsync() {
+      UpdatePageAsMarkdownParams request = UpdatePageAsMarkdownParams.replaceContent("new content");
+      AsyncTask expected = new AsyncTask();
+      client.setResponse(expected);
+
+      AsyncTask result = endpoint.updateAsMarkdownAsync("page-id-1", request);
+
+      assertEquals("PATCH", client.getLastMethod());
+      assertEquals("/pages/{page_id}/markdown", client.getLastUrlInfo().getUrl());
+      UpdatePageAsMarkdownParams body = (UpdatePageAsMarkdownParams) client.getLastBody();
+      assertEquals(Boolean.TRUE, body.getAllowAsync());
+      assertSame(expected, result);
+    }
+
+    @Test
+    @DisplayName("works with markdown string convenience method")
+    void updateAsMarkdown_worksWithStringConvenience() {
+      PageAsMarkdown expected = new PageAsMarkdown();
+      client.setResponse(expected);
+
+      PageAsMarkdown result = endpoint.updateAsMarkdown("page-id-1", "# New content");
+
+      assertEquals("PATCH", client.getLastMethod());
+      assertEquals("/pages/{page_id}/markdown", client.getLastUrlInfo().getUrl());
+      assertEquals("page-id-1", client.getLastUrlInfo().getPathParams().get("page_id"));
+      assertSame(expected, result);
+
+      UpdatePageAsMarkdownParams body = (UpdatePageAsMarkdownParams) client.getLastBody();
+      assertNotNull(body);
+      assertEquals("replace_content", body.getType());
+      assertNotNull(body.getReplaceContent());
+      assertEquals("# New content", body.getReplaceContent().getNewStr());
+    }
+
+    @Test
+    @DisplayName("rejects null markdown string")
+    void updateAsMarkdown_rejectsNullString() {
+      assertThrows(
+          IllegalArgumentException.class,
+          () -> endpoint.updateAsMarkdown("page-id-1", (String) null));
+    }
+
+    @Test
+    @DisplayName("works with builder consumer convenience method")
+    void updateAsMarkdown_worksWithBuilderConsumer() {
+      PageAsMarkdown expected = new PageAsMarkdown();
+      client.setResponse(expected);
+
+      PageAsMarkdown result =
+          endpoint.updateAsMarkdown(
+              "page-id-1", builder -> builder.updateContent("old", "new", false));
+
+      assertEquals("PATCH", client.getLastMethod());
+      assertEquals("/pages/{page_id}/markdown", client.getLastUrlInfo().getUrl());
+      assertEquals("page-id-1", client.getLastUrlInfo().getPathParams().get("page_id"));
+      assertSame(expected, result);
+
+      UpdatePageAsMarkdownParams body = (UpdatePageAsMarkdownParams) client.getLastBody();
+      assertNotNull(body);
+      assertEquals("update_content", body.getType());
+    }
+
+    @Test
+    @DisplayName("rejects null consumer")
+    void updateAsMarkdown_rejectsNullConsumer() {
+      assertThrows(
+          IllegalArgumentException.class,
+          () ->
+              endpoint.updateAsMarkdown(
+                  "page-id-1", (Consumer<UpdatePageAsMarkdownParams.Builder>) null));
     }
   }
 
@@ -211,16 +357,6 @@ class PagesEndpointImplTest {
       assertEquals("title", client.getLastUrlInfo().getPathParams().get("property_id"));
       assertTrue(client.getLastUrlInfo().getQueryParams().isEmpty());
       assertSame(expected, result);
-    }
-
-    @Test
-    @DisplayName("works with pagination and adds query params")
-    void retrieveProperty_withPagination_addsQueryParams() {
-      endpoint.retrieveProperty("page-id-1", "title", "cursor-1", 20);
-
-      assertEquals(
-          List.of("cursor-1"), client.getLastUrlInfo().getQueryParams().get("start_cursor"));
-      assertEquals(List.of("20"), client.getLastUrlInfo().getQueryParams().get("page_size"));
     }
 
     @Test
@@ -247,6 +383,37 @@ class PagesEndpointImplTest {
     void retrieveProperty_rejectsBlankOrNullPropertyId(String propertyId) {
       assertThrows(
           IllegalArgumentException.class, () -> endpoint.retrieveProperty("page-id-1", propertyId));
+    }
+  }
+
+  @Nested
+  @DisplayName("Retrieve paginated page property")
+  class RetrievePaginatedProperty {
+
+    @Test
+    @DisplayName("works for valid page id and property id")
+    void retrievePaginatedProperty_buildsGetRequest() {
+      PagePropertyList expected = new RelationPropertyList();
+      client.setResponse(expected);
+
+      PagePropertyList result = endpoint.retrievePaginatedProperty("page-id-1", "title");
+
+      assertEquals("GET", client.getLastMethod());
+      assertEquals("/pages/{page_id}/properties/{property_id}", client.getLastUrlInfo().getUrl());
+      assertEquals("page-id-1", client.getLastUrlInfo().getPathParams().get("page_id"));
+      assertEquals("title", client.getLastUrlInfo().getPathParams().get("property_id"));
+      assertTrue(client.getLastUrlInfo().getQueryParams().isEmpty());
+      assertSame(expected, result);
+    }
+
+    @Test
+    @DisplayName("works with pagination and adds query params")
+    void retrievePaginatedProperty_withPagination_addsQueryParams() {
+      endpoint.retrievePaginatedProperty("page-id-1", "title", "cursor-1", 20);
+
+      assertEquals(
+          List.of("cursor-1"), client.getLastUrlInfo().getQueryParams().get("start_cursor"));
+      assertEquals(List.of("20"), client.getLastUrlInfo().getQueryParams().get("page_size"));
     }
   }
 
@@ -283,7 +450,9 @@ class PagesEndpointImplTest {
     @Test
     @DisplayName("rejects null update request")
     void update_rejectsNullRequest() {
-      assertThrows(IllegalArgumentException.class, () -> endpoint.update("page-id-1", null));
+      assertThrows(
+          IllegalArgumentException.class,
+          () -> endpoint.update("page-id-1", (UpdatePageParams) null));
     }
   }
 

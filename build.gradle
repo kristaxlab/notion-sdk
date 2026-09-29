@@ -12,10 +12,19 @@ java {
 }
 
 group = 'io.github.kristaxlab'
-version = '0.1.0'
+version = '0.2.0-SNAPSHOT'
 
 sourceSets {
     main.java.exclude 'examples/**'
+    testIntegration {
+        compileClasspath += sourceSets.main.output
+        runtimeClasspath += sourceSets.main.output
+    }
+}
+
+configurations {
+    testIntegrationImplementation.extendsFrom implementation
+    testIntegrationRuntimeOnly.extendsFrom runtimeOnly
 }
 
 repositories {
@@ -32,11 +41,20 @@ dependencies {
 
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
-    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
     testImplementation 'org.apache.logging.log4j:log4j-core:2.25.3'
+    testRuntimeOnly 'org.apache.logging.log4j:log4j-slf4j2-impl:2.25.3'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
     testCompileOnly 'org.projectlombok:lombok:1.18.32'
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.32'
     testImplementation 'com.squareup.okhttp3:mockwebserver:5.1.0'
+
+    testIntegrationImplementation platform('org.junit:junit-bom:5.10.0')
+    testIntegrationImplementation 'org.junit.jupiter:junit-jupiter'
+    testIntegrationImplementation 'org.junit.platform:junit-platform-suite-api'
+    testIntegrationImplementation 'org.apache.logging.log4j:log4j-core:2.25.3'
+    testIntegrationRuntimeOnly 'org.apache.logging.log4j:log4j-slf4j2-impl:2.25.3'
+    testIntegrationRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    testIntegrationRuntimeOnly 'org.junit.platform:junit-platform-suite-engine'
 }
 
 spotless {
@@ -48,11 +66,15 @@ spotless {
     }
 }
 
+tasks.withType(Javadoc).configureEach {
+    options.addBooleanOption('Xdoclint:all,-missing', true)
+}
+
 test {
     finalizedBy jacocoTestReport
 
     useJUnitPlatform {
-        excludeTags("integration", "examples")
+        excludeTags("examples")
     }
 
     jacoco {
@@ -61,20 +83,57 @@ test {
     }
 }
 
+tasks.named('check') {
+    dependsOn tasks.named('javadoc')
+}
 
-tasks.register('integrationTest', Test) {
+
+tasks.register('testIntegration', Test) {
     description = 'Runs integration tests'
     group = 'verification'
 
-    testClassesDirs = sourceSets.test.output.classesDirs
-    classpath = sourceSets.test.runtimeClasspath
+    dependsOn testIntegrationClasses
+
+    testClassesDirs = sourceSets.testIntegration.output.classesDirs
+    classpath = sourceSets.testIntegration.runtimeClasspath
+
+    shouldRunAfter test
 
     // Load .env files in order — later files override earlier ones
     loadEnvFiles(it, ['.env.test', '.env.test.local'])
 
     useJUnitPlatform {
-        excludeTags 'paid', 'examples'
-        includeTags 'integration'
+        excludeTags 'paid_plan', 'examples'
+    }
+
+    filter {
+        includeTestsMatching 'tests.*'
+    }
+
+    reports {
+        html.outputLocation = layout.buildDirectory.dir('reports/tests/testIntegration')
+    }
+}
+
+tasks.register('testIntegrationQuick', Test) {
+    description = 'Runs QuickCheck integration test suite'
+    group = 'verification'
+
+    dependsOn testIntegrationClasses
+
+    testClassesDirs = sourceSets.testIntegration.output.classesDirs
+    classpath = sourceSets.testIntegration.runtimeClasspath
+
+    loadEnvFiles(it, ['.env.test', '.env.test.local'])
+
+    useJUnitPlatform()
+
+    filter {
+        includeTestsMatching 'suites.QuickCheck'
+    }
+
+    reports {
+        html.outputLocation = layout.buildDirectory.dir('reports/tests/testIntegrationQuick')
     }
 }
 
@@ -109,8 +168,8 @@ mavenPublishing {
         url = "https://github.com/kristaxlab/notion-sdk"
         licenses {
             license {
-                name = "MIT License"
-                url = "https://opensource.org/license/mit"
+                name = "PolyForm Shield License 1.0.0"
+                url = "https://polyformproject.org/licenses/shield/1.0.0/"
             }
         }
         developers {

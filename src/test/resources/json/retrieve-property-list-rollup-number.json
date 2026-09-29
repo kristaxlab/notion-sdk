@@ -1,0 +1,24 @@
+{
+  "object": "list",
+  "results": [
+    {
+      "object": "property_item",
+      "type": "number",
+      "id": "Score",
+      "number": 12.5
+    }
+  ],
+  "next_cursor": null,
+  "has_more": false,
+  "type": "property_item",
+  "property_item": {
+    "id": "Median",
+    "next_url": null,
+    "type": "rollup",
+    "rollup": {
+      "function": "median",
+      "type": "array",
+      "array": []
+    }
+  }
+}

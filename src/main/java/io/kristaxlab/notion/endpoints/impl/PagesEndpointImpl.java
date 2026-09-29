@@ -7,13 +7,17 @@ import io.kristaxlab.notion.endpoints.PagesEndpoint;
 import io.kristaxlab.notion.fluent.NotionBlocksBuilder;
 import io.kristaxlab.notion.http.base.client.ApiClient;
 import io.kristaxlab.notion.http.base.request.ApiPath;
+import io.kristaxlab.notion.model.asynctask.AsyncTask;
 import io.kristaxlab.notion.model.block.Block;
 import io.kristaxlab.notion.model.common.Parent;
 import io.kristaxlab.notion.model.page.*;
 import io.kristaxlab.notion.model.page.markdown.UpdatePageAsMarkdownParams;
 import io.kristaxlab.notion.model.page.property.PageProperty;
+import io.kristaxlab.notion.model.page.property.PagePropertyList;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -48,6 +52,25 @@ public class PagesEndpointImpl extends BaseEndpointImpl implements PagesEndpoint
     return getClient().call("POST", urlInfo, request, Page.class);
   }
 
+  @Override
+  public AsyncTask createAsync(Consumer<CreatePageParams.Builder> consumer) {
+    checkNotNull(consumer, "consumer");
+
+    CreatePageParams.Builder builder = CreatePageParams.builder();
+    consumer.accept(builder);
+    return createAsync(builder.build());
+  }
+
+  @Override
+  public AsyncTask createAsync(CreatePageParams request) {
+    checkNotNull(request, "request");
+    checkNotNullOrEmpty(request.getMarkdown(), "markdown");
+
+    request.setAllowAsync(true);
+    ApiPath urlInfo = ApiPath.from("/pages");
+    return getClient().call("POST", urlInfo, request, AsyncTask.class);
+  }
+
   /**
    * Creates a blank page with a title under the given parent.
    *
@@ -56,7 +79,7 @@ public class PagesEndpointImpl extends BaseEndpointImpl implements PagesEndpoint
    * @return the created page
    */
   private Page create(Parent parent, String title) {
-    return create(CreatePageParams.of(parent, title));
+    return create(CreatePageParams.builder().parent(parent).title(title).build());
   }
 
   /**
@@ -68,7 +91,8 @@ public class PagesEndpointImpl extends BaseEndpointImpl implements PagesEndpoint
    * @return the created page
    */
   private Page create(Parent parent, String title, String markdownContent) {
-    return create(CreatePageParams.of(parent, title, markdownContent));
+    return create(
+        CreatePageParams.builder().parent(parent).title(title).markdown(markdownContent).build());
   }
 
   /**
@@ -109,6 +133,16 @@ public class PagesEndpointImpl extends BaseEndpointImpl implements PagesEndpoint
     return getClient().call("GET", urlInfo, Page.class);
   }
 
+  @Override
+  public Page retrieve(String pageId, Collection<String> filterProperties) {
+    checkNotNullOrEmpty(pageId, "pageId");
+    checkNotNull(filterProperties, "filterProperties");
+
+    ApiPath.Builder urlBuilder = ApiPath.builder("/pages/{page_id}").pathParam("page_id", pageId);
+    addFilterProperties(urlBuilder, filterProperties);
+    return getClient().call("GET", urlBuilder.build(), Page.class);
+  }
+
   public PageAsMarkdown retrieveAsMarkdown(String pageId) {
     return retrieveAsMarkdown(pageId, false);
   }
@@ -133,6 +167,45 @@ public class PagesEndpointImpl extends BaseEndpointImpl implements PagesEndpoint
     return getClient().call("PATCH", urlInfo, request, PageAsMarkdown.class);
   }
 
+  public PageAsMarkdown updateAsMarkdown(
+      String pageId, Consumer<UpdatePageAsMarkdownParams.Builder> consumer) {
+    checkNotNullOrEmpty(pageId, "pageId");
+    checkNotNull(consumer, "consumer");
+
+    UpdatePageAsMarkdownParams.Builder builder = UpdatePageAsMarkdownParams.builder();
+    consumer.accept(builder);
+    return updateAsMarkdown(pageId, builder.build());
+  }
+
+  public PageAsMarkdown updateAsMarkdown(String pageId, String markdown) {
+    checkNotNullOrEmpty(pageId, "pageId");
+    checkNotNull(markdown, "markdown");
+
+    return updateAsMarkdown(pageId, UpdatePageAsMarkdownParams.replaceContent(markdown));
+  }
+
+  @Override
+  public AsyncTask updateAsMarkdownAsync(
+      String pageId, Consumer<UpdatePageAsMarkdownParams.Builder> consumer) {
+    checkNotNullOrEmpty(pageId, "pageId");
+    checkNotNull(consumer, "consumer");
+
+    UpdatePageAsMarkdownParams.Builder builder = UpdatePageAsMarkdownParams.builder();
+    consumer.accept(builder);
+    return updateAsMarkdownAsync(pageId, builder.build());
+  }
+
+  @Override
+  public AsyncTask updateAsMarkdownAsync(String pageId, UpdatePageAsMarkdownParams request) {
+    checkNotNullOrEmpty(pageId, "pageId");
+    checkNotNull(request, "request");
+
+    request.setAllowAsync(true);
+    ApiPath urlInfo =
+        ApiPath.builder("/pages/{page_id}/markdown").pathParam("page_id", pageId).build();
+    return getClient().call("PATCH", urlInfo, request, AsyncTask.class);
+  }
+
   /**
    * Retrieve a specific page property.
    *
@@ -140,20 +213,26 @@ public class PagesEndpointImpl extends BaseEndpointImpl implements PagesEndpoint
    * @param propertyId The ID of the property to retrieve
    * @return The property object
    */
+  @Override
   public PageProperty retrieveProperty(String pageId, String propertyId) {
-    return retrieveProperty(pageId, propertyId, null, null);
+    checkNotNullOrEmpty(pageId, "pageId");
+    checkNotNullOrEmpty(propertyId, "propertyId");
+
+    ApiPath urlInfo =
+        ApiPath.builder("/pages/{page_id}/properties/{property_id}")
+            .pathParam("page_id", pageId)
+            .pathParam("property_id", URLDecoder.decode(propertyId, StandardCharsets.UTF_8))
+            .build();
+    return getClient().call("GET", urlInfo, PageProperty.class);
   }
 
-  /**
-   * Retrieve a specific page property with pagination.
-   *
-   * @param pageId The ID of the page
-   * @param propertyId The ID of the property to retrieve
-   * @param startCursor Cursor for pagination (optional)
-   * @param pageSize Number of items to return (optional, max 100)
-   * @return The property object
-   */
-  public PageProperty retrieveProperty(
+  @Override
+  public PagePropertyList retrievePaginatedProperty(String pageId, String propertyId) {
+    return retrievePaginatedProperty(pageId, propertyId, null, null);
+  }
+
+  @Override
+  public PagePropertyList retrievePaginatedProperty(
       String pageId, String propertyId, String startCursor, Integer pageSize) {
     checkNotNullOrEmpty(pageId, "pageId");
     checkNotNullOrEmpty(propertyId, "propertyId");
@@ -162,7 +241,14 @@ public class PagesEndpointImpl extends BaseEndpointImpl implements PagesEndpoint
         paginatedPath("/pages/{page_id}/properties/{property_id}", startCursor, pageSize)
             .pathParam("page_id", pageId)
             .pathParam("property_id", URLDecoder.decode(propertyId, StandardCharsets.UTF_8));
-    return getClient().call("GET", urlInfo.build(), PageProperty.class);
+    return getClient().call("GET", urlInfo.build(), PagePropertyList.class);
+  }
+
+  @Override
+  public Page update(String pageId, Consumer<UpdatePageParams.Builder> consumer) {
+    UpdatePageParams.Builder builder = UpdatePageParams.builder();
+    consumer.accept(builder);
+    return update(pageId, builder.build());
   }
 
   /**
@@ -178,6 +264,14 @@ public class PagesEndpointImpl extends BaseEndpointImpl implements PagesEndpoint
 
     ApiPath urlInfo = ApiPath.builder("/pages/{page_id}").pathParam("page_id", pageId).build();
     return getClient().call("PATCH", urlInfo, request, Page.class);
+  }
+
+  private static void addFilterProperties(
+      ApiPath.Builder urlBuilder, Collection<String> filterProperties) {
+    if (filterProperties.isEmpty()) {
+      return;
+    }
+    urlBuilder.queryParam("filter_properties", new ArrayList<>(filterProperties));
   }
 
   public Page move(String pageId, Parent newParent) {

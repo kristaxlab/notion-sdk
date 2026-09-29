@@ -561,11 +561,23 @@ public class NotionBlocksBuilder {
     return this;
   }
 
-  public NotionBlocksBuilder embed(String url) {
-    blocks.add(NotionBlocks.embed(url));
+  /**
+   * Appends an embed block from a URL or file upload id.
+   *
+   * @param urlOrFileUploadId an external URL or a file upload UUID string
+   * @return this builder
+   */
+  public NotionBlocksBuilder embed(String urlOrFileUploadId) {
+    blocks.add(NotionBlocks.embed(urlOrFileUploadId));
     return this;
   }
 
+  /**
+   * Appends an embed block configured by the given consumer.
+   *
+   * @param consumer callback to configure the embed builder
+   * @return this builder
+   */
   public NotionBlocksBuilder embed(Consumer<EmbedBlock.Builder> consumer) {
     blocks.add(NotionBlocks.embed(consumer));
     return this;
@@ -598,6 +610,28 @@ public class NotionBlocksBuilder {
 
   public NotionBlocksBuilder tableOfContents(Color color) {
     blocks.add(NotionBlocks.tableOfContents(color));
+    return this;
+  }
+
+  /**
+   * Appends a tab block built from paragraph children (each paragraph is one tab label).
+   *
+   * @param items tab labels (paragraph children of the tab block)
+   * @return this builder
+   */
+  public NotionBlocksBuilder tab(ParagraphBlock... items) {
+    blocks.add(NotionBlocks.tab(items));
+    return this;
+  }
+
+  /**
+   * Appends a tab block built from paragraph children (each paragraph is one tab label).
+   *
+   * @param items tab labels (paragraph children of the tab block)
+   * @return this builder
+   */
+  public NotionBlocksBuilder tab(List<ParagraphBlock> items) {
+    blocks.add(NotionBlocks.tab(items));
     return this;
   }
 }

@@ -59,6 +59,9 @@ import lombok.Setter;
   @JsonSubTypes.Type(value = LinkToPageBlock.class, name = "link_to_page"),
   @JsonSubTypes.Type(value = LinkPreviewBlock.class, name = "link_preview"), // read-only
   @JsonSubTypes.Type(value = SyncedBlock.class, name = "synced_block"),
+  @JsonSubTypes.Type(value = TabBlock.class, name = "tab"),
+  @JsonSubTypes.Type(value = MeetingNotesBlock.class, name = "meeting_notes"),
+  @JsonSubTypes.Type(value = MeetingNotesBlock.class, name = "transcription"), // legacy dual-read
   @JsonSubTypes.Type(value = TemplateBlock.class, name = "template"), // read-only
   @JsonSubTypes.Type(value = EquationBlock.class, name = "equation"),
   @JsonSubTypes.Type(value = UnsupportedBlock.class, name = "unsupported") // read-only
@@ -123,6 +126,16 @@ public class Block extends NotionObject {
    */
   public HeadingThreeBlock asHeadingThree() {
     return (HeadingThreeBlock) this;
+  }
+
+  /**
+   * Casts this block to a HeadingFourBlock.
+   *
+   * @return this block cast to HeadingFourBlock
+   * @throws ClassCastException if this block is not a HeadingFourBlock
+   */
+  public HeadingFourBlock asHeadingFour() {
+    return (HeadingFourBlock) this;
   }
 
   /**
@@ -373,6 +386,26 @@ public class Block extends NotionObject {
    */
   public SyncedBlock asSynced() {
     return (SyncedBlock) this;
+  }
+
+  /**
+   * Casts this block to a TabBlock.
+   *
+   * @return this block cast to TabBlock
+   * @throws ClassCastException if this block is not a TabBlock
+   */
+  public TabBlock asTab() {
+    return (TabBlock) this;
+  }
+
+  /**
+   * Casts this block to a MeetingNotesBlock.
+   *
+   * @return this block cast to MeetingNotesBlock
+   * @throws ClassCastException if this block is not a MeetingNotesBlock
+   */
+  public MeetingNotesBlock asMeetingNotes() {
+    return (MeetingNotesBlock) this;
   }
 
   /**

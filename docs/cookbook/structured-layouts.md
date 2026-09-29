@@ -1,7 +1,9 @@
 # Structured layouts
 
-Columns, tables, callouts, code blocks, and other structural block types. All the examples implies
-a static import of `NotionBlocks` and `NotionText` for blocks and text factory methods.
+Compose richer page structure with columns, tables, callouts, code, table of contents, and tab
+blocks.
+
+This page uses fluent helpers from `NotionBlocks` and `NotionText`. Use static imports in examples for readability:
 
 ```java
 import static io.kristaxlab.notion.fluent.NotionBlocks.*;
@@ -10,96 +12,80 @@ import static io.kristaxlab.notion.fluent.NotionText.*;
 
 ## Columns
 
-Columns must come in pairs or more. Use lambdas to describe each column's content inline.
-
 ```java
-client.blocks().appendChildren("page-id",
-    c -> c.columns(
-        left  -> left.heading2("To Do").todos("Write tests", "Update docs"),
-        right -> right.heading2("Done").bullets("Set up CI", "Code review")
-    )
-);
+client.blocks().appendChildren("page-id", content -> content.columns(
+    left -> left.heading2("To do").todos("Write tests", "Update docs"),
+    right -> right.heading2("Done").bullets("Set up CI", "Code review")
+));
 ```
 
-Pass pre-built block lists if the columns are built separately:
+## Unequal columns
 
 ```java
-List<Block> leftColumn  = blocksBuilder().heading2("Q1").bullet("Shipped onboarding").build();
-List<Block> rightColumn = blocksBuilder().heading2("Q2").bullet("Improve search").build();
-
-client.blocks().appendChildren("page-id", columns(leftColumn, rightColumn));
-```
-
-Use `column()` with a width ratio for an unequal split:
-
-```java
-client.blocks().appendChildren("page-id",
-    c -> c.columns(
-        column(0.33, heading2("Narrow"), paragraph("Short note")),
-        column(0.67, heading2("Wide"),   paragraph("Detailed content here"))
-    )
-);
+client.blocks().appendChildren("page-id", content -> content.columns(
+    column(0.30, heading3("Summary"), paragraph("Short status")),
+    column(0.70, heading3("Details"), paragraph("Longer explanation"))
+));
 ```
 
 ## Tables
 
-Build a table by passing rows. All rows must have the same number of cells.
-
 ```java
-client.blocks().appendChildren("page-id",
-    table(
-        tableRow("Name",    "Role",      "Status"),
-        tableRow("Alice",   "Engineer",  "Active"),
-        tableRow("Bob",     "Designer",  "On leave")
-    )
-);
+client.blocks().appendChildren("page-id", table(
+    tableRow(bold("Name"), bold("Role"), bold("Status")),
+    tableRow("Alice", "Engineer", "Active"),
+    tableRow("Bob", "Designer", "On leave")
+));
 ```
 
-Use `RichText` cells for per-cell formatting:
+## Callouts and code blocks
 
 ```java
-tableRow(bold("Name"), bold("Role"), bold("Status"))   // header row
-```
-
-## Callouts
-
-```java
-// With an emoji icon
-callout("💡", "Pro tip: use the builder API to keep long block lists readable.");
-
-// Default icon
-callout("This page is still a work in progress.");
-```
-
-## Code blocks
-
-```java
-code("java",
-    """
-    NotionClient client = NotionClient.forToken("ntn_xxx");
-    client.blocks().appendChildren("page-id", paragraph("Hello!"));
-    """);
-```
-
-Or use the builder for a caption:
-
-```java
-code(b -> b
-    .language("shell")
-    .code("./gradlew test")
-    .caption("Run all tests"));
+client.blocks().appendChildren("page-id", List.of(
+    callout("💡", "Prefer fluent builders for long, nested content"),
+    code("java", "NotionClient client = NotionClient.forToken(\"ntn_xxx\");")
+));
 ```
 
 ## Table of contents
-
-Inserts a table of contents block that links to all headings on the page.
 
 ```java
 client.blocks().appendChildren("page-id", tableOfContents());
 ```
 
-## See also
+## Tab block
 
-- [Adding blocks](blocks.md) — append any block to a page
-- [Rich text & formatting](rich-text.md) — styled text inside blocks
+A tab block holds one or more tabs. Each direct child must be a paragraph: that paragraph is the
+tab label (`rich_text`, optional icon, and color). Nested children under the paragraph are the
+content shown when that tab is selected.
+
+```java
+import static io.kristaxlab.notion.fluent.NotionBlocks.tab;
+import io.kristaxlab.notion.model.block.ParagraphBlock;
+import io.kristaxlab.notion.model.common.Icon;
+
+client.blocks().appendChildren("page-id", tab(
+    ParagraphBlock.builder()
+        .text("Overview")
+        .icon(Icon.emoji("📋"))
+        .children(c -> c.paragraph("Tab 1 content"))
+        .build(),
+    ParagraphBlock.builder()
+        .text("Details")
+        .icon(Icon.emoji("🔍"))
+        .children(c -> c.paragraph("Tab 2 content"))
+        .build()
+));
+```
+
+On retrieve, the type-named `tab` object is empty; list the tab labels with
+`blocks().retrieveChildren(tabBlockId)`, then each label's panel content with
+`retrieveChildren(paragraphId)`.
+
+## Related cookbook pages
+
+- [Adding blocks](adding-blocks.md)
+- [Rich text and inline formatting](rich-text.md)
+- [Files and media uploads](files-and-media.md)
+- [Meeting notes](meeting-notes.md)
 - [Back to README](../../README.md#cookbook)

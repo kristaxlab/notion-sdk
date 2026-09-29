@@ -111,7 +111,7 @@ public class Examples {
             .create(
                 create ->
                     create
-                        .underPage(PAGE_ID)
+                        .inPage(PAGE_ID)
                         .title("Error Handling Best Practices")
                         .icon("🛡️")
                         .cover("https://images.unsplash.com/photo-error-handling.jpg")
@@ -134,7 +134,7 @@ public class Examples {
             .pages()
             .create(
                 CreatePageParams.builder()
-                    .underDataSource(DATABASE_ID)
+                    .inDataSource(DATABASE_ID)
                     .title("Project Aurora — Q2 Dashboard")
                     .icon("https://images.unsplash.com/photo-error-handling.jpg")
                     .cover("file-upload-uuid")
@@ -160,7 +160,7 @@ public class Examples {
    */
   public void markdownHybrid(NotionClient client) {
     CreatePageParams.builder()
-        .underPage(PAGE_ID)
+        .inPage(PAGE_ID)
         .title("Project Aurora — Q2 Dashboard")
         .icon(Icon.emoji("📊"))
         .cover(Cover.external("https://images.unsplash.com/photo-dashboard.jpg"))

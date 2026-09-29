@@ -1,7 +1,7 @@
 # Notion SDK for Java - LLM Guide
 
 Typed Java SDK for the Notion API with:
-- endpoint-oriented client API (`pages`, `blocks`, `users`, `fileUploads`)
+- endpoint-oriented client API (`pages`, `blocks`, `users`, `fileUploads`, `comments`, `search`, `asyncTasks`)
 - fluent DSL helpers for content creation (`NotionBlocks`, `NotionText`, `NotionProperties`)
 - typed exception mapping for all common Notion API error codes
 - configurable HTTP pipeline (auth/version/logging/exchange recording/custom transport)
@@ -29,6 +29,9 @@ NotionClient client = NotionClient.builder()
    - `client.blocks()`
    - `client.users()`
    - `client.fileUploads()`
+   - `client.comments()`
+   - `client.search()`
+   - `client.asyncTasks()`
 
 2. Fluent DSL for writing content:
    - `io.kristaxlab.notion.fluent.NotionBlocks`
@@ -45,8 +48,12 @@ NotionClient client = NotionClient.builder()
 4. Markdown support for pages:
    - `pages().retrieveAsMarkdown(...)`
    - `pages().updateAsMarkdown(...)`
+   - `pages().createAsync(...)` / `pages().updateAsMarkdownAsync(...)` with `asyncTasks().retrieve` and `AsyncTaskPoller`
 
-5. Typed error handling (`NotionApiException` subclasses):
+5. Page retrieve filter properties:
+   - `pages().retrieve(pageId, filterProperties)`
+
+6. Typed error handling (`NotionApiException` subclasses):
    - `ValidationException` (400)
    - `UnauthorizedException` (401)
    - `ForbiddenException` (403)
@@ -101,6 +108,29 @@ client.fileUploads().upload(
 );
 ```
 
+### Comments endpoint
+
+```java
+Comment created = client.comments().create(
+    CommentCreateParams.builder().inPage("page-id").richText("Hello").build());
+CommentList comments = client.comments().listComments("page-id");
+Comment loaded = client.comments().retrieve(created.getId());
+client.comments().update(loaded.getId(), CommentUpdateParams.builder().richText("Updated").build());
+client.comments().delete(loaded.getId());
+```
+
+### Search endpoint
+
+```java
+SearchList results = client.search().search(p -> p
+    .query("meeting notes")
+    .filter(SearchFilter.pages())
+    .sort(SearchSort.byLastEditedTimeDescending()));
+
+NotionSearchViewer view = NotionSearchViewer.of(results);
+List<Page> pages = view.pages();
+```
+
 ## Builder options
 
 | Option | Default | Purpose |
@@ -120,22 +150,26 @@ When endpoint wrappers do not cover your use case, use:
 
 ## Documentation map (current repo)
 
-- `../README.md`
-- `authentication.md`
-- `error-handling.md`
-- `cookbook/01-creating-pages.md`
-- `cookbook/02-adding-blocks.md`
-- `cookbook/03-rich-text.md`
-- `cookbook/04-structured-layouts.md`
-- `cookbook/05-reading-content.md`
-- `cookbook/06-updating-pages.md`
-- `cookbook/07-updating-blocks.md`
-- `cookbook/08-files-and-media.md`
-- `cookbook/09-end-to-end-recipes.md`
-- `internals/notion-http-client.md`
-- `internals/custom-http-client.md`
-- `internals/custom-interceptors.md`
-- `internals/exchange-recording.md`
-- `internals/architecture.md`
-- `internals/testing-guide.md`
-- `internals/release-process.md`
+Paths are relative to the repository root.
+
+Start here:
+- `README.md` — install, quickstart, documentation index
+- `CONTEXT.md` — glossary; use these terms when writing code, Javadoc or docs
+- `AGENTS.md` — pointers at contributor conventions for agents
+
+Guides:
+- `docs/authentication.md` — tokens and NotionClient auth configuration
+- `docs/error-handling.md` — exception hierarchy and retry guidance
+
+Cookbook:
+- `docs/cookbook/README.md` — table of contents for every recipe, grouped by task; the
+  authoritative list. Cookbook filenames carry no ordering, so read the index rather than
+  guessing paths.
+- `docs/cookbook/comments.md` — create, list, retrieve, update, and delete comments
+- `docs/cookbook/search.md` — search pages and data sources by title, filter, sort, partition results
+- `docs/cookbook/meeting-notes.md` — create/query meeting notes, poll until ready, retrieve linked children
+- `docs/cookbook/structured-layouts.md` — columns, tables, callouts, code, tab blocks
+- `docs/cookbook/files-and-media.md` — uploads and HTML embeds via file_upload
+- `docs/cookbook/adding-blocks.md` — append children, including positional inserts
+- `docs/cookbook/updating-blocks.md` — update/delete/restore, including fluent Consumer payloads
+

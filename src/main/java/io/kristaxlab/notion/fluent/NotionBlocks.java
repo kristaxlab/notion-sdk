@@ -453,13 +453,21 @@ public class NotionBlocks {
   // Embed
 
   /**
-   * Creates an embed block for a URL.
+   * Creates an embed block from a URL or file upload id.
    *
-   * @param url embed URL
+   * <p>A UUID string is treated as a file upload id (HTML embed write shape); any other string is
+   * treated as an external URL.
+   *
+   * @param urlOrFileUploadId an external URL or a file upload UUID string
    * @return embed block
    */
-  public static EmbedBlock embed(String url) {
-    return EmbedBlock.builder().url(url).build();
+  public static EmbedBlock embed(String urlOrFileUploadId) {
+    try {
+      UUID.fromString(urlOrFileUploadId);
+      return EmbedBlock.builder().fileUpload(urlOrFileUploadId).build();
+    } catch (IllegalArgumentException e) {
+      return EmbedBlock.builder().url(urlOrFileUploadId).build();
+    }
   }
 
   /**
@@ -1040,6 +1048,44 @@ public class NotionBlocks {
     SyncedBlock.SyncedFrom syncedFrom = new SyncedBlock.SyncedFrom();
     syncedFrom.setBlockId(blockId);
     block.getSyncedBlock().setSyncedFrom(syncedFrom);
+    return block;
+  }
+
+  // Tab
+
+  /**
+   * Creates a tab block from paragraph children (each paragraph is one tab label).
+   *
+   * <p>Each paragraph is a tab label ({@code rich_text}, optional icon, color); its nested children
+   * are that tab's panel content. At least one paragraph is required.
+   *
+   * @param items tab labels (paragraph children of the tab block)
+   * @return tab block
+   * @throws IllegalArgumentException if {@code items} is null or empty
+   */
+  public static TabBlock tab(ParagraphBlock... items) {
+    if (items == null || items.length == 0) {
+      throw new IllegalArgumentException("At least one paragraph child is required");
+    }
+    return tab(Arrays.asList(items));
+  }
+
+  /**
+   * Creates a tab block from paragraph children (each paragraph is one tab label).
+   *
+   * <p>Each paragraph is a tab label ({@code rich_text}, optional icon, color); its nested children
+   * are that tab's panel content. At least one paragraph is required.
+   *
+   * @param items tab labels (paragraph children of the tab block)
+   * @return tab block
+   * @throws IllegalArgumentException if {@code items} is null or empty
+   */
+  public static TabBlock tab(List<ParagraphBlock> items) {
+    if (items == null || items.isEmpty()) {
+      throw new IllegalArgumentException("At least one paragraph child is required");
+    }
+    TabBlock block = new TabBlock();
+    block.getTab().setChildren(new ArrayList<>(items));
     return block;
   }
 

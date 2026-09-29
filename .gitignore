@@ -8,3 +8,5 @@ src/test/.DS_Store
 /logs
 .env.test.local
 
+/test-logs
+/bug-logs
