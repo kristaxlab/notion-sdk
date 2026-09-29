@@ -165,6 +165,6 @@ Cookbook:
 - `docs/cookbook/meeting-notes.md` — create/query meeting notes, poll until ready, retrieve linked children
 - `docs/cookbook/structured-layouts.md` — columns, tables, callouts, code, tab blocks
 - `docs/cookbook/files-and-media.md` — uploads and HTML embeds via file_upload
-- `docs/cookbook/adding-blocks.md` — append children, including Position overloads
+- `docs/cookbook/adding-blocks.md` — append children, including positional inserts
 - `docs/cookbook/updating-blocks.md` — update/delete/restore, including fluent Consumer payloads
 

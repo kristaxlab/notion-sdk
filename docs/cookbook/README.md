@@ -15,7 +15,7 @@ sense without renaming anything. See the
 | --- | --- |
 | [Creating pages](creating-pages.md) | Page creation, parents, icons, covers, initial content |
 | [Creating pages from templates](templates.md) | Template instantiation and polling for asynchronously applied content |
-| [Adding blocks](adding-blocks.md) | Appending children with the fluent builder, Position overloads |
+| [Adding blocks](adding-blocks.md) | Appending children with the fluent builder, positional inserts |
 | [Rich text and inline formatting](rich-text.md) | Text runs, styles, colors, mentions |
 | [Structured layouts](structured-layouts.md) | Columns, tables, callouts, code blocks, tab blocks |
 | [Meeting notes](meeting-notes.md) | Create/query meeting notes, poll until ready, retrieve linked children |
