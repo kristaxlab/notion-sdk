@@ -95,9 +95,11 @@ Facts for writing a test live in
   `@DisplayName("IT-<n>: <Endpoint> - <description>")` with an unused [test id](../../CONTEXT.md)
 - `WithEmptyTestPage` when the test needs a [test page](../../CONTEXT.md);
   `BaseIntegrationTest` when it does not
-- If the test needs prerequisites that are not possible with the public API, extend from `WithTestPageFixture` and give
-  instructions on what prereuisites should be created (the test will fail until they are created).
-  See [Testing Guide](testing-guide.md#where-prerequisites-belong) for more details.
+- If the test needs prerequisites that are not possible with the public API, extend from
+  `WithTestPageFixture` and document the expected fixture content in the class Javadoc.
+  Existence is enforced by `FixturePageIdProvisioner` before the body runs; the test validates
+  expected content or properties only. See
+  [Testing Guide](testing-guide.md#where-prerequisites-belong).
 - [Notion Test Http Client](../../CONTEXT.md) (`getNotionClient()`) for the call under test;
   [setup client](../../CONTEXT.md) (`getSetupClient()`) for arrange-only calls
 - Register in `QuickCheck` only if the case is a short, reliable smoke and does not need extra Notion capabilities that

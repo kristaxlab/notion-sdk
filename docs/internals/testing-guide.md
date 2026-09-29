@@ -179,8 +179,11 @@ exceptions:
 1. **The state cannot be created through the API** (named data-source templates, hand-built media
    layouts). Build it in the UI on a child page of the session template, titled exactly as the test
    id (`IT-8`). Database rows in a child database on that template are discovered the same way.
-   Extend `WithTestPageFixture`. If that page is missing, the provisioner fails — do not fall back
-   to an empty page.
+   Extend `WithTestPageFixture`. Document the expected fixture content in the test class Javadoc.
+   `FixturePageIdProvisioner` fails before the test body if that page is missing — do not fall back
+   to an empty page, and do not re-check that the fixture page exists inside the test. Once the
+   body runs, the page is already provisioned. Validate only the expected content or properties
+   (audio block, child database, templates, …): the provisioner does not know the expected state.
 2. **A shared, rarely changing entity that costs an API read.** Inject it with its own annotation
    (the session user id is `@SessionUserId`). The provisioner stores it once on `TestSession`. Do not call
    `TestSession` from a test. Do not add a new session field unless several tests need the same

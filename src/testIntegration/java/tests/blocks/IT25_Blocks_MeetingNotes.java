@@ -19,6 +19,7 @@ import io.kristaxlab.notion.model.block.QueryMeetingNotesParams;
 import io.kristaxlab.notion.util.MeetingNotesPoller;
 import io.kristaxlab.notion.util.PollingConfig;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import testkit.WithTestPageFixture;
 import testkit.ext.NotionWorkspaseException;
@@ -27,9 +28,11 @@ import testkit.ext.NotionWorkspaseException;
  * Creates meeting notes from an audio block on a fixture page, polls until {@code notes_ready},
  * then queries once.
  *
- * <p>Requires a fixture page titled {@code IT-25} that contains at least one audio block. The test
- * fails until that page exists on the session template.
+ * <p>Requires a fixture page titled {@code IT-25} with at least one audio block. Page existence is
+ * enforced by {@link testkit.ext.FixturePageIdProvisioner}; this test validates the expected audio
+ * content.
  */
+@Tag("paid_plan")
 public class IT25_Blocks_MeetingNotes extends WithTestPageFixture {
 
   private static final String TITLE = "IT-25 meeting notes";
@@ -44,8 +47,7 @@ public class IT25_Blocks_MeetingNotes extends WithTestPageFixture {
             .first(AudioBlock.class)
             .orElseThrow(
                 () ->
-                    new NotionWorkspaseException(
-                        "IT-25 requires a fixture page titled IT-25 with an audio block"));
+                    new NotionWorkspaseException("IT-25 fixture page must contain an audio block"));
 
     MeetingNotesBlock created =
         getNotionClient()

@@ -9,6 +9,12 @@ TDD is the red → green loop. This skill is the reference that makes that loop 
 
 When exploring the codebase, read `CONTEXT.md` (if it exists) so test names and interface vocabulary match the project's domain language, and respect ADRs in the area you're touching.
 
+For live Notion integration tests in this repo, follow
+[docs/internals/testing-guide.md](../../../docs/internals/testing-guide.md). Fixture-page tests
+extend `WithTestPageFixture`: `FixturePageIdProvisioner` fails before the body if the page is
+missing, so the test must not re-check existence — only validate expected content or properties.
+Kit internals: [docs/internals/testkit.md](../../../docs/internals/testkit.md).
+
 ## What a good test is
 
 Tests verify behavior through public interfaces, not implementation details. Code can change entirely; tests shouldn't. A good test reads like a specification: "user can checkout with valid cart" tells you exactly what capability exists, and it survives refactors because it doesn't care about internal structure.

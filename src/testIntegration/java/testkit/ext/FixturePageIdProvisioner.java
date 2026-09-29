@@ -9,7 +9,8 @@ import testkit.util.NotionTestIdRetriever;
 
 /**
  * Injects the fixture page for the current test id. Discovers fixture pages on the test session
- * page first; fails if that id is missing.
+ * page first; fails if that id is missing. Does not validate expected page content — callers that
+ * need a particular layout assert that in the test body after injection.
  */
 public class FixturePageIdProvisioner implements ParameterResolver {
 

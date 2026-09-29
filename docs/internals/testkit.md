@@ -247,7 +247,7 @@ Exchange file format is owned by [Exchange Recording](exchange-recording.md).
   uploads.
 - **`WithEmptyTestPage`** — `@NotionPageId`. Test page under the test session page.
 - **`WithTestPageFixture`** — `@FixtureNotionPageId` and tag `fixture`. Missing fixture page is a
-  hard failure.
+  hard failure in `FixturePageIdProvisioner` before the test body runs.
 
 A new "needs X" base should stay this thin: a `@BeforeEach` parameter plus a getter. Lifecycle
 belongs on the annotation's `@ExtendWith` list, not in the base.
@@ -257,7 +257,9 @@ belongs on the annotation's `@ExtendWith` list, not in the base.
 - **`@SessionUserId` / `SessionUserIdProvisioner`** — session user id, once per run.
 - **`@NotionPageId` / `NotionPageIdProvisioner`** — test page. Depends on `ensureTestSessionPage`.
 - **`@FixtureNotionPageId` / `FixturePageIdProvisioner`** — fixture page named after the test id.
-  Depends on `ensureFixtures`.
+  Depends on `ensureFixtures`. Validates existence and injects the id only; it does not check
+  expected content. Tests that inherit `WithTestPageFixture` should assume the page exists once
+  the body runs, and assert only the expected state.
 
 ### Session store
 
