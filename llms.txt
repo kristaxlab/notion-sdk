@@ -1,7 +1,7 @@
 # Notion SDK for Java - LLM Guide
 
 Typed Java SDK for the Notion API with:
-- endpoint-oriented client API (`pages`, `blocks`, `users`, `fileUploads`, `comments`, `search`)
+- endpoint-oriented client API (`pages`, `blocks`, `users`, `fileUploads`, `comments`, `search`, `asyncTasks`)
 - fluent DSL helpers for content creation (`NotionBlocks`, `NotionText`, `NotionProperties`)
 - typed exception mapping for all common Notion API error codes
 - configurable HTTP pipeline (auth/version/logging/exchange recording/custom transport)
@@ -31,6 +31,7 @@ NotionClient client = NotionClient.builder()
    - `client.fileUploads()`
    - `client.comments()`
    - `client.search()`
+   - `client.asyncTasks()`
 
 2. Fluent DSL for writing content:
    - `io.kristaxlab.notion.fluent.NotionBlocks`
@@ -47,8 +48,12 @@ NotionClient client = NotionClient.builder()
 4. Markdown support for pages:
    - `pages().retrieveAsMarkdown(...)`
    - `pages().updateAsMarkdown(...)`
+   - `pages().createAsync(...)` / `pages().updateAsMarkdownAsync(...)` with `asyncTasks().retrieve` and `AsyncTaskPoller`
 
-5. Typed error handling (`NotionApiException` subclasses):
+5. Page retrieve filter properties:
+   - `pages().retrieve(pageId, filterProperties)`
+
+6. Typed error handling (`NotionApiException` subclasses):
    - `ValidationException` (400)
    - `UnauthorizedException` (401)
    - `ForbiddenException` (403)

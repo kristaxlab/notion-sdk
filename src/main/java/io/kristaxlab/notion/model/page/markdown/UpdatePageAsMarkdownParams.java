@@ -16,6 +16,13 @@ public class UpdatePageAsMarkdownParams {
 
   private ReplaceContent replaceContent;
 
+  /**
+   * When {@code true}, Notion may return an async task (HTTP 202) instead of page-as-markdown. Set
+   * by {@link io.kristaxlab.notion.endpoints.PagesEndpoint#updateAsMarkdownAsync}; not a fluent
+   * builder option.
+   */
+  private Boolean allowAsync;
+
   public static UpdatePageAsMarkdownParams replaceContent(String newStr) {
     return replaceContent(newStr, false);
   }

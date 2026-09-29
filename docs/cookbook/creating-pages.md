@@ -45,7 +45,7 @@ Page page = client.pages().create(p -> p
 
 ```java
 CreatePageParams params = CreatePageParams.builder()
-    .underPage("parent-page-id")
+    .inPage("parent-page-id")
     .title("Retro")
     .children(content -> content
         .heading2("What went well")
@@ -55,6 +55,32 @@ CreatePageParams params = CreatePageParams.builder()
     .build();
 
 Page page = client.pages().create(params);
+```
+
+## Place a new page among siblings
+
+When the parent is a block, set `position` on the create builder (`pageStart`, `pageEnd`, or
+`afterBlock`):
+
+```java
+Page page = client.pages().create(p -> p
+    .inPage("parent-page-id")
+    .title("Pinned note")
+    .position(Position.pageStart()));
+```
+
+## Create a large markdown page asynchronously
+
+`createAsync` is markdown-only for now. It returns an async task; poll until the write finishes:
+
+```java
+AsyncTask started = client.pages().createAsync(p -> p
+    .inPage("parent-page-id")
+    .title("Migration plan")
+    .markdown("# Large body..."));
+
+AsyncTask done = AsyncTaskPoller.awaitTerminal(
+    client, started.getId(), PollingConfig.ofTimeout(Duration.ofMinutes(5)));
 ```
 
 ## Related cookbook pages

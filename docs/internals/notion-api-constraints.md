@@ -23,6 +23,8 @@ Rules the Notion API enforces that the SDK cannot express in its types, and that
 
 - **Synced pages cannot be modified** through the Markdown endpoints, and neither can databases or non-page blocks.
 - **Destructive updates are opt-in.** An update that would remove a child page or database fails unless `allowDeletingContent` is `true`. The full list of validation failures is in [Updating pages](../cookbook/updating-pages.md#failures-to-expect).
+- **`createAsync` is markdown-only for now.** Notion accepts `allow_async` on `POST /pages` only when the body includes `markdown`. The SDK rejects create-async requests without markdown before calling the API. Non-markdown page create stays on the synchronous `create` methods.
+- **Async markdown writes return an async task, not the page body.** Poll with `asyncTasks().retrieve` or `AsyncTaskPoller` until `succeeded` or `failed`. A `202` only means Notion accepted the work after initial checks; validation can still fail while the task runs.
 
 ## Templates
 

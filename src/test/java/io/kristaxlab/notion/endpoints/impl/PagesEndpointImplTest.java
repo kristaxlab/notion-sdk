@@ -3,6 +3,7 @@ package io.kristaxlab.notion.endpoints.impl;
 import static org.junit.jupiter.api.Assertions.*;
 
 import io.kristaxlab.notion.http.base.client.ApiClientStub;
+import io.kristaxlab.notion.model.asynctask.AsyncTask;
 import io.kristaxlab.notion.model.common.Parent;
 import io.kristaxlab.notion.model.page.CreatePageParams;
 import io.kristaxlab.notion.model.page.MovePageParams;
@@ -85,6 +86,52 @@ class PagesEndpointImplTest {
     void create_withRequest_rejectsNullRequest() {
       assertThrows(IllegalArgumentException.class, () -> endpoint.create((CreatePageParams) null));
     }
+
+    @Test
+    @DisplayName("createAsync posts with allow_async and markdown")
+    void createAsync_withMarkdown_setsAllowAsync() {
+      CreatePageParams request =
+          CreatePageParams.builder()
+              .parent(Parent.pageParent("parent-1"))
+              .markdown("# Body")
+              .build();
+      AsyncTask expected = new AsyncTask();
+      client.setResponse(expected);
+
+      AsyncTask result = endpoint.createAsync(request);
+
+      assertEquals("POST", client.getLastMethod());
+      assertEquals("/pages", client.getLastUrlInfo().getUrl());
+      CreatePageParams body = (CreatePageParams) client.getLastBody();
+      assertEquals(Boolean.TRUE, body.getAllowAsync());
+      assertEquals("# Body", body.getMarkdown());
+      assertSame(expected, result);
+    }
+
+    @Test
+    @DisplayName("createAsync rejects missing markdown")
+    void createAsync_rejectsMissingMarkdown() {
+      CreatePageParams request =
+          CreatePageParams.builder().parent(Parent.pageParent("parent-1")).title("No md").build();
+
+      assertThrows(IllegalArgumentException.class, () -> endpoint.createAsync(request));
+    }
+
+    @Test
+    @DisplayName("createAsync works with consumer")
+    void createAsync_withConsumer_buildsPostRequest() {
+      AsyncTask expected = new AsyncTask();
+      client.setResponse(expected);
+
+      AsyncTask result =
+          endpoint.createAsync(
+              builder -> builder.parent(Parent.pageParent("parent-1")).markdown("# Hi"));
+
+      assertEquals("POST", client.getLastMethod());
+      CreatePageParams body = (CreatePageParams) client.getLastBody();
+      assertEquals(Boolean.TRUE, body.getAllowAsync());
+      assertSame(expected, result);
+    }
   }
 
   @Nested
@@ -112,6 +159,30 @@ class PagesEndpointImplTest {
     @DisplayName("rejects blank or null page id")
     void retrieve_rejectsBlankOrNullPageId(String pageId) {
       assertThrows(IllegalArgumentException.class, () -> endpoint.retrieve(pageId));
+    }
+
+    @Test
+    @DisplayName("works with filter properties")
+    void retrieve_withFilterProperties_setsQueryParams() {
+      Page expected = new Page();
+      client.setResponse(expected);
+
+      Page result = endpoint.retrieve("page-id-1", List.of("title", "Status"));
+
+      assertEquals("GET", client.getLastMethod());
+      assertEquals("/pages/{page_id}", client.getLastUrlInfo().getUrl());
+      assertEquals(
+          List.of("title", "Status"),
+          client.getLastUrlInfo().getQueryParams().get("filter_properties"));
+      assertSame(expected, result);
+    }
+
+    @Test
+    @DisplayName("rejects null filter properties collection")
+    void retrieve_rejectsNullFilterProperties() {
+      assertThrows(
+          IllegalArgumentException.class,
+          () -> endpoint.retrieve("page-id-1", (java.util.Collection<String>) null));
     }
   }
 
@@ -191,6 +262,22 @@ class PagesEndpointImplTest {
       assertThrows(
           IllegalArgumentException.class,
           () -> endpoint.updateAsMarkdown("page-id-1", (UpdatePageAsMarkdownParams) null));
+    }
+
+    @Test
+    @DisplayName("updateAsMarkdownAsync sets allow_async")
+    void updateAsMarkdownAsync_setsAllowAsync() {
+      UpdatePageAsMarkdownParams request = UpdatePageAsMarkdownParams.replaceContent("new content");
+      AsyncTask expected = new AsyncTask();
+      client.setResponse(expected);
+
+      AsyncTask result = endpoint.updateAsMarkdownAsync("page-id-1", request);
+
+      assertEquals("PATCH", client.getLastMethod());
+      assertEquals("/pages/{page_id}/markdown", client.getLastUrlInfo().getUrl());
+      UpdatePageAsMarkdownParams body = (UpdatePageAsMarkdownParams) client.getLastBody();
+      assertEquals(Boolean.TRUE, body.getAllowAsync());
+      assertSame(expected, result);
     }
 
     @Test

@@ -9,8 +9,8 @@ Names on an `_Avoid_` line are rejected, not casual alternatives. If a concept y
 stop and ask — do not invent a term, and do not add a definition here until it has been agreed.
 
 The vocabulary below covers API-wide conventions, page properties, data sources, blocks, the
-Markdown endpoints, comments, search, and the integration testkit; other areas are added as they
-get documented.
+Markdown endpoints, async tasks, comments, search, and the integration testkit; other areas are
+added as they get documented.
 
 ## Language
 
@@ -179,6 +179,18 @@ The `updateAsMarkdown` mode that applies a batch of targeted search-and-replace 
 `type: "update_content"`. Mutually exclusive with replace content mode.
 _Avoid_: patch mode, partial update, edit mode.
 
+**Filter properties**:
+The `filter_properties` query parameter on the page retrieve endpoint that limits which properties
+appear in the response page map.
+_Avoid_: property filter (ambiguous with data-source filters), filtered properties (as the param
+name).
+
+**Async task**:
+The handle Notion returns on HTTP 202 when a write is accepted for background execution
+(`"object": "async_task"`), and the object returned while polling that handle. Modelled by
+`AsyncTask`.
+_Avoid_: background job, async job, task (unqualified).
+
 ### Endpoints
 
 **Page retrieve endpoint**:
@@ -190,6 +202,10 @@ _Avoid_: page endpoint, retrieve endpoint.
 `GET /pages/{page_id}/properties/{property_id}`, exposed as `pages().retrieveProperty(...)` and
 `pages().retrievePaginatedProperty(...)`. Returns one property.
 _Avoid_: property endpoint, property item endpoint, retrieve endpoint.
+
+**Async task retrieve endpoint**:
+`GET /async_tasks/{task_id}`, exposed as `asyncTasks().retrieve(...)`.
+_Avoid_: task endpoint, poll endpoint.
 
 ### Comments
 

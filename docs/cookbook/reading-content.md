@@ -11,6 +11,16 @@ String pageId = page.getId();
 String lastEdited = page.getLastEditedTime();
 ```
 
+## Limit returned properties
+
+Pass filter properties when you only need a subset of the page map:
+
+```java
+Page page = client.pages().retrieve("page-id", List.of("title", "Status"));
+```
+
+Omitted properties are absent from the map; the type is still `Page`.
+
 ## Retrieve page blocks
 
 ```java

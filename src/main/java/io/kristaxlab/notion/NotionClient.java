@@ -1,5 +1,6 @@
 package io.kristaxlab.notion;
 
+import io.kristaxlab.notion.endpoints.AsyncTasksEndpoint;
 import io.kristaxlab.notion.endpoints.BlocksEndpoint;
 import io.kristaxlab.notion.endpoints.CommentsEndpoint;
 import io.kristaxlab.notion.endpoints.DataSourcesEndpoint;
@@ -8,6 +9,7 @@ import io.kristaxlab.notion.endpoints.FileUploadsEndpoint;
 import io.kristaxlab.notion.endpoints.PagesEndpoint;
 import io.kristaxlab.notion.endpoints.SearchEndpoint;
 import io.kristaxlab.notion.endpoints.UsersEndpoint;
+import io.kristaxlab.notion.endpoints.impl.AsyncTasksEndpointImpl;
 import io.kristaxlab.notion.endpoints.impl.BlocksEndpointImpl;
 import io.kristaxlab.notion.endpoints.impl.CommentsEndpointImpl;
 import io.kristaxlab.notion.endpoints.impl.DataSourcesEndpointImpl;
@@ -21,8 +23,8 @@ import io.kristaxlab.notion.http.base.client.*;
 
 /**
  * Entry point for the Notion REST API: {@link #users()}, {@link #blocks()}, {@link #pages()},
- * {@link #fileUploads()}, {@link #comments()}, {@link #search()}. Use {@link #builder()} or {@link
- * #forToken(String)} to construct an instance.
+ * {@link #fileUploads()}, {@link #comments()}, {@link #search()}, {@link #asyncTasks()}. Use {@link
+ * #builder()} or {@link #forToken(String)} to construct an instance.
  */
 public class NotionClient {
 
@@ -36,6 +38,7 @@ public class NotionClient {
   private DataSourcesEndpoint dataSourcesEndpoint;
   private CommentsEndpoint commentsEndpoint;
   private SearchEndpoint searchEndpoint;
+  private AsyncTasksEndpoint asyncTasksEndpoint;
 
   NotionClient(NotionHttpClient httpClient) {
     this.httpClient = httpClient;
@@ -47,6 +50,7 @@ public class NotionClient {
     this.dataSourcesEndpoint = new DataSourcesEndpointImpl(httpClient);
     this.commentsEndpoint = new CommentsEndpointImpl(httpClient);
     this.searchEndpoint = new SearchEndpointImpl(httpClient);
+    this.asyncTasksEndpoint = new AsyncTasksEndpointImpl(httpClient);
   }
 
   /** Low-level HTTP client used by this instance (same pipeline as the endpoint accessors). */
@@ -84,6 +88,10 @@ public class NotionClient {
 
   public SearchEndpoint search() {
     return searchEndpoint;
+  }
+
+  public AsyncTasksEndpoint asyncTasks() {
+    return asyncTasksEndpoint;
   }
 
   /**

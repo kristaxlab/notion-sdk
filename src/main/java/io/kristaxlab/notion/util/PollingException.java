@@ -4,9 +4,9 @@ package io.kristaxlab.notion.util;
  * Base exception for poller failures (timeout, max attempts, or interrupt).
  *
  * <p>Catch this type when any poller failure should be handled the same way. Prefer a specific
- * subclass ({@link TemplatePollingException}, and later search polling) when the caller cares which
- * poller failed. New pollers should add their own subclass of this type rather than a sibling of
- * {@link RuntimeException}.
+ * subclass ({@link TemplatePollingException}, {@link AsyncTaskPollingException}, and search
+ * polling) when the caller cares which poller failed. New pollers should add their own subclass of
+ * this type rather than a sibling of {@link RuntimeException}.
  */
 public class PollingException extends RuntimeException {
 

@@ -42,6 +42,12 @@ public class CreatePageParams {
   private Position position;
 
   /**
+   * When {@code true}, Notion may return an async task (HTTP 202) instead of a page. Set by {@link
+   * io.kristaxlab.notion.endpoints.PagesEndpoint#createAsync}; not a fluent builder option.
+   */
+  private Boolean allowAsync;
+
+  /**
    * Creates a fluent builder for {@link CreatePageParams}.
    *
    * @return new builder
@@ -60,6 +66,7 @@ public class CreatePageParams {
     private Cover cover;
     private String markdown;
     private TemplateParams templateParams;
+    private Position position;
 
     /**
      * Sets parent to a data source (database).
@@ -275,6 +282,17 @@ public class CreatePageParams {
     }
 
     /**
+     * Sets where to place the new page among siblings when the parent is a block.
+     *
+     * @param position insertion position; {@code null} leaves placement to Notion defaults
+     * @return this builder
+     */
+    public Builder position(Position position) {
+      this.position = position;
+      return this;
+    }
+
+    /**
      * Builds an immutable request payload snapshot.
      *
      * @return page creation payload
@@ -288,6 +306,7 @@ public class CreatePageParams {
       params.setCover(cover);
       params.setMarkdown(markdown);
       params.setTemplate(templateParams);
+      params.setPosition(position);
       return params;
     }
   }

@@ -78,6 +78,18 @@ client.pages().updateAsMarkdown("page-id",
     UpdatePageAsMarkdownParams.updateContent(List.of(update), false));
 ```
 
+### Update markdown asynchronously
+
+For large replacements, use `updateAsMarkdownAsync` and poll the async task:
+
+```java
+AsyncTask started = client.pages().updateAsMarkdownAsync("page-id",
+    UpdatePageAsMarkdownParams.replaceContent("# Large replacement..."));
+
+PageAsMarkdown updated = AsyncTaskPoller.awaitPageAsMarkdown(
+    client, started.getId(), PollingConfig.ofTimeout(Duration.ofMinutes(5)));
+```
+
 ### Failures to expect
 
 `updateAsMarkdown` is validated server-side and throws `ValidationException` when:
