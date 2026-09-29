@@ -10,6 +10,7 @@ import io.kristaxlab.notion.util.MeetingNotesPoller;
 import io.kristaxlab.notion.util.PollingConfig;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import testkit.WithTestPageFixture;
 import testkit.ext.NotionWorkspaseException;
