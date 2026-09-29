@@ -11,6 +11,10 @@ import lombok.Setter;
  * Filter for {@link QueryMeetingNotesParams}: either a property filter ({@code property} + {@code
  * filter}) or a combinator ({@code operator} + {@code filters}).
  *
+ * <p>On the wire, the top-level {@code filter} must be a combinator. Property-filter factories such
+ * as {@link #titleContains(String)} build nested nodes; {@link QueryMeetingNotesParams.Builder}
+ * wraps a bare property filter in {@code and} when used as the top-level value.
+ *
  * <p>Wire fields stay {@link String} (ADR 0002). Prefer the static factories when building
  * requests.
  */

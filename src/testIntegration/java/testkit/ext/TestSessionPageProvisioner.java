@@ -75,7 +75,9 @@ public class TestSessionPageProvisioner {
 
   private Page createPage(
       TestSessionConfig config, String title, TemplateParams template, Parent parent) {
-    LOGGER.info("Creating page in {}, template={}, name={}", config.getParentId(), template, title);
+    String templateId = template != null ? template.getTemplateId() : null;
+    LOGGER.info(
+        "Creating page in {}, template={}, name={}", config.getParentId(), templateId, title);
 
     return notionClient.pages().create(page -> page.title(title).parent(parent).template(template));
   }
@@ -106,13 +108,13 @@ public class TestSessionPageProvisioner {
    * Resolves the template to use for the test session page.
    *
    * <p>An explicit template ID works for any parent (Notion duplicates the referenced page), while
-   * the "default" template is a property of a database. When the parent is a database and no
+   * the "default" template is a property of a data source. When the parent is a data source and no
    * explicit template ID is configured, the default template is used.
    */
   private TemplateParams resolveTemplate(String templateId, Parent parent) {
     if (templateId != null && !"default".equals(templateId)) {
       return TemplateParams.templateId(templateId);
     }
-    return parent.getDatabaseId() != null ? TemplateParams.defaultTemplate() : null;
+    return parent.getDataSourceId() != null ? TemplateParams.defaultTemplate() : null;
   }
 }

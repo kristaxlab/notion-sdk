@@ -1,5 +1,10 @@
 package io.kristaxlab.notion.http.base.interceptor;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import io.kristaxlab.notion.http.base.client.HttpClient.Body;
 import io.kristaxlab.notion.http.base.client.HttpClient.BytesBody;
 import io.kristaxlab.notion.http.base.client.HttpClient.EmptyBody;
@@ -40,6 +45,8 @@ public class ExchangeRecordingInterceptor implements HttpClientInterceptor {
 
   private final Path dir;
   private final JsonSerializer serializer;
+  private final ObjectMapper requestMapper = new ObjectMapper();
+  private final ObjectMapper responseMapper = responseMapper();
 
   /** Carries the base filename prefix from {@link #beforeSend} to {@link #afterReceive}. */
   private final ThreadLocal<String> pendingBaseName = new ThreadLocal<>();
@@ -50,7 +57,7 @@ public class ExchangeRecordingInterceptor implements HttpClientInterceptor {
    */
   public ExchangeRecordingInterceptor(Path dir, JsonSerializer serializer) {
     this.dir = Objects.requireNonNull(dir, "dir");
-    this.serializer = Objects.requireNonNull(serializer, "json");
+    this.serializer = Objects.requireNonNull(serializer, "serialier");
     try {
       Files.createDirectories(dir);
     } catch (IOException e) {
@@ -97,7 +104,12 @@ public class ExchangeRecordingInterceptor implements HttpClientInterceptor {
             .responseBody(body != null ? serializer.toObject(body, Object.class) : null)
             .build();
 
-    write(baseName + "_rs.json", record);
+    // TODO split request and response serializers (currently constructor accepts only one
+    // serializer
+    // if response contains new field with null value, serializer will ignore it because of its
+    // NOT_NULL inclusion settings for requests it is good (Validation Exception will be thrown
+    // otherwise), for response it is inacurate
+    writeResponse(baseName + "_rs.json", record);
   }
 
   private void write(String fileName, Object record) {
@@ -107,6 +119,27 @@ public class ExchangeRecordingInterceptor implements HttpClientInterceptor {
     } catch (IOException e) {
       LOGGER.warn("Failed to write exchange log to: {}", file, e);
     }
+  }
+
+  private void writeResponse(String fileName, Object record) {
+    Path file = dir.resolve(fileName);
+    try {
+      Files.writeString(file, responseMapper.writeValueAsString(record));
+    } catch (JsonProcessingException e) {
+      LOGGER.error("Error converting object to JSON: {}", e.getMessage());
+      throw new RuntimeException(e);
+    } catch (IOException e) {
+      LOGGER.warn("Failed to write exchange log to: {}", file, e);
+    }
+  }
+
+  private static ObjectMapper responseMapper() {
+    ObjectMapper mapper = new ObjectMapper();
+    mapper.setPropertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE);
+    mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
+    mapper.registerModule(new JavaTimeModule());
+    mapper.enable(SerializationFeature.INDENT_OUTPUT);
+    return mapper;
   }
 
   private static Map<String, String> redactedHeaders(Map<String, String> headers) {

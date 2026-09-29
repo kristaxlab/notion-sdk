@@ -10,7 +10,9 @@ import lombok.Setter;
  * Request body for querying meeting notes.
  *
  * <p>This endpoint is not cursor-paginated; use {@code filter}, {@code sort}, and {@code limit} (1–
- * 50) to refine the result set.
+ * 50) to refine the result set. The wire {@code filter} must be a combinator ({@code operator} +
+ * {@code filters}); a bare property filter passed to {@link Builder#filter(MeetingNotesFilter)} is
+ * wrapped in an {@code and} combinator.
  *
  * @see io.kristaxlab.notion.endpoints.BlocksEndpoint#queryMeetingNotes(QueryMeetingNotesParams)
  */
@@ -41,14 +43,25 @@ public class QueryMeetingNotesParams {
     private Integer limit;
 
     /**
-     * Sets the filter.
+     * Sets the filter. A bare property filter is wrapped in {@code and} so the wire body matches
+     * the OpenAPI combinator shape.
      *
      * @param filter property or combinator filter
      * @return this builder
      */
     public Builder filter(MeetingNotesFilter filter) {
-      this.filter = filter;
+      this.filter = wrapPropertyFilter(filter);
       return this;
+    }
+
+    private static MeetingNotesFilter wrapPropertyFilter(MeetingNotesFilter filter) {
+      if (filter == null) {
+        return null;
+      }
+      if (filter.getOperator() == null && filter.getProperty() != null) {
+        return MeetingNotesFilter.and(filter);
+      }
+      return filter;
     }
 
     /**

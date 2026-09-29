@@ -81,4 +81,23 @@ class MeetingNotesParamsSerializationTest {
     assertEquals("descending", root.get("sort").get(0).get("direction").asText());
     assertEquals(10, root.get("limit").asInt());
   }
+
+  @Test
+  @DisplayName("query builder wraps bare property filter in and combinator")
+  void queryParams_wrapsBarePropertyFilter() {
+    QueryMeetingNotesParams params =
+        QueryMeetingNotesParams.builder()
+            .filter(MeetingNotesFilter.titleContains("IT-25"))
+            .limit(50)
+            .build();
+
+    JsonNode root = JSON.toObject(JSON.toJson(params), JsonNode.class);
+
+    assertEquals("and", root.get("filter").get("operator").asText());
+    assertEquals(1, root.get("filter").get("filters").size());
+    assertEquals("title", root.get("filter").get("filters").get(0).get("property").asText());
+    assertEquals(
+        "IT-25",
+        root.get("filter").get("filters").get(0).get("filter").get("value").get("value").asText());
+  }
 }
