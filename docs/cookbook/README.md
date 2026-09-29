@@ -15,9 +15,10 @@ sense without renaming anything. See the
 | --- | --- |
 | [Creating pages](creating-pages.md) | Page creation, parents, icons, covers, initial content |
 | [Creating pages from templates](templates.md) | Template instantiation and polling for asynchronously applied content |
-| [Adding blocks](adding-blocks.md) | Appending children with the fluent builder, positional inserts |
+| [Adding blocks](adding-blocks.md) | Appending children with the fluent builder, Position overloads |
 | [Rich text and inline formatting](rich-text.md) | Text runs, styles, colors, mentions |
-| [Structured layouts](structured-layouts.md) | Columns, tables, callouts, code blocks |
+| [Structured layouts](structured-layouts.md) | Columns, tables, callouts, code blocks, tab blocks |
+| [Meeting notes](meeting-notes.md) | Create/query meeting notes, poll until ready, retrieve linked children |
 
 ## Reading and updating
 
@@ -26,7 +27,7 @@ sense without renaming anything. See the
 | [Reading page content](reading-content.md) | Page metadata, blocks, pagination, Markdown export |
 | [Page properties and pagination](page-properties.md) | Reading property values and paging through paginated properties |
 | [Updating pages](updating-pages.md) | Title, icon, cover, lock, move, archive, Markdown updates |
-| [Updating blocks](updating-blocks.md) | Editing, deleting and restoring blocks |
+| [Updating blocks](updating-blocks.md) | Editing (including fluent Consumer payloads), deleting and restoring blocks |
 | [Comments](comments.md) | Create, list, retrieve, update and delete comments on pages and blocks |
 | [Search by title](search.md) | Search pages and data sources by title, filter, sort, and partition results |
 
@@ -34,7 +35,7 @@ sense without renaming anything. See the
 
 | Recipe | What it covers |
 | --- | --- |
-| [Files and media uploads](files-and-media.md) | Single-part and multi-part uploads, external imports |
+| [Files and media uploads](files-and-media.md) | Single-part and multi-part uploads, external imports, HTML embeds |
 | [End-to-end recipes](end-to-end-recipes.md) | Complete workflows combining several endpoints |
 
 ## Related documentation

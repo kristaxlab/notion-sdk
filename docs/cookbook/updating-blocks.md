@@ -22,6 +22,20 @@ BlockList blocks = client.blocks().retrieveChildren("page-id");
 
 ## Update paragraph text
 
+Prefer fluent factories with a `Consumer` for a typed partial payload:
+
+```java
+import static io.kristaxlab.notion.fluent.NotionBlocks.paragraph;
+import static io.kristaxlab.notion.fluent.NotionText.*;
+
+client.blocks().update(
+    "block-id",
+    paragraph(p -> p.text(plainText("Status: "), green("updated").bold()))
+);
+```
+
+Or retrieve, mutate, and pass the typed block:
+
 ```java
 Block block = client.blocks().retrieve("block-id");
 
@@ -34,15 +48,20 @@ if (block instanceof ParagraphBlock paragraph) {
 }
 ```
 
+When the block id is already on the payload, use the single-argument overload:
+
+```java
+Block patch = paragraph(p -> p.text(plainText("updated")));
+patch.setId("block-id");
+client.blocks().update(patch);
+```
+
 ## Update a to-do checked state
 
 ```java
-Block block = client.blocks().retrieve("todo-block-id");
+import static io.kristaxlab.notion.fluent.NotionBlocks.todo;
 
-if (block instanceof ToDoBlock todo) {
-  todo.getToDo().setChecked(true);
-  client.blocks().update("todo-block-id", todo);
-}
+client.blocks().update("todo-block-id", todo(t -> t.text("done").checked(true)));
 ```
 
 ## Delete and restore a block
@@ -57,5 +76,6 @@ client.blocks().restore("block-id");
 - [Adding blocks](adding-blocks.md)
 - [Reading page content](reading-content.md)
 - [Updating pages](updating-pages.md)
+- [Meeting notes](meeting-notes.md)
 - [Comments](comments.md)
 - [Back to README](../../README.md#cookbook)

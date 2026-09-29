@@ -27,6 +27,15 @@ and open a new empty **[Unreleased]** section above it. Do not reconstruct the l
 - `NotionPageViewer` for typed reads of embedded property values on a retrieved page.
 - `TemplatePoller` for blocking until a template is applied to a page.
 
+- Tab block — model, fluent `tab(...)` / builder children as raw paragraph tab labels, and retrieve
+  that no longer falls through to `UnknownBlock`.
+- HTML embed — embed create/update via `file_upload` of `.html` / `.htm` (url xor file_upload on
+  write); responses still expose a temporary `url` plus caption.
+- Meeting notes block — model with dual-read of legacy `transcription`; create/query on
+  `BlocksEndpoint`; typed query filter/sort/limit; public `MeetingNotesPoller`.
+- Blocks append — public `Position` overloads for single block, list, fluent `Consumer`, and
+  `Supplier`; update helpers via fluent `Consumer` payloads (no `UpdateBlockParams`).
+
 ### Changed
 
 - environment variable name for integration tests auth token changed from NOTION_TEST_AUTH_TOKEN to

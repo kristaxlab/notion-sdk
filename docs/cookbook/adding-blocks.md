@@ -56,19 +56,38 @@ client.blocks().appendChildren("page-id", content -> content
 
 ## Insert blocks at a specific position
 
+Every `appendChildren` overload accepts an optional `Position`: page start, after a known sibling,
+or omit / pass `null` to append at the end.
+
 ```java
 import io.kristaxlab.notion.model.common.Position;
 
+// Single block
 client.blocks().appendChildren(
     "page-id",
-    () -> List.of(callout("⚠️", "Draft content")),
+    callout("⚠️", "Draft content"),
     Position.pageStart()
 );
 
+// List
 client.blocks().appendChildren(
     "page-id",
-    () -> List.of(divider(), paragraph("Inserted after a known block")),
+    List.of(divider(), paragraph("Inserted after a known block")),
     Position.afterBlock("existing-block-id")
+);
+
+// Fluent builder
+client.blocks().appendChildren(
+    "page-id",
+    content -> content.heading2("Inserted section").bullet("Item"),
+    Position.afterBlock("existing-block-id")
+);
+
+// Lazy supplier
+client.blocks().appendChildren(
+    "page-id",
+    () -> List.of(paragraph("Built just in time")),
+    Position.pageStart()
 );
 ```
 
@@ -76,5 +95,6 @@ client.blocks().appendChildren(
 
 - [Creating pages](creating-pages.md)
 - [Rich text and inline formatting](rich-text.md)
+- [Structured layouts](structured-layouts.md)
 - [Updating blocks](updating-blocks.md)
 - [Back to README](../../README.md#cookbook)

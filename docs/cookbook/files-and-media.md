@@ -71,6 +71,29 @@ client.blocks().appendChildren("page-id", List.of(
 ));
 ```
 
+## HTML embed from an uploaded file
+
+An HTML embed is a normal embed block whose create payload uses a `file_upload` of an `.html` or
+`.htm` file — not a separate block type. Upload the file first, then append:
+
+```java
+FileUpload create = client.fileUploads().create(
+    FileUploadCreateParams.singlePart("widget.html")
+);
+FileUpload uploaded = client.fileUploads().upload(
+    create.getId(),
+    FileUploadSendParams.of(new File("/tmp/widget.html"), "text/html")
+);
+
+client.blocks().appendChildren(
+    "page-id",
+    embed(e -> e.fileUpload(uploaded.getId()).caption("Interactive widget"))
+);
+```
+
+`embed(uploadId)` also works when the string is a UUID (treated as a file upload id). Responses
+still expose a temporary `url` plus caption — there is no lasting `file_upload` field on read.
+
 ## Import from external URL
 
 ```java
@@ -87,5 +110,6 @@ FileUpload imported = client.fileUploads().create(
 - [Structured layouts](structured-layouts.md)
 - [Updating pages](updating-pages.md)
 - [Comments](comments.md)
+- [Meeting notes](meeting-notes.md)
 - [End-to-end recipes](end-to-end-recipes.md)
 - [Back to README](../../README.md#cookbook)

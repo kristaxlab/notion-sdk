@@ -1,6 +1,7 @@
 # Structured layouts
 
-Compose richer page structure with columns, tables, callouts, code, and table of contents.
+Compose richer page structure with columns, tables, callouts, code, table of contents, and tab
+blocks.
 
 This page uses fluent helpers from `NotionBlocks` and `NotionText`. Use static imports in examples for readability:
 
@@ -52,9 +53,39 @@ client.blocks().appendChildren("page-id", List.of(
 client.blocks().appendChildren("page-id", tableOfContents());
 ```
 
+## Tab block
+
+A tab block holds one or more tabs. Each direct child must be a paragraph: that paragraph is the
+tab label (`rich_text`, optional icon, and color). Nested children under the paragraph are the
+content shown when that tab is selected.
+
+```java
+import static io.kristaxlab.notion.fluent.NotionBlocks.tab;
+import io.kristaxlab.notion.model.block.ParagraphBlock;
+import io.kristaxlab.notion.model.common.Icon;
+
+client.blocks().appendChildren("page-id", tab(
+    ParagraphBlock.builder()
+        .text("Overview")
+        .icon(Icon.emoji("📋"))
+        .children(c -> c.paragraph("Tab 1 content"))
+        .build(),
+    ParagraphBlock.builder()
+        .text("Details")
+        .icon(Icon.emoji("🔍"))
+        .children(c -> c.paragraph("Tab 2 content"))
+        .build()
+));
+```
+
+On retrieve, the type-named `tab` object is empty; list the tab labels with
+`blocks().retrieveChildren(tabBlockId)`, then each label's panel content with
+`retrieveChildren(paragraphId)`.
+
 ## Related cookbook pages
 
 - [Adding blocks](adding-blocks.md)
 - [Rich text and inline formatting](rich-text.md)
 - [Files and media uploads](files-and-media.md)
+- [Meeting notes](meeting-notes.md)
 - [Back to README](../../README.md#cookbook)

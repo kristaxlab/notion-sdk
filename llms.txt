@@ -162,4 +162,9 @@ Cookbook:
   guessing paths.
 - `docs/cookbook/comments.md` — create, list, retrieve, update, and delete comments
 - `docs/cookbook/search.md` — search pages and data sources by title, filter, sort, partition results
+- `docs/cookbook/meeting-notes.md` — create/query meeting notes, poll until ready, retrieve linked children
+- `docs/cookbook/structured-layouts.md` — columns, tables, callouts, code, tab blocks
+- `docs/cookbook/files-and-media.md` — uploads and HTML embeds via file_upload
+- `docs/cookbook/adding-blocks.md` — append children, including Position overloads
+- `docs/cookbook/updating-blocks.md` — update/delete/restore, including fluent Consumer payloads
 
